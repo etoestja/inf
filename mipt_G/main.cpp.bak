@@ -1,0 +1,66 @@
+#include <iostream>
+#include <vector>
+
+using std::cin;
+using std::cout;
+using std::endl;
+
+using std::vector;
+
+const unsigned int M = 100;
+
+void solve_bad()
+{
+    vector<unsigned int> vect;
+    vect.assign(M + 1, 0);
+
+    vect[0] = 1;
+    vect[1] = 1;
+
+    unsigned int a, b, i;
+
+    for(i = 2; i <= 100; i++)
+    {
+        vect[i] = 0;
+        for(a = 1; a < i; a++)
+        {
+            b = i - a;
+            vect[i] += 1 + vect[a] * vect[b];
+        }
+
+        vect[i] /= 2;
+    }
+
+    //for(i = )
+
+    for(i = 1; i <= M; i++)
+    {
+        cout << i << " " << vect[i] << endl;
+    }
+}
+
+vector<unsigned int> A;
+unsigned int current;
+unsigned int sum_options;
+
+int options(unsigned int N, unsigned int current = 1)
+{
+    if(current >= N) return 0;
+    else if(current == N - 1)
+    {
+        if(N == 0) sum_options++;
+    }
+
+    unsigned int i;
+    for(i = 0; i * current <= N; i++)
+    {
+        options(N - i * current, current + 1);
+    }
+}
+
+int main()
+{
+    sum_options = 0;
+
+    return 0;
+}
