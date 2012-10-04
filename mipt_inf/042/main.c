@@ -14,6 +14,7 @@ struct c
 int len[NMAX][NMAX];
 
 char x[NMAX], y[NMAX];
+int xUsed[NMAX], yUsed[NMAX];
 
 int main()
 {
@@ -28,6 +29,8 @@ int main()
     {
         len[0][ix] = 0;
         len[ix][0] = 0;
+        xUsed[ix] = 0;
+        yUsed[ix] = 0;
     }
 
     for(ix = 1; ix <= lx; ix++)
@@ -38,9 +41,11 @@ int main()
 
             fprintf(stderr, "%d, %d (%c, %c): ", ix, iy, x[ix - 1], y[iy - 1]);
 
-            if(x[ix - 1] == y[iy - 1])
+            if(x[ix - 1] == y[iy - 1] && !xUsed[ix - 1] && ! yUsed[iy - 1])
             {
                 len[ix][iy]++;
+                xUsed[ix - 1] = 1;
+                yUsed[iy - 1] = 1;
                 fprintf(stderr, "equal ");
             }
             t = max(len[ix - 1][iy], len[ix][iy - 1]);
@@ -65,7 +70,7 @@ int main()
         fprintf(stderr, "\n");
     }
 
-    printf("%d\n", len[lx][ly]);
+    fprintf(stderr, "%d\n", len[lx][ly]);
 
     return 0;
 }
