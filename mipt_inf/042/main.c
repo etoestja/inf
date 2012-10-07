@@ -16,6 +16,8 @@ int len[NMAX][NMAX];
 char x[NMAX], y[NMAX];
 int xUsed[NMAX], yUsed[NMAX];
 
+char resBackwards[NMAX];
+
 int main()
 {
     scanf("%s%s", x, y);
@@ -41,7 +43,7 @@ int main()
 
             fprintf(stderr, "%d, %d (%c, %c): ", ix, iy, x[ix - 1], y[iy - 1]);
 
-            if(x[ix - 1] == y[iy - 1] && !xUsed[ix - 1] && ! yUsed[iy - 1])
+            if(x[ix - 1] == y[iy - 1] && (!xUsed[ix - 1] && !yUsed[iy - 1]))
             {
                 len[ix][iy]++;
                 xUsed[ix - 1] = 1;
@@ -61,7 +63,7 @@ int main()
     fprintf(stderr, "\n");
 
     for(ix = 1; ix <= lx; ix++)
-    {
+    { 
         fprintf(stderr, "%c ", x[ix - 1]);
         for(iy = 1; iy <= ly; iy++)
         {
@@ -71,6 +73,41 @@ int main()
     }
 
     fprintf(stderr, "%d\n", len[lx][ly]);
+
+    char* resBP = (char*) &(resBackwards);
+    int prev;
+
+    int prev_ix, prev_iy;
+
+    for(ix = lx, iy = ly; ix > 0 || iy > 0;)
+    {
+        prev_ix = 0;
+        prev_iy = 0;
+        if(ix > 0 && len[ix - 1][iy] > len[prev_ix][prev_iy])
+        {
+            prev_ix = ix - 1;
+            prev_iy = iy;
+        }
+        if(iy > 0 && len[ix][iy - 1] > len[prev_ix][prev_iy])
+        {
+            prev_ix = ix;
+            prev_iy = iy - 1;
+        }
+        if(len[prev_ix][prev_iy] < len[ix][iy])
+//            printf("%c", x[ix - 1]);
+            *(resBP++) = x[ix - 1];
+
+        ix = prev_ix;
+        iy = prev_iy;
+    }
+
+    if(resBP != (char*) &resBackwards)
+        for(; resBP >= (char*) &(resBackwards); resBP--)
+            printf("%c", *resBP);
+    else
+        printf("Empty");
+
+    printf("\n");
 
     return 0;
 }

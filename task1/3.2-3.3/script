@@ -1,0 +1,8 @@
+#!/bin/bash
+test=$1
+
+echo "test #$test"
+echo "program long_arithmetics: $(cat test$test | grep -v ans | ./la)"
+echo "program longlong: $(cat test$test | grep -v ans | ./ll)"
+echo "program recursive: $(cat test$test | grep -v ans | ./r)"
+echo "corr.: $(cat test$test | grep ans)"

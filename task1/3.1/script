@@ -1,0 +1,6 @@
+#!/bin/bash
+test=$1
+
+echo "test #$test"
+echo "program: $(cat test$test | ./a.out)"
+echo "corr.: $(cat ans$test)"
