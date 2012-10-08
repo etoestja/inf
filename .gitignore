@@ -1,0 +1,12 @@
+*.o
+*.layout
+bin/*
+Makefile
+*.cbp
+*build*
+*.depend
+*.swp
+*~
+*.pro.user
+a.out
+

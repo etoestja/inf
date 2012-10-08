@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#define DEBUG 0
+
 #define NMAX (1000 + 5)
 
 #define max(a, b) (a > b ? a : b)
@@ -14,7 +16,6 @@ struct c
 int len[NMAX][NMAX];
 
 char x[NMAX], y[NMAX];
-int xUsed[NMAX], yUsed[NMAX];
 
 char resBackwards[NMAX];
 
@@ -31,48 +32,48 @@ int main()
     {
         len[0][ix] = 0;
         len[ix][0] = 0;
-        xUsed[ix] = 0;
-        yUsed[ix] = 0;
     }
 
     for(ix = 1; ix <= lx; ix++)
     {
         for(iy = 1; iy <= ly; iy++)
         {
-            len[ix][iy] = 0;
+            if(DEBUG) fprintf(stderr, "%d, %d (%c, %c): ", ix, iy, x[ix - 1], y[iy - 1]);
 
-            fprintf(stderr, "%d, %d (%c, %c): ", ix, iy, x[ix - 1], y[iy - 1]);
-
-            if(x[ix - 1] == y[iy - 1] && (!xUsed[ix - 1] && !yUsed[iy - 1]))
+            if(x[ix - 1] == y[iy - 1])
             {
-                len[ix][iy]++;
-                xUsed[ix - 1] = 1;
-                yUsed[iy - 1] = 1;
-                fprintf(stderr, "equal ");
+                len[ix][iy] = len[ix - 1][iy - 1] + 1;
+                if(DEBUG) fprintf(stderr, "equal ");
             }
-            t = max(len[ix - 1][iy], len[ix][iy - 1]);
-            len[ix][iy] += t;
+            else
+            {
+                if(DEBUG) fprintf(stderr, "not equal ");
+                len[ix][iy] = max(len[ix - 1][iy], len[ix][iy - 1]);
+            }
 
-            fprintf(stderr, "prev %d sum %d\n", t, len[ix][iy]);
+            if(DEBUG) fprintf(stderr, "prev %d sum %d\n", t, len[ix][iy]);
         }
     }
 
-    fprintf(stderr, "  ");
-    for(iy = 0; iy < ly; iy++)
-        fprintf(stderr, "%c ", y[iy]);
-    fprintf(stderr, "\n");
-
-    for(ix = 1; ix <= lx; ix++)
-    { 
-        fprintf(stderr, "%c ", x[ix - 1]);
-        for(iy = 1; iy <= ly; iy++)
-        {
-            fprintf(stderr, "%d ", len[ix][iy]);
-        }
+    if(DEBUG)
+    {
+        fprintf(stderr, "  ");
+        for(iy = 0; iy < ly; iy++)
+            fprintf(stderr, "%c ", y[iy]);
         fprintf(stderr, "\n");
-    }
 
-    fprintf(stderr, "%d\n", len[lx][ly]);
+        for(ix = 1; ix <= lx; ix++)
+        { 
+            fprintf(stderr, "%c ", x[ix - 1]);
+            for(iy = 1; iy <= ly; iy++)
+            {
+                fprintf(stderr, "%d ", len[ix][iy]);
+            }
+            fprintf(stderr, "\n");
+        }
+
+        fprintf(stderr, "%d\n", len[lx][ly]);
+    }
 
     char* resBP = (char*) &(resBackwards);
     int prev;
