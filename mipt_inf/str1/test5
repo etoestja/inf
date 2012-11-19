@@ -1,0 +1,35 @@
+BEGIN
+OP 10
+OP 10
+OP 10
+LOOP 10
+OP 1
+END
+LOOP 20
+OP 1 END
+LOOP n
+ OP 1
+ OP 1
+ LOOP n
+  OP 1
+  LOOP n
+   OP 2
+   LOOP n
+    LOOP n
+     LOOP n
+      LOOP n
+       LOOP n
+        LOOP n
+         LOOP n
+          OP 1
+         END
+        END
+       END
+      END
+     END
+    END
+   END
+  END
+ END
+END
+END

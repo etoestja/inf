@@ -1,0 +1,30 @@
+#!/bin/bash
+
+a=0
+b=50477290
+
+function res
+{
+    echo $m | ./a.out > /dev/null
+    echo $?
+}
+
+while ! (( $a == $b ))
+do
+    m=$(echo "($a + $b) / 2" | bc)
+
+    mr=$(res)
+
+   echo $a $b $m $mr
+    
+
+    if [[ "$(res)" == "0" ]]
+    then
+        a=$m
+    else
+        b=$m
+    fi
+
+done
+
+echo $m
