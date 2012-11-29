@@ -1,0 +1,14 @@
+#!/bin/bash
+
+k=1
+n=$1
+
+while (( k <= n ))
+do
+    res=$(echo $n $k | ./a.out)
+    l=$(echo "$res % $n" | bc)
+    echo -n "$res[$l] "
+    let k=k+2
+done
+
+echo
