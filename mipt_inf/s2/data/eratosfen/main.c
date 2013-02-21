@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define NMAX 25000000
+#define NMAX 25000002
 #define C 8
 unsigned char isPrimeMap[NMAX];
+//unsigned char * isPrimeMap;
 
 //void binPrint(char a)
 //{
@@ -30,14 +31,6 @@ unsigned char isPrimeMap[NMAX];
 //    printf("\n");
 //}
 
-int i_perc_C = 0;
-
-void update_perc()
-{
-    i_perc_C++;
-    if(i_perc_C >= C) i_perc_C = 0;
-}
-
 unsigned char arr1[C], arr2[C];
 
 void fill1()
@@ -51,38 +44,42 @@ void fill1()
     }
 }
 
-void setFalse(long i)
-{
-    isPrimeMap[i / C] &= arr1[i % C];
-}
-
-int isPrime(long i)
-{
-    return(isPrimeMap[i / C] & arr2[i % C]);
-}
+#define setFalse(i) {isPrimeMap[i / C] &= arr1[i % C];}
+#define isPrime(i) (isPrimeMap[i / C] & arr2[i % C])
 
 int main(void)
 {
-    long int N, i, j;
+    long long int N, i, j, sum = 0;
+
+//    isPrimeMap = (unsigned char*) malloc(NMAX * sizeof(unsigned char));
 
     fill1();
 
+/*    for(i = 0; i < N; i++)
+    {
+        isPrimeMap[i] = 0xff;
+        if(i % 1000 == 0) fprintf(stderr, "%lld\n", i);
+    }
+*/
+
     memset(isPrimeMap, 0xff, NMAX);
 
-    i_perc_C = 2 % C;
+    scanf("%lld", &N);
 
-    scanf("%ld", &N);
-    for(i = 2; i <= N; i++)
-    {
+    sum = N - 1;
+
+    for(i = 2; i * i <= N; i++)
         if(isPrime(i))
+        {
             for(j = i * i; j <= N; j += i)
-                setFalse(j);
-    }
+                if(isPrime(j))
+                {
+                    sum--;
+                    setFalse(j);
+                }
+        }
 
-    long long sum = 0;
-    
-    for(i = 2; i <= N; i++)
-        if(isPrime(i)) sum++;
+//    for(i = 2; i <= N; i++) if(isPrime(i)) sum++;
 
     printf("%lld\n", sum);
 

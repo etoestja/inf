@@ -1,0 +1,5 @@
+#!/bin/bash
+cc -o e eratosfen.c
+cc -o m main.c
+time echo $@ | ./e
+time echo $@ | ./m
