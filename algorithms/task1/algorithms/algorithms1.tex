@@ -1,0 +1,165 @@
+\documentclass{letter}
+\usepackage{geometry,amsmath,amssymb,enumerate,bbzm}
+\geometry{letterpaper}
+
+%%%%%%%%%% Start TeXmacs macros
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\newcommand{\nosymbol}{}
+\newcommand{\tmem}[1]{{\em #1\/}}
+\newcommand{\tmname}[1]{\textsc{#1}}
+\newcommand{\tmop}[1]{\ensuremath{\operatorname{#1}}}
+\newcommand{\tmsamp}[1]{\textsf{#1}}
+\newcommand{\tmstrong}[1]{\textbf{#1}}
+\newcommand{\tmtextbf}[1]{{\bfseries{#1}}}
+\newcommand{\tmtexttt}[1]{{\ttfamily{#1}}}
+\newenvironment{enumeratenumeric}{\begin{enumerate}[1.] }{\end{enumerate}}
+\newenvironment{tmindent}{\begin{tmparmod}{1.5em}{0pt}{0pt} }{\end{tmparmod}}
+\newenvironment{tmparmod}[3]{\begin{list}{}{\setlength{\topsep}{0pt}\setlength{\leftmargin}{#1}\setlength{\rightmargin}{#2}\setlength{\parindent}{#3}\setlength{\listparindent}{\parindent}\setlength{\itemindent}{\parindent}\setlength{\parsep}{\parskip}} \item[]}{\end{list}}
+\newenvironment{tmparsep}[1]{\begingroup\setlength{\parskip}{#1}}{\endgroup}
+%%%%%%%%%% End TeXmacs macros
+
+\begin{document}
+
+\begin{enumeratenumeric}
+  \item \tmtextbf{Быстрое умножение.}
+  
+  Пусть $f \left( a, b \right) \overset{\tmop{def}}{=} \tmop{ab}$.
+  Заметим, что
+  
+  $f \left( a, b \right) \underset{a \vdots 2}{=} \frac{a}{2} b + \frac{a}{2}
+  b${\tmstrong{$\vee$}}$f \left( a, b \right) \underset{a \tmop{mod} 2 = 1}{=}
+  \frac{a - 1}{2} b + \frac{a - 1}{2} b$,
+  
+  где деление целочисленное.
+  
+  Код на C:
+  
+  {\noindent}\begin{tmindent}
+    \begin{tmparsep}{0em}
+      int f(int a, int b)
+      
+      \{
+      
+      \ \ \ int c;
+      
+      \ \ \ if(a == 0 || b == 0) return(0);
+      
+      \ \ \ else
+      
+      \ \ \ \{
+      
+      \ \ \ \ \ \ \ if(a \% 2)
+      
+      \ \ \ \ \ \ \ \{
+      
+      \ \ \ \ \ \ \ \ \ \ \ c = f((a - 1) / 2, b);
+      
+      \ \ \ \ \ \ \ \ \ \ \ return(c + c + b);
+      
+      \ \ \ \ \ \ \ \}
+      
+      \ \ \ \ \ \ \ else
+      
+      \ \ \ \ \ \ \ \{
+      
+      \ \ \ \ \ \ \ \ \ \ \ c = f(a / 2, b);
+      
+      \ \ \ \ \ \ \ \ \ \ \ return(c +{\text{}} c);
+      
+      \ \ \ \ \ \ \ \}
+      
+      \ \ \ \}
+      
+      \}
+    \end{tmparsep}
+  \end{tmindent}{\hspace*{\fill}}{\medskip}
+  
+  На python:
+  
+  {\noindent}\begin{tmindent}
+    \begin{tmparsep}{0em}
+      def f(a, b):
+      
+      if a == 0 or b == 0:
+      
+      \ return 0
+      
+      else:
+      
+      \ if a \% 2 == 1:
+      
+      \ \ c = f((a - 1) / 2, b)
+      
+      \ \ return c + c + b
+      
+      \ else:
+      
+      \ \ c = f(a / 2, b)
+      
+      \ \ return c + c
+    \end{tmparsep}
+  \end{tmindent}{\hspace*{\fill}}{\medskip}
+  
+  \item \tmtextbf{Решето Эратосфена}
+  \begin{enumerate}
+    \item Доказательство возможности замены
+    2i$\rightarrow i^2$:
+    
+    Пусть $P (i) =$''$\forall k \in \mathbbm{N}$, k$\geqslant 2 \forall n
+    \in \mathbbm{N} \cap \left[ 2 ; i \right]$новый алгоритм
+    вычеркнул все числа вида
+    $\tmop{nk}$''\tmtexttt{{\tmstrong{{\tmem{{\tmsamp{}}}}}}}
+    \begin{enumeratenumeric}
+      \item Для i=2 (минимальное) 2i=i$^2$
+      $\Rightarrow$доказываемое верно
+      
+      \item Пусть $P (i)$. Докажем, что $P (i + 1)$:
+      
+      $P (i) \Rightarrow \forall k \in \mathbbm{N}, k \geqslant 2 \forall n
+      \in \mathbbm{N} \cap \left[ 2 ; i \right] $вычеркнуты
+      числа вида nk$\Rightarrow$ вычеркнуты числа
+      вида $n (i + 1)$, где \mathup{$n$\tmtexttt{{\tmsamp{{\tmname{$\in
+      \mathbbm{N} \cap \left[ 2 ; i \right]$}}}}}}. Тогда
+      алгоритм вычеркнет числа вида $(i + 1) (i +
+      1)$, (i+2)(i+1)..., т.е. будут вычеркнуты числа
+      n(i+1), где n\tmtexttt{{\tmsamp{{\tmname{$\in \mathbbm{N}, n
+      \geqslant i + 1 \nosymbol \Rightarrow$}}}}}будут
+      вычеркнуты все числа вида $n (i + 1)$, где
+      $n${\tmname{$\in \mathbbm{N} \cap \left( \left[ 2 ; i \right] \cup
+      \left[ i + 1 ; + \infty \right] \right)$}}$\Box$
+      
+      \item По аксиоме об индукции $\forall i \geqslant 2 P
+      \left( i \right)$
+    \end{enumeratenumeric}
+    \item Внутренний цикл совершает $N - i^2$
+    операций (при $i < \left\lfloor \sqrt{N} \right\rfloor$, при
+    больших $i$ внутренний цикл занимает
+    константное время, следовательно, к
+    общему времени прибавляется $O (N - \sqrt{N})$,
+    не учитываем) $\Rightarrow T_{\tmop{inner}} \sim \underset{i =
+    2}{\overset{\left\lfloor \sqrt{N} \right\rfloor}{\sum}} \left( N - i^2
+    \right) =$N$\left\lfloor \sqrt{N} \right\rfloor - \frac{\left\lfloor
+    \sqrt{N} \right\rfloor \left( \left\lfloor \sqrt{N} \right\rfloor + 1
+    \right) \left( 2 \left\lfloor \sqrt{N} \right\rfloor + 1 \right)}{6} + 1
+    \overset{m = \sqrt{N}}{\leqslant} m^2 m - \frac{m \left( m + 1 \right)
+    \left( 2 m + 1 \right)}{6} + 1 \leqslant m^3 \Rightarrow T_{\tmop{inner}}
+    \in O \left( N^{3 / 2} \right)$
+    
+    \item На практике результат улучшится, так
+    как будет совершаться заведомо меньше
+    операций.
+    
+    \item Может возникнуть проблема
+    переполнения переменной j (например, 2i
+    около ограничения типа int, тогда $i^2$
+    точно будет за пределами. Это приведет к
+    ошибочному вычеркиванию чисел.
+  \end{enumerate}
+  \item \tmtextbf{Инверсии}
+  
+  
+\end{enumeratenumeric}
+
+
+\end{document}
