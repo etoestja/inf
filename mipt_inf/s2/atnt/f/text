@@ -1,0 +1,1 @@
+"mov $1, %dx\ncmp $0, %ax\nje end\nmov %ax, %cx\nsub $1, %cx\ncmp $0, %cx\nje end\nfact:\nimul %cx\nloop fact\nmov %ax, %dx\nend:\n"

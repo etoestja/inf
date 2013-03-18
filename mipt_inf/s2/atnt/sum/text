@@ -1,0 +1,1 @@
+"add %ax, %bx\nmov %bx, %dx\n"

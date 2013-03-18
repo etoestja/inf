@@ -1,0 +1,1 @@
+"cmp %ax, %bx\nje eq\nmov $0, %dx\njmp neq\neq:\nmov $1, %dx\nneq:\n"
