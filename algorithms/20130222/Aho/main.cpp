@@ -26,7 +26,11 @@ int main()
     qDebug() << myTrie->print().c_str();
 
     t = "";
-    while(cin >> t1) t += t1;
+    while(cin >> t1)
+    {
+        t += " ";
+        t += t1;
+    }
 
     vector< pair<unsigned, string> > resVec;
     resVec = myTrie->find(t);
