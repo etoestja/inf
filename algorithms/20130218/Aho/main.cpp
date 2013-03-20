@@ -26,51 +26,61 @@ private:
 public:
     Trie(Trie* cprev)
     {
+        if(cprev == NULL)
+        {
+            out = prev = pi = this;
+        }
+        else
+        {
+            pi = NULL;
+            out = this;
+            prev = cprev;
+        }
         int i;
         for(i = 0; i < L; i++) c[i] = NULL;
-        pi = this;
-        out = this;
-        prev = cprev;
         word = false;
     }
     void insert(char* word)
     {
         if(*word != 0)
         {
-            if(c[*word - 'a'] == NULL)
-                c[*word - 'a'] = new Trie(this);
-            c[*word - 'a']->insert(word + 1);
-            c[*word - 'a']->linkchar = *word - 'a';
+            if(c[(unsigned) *word] == NULL)
+                c[(unsigned) *word] = new Trie(this);
+            c[(unsigned) *word]->insert(word + 1);
+            c[(unsigned) *word]->linkchar = *word;
         }
         else
             this->word = true;
     }
 
-    void getPi()
+    void getPi(Trie* root)
     {
         // x - prev
         // |
         // t - this
 
-        if(prev == NULL)
+        if(prev == this)
         {
-            pi = NULL;
+            cout << "pi1" << endl;
+            pi = root;
             return;
         }
+
         Trie* cPi = prev->pi;
-        while(cPi != NULL && cPi->c[linkchar] == NULL)
+        while(cPi != root && cPi->c[(unsigned) linkchar] == NULL)
             cPi = cPi->pi;
-        if(cPi == NULL)
+        if(cPi->c[(unsigned) linkchar] == NULL || cPi->c[(unsigned) linkchar] == this)
         {
-            pi = NULL;
+            cout << "pi2" << endl;
+            pi = root;
             return;
         }
-        pi = cPi->c[linkchar];
+        pi = cPi->c[(unsigned) linkchar];
     }
 
     void calcPi()
     {
-        //bfs 
+        //bfs
         queue<Trie*> q;
         q.push(this);
         Trie* current;
@@ -79,9 +89,9 @@ public:
         {
             current = q.front();
             q.pop();
-            current->getPi();
+            current->getPi(this);
 
-            cout << "position: " << current << endl;
+            cout << "position: " << current << "[" << current->linkchar << "] newpi=" << current->pi << endl;
             for(i = 0; i < L; i++)
                 if(current->c[i] != NULL)
                     q.push(current->c[i]);
@@ -89,6 +99,12 @@ public:
     }
     void print(string pref = "")
     {
+        if(!pref.compare(""))
+        {
+            cout << this << "\t" << prev << "\t";
+            if(pi == NULL) cout << "0x000000";
+            cout << pi << "\tr" << endl;
+        }
         int i;
         for(i = 0; i < L; i++)
         {
@@ -97,12 +113,13 @@ public:
 //                cout << "prev char=" << linkchar << endl;
                 cout << c[i] << "\t";
                 cout << c[i]->prev << "\t";
+                if(c[i]->pi == NULL) cout << "0x000000";
                 cout << c[i]->pi << "\t";
-                cout << pref << ((char) ('a' + i));
+                cout << pref << ((char) (i));
                 if(c[i]->word) cout << "*";
                 cout << endl;
                 string pref1 = pref;
-                pref1 += (char) ('a' + i);
+                pref1 += (char) (i);
                 c[i]->print(pref1);
             }
         }
@@ -113,6 +130,7 @@ int main()
 {
     Trie* myTrie = new Trie(NULL); // root
     myTrie->insert((char *) "abacaba");
+    myTrie->insert((char *) "ba");
     myTrie->insert((char *) "aba");
     myTrie->insert((char *) "bacaba");
     myTrie->calcPi();
