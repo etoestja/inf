@@ -1,0 +1,41 @@
+[]@0x25e8010
+	prev	[]@0x25e8010
+	pi	[]@0x25e8010
+	out	[]@0x25e8010
+[a]@0x25e8840
+	prev	[]@0x25e8010
+	pi	[]@0x25e8010
+	out	[]@0x25e8010
+[ab]@0x25e9070
+	prev	[a]@0x25e8840
+	pi	[b]@0x25ec190
+	out	[]@0x25e8010
+[aba*]@0x25e98a0
+	prev	[ab]@0x25e9070
+	pi	[ba*]@0x25ec9c0
+	out	[ba*]@0x25ec9c0
+[abac]@0x25ea0d0
+	prev	[aba*]@0x25e98a0
+	pi	[]@0x25e8010
+	out	[]@0x25e8010
+[abaca]@0x25ea900
+	prev	[abac]@0x25ea0d0
+	pi	[a]@0x25e8840
+	out	[]@0x25e8010
+[abacab]@0x25eb130
+	prev	[abaca]@0x25ea900
+	pi	[ab]@0x25e9070
+	out	[]@0x25e8010
+[abacaba*]@0x25eb960
+	prev	[abacab]@0x25eb130
+	pi	[aba*]@0x25e98a0
+	out	[aba*]@0x25e98a0
+[b]@0x25ec190
+	prev	[]@0x25e8010
+	pi	[]@0x25e8010
+	out	[]@0x25e8010
+[ba*]@0x25ec9c0
+	prev	[b]@0x25ec190
+	pi	[a]@0x25e8840
+	out	[]@0x25e8010
+
