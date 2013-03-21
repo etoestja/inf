@@ -1,0 +1,15 @@
+#!/bin/bash
+i=0
+j=0
+while (( i <= 300 ))
+do
+    j=0
+    while (( j <= 300 ))
+    do
+        echo -n "$i $j "
+        echo -n "$i $j" | ./a.out
+        let j=j+1
+    done
+    let i=i+1
+done
+
