@@ -179,7 +179,7 @@ vector< pair<unsigned, string> > Trie::find(string text)
         if(!outLink->word) outLink = outLink->out;
         while(outLink != this)
         {
-            resVect.push_back(pair<unsigned, string> (i - outLink->getString().length() + 1, outLink->getString()));
+            resVect.push_back(pair<unsigned, string> (i - pos->getString().length(), outLink->getString()));
             qDebug() << "STRING " << outLink->getShortInfo().c_str();
             outLink = outLink->out;
         }
