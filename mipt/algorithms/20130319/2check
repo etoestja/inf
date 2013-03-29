@@ -1,0 +1,12 @@
+#!/bin/bash
+
+i=1000000
+N=1000000000
+
+while (( i <= N ))
+do
+    m=$(echo "$i/2"|bc)
+    res=$(/usr/bin/time -f "%e" bash -c "echo $i $m | ./a.out")
+    echo -n "$i $res"
+    let i=i+i
+done

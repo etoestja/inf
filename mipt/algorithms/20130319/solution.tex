@@ -6,6 +6,7 @@
 \usepackage{amsmath}
 \usepackage{enumerate}
 \usepackage{amsfonts}
+\usepackage{amssymb}
 \title{Задание от 2013.03.19}
 \author{С.~Е.~Володин, 272 гр.}
 \date{}
@@ -14,7 +15,20 @@
 \begin{enumerate} 
 \item Задача 1
 \begin{enumerate}
-\item bla
+\item Докажем, что в таком массиве (в котором первый и последний элементы различны: $A[0]\neq A[N-1]$) существует искомая подстрока ($01$, либо $10$). Пусть иначе: $\nexists i:A[i]\neq A[i+1]\Leftrightarrow\forall i\hookrightarrow A[i]=A[i+1]$. Тогда, по индукции, $A[i]=A[N-1]$~--- противоречие.\newline
+Рассмотрим элемент $A[m]$, $0<m<N-1$. Поскольку $A[0]\neq A[N-1]$, $A[0]\neq A[m] \vee A[m] \neq A[N-1]$. В первом случае по доказанному выше существует искомая подстрока в $(A[0],\dots,A[m])$, а во втором~--- в $(A[m],\dots,A[N-1])$. Выберем $m=\lfloor\frac{N}{2}\rfloor$. Тогда задача свелась к предыдущей с размерностью $\frac{N}{2}$.\newline
+Реализация (двоичный поиск, рекурсия для простоты):\begin{verbatim}void find(l, r)
+{
+    if(l + 1 == r) ans = l;
+    if(l + 1 >= r) return;
+
+    int m = (l + r) / 2;
+    if(A[l] != A[m]) find(l, m);
+    else find(m, r);
+}
+\end{verbatim}
+Время: $O(logN)$~--- из Master theorem, так как $T(N)=T(\frac{N}{2})+O(1)$
+
 \item bla
 \end{enumerate}
 \item Задача 2.
