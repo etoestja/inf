@@ -16,7 +16,6 @@ int desc(int x)
 
 unsigned N, I;
 int *arr;
-#define INF ((2 << 31) - 1)
 
 void fill()
 {
