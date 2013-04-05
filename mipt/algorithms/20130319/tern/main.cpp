@@ -31,32 +31,33 @@ int main()
     arr = new int[N];
     fill();
 
-/*    for(int i = 0; i < N; i++) cout << i << "\t";
+    for(int i = 0; i < N; i++) cout << i << "\t";
     cout << endl;
     for(int i = 0; i < N; i++) cout << arr[i] << "\t";
-    cout << endl;*/
+    cout << endl;
 
-    int l = 0, r = N;
+    int l = 0, r = N - 1;
     int m1, m2;
-    arr[N] = -INF;
-    while(l + 2 < r)
+    while(l + 3 < r)
     {
-        m1 = (    r + 2 * l) / 3;
-        m2 = (2 * r +     l) / 3;
+        m1 = (2 * l +     r) / 3;
+        m2 = (    l + 2 * r) / 3;
 //        cout << "l=" << l << " m1=" << m1 << " m2=" << m2 << " r=" << r << endl;
 
         if(arr[m1] < arr[m2])
             l = m1;
         else r = m2;
-
     }
 
     //arr[l], arr[r], arr[(l+r)/2]
-/*    cout << "l=" << l << " arr[l]=" << arr[l] << endl;
-    cout << "r=" << r << " arr[r]=" << arr[r] << endl;*/
-    if(arr[l] < arr[l + 1]) l++;
-    if(arr[l] < arr[l + 1]) l++;
-//    cout << r << endl;
+    cout << "l=" << l << " arr[l]=" << arr[l] << endl;
+    cout << "r=" << r << " arr[r]=" << arr[r] << endl;
+
+    int i = l;
+    for(int c = l + 1; c <= r; c++)
+        if(arr[c] > arr[i]) i = c;
+
+    cout << i << endl;
 
 /*    int l, r, m;
     while(l + 1 < r)
