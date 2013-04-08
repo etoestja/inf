@@ -7,7 +7,4 @@ $(NAME): $(OBJECT)
 %.o: %.asm
 	nasm -felf $<
 clean:
-	rm *.o
-	rm $(NAME)
-test: testfile
-	cat testfile | ./$(NAME)
+	rm -rf *.o $(NAME)
