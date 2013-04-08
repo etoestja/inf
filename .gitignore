@@ -1,7 +1,6 @@
 *.o
 *.layout
 bin/*
-Makefile
 *.cbp
 *build*
 *.depend
