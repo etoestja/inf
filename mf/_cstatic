@@ -1,0 +1,20 @@
+MAIN=main
+NAME=solution
+LIBRARY=library
+
+all: $(NAME)
+
+$(NAME): lib$(LIBRARY).a
+	gcc -L. $(MAIN).c -l$(LIBRARY) -o solution
+
+lib%.a: %.o
+	ar rcs $@ $<
+
+%.o: $(LIBRARY).c
+	gcc -c $(LIBRARY).c
+
+clean:
+	rm -rf *~
+	rm -rf $(NAME)
+	rm -rf $(LIBRARY).o
+	rm -rf lib$(LIBRARY).a
