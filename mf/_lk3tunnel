@@ -1,0 +1,5 @@
+natalie:
+sudo ssh -l s27505 lk3.mipt.ru -C -L 139:194.85.80.27:139
+sudo ssh -l s27505 lk3.mipt.ru -C -L 445:194.85.80.27:445
+
+usage: smb://127.0.0.1
