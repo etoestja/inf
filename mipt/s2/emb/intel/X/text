@@ -1,0 +1,7 @@
+"xor edx, edx\n"
+"xor ebx, ebx\n"
+"iteration:\n"
+"inc ebx\n"
+"div ebx\n"
+"cmp eax, 1\n"
+"jne iteration\n"

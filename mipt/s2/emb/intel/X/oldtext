@@ -1,0 +1,1 @@
+"xor %edx, %edx\nxor %ebx, %ebx\niteration:\ninc %ebx\ndiv %ebx\ncmp $1, %eax\njne iteration\n"

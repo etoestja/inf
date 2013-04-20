@@ -1,0 +1,2 @@
+"imul bx\n"
+"mov dx, ax\n"

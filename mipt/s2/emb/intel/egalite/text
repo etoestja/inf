@@ -1,0 +1,7 @@
+"cmp ax, bx\n"
+"jne lne\n"
+"mov dx, 1\n"
+"jmp lend\n"
+"lne:\n"
+"mov dx, 0\n"
+"lend:\n"
