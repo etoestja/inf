@@ -1,6 +1,6 @@
 CFILE=main
 TARGET=solution
-LIBRARY=library
+LIBRARY=byteprint
 
 all: lib$(LIBRARY).a
 $(TARGET): lib$(LIBRARY).a $(CFILE).c
