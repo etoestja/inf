@@ -1,13 +1,15 @@
 NAME=solution
-OBJECT=main.o
+SRC=main
 
 all: $(NAME)
-$(NAME): $(OBJECT)
-	gcc -m32 $(OBJECT) -o $@
+$(NAME): $(SRC).o
+	gcc -m32 $(SRC).o -o $@
 %.o: %.asm
 	nasm -felf $<
-link: $(OBJECT)
-	ld -melf_i386 $(OBJECT) -o $(NAME)
+link: $(SRC).o
+	ld -melf_i386 $(SRC).o -o $(NAME)
+dsk: $(SRC).asm
+	nasm -fbin -o $(NAME).dsk $(SRC).asm
 clean:
 	rm -rf *.o
 	rm -rf $(NAME)

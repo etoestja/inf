@@ -10,6 +10,7 @@ mov ecx, theString
 mov edx,9; theLength
 int 0x80
 
+
 mov ebx, 0
 mov eax, 1
 int 0x80
@@ -18,5 +19,6 @@ int 0x80
 theString: db "Stierlitz"
 theLength equ $ - theString
 
-times 1212310 - ($ - $$) db 0
+times 510 - ($ - $$) db 0
+db 0xAA, 0x55
 
