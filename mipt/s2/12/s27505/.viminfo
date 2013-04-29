@@ -8,23 +8,29 @@
 # hlsearch on (H) or off (h):
 ~h
 # Last Search Pattern:
-~MSle0~/main
+~MSle0~/:ldr
 
 # Last Substitute String:
 $
 
 # Command Line History (newest to oldest):
+:wq
+:t
+:hl
+:q
+:7
 :q!
+:Wq
 :edit ../../aa
 :edit .
 :split
-:wq
 :set filetype=makefile
-:q
-:Wq
 :w
 
 # Search String History (newest to oldest):
+?/:ldr
+?/ldr
+?/mul
 ?/main
 ?/blx
 ?/99
@@ -41,44 +47,65 @@ $
 # Input Line History (newest to oldest):
 
 # Registers:
-""0	LINE	0
+"0	LINE	0
 		
-"1	LINE	0
-	
+""1	LINE	0
+		int x, y;
 "2	LINE	0
-		
+		if(x > y) x += y;
 "3	LINE	0
-	        mul   r3, r1, r0     @ Умножаем значение регистра r1 на значение регистра r0, ответ записываем в r3
+	
 "4	LINE	0
-	        add   r2, r1, r0     @ Складываем значения r0 и r1, ответ записываем в r2
+		
 "5	LINE	0
-	        mov   r1, #2         @ Делаем тоже самое с регистром r1, только теперь с значением 2
+	        mul   r3, r1, r0     @ Умножаем значение регистра r1 на значение регистра r0, ответ записываем в r3
 "6	LINE	0
-	        mov   r0, #3         @ Грузим в регистр r0 значение 3
+	        add   r2, r1, r0     @ Складываем значения r0 и r1, ответ записываем в r2
 "7	LINE	0
-	global main
+	        mov   r1, #2         @ Делаем тоже самое с регистром r1, только теперь с значением 2
 "8	LINE	0
-	section .text
+	        mov   r0, #3         @ Грузим в регистр r0 значение 3
 "9	LINE	0
-	stop:   b stop               @ Строка завершения программы
+	global main
 
 # File marks:
-'0  1  0  ~/12/as/strprintf/arm.s
-'1  2  0  ~/12/as/strprintf/arm.s
-'2  16  0  ~/mf/armas
-'3  8  2  ~/mf/armas
-'4  1  0  ~/mf/armas
-'5  6  12  ~/12/as/example/arm.s
-'6  1  0  ~/12/arm.s
-'7  6  10  ~/12/f.c
-'8  1  0  ~/12/as/example/arm.s
-'9  7  4  ~/12/as/example/arm.s
+'0  56  13  ~/12/as/cond/main.s
+'1  44  1  ~/12/as/cond/main.s
+'2  1  0  ~/12/as/cond/mains
+'3  2  6  ~/mf/armas
+'4  28  11  ~/12/as/cond/main.s
+'5  7  0  ~/12/as/cond/main.c
+'6  9  11  ~/12/as/cond/main.c
+'7  1  0  ~/12/as/cond/main.
+'8  27  0  ~/12/as/cond/main.s
+'9  10  18  ~/12/as/cond/main.c
 
 # Jumplist (newest first):
+-'  56  13  ~/12/as/cond/main.s
+-'  1  1  ~/12/as/cond/main.s
+-'  44  1  ~/12/as/cond/main.s
+-'  55  1  ~/12/as/cond/main.s
+-'  54  1  ~/12/as/cond/main.s
+-'  48  1  ~/12/as/cond/main.s
+-'  1  0  ~/12/as/cond/mains
+-'  2  6  ~/mf/armas
+-'  1  0  ~/mf/armas
+-'  28  11  ~/12/as/cond/main.s
+-'  7  0  ~/12/as/cond/main.c
+-'  1  0  ~/12/as/cond/main.c
+-'  9  11  ~/12/as/cond/main.c
+-'  1  0  ~/12/as/cond/main.
+-'  27  0  ~/12/as/cond/main.s
+-'  10  18  ~/12/as/cond/main.c
+-'  1  8  ~/12/as/cond/a.c
+-'  6  16  ~/12/g.c
+-'  1  0  ~/12/g.c
+-'  5  9  ~/12/g.c
+-'  4  0  ~/12/c.c
+-'  1  0  ~/12/c.c
 -'  1  0  ~/12/as/strprintf/arm.s
 -'  2  0  ~/12/as/strprintf/arm.s
 -'  16  0  ~/mf/armas
--'  1  0  ~/mf/armas
 -'  8  2  ~/mf/armas
 -'  6  12  ~/12/as/example/arm.s
 -'  1  0  ~/12/as/example/arm.s
@@ -151,30 +178,75 @@ $
 -'  1  0  ~/a.c
 -'  7  10  ~/b.c
 -'  1  0  ~/b.c
--'  16  0  ~/a.c
--'  1  0  ~/a.c
--'  16  0  ~/a.c
--'  1  0  ~/a.c
--'  7  7  ~/c.c
--'  1  0  ~/c.c
--'  7  10  ~/b.c
--'  1  0  ~/b.c
--'  16  0  ~/a.c
--'  1  0  ~/a.c
--'  16  0  ~/a.c
--'  1  0  ~/a.c
--'  7  10  ~/b.c
--'  1  0  ~/b.c
--'  16  0  ~/a.c
--'  1  0  ~/a.c
--'  16  0  ~/a.c
--'  1  0  ~/a.c
--'  7  7  ~/d.c
--'  1  0  ~/d.c
--'  7  7  ~/c.c
--'  1  0  ~/c.c
 
 # History of marks within files (newest to oldest):
+
+> ~/12/as/cond/main.s
+	"	56	13
+	^	56	14
+	.	56	13
+	+	56	16
+	+	55	6
+	+	56	12
+	+	48	0
+	+	55	8
+	+	56	13
+
+> ~/12/as/cond/mains
+	"	1	0
+
+> ~/mf/armas
+	"	2	6
+	^	2	7
+	.	12	0
+	+	2	6
+	+	6	4
+	+	8	2
+	+	8	14
+	+	7	7
+	+	8	0
+	+	11	0
+	+	12	0
+
+> ~/12/as/cond/main.c
+	"	7	0
+	^	7	1
+	.	9	11
+	+	10	18
+	+	9	6
+	+	7	12
+	+	6	6
+	+	7	12
+	+	9	0
+	+	7	17
+	+	8	14
+	+	9	13
+	+	10	14
+	+	9	11
+
+> ~/12/as/cond/main.
+	"	1	0
+
+> ~/12/as/cond/a.c
+	"	1	8
+	^	1	9
+	.	1	9
+	+	1	9
+
+> ~/12/g.c
+	"	6	16
+	^	7	15
+	.	7	15
+	+	1	18
+	+	9	0
+	+	8	11
+	+	9	0
+	+	6	17
+	+	5	9
+	+	7	15
+
+> ~/12/c.c
+	"	4	0
 
 > ~/12/as/strprintf/arm.s
 	"	1	0
@@ -185,19 +257,6 @@ $
 
 > ~/12/aa
 	"	15	0
-
-> ~/mf/armas
-	"	16	0
-	^	16	0
-	.	12	0
-	+	2	6
-	+	6	4
-	+	8	2
-	+	8	14
-	+	7	7
-	+	8	0
-	+	11	0
-	+	12	0
 
 > ~/12/as/example/arm.s
 	"	6	12
