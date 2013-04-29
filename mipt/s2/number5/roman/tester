@@ -1,0 +1,11 @@
+#!/bin/bash
+
+a=$(echo $1 | ./his)
+b=$(echo $1 | ./mine)
+
+if [ "X$a" != "X$b" ]
+then
+    echo "$1:error"
+else
+    exit 0
+fi

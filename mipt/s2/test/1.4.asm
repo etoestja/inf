@@ -8,7 +8,15 @@ section .text
 
 main:
 
-lea 
+mov eax, 123
+lea ecx, [0xffffffff + eax]
+
+push ecx
+push msg2
+call printf
+
+push dword 0
+call exit
 
 section .data
 msg1: db "%d%d", 0
