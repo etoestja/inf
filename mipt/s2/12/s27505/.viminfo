@@ -50,41 +50,42 @@ $
 "0	LINE	0
 		
 ""1	LINE	0
-		int x, y;
+		ldr 	r10, =0x2
 "2	LINE	0
-		if(x > y) x += y;
+		int x, y;
 "3	LINE	0
-	
+		if(x > y) x += y;
 "4	LINE	0
-		
+	
 "5	LINE	0
-	        mul   r3, r1, r0     @ Умножаем значение регистра r1 на значение регистра r0, ответ записываем в r3
+		
 "6	LINE	0
-	        add   r2, r1, r0     @ Складываем значения r0 и r1, ответ записываем в r2
+	        mul   r3, r1, r0     @ Умножаем значение регистра r1 на значение регистра r0, ответ записываем в r3
 "7	LINE	0
-	        mov   r1, #2         @ Делаем тоже самое с регистром r1, только теперь с значением 2
+	        add   r2, r1, r0     @ Складываем значения r0 и r1, ответ записываем в r2
 "8	LINE	0
-	        mov   r0, #3         @ Грузим в регистр r0 значение 3
+	        mov   r1, #2         @ Делаем тоже самое с регистром r1, только теперь с значением 2
 "9	LINE	0
-	global main
+	        mov   r0, #3         @ Грузим в регистр r0 значение 3
 
 # File marks:
-'0  56  13  ~/12/as/cond/main.s
-'1  44  1  ~/12/as/cond/main.s
-'2  1  0  ~/12/as/cond/mains
-'3  2  6  ~/mf/armas
-'4  28  11  ~/12/as/cond/main.s
-'5  7  0  ~/12/as/cond/main.c
-'6  9  11  ~/12/as/cond/main.c
-'7  1  0  ~/12/as/cond/main.
-'8  27  0  ~/12/as/cond/main.s
-'9  10  18  ~/12/as/cond/main.c
+'0  66  0  ~/12/as/cond/main1.s
+'1  55  16  ~/12/as/cond/main.s
+'2  44  1  ~/12/as/cond/main.s
+'3  1  0  ~/12/as/cond/mains
+'4  2  6  ~/mf/armas
+'5  28  11  ~/12/as/cond/main.s
+'6  7  0  ~/12/as/cond/main.c
+'7  9  11  ~/12/as/cond/main.c
+'8  1  0  ~/12/as/cond/main.
+'9  27  0  ~/12/as/cond/main.s
 
 # Jumplist (newest first):
--'  56  13  ~/12/as/cond/main.s
+-'  66  0  ~/12/as/cond/main1.s
+-'  1  0  ~/12/as/cond/main1.s
+-'  55  16  ~/12/as/cond/main.s
 -'  1  1  ~/12/as/cond/main.s
 -'  44  1  ~/12/as/cond/main.s
--'  55  1  ~/12/as/cond/main.s
 -'  54  1  ~/12/as/cond/main.s
 -'  48  1  ~/12/as/cond/main.s
 -'  1  0  ~/12/as/cond/mains
@@ -178,19 +179,27 @@ $
 -'  1  0  ~/a.c
 -'  7  10  ~/b.c
 -'  1  0  ~/b.c
+-'  56  13  ~/12/as/cond/main.s
+-'  55  16  ~/12/as/cond/main.s
 
 # History of marks within files (newest to oldest):
 
+> ~/12/as/cond/main1.s
+	"	66	0
+	^	66	0
+	.	65	38
+	+	65	38
+
 > ~/12/as/cond/main.s
-	"	56	13
-	^	56	14
-	.	56	13
-	+	56	16
+	"	55	16
+	^	55	17
+	.	55	16
+	+	55	16
 	+	55	6
-	+	56	12
+	+	55	12
 	+	48	0
 	+	55	8
-	+	56	13
+	+	55	16
 
 > ~/12/as/cond/mains
 	"	1	0

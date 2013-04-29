@@ -52,8 +52,7 @@ main:
 	movt	r3, #:upper16:.LC0
 	mov	r0, r3
 	ldr	r1, [r7, #4]
-	ldr 	r10, =0x2
-	mulpl	r1, r10, r1
+	addpl	r1, r1, r1
 	bl	printf
 	mov	r3, #0
 	mov	r0, r3
@@ -63,4 +62,3 @@ main:
 	.size	main, .-main
 	.ident	"GCC: (Ubuntu 4.4.3-4ubuntu5.1) 4.4.3"
 	.section	.note.GNU-stack,"",%progbits
-
