@@ -1,0 +1,20 @@
+CFILE=main
+TARGET=solution
+LIBRARY=library
+
+all: lib$(LIBRARY).so.0.0
+$(TARGET): lib$(LIBRARY).so.0.0 $(CFILE).c
+	ln -sf lib$(LIBRARY).so.0.0 lib$(LIBRARY).so
+	ln -sf lib$(LIBRARY).so.0.0 lib$(LIBRARY).so.0
+	gcc -m32 -L. $(CFILE).c -l$(LIBRARY) -o $(TARGET)
+lib%.so.0.0: %.o
+	gcc -m32 -shared -Wl,-soname,$@ -o $@ $<
+$(LIBRARY).o: $(LIBRARY).c
+	gcc -m32 -Wall -fPIC -c $<
+clean:
+	rm -rf *~
+	rm -rf $(LIBRARY).o
+	rm -rf lib$(LIBRARY).so.0.0
+	rm -rf $(TARGET)
+	rm -rf lib$(LIBRARY).so
+	rm -rf lib$(LIBRARY).so.0

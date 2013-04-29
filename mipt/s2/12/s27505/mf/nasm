@@ -1,0 +1,17 @@
+NAME=solution
+SRC=1.4
+
+all: $(NAME)
+$(NAME): $(SRC).o
+	gcc -m32 $(SRC).o -o $@
+%.o: %.asm
+	nasm -felf $<
+link: $(SRC).o
+	ld -melf_i386 $(SRC).o -o $(NAME)
+dsk: $(SRC).asm
+	nasm -fbin -o $(NAME).dsk $(SRC).asm
+clean:
+	rm -rf *.o
+	rm -rf $(NAME)
+test: testfile
+	cat testfile | ./$(NAME)
