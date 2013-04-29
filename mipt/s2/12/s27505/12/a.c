@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 union myint
 {
@@ -12,5 +13,5 @@ int main()
     mi.a = 0x12345678;
     if(mi.c == 0x12) printf("Big-endian\n");
     else printf("Little-endian\n");
-    return(0);
+    exit(0);
 }
