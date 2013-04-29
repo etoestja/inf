@@ -10,7 +10,14 @@
 # Last Search Pattern:
 ~MSle0~/main
 
+# Last Substitute String:
+$
+
 # Command Line History (newest to oldest):
+:q!
+:edit ../../aa
+:edit .
+:split
 :wq
 :set filetype=makefile
 :q
@@ -34,36 +41,42 @@
 # Input Line History (newest to oldest):
 
 # Registers:
-""1	LINE	0
+""0	LINE	0
 		
+"1	LINE	0
+	
 "2	LINE	0
-	        mul   r3, r1, r0     @ Умножаем значение регистра r1 на значение регистра r0, ответ записываем в r3
+		
 "3	LINE	0
-	        add   r2, r1, r0     @ Складываем значения r0 и r1, ответ записываем в r2
+	        mul   r3, r1, r0     @ Умножаем значение регистра r1 на значение регистра r0, ответ записываем в r3
 "4	LINE	0
-	        mov   r1, #2         @ Делаем тоже самое с регистром r1, только теперь с значением 2
+	        add   r2, r1, r0     @ Складываем значения r0 и r1, ответ записываем в r2
 "5	LINE	0
-	        mov   r0, #3         @ Грузим в регистр r0 значение 3
+	        mov   r1, #2         @ Делаем тоже самое с регистром r1, только теперь с значением 2
 "6	LINE	0
-	global main
+	        mov   r0, #3         @ Грузим в регистр r0 значение 3
 "7	LINE	0
-	section .text
+	global main
 "8	LINE	0
+	section .text
+"9	LINE	0
 	stop:   b stop               @ Строка завершения программы
 
 # File marks:
-'0  16  0  ~/mf/armas
-'1  8  2  ~/mf/armas
-'2  1  0  ~/mf/armas
-'3  6  12  ~/12/as/example/arm.s
-'4  1  0  ~/12/arm.s
-'5  6  10  ~/12/f.c
-'6  1  0  ~/12/as/example/arm.s
-'7  7  4  ~/12/as/example/arm.s
-'8  261  0  ~/12/aa
-'9  2  18  ~/12/a.c
+'0  1  0  ~/12/as/strprintf/arm.s
+'1  2  0  ~/12/as/strprintf/arm.s
+'2  16  0  ~/mf/armas
+'3  8  2  ~/mf/armas
+'4  1  0  ~/mf/armas
+'5  6  12  ~/12/as/example/arm.s
+'6  1  0  ~/12/arm.s
+'7  6  10  ~/12/f.c
+'8  1  0  ~/12/as/example/arm.s
+'9  7  4  ~/12/as/example/arm.s
 
 # Jumplist (newest first):
+-'  1  0  ~/12/as/strprintf/arm.s
+-'  2  0  ~/12/as/strprintf/arm.s
 -'  16  0  ~/mf/armas
 -'  1  0  ~/mf/armas
 -'  8  2  ~/mf/armas
@@ -160,11 +173,18 @@
 -'  1  0  ~/d.c
 -'  7  7  ~/c.c
 -'  1  0  ~/c.c
--'  7  10  ~/b.c
--'  1  0  ~/b.c
--'  16  0  ~/a.c
 
 # History of marks within files (newest to oldest):
+
+> ~/12/as/strprintf/arm.s
+	"	1	0
+	^	2	1
+	.	2	1
+	+	1	14
+	+	2	1
+
+> ~/12/aa
+	"	15	0
 
 > ~/mf/armas
 	"	16	0
@@ -208,9 +228,6 @@
 	+	4	1
 	+	5	16
 	+	6	10
-
-> ~/12/aa
-	"	261	0
 
 > ~/12/a.c
 	"	2	18
