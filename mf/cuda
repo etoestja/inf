@@ -1,0 +1,11 @@
+CFILE=main
+TARGET=solution
+
+all: $(TARGET)
+$(TARGET): $(CFILE).cu
+	nvcc $(CFILE).cu -o $(TARGET)
+clean:
+	rm -rf *~
+	rm -rf $(TARGET)
+t: $(TARGET)
+	cat test | ./$(TARGET)
