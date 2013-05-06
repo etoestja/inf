@@ -3,6 +3,7 @@
 
 #define MAXN 1000
 #define MAXD 11
+#define MAXBASE 10000000
 
 typedef struct equation
 {
@@ -20,9 +21,10 @@ typedef unsigned long long nType;
 
 nType basePowers[MAXD];
 struct equation array[MAXN];
+int minBase = 0;
 int N;
 
-inline int charOk(char c)
+int charOk(char c)
 {
     return((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z'));
 }
@@ -35,13 +37,13 @@ int find(char* s, char c)
     return(i);
 }
 
-inline char charToNum(char c)
+char charToNum(char c)
 {
     if(c >= '0' && c <= '9') return(c - '0');
     else return(c - 'a' + 10);
 }
 
-inline char numToChar(char c)
+char numToChar(char c)
 {
     if(c <= 9) return(c + '0');
     return(c + 'a' - 10);
@@ -59,15 +61,24 @@ void parseStr(char* s, equation *eq)
 
     int i, j;
     for(i = pMul - 1, j = 0; i >= 0; i--, j++)
+    {
         eq->x[j] = charToNum(s[i]);
+        if(eq->x[j] > minBase) minBase = eq->x[j];
+    }
     eq->xLen = pMul;
 
     for(i = pEq - 1, j = 0; i > pMul; i--, j++)
+    {
         eq->y[j] = charToNum(s[i]);
+        if(eq->y[j] > minBase) minBase = eq->y[j];
+    }
     eq->yLen = pEq - pMul - 1;
 
     for(i = strlen(s) - 1, j = 0; i > pEq; i--, j++)
+    {
         eq->z[j] = charToNum(s[i]);
+        if(eq->z[j] > minBase) minBase = eq->z[j];
+    }
     eq->zLen = strlen(s) - pEq - 1;
 }
 
@@ -152,7 +163,7 @@ int main()
 
     int i, j1;
     unsigned char *ptr;
-    unsigned char str[MAXD * 3 + 5];
+    char str[MAXD * 3 + 5];
     char c;
 
     int j;
@@ -172,10 +183,27 @@ int main()
         while(scanf("%c", &c) > 0 && !charOk(c));
         ungetc(c, stdin);
         scanf("%s", str);
-        strNorm(str);
-        printf("input: [%s]\n", str);
+        strNorm((char*) str);
+//        printf("input: [%s]\n", str);
         parseStr(str, array + i);
     }
+//    printAll();
 
-    printAll();
+    int lastFound = 0;
+
+    for(i = minBase + 1; i < MAXBASE; i++)
+    {
+        if(checkAll(i))
+        {
+            if(lastFound != 0)
+            {
+                printf("-1\n");
+                return(0);
+            }
+            lastFound = i;
+        }
+    }
+
+    printf("%d\n", lastFound);
+    return(0);
 }
