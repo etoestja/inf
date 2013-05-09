@@ -1,0 +1,12 @@
+#!/bin/bash
+
+a=$(cat test | ./old)
+b=$(cat test | ./new)
+
+if [ "X$a" != "X$b" ]
+then
+    echo "error"
+else
+    echo "OK"
+    exit 0
+fi

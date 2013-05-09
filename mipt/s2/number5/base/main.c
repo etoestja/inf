@@ -3,7 +3,14 @@
 
 #define MAXN 1000
 #define MAXD 11
-#define MAXBASE 10000000
+#define MAXBASE 1000000
+
+#define fprintf zero
+
+void zero(void* s, ...)
+{
+
+}
 
 typedef struct equation
 {
@@ -93,7 +100,7 @@ nType getNum(int * x, int len)
     int i;
     nType answer = 0;
     for(i = 0; i < len; i++)
-        answer += basePowers[i] * x[i];
+        answer += ((nType) basePowers[i]) * x[i];
     return(answer);
 }
 
@@ -109,12 +116,18 @@ int checkOne(equation *eq)
         z1 = x + y;
     else z1 = x * y;
 
+//    if(z1 == 0)
+//        return(0);
+
+    fprintf(stderr, " x=%llu\n y=%llu\n z=%llu\n r=%llu\n", x, y, z, z1);
+
+    //return(((z - z1) % (((nType) 1) << 63)) == 0);
     return(z == z1);
 }
 
 void getBasePowers(nType base)
 {
-    int baseAcc = 1, i;
+    nType baseAcc = 1, i;
     for(i = 0; i < MAXD; i++)
     {
         basePowers[i] = baseAcc;
@@ -290,7 +303,12 @@ void testDivisors()
         if(divisors[i] != 0)
         {
             fprintf(stderr, "checking divisor %d\n", divisors[i]);
-            if(!checkAll(divisors[i])) rmNumber(i);
+            if(divisors[i] <= minBase ||
+                    !checkAll(divisors[i]))
+            {
+                fprintf(stderr, "#removing divisor %d\n", divisors[i]);
+                rmNumber(i);
+            }
         }
 }
 

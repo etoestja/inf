@@ -3,7 +3,7 @@
 
 #define MAXN 1000
 #define MAXD 11
-#define MAXBASE 10000000
+#define MAXBASE 3000
 
 typedef struct equation
 {
@@ -18,6 +18,13 @@ typedef struct equation
 } equation;
 
 typedef unsigned long long nType;
+
+#define fprintf zero
+
+void zero(void* s, ...)
+{
+
+}
 
 nType basePowers[MAXD];
 struct equation array[MAXN];
@@ -110,12 +117,19 @@ int checkOne(equation *eq, nType base)
         z1 = x + y;
     else z1 = x * y;
 
+    if(z1 == 0)
+        return(0);
+
+    if(z == z1)
+        fprintf(stderr, " x=%llu\n y=%llu\n z=%llu\n r=%llu\n", x, y, z, z1);
+
+//    return((z - z1) % (1 << 16) == 0);
     return(z == z1);
 }
 
 void getBasePowers(nType base)
 {
-    int baseAcc = 1, i;
+    nType baseAcc = 1, i;
     for(i = 0; i < MAXD; i++)
     {
         basePowers[i] = baseAcc;
@@ -195,6 +209,7 @@ int main()
     {
         if(checkAll(i))
         {
+            fprintf(stderr, "found %d\n", i);
             if(lastFound != 0)
             {
                 printf("-1\n");
