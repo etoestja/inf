@@ -3,14 +3,14 @@
 
 #define MAXN 1000
 #define MAXD 11
-#define MAXBASE 10000000
+#define MAXBASE 10000
 
 typedef struct equation
 {
     //x[j]=a0a1a2...
-    char x[MAXD];
-    char y[MAXD];
-    char z[MAXD];
+    int x[MAXD];
+    int y[MAXD];
+    int z[MAXD];
     int xLen;
     int yLen;
     int zLen;
@@ -24,7 +24,7 @@ struct equation array[MAXN];
 int minBase = 0;
 int N;
 
-int charOk(char c)
+int charOk(int c)
 {
     return((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z'));
 }
@@ -47,6 +47,16 @@ char numToChar(char c)
 {
     if(c <= 9) return(c + '0');
     return(c + 'a' - 10);
+}
+
+void getPoly(equation* eq, int* p)
+{
+    if(eq->op == '+')
+    {
+        int i;
+        for(i = 0; i < MAXD; i++)
+            *(p++) = eq->x[i] + eq->y[i];
+    }
 }
 
 void parseStr(char* s, equation *eq)
@@ -88,7 +98,7 @@ void strNorm(char* str)
         *(str + strlen(str) - 1) = 0;
 }
 
-nType getNum(char * x, int len, nType base)
+nType getNum(int * x, int len, nType base)
 {
     int i;
     nType baseAcc = 1;
@@ -132,7 +142,7 @@ int checkAll(nType base)
     return(1);
 }
 
-void printNum(char *str, int len)
+void printNum(int *str, int len)
 {
     int l = len;
     for(l--; l >= 0; l--)
@@ -187,7 +197,7 @@ int main()
 //        printf("input: [%s]\n", str);
         parseStr(str, array + i);
     }
-//    printAll();
+    printAll();
 
     int lastFound = 0;
 
