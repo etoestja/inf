@@ -1,0 +1,4 @@
+fld dword ptr [esp + 28]
+fld1
+fdivrp
+fstp qword ptr [esp + 4]
