@@ -1,10 +1,10 @@
 CFILE=main
 TARGET=solution
-LIBRARY=library
+LIBRARY=leap
 
 all: lib$(LIBRARY).a
 $(TARGET): lib$(LIBRARY).a $(CFILE).c
-	gcc -L. $(CFILE).c -l$(LIBRARY) -o $(TARGET)
+	gcc -m32 -L. $(CFILE).c -l$(LIBRARY) -o $(TARGET)
 lib%.a: %.o
 	ar rcs $@ $<
 $(LIBRARY).o: $(LIBRARY).c
