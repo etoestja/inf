@@ -6,12 +6,10 @@ extern scanf
 
 section .text
 main:
-cmp eax, 0x12345678
+push msg1
+call printf
+push 0
+call exit
 
 section .data
-msg1: db "%d%d", 0
-msg2: db "%d", 0xA, 0
-
-section .bss
-a resd 1
-b resd 1
+msg1: db "test", 0
