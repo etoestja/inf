@@ -47,20 +47,24 @@ cursor:	dd 0
 
 memtest:
     pusha
-    mov ecx, 1048576
-    mov ebx, 0b10101010
-;    mov edx, 1073741824
-    mov edx, 67108964 ; not ok
-;    mov edx, 67108764 ; ok
-lLoop:
-    mov dword [ecx], ebx
-    mov eax, dword [ecx]
-    cmp eax, ebx
-    jne short lWrong
-    inc ecx
-    cmp ecx, edx
-    jge lRight
-    jmp lLoop
+    mov ecx, 1048576        ;start addr
+    mov ebx, 0b10101010     ;pattern
+    mov edx, 67108964       ;end addr not ok
+ ;   mov edx, 67108764      ;end addr ok
+lLoopW:
+    mov dword [ecx], ebx ;pattern to memory
+    inc ecx              ;ecx++
+    cmp ecx, edx         ;
+    jge lRight           ;if ecx<=edx goto lLoopW
+    jmp lLoopW
+lLoopR:
+    mov eax, dword [ecx] ;memory to eax
+    cmp eax, ebx         ;cmp
+    jne short lWrong     ;if wrong goto lWrong
+    inc ecx              ;ecx++
+    cmp ecx, edx         ;
+    jge lRight           ;if ecx<=edx goto lLoopR
+    jmp lLoopR
 lWrong:
     mov esi, msg_notok
     jmp lEnd
