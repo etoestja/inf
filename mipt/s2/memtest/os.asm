@@ -35,6 +35,8 @@ _protected:
 	mov ds, ax
 	mov ss, ax
 
+    push dword 67108764       ;end addr ok
+    push dword 1048576        ;start addr
 	call memtest
 
 	;; Завесим процессор
@@ -45,55 +47,72 @@ _protected:
 cursor:	dd 0
 %define VIDEO_RAM 0xB8000
 
+;; arguments: memtest(start addr, end addr) inclisive
+
 memtest:
-    pusha
-    mov ecx, 1048576        ;start addr
-    mov ebx, 0b10101010     ;pattern
-    mov edx, 67108964       ;end addr not ok
- ;   mov edx, 67108764      ;end addr ok
+    push ebp
+    mov ebp, esp
+    mov ecx, [ebp + 0x8] ;start addr
+    mov ebx, 0b11110101010010101001010100101010  ;pattern
+    mov edx, [ebp + 0xc] ;end addr
+
 lLoopW:
     mov dword [ecx], ebx ;pattern to memory
-    inc ecx              ;ecx++
+    add ecx, 4           ;ecx += 4
     cmp ecx, edx         ;
-    jge lRight           ;if ecx<=edx goto lLoopW
-    jmp lLoopW
+    jg lLoopWEnd         ;if ecx >= edx goto lLoopWEnd
+    jmp lLoopW           ;else jump lLoopW
+
+lLoopWEnd:
+
+    mov ecx, [ebp + 0x8] ;start addr
+    mov [67108764], byte 0
+
 lLoopR:
     mov eax, dword [ecx] ;memory to eax
     cmp eax, ebx         ;cmp
     jne short lWrong     ;if wrong goto lWrong
-    inc ecx              ;ecx++
+    add ecx, 4           ;ecx += 4
     cmp ecx, edx         ;
-    jge lRight           ;if ecx<=edx goto lLoopR
-    jmp lLoopR
+    jg lRight            ;if ecx<=edx goto lLoopR
+    jmp lLoopR           ;else jump lLoopR
+
 lWrong:
-    mov esi, msg_notok
+    mov esi, msg_notok   ;text msg not ok
+    push dword [red]     ;not ok color
     jmp lEnd
+
 lRight:
-    mov esi, msg_ok
+    mov esi, msg_ok      ;text msg ok
+    push dword [green]   ;ok color
+
 lEnd:
-    call kputs
-    popa
+    call kputs           ;call kputs
+
+    pop ebp
     ret
 
 ;; Функция выполняет прямой вывод в память видеоадаптера
 ;; которая находится в VGA-картах (и не только) по адресу 0xB8000
 	
 kputs:
-	pusha
+    push ebp
+    mov ebp, esp
+    mov bl, byte [ebp + 8]
 .loop:	
 	lodsb 
 	test al, al
 	jz .quit
 	mov ecx, [cursor]
 	mov [VIDEO_RAM+ecx*2], al
-    mov [VIDEO_RAM+ecx*2+1], byte 0b0010100
+    mov [VIDEO_RAM+ecx*2+1], bl
 	inc dword [cursor]
 	jmp short .loop
 
 
 
 .quit:	
-	popa
+	pop ebp
 	ret
 		
 
@@ -127,6 +146,8 @@ gd_reg:
 msg_hello:	db "Hello from the world of 32-bit Protected Mode",0
 msg_ok: db "Memory is ok!", 0
 msg_notok: db "Memory is NOT ok!", 0
+green: db 0b00000010, 0, 0, 0
+red:   db 0b00000100, 0, 0, 0
 
 	times 510-($-$$) db 0
 	db 0xaa, 0x55

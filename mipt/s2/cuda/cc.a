@@ -1,0 +1,26 @@
+architecture {sm_267}
+abiversion   {1}
+modname      {cubin}
+code {
+	name = _Z6VecAddPKfS0_Pfi
+	lmem = 0
+	smem = 0
+	reg  = 0
+	bar  = 0
+	const {
+				segname = const
+				segnum  = 0
+				offset  = 0
+				bytes   = 0
+		mem {
+		}
+	}
+	bincode {
+		0x10000205 0x40004780 0xa0000005 0x04000780
+		0x60014c01 0x00204780 0x3000d5fd 0x6c20c7c8
+		0x30000003 0x00000280 0x30020009 0xc4100780
+		0x2102e800 0x2102ec0c 0xd00e0005 0x80c00780
+		0xd00e0601 0x80c00780 0xb0000204 0x2102f000
+		0xd00e0005 0xa0c00781
+	}
+}
