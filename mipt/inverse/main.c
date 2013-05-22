@@ -133,29 +133,34 @@ void getInverseDestroy(matrix *m, matrix *dest)
         }
         temp = m->ptr[i][j];
         
-        #ifdef DEBUG
-            fprintf(stderr, "dividing row %d by %lf\n", i + 1, temp);
-        #endif
-        eop1(m,    i, ((nType) 1.) / temp);
-        eop1(dest, i, ((nType) 1.) / temp);
-
-        #ifdef DEBUG
-            printMatrices(m, dest);
-        #endif
+        if(temp != 1)
+        {
+            #ifdef DEBUG
+                fprintf(stderr, "dividing row %d by %lf\n", i + 1, temp);
+            #endif
+            eop1(m,    i, ((nType) 1.) / temp);
+            eop1(dest, i, ((nType) 1.) / temp);
+            #ifdef DEBUG
+                printMatrices(m, dest);
+            #endif
+        }
 
         for(si = 0; si < m->R; si++)
         {
             if(si != i)
             {
                 temp = m->ptr[si][j];
-                #ifdef DEBUG
-                  fprintf(stderr, "subtracting row %d multiplied by %lf from row %d\n", i + 1, temp, si + 1);
-                #endif
-                eop2(m,    i, temp, si);
-                eop2(dest, i, temp, si);
-                #ifdef DEBUG
-                    printMatrices(m, dest);
-                #endif
+                if(temp != 0)
+                {
+                    #ifdef DEBUG
+                      fprintf(stderr, "subtracting row %d multiplied by %lf from row %d\n", i + 1, temp, si + 1);
+                    #endif
+                    eop2(m,    i, temp, si);
+                    eop2(dest, i, temp, si);
+                    #ifdef DEBUG
+                        printMatrices(m, dest);
+                    #endif
+                }
             }
         }
     }
@@ -194,12 +199,13 @@ void printMatrices(matrix* A, matrix * B)
     int i, j;
     for(i = 0; i < A->R; i++)
     {
+        printf("\t(\t");
         for(j = 0; j < A->C; j++)
-            printf("%.3lf\t", A->ptr[i][j]);
-        printf("\t");
+            printf("%.2lf\t", A->ptr[i][j]);
+        printf(")  (\t");
         for(j = 0; j < B->C; j++)
-            printf("%.3lf\t", B->ptr[i][j]);
-        printf("\n");
+            printf("%.2lf\t", B->ptr[i][j]);
+        printf(")\n");
     }
 }
 
@@ -209,7 +215,7 @@ void printMatrix(matrix *M)
     for(i = 0; i < M->R; i++)
     {
         for(j = 0; j < M->C; j++)
-            printf("%.3lf\t", M->ptr[i][j]);
+            printf("%lf\t", M->ptr[i][j]);
         printf("\n");
     }
 }
@@ -247,8 +253,14 @@ void cpMatrix(matrix* dest, matrix* src)
             dest->ptr[i][j] = src->ptr[i][j];
 }
 
-int main()
+int main(int argc, char** argv)
 {
+/*    printf("argc=%d\n", argc);
+    int ss;
+    for(ss = 0; ss < argc; ss++)
+        printf("argv#%d=%s\n", ss, argv[ss]);
+*/
+
     int N;
     scanf("%d", &N);
     matrix *M1 = malloc(sizeof(matrix)), *M2 = malloc(sizeof(matrix));
@@ -266,9 +278,13 @@ int main()
 
     #ifdef DEBUG
         fprintf(stderr, "A^-1=\n");
-    #endif
-    #ifndef TEST
         printMatrix(M2);
+    #else
+        if(argc == 1 || (argc >= 2 && argv[1][0] == 'i'))
+        {
+            printf("%d\n", M2->R);
+            printMatrix(M2);
+        }
     #endif
 
     matrix *M3 = malloc(sizeof(matrix));
@@ -278,10 +294,12 @@ int main()
     #ifdef DEBUG
         fprintf(stderr, "A*A^-1=\n");
         printMatrix(M3);
-    #endif
-
-    #ifdef TEST
-        printMatrix(M3);
+    #else
+        if(argc >= 2 && argv[1][0] == 'e')
+        {
+            printf("%d\n", M3->R);
+            printMatrix(M3);
+        }
     #endif
 
     freeMatrix(M1);
