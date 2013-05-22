@@ -1,0 +1,10 @@
+#!/bin/bash
+games=1000
+i=0
+N=100
+while (( i < 100 ))
+do
+    echo -n "$i "
+    echo "$games $i" | ./a.out | grep "pL=" | cut -d "=" -f 2
+    let i=i+1
+done
