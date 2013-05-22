@@ -3,8 +3,9 @@
 
 #define MAXN 1000
 #define MAXD 11
-#define MAXBASE 1000000
+#define MAXBASE 10000000
 
+//this turns debug data on and off
 #define fprintf zero
 
 void zero(void* s, ...)
@@ -12,9 +13,10 @@ void zero(void* s, ...)
 
 }
 
+//equation like a+b=c,
+//format: x={a0,a1,a2,...}
 typedef struct equation
 {
-    //x[j]=a0a1a2...
     int x[MAXD];
     int y[MAXD];
     int z[MAXD];
@@ -26,16 +28,25 @@ typedef struct equation
 
 typedef unsigned long long nType;
 
+//powers of base
 nType basePowers[MAXD];
+
+//input
 struct equation array[MAXN];
+
+//minimal character in input data
 int minBase = 0;
+
+//number of equations
 int N;
 
+//tests if char is a digit
 int charOk(char c)
 {
     return((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z'));
 }
 
+//finds a character in string
 int find(char* s, char c)
 {
     int i = 0;
@@ -44,18 +55,21 @@ int find(char* s, char c)
     return(i);
 }
 
+//converts 0...9A...Z to 0...36
 char charToNum(char c)
 {
     if(c >= '0' && c <= '9') return(c - '0');
     else return(c - 'a' + 10);
 }
 
+//converts backwards
 char numToChar(char c)
 {
     if(c <= 9) return(c + '0');
     return(c + 'a' - 10);
 }
 
+//parses one input line and saves the result to *equation
 void parseStr(char* s, equation *eq)
 {
     int pPlus = find(s, '+');
@@ -89,12 +103,14 @@ void parseStr(char* s, equation *eq)
     eq->zLen = strlen(s) - pEq - 1;
 }
 
+//removes one bad symbol at the end of string
 void strNorm(char* str)
 {
     if(!charOk(*(str + strlen(str) - 1)))
         *(str + strlen(str) - 1) = 0;
 }
 
+//calculate number x0x1...xn with base from basePowers
 nType getNum(int * x, int len)
 {
     int i;
@@ -104,6 +120,7 @@ nType getNum(int * x, int len)
     return(answer);
 }
 
+//check one equation with base from basePowers
 int checkOne(equation *eq)
 {
     nType x = getNum(eq->x, eq->xLen);
@@ -125,6 +142,7 @@ int checkOne(equation *eq)
     return(z == z1);
 }
 
+//fill basePowers array
 void getBasePowers(nType base)
 {
     nType baseAcc = 1, i;
@@ -135,6 +153,7 @@ void getBasePowers(nType base)
     }
 }
 
+//check all equations
 int checkAll(nType base)
 {
     getBasePowers(base);
@@ -171,9 +190,9 @@ void printAll()
 
 int poly[MAXD * 2]; //current polynom
 #define MAXDIVISORS 10000
-int divisors[MAXDIVISORS];
-int divisorsCount = 0;
-int divisorsInf = 1;
+int divisors[MAXDIVISORS]; //this array contains divisors of last term of polynom
+int divisorsCount = 0; //index-1 of last non-zero element in divisors array
+int divisorsInf = 1;   //is 1 if any base is appropriate
 
 void addNumber(int t);
 int addDivisors(int x);
@@ -221,6 +240,7 @@ void printPoly()
     }
 }
 
+//get polynom for given equation
 void getPoly(equation* eq)
 {
     int i, j;
@@ -274,7 +294,7 @@ int addDivisors(int x)
     return(j);
 }
 
-//add a number
+//add a number to array divisors
 void addNumber(int t)
 {
     fprintf(stderr, "adding divisor %d\n", t);
@@ -288,6 +308,7 @@ void addNumber(int t)
     divisors[divisorsCount++] = t;
 }
 
+//remove number from array divisors
 void rmNumber(int index)
 {
     if(index == divisorsCount - 1) divisorsCount--;
@@ -295,6 +316,7 @@ void rmNumber(int index)
     divisors[index] = 0;
 }
 
+//remove wrong elements from divisors array
 void testDivisors()
 {
     int i;
@@ -312,6 +334,7 @@ void testDivisors()
         }
 }
 
+//look for equation with non-zero polynom
 void processDivisors()
 {
     resetPoly();
@@ -329,6 +352,7 @@ void processDivisors()
     testDivisors();
 }
 
+//count non-zero elements in divisors array
 int divisorsRecount()
 {
     int i, j = 0;
