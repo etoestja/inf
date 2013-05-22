@@ -21,3 +21,4 @@ a.out
 *.pdf
 .~lock*
 mipt/algorithms/20130222/Aho/Aho
+*.exe
