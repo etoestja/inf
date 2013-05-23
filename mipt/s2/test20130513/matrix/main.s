@@ -1,41 +1,20 @@
 	.file	"main.c"
-	.section	.rodata
-.LC0:
-	.string	"%f"
-.LC2:
-	.string	"%lf"
+	.intel_syntax noprefix
 	.text
-	.globl	main
-	.type	main, @function
-main:
-.LFB0:
+	.p2align 4,,15
+	.globl	f
+	.type	f, @function
+f:
+.LFB11:
 	.cfi_startproc
-	pushl	%ebp
-	.cfi_def_cfa_offset 8
-	.cfi_offset 5, -8
-	movl	%esp, %ebp
-	.cfi_def_cfa_register 5
-	andl	$-16, %esp
-	subl	$32, %esp
-	leal	20(%esp), %eax
-	movl	%eax, 4(%esp)
-	movl	$.LC0, (%esp)
-	call	__isoc99_scanf
-	flds	20(%esp)
+	mov	eax, DWORD PTR [esp+4]
 	fld1
-	fdivp	%st, %st(1)
-	fstpl	24(%esp)
-	fldl	24(%esp)
-	fstpl	4(%esp)
-	movl	$.LC2, (%esp)
-	call	printf
-	movl	$0, %eax
-	leave
-	.cfi_restore 5
-	.cfi_def_cfa 4, 4
+	fdiv	DWORD PTR [eax]
+	mov	eax, DWORD PTR [esp+8]
+	fstp	QWORD PTR [eax]
 	ret
 	.cfi_endproc
-.LFE0:
-	.size	main, .-main
+.LFE11:
+	.size	f, .-f
 	.ident	"GCC: (Debian 4.7.2-5) 4.7.2"
 	.section	.note.GNU-stack,"",@progbits

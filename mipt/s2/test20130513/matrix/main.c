@@ -1,11 +1,6 @@
 #include <stdio.h>
 
-int main()
+void f(float *a, double *b)
 {
-    float a;
-    double b;
-    scanf("%f", &a);
-    b = 1 / a;
-    printf("%lf", b);
-    return(0);
+    *b = 1 / *a;
 }
