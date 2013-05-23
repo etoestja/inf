@@ -1,4 +1,5 @@
 \documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=10mm, bottom=20mm]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage[russian]{babel}
 \usepackage{graphicx}
@@ -10,8 +11,121 @@
 \title{Задание от 2013.04.05}
 \author{С.~Е.~Володин, 272 гр.}
 \date{}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
 \begin{document}
 \maketitle
-
+\begin{enumerate}
+\item Пусть $\underline{x}=\matrixl
+\begin{array}{ccc}
+x_1 \\
+x_2 \\
+x_3
+\end{array}
+\matrixr$~--- количества материалов (в м$^3$). Определим
+\begin{equation} \underline{c}=\matrixl
+\begin{array}{c}
+1000 \\
+1200 \\
+12000
+\end{array}
+\matrixr
+,\ 
+A=\matrixl
+\begin{array}{lcr}
+1 & 1 & 1 \\
+2 & 1 & 3 \\
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 1 \\
+\end{array}
+\matrixr
+,\ 
+\underline{b}=\matrixl
+\begin{array}{c}{1}
+60 \\
+100 \\
+40 \\
+30 \\
+20
+\end{array}
+\matrixr.
+\end{equation}
+Тогда $A\underline{x}\leqslant\underline{b}$~--- система неравенств, равносильная условию (первые два неравенства~--- ограничение массы и объема, последние три~--- ограничения количеств материалов). Условие $\underline{x}\geqslant 0$ очевидно (количества $\geqslant 0$). Число $\underline{c}^Tx$~--- суммарная стоимость.\newline
+Перебором найдем решение $\underline{x}=\matrixl
+\begin{array}{ccc}
+5 \\
+30 \\
+20
+\end{array}
+\matrixr$, $\underline{c}^Tx=281000$.\newline
+Двойственная задача
+$\min\underline{y}^T\underline{b}$, где $\underline{y}\geqslant 0$ и $\underline{y}^TA\geqslant\underline{c}^T$ имеет решение
+$\underline{y}^T=\matrixl
+\begin{array}{ccccc}
+0 & 500 & 0 & 700 & 10500
+\end{array}
+\matrixr$, $\underline{y}^T\underline{b}=281000$. Если назвать то, что соответствует строкам $A$ ресурсами (т.е. количество м$^3$ в самолете, суммарный вес, количества товаров), то двойственная задача имеет следующую интерпретацию:\newline
+Какие минимальные цены за ресурсы нужно установить, чтобы продать их все за ту же стоимость $281000$, причем, чтобы для покупателя выполнить тот же рейс было бы невыгодно (условие $\underline{y}^TA\geqslant \underline{c}^T$~--- цена за каждый материала для покупателя получается не меньше, чем <<реальная>> цена), а именно, $\underline{y}^TA=
+\matrixl
+\begin{array}{c}
+1000 \\
+1200 \\
+12000
+\end{array}
+\matrixr
+=\underline{c}.$
+\newpage
+\item Для сети $G(V,E)$ с пропускной способностью $c$ и пропускной способностью вершин $d$ создадим новую сеть $G'(V', E')$, такую что для каждой вершины $v$ исходной сети есть две вершины $v^1$ и $v^2$, ребрам, для которых $v$~---конечная вершина, соответствуют ребра инцидентные $v^1$, а тем, для которых $v$~--- начальная, соответствую ребра, инцидентные $v^2$. Также есть ребра между $v^1$ и $v^2$.
+То есть, если $V=\{v_1,\dots,v_n\}$ и $v_1$~--- исток, а $v_n$~--- сток, то $V'=\{v^1_1,v^2_1,\dots v^1_n,v^2_n\}$,
+$v_1^1$~--- исток, $v_n^2$~--- сток; если $E=\{(a_1,b_1),\dots,(a_m,b_m)\}$, то
+$E'=\{(a^2_1,b^1_1),\dots,(a^2_m,b^1_m)\}\bigcup\{(v^1_1,v^2_1),\dots,(v^1_n,v^2_n)\}$.\newline
+Пропускную способность определим следующим образом ($x\neq y\in G$):\newline
+$c'(u,v)=
+\left\{\begin{array}{lr}
+d(u) & u=x^1,v=x^2 \\
+0 & u=x^2,v=x^1 \\
+c(x,y) & u=x^2,v=y^1 \\
+0 & u=x^1,v=y^2
+\end{array}
+\right.
+$.\newline
+Пусть найден максимальный поток $f'$ в $G'(V',E')$. Определим в исходной сети
+$f(u,v)=
+\left\{\begin{array}{lr}
+f'(u^2,v^1), & (u,v)\in E \\
+f'(v^1,u^2), & (v,u)\in E \\
+0 & else
+\end{array}.
+\right.$ Тогда он является потоком в $G(V,E)$, так как
+\begin{enumerate}
+\item Для $(u,v)\in E$
+\begin{enumerate}
+\item $f(u,v)=f'(u^2,v^1)\leqslant c'(u^2,v^1)=c(u,v)$.
+\item \label{a} $f(u,v)=f'(u^2,v^1)=-f'(v^1,u^2)=-f(v,u)$.
+\item $f(v,u)=f'(u^1,v^2)\leqslant c'(u^1,v^2)=0=c(v,u)$.
+\item $f(v,u)=-f(u,v)$~--- см. \ref{a}.
+\end{enumerate}
+\item Для $(u,v), (v,u)\notin E$
+\begin{enumerate}
+\item $f(u,v)=0\leqslant c(u,v)$.
+\item $f(u,v)=0=-0=-f(v,u)$.
+\end{enumerate}
+\item Для $u\in V$, кроме истока и стока:\newline
+${\sum\limits_{v\in V}f(u,v)}={\sum\limits_{\substack{v\in V,\\ (u,v)\in E,\\v\neq u}}f(u,v)}+{\sum\limits_{\substack{v\in V,\\ (v,u)\in E,\\v\neq u}}f(u,v)}=
+{\sum\limits_{\substack{v^1\in V',\\(u^2,v^1)\in E',\\v^1\neq u^1}}f'(u^2,v^1)}+{\sum\limits_{\substack{v^1\in V',\\(v^2,u^1)\in E',\\v^1\neq u^1}}f'(v^1,u^2)}=\newline
+={\sum\limits_{\substack{v^1\in V',\\(u^2,v^1)\in E',\\v^1\neq u^1}}f'(u^2,v^1)}-{\sum\limits_{\substack{v^1\in V',\\(v^2,u^1)\in E',\\v^1\neq u^1}}f'(u^2,v^1)}=
+\underbrace{\sum\limits_{v^1\in V'}f'(u^2,v^1)}_{=0,\ \text{flow\ conservation}}\underbrace{+f'(u^2,u^1)-f'(u^2,u^1)}_{=0}=0.$
+\end{enumerate}
+Условие задачи выполнено, так как\newline
+$f(v)={\sum\limits_{\substack{u\in V,\\(u,v)\in E}}f(u,v)}={\sum\limits_{\substack{u^2\in V',\\(u^2,v^1)\in E'}}f'(u^2,v^1)}=-f'(v^2,v^1)=
+f'(v^1,v^2)\leqslant c'(v^1,v^2)=g(v)$\newline
+Докажем, что $|f|=|f'|$:\newline
+$|f|={\sum\limits_{v\in V}f(v_1,v)}={\sum\limits_{\substack{v\in V\\(v_1,v)\in E}}f(v_1,v)}=
+{\sum\limits_{\substack{v^1\in V'\\(v^2_1,v^1)\in E}}f'(v^2_1,v^1)}=-f'(v^2_1,v^1_1)=f'(v^1_1,v^2_1)={\sum\limits_{v\in V'}f'(v^1_1,v)}=|f'|$\newline
+Пусть $f$~--- не максимальный. Тогда существует поток $g$, величина которого больше. Определим аналогично поток $g'$ в $G'$ (это будет поток, т.к. определение аналогичное). Его величина будет больше, чем величина $f'$, так как $|f|=|f'|$, $|g|=|g'|$~--- противоречие с тем, что $f'$~--- максимальный.\newline
+То есть, найден максимальный поток в $G$, удовлетворяющий условию.\newline
+Время полиномиальное, так как размеры входных данных~--- полиномы от размеров исходных данных, и алгоритм поиска максимального потока~--- полиномиальный (алгоритм Диница):
+$n'=2n,m'=m+n$$\blacksquare$
+\end{enumerate}
 \end{document}
-
