@@ -6,8 +6,9 @@ extern scanf
 
 section .text
 main:
-push msg1
-call printf
+
+mov eip, 0
+
 push 0
 call exit
 
