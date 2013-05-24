@@ -18,7 +18,9 @@ a.out
 *.tps
 *.gz
 *.ps
-*.pdf
+solution.pdf
+Algorithms1_VolodinSergey272.pdf
+algorithms1.pdf
 .~lock*
 mipt/algorithms/20130222/Aho/Aho
 *.exe
