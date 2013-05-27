@@ -15,7 +15,7 @@ int N;
 
 long double dr;
 
-const long double dt = 1; //sec
+const long double dt = 0.1; //sec
 
 long double T[NMAX];
 
@@ -32,6 +32,13 @@ void clean()
 
 }
 
+long double dTdr(int i)
+{
+    if(i == N - 1)
+        return(0);
+    return(-(T[i + 1] - T[i - 1]) / 2 / dr);
+}
+
 long double d2Tdr2(int i)
 {
     if(i == N - 1)
@@ -42,7 +49,7 @@ long double d2Tdr2(int i)
 
 void step(int i)
 {
-    T[i] += dt * xi / q / C * d2Tdr2(i);
+   T[i] += dt * xi / q / C * (d2Tdr2(i) + 2 / (R - ((long double) i) * dr) * dTdr(i));
 //    time += dt;
 }
 
@@ -56,7 +63,7 @@ void stepAll()
 
 int check()
 {
-    return(T[N - 1] <= T1);
+    return(T[N - 4] <= T1);
 }
 
 void print()
