@@ -1,4 +1,5 @@
 #!/bin/bash
 #/usr/bin/mplayer /home/seriy/Music/Doctor\ Who\ Soundtrack\ -\ Series\ 6/Doctor\ Who\ Series\ 6\ Disc\ 1\ Track\ 01\ -\ I\ am\ The\ Doctor\ in\ Utah.mp3
 #/usr/bin/mplayer /home/seriy/Music/DW\ Soundtrack\ Series\ 5/48\ -\ Words\ Win\ Wars.mp3
-/usr/bin/mplayer /home/seriy/Music/Doctor\ Who\ Soundtrack\ -\ Series\ 6/Doctor\ Who\ Series\ 6\ Disc\ 2\ Track\ 35\ -\ The\ Majestic\ Tale\ \(of\ a\ Madman\ in\ a\ Box\).mp3
+#/usr/bin/mplayer /home/seriy/Music/Doctor\ Who\ Soundtrack\ -\ Series\ 6/Doctor\ Who\ Series\ 6\ Disc\ 2\ Track\ 35\ -\ The\ Majestic\ Tale\ \(of\ a\ Madman\ in\ a\ Box\).mp3
+/usr/bin/mplayer /home/seriy/Music/Within\ Temptation/2004\ -\ The\ Silent\ Force/See\ Who\ I\ Am.mp3
