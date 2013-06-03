@@ -1,5 +1,5 @@
 \documentclass[a4paper]{article}
-\usepackage[a4paper, left=2mm, right=2mm, top=5mm, bottom=5mm]{geometry}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage[english,russian]{babel}
 \usepackage{graphicx}
@@ -57,19 +57,18 @@ $$
 %$\frac{T_1}{T_2}=\frac{Q_{\text{н}}}{Q_{\text{х}}}$.\newline
 $T_1/T_2=Q_{\text{н}}/Q_{\text{х}}$.\newline
 Выразим мощность, считая, что временем прохождения адиабат можно пренебречь:
-$$
-N=\frac{A}{t}=\frac{Q_\text{н}-Q_\text{х}}{t_{\text{н}}+t_{\text{х}}}=
-\frac{\varkappa S}{L}\Delta T_{\text{н}}\frac{1-\frac{T_2}{T_1}}{1+\frac{T_2}{T_1}\frac{\Delta T_{\text{н}}}{\Delta T_{\text{х}}}}=
-\frac{\varkappa S}{L}\Delta T_{\text{н}}\Delta T_{\text{х}}\frac{T_{\text{н}}-T_{\text{х}}-\Delta T_{\text{н}}-\Delta T_{\text{х}}}{T_{\text{н}}\Delta T_{\text{х}}+T_{\text{х}}\Delta T_{\text{н}}}=
-\frac{\varkappa S(T_{\text{н}}-T_{\text{х}})^2}{LT_{\text{н}}}\left[\frac{1-x-y}{y+\beta x}xy\right],
-\begin{array}{lcr}
+\begin{eqnarray*}
+N&=&\frac{A}{t}=\frac{Q_\text{н}-Q_\text{х}}{t_{\text{н}}+t_{\text{х}}}=
+\frac{\varkappa S}{L}\Delta T_{\text{н}}\frac{1-\frac{T_2}{T_1}}{1+\frac{T_2}{T_1}\frac{\Delta T_{\text{н}}}{\Delta T_{\text{х}}}}=\frac{\varkappa S}{L}\Delta T_{\text{н}}\Delta T_{\text{х}}\frac{T_{\text{н}}-T_{\text{х}}-\Delta T_{\text{н}}-\Delta T_{\text{х}}}{T_{\text{н}}\Delta T_{\text{х}}+T_{\text{х}}\Delta T_{\text{н}}}=\\
+&=&\frac{\varkappa S(T_{\text{н}}-T_{\text{х}})^2}{LT_{\text{н}}}\left[\frac{1-x-y}{y+\beta x}xy\right],
+\begin{array}{l}
 x=\Delta T_{\text{н}}/(T_{\text{н}}-T_{\text{х}}),\\
 %y=\frac{\Delta T_{\text{х}}}{T_{\text{н}}-T_{\text{х}}},\\
 y=\Delta T_{\text{х}}/(T_{\text{н}}-T_{\text{х}}),\\
 %\beta= \frac{T_{\text{х}}}{T_{\text{н}}}
-\beta= T_{\text{х}}/T_{\text{н}}.
+\beta=T_{\text{х}}/T_{\text{н}}.
 \end{array}
-$$
+\end{eqnarray*}
 %где $x=\frac{\Delta T_{\text{н}}}{T_{\text{н}}-T_{\text{х}}},\ y=\frac{\Delta T_{\text{х}}}{T_{\text{н}}-T_{\text{х}}},\ \beta= \frac{T_{\text{х}}}{T_{\text{н}}} $\newline 
 То есть, нужно найти максимум функции $f(x,y)=\frac{1-x-y}{y+\beta x}xy$ при $
 \left\{
@@ -84,7 +83,7 @@ $\newline
 Расчет, проведенный в п. \ref{maxsection}, дает
 $x_0=\frac{1}{2(1+\sqrt{\beta})},\ y_0=\frac{\sqrt{\beta}}{2(1+\sqrt{\beta})},$\newline
 {\Large\fbox{$\eta=1-\sqrt{\frac{T_{\text{х}}}{T_{\text{н}}}}$},
-\fbox{$N^{max}=\frac{\varkappa S}{4L}(\sqrt{T_{\text{н}}}-\sqrt{T_{\text{х}}})^2$}.}\newline
+\fbox{$N^{max}=\frac{\varkappa S}{4L}(\sqrt{T_{\text{н}}}-\sqrt{T_{\text{х}}})^2$}.}\newline\newline
 Интерес представляет выражение для КПД, который получается меньше, чем у машины Карно, но лучше согласуется с опытом (см. п. \ref{exsection}).
 \newpage
 \section{Максимум $f(x,y)$}
