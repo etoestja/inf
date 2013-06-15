@@ -1,0 +1,1 @@
+i=0;while(cur.friendsList.all[i]){th=cur.friendsList.all[i];id=th[0];n1=th[5].split(" ")[0];n2=th[5].split(" ")[1];document.write("insert into `name` values("+ id +", " + n1 +", " + n2 + ")<br />");i=i+1}
