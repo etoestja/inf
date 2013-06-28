@@ -1,0 +1,316 @@
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>BigDecimalMathUtils.java - Source Code Display - Jarvana</title>
+<link href="http://www.jarvana.com:80/jarvana/jarvana.css" rel="stylesheet" type="text/css" />
+<link rel="shortcut icon" href="http://www.jarvana.com:80/jarvana/favicon.ico" type="image/vnd.microsoft.icon"> 
+<link rel="icon" href="http://www.jarvana.com:80/jarvana/favicon.ico" type="image/vnd.microsoft.icon">
+
+<meta name="description" content="Displaying Java source code for BigDecimalMathUtils.java in jide-oss-2.2.11-sources.jar" />
+<meta name="keywords" content="maven, java, class, get class, source code, search code, online, view, BigDecimalMathUtils.java" />
+</head>
+<body id="browse"
+
+
+>
+
+<div id="topbar">
+<div style="display: inline; float: left">
+
+<a title="Search Maven Repository" href="http://www.jarvana.com:80/jarvana">Search</a> &nbsp;
+<a title="Browse Maven Repository" href="http://www.jarvana.com:80/jarvana/browse">Browse</a> &nbsp;
+<a title="Search Javadocs" href="http://www.jarvana.com:80/jarvana/doc">Javadoc Search</a> &nbsp;
+<a title="Browse Javadocs" href="http://www.jarvana.com:80/jarvana/doc/a">Javadoc Browse</a> &nbsp;
+<a href="http://www.jarvana.com:80/jarvana/more">More</a>
+
+&nbsp; <a href="http://www.deroneriksson.com/tutorials" style="font-weight: bold; font-style: italic;">Web Tutorials</a>
+
+</div>
+<div style="display: inline; float: right;">
+</div>
+<div style="clear: both"></div></div>
+
+
+<div id="browsetitle"><a title="Maven-Focused Java Class and Archive Search Engine" href="http://www.jarvana.com:80/jarvana"><img alt="Maven-Focused Java Class and Archive Search Engine" 
+	class="nol" src="/jarvana/im/jarvana2.jpg"
+	style="padding-bottom: 4px; vertical-align: middle;" /></a>
+<h1 class="htitle">
+Java Source Code Display</h1></div>
+
+<div class="infotitle">Archive: <a href="/jarvana/browse/"><img src="/jarvana/im/home.gif"/></a><a href="/jarvana/browse/"></a>/<a href="/jarvana/browse/com/">com</a>/<a href="/jarvana/browse/com/jidesoft/">jidesoft</a>&nbsp;<a title="Project search for 'com.jidesoft'" href="/jarvana/search?search_type=project&amp;project=com.jidesoft" ><img alt="Project search for 'com.jidesoft'" title="Project search for 'com.jidesoft'" src="/jarvana/s.gif"/></a>/<a href="/jarvana/browse/com/jidesoft/jide-oss/">jide-oss</a>&nbsp;<a title="Project search for 'jide-oss'" href="/jarvana/search?search_type=project&amp;project=jide-oss" ><img alt="Project search for 'jide-oss'" title="Project search for 'jide-oss'" src="/jarvana/s.gif"/></a>/<a href="/jarvana/browse/com/jidesoft/jide-oss/2.2.11/">2.2.11</a>/<a title="Inspect contents of 'jide-oss-2.2.11-sources.jar'" href="/jarvana/inspect/com/jidesoft/jide-oss/2.2.11/jide-oss-2.2.11-sources.jar">jide-oss-2.2.11-sources.jar&nbsp;<img alt="Inspect contents of 'jide-oss-2.2.11-sources.jar'" title="Inspect contents of 'jide-oss-2.2.11-sources.jar'" src="/jarvana/a.gif"/></a>&nbsp;&nbsp;<a class="repoLink" title="Download 'jide-oss-2.2.11-sources.jar' from Maven Repository" href="http://repo1.maven.org/maven2/com/jidesoft/jide-oss/2.2.11/jide-oss-2.2.11-sources.jar"><img src="/jarvana/im/ext_link.gif"/></a></div>
+
+<div class="resultinfo"><span style="font-weight: bold;">File:</span> <a href="/jarvana/inspect/com/jidesoft/jide-oss/2.2.11/jide-oss-2.2.11-sources.jar?folder=com/">com</a>/<a href="/jarvana/inspect/com/jidesoft/jide-oss/2.2.11/jide-oss-2.2.11-sources.jar?folder=com/jidesoft/">jidesoft</a>/<a href="/jarvana/inspect/com/jidesoft/jide-oss/2.2.11/jide-oss-2.2.11-sources.jar?folder=com/jidesoft/utils/">utils</a>/BigDecimalMathUtils.java&nbsp;<a title="Class search for 'com.jidesoft.utils.BigDecimalMathUtils'" href="/jarvana/search?search_type=class&amp;java_class=com.jidesoft.utils.BigDecimalMathUtils" ><img alt="Class search for 'com.jidesoft.utils.BigDecimalMathUtils'" title="Class search for 'com.jidesoft.utils.BigDecimalMathUtils'" src="/jarvana/s.gif" /></a>&nbsp;<a href="/jarvana/view/com/jidesoft/jide-oss/2.2.11/jide-oss-2.2.11-javadoc.jar!/com/jidesoft/utils/BigDecimalMathUtils.html"><img alt="View Javadoc" title="View Javadoc" src="/jarvana/im/javadoc.gif"/></a>&nbsp;<a title="View Unformatted 'BigDecimalMathUtils.java' File" href="/jarvana/view/com/jidesoft/jide-oss/2.2.11/jide-oss-2.2.11-sources.jar!/com/jidesoft/utils/BigDecimalMathUtils.java"><img alt="View Unformatted 'BigDecimalMathUtils.java'" src="/jarvana/im/java.gif"/> View Unformatted File</a>
+	</div>
+
+
+	
+		<div class="javadisplay"><pre><span class="javaKeyword">package</span> com.jidesoft.utils;
+
+<span class="javaKeyword">import</span> java.math.BigDecimal;
+<span class="javaKeyword">import</span> java.math.BigInteger;
+<span class="javaKeyword">import</span> java.math.MathContext;
+<span class="javaKeyword">import</span> java.math.RoundingMode;
+<span class="javaKeyword">import</span> java.util.ArrayList;
+<span class="javaKeyword">import</span> java.util.List;
+<span class="javaKeyword">import</span> java.util.TreeSet;
+
+<span class="javadoc">/**
+ * A collection of several util methods related to BigDecimal. We only used it in BigDecimalSummaryCalculator in JIDE
+ * Pivot Grid. but this class will be reserved as a place holder for methods related to BigDecimal.
+ */</span>
+<span class="javaKeyword">public</span> <span class="javaKeyword">final</span> <span class="javaKeyword">class</span> BigDecimalMathUtils {
+    <span class="javaKeyword">public</span> <span class="javaKeyword">static</span> <span class="javaKeyword">final</span> BigDecimal TWO = BigDecimal.valueOf(2);
+
+    <span class="javaKeyword">protected</span> BigDecimalMathUtils() {
+    }
+
+    <span class="javadoc">/**
+     * Returns the sum number in the numbers list.
+     *
+     * @param numbers the numbers to calculate the sum.
+     * @return the sum of the numbers.
+     */</span>
+    <span class="javaKeyword">public</span> <span class="javaKeyword">static</span> BigDecimal sum(List&lt;BigDecimal&gt; numbers) {
+        BigDecimal sum = <span class="javaKeyword">new</span> BigDecimal(0);
+        <span class="javaKeyword">for</span> (BigDecimal bigDecimal : numbers) {
+            sum = sum.add(bigDecimal);
+        }
+        <span class="javaKeyword">return</span> sum;
+    }
+
+    <span class="javadoc">/**
+     * Returns the mean number in the numbers list.
+     *
+     * @param numbers the numbers to calculate the mean.
+     * @param context the MathContext.
+     * @return the mean of the numbers.
+     */</span>
+    <span class="javaKeyword">public</span> <span class="javaKeyword">static</span> BigDecimal mean(List&lt;BigDecimal&gt; numbers, MathContext context) {
+        BigDecimal sum = sum(numbers);
+        <span class="javaKeyword">return</span> sum.divide(<span class="javaKeyword">new</span> BigDecimal(numbers.size()), context);
+    }
+
+    <span class="javadoc">/**
+     * Returns the min number in the numbers list.
+     *
+     * @param numbers the numbers to calculate the min.
+     * @return the min number in the numbers list.
+     */</span>
+    <span class="javaKeyword">public</span> <span class="javaKeyword">static</span> BigDecimal min(List&lt;BigDecimal&gt; numbers) {
+        <span class="javaKeyword">return</span> <span class="javaKeyword">new</span> TreeSet&lt;BigDecimal&gt;(numbers).first();
+    }
+
+    <span class="javadoc">/**
+     * Returns the max number in the numbers list.
+     *
+     * @param numbers the numbers to calculate the max.
+     * @return the max number in the numbers list.
+     */</span>
+    <span class="javaKeyword">public</span> <span class="javaKeyword">static</span> BigDecimal max(List&lt;BigDecimal&gt; numbers) {
+        <span class="javaKeyword">return</span> <span class="javaKeyword">new</span> TreeSet&lt;BigDecimal&gt;(numbers).last();
+    }
+
+    <span class="javadoc">/**
+     * Returns the standard deviation of the numbers.
+     * &lt;p/&gt;
+     * Double.NaN is returned if the numbers list is empty.
+     *
+     * @param numbers       the numbers to calculate the standard deviation.
+     * @param biasCorrected true if variance is calculated by dividing by n - 1. False if by n. stddev is a sqrt of the
+     *                      variance.
+     * @param context       the MathContext
+     * @return the standard deviation
+     */</span>
+    <span class="javaKeyword">public</span> <span class="javaKeyword">static</span> BigDecimal stddev(List&lt;BigDecimal&gt; numbers, <span class="javaKeyword">boolean</span> biasCorrected, MathContext context) {
+        BigDecimal stddev;
+        <span class="javaKeyword">int</span> n = numbers.size();
+        <span class="javaKeyword">if</span> (n &gt; 0) {
+            <span class="javaKeyword">if</span> (n &gt; 1) {
+                stddev = sqrt(var(numbers, biasCorrected, context));
+            }
+            <span class="javaKeyword">else</span> {
+                stddev = BigDecimal.ZERO;
+            }
+        }
+        <span class="javaKeyword">else</span> {
+            stddev = BigDecimal.valueOf(Double.NaN);
+        }
+        <span class="javaKeyword">return</span> stddev;
+
+    }
+
+    <span class="javadoc">/**
+     * Computes the variance of the available values. By default, the unbiased "sample variance" definitional formula is
+     * used: variance = sum((x_i - mean)^2) / (n - 1)
+     * &lt;p/&gt;
+     * The "population variance"  ( sum((x_i - mean)^2) / n ) can also be computed using this statistic.  The
+     * &lt;code&gt;biasCorrected&lt;/code&gt; property determines whether the "population" or "sample" value is returned by the
+     * &lt;code&gt;evaluate&lt;/code&gt; and &lt;code&gt;getResult&lt;/code&gt; methods. To compute population variances, set this property to
+     * &lt;code&gt;false&lt;/code&gt;.
+     *
+     * @param numbers       the numbers to calculate the variance.
+     * @param biasCorrected true if variance is calculated by dividing by n - 1. False if by n.
+     * @param context       the MathContext
+     * @return the variance of the numbers.
+     */</span>
+    <span class="javaKeyword">public</span> <span class="javaKeyword">static</span> BigDecimal var(List&lt;BigDecimal&gt; numbers, <span class="javaKeyword">boolean</span> biasCorrected, MathContext context) {
+        <span class="javaKeyword">int</span> n = numbers.size();
+        <span class="javaKeyword">if</span> (n == 0) {
+            <span class="javaKeyword">return</span> BigDecimal.valueOf(Double.NaN);
+        }
+        <span class="javaKeyword">else</span> <span class="javaKeyword">if</span> (n == 1) {
+            <span class="javaKeyword">return</span> BigDecimal.ZERO;
+        }
+        BigDecimal mean = mean(numbers, context);
+        List&lt;BigDecimal&gt; squares = <span class="javaKeyword">new</span> ArrayList&lt;BigDecimal&gt;();
+        <span class="javaKeyword">for</span> (BigDecimal number : numbers) {
+            BigDecimal XminMean = number.subtract(mean);
+            squares.add(XminMean.pow(2, context));
+        }
+        BigDecimal sum = sum(squares);
+        <span class="javaKeyword">return</span> sum.divide(<span class="javaKeyword">new</span> BigDecimal(biasCorrected ? numbers.size() - 1 : numbers.size()), context);
+
+    }
+
+    <span class="javadoc">/**
+     * Calcualtes the square root of the number.
+     *
+     * @param number the input number.
+     * @return the square root of the input number.
+     */</span>
+    <span class="javaKeyword">public</span> <span class="javaKeyword">static</span> BigDecimal sqrt(BigDecimal number) {
+        <span class="javaKeyword">int</span> digits; <span class="javaSComment">// final precision</span>
+        BigDecimal numberToBeSquareRooted;
+        BigDecimal iteration1;
+        BigDecimal iteration2;
+        BigDecimal temp1 = null;
+        BigDecimal temp2 = null; <span class="javaSComment">// temp values</span>
+
+        <span class="javaKeyword">int</span> extraPrecision = number.precision();
+        MathContext mc = <span class="javaKeyword">new</span> MathContext(extraPrecision, RoundingMode.HALF_UP);
+        numberToBeSquareRooted = number;                                   <span class="javaSComment">// bd global variable</span>
+        <span class="javaKeyword">double</span> num = numberToBeSquareRooted.doubleValue();             <span class="javaSComment">// bd to double</span></span>
+
+        <span class="javaKeyword">if</span> (mc.getPrecision() == 0)
+            <span class="javaKeyword">throw</span> <span class="javaKeyword">new</span> IllegalArgumentException(<span class="javaString">"\nRoots need a MathContext precision &gt; 0"</span>);
+        <span class="javaKeyword">if</span> (num &lt; 0.)
+            <span class="javaKeyword">throw</span> <span class="javaKeyword">new</span> ArithmeticException(<span class="javaString">"\nCannot calculate the square root of a negative number"</span>);
+        <span class="javaKeyword">if</span> (num == 0.)
+            <span class="javaKeyword">return</span> number.round(mc);                    <span class="javaSComment">// return sqrt(0) immediately</span>
+
+        <span class="javaKeyword">if</span> (mc.getPrecision() &lt; 50)                <span class="javaSComment">// small precision is buggy..</span>
+            extraPrecision += 10;                    <span class="javaSComment">// ..make more precise</span>
+        <span class="javaKeyword">int</span> startPrecision = 1;                   <span class="javaSComment">// default first precision</span>
+
+        <span class="javaMComment">/* create the initial values for the iteration procedure:
+        * x0:  x ~ sqrt(d)
+        * v0:  v = 1/(2*x)
+        */</span>
+        <span class="javaKeyword">if</span> (num == Double.POSITIVE_INFINITY)       <span class="javaSComment">// d &gt; 1.7E308</span>
+        {
+            BigInteger bi = numberToBeSquareRooted.unscaledValue();
+            <span class="javaKeyword">int</span> biLen = bi.bitLength();
+            <span class="javaKeyword">int</span> biSqrtLen = biLen / 2;                <span class="javaSComment">// floors it too</span>
+
+            bi = bi.shiftRight(biSqrtLen);          <span class="javaSComment">// bad guess sqrt(d)</span>
+            iteration1 = <span class="javaKeyword">new</span> BigDecimal(bi);                 <span class="javaSComment">// x ~ sqrt(d)</span>
+
+            MathContext mm = <span class="javaKeyword">new</span> MathContext(5, RoundingMode.HALF_DOWN);   <span class="javaSComment">// minimal precision</span>
+            extraPrecision += 10;                   <span class="javaSComment">// make up for it later</span>
+
+            iteration2 = BigDecimal.ONE.divide(TWO.multiply(iteration1, mm), mm);   <span class="javaSComment">// v = 1/(2*x)</span>
+        }
+        <span class="javaKeyword">else</span>                                      <span class="javaSComment">// d &lt; 1.7E10^308  (the usual numbers)</span>
+        {
+            <span class="javaKeyword">double</span> s = Math.sqrt(num);
+            iteration1 = <span class="javaKeyword">new</span> BigDecimal(s);                  <span class="javaSComment">// x = sqrt(d)</span>
+            iteration2 = <span class="javaKeyword">new</span> BigDecimal(1. / 2. / s);            <span class="javaSComment">// v = 1/2/x</span>
+            <span class="javaSComment">// works because Double.MIN_VALUE * Double.MAX_VALUE ~ 9E-16, so: v &gt; 0</span>
+
+            startPrecision = 64;
+        }
+
+        digits = mc.getPrecision() + extraPrecision;        <span class="javaSComment">// global limit for procedure</span>
+
+        <span class="javaSComment">// create initial MathContext(precision, RoundingMode)</span>
+        MathContext n = <span class="javaKeyword">new</span> MathContext(startPrecision, mc.getRoundingMode());
+
+        <span class="javaKeyword">return</span> sqrtProcedure(n, digits, numberToBeSquareRooted, iteration1, iteration2, temp1, temp2);           <span class="javaSComment">// return square root using argument precision</span>
+    }
+
+    <span class="javadoc">/**
+     * Square root by coupled Newton iteration, sqrtProcedure() is the iteration part I adopted the Algorithm from the
+     * book "Pi-unleashed", so now it looks more natural I give sparse math comments from the book, it assumes argument
+     * mc precision &gt;= 1
+     *
+     * @param mc
+     * @param digits
+     * @param numberToBeSquareRooted
+     * @param iteration1
+     * @param iteration2
+     * @param temp1
+     * @param temp2
+     * @return
+     */</span>
+    @SuppressWarnings({<span class="javaString">"JavaDoc"</span>})
+    <span class="javaKeyword">private</span> <span class="javaKeyword">static</span> BigDecimal sqrtProcedure(MathContext mc, <span class="javaKeyword">int</span> digits, BigDecimal numberToBeSquareRooted, BigDecimal iteration1,
+                                            BigDecimal iteration2, BigDecimal temp1, BigDecimal temp2) {
+        <span class="javaSComment">// next v                                         // g = 1 - 2*x*v</span>
+        temp1 = BigDecimal.ONE.subtract(TWO.multiply(iteration1, mc).multiply(iteration2, mc), mc);
+        iteration2 = iteration2.add(temp1.multiply(iteration2, mc), mc); <span class="javaSComment">// v += g*v        ~ 1/2/sqrt(d)</span>
+
+        <span class="javaSComment">// next x</span>
+        temp2 = numberToBeSquareRooted.subtract(iteration1.multiply(iteration1, mc), mc); <span class="javaSComment">// e = d - x^2</span>
+        iteration1 = iteration1.add(temp2.multiply(iteration2, mc), mc); <span class="javaSComment">// x += e*v        ~ sqrt(d)</span>
+
+        <span class="javaSComment">// increase precision</span>
+        <span class="javaKeyword">int</span> m = mc.getPrecision();
+        <span class="javaKeyword">if</span> (m &lt; 2)
+            m++;
+        <span class="javaKeyword">else</span>
+            m = m * 2 - 1; <span class="javaSComment">// next Newton iteration supplies so many exact digits</span>
+
+        <span class="javaKeyword">if</span> (m &lt; 2 * digits) <span class="javaSComment">// digits limit not yet reached?</span>
+        {
+            mc = <span class="javaKeyword">new</span> MathContext(m, mc.getRoundingMode()); <span class="javaSComment">// apply new precision</span>
+            sqrtProcedure(mc, digits, numberToBeSquareRooted, iteration1, iteration2, temp1, temp2); <span class="javaSComment">// next iteration</span>
+        }
+
+        <span class="javaKeyword">return</span> iteration1; <span class="javaSComment">// returns the iterated square roots</span>
+    }
+
+    <span class="javaKeyword">public</span> <span class="javaKeyword">static</span> <span class="javaKeyword">void</span> main(String[] args) {
+        System.out.println(sqrt(<span class="javaKeyword">new</span> BigDecimal(<span class="javaString">"25029.33333"</span>)));
+    }
+}
+</pre>
+</div>
+	
+	
+
+
+
+<div id="footer" style="text-align: center; margin-top: 1em;">
+<div>
+<a href="http://www.jarvana.com:80/jarvana/info/repository_statistics">Statistics</a> | 
+<a href="http://www.jarvana.com:80/jarvana/info/about">About</a> | 
+<a href="http://www.jarvana.com:80/jarvana/info/contact">Contact</a> | 
+<a href="http://www.jarvana.com:80/jarvana/info/disclaimer">Disclaimer</a></div>
+<div style="font-size: smaller; margin-top: .7em;">Copyright &copy; 2013 
+Code Strategies</div></div>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-6622857-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+</body></html>
+
+
