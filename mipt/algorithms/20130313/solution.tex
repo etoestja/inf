@@ -1,4 +1,5 @@
 \documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage[russian]{babel}
 \usepackage{graphicx}
@@ -44,7 +45,7 @@
 Заметим, что на каждой итерации величина $|r-l|$ уменьшается как минимум на $1$, а на первой итерации равна $N-1$. Поэтому до состояния $|r-l|=3$ будет совершено не более $N$ итераций (алгоритм завершится на любых входных данных).\newline
 Будем выбирать точки следующим образом: $m_1=\lfloor\frac{2l+r}{3}\rfloor,m_2=\lfloor\frac{l+2r}{3}\rfloor$. Тогда на каждой итерации величина $|r-l|$ будет уменьшаться в $\frac{3}{2}$ раза. То есть, $N-1=(\frac{3}{2})^k l$, где $l<\frac{3}{2}$, $k$~--- количество итераций, т.е. время работы $O(k)$ будет равно $O(\log N)$.\newline
 После заверщения цикла получим числа $l$ и $r$, для которых выполнено свойство (\ref{lrcond}). Перебором 4-х вариантов найдем $i$.\newline
-Суммарное время: $O(\log N)$.\newline
+Суммарное время: $O(\log N)$.\newpage
 Реализация:\begin{verbatim}
 int l = 0, r = N - 1;
 int m1, m2;
