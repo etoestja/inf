@@ -5,12 +5,15 @@
 
 using namespace std;
 
-#define NMAX 100000
+#define NMAX 100005
 
-typedef pair<int, int> edge;
-typedef pair<int, int> path;
+//#define DEBUG
+#undef DEBUG
 
-int N;
+typedef pair<long long, long long> edge;
+typedef pair<long long, long long> path;
+
+long long N;
 vector<edge> g[NMAX];
 vector<bool> v(NMAX);
 
@@ -18,20 +21,22 @@ vector<edge> P(NMAX);
 bool writeP;
 
 edge md;
-int mdL;
+long long mdL;
 
-int x, y, z;
-int d1, d2;
+long long x, y, z;
+long long d1, d2;
 
 void bfsInit()
 {
     v.assign(NMAX, false);
 }
 
-path bfsM(int i)
+path bfsM(long long i)
 {
     bfsInit();
+#ifdef DEBUG
     cerr << "bfs from " << i + 1 << endl;
+#endif
     path res;
     res.first = i;
     res.second = 0;
@@ -50,7 +55,9 @@ path bfsM(int i)
 
         v[t.first] = true;
 
+#ifdef DEBUG
         cerr << "bfs @ " << (t.first + 1) << " len=" << t.second << endl;
+#endif
 
         for(it = g[t.first].begin(); it != g[t.first].end(); it++)
         {
@@ -88,15 +95,17 @@ void getXYZ()
 {
     x = y = z = -1;
     edge v;
-    int Lsum = 0;
+    long long Lsum = 0;
     for(v = make_pair(md.second, 0); v.first != md.first; v = P[v.first])
     {
         //v.first <---> P[v.first].first
         d1 = Lsum;
         Lsum += P[v.first].second;
         d2 = Lsum;
+#ifdef DEBUG
         cerr << "Restore @ " << v.first + 1 << " <---> " << P[v.first].first + 1 << " L=" << P[v.first].second << " Lsum=" << Lsum << " ";
         cerr << "d1=" << d1 << " d2=" << d2 << endl;
+#endif
 
         if(2 * Lsum == mdL)
         {
@@ -105,7 +114,9 @@ void getXYZ()
         }
         else if(2 * d1 < mdL && 2 * d2 > mdL)
         {
+#ifdef DEBUG
             cerr << "xy" << endl;
+#endif
             x = v.first;
             y = P[v.first].first;
             return;
@@ -115,23 +126,28 @@ void getXYZ()
 
 void printAns()
 {
+    if(N == 1)
+        z = 0;
+
     if(z != -1)
     {
         cout << "IN TOWN" << endl << (z + 1) << endl;
     }
-    if(x != -1 && y != -1)
+    else if(x != -1 && y != -1)
     {
+        cout.precision(10);
         cout << "ON ROAD" << endl;
         cout << (x + 1) << " " << (y + 1) << " ";
         cout << (((double) mdL) / 2. - d1) << endl;
     }
 }
 
+
 int main()
 {
     cin >> N;
-    int v1, v2, d;
-    for(int i = 0; i < N - 1; i++)
+    long long v1, v2, d;
+    for(long long i = 0; i < N - 1; i++)
     {
         cin >> v1 >> v2 >> d;
         v1--;
@@ -142,7 +158,9 @@ int main()
 
     getM();
 
+#ifdef DEBUG
     cerr << "max dist " << mdL << " from " << (md.first + 1) << " to " << (md.second + 1) << endl;
+#endif
 
     getXYZ();
     printAns();
