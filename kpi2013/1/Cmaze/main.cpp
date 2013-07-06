@@ -1,11 +1,16 @@
 #include <iostream>
 #include <string>
+#include <map>
 
 using namespace std;
 
-#define NMAX 105
-#define BMAX 210
-#define KMAX 100000
+//#define DEBUG
+#undef DEBUG
+
+#define NMAX    105
+#define BMAX    210
+#define KMAX    100000
+#define MINKINF 1000000
 
 int N, K;
 int maxK[NMAX][NMAX];
@@ -96,21 +101,178 @@ void fillMinK()
         for(j = 0; j < BMAX; j++)
         {
             // never been there
-            minK[i][j] = -1;
+            minK[i][j] = MINKINF;
         }
 
 
     coord pos(0, 0);
-    for(int j = 0; j < K; j++)
+
+    coord ind(BMAX / 2, BMAX / 2);
+    minK[ind.first][ind.second] = 0;
+
+    for(int j = 1; j <= K; j++)
     {
-        coordAdd(pos, charToCoord(path[j]));
-        cerr << "fmk @ ";
-        coordPrint(pos);
+        coordAdd(pos, charToCoord(path[j - 1]));
+        coordAdd(ind, charToCoord(path[j - 1]));
+#ifdef DEBUG
+        cerr << "fmk @ "; coordPrint(pos); cerr << " ";
+        cerr << "index: "; coordPrint(ind); cerr << endl;
+#endif
+        if(minK[ind.first][ind.second] == MINKINF)
+            minK[ind.first][ind.second] = j;
+    }
+}
+
+void dumpMinK()
+{
+    const int offset = 10;
+    cerr << "=== minK ===" << endl;
+    for(int i = BMAX / 2 - offset; i < BMAX / 2 + offset; i++)
+    {
+        for(int j = BMAX / 2 - offset; j < BMAX / 2 + offset; j++)
+        {
+            if(minK[i][j] == MINKINF)
+                cerr << "-";
+            else
+                cerr << minK[i][j];
+            cerr << "\t";
+        }
         cerr << endl;
+    }
+}
+
+void fillMaxK()
+{
+    int i, j;
+    int x, y;
+    int t;
+
+    int maxKc, minKc;
+
+    for(i = 0; i < N; i++)
+        for(j = 0; j < N; j++)
+        {
+            // (i, j) - start coords
+            maxKc = K;
+//            for(t1 = -i + BMAX / 2; t1 < N - i + BMAX / 2; t1++)
+//                for(t2 = -j + BMAX / 2; t2 < N - j + BMAX / 2; t2++)
+
+            //in maze
+            for(x = 0; x < N; x++)
+                for(y = 0; y < N; y++)
+                {
+                    if(maze[x][y] == 0 && maxKc > (minKc = minK[x - i + BMAX / 2][y - j + BMAX / 2] - 1))
+                        maxKc = minKc;
+                }
+
+            //borders
+            for(t = 0; t < N; t++)
+            {
+                //  t -1
+                //  t  N
+                // -1  t
+                //  N  t
+
+                if(maxKc > (minKc = minK[t - i + BMAX / 2][-1 - j + BMAX / 2] - 1))
+                    maxKc = minKc;
+                if(maxKc > (minKc = minK[t - i + BMAX / 2][N - j + BMAX / 2] - 1))
+                    maxKc = minKc;
+                if(maxKc > (minKc = minK[-1 - i + BMAX / 2][t - j + BMAX / 2] - 1))
+                    maxKc = minKc;
+                if(maxKc > (minKc = minK[N - i + BMAX / 2][t - j + BMAX / 2] - 1))
+                    maxKc = minKc;
+            }
+
+            maxK[i][j] = maxKc;
+        }
+}
+
+void dumpMaxK()
+{
+    cerr << "=== maxK ===" << endl;
+    for(int i = 0; i < N; i++)
+    {
+        for(int j = 0; j < N; j++)
+            cerr << maxK[i][j] << "\t";
+        cerr << endl;
+    }
+}
+
+map<int, int> freq;
+int maxKmax;
+int minKone;
+#define MINKONEINF 1000000
+
+void getMap()
+{
+    maxKmax = -1;
+    int maxKc;
+    int k;
+    for(int i = 0; i < N; i++)
+        for(int j = 0; j < N; j++)
+        {
+            maxKc = maxK[i][j];
+
+            if(maxKmax < maxKc) maxKmax = maxKc;
+            for(k = 0; k <= maxKc; k++)
+            {
+                if(freq.find(k) == freq.end())
+                    freq[k] = 0;
+                freq[k]++;
+            }
+        }
+}
+
+void dumpMap()
+{
+    map<int, int>::iterator it;
+    for(it = freq.begin(); it != freq.end(); it++)
+    {
+        cerr << "freq[" << (*it).first << "]=" << (*it).second << endl;
+    }
+}
+
+void getMinKOne()
+{
+    minKone = MINKONEINF;
+    map<int, int>::iterator it;
+    for(it = freq.begin(); it != freq.end(); it++)
+    {
+        if((*it).second == 1)
+        {
+            if((*it).first < minKone)
+                minKone = (*it).first;
+        }
+    }
+}
+
+void printAns()
+{
+    if(maxKmax < K)
+        cout << "-1" << endl;
+    else
+    {
+        if(minKone == MINKONEINF)
+            cout << "-1" << endl;
+        else
+            cout << minKone << endl;
     }
 }
 
 int main()
 {
+    input();
+    fillMinK();
+    fillMaxK();
+#ifdef DEBUG
+    dumpMinK();
+    dumpMaxK();
+#endif
+    getMap();
+#ifdef DEBUG
+    dumpMap();
+#endif
+    getMinKOne();
+    printAns();
     return(0);
 }
