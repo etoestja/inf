@@ -16,6 +16,8 @@ fi
 tests="$(ls test* | wc -l)"
 i=1
 
+rm test*~
+
 for a in $(ls test*)
 do
     if [ "X$2" == "X-o" ]
