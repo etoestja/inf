@@ -1,1 +1,2 @@
 alias armsync="rsync -avz -e ssh s27505@192.168.1.48:~ /home/seriy/Documents/p/inf/mipt/s2/12"
+export PATH="$PATH:$(pwd)"
