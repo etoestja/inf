@@ -1,0 +1,785 @@
+Z-функция
+(подстрока впереди равна подстроке от начала)
+O(|s|)
+Поиск периода строки: z[i]=|s|-i <=> период = i
+vector<int> calc_z (const char * s){
+ vector<int> z;
+ int len = strlen(s);
+ z.resize (len);
+ z[0] = len;
+ int l = 0, r = 0;
+ int j;
+ for (int i = 1; i < len; i++)
+  if (i > r){
+   for (j = 0; ((j + i) < len) && (s[i + j] == s[j]) ; j++);
+   z[i] = j;
+   l = i;
+   r = i + j - 1;
+  }
+  else
+   if (z[i - l] < r - i + 1)
+    z[i] = z[i - l];
+   else{
+    for (j = 1; (s[r + j] == s[r - i + j]) && ((j + r) < len); j++);
+    z[i] = r - i + j;
+    l = i;
+    r = r + j - 1;
+   }
+ return z;
+}
+
+Префикс-функция
+(подстрока слева равна подстроке сначала)
+O(|s|)
+КМП
+vector<int> compute_prefix_function(const string& s) {
+ int len = s.length();
+ vector<int> p(len); // значения префикс-функции
+ // индекс вектора соответствует номеру последнего символа аргумента
+ p[0] = 0; // для префикса из нуля и одного символа функция равна нулю
+ 
+ int k = 0;
+ for(int i = 1; i < len; i++) {
+  while ( (k > 0) && (s[k] != s[i]) ) 
+   k = p[k-1]; 
+  if (s[k] == s[i])
+   k++;
+  p[i] = k;
+ }
+ return p;
+}
+
+Быстрое возведение в степень
+Аналогично "быстрое сложение"
+Количество умножений O(logb)
+int bin_pow(int a, int b)
+{
+ int res = 1;
+ while(b)
+ {
+  if(b % 2 == 1)
+    res *=a;
+  b /= 2;
+  a *= a;
+ }
+ return res;
+}
+
+Merge
+O(|a|+|b|)
+void My_Merge(vector <WordLink> &a, vector <WordLink> &b)
+{
+ int i = 0;
+ int j = 0;
+ vector <WordLink> c;
+ while ((i < a.size()) || (j < b.size()))
+ {
+
+  if((i < a.size()) && (j < b.size()))
+  {
+   if(a[i] < b[j])
+   {
+    c.push_back(a[i++]);
+   }
+   else if(a[i] > b[j])
+   {
+    c.push_back(b[j++]);
+   }
+   else
+   {
+    c.push_back(b[j++]);
+    i++;
+   }
+  }
+  else if(i < a.size())
+  {
+   c.push_back(a[i++]);
+  }
+  else if(j < b.size())
+  {
+   c.push_back(b[j++]);
+  }
+ }
+ a.clear();
+ b.clear();
+ c.swap(a);
+}
+
+Бинпоиск
+O(log|a|)
+size_t first = 0; /* Номер первого элемента в массиве */
+size_t last = n;  /* Номер элемента в массиве, СЛЕДУЮЩЕГО ЗА последним */
+/* Если просматриваемый участок непустой, first<last */
+size_t mid; 
+ 
+if (n == 0)
+{
+ /* массив пуст */
+} 
+else if (a[0] > x)
+{
+ /* не найдено; если вам надо вставить его со сдвигом - то в позицию 0 */
+}
+else if (a[n - 1] < x)
+{
+ /* не найдено; если вам надо вставить его со сдвигом - то в позицию n */
+}
+ 
+while (first < last)
+{
+ mid = first + (last - first) / 2;
+ 
+ if (x <= a[mid])
+ {
+  last = mid;
+ }
+ else
+ {
+  first = mid + 1;
+ }
+}
+ 
+/* Если условный оператор if(n==0) и т.д. в начале опущен - значит, тут раскомментировать! */
+if (/* last<n &&*/ a[last] == x)
+{
+ /* Искомый элемент найден. last - искомый индекс */
+}
+else
+{
+ /* Искомый элемент не найден. Но если вам вдруг надо его вставить со сдвигом, то его место - last. */
+}
+
+Троичный поиск
+double l, r, EPS; // входные данные
+while (r - l > EPS) {
+ double m1 = l + (r - l) / 3,
+  m2 = r - (r - l) / 3;
+ if (f (m1) < f (m2))
+  l = m1;
+ else
+  r = m2;
+}
+
+Для целочисленных:
+int l = 0, r = N - 1;
+int m1, m2;
+while(l + 3 < r)
+{
+ m1 = (2 * l + r) / 3;
+ m2 = (l + 2 * r) / 3;
+ if(A[m1] < A[m2])
+  l = m1;
+ else r = m2;
+}
+int i = l;
+for(int c = l + 1; c <= r; c++)
+ if(arr[c] > arr[i]) i = c;
+// *Фенвик*
+int sum (int r)
+{
+ int result = 0;
+ for (; r >= 0; r = (r & (r+1)) - 1)
+  result += t[r];
+ return result;
+}
+
+void inc (int i, int delta)
+{
+ for (; i < n; i = (i | (i+1)))
+  t[i] += delta;
+}
+
+// *Дерево отрезков*
+//(Корень: v=1; tl и tr - "отрезок ответственности" вершины (для v = 1 : tl=0; tr=n-1))
+void build (int a[], int v, int tl, int tr)
+{
+ if (tl == tr)
+  t[v] = a[tl];
+ else {
+  int tm = (tl + tr) / 2;
+  build (a, v*2, tl, tm);
+  build (a, v*2+1, tm+1, tr);
+  t[v] = t[v*2] + t[v*2+1];
+}
+
+int sum (int v, int tl, int tr, int l, int r)
+{
+ if (l > r)
+  return 0;
+ if (l == tl && r == tr)
+  return t[v];
+ int tm = (tl + tr) / 2;
+ return sum (v*2, tl, tm, l, min(r,tm))
+  + sum (v*2+1, tm+1, tr, max(l,tm+1), r);
+}
+
+void update (int v, int tl, int tr, int pos, int new_val) {
+ if (tl == tr)
+  t[v] = new_val;
+ else {
+  int tm = (tl + tr) / 2;
+  if (pos <= tm)
+   update (v*2, tl, tm, pos, new_val);
+  else
+   update (v*2+1, tm+1, tr, pos, new_val);
+  t[v] = t[v*2] + t[v*2+1];
+ }
+}
+
+// *Декартово дерево*
+struct item {
+ int key, prior;
+ item * l, * r;
+ item() { }
+ item (int key, int prior) : key(key), prior(prior), l(NULL), r(NULL) { }
+};
+typedef item * pitem;
+
+void split (pitem t, int key, pitem & l, pitem & r) {
+ if (!t)
+  l = r = NULL;
+ else if (key < t->key)
+  split (t->l, key, l, t->l),  r = t;
+ else
+  split (t->r, key, t->r, r),  l = t;
+}
+
+void insert (pitem & t, pitem it) {
+ if (!t)
+  t = it;
+ else if (it->prior > t->prior)
+  split (t, it->key, it->l, it->r),  t = it;
+ else
+  insert (it->key < t->key ? t->l : t->r, it);
+}
+
+void merge (pitem & t, pitem l, pitem r) {
+ if (!l || !r)
+  t = l ? l : r;
+ else if (l->prior > r->prior)
+  merge (l->r, l->r, r),  t = l;
+ else
+  merge (r->l, l, r->l),  t = r;
+}
+
+void erase (pitem & t, int key) {
+ if (t->key == key)
+  merge (t, t->l, t->r);
+ else
+  erase (key < t->key ? t->l : t->r, key);
+}
+
+pitem unite (pitem l, pitem r) {
+ if (!l || !r)  return l ? l : r;
+ if (l->prior < r->prior)  swap (l, r);
+ pitem lt, rt;
+ split (r, l->key, lt, rt);
+ l->l = unite (l->l, lt);
+ l->r = unite (l->r, rt);
+ return l;
+}
+
+//*Крускал с СНМ*:
+vector<int> p (n);
+
+int dsu_get (int v) {
+ return (v == p[v]) ? v : (p[v] = dsu_get (p[v]));
+}
+
+void dsu_unite (int a, int b) {
+ a = dsu_get (a);
+ b = dsu_get (b);
+ if (rand() & 1)
+  swap (a, b);
+ if (a != b)
+  p[a] = b;
+}
+
+... в функции main(): ...
+
+int m;
+vector < pair < int, pair<int,int> > > g; // вес - вершина 1 - вершина 2
+... чтение графа ...
+
+int cost = 0;
+vector < pair<int,int> > res;
+
+sort (g.begin(), g.end());
+p.resize (n);
+for (int i=0; i<n; ++i)
+ p[i] = i;
+for (int i=0; i<m; ++i) {
+ int a = g[i].second.first,  b = g[i].second.second,  l = g[i].first;
+ if (dsu_get(a) != dsu_get(b)) {
+  cost += l;
+  res.push_back (g[i].second);
+  dsu_unite (a, b);
+ }
+}
+
+//*Гаусс*
+int gauss (vector < vector<double> > a, vector<double> & ans) {
+ int n = (int) a.size();
+ int m = (int) a[0].size() - 1;
+ 
+ vector<int> where (m, -1);
+ for (int col=0, row=0; col<m && row<n; ++col) {
+  int sel = row;
+  for (int i=row; i<n; ++i)
+   if (abs (a[i][col]) > abs (a[sel][col]))
+    sel = i;
+  if (abs (a[sel][col]) < EPS)
+   continue;
+  for (int i=col; i<=m; ++i)
+   swap (a[sel][i], a[row][i]);
+  where[col] = row;
+ 
+  for (int i=0; i<n; ++i)
+   if (i != row) {
+    double c = a[i][col] / a[row][col];
+    for (int j=col; j<=m; ++j)
+     a[i][j] -= a[row][j] * c;
+   }
+  ++row;
+ }
+ 
+ ans.assign (m, 0);
+ for (int i=0; i<m; ++i)
+  if (where[i] != -1)
+   ans[i] = a[where[i]][m] / a[where[i]][i];
+ for (int i=0; i<n; ++i) {
+  double sum = 0;
+  for (int j=0; j<m; ++j)
+   sum += ans[j] * a[i][j];
+  if (abs (sum - a[i][m]) > EPS)
+   return 0;
+ }
+ 
+ for (int i=0; i<m; ++i)
+  if (where[i] == -1)
+   return INF;
+ return 1;
+}
+
+// *Пересечение окружности и прямой*
+double r, a, b, c; // входные данные
+double x0 = -a*c/(a*a+b*b),  y0 = -b*c/(a*a+b*b);
+if (c*c > r*r*(a*a+b*b)+EPS)
+ //no points
+else if (abs (c*c - r*r*(a*a+b*b)) < EPS) {
+ //1 point
+ cout << x0 << ' ' << y0 << '\n';
+}
+else {
+ double d = r*r - c*c/(a*a+b*b);
+ double mult = sqrt (d / (a*a+b*b));
+ double ax,ay,bx,by;
+ ax = x0 + b * mult;
+ bx = x0 - b * mult;
+ ay = y0 - a * mult;
+ by = y0 + a * mult;
+ //2 points
+ cout << ax << ' ' << ay << '\n' << bx << ' ' << by << '\n';
+}
+
+//*Выпуклая оболочка (Грэхэм)*
+struct pt {
+ double x, y;
+};
+
+bool cmp (pt a, pt b) {
+ return a.x < b.x || a.x == b.x && a.y < b.y;
+}
+
+bool cw (pt a, pt b, pt c) {
+ return a.x*(b.y-c.y)+b.x*(c.y-a.y)+c.x*(a.y-b.y) < 0;
+}
+
+bool ccw (pt a, pt b, pt c) {
+ return a.x*(b.y-c.y)+b.x*(c.y-a.y)+c.x*(a.y-b.y) > 0;
+}
+
+void convex_hull (vector<pt> & a) {
+ if (a.size() == 1)  return;
+ sort (a.begin(), a.end(), &cmp);
+ pt p1 = a[0],  p2 = a.back();
+ vector<pt> up, down;
+ up.push_back (p1);
+ down.push_back (p1);
+ for (size_t i=1; i<a.size(); ++i) {
+  if (i==a.size()-1 || cw (p1, a[i], p2)) {
+   while (up.size()>=2 && !cw (up[up.size()-2], up[up.size()-1], a[i]))
+    up.pop_back();
+   up.push_back (a[i]);
+  }
+  if (i==a.size()-1 || ccw (p1, a[i], p2)) {
+   while (down.size()>=2 && !ccw (down[down.size()-2], down[down.size()-1], a[i]))
+    down.pop_back();
+   down.push_back (a[i]);
+  }
+ }
+ a.clear();
+ for (size_t i=0; i<up.size(); ++i)
+  a.push_back (up[i]);
+ for (size_t i=down.size()-2; i>0; --i)
+  a.push_back (down[i]);
+}
+
+
+//*Мосты*
+const int MAXN = ...;
+vector<int> g[MAXN];
+bool used[MAXN];
+int timer, tin[MAXN], fup[MAXN];
+ 
+void dfs (int v, int p = -1) {
+ used[v] = true;
+ tin[v] = fup[v] = timer++;
+ for (size_t i=0; i<g[v].size(); ++i) {
+  int to = g[v][i];
+  if (to == p)  continue;
+  if (used[to])
+   fup[v] = min (fup[v], tin[to]);
+  else {
+   dfs (to, v);
+   fup[v] = min (fup[v], fup[to]);
+   if (fup[to] > tin[v])
+    IS_BRIDGE(v,to);
+  }
+ }
+}
+ 
+void find_bridges() {
+ timer = 0;
+ for (int i=0; i<n; ++i)
+  used[i] = false;
+ for (int i=0; i<n; ++i)
+  if (!used[i])
+   dfs (i);
+
+//*Точки сочленения*
+vector<int> g[MAXN];
+bool used[MAXN];
+int timer, tin[MAXN], fup[MAXN];
+ 
+void dfs (int v, int p = -1) {
+ used[v] = true;
+ tin[v] = fup[v] = timer++;
+ int children = 0;
+ for (size_t i=0; i<g[v].size(); ++i) {
+  int to = g[v][i];
+  if (to == p)  continue;
+  if (used[to])
+   fup[v] = min (fup[v], tin[to]);
+  else {
+   dfs (to, v);
+   fup[v] = min (fup[v], fup[to]);
+   if (fup[to] >= tin[v] && p != -1)
+    IS_CUTPOINT(v);
+   ++children;
+  }
+ }
+ if (p == -1 && children > 1)
+  IS_CUTPOINT(v);
+}
+ 
+int main() {
+ int n;
+ ... чтение n и g ...
+ 
+ timer = 0;
+ for (int i=0; i<n; ++i)
+  used[i] = false;
+ dfs (0);
+}
+
+//*Конденсация*
+vector < vector<int> > g, gr;
+vector<char> used;
+vector<int> order, component;
+ 
+void dfs1 (int v) {
+ used[v] = true;
+ for (size_t i=0; i<g[v].size(); ++i)
+  if (!used[ g[v][i] ])
+   dfs1 (g[v][i]);
+ order.push_back (v);
+}
+ 
+void dfs2 (int v) {
+ used[v] = true;
+ component.push_back (v);
+ for (size_t i=0; i<gr[v].size(); ++i)
+  if (!used[ gr[v][i] ])
+   dfs2 (gr[v][i]);
+}
+ 
+int main() {
+ int n;
+ ... чтение n ...
+ for (;;) {
+  int a, b;
+  ... чтение очередного ребра (a,b) ...
+  g[a].push_back (b);
+  gr[b].push_back (a);
+ }
+ 
+ used.assign (n, false);
+ for (int i=0; i<n; ++i)
+  if (!used[i])
+   dfs1 (i);
+ used.assign (n, false);
+ for (int i=0; i<n; ++i) {
+  int v = order[n-1-i];
+  if (!used[v]) {
+   dfs2 (v);
+   ... вывод очередной component ...
+   component.clear();
+  }
+ }
+}
+
+Макспоток ФФ
+#include <memory.h>
+#include <stdio.h>
+
+const int MAX_VERTICES = 40;
+
+int NUM_VERTICES; // число вершин в графе
+const int INFINITY = 10000; // условное число обозначающее бесконечность
+
+// f - массив садержащий текушее значение потока
+// f[i][j] - поток текущий от вершины i к j
+int f[MAX_VERTICES][MAX_VERTICES];
+// с - массив содержащий вместимоти ребер,
+// т.е. c[i][j] - максимальная величину потока способная течь по ребру (i,j)
+int c[MAX_VERTICES][MAX_VERTICES];
+
+// набор вспомогательных переменных используемых функцией FindPath - обхода в ширину
+// Flow - значение потока чарез данную вершину на данном шаге поиска
+int Flow[MAX_VERTICES];
+// Link используется для нахождения собственно пути
+// Link[i] хранит номер предыдущей вешины на пути i -> исток
+int Link[MAX_VERTICES]; 
+int Queue[MAX_VERTICES]; // очередь
+int QP, QC; // QP - указатель начала очереди и QC - число эл-тов в очереди
+
+// поск пути по которому возможно пустить поток алгоритмом обхода графа в ширину
+// функция ищет путь из истока в сток по которому еще можно пустить поток,
+// считая вместимость ребера (i,j) равной c[i][j] - f[i][j],
+// т.е. после каждой итерации(одна итерация - один поик пути) уменьшаем вместимости ребер,
+// на величину пущеного потока
+int FindPath(int source, int target) // source - исток, target - сток
+{
+ QP = 0; QC = 1; Queue[0] = source;
+ Link[target] = -1; // особая метка для стока
+ int i;
+ int CurVertex;
+ memset(Flow, 0, sizeof(int)*NUM_VERTICES); // в начале из всех вершин кроме истока течет 0
+ Flow[source] = INFINITY; // а из истока может вытечь сколько угодно
+ while (Link[target] == -1 && QP < QC)
+ {
+  // смотрим какие вершины могут быть достигнуты из начала очереди
+  CurVertex = Queue[QP];
+  for (i=0; i<NUM_VERTICES; i++)
+  // проверяем можем ли мы пустить поток по ребру (CurVertex,i):
+  if ((c[CurVertex][i] - f[CurVertex][i])>0 && Flow[i] == 0) 
+  {
+   // если можем, то добавляем i в конец очереди
+   Queue[QC] = i; QC++;
+   Link[i] = CurVertex; // указываем, что в i добрались из CurVertex
+   // и находим значение потока текущее через вершину i
+   if (c[CurVertex][i]-f[CurVertex][i] < Flow[CurVertex])
+        Flow[i] = c[CurVertex][i];
+   else
+        Flow[i] = Flow[CurVertex];
+  }
+     QP++;// прерходим к следующей в очереди вершине
+ }
+ // закончив поиск пути
+ if (Link[target] == -1) return 0; // мы или не находим путь и выходим
+ // или находим:
+ // тогда Flow[target] будет равен потоку который "дотек" по данному пути из истока в сток
+ // тогда изменяем значения массива f для  данного пути на величину Flow[target]
+ CurVertex = target;
+ while (CurVertex != source) // путь из стока в исток мы восстанавливаем с помощбю массива Link
+ {
+  f[Link[CurVertex]][CurVertex] +=Flow[target];
+  CurVertex = Link[CurVertex];
+ }
+ return Flow[target]; // Возвращаем значение потока которое мы еще смогли "пустить" по графу
+}
+
+// основная функция поиска максимального потока
+int MaxFlow(int source, int target) // source - исток, target - сток
+{
+ // инициализируем переменные:
+ memset(f, 0, sizeof(int)*MAX_VERTICES*MAX_VERTICES); // по графу ничего не течет
+ int MaxFlow = 0; // начальное значение потока
+ int AddFlow;
+ do
+ {
+  // каждую итерацию ищем какй-либо простой путь из истока в сток
+  // и какой еще поток мажет быть пущен по этому пути
+  AddFlow = FindPath(source, target);
+  MaxFlow += AddFlow;
+ } while (AddFlow >0);// повторяем цикл пока поток увеличивается
+ return MaxFlow;
+}
+
+int main()
+{
+   int source, target;
+   scanf("%d", &NUM_VERTICES);
+   scanf("%d %d", &source, &target);
+   int i, j;
+   for (i=0; i<NUM_VERTICES; i++)
+    for (j=0; j<NUM_VERTICES; j++)
+  scanf("%d",&c[i][j]);
+
+   printf("%d", MaxFlow(source, target));
+   return 0;
+}
+
+Дерево + java
+public class Tree<T> {
+ private Node<T> root;
+
+ public Tree(T rootData) {
+  root = new Node<T>();
+  root.data = rootData;
+  root.children = new ArrayList<Node<T>>();
+ }
+
+ public static class Node<T> {
+  private T data;
+  private Node<T> parent;
+  private List<Node<T>> children;
+ }
+
+Еще:
+
+/*
+ * Copyright 2007 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+
+/**
+  * @author ycoppel@google.com (Yohann Coppel)
+  * 
+  * @param <T>
+  *          Object's type in the tree.
+*/
+public class Tree<T> {
+
+  private T head;
+
+  private ArrayList<Tree<T>> leafs = new ArrayList<Tree<T>>();
+
+  private Tree<T> parent = null;
+
+  private HashMap<T, Tree<T>> locate = new HashMap<T, Tree<T>>();
+
+  public Tree(T head) {
+    this.head = head;
+    locate.put(head, this);
+  }
+
+  public void addLeaf(T root, T leaf) {
+    if (locate.containsKey(root)) {
+      locate.get(root).addLeaf(leaf);
+    } else {
+      addLeaf(root).addLeaf(leaf);
+    }
+  }
+
+  public Tree<T> addLeaf(T leaf) {
+    Tree<T> t = new Tree<T>(leaf);
+    leafs.add(t);
+    t.parent = this;
+    t.locate = this.locate;
+    locate.put(leaf, t);
+    return t;
+  }
+
+  public Tree<T> setAsParent(T parentRoot) {
+    Tree<T> t = new Tree<T>(parentRoot);
+    t.leafs.add(this);
+    this.parent = t;
+    t.locate = this.locate;
+    t.locate.put(head, this);
+    t.locate.put(parentRoot, t);
+    return t;
+  }
+
+  public T getHead() {
+    return head;
+  }
+
+  public Tree<T> getTree(T element) {
+    return locate.get(element);
+  }
+
+  public Tree<T> getParent() {
+    return parent;
+  }
+
+  public Collection<T> getSuccessors(T root) {
+    Collection<T> successors = new ArrayList<T>();
+    Tree<T> tree = getTree(root);
+    if (null != tree) {
+      for (Tree<T> leaf : tree.leafs) {
+        successors.add(leaf.head);
+      }
+    }
+    return successors;
+  }
+
+  public Collection<Tree<T>> getSubTrees() {
+    return leafs;
+  }
+
+  public static <T> Collection<T> getSuccessors(T of, Collection<Tree<T>> in) {
+    for (Tree<T> tree : in) {
+      if (tree.locate.containsKey(of)) {
+        return tree.getSuccessors(of);
+      }
+    }
+    return new ArrayList<T>();
+  }
+
+  @Override
+  public String toString() {
+    return printTree(0);
+  }
+
+  private static final int indent = 2;
+
+  private String printTree(int increment) {
+    String s = "";
+    String inc = "";
+    for (int i = 0; i < increment; ++i) {
+      inc = inc + " ";
+    }
+    s = inc + head;
+    for (Tree<T> child : leafs) {
+      s += "\n" + child.printTree(increment + indent);
+    }
+    return s;
+  }
+}
