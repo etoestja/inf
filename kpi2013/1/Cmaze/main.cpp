@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdlib.h>
 #include <string>
 #include <map>
 
@@ -94,6 +95,11 @@ void input()
         cin >> path;
 }
 
+inline bool indexOk(coord a)
+{
+    return(a.first >= 0 && a.first < BMAX && a.second >= 0 && a.second < BMAX);
+}
+
 void fillMinK()
 {
     int i, j;
@@ -114,6 +120,11 @@ void fillMinK()
     {
         coordAdd(pos, charToCoord(path[j - 1]));
         coordAdd(ind, charToCoord(path[j - 1]));
+        if(!indexOk(ind))
+        {
+            cout << "-1" << endl;
+            exit(0);
+        }
 #ifdef DEBUG
         cerr << "fmk @ "; coordPrint(pos); cerr << " ";
         cerr << "index: "; coordPrint(ind); cerr << endl;
@@ -198,52 +209,59 @@ void dumpMaxK()
     }
 }
 
-map<int, int> freq;
 int maxKmax;
 int minKone;
 #define MINKONEINF 1000000
 
-void getMap()
+void getMaxKmax()
 {
     maxKmax = -1;
     int maxKc;
-    int k;
     for(int i = 0; i < N; i++)
         for(int j = 0; j < N; j++)
         {
             maxKc = maxK[i][j];
-
             if(maxKmax < maxKc) maxKmax = maxKc;
-            for(k = 0; k <= maxKc; k++)
-            {
-                if(freq.find(k) == freq.end())
-                    freq[k] = 0;
-                freq[k]++;
-            }
         }
 }
 
-void dumpMap()
+int countK(int k)
 {
-    map<int, int>::iterator it;
-    for(it = freq.begin(); it != freq.end(); it++)
-    {
-        cerr << "freq[" << (*it).first << "]=" << (*it).second << endl;
-    }
+    int res = 0;
+    for(int i = 0; i < N; i++)
+        for(int j = 0; j < N; j++)
+        {
+            if(maxK[i][j] >= k)
+                res++;
+        }
+    return(res);
 }
 
 void getMinKOne()
 {
-    minKone = MINKONEINF;
-    map<int, int>::iterator it;
-    for(it = freq.begin(); it != freq.end(); it++)
+    if(countK(K) != 1)
     {
-        if((*it).second == 1)
-        {
-            if((*it).first < minKone)
-                minKone = (*it).first;
-        }
+        minKone = MINKONEINF;
+        return;
     }
+    int l = 0;
+    int r = K;
+    int m;
+    while(r - l > 1)
+    {
+        m = (r + l) / 2;
+        //2222211111
+        //l   m    r
+        if(countK(m) > 1)
+            l = m;
+        else r = m;
+    }
+    if(countK(l) == 1)
+    {
+        minKone = l;
+        return;
+    }
+    minKone = r;
 }
 
 void printAns()
@@ -268,10 +286,7 @@ int main()
     dumpMinK();
     dumpMaxK();
 #endif
-    getMap();
-#ifdef DEBUG
-    dumpMap();
-#endif
+    getMaxKmax();
     getMinKOne();
     printAns();
     return(0);
