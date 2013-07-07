@@ -16,11 +16,22 @@ fi
 tests="$(ls test* | wc -l)"
 i=1
 
-rm test*~
+if [ "X$2" == "X-o" ]
+then
+    doClear=1
+fi
 
-for a in $(ls test*)
-do
-    if [ "X$2" == "X-o" ]
+if [ "X$2" != "X" ] && [ "X$2" != "X-o" ]
+then
+    doTest=$2
+fi
+
+rm -f test*~
+
+function runTest()
+{
+    a=$1
+    if [ "X$doClear" == "X1" ]
     then
         clear
     fi
@@ -37,13 +48,24 @@ do
     fi
     echo ""
 
-    if [ "X$2" == "X-o" ]
+    if [ "X$doClear" == "X1" ]
     then
         read
     fi
     let i=i+1
-done
-if [ "X$2" == "X-o" ]
+}
+
+if [ "x$doTest" == "x" ]
+then
+    for a in $(ls test*)
+    do
+        runTest $a
+    done
+else
+    runTest $doTest
+fi
+
+if [ "X$doClear" == "X1" ]
 then
     clear
 fi
