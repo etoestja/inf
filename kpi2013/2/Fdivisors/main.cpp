@@ -14,7 +14,7 @@ long long arr[NMAX];
 long long N;
 long long T;
 
-#define RC 150
+#define RC 200
 
 long long modMult(long long a, long long b, long long m)
 {
@@ -89,6 +89,7 @@ bool isPrime(long long m)
 #ifdef DEBUG
     cerr << "isPrime" << endl;
 #endif
+    if(m == 2) return(true);
     if(m % 2 == 0) return(false);
     if(m <= RC)
     {
@@ -111,7 +112,7 @@ bool isPrime(long long m)
     cerr << m << "-1=" << "2**" << s << "*" << t << endl;
 #endif
 
-    for(long long a = 3; a < RC; a++)
+    for(long long a = 3; a < RC - 1; a++)
         if(!primeTest(a, s, t, m))
         {
 #ifdef DEBUG
