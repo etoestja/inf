@@ -6,8 +6,8 @@
 
 using namespace std;
 
-#define DEBUG
-//#undef DEBUG
+//#define DEBUG
+#undef DEBUG
 
 #define NMAX 200005
 long long arr[NMAX];
@@ -16,30 +16,69 @@ long long T;
 
 #define RC 150
 
-long long longPow(long long a, long long b, long long m)
+long long modMult(long long a, long long b, long long m)
+{
+    long long res = 0;
+    a %= m;
+    while(b)
+    {
+        if(b & 1)
+        {
+            res += a;
+            res %= m;
+            b--;
+        }
+        else
+        {
+            a += a;
+            a %= m;
+            b >>= 1;
+        }
+    }
+    return(res);
+}
+
+long long binPow(long long a, long long b, long long m)
 {
     long long res = 1;
-    long long i;
-    for(i = 0; i < b; i++)
+    a %= m;
+    while(b)
     {
-        res %= m;
-        res *= a;
-        res %= m;
+        if(b & 1)
+        {
+            //res *= a;
+            res = modMult(res, a, m);
+            res %= m;
+            b--;
+        }
+        else
+        {
+            //a *= a;
+            a = modMult(a, a, m);
+            a %= m;
+            b >>= 1;
+        }
     }
     return(res);
 }
 
 bool primeTest(long long a, long long s, long long t, long long m)
 {
-    long long x = longPow(a, t, m);
-    //cerr << "x=" << x << endl;
+#ifdef DEBUG
+    cerr << "a=" << a << " s=" << s << " t=" << t << " m=" << m << endl;
+#endif
+    long long x = binPow(a, t, m);
+#ifdef DEBUG
+    cerr << "x=" << x << endl;
+#endif
+
     if(x == 1)
         return(true);
     for(long long i = 1; i <= s - 1; i++)
     {
         if(x == m - 1)
             return(true);
-        x = (x * x) % m;
+        x = modMult(x, x, m);
     }
     //cerr << "x=" << x << endl;
     return(x == m - 1);
@@ -47,10 +86,13 @@ bool primeTest(long long a, long long s, long long t, long long m)
 
 bool isPrime(long long m)
 {
+#ifdef DEBUG
+    cerr << "isPrime" << endl;
+#endif
     if(m % 2 == 0) return(false);
     if(m <= RC)
     {
-        for(int i = 2; i < m; i++)
+        for(long long i = 2; i < m; i++)
         {
             if(m % i == 0)
                 return(false);
@@ -65,12 +107,16 @@ bool isPrime(long long m)
         t /= 2;
         s++;
     }
-    //cerr << m << "-1=" << "2**" << s << "*" << t << endl;
+#ifdef DEBUG
+    cerr << m << "-1=" << "2**" << s << "*" << t << endl;
+#endif
 
     for(long long a = 3; a < RC; a++)
         if(!primeTest(a, s, t, m))
         {
+#ifdef DEBUG
             cerr << a << " " << s << " " << t << " " << m << endl;
+#endif
             return(false);
         }
 
@@ -107,18 +153,43 @@ long long countDiv(long long a)
     return(res);
 }
 
-long long llSqrt(long long a)
+long long llSqrt(unsigned long long a)
 {
-    long long l = 1;
-    long long r = sqrt(a) + 100;
-    long long m;
+#ifdef DEBUG
+    cerr << "llSqrt a=" << a << endl;
+#endif
+    unsigned long long l = 1;
+    unsigned long long r = sqrt(a);
+    r <<= 1;
+
+    unsigned long long m;
     while(r - l > 1)
     {
+#ifdef DEBUG
+        cerr << "llSqrt l=" << l << " m=" << m << " r=" << r;
+#endif
         m = (r + l) / 2;
         if(m * m > a)
+        {
+#ifdef DEBUG
+            cerr << " <- ";
+#endif
             r = m;
-        else l = m;
+        }
+        else
+        {
+#ifdef DEBUG
+            cerr << " -> ";
+#endif
+            l = m;
+        }
+#ifdef DEBUG
+        cerr << endl;
+#endif
     }
+#ifdef DEBUG
+    cerr << "/llSqrt l= " << l << " r=" << r << endl;
+#endif
     if(l * l == a)
         return(l);
     else if(r * r == a)
@@ -146,11 +217,30 @@ long long divisorsN(long long a)
 
     if(a > 1)
     {
-        if(isPrime(a)) //p
+#ifdef DEBUG
+        cerr << "a > 1, a=" << a << endl;
+#endif
+        if(isPrime(a))
+        {
+#ifdef DEBUG
+            cerr << " # a isPrime" << endl;
+#endif
             res *= 2;
+        }
         else if(llSqrt(a) != -1) // p^2
+        {
+#ifdef DEBUG
+            cerr << " # a = p^2" << endl;
+#endif
             res *= 3;
-        else res *= 4; //pq
+        }
+        else
+        {
+#ifdef DEBUG
+            cerr << " # a = pq" << endl;
+#endif
+            res *= 4; //pq
+        }
     }
     return(res);
 }
@@ -185,10 +275,11 @@ int main()
     cerr << "T=" << T << endl;
 #endif
 
-    if(divisorsN(T) != N)
+    long long dN = divisorsN(T);
+    if(dN != N)
     {
 #ifdef DEBUG
-        cerr << "divisorsN" << endl;
+        cerr << "divisorsN mismatch: got " << N << " instead of " << dN << endl;
 #endif
         cout << "no" << endl;
         return 0;
