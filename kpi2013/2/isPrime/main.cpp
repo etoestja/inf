@@ -5,32 +5,65 @@ using namespace std;
 
 #define RC 150
 
-long long longPow(long long a, long long b, long long m)
+long long modMult(long long a, long long b, long long m)
+{
+    long long res = 0;
+    a %= m;
+    while(b)
+    {
+        if(b & 1)
+        {
+            res += a;
+            res %= m;
+            b--;
+        }
+        else
+        {
+            a += a;
+            a %= m;
+            b >>= 1;
+        }
+    }
+    return(res);
+}
+
+long long binPow(long long a, long long b, long long m)
 {
     long long res = 1;
-    long long i;
-    for(i = 0; i < b; i++)
+    a %= m;
+    while(b)
     {
-        res %= m;
-        res *= a;
-        res %= m;
+        if(b & 1)
+        {
+            //res *= a;
+            res = modMult(res, a, m);
+            res %= m;
+            b--;
+        }
+        else
+        {
+            //a *= a;
+            a = modMult(a, a, m);
+            a %= m;
+            b >>= 1;
+        }
     }
     return(res);
 }
 
 bool primeTest(long long a, long long s, long long t, long long m)
 {
-    long long x = longPow(a, t, m);
-    //cerr << "x=" << x << endl;
+    long long x = binPow(a, t, m);
+    cerr << "x=" << x << endl;
     if(x == 1)
         return(true);
     for(long long i = 1; i <= s - 1; i++)
     {
         if(x == m - 1)
             return(true);
-        x = (x * x) % m;
+        x = modMult(x, x, m);
     }
-    //cerr << "x=" << x << endl;
+    cerr << "x=" << x << endl;
     return(x == m - 1);
 }
 
