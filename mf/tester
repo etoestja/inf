@@ -8,6 +8,7 @@ then
     echo ""
     echo "Options:"
     echo " -o after progname clears output after each test."
+    echo " testname after progname to run particular test (use instead of -o)"
     exit 1
 else
     progname="$1"
