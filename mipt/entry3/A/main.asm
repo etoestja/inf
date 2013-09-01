@@ -1,7 +1,7 @@
-global _start
+global main
 
 section .text
-_start:
+main:
 mov eax, 4
 mov ebx, 1
 mov ecx, theString
