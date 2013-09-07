@@ -1,0 +1,32 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{graphicx}
+\usepackage{indentfirst}
+\usepackage{amsmath}
+\usepackage{floatflt}
+\usepackage{enumerate}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\title{Задание 1}
+\author{С.~Е.~Володин, 272 гр.}
+\date{}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+\newcommand{\Tx}{$T_\text{х}$}
+\newcommand{\Tn}{$T_\text{н}$}
+
+\begin{document}
+\maketitle
+\section*{Задача 1}
+\begin{enumerate}
+\item $\{a,aa\}\cdot\{b,bb\}\overset{\mathrm{def}}{\equiv}\{x\cdot y|x\in \{a,aa\},y\in \{b,bb\}\}=\{ab,abb,aab,aabb\}.$
+\item $\{a,aa\}+\{b,bb\}\overset{\mathrm{def}}{\equiv}\{x|x\in \{a,aa\} \vee x\in \{b,bb\}\}=\{a,aa,b,bb\}$.
+\item $\{a,aa\}\times\{b,bb\}\overset{\mathrm{def}}{\equiv}\{(x;y)|x\in \{a,aa\}, y\in \{b,bb\}\}=\{(a;b),(a;bb),(aa;b),(aa;bb)\}$.
+\item Так как $(A|B)\supseteq A$, $X\overset{\mathrm{def}}{=}\{((aa|b)^*(a|bb)^*)^*\}\supseteq \{(b^*a^*)^*\}$. Также $b^*a^*\supseteq (a|b)$, поэтому $X\supseteq \{(a|b)^*\}$.
+\item $Z\overset{\mathrm{def}}{=}\underbrace{\{ a^{3n} | \, n>0\}}_\text{X} \cap {\underbrace{\{ a^{5n+1} | n \geq 0\}}_\text{Y}}^*$. $Y\supseteq \{a\}$, $Y^*\supseteq\{a\}^*\supseteq \{a^{3n}|n>0\}=X$, поэтому $Z=X=\{ a^{3n} | \, n>0\}$.
+\item $\varnothing\cap\{\varepsilon\}\equiv\{\}\cap\{\varepsilon\}=\varnothing$.
+\end{enumerate}
+
+\end{document}
