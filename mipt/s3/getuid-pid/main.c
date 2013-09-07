@@ -5,6 +5,6 @@
 
 int main()
 {
-    printf("%d %d\n", getuid(), getgid());
+    printf("%d %d %d %d\n", getuid(), getgid(), getpid(), getppid());
     return(0);
 }
