@@ -1,0 +1,128 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{graphicx}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning}
+\usepackage{amsmath}
+\usepackage{floatflt}
+\usepackage{enumerate}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\title{Задание 1}
+\author{С.~Е.~Володин, 272 гр.}
+\date{}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+\newcommand{\Tx}{$T_\text{х}$}
+\newcommand{\Tn}{$T_\text{н}$}
+
+\begin{document}
+\maketitle
+\section*{Задача 1}
+\begin{enumerate}
+\item $\{a,aa\}\cdot\{b,bb\}\overset{\mathrm{def}}{\equiv}\{x\cdot y|x\in \{a,aa\},y\in \{b,bb\}\}=\{ab,abb,aab,aabb\}.$
+\item $\{a,aa\}+\{b,bb\}\overset{\mathrm{def}}{\equiv}\{x|x\in \{a,aa\} \vee x\in \{b,bb\}\}=\{a,aa,b,bb\}$.
+\item $\{a,aa\}\times\{b,bb\}\overset{\mathrm{def}}{\equiv}\{(x;y)|x\in \{a,aa\}, y\in \{b,bb\}\}=\{(a;b),(a;bb),(aa;b),(aa;bb)\}$.
+\item Так как $(A|B)\supseteq A$, $X\overset{\mathrm{def}}{=}\{((aa|b)^*(a|bb)^*)^*\}\supseteq \{(b^*a^*)^*\}$. Также $b^*a^*\supseteq (a|b)$, поэтому $X\supseteq \{(a|b)^*\}$.
+\item $Z\overset{\mathrm{def}}{=}\underbrace{\{ a^{3n} | \, n>0\}}_\text{X} \cap {\underbrace{\{ a^{5n+1} | n \geq 0\}}_\text{Y}}^*$. $Y\supseteq \{a\}$, $Y^*\supseteq\{a\}^*\supseteq \{a^{3n}|n>0\}=X$, поэтому $Z=X=\{ a^{3n} | \, n>0\}$.
+\item $\varnothing\cap\{\varepsilon\}\equiv\{\}\cap\{\varepsilon\}=\varnothing$.
+\end{enumerate}
+
+\section*{Задача 2}
+$L=\Sigma^*\setminus{\underbrace{{\{ (0^*110^*)^* \}}}_\mathrm{{L}_{-}}}$. Для слова $w$ из ${L}_{-}$ есть два варианта, в соответствии с количеством повторений в последней звездочке:
+\begin{enumerate}[a.]
+\item ($N=0$ раз) $w=\varepsilon$
+\item ($N>0$) Докажем по индукции, что \emph{w~--- строки из четного количества <<$1$>>, отделенные друг от друга нулями, либо концом/началом слова, причем хотя бы одна единица есть}.\newline
+Для $N=1$ это верно: $w_1\in \{0^*110^*\}\Rightarrow w_1=\underbrace{0\dots 0}_{n_1}11\underbrace{0\dots 0}_{n_2}$, $n_1$ и $n_2 \geqslant 0$. Строка из двух единиц отделена нулями при $n_1,n_2>0$, либо концом/началом слова при $n_1=0$, либо $n_2=0$.\newline
+Пусть верно для $N\leqslant n$. Докажем для $n+1$: $w_{n+1}=w_n\cdot w, w\in \{0^*110^*\}=w_n\underbrace{0\dots 0}_{n_1}11\underbrace{0\dots 0}_{n_2}$. Рассмотрим различные случаи: $w_n$ может заканчиваться на $0$, либо на $1$; $n_1=0$, либо $n_1>0$:
+\begin{enumerate}[1.]
+\item $(0,n_1=0)$ Добавленная строка из единиц отделена слева нулями из $w_1$.
+\item $(0,n_1>0)$ Добавленная строка из единиц отделена слева нулями из $w$.
+\item $(1,n_1=0)$ Получена строка более, чем из двух единиц, но она четной длины (т.к. строка единиц из $w_n$ имеет четную длину по предположению индукции, и $2$~--- четно).
+\item $(1,n_1>0)$ Добавленная строка из единиц отделена слева нулями из $w$. Строка единиц из $w_n$ отделена теми же нулями.
+\end{enumerate}
+Очевидно, что под это определение не попадают слова не из $L_-$.
+\end{enumerate}
+Таким образом, $L$~--- непустые слова, состоящие либо только из нулей, либо из строк единиц, отделенных друг от друга нулями или началом/концом слова, но длина хотя бы одной строки нечетна. Иными словами, непустое слово $w$:
+\begin{enumerate}[1.]
+\item либо состоит из нулей,
+\item либо в нем присутствует строка из единиц нечетной длины, отделенная
+\begin{enumerate}[a.]
+ \item нулями
+ \item началом слова слева и нулями справа
+ \item началом слова слева и концом слова справа
+ \item нулями слева и концом слова справа.
+\end{enumerate}
+\end{enumerate}
+Тогда $L=\{(\underbrace{00^*}_{1}|\underbrace{{(0|1)}^*{(11)}^*0{(0|1)}^*}_{2a}|\underbrace{{(11)}^*0{(0|1)}^*)}_{2b}|\underbrace{1{(11)}^*}_{2c}|\underbrace{{(0|1)}^*01{(11)}^*}_{2d}\}$
+\section*{Задача 3}
+\begin{enumerate}
+\item{Конкатенация}\newline
+\begin{tikzpicture}[level 1/.style={sibling distance=2.5cm}]
+\node {$\mkern+10mu f\, \bullet^{N}\, l$}
+child{
+ node {$f_\alpha\, \alpha^{N_\alpha}\, l_\alpha$}
+}
+child{
+ node {$f_\beta\, \beta^{N_\beta}\, l_\beta$}
+};
+\end{tikzpicture}
+\newline
+В результате будет порождено слово $c=ab$.\newline
+Если $N_\alpha=F$, то $a$~--- его префикс, так как слово $a$ всегда непустое. Тогда $f=f_\alpha$. Иначе, если $N_\alpha=T$, либо $a$, либо $b$ (в случае $a=\varepsilon$)~--- префикс $c$. Аналогично, если $N_\beta=F$, то $b$~--- суффикс $c$, откуда $l=l_\beta$. Иначе $l=l_\alpha\cup l_\beta$.\newline
+Всё выражение может быть пустым тогда и только тогда, когда $\alpha$ и $\beta$ могут быть пустыми. Результат в таблице ниже:\newline
+$
+\begin{array}{ccccc}
+N_\alpha & N_\beta & f & l & N\\
+F & F & f_\alpha & l_\alpha & F \\
+F & T & f_\alpha & l_\alpha \cup l_\beta & F\\
+T & F & f_\alpha \cup f_\beta & l_\beta & F\\
+T & T & f_\alpha \cup f_\beta & l_\alpha \cup l_\beta & T\\
+\end{array}
+$
+\item{Объединение}\newline
+\begin{tikzpicture}[level 1/.style={sibling distance=2.5cm}]
+\node {$\mkern+10mu f\, |^{N}\, l$}
+child{
+ node {$f_\alpha\, \alpha^{N_\alpha}\, l_\alpha$}
+}
+child{
+ node {$f_\beta\, \beta^{N_\beta}\, l_\beta$}
+};
+\end{tikzpicture}
+\newline
+В результате будет порождено слово $c$.\newline
+Во всех случаях $c$ может начинаться как с символов, порожденных первым выражением, так и с символов, порожденных вторым, и ни с каких других. Тогда $f=f_\alpha\cup f_\beta$, $l=l_\alpha\cup l_\beta$,
+Всё выражение не может быть пустым тогда и только тогда, когда $\alpha$ и $\beta$ не могут быть пустыми. Результат в таблице ниже:
+$
+\newline
+\begin{array}{ccccc}
+N_\alpha & N_\beta & f & l & N\\
+F & F & f_\alpha \cup f_\beta & l_\alpha \cup l_\beta & F \\
+F & T & f_\alpha \cup f_\beta & l_\alpha \cup l_\beta & T\\
+T & F & f_\alpha \cup f_\beta & l_\alpha \cup l_\beta & T\\
+T & T & f_\alpha \cup f_\beta & l_\alpha \cup l_\beta & T\\
+\end{array}
+$
+\end{enumerate}
+\section*{Задача 4}
+\begin{enumerate}[1.]
+\item $\begin{array}{ccc}
+& \cal A & \cal B \\
+Q & \{q_0,q_1,q_2\} & \{q_0,q_1,q_2\}\\
+\Sigma & \{0,1\} & \{0,1\}\\
+q_0 & q_0 & q_0\\
+\delta & \substack{\{((q_0,0),q_0),((q_0,1),q_1),((q_1,1),q_0),\\((q_1,0),q_2),((q_2,0),q_1),((q_2,1),q_2)\}} & \substack{\{((q_0,0),q_0),((q_0,1),q_1),\\((q_1,0),\{q_0,q_2\}),((q_2,0),q_1),((q_2,1),q_2)\}}\\
+F & \{q_1\} & \{q_1\}\\
+\end{array}$
+\item $\cal A$~--- детерминированный, так как из каждого состояния есть только один переход с определенным символом.\newline
+$\cal B$~--- недетерминированный, так как из состояния $q_1$ есть два перехода по символу $0$: в $q_0$ и $q_2$.
+\item $(q_0,01001)\vdash(q_0,1001)\vdash(q_1,001)\vdash(q_2,01)\vdash(q_1,1)\vdash(q_0,\varepsilon)$. Нет, не принимает, потому что $q_0\notin F$. То есть, $w\equiv 01001\notin L(\cal A)$.
+\item Да: $(q_0,01001)\vdash(q_0,1001)\vdash(q_1,001)\vdash(q_0,01)\vdash(q_0,1)\vdash(q_1,\varepsilon)$ и $q_1\in F$.
+\item $\cal B$ не примет пустое слово, так как $q_0\notin F$, но примет слово $100$: $(q_0,100)\vdash(q_1,00)\vdash(q_2,0)\vdash(q_1,\varepsilon)$\newline
+$\cal A$ не примет слово $0$: $(q_0,0)\vdash(q_0,\varepsilon)$ и $q_0\notin F$, но примет $10011$: $(q_0,10011)\vdash(q_1,0011)\vdash(q_2,011)\vdash(q_1,11)\vdash(q_0,1)\vdash(q_1,\varepsilon)$ и $q_1\in F$.
+\end{enumerate}
+\end{document}
