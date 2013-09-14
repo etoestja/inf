@@ -1,0 +1,160 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{graphicx}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning}
+\usepackage{amsmath}
+\usepackage{floatflt}
+\usepackage{enumerate}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\title{Теория и реализация языков программирования.\\Задание 2: НКА и алгоритмы поиска подстрок}
+\date{задано 2013.09.11}
+\author{Сергей~Володин, 272 гр.}
+
+% названия автоматов
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+
+\begin{document}
+\maketitle
+\section*{Упражнение 0}
+Автомат, распознающий $\varnothing$:
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	  \node[state,initial]  (q_0)   {$q_0=q_F$};
+\end{tikzpicture}
+\end{center}
+У него нет принимающих состояний, поэтому ни одно слово не будет принято.
+\\[10pt]
+Автомат, распознающий $\{\sigma\}$:
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	  \node[state,initial]  (q_0)   {$q_0$};
+  	  \node[state,accepting]  (q_1) [right = of q_0]   {$q_1$};
+  	  \path[->] 
+  	  			(q_0)	edge		node	{$\sigma$}	(q_1);
+\end{tikzpicture}
+\end{center}
+Очевидно, автомат примет $\sigma$: $(q_0,\sigma)\vdash(q_1,\varepsilon)$, и $q_1\in F$. Пусть автомат принял слово $w$. Поскольку начальных и принимающих верший по одной, и между ними один переход $\delta(q_0,\sigma)=\{q_1\}$, получаем $(q_0,w)\vdash(q_1,\varepsilon)$. Отсюда $w=\sigma$.
+\section*{Упражнение 1}
+$L(\A)=X,L(\B)=Y$. Докажем, $L(\C)=X\cdot Y$, $\C$~--- автомат из условия:
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	  %\draw[help lines] (0,0) grid (3,2);
+	  \draw (1,0) ellipse (16mm and 10mm);
+	  \draw (3,0) ellipse (16mm and 10mm);
+	  \node at (1,0) {$\A$};
+	  \node at (3,0) {$\B$};
+	  \node[state,initial]  (q_0)                      {$q^\A_0$};
+	  \node[state]          (q_1) [ right = of q_0] {\tiny\tiny$q_F^\A,q_0^\B$};
+	  \node[state, accepting]          (q_2) [ right = of q_1] {$q^\B_F$};
+	 % \node[state,accepting](q_3) [below right=of q_1] {$q_3$};
+\end{tikzpicture}
+\end{center}
+Докажем, что $w\in X\cdot Y\Rightarrow w\in L(\C)$:\newline
+$w\in X\cdot Y\Rightarrow w=xy, x\in X, y\in Y$. Тогда $x\in L(\A)$, то есть, $(q_0^\A,x)\vdash^*(q_F^\A,\varepsilon)$. Аналогично $(q_0^\B,y)\vdash^*(q_F^\B,\varepsilon)$.
+\\[5pt]
+Пусть для некоторого автомата $(q_1,cx)\vdash(q_2,x)$. Это значит, что $\delta(q_1,c)\ni q_2$. Но отсюда $(q_1,cxy)\vdash(q_2,xy)$, $x,y$~--- некоторые слова. Пусть $(q_1,x)\vdash^*(q_2,y)$. Это значит, что существует цепочка $(q_1,x)\vdash\dots\vdash(q_2,y)$. Применяя утверждение выше, получаем $(q_1,xz)\vdash\dots\vdash(q_2,yz)$, а отсюда $(q_1,xz)\vdash^*(q_2,yz)$. Очевидно, рассуждение верно и в обратную сторону: если $(q_1,xz)\vdash^*(q_2,yz)$, то $(q_1,x)\vdash^*(q_2,y)$.
+\\[5pt]
+Из предыдущего утверждения получаем для автомата $\A$ $(q_0^\A,xy)\vdash^*(q_F^\A,y)\equiv(q_0^\B,y)\vdash^*(q_F,\varepsilon)$, то есть, $(q_0^\A,w)\vdash^*(q_F^\B,\varepsilon)\Rightarrow w\in L(\C)$.\newline
+Докажем обратное: $w\in L(\C)\Rightarrow w\in X\cdot Y$.\newline
+Пусть $w\in L(\C)$. Тогда $(q_0^\A,w)\vdash\dots\vdash(q_F^\B,\varepsilon)$. Докажем, что в этой цепочке встретилось состояние $(q_F^\A,y)$.\newline
+В этой цепочке был переход из $q_\A\in Q^\A$ в $q_\B\in Q^\B$, т.к. иначе получим, что все переходы были внутри множества состояний $Q^\A$. Поэтому $\exists q^\A\,\exists\sigma\in\Sigma:\delta(q^\A,\sigma)\ni q^\B$. Но изначально множество $Q^\A$~--- множество состояний автомата $\A$, поэтому $\delta(Q^\A)\subseteq 2^{Q^\A}$. Получаем $q^\B\in Q^\A$. По условию $Q^\A\cap Q^\B=\{q_F^\A\}$, откуда получаем требуемое: в цепочке встретилось $(q^\A,\sigma y)\vdash(q_F^\A,y)$.\newline
+Таким образом, $(q_0^\A,w)\vdash^*(q_F^\A,y)\vdash^*(q_F^\B,\varepsilon)$. Поскольку $y$~--- суффикс $w$, то $w=xy$. Из доказанного ранее получаем $(q_0^\A,x)\vdash^*(q_F^\A,\varepsilon)$, откуда $x\in L(\A)=X$. Аналогично $y\in L(\B)=Y$. Найдены $x\in X$ и $y\in Y$: $w=xy$. Отсюда $w\in X\cdot Y$.
+\section*{Упражнение 2}
+\section*{Упражнение 3}
+\newpage
+\section*{Задача 1}
+Пользуясь доказанным ранее, построим автомат для $ab$:
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	  \node[state,initial]  (q_0)   {$q_0$};
+  	  \node[state]  (q_1) [right = of q_0]   {$q_1$};
+   	  \node[state,accepting]  (q_2) [right = of q_1]   {$q_2$};
+  	  \path[->] 
+  	  			(q_0)	edge		node	{$a$}	(q_1)
+  	  			(q_1)	edge		node	{$b$}	(q_2);
+\end{tikzpicture}
+\end{center}
+Для $ab|b$:
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	  \node[state,initial]  (q_0)   {$q_0$};
+  	  \node[state]  (q_1) [above right = of q_0]   {$q_1$};
+   	  \node[state]  (q_2) [below right = of q_0]   {$q_2$};
+   	  \node[state]  (q_3) [right = of q_1]   {$q_3$};
+  	  \node[state]  (q_4) [right = of q_3]   {$q_4$};
+  	  \node[state]  (q_5) [right = of q_2]   {$q_5$};
+  	  \node[state, accepting]  (q_6) [below right = of q_4]   {$q_6$};
+  	  \path[->] 
+  	  			(q_0)	edge		node	{$\varepsilon$}	(q_1)
+  	  			(q_1)	edge		node	{$a$}	(q_3)
+  	  			(q_3)	edge		node	{$b$}	(q_4)
+  	  			(q_2)	edge		node	{$b$}	(q_5)
+  	  			(q_5)	edge		node	{$\varepsilon$}	(q_6)
+  	  			(q_4)	edge		node	{$\varepsilon$}	(q_6)
+  	  			(q_0)	edge		node	{$\varepsilon$}	(q_2);
+\end{tikzpicture}
+\end{center}
+Для $(ab|b)^*$
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	  \node[state]  (q_0)   {};
+  	  \node[state]  (q_1) [above right = of q_0]   {};
+   	  \node[state]  (q_2) [below right = of q_0]   {};
+   	  \node[state]  (q_3) [right = of q_1]   {};
+  	  \node[state]  (q_4) [right = of q_3]   {};
+  	  \node[state]  (q_5) [right = of q_2]   {};
+  	  \node[state,initial]  (q_7) [left = of q_0]   {};
+  	  \node[state,accepting]  (q_8) [right = of q_6]   {};
+  	  \node[state]  (q_6) [below right = of q_4]   {};
+  	  \path[->] 
+  	  			(q_0)	edge		node	{$\varepsilon$}	(q_1)
+  	  			(q_1)	edge		node	{$a$}	(q_3)
+  	  			(q_3)	edge		node	{$b$}	(q_4)
+  	  			(q_2)	edge		node	{$b$}	(q_5)
+  	  			(q_5)	edge		node	{$\varepsilon$}	(q_6)
+  	  			(q_7)	edge		node	{$\varepsilon$}	(q_0)
+  	  			(q_6)	edge		node	{$\varepsilon$}	(q_8)
+  	  			(q_4)	edge		node	{$\varepsilon$}	(q_6)
+  	  			(q_0)	edge		node	{$\varepsilon$}	(q_2)
+  	  			(q_6)	edge		node	{$\varepsilon$}	(q_0)
+  	  			(q_7)	edge [bend right=50]	node	{$\varepsilon$}	(q_8);
+\end{tikzpicture}
+\end{center}
+Для $a(ab|b)^*b$:
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	  \node[state]  (q_0)   {};
+  	  \node[state]  (q_1) [above right = of q_0]   {};
+   	  \node[state]  (q_2) [below right = of q_0]   {};
+   	  \node[state]  (q_3) [right = of q_1]   {};
+  	  \node[state]  (q_4) [right = of q_3]   {};
+  	  \node[state]  (q_5) [right = of q_2]   {};
+  	  \node[state]  (q_7) [left = of q_0]   {};
+  	  \node[state]  (q_8) [right = of q_6]   {};
+  	  \node[state]  (q_6) [below right = of q_4]   {};
+  	  \node[state,initial]  (q_11) [left = of q_7]   {};
+  	  \node[state,accepting]  (q_12) [right = of q_8]   {};
+  	  \path[->] 
+  	  			(q_0)	edge		node	{$\varepsilon$}	(q_1)
+  	  			(q_1)	edge		node	{$a$}	(q_3)
+  	  			(q_3)	edge		node	{$b$}	(q_4)
+  	  			(q_2)	edge		node	{$b$}	(q_5)
+  	  			(q_5)	edge		node	{$\varepsilon$}	(q_6)
+  	  			(q_7)	edge		node	{$\varepsilon$}	(q_0)
+  	  			(q_6)	edge		node	{$\varepsilon$}	(q_8)
+  	  			(q_4)	edge		node	{$\varepsilon$}	(q_6)
+  	  			(q_0)	edge		node	{$\varepsilon$}	(q_2)
+  	  			(q_6)	edge		node	{$\varepsilon$}	(q_0)
+  	  			(q_11)	edge		node	{$a$}	(q_7)
+  	  			(q_8)	edge		node	{$b$}	(q_12)
+  	  			(q_7)	edge [bend right=50]	node	{$\varepsilon$}	(q_8);
+\end{tikzpicture}
+\end{center}
+\end{document}
