@@ -14,7 +14,12 @@ int main()
     }
 
 #ifndef NOWAITPID
-    if(res) waitpid(res, NULL, 0);
+    if(res)
+    {
+        printf("waiting for child...\n");
+        waitpid(res, NULL, 0);
+        printf("wait ok\n");
+    }
 #endif
 
     printf("%s\tPID=%d\tPPID=%d\n", res ? "parent" : "child",
