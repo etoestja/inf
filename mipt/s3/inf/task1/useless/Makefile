@@ -24,5 +24,5 @@ bin/$(TARGET): src/$(CFILE.c) lib/lib$(LIBRARY).a
 install:
 	cp bin/$(TARGET) /usr/bin
 
-deb-install:
+deb-install: all
 	sudo checkinstall --maintainer=etoestja@yandex.ru --nodoc -y
