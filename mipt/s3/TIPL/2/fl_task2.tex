@@ -1,0 +1,338 @@
+ \documentclass[12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}        % Кодировка входного документа;
+                                    % при необходимости, вместо cp1251
+                                    % можно указать cp866 (Alt-кодировка
+                                    % DOS) или koi8-r.
+
+\usepackage[english,russian]{babel} % Включение русификации, русских и
+                                    % английских стилей и переносов
+%%\usepackage{a4}
+%%\usepackage{moreverb}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,amsbsy,amstext,amscd,amsxtra,multicol}
+\usepackage{verbatim}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning}
+\usepackage{multicol} %Несколько колонок
+\usepackage{graphicx}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage[stable]{footmisc}
+
+%% \voffset-5mm
+%% \def\baselinestretch{1.44}
+\renewcommand{\theequation}{\arabic{equation}}
+\def\hm#1{#1\nobreak\discretionary{}{\hbox{$#1$}}{}}
+\newtheorem{Lemma}{Лемма}
+\theoremstyle{definiton}
+\newtheorem{Remark}{Замечание}
+%%\newtheorem{Def}{Определение}
+\newtheorem{Claim}{Утверждение}
+\newtheorem{Cor}{Следствие}
+\newtheorem{Theorem}{Теорема}
+\theoremstyle{definition}
+\newtheorem{Example}{Пример}
+\newtheorem*{known}{Теорема}
+\def\proofname{Доказательство}
+\theoremstyle{definition}
+\newtheorem{Def}{Определение}
+
+%% \newenvironment{Example} % имя окружения
+%% {\par\noindent{\bf Пример.}} % команды для \begin
+%% {\hfill$\scriptstyle\qed$} % команды для \end
+
+
+
+
+
+
+%\date{22 июня 2011 г.}
+\let\leq\leqslant
+\let\geq\geqslant
+\def\MT{\mathrm{MT}}
+%Обозначения ``ажуром''
+\def\BB{\mathbb B}
+\def\CC{\mathbb C}
+\def\RR{\mathbb R}
+\def\SS{\mathbb S}
+\def\ZZ{\mathbb Z}
+\def\NN{\mathbb N}
+\def\FF{\mathbb F}
+%греческие буквы
+\let\epsilon\varepsilon
+\let\es\emptyset
+\let\eps\varepsilon
+\let\al\alpha
+\let\sg\sigma
+\let\ga\gamma
+\let\ph\varphi
+\let\om\omega
+\let\ld\lambda
+\let\Ld\Lambda
+\let\vk\varkappa
+\let\Om\Omega
+\def\abstractname{}
+
+\def\R{{\cal R}}
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+\def\D{{\cal D}}
+\let\w\omega
+
+%классы сложности
+\def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
+\newcounter{problem}
+\newcounter{uproblem}
+\newcounter{subproblem}
+\def\pr{\medskip\noindent\stepcounter{problem}{\bf \theproblem .  }\setcounter{subproblem}{0} }
+\def\prp{\medskip\noindent\stepcounter{problem}{\bf Задача \theproblem .  }\setcounter{subproblem}{0} }
+\def\prstar{\medskip\noindent\stepcounter{problem}{\bf Задача $\theproblem^*$ .  }\setcounter{subproblem}{0} }
+\def\prdag{\medskip\noindent\stepcounter{problem}{\bf Задача $\theproblem^\dagger$ .  }\setcounter{subproblem}{0} }
+\def\upr{\medskip\noindent\stepcounter{uproblem}{\bf Упражнение \theuproblem .  }\setcounter{subproblem}{0} }
+%\def\prp{\vspace{5pt}\stepcounter{problem}{\bf Задача \theproblem .  } }
+%\def\prs{\vspace{5pt}\stepcounter{problem}{\bf \theproblem .*   }
+\def\prsub{\medskip\noindent\stepcounter{subproblem}{\rm \thesubproblem .  } }
+%прочее
+\def\quotient{\backslash\negthickspace\sim}
+
+\begin{document}
+
+	\centerline{\LARGE Задание 2}
+
+	\medskip
+
+	\centerline{\Large НКА и алгоритмы поиска подстрок}
+
+	\bigskip
+
+	{\bf Литература: }
+	\begin{enumerate}
+		\item {\em Хопкрофт Д., Мотвани Р., Ульман Д.}\\ Введение в теорию автоматов, языков и вычислений.\\ М.: Вильямс, 2002.
+
+	\item {\it Ахо А., Ульман Д.}\\ Теория синтаксического анализа, перевода и компиляции\\  М.: Мир, 1978. Гл. 0, 2.
+
+	\item {\em Серебряков В.А., Галочкин М.П., Гончар Д.Р., Фуругян М.Г.}\\ Теория и реализация языков программирования.\\ М.: МЗ-пресс, 2006.
+	
+	\item {\em Шень. А. Х. }\\ Программирование: теоремы и задачи \\ М.: МЦНМО, 2004.
+
+	\item {\em Журавлёв Ю.И., Флёров Ю.А, Вялый М.Н.}\\ Дискретный Анализ. Формальные системы и алгоритмы. \\ М.: МЗ-пресс, 2010.
+
+	\end{enumerate}
+
+	{\bf Ключевые слова }\footnote{минимальный необходимый объём понятий и навыков по
+	этому разделу)}:{\em  язык, регулярные выражения, конкатенация, объединение, итерация,
+	конечные автоматы (КА), детерминированные и недетерминированные КА, регулярные языки.
+	%алгебра регулярных выражений,  примеры нерегулярных языков;
+	%поиск подстрок, алгоритм Кнута- Морисса- Пратта.
+
+	%языки скобочных выражений (языки Дика). 
+	}
+\medskip
+
+Упражнения из этого задания вовсе не обязательно техать. Задачи, помеченные звёздочкой указывают на трудность задачи, но не переводят их в разряд необязательных. Стоит хотя бы попытаться их решить.
+
+	\section{Построение по регулярному выражению конечного автомата }
+	
+	На семинаре мы разобрали алгоритм построения детерминированного конечного автомата по регулярному выражению. Однако, его нельзя назвать простым. Построить недетерминированный автомат по регулярному выражению гораздо проще. В каком-то смысле, если вы имеете дело с регулярным выражением, вы имеете дело с НКА. 
+	
+	Напомним, что помимо обычных переходов недетерминированные автоматы, имеют также $\eps$-переходы, т.е. переходы вида $\delta(q_i, \eps) = q_j$. Наличие таких переходов означает, что попав в состояние $q_i$, автомат может перейти в состояние $q_j$ не обрабатывая следующий символ слова.
+\begin{Example}
+\quad\\
+\begin{center}
+	
+ 	\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	  %\draw[help lines] (0,0) grid (3,2);
+	  \node[state,initial]  (q_0)                      {$q_0$};
+	  \node[state, accepting]          (q_1) [ right = of q_0] {$q_1$};
+	 % \node[state,accepting](q_3) [below right=of q_1] {$q_3$};
+	  \path[->] 
+		(q_0)	edge	[loop below]	node	{0}	()
+				edge	[bend left] 	node	{1}	(q_1)
+	 	(q_1)	edge	[bend left]		node	{$\eps$} (q_0);
+	\end{tikzpicture}
+\end{center}
+
+
+
+	Легко видеть, что данный автомат принимает язык, состоящий из слов, оканчивающихся на $1$. При прочтении $1$, автомат переходит из состояния $q_0$ в $q_1$, дальше, если во входном слове ещё остались необработанные символы, автомат делает $\eps$-переход из состояния $q_1$ в $q_0$ и продолжает обработку слова.\
+	
+	
+
+\end{Example}	
+
+	Для построения НКА по РВ будем использовать определение регулярного языка.  Напомним определение класса регулярных языков $\REG$. 
+
+	\begin{itemize}
+		\item $\varnothing \in \REG$.
+		\item $\forall \sigma \in \Sigma:\ \{ \sigma \} \in \REG $.
+		\item $\forall X, Y \in \REG\ :\ X\cdot Y,\ X|Y,\ X^* \in \REG   $.
+		\item Больше нет регулярных языков.
+	\end{itemize}
+
+	Мы будем строить НКА по РВ из каждого пункта данного определения. С первыми двумя пунктами проблем нет -- их я оставляю как лёгкое упражнение. Перейдём сразу к третьему пункту. Допустим уже построены автоматы $\A$ и $\B$ для регулярных языков $X$ и $Y$ соответственно.
+	Мы будем предполагать, что оба автомата имеют всего одно принимающее состояние. Если в автомате несколько принимающих состояний, то можно построить эквивалентный ему автомат с единственным принимающим состоянием, добавив к множеству состояний состояние $q_F$, которое будет единственным принимающим, и добавив $\eps$-переходы в $q_F$ из старого множества $F$: $\forall q \in F: \delta(q, \eps) = q_F$. Будем схематично обозначать автоматы эллипсами, и помечать в них только начальное и принимающее состояние. Таким образом, автомат $\A$ имеет вид
+	\begin{center}
+
+
+	\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	  %\draw[help lines] (0,0) grid (3,2);
+	  \draw (1,0) ellipse (16mm and 10mm);
+	  \node at (1,0) {$\A$};
+	  \node[state,initial]  (q_0)                      {$q_0$};
+	  \node[state, accepting]          (q_1) [ right = of q_0] {$q_F$};
+	 % \node[state,accepting](q_3) [below right=of q_1] {$q_3$};
+	 \end{tikzpicture} 
+	\end{center}
+
+
+	В дальнейшем, мы будем предполагать, что начальное состояние на схеме находится слева, а принимающее справа.
+	Построим явно автомат распознающий $X\cdot Y$, $L(\A) = X, L(\B) = Y$.
+
+
+	\begin{center}
+
+
+
+	\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	  %\draw[help lines] (0,0) grid (3,2);
+	  \draw (1,0) ellipse (16mm and 10mm);
+	  \draw (3,0) ellipse (16mm and 10mm);
+	  \node at (1,0) {$\A$};
+	  \node at (3,0) {$\B$};
+	  \node[state,initial]  (q_0)                      {$q^\A_0$};
+	  \node[state]          (q_1) [ right = of q_0] {};
+	  \node[state, accepting]          (q_2) [ right = of q_1] {$q^\B_F$};
+	 % \node[state,accepting](q_3) [below right=of q_1] {$q_3$};
+	 \end{tikzpicture}
+	\end{center}
+	Для этого по автомату $\A$ распознающему язык $X$ и автомату $\B$, распознающему язык $Y$ мы строим автомат, распознающий $X\cdot Y$ объединяя множеcтва состояний $\A$ и $\B$ так, что $q_0 = q^\A_0$, $q^\A_F = q^\B_0$, $F = \{q^B_F\}$. Опять получили автомат с единственным принимающим состоянием.
+
+	\upr Доказать, что построенный автомат распознаёт язык $X\cdot Y$.
+	\medskip
+
+	Для построения языка $X|Y$ используем следующую конструкцию:
+	\begin{center}
+
+
+	\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	  %\draw[help lines] (0,0) grid (3,2);
+	  \draw (2.4,1.4) ellipse (16mm and 10mm);
+	  \draw (2.4,-1.4) ellipse (16mm and 10mm);
+	  \node at (2.4,1.4) {$\A$};
+	  \node at (2.4,-1.4) {$\B$}; 
+	  \node[state ,initial] (q_e) 					 {$q_0$};
+	  \node[state]		    (q_0) [ above right = of q_e ] {$q^\A_0$};
+	  \node[state]          (q_1) [ right = of q_0] {$q^\A_F$};
+	  \node[state]          (q_2) [ below right = of q_e  ] {$q^\B_0$};
+	  \node[state]          (q_3) [ right = of q_2] {$q^\B_F$};
+	  \node[state, accepting]          (q_f) [ below right = of q_1  ] {$q_F$};
+	  \path[->] 
+			(q_e)	edge		node	{$\eps$}	(q_0)
+					edge		node	{$\eps$}	(q_2)
+			(q_1)
+					edge		node	{$\eps$}	(q_f)
+			(q_3)
+					edge		node	{$\eps$}	(q_f);
+	 \end{tikzpicture}
+	\end{center}
+
+	\upr Доказать, что построенный автомат распознаёт язык $X| Y$.
+	\medskip
+
+	И наконец перейдём к построению автомата для языка $X^*$:
+	\bigskip
+
+	\begin{center}
+
+
+
+	\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	  %\draw[help lines] (0,0) grid (3,2);
+	  \draw (3,0) ellipse (16mm and 9mm);
+	  \node at (3,-0.5) {$\A$};
+	  \node[state ,initial] (q_e) 					 {$q_0$};
+	  \node[state]		    (q_0) [ right = of q_e ] {$q^\A_0$};
+	  \node[state]          (q_1) [ right = of q_0] {$q^\A_F$};
+	  \node[state, accepting]          (q_f) [ right = of q_1  ] {$q_F$};
+	  \path[->] 
+			(q_e)	edge		node	{$\eps$}	(q_0)
+					edge [bend left] node {$\eps$}	(q_f)
+			(q_1)
+					edge		node	{$\eps$}	(q_f)
+					edge [bend right] node {$\eps$}	(q_0);
+	 \end{tikzpicture}
+	\end{center}
+
+
+	\upr Доказать, что построенный автомат распознаёт язык $X^*$.
+	
+	
+	\prp Постройте НКА по регулярному выражению $a(ab|b)^*b$.
+	
+\section{НКА и ДКА}
+
+Как мы обсудили на семинаре, если НКА $\A$ имеет множество состояний $Q_\A$, то построенный по нему ДКА $\B$ имеет множество макросостояний $Q_\B \subseteq 2^{Q_\A}$, где $2^Q_\A$ -- множество всех подмножеств множества $Q_\A$. Таким образом, на число состояний автомата $\B$ мы имеем верхнюю оценку $|Q_\B| \leq 2^{|Q_\A|} $. Таким образом, число состояний в ДКА ограниченно экспоненциальной функцией от числа состояний в НКА, но существует ли язык, для которого эта оценка достигается? На самом деле, когда мы говорим об оценках такого рода, нам требуется рассматривать ни один какой-то язык, а последовательность языков, по которым мы и сможем установить экспоненциальную зависимость.
+
+\prp Определим язык $L_i = \{w\,|\, |w|= n, w[n-i] = 1 \}$, то есть в язык $L_i$ в ходят все слова, в которых $1$ стоит на $i$-ом месте от конца\footnote{Во избежании путаницы, первый с конца символ -- это последний символ слова.}. Постройте НКА для языка $L_3$. По построенному НКА постройте ДКА. 
+
+\prstar Докажите, что на языках $L_i$ между НКА и построенными по ним ДКА достигается экспоненциальный разрыв.
+
+\section{Алгоритм Кнута-Морриса-Пратта и его связь с автоматами}
+	
+	НКА -- очень удобный инструмент для описания автоматов, которые ищут слова в тексте. Например, автомат 
+	\begin{center}
+	 	\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+		  %\draw[help lines] (0,0) grid (3,2);
+		  	\node[state,initial]		 	(q_0)                   {$q_0$};
+		  	\node [state] 					(q_1) [right = of q_0]	{$q_1$};
+		  	\node [state] 					(q_2) [right = of q_1]	{$q_2$};		
+			\node [state] 					(q_3) [right = of q_2]	{$q_3$};
+			\node [state] 					(q_4) [right = of q_3]	{$q_4$};
+			\node [state] 					(q_5) [right = of q_4]	{$q_5$};
+			\node [state, accepting] 		(q_6) [right = of q_5]	{$q_6$};
+		 % \node[state,accepting](q_3) [below right=of q_1] {$q_3$};
+		  \path[->] 
+			(q_0)	edge	[loop]	node	{$a,b$}	()
+					edge	 	node	{$a$}	(q_1)
+		 	(q_1)	edge		node	{$b$} (q_2)
+			(q_2)	edge		node    {$a $} (q_3)
+			(q_3)	edge		node    {$b $} (q_4)
+			(q_4)	edge		node    {$a $} (q_5)
+			(q_5)	edge		node    {$b $} (q_6)
+			(q_6)   edge [loop]	node	{$a,b$} ();
+		\end{tikzpicture}
+	\end{center}
+	проверяет имеет ли поданное на вход слово подслово $ababab$.
+	
+	\prp Постройте по данному автомату детерминированный.
+	\medskip
+	
+	Как мы уже обсуждали, для алгоритмической проверки принадлежности слова языку, распознаваемому НКА, по нему следует строить ДКА. Однако, в специальных случаях, используемых на практике, подобно описанному выше, есть более удобные алгоритмы и один из них -- алгоритм Кнута-Морриса-Пратта. Этот алгоритм подробно описан в 10-ой главе книги А. Шеня «Программирование. Теоремы и задачи». Её можно в свободном доступе скачать \href{http://mccme.ru/free-books}{здесь}. Я рекомендую изучить КМП-алгоритм по этой книге, в этом разделе я лишь скажу пару слов о его связи с автоматами, а точнее дам на эту тему пару задач.
+	
+	
+	В основе этого алгоритма -- использование для поиска слова вычисления префикс-функции.
+	
+	\begin{Def}
+		Назовём префикс-функцией функцию $l()$, которая возвращает самый длинный несобственный\footnote{То есть префикс, не совпадающий со всем словом $w$.} префикс слова $w$, являющийся одновременно его суффиксом. 
+	\end{Def}
+	 
+	\begin{Example} Приведём пример вычисления префикс-функции.
+		\begin{align*}
+			l(a^{n+1}) &= a^n\\
+			l(ababa) &= aba\\
+			l(abb) &= \eps
+		\end{align*}					
+	\end{Example}
+
+У префикс функции есть важное свойство -- все несобственные префиксы слова $w$, которые являются его суффиксами лежат в последовательности $l(w), l(l(w)),\ldots$
+
+\prstar Докажите, что в ДКА, распознающем язык $\Sigma^*w\Sigma^*$ не может быть меньше состояний чем элементов последовательности $l(w), l(l(w)),\ldots$
+
+\prstar Приведите алгоритм построения ДКА для языка $\Sigma^*w\Sigma^*$, использующий префикс-функцию.
+
+\section{Дополнительные задачи}	
+	
+\prp Приведите протокол работы КМП-алгоритма при поиске подслова $abba$ в слове $abbbababbab$.
+
+\end{document}
