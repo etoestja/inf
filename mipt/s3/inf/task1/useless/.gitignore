@@ -1,3 +1,4 @@
 *.deb
 lib/*.a
 lib/*.o
+*.tgz

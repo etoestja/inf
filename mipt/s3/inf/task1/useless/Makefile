@@ -21,4 +21,7 @@ bin/$(TARGET): src/$(CFILE.c) lib/lib$(LIBRARY).a
 	gcc -m32 -I ./lib -L./lib -l$(LIBRARY) -o bin/$(TARGET) src/$(CFILE).c
 
 install:
-	cp bin/$(NAME) /usr/bin
+	cp bin/$(TARGET) /usr/bin
+
+deb-install:
+	sudo checkinstall --maintainer=etoestja@yandex.ru --nodoc -y
