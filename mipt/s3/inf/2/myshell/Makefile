@@ -2,13 +2,13 @@ CFILE=main
 TARGET=myshell
 LIBRARY=parseargs
 
-all: lib$(LIBRARY).a
+all: myshell
 $(TARGET): lib$(LIBRARY).a $(CFILE).c
-	gcc -m32 -L. $(CFILE).c -l$(LIBRARY) -o $(TARGET)
+	gcc -L. $(CFILE).c -l$(LIBRARY) -o $(TARGET)
 lib%.a: %.o
 	ar rcs $@ $<
 $(LIBRARY).o: $(LIBRARY).c
-	gcc -m32 -c $(LIBRARY).c
+	gcc -c $(LIBRARY).c
 clean:
 	rm -rf *~
 	rm -rf $(LIBRARY).o
