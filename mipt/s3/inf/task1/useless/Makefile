@@ -8,7 +8,7 @@ lib/lib%.a: lib/%.o
 	ar rcs $@ $<
 
 lib/$(LIBRARY).o: lib/$(LIBRARY).c
-	gcc -m32 -c lib/$(LIBRARY).c -o lib/$(LIBRARY).o
+	gcc -c lib/$(LIBRARY).c -o lib/$(LIBRARY).o
 
 clean:
 	rm -rf *.deb
@@ -19,7 +19,7 @@ clean:
 	rm -rf *.tgz
 
 bin/$(TARGET): src/$(CFILE.c) lib/lib$(LIBRARY).a
-	gcc -m32 -I ./lib -L./lib -l$(LIBRARY) -o bin/$(TARGET) src/$(CFILE).c
+	gcc -I ./lib -L./lib -l$(LIBRARY) -o bin/$(TARGET) src/$(CFILE).c
 
 install:
 	cp bin/$(TARGET) /usr/bin
