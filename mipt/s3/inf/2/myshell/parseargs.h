@@ -1,1 +1,1 @@
-/home/seriy/Documents/p/inf/mipt/s3/inf/libraries/parseargs.h
+../../libraries/parseargs.h
