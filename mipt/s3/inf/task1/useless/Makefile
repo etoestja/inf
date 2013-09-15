@@ -16,6 +16,7 @@ clean:
 	rm -rf lib/lib$(LIBRARY).a
 	rm -rf bin/*
 	rm -rf $(TARGET)
+	rm -rf *.tgz
 
 bin/$(TARGET): src/$(CFILE.c) lib/lib$(LIBRARY).a
 	gcc -m32 -I ./lib -L./lib -l$(LIBRARY) -o bin/$(TARGET) src/$(CFILE).c
