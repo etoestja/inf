@@ -1,0 +1,4 @@
+*.deb
+bin/*
+lib/*.a
+lib/*.o
