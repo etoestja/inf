@@ -3,10 +3,6 @@
 #include <string.h>
 #include "parseargs.c"
 
-#define FILENAME_MAXLEN 1000
-#define NAMEARGS_MAXLEN 1000
-#define MAXPROGS 1000
-
 int main(int argc, char** argv, char** envp)
 {
     if(argc == 1)
