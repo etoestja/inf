@@ -3,4 +3,10 @@ INF_PATH=/home/seriy/Documents/p/inf
 
 
 alias armsync="rsync -avz -e ssh s27505@192.168.1.48:~ /home/seriy/Documents/p/inf/mipt/s2/12"
+alias sshlk="ssh -l s27505 lk3.mipt.ru"
+alias sshk7="ssh -l st27203 192.168.0.1"
+alias sshp="ssh -p 12922 -l ski27513 parallels.mipt.ru"
+alias cdinf="cd $INF_PATH"
+alias cds2="cd $INF_PATH/mipt/s2"
+alias cds3="cd $INF_PATH/s3"
 export PATH="$PATH:$INF_PATH/mf"
