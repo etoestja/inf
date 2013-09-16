@@ -222,4 +222,67 @@ Q_7 & q_0, q_1, q_2, q_3, q_4 	& q_0, q_1, q_3, q_4	& Q_6 & q_0, q_1, q_2, q_3, 
 \end{tikzpicture}
 \end{center}
 \end{enumerate}
+\section*{Задача 3}
+\section*{Задача 4}
+Построим ДКА $\B$ по НКА $\A$:\newline
+$\begin{array}{|c|c|c|c|}
+\hline
+Q & q & a & b\\\hline\hline
+Q_0 & q_0						& Q_1  & Q_0 \\\hline
+Q_1 & q_0, q_1					& Q_1  & Q_2 \\\hline
+Q_2 & q_0, q_2					& Q_3  & Q_0 \\\hline
+Q_3 & q_0, q_1, q_3				& Q_1  & Q_4 \\\hline
+Q_4 & q_0, q_2, q_4				& Q_5  & Q_0 \\\hline
+Q_5 & q_0, q_1, q_3, q_5		& Q_1  & Q_6 \\\hline
+Q_6 & q_0, q_2, q_4, q_6		& Q_7  & Q_8 \\\hline
+Q_7 & q_0, q_1, q_3, q_5, q_6	& Q_9  & Q_6 \\\hline
+Q_8 & q_0, q_6					& Q_9  & Q_8 \\\hline
+Q_9 & q_0, q_1, q_6				& Q_9  & Q_{10}\\\hline
+Q_{10} & q_0, q_2, q_6				& Q_{11} & Q_8 \\\hline
+Q_{11} & q_0, q_1, q_3, q_6		& Q_9  & Q_6 \\\hline
+\end{array}$
+\newline
+Начальное состояние~--- $Q_0$, принимающие~--- $\{Q_6, Q_7, Q_8, Q_9, Q_{10}, Q_{11}\}$.
+\section*{Задача 5}
+\section*{Задача 6}
+\section*{Задача 7}
+\begin{verbatim}
+fillPrefix at i=0, looking at symbol a
+fillPrefix at i=1, looking at symbol b
+  zero prefix[0, *]
+fillPrefix at i=2, looking at symbol b
+  zero prefix[0, *]
+fillPrefix at i=3, looking at symbol a
+  got prefix[0, *] . 'a'
+fillPrefix at i=4, looking at symbol #
+  zero prefix[0, *]
+fillPrefix at i=5, looking at symbol a
+  got prefix[0, *] . 'a'
+fillPrefix at i=6, looking at symbol b
+  got prefix[1, a] . 'b'
+fillPrefix at i=7, looking at symbol b
+  got prefix[2, b] . 'b'
+fillPrefix at i=8, looking at symbol b
+  zero prefix[0, *]
+fillPrefix at i=9, looking at symbol a
+  got prefix[0, *] . 'a'
+fillPrefix at i=10, looking at symbol b
+  got prefix[1, a] . 'b'
+fillPrefix at i=11, looking at symbol a
+  zero prefix[0, *]
+  got prefix[0, *] . 'a'
+fillPrefix at i=12, looking at symbol b
+  got prefix[1, a] . 'b'
+fillPrefix at i=13, looking at symbol b
+  got prefix[2, b] . 'b'
+fillPrefix at i=14, looking at symbol a
+  got prefix[3, b] . 'a'
+fillPrefix at i=15, looking at symbol b
+  going deeper[1, a]
+  got prefix[1, a] . 'b'
+n	0	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	
+c	*	a	b	b	a	#	a	b	b	b	a	b	a	b	b	a	b	
+p	0	0	0	0	1	0	1	2	3	0	1	2	1	2	3	4	2	
+findPInT: found P in T starting from position 12
+\end{verbatim}
 \end{document}
