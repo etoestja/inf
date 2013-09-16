@@ -157,4 +157,69 @@ $w\in X\cdot Y\Rightarrow w=xy, x\in X, y\in Y$. Тогда $x\in L(\A)$, то �
   	  			(q_7)	edge [bend right=50]	node	{$\varepsilon$}	(q_8);
 \end{tikzpicture}
 \end{center}
+\section*{Задача 2}
+\begin{enumerate}[a.]
+\item Докажем, что автомат $\A$ распознает $L_3$:
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	  \node[state,initial]  (q_0)   {$q_0$};
+  	  \node[state]  (q_1) [right = of q_0]   {$q_1$};
+   	  \node[state]  (q_2) [right = of q_1]   {$q_2$};
+   	  \node[state]  (q_3) [right = of q_2]   {$q_3$};
+  	  \node[state,accepting]  (q_4) [right = of q_3]   {$q_4$};
+  	  \path[->] 
+			(q_0)	edge[loop]		node	{$0,1$}	(q_0)
+			(q_0)	edge		node	{$\varepsilon$}	(q_1)
+			(q_1)	edge		node	{$1$}	(q_2)
+			(q_2)	edge		node	{$0,1$}	(q_3)
+			(q_3)	edge		node	{$0,1$}	(q_4);
+\end{tikzpicture}
+\end{center}
+\begin{enumerate}[1.]
+\item $w\in L_3$. Тогда $w[n-3]=1\Leftrightarrow w=x1\sigma_1\sigma_2$. $x\in \Sigma^*\Rightarrow$ после обработки $x$ автомат может оказаться в $q_0$: $(q_0,x1\sigma_1\sigma_2)\vdash^*(q_0,1\sigma_1\sigma_2)$. Далее $(q_0,1\sigma_1\sigma_2)\vdash(q_1,1\sigma_1\sigma_2)\vdash(q_2,\sigma_1\sigma_2)$. $\sigma_1,\sigma_2\in\Sigma\Rightarrow(q_2,\sigma_1\sigma_2)\vdash(q_3,\sigma_2)\vdash(q_4,\varepsilon)$. Таким образом, $(q_0,w)\vdash_*(q_4,\varepsilon)\Rightarrow w\in L(\A)$.
+\item $w\in L(\A)\Rightarrow(q_0,w)\vdash^*(q_4,\varepsilon)$. Поскольку переход в $q_4$ только один: $\exists!q:\delta(q,\sigma)\ni q_4,q=q_3$, получаем, что в цепочке конфигураций на последнем месте переход $(q_3,\sigma)\vdash(q_4,\varepsilon)$, $\sigma$~--- суффикс $w$. Аналогично получаем $(q_1,1\sigma_1\sigma_2)\vdash^*(q_4,\varepsilon)$, $1\sigma_1\sigma_2$~--- суффикс $w$, откуда $w\in L_3$.
+\end{enumerate}
+\item Построим ДКА $\B$ по НКА $\A$:\newline
+$\begin{array}{|c|c|c|c|c|c|}
+\hline
+Q & q & 0\,(q) & 0\,(Q) & 1\,(q) & 1\,(Q)\\\hline\hline
+Q_0 & q_0, q_1					& q_0, q_1				& Q_0 & q_0, q_1, q_2			& Q_1\\\hline
+Q_1 & q_0, q_1, q_2				& q_0, q_1, q_3			& Q_2 & q_0, q_1, q_2, q_3		& Q_3\\\hline
+Q_2 & q_0, q_1, q_3				& q_0, q_1, q_4			& Q_4 & q_0, q_1, q_2, q_4		& Q_5\\\hline
+Q_3 & q_0, q_1, q_2, q_3		& q_0, q_1, q_3, q_4 	& Q_6 & q_0, q_1, q_2, q_3, q_4 & Q_7\\\hline
+Q_4 & q_0, q_1, q_4				& q_0, q_1 				& Q_0 & q_0, q_1, q_2			& Q_1\\\hline
+Q_5 & q_0, q_1, q_2, q_4		& q_0, q_1, q_3			& Q_2 & q_0, q_1, q_2, q_3		& Q_3\\\hline
+Q_6 & q_0, q_1, q_3, q_4		& q_0, q_1, q_4			& Q_4 & q_0, q_1, q_2, q_4		& Q_5\\\hline
+Q_7 & q_0, q_1, q_2, q_3, q_4 	& q_0, q_1, q_3, q_4	& Q_6 & q_0, q_1, q_2, q_3, q_4	& Q_7\\\hline
+\end{array}$
+\begin{center}
+\begin{tikzpicture}[shorten >=0pt,node distance=3cm,on grid,auto,initial text=]
+	  \node[state,initial]  (q_0)   {$Q_0$};
+  	  \node[state]  (q_1) [right = of q_0]   {$Q_1$};
+   	  \node[state]  (q_2) [above right = of q_1]   {$Q_2$};
+   	  \node[state]  (q_3) [below right = of q_1]   {$Q_3$};
+   	  \node[state, accepting]  (q_4) [above right = of q_2]   {$Q_4$};
+   	  \node[state, accepting]  (q_5) [right = of q_2]   {$Q_5$};
+   	  \node[state, accepting]  (q_6) [right = of q_3]   {$Q_6$};
+   	  \node[state, accepting]  (q_7) [below right = of q_3]   {$Q_7$};
+  	  \path[->] 
+			(q_0)	edge[loop below]		node	{$0$}	(q_0)
+			(q_0)	edge		node	{$1$}	(q_1)
+			(q_1)	edge		node	{$0$}	(q_2)
+			(q_1)	edge		node	{$1$}	(q_3)
+			(q_2)	edge		node	{$0$}	(q_4)
+			(q_2)	edge[bend right=25]		node	{$1$}	(q_5)
+			(q_3)	edge		node	{$0$}	(q_6)
+			(q_3)	edge		node	{$1$}	(q_7)
+			(q_4)	edge[bend right=30]		node	{$0$}	(q_0)
+			(q_4)	edge[bend right=40]		node	{$1$}	(q_1)
+			(q_5)	edge[bend right=25]		node	{$0$}	(q_2)
+			(q_5)	edge		node	{$1$}	(q_3)
+			(q_6)	edge[bend right=50]		node	{$0$}	(q_4)
+			(q_6)	edge		node	{$1$}	(q_5)
+			(q_7)	edge		node	{$0$}	(q_6)
+			(q_7)	edge[loop below]		node	{$1$}	(q_7);
+\end{tikzpicture}
+\end{center}
+\end{enumerate}
 \end{document}
