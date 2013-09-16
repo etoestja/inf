@@ -62,10 +62,10 @@ $w\in X\cdot Y\Rightarrow w=xy, x\in X, y\in Y$. Тогда $x\in L(\A)$, то �
 \\[5pt]
 Пусть для некоторого автомата $(q_1,cx)\vdash(q_2,x)$. Это значит, что $\delta(q_1,c)\ni q_2$. Но отсюда $(q_1,cxy)\vdash(q_2,xy)$, $x,y$~--- некоторые слова. Пусть $(q_1,x)\vdash^*(q_2,y)$. Это значит, что существует цепочка $(q_1,x)\vdash\dots\vdash(q_2,y)$. Применяя утверждение выше, получаем $(q_1,xz)\vdash\dots\vdash(q_2,yz)$, а отсюда $(q_1,xz)\vdash^*(q_2,yz)$. Очевидно, рассуждение верно и в обратную сторону: если $(q_1,xz)\vdash^*(q_2,yz)$, то $(q_1,x)\vdash^*(q_2,y)$.
 \\[5pt]
-Из предыдущего утверждения получаем для автомата $\A$ $(q_0^\A,xy)\vdash^*(q_F^\A,y)\equiv(q_0^\B,y)\vdash^*(q_F,\varepsilon)$, то есть, $(q_0^\A,w)\vdash^*(q_F^\B,\varepsilon)\Rightarrow w\in L(\C)$.\newline
+Из предыдущего утверждения получаем для автомата $\A$ $(q_0^\A,xy)\vdash^*(q_F^\A,y)\equiv(q_0^\B,y)\vdash^*(q^\B_F,\varepsilon)$, то есть, $(q_0^\A,w)\vdash^*(q_F^\B,\varepsilon)\Rightarrow w\in L(\C)$.\newline
 Докажем обратное: $w\in L(\C)\Rightarrow w\in X\cdot Y$.\newline
 Пусть $w\in L(\C)$. Тогда $(q_0^\A,w)\vdash\dots\vdash(q_F^\B,\varepsilon)$. Докажем, что в этой цепочке встретилось состояние $(q_F^\A,y)$.\newline
-В этой цепочке был переход из $q_\A\in Q^\A$ в $q_\B\in Q^\B$, т.к. иначе получим, что все переходы были внутри множества состояний $Q^\A$. Поэтому $\exists q^\A\,\exists\sigma\in\Sigma:\delta(q^\A,\sigma)\ni q^\B$. Но изначально множество $Q^\A$~--- множество состояний автомата $\A$, поэтому $\delta(Q^\A)\subseteq 2^{Q^\A}$. Получаем $q^\B\in Q^\A$. По условию $Q^\A\cap Q^\B=\{q_F^\A\}$, откуда получаем требуемое: в цепочке встретилось $(q^\A,\sigma y)\vdash(q_F^\A,y)$.\newline
+В этой цепочке был переход из $q_\A\in Q^\A$ в $q_\B\in Q^\B$, т.к. иначе получим, что все переходы были внутри множества состояний $Q^\A$. Поэтому $\exists q^\A\,\exists\sigma\in\Sigma:\delta(q^\A,\sigma)\ni q^\B$. Но изначально множество $Q^\A$~--- множество состояний автомата $\A$, поэтому $\delta(Q^\A\times\Sigma)\subseteq 2^{Q^\A}$. Получаем $q^\B\in Q^\A$. По условию $Q^\A\cap Q^\B=\{q_F^\A\}$, откуда получаем требуемое: в цепочке встретилось $(q^\A,\sigma y)\vdash(q_F^\A,y)$.\newline
 Таким образом, $(q_0^\A,w)\vdash^*(q_F^\A,y)\vdash^*(q_F^\B,\varepsilon)$. Поскольку $y$~--- суффикс $w$, то $w=xy$. Из доказанного ранее получаем $(q_0^\A,x)\vdash^*(q_F^\A,\varepsilon)$, откуда $x\in L(\A)=X$. Аналогично $y\in L(\B)=Y$. Найдены $x\in X$ и $y\in Y$: $w=xy$. Отсюда $w\in X\cdot Y$.
 \section*{Упражнение 2}
 \section*{Упражнение 3}
@@ -177,7 +177,7 @@ $w\in X\cdot Y\Rightarrow w=xy, x\in X, y\in Y$. Тогда $x\in L(\A)$, то �
 \end{tikzpicture}
 \end{center}
 \begin{enumerate}[1.]
-\item $w\in L_3$. Тогда $w[n-3]=1\Leftrightarrow w=x1\sigma_1\sigma_2$. $x\in \Sigma^*\Rightarrow$ после обработки $x$ автомат может оказаться в $q_0$: $(q_0,x1\sigma_1\sigma_2)\vdash^*(q_0,1\sigma_1\sigma_2)$. Далее $(q_0,1\sigma_1\sigma_2)\vdash(q_1,1\sigma_1\sigma_2)\vdash(q_2,\sigma_1\sigma_2)$. $\sigma_1,\sigma_2\in\Sigma\Rightarrow(q_2,\sigma_1\sigma_2)\vdash(q_3,\sigma_2)\vdash(q_4,\varepsilon)$. Таким образом, $(q_0,w)\vdash_*(q_4,\varepsilon)\Rightarrow w\in L(\A)$.
+\item $w\in L_3$. Тогда $w[n-3]=1\Leftrightarrow w=x1\sigma_1\sigma_2$. $x\in \Sigma^*\Rightarrow$ после обработки $x$ автомат может оказаться в $q_0$: $(q_0,x1\sigma_1\sigma_2)\vdash^*(q_0,1\sigma_1\sigma_2)$. Далее $(q_0,1\sigma_1\sigma_2)\vdash(q_1,1\sigma_1\sigma_2)\vdash(q_2,\sigma_1\sigma_2)$. $\sigma_1,\sigma_2\in\Sigma\Rightarrow(q_2,\sigma_1\sigma_2)\vdash(q_3,\sigma_2)\vdash(q_4,\varepsilon)$. Таким образом, $(q_0,w)\vdash^*(q_4,\varepsilon)\Rightarrow w\in L(\A)$.
 \item $w\in L(\A)\Rightarrow(q_0,w)\vdash^*(q_4,\varepsilon)$. Поскольку переход в $q_4$ только один: $\exists!q:\delta(q,\sigma)\ni q_4,q=q_3$, получаем, что в цепочке конфигураций на последнем месте переход $(q_3,\sigma)\vdash(q_4,\varepsilon)$, $\sigma$~--- суффикс $w$. Аналогично получаем $(q_1,1\sigma_1\sigma_2)\vdash^*(q_4,\varepsilon)$, $1\sigma_1\sigma_2$~--- суффикс $w$, откуда $w\in L_3$.
 \end{enumerate}
 \item Построим ДКА $\B$ по НКА $\A$:\newline
@@ -282,7 +282,7 @@ fillPrefix at i=14, looking at symbol a
 fillPrefix at i=15, looking at symbol b
   going deeper[1, a]
   got prefix[1, a] . 'b'
-n	0	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	
+n	0	1	2	3	4	5	6	7	8	9	A	B	C	D	E	F	G	
 c	*	a	b	b	a	#	a	b	b	b	a	b	a	b	b	a	b	
 p	0	0	0	0	1	0	1	2	3	0	1	2	1	2	3	4	2	
 findPInT: found P in T starting from position 12

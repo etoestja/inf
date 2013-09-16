@@ -50,7 +50,12 @@ void printPrefix(char* string)
     int i;
     printf("n\t");
     for(i = 0; i < strlen(string); i++)
-        printf("%d\t", i);
+    {
+        if(i < 10)
+            printf("%d\t", i);
+        else
+            printf("%c\t", 'A' + i - 10);
+    }
     printf("\nc\t");
     for(i = 0; i < strlen(string); i++)
         printf("%c\t", string[i]);
