@@ -9,6 +9,7 @@
 \usepackage{amsmath}
 \usepackage{floatflt}
 \usepackage{enumerate}
+\usepackage{hyperref}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \title{Теория и реализация языков программирования.\\Задание 2: НКА и алгоритмы поиска подстрок}
@@ -245,6 +246,7 @@ Q_{11} & q_0, q_1, q_3, q_6		& Q_9  & Q_6 \\\hline
 Начальное состояние~--- $Q_0$, принимающие~--- $\{Q_6, Q_7, Q_8, Q_9, Q_{10}, Q_{11}\}$.
 \section*{Задача 5}
 \section*{Задача 6}
+\newpage
 \section*{Задача 7}
 \begin{verbatim}
 fillPrefix at i=0, looking at symbol a
@@ -284,5 +286,10 @@ n	0	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16
 c	*	a	b	b	a	#	a	b	b	b	a	b	a	b	b	a	b	
 p	0	0	0	0	1	0	1	2	3	0	1	2	1	2	3	4	2	
 findPInT: found P in T starting from position 12
+\end{verbatim}
+\href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s3/TIPL/2/KMP\_stupid.c}{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s3/TIPL/2/KMP\_stupid.c}~--- исходный код. Запускать:
+\begin{verbatim}
+$ cc KMP_stupid.c -o KMP
+$ echo "abba abbbababbab" | ./KMP
 \end{verbatim}
 \end{document}
