@@ -310,49 +310,43 @@ Q_{11} & q_0, q_1, q_3, q_6		& Q_9  & Q_6 \\\hline
 %Во втором случае, когда следующий символ входного слова отличается от $w_{i+1}$, совершается переход в состояние с номером $f(i,\sigma)+1$, так как необходимо найти максимальный префикс слова $w[1,i]$, который совпадает с суффиксом слова $w[1,i]$, причем после префикса стоит $\sigma$. Максимальность требуется свойством, префикс должен являться суффиксом, чтобы совпадение заканчивалось на предыдущем рассматриваемом символе. Следующий входной символ~--- $\sigma$, поэтому после префикса также должен идти символ $\sigma$. Длина этого префикса~--- $f(i,\sigma)$. Тогда перейти нужно вершину со следующим номером (еще символ $\sigma$).
 Пусть автомат находится на позиции, в которой заканчивается вхождение $w$. Тогда, по свойству, он будет находиться в последнем, принимающем состоянии $\Rightarrow$ слово будет принято.\newline
 Пусть входное слово не содержит $w$. Тогда длина префикса $w$, который входит во входное слово не достигнет $|w|\Rightarrow$ по свойству автомат не перейдет в принимающее состояние.
+\newpage
 \section*{Задача 7}
+\subsection*{Построение префикс-функции}
 \begin{verbatim}
-fillPrefix at i=0, looking at symbol a
-fillPrefix at i=1, looking at symbol b
-  zero prefix[0, *]
-fillPrefix at i=2, looking at symbol b
-  zero prefix[0, *]
-fillPrefix at i=3, looking at symbol a
-  got prefix[0, *] . 'a'
-fillPrefix at i=4, looking at symbol #
-  zero prefix[0, *]
-fillPrefix at i=5, looking at symbol a
-  got prefix[0, *] . 'a'
-fillPrefix at i=6, looking at symbol b
-  got prefix[1, a] . 'b'
-fillPrefix at i=7, looking at symbol b
-  got prefix[2, b] . 'b'
-fillPrefix at i=8, looking at symbol b
-  zero prefix[0, *]
-fillPrefix at i=9, looking at symbol a
-  got prefix[0, *] . 'a'
-fillPrefix at i=10, looking at symbol b
-  got prefix[1, a] . 'b'
-fillPrefix at i=11, looking at symbol a
-  zero prefix[0, *]
-  got prefix[0, *] . 'a'
-fillPrefix at i=12, looking at symbol b
-  got prefix[1, a] . 'b'
-fillPrefix at i=13, looking at symbol b
-  got prefix[2, b] . 'b'
-fillPrefix at i=14, looking at symbol a
-  got prefix[3, b] . 'a'
-fillPrefix at i=15, looking at symbol b
-  going deeper[1, a]
-  got prefix[1, a] . 'b'
-n	0	1	2	3	4	5	6	7	8	9	A	B	C	D	E	F	G	
-c	*	a	b	b	a	#	a	b	b	b	a	b	a	b	b	a	b	
-p	0	0	0	0	1	0	1	2	3	0	1	2	1	2	3	4	2	
-findPInT: found P in T starting from position 12
+Looking at [1], a: lastP=<> Found P=<>
+Looking at [2], b: lastP=<> lastP=<> break Found P=<>
+Looking at [3], b: lastP=<> lastP=<> break Found P=<>
+Looking at [4], a: lastP=<> Found P=<a> 
+Looking at [5], #: lastP=<a> lastP=<> break Found P=<>
+Looking at [6], a: lastP=<> Found P=<a> 
+Looking at [7], b: lastP=<a> Found P=<ab> 
+Looking at [8], b: lastP=<ab> Found P=<abb> 
+Looking at [9], b: lastP=<abb> lastP=<> break Found P=<>
+Looking at [10], a: lastP=<> Found P=<a> 
+Looking at [11], b: lastP=<a> Found P=<ab> 
+Looking at [12], a: lastP=<ab> lastP=<> break Found P=<a> 
+Looking at [13], b: lastP=<a> Found P=<ab> 
+Looking at [14], b: lastP=<ab> Found P=<abb> 
+Looking at [15], a: lastP=<abb> Found P=<abba> 
+Looking at [16], b: lastP=<abba> lastP=<a> Found P=<ab>
+\end{verbatim}
+\subsection*{Префикс-функция}
+$
+\begin{array}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\mbox{Номер}   & 1 & 2 & 3 & 4 & 5  & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16\\\hline
+\mbox{Символ}  & a & b & b & a & \# & a & b & b & b & a  & b  & a  & b  & b  & a  & b\\\hline
+\mbox{Функция} & 0 & 0 & 0 & 1 & 0  & 1 & 2 & 3 & 0 & 1  & 2  & 1  & 2  & 3  & 4  & 2\\\hline
+\end{array}
+$
+\subsection*{Результат}
+\begin{verbatim}
+Found, starting from 12
 \end{verbatim}
 \href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s3/TIPL/2/KMP.c}{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s3/TIPL/2/KMP.c}~--- исходный код. Запускать:
 \begin{verbatim}
-$ cc KMP_stupid.c -o KMP
+$ cc KMP.c -o KMP
 $ echo "abba abbbababbab" | ./KMP
 \end{verbatim}
 \end{document}
