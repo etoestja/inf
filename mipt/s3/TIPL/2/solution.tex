@@ -41,9 +41,9 @@
   	  			(q_0)	edge		node	{$\sigma$}	(q_1);
 \end{tikzpicture}
 \end{center}
-Очевидно, автомат примет $\sigma$: $(q_0,\sigma)\vdash(q_1,\varepsilon)$, и $q_1\in F$. Пусть автомат принял слово $w$. Поскольку начальных и принимающих верший по одной, и между ними один переход $\delta(q_0,\sigma)=\{q_1\}$, получаем $(q_0,w)\vdash(q_1,\varepsilon)$. Отсюда $w=\sigma$.
+Очевидно, автомат примет $\sigma$: $(q_0,\sigma)\vdash(q_1,\varepsilon)$, и $q_1\in F$. Пусть автомат принял слово $w$. Поскольку начальных и принимающих состояний по одному, и между ними один переход $\delta(q_0,\sigma)=\{q_1\}$, получаем $(q_0,w)\vdash(q_1,\varepsilon)$. Отсюда $w=\sigma$.
 \section*{Упражнение 1}
-$L(\A)=X,L(\B)=Y$. Докажем, $L(\C)=X\cdot Y$, $\C$~--- автомат из условия:
+$L(\A)=X,L(\B)=Y$. Докажем, что $L(\C)=X\cdot Y$, $\C$~--- автомат из условия:
 \begin{center}
 \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
 	  %\draw[help lines] (0,0) grid (3,2);
