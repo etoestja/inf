@@ -223,12 +223,30 @@ Q_7 & q_0, q_1, q_2, q_3, q_4 	& q_0, q_1, q_3, q_4	& Q_6 & q_0, q_1, q_2, q_3, 
 \end{tikzpicture}
 \end{center}
 \end{enumerate}
-\section*{Задача 3}
 Заметим, что в построенном автомате $8=2^3$ состояний.
-\\[10pt]
-{\em{(Хопкрофт, 2.3.6: плохой случай для конструкции подмножеств)}}
+\section*{Задача 3}
+В исходном автомате $\A: L(\A)=L_n$ будет $n+2$ состояний (при $n=3$ состояний $5$, при увеличении $n$ на $1$ количество состояний также будет увеличиваться на 1, так как в конце слова должен стоять еще один произвольный символ).
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	  \node[state,initial]  (q_0)   {$q_0$};
+  	  \node[state]  (q_1) [right = of q_0]   {$q_1$};
+   	  \node[state]  (q_2) [right = of q_1]   {$q_2$};
+   	  \node			(q_dots) [right of = q_2]{$\cdots$};
+   	  \node[state]  (q_3) [right = of q_dots]   {$q_n$};
+  	  \node[state,accepting]  (q_4) [right = of q_3]   {$q_{n+1}$};
+  	  \path[->] 
+			(q_0)	edge[loop]		node	{$0,1$}	(q_0)
+			(q_0)	edge		node	{$\varepsilon$}	(q_1)
+			(q_1)	edge		node	{$1$}	(q_2)
+			(q_2)	edge		node	{$0,1$}	(q_dots)
+			(q_dots)	edge		node	{$0,1$}	(q_3)
+			(q_3)	edge		node	{$0,1$}	(q_4);
+
+\end{tikzpicture}
+\end{center}
+{\em{(Идея из Хопкрофта, 2.3.6: плохой случай для конструкции подмножеств)}}
 \\[3pt]
-Предположим, что в ДКА $\B$, построенном НКА $\A$: $L(\A)=L_n$ меньше $2^n$ состояний. Тогда по принципу Дирихле (т.к. состояний меньше, чем строк из $n$ символов) $\exists a=a_1\dots a_n\,\exists b=b_1\dots b_n:a\neq b$ и $(Q_0,q)\vdash^*(Q,x)\,,(Q_0,b)\vdash^*(Q,y)$, то есть, после обработки $a$ или $b$ автомат переходит в состояние $Q$. Поскольку $a\neq b$, $\exists i:a_i\neq b_i$.
+Предположим, что в ДКА $\B:L(\B)=L_n$ меньше $2^n$ состояний. Тогда по принципу Дирихле (т.к. состояний меньше, чем строк из $n$ символов) $\exists a=a_1\dots a_n\,\exists b=b_1\dots b_n:a\neq b$ и $(Q_0,q)\vdash^*(Q,x)\,,(Q_0,b)\vdash^*(Q,y)$, то есть, после обработки $a$ или $b$ автомат переходит в состояние $Q$. Поскольку $a\neq b$, $\exists i:a_i\neq b_i$.
 \begin{enumerate}[1.]
 \item $i=1$. Это значит, что отличаются первые символы строк. Без ограничения общности, $a_1=1, b_1=0$. Но тогда $a\in L(\B)$, так как $n$-й символ с конца строки $a$ равен $1$. Поэтому $Q\in F_\B$.\newline
 Аналогично, так как $b_1=0$, $b\notin L(\B)\Rightarrow Q\notin F_\B$~--- противоречие.
@@ -237,6 +255,7 @@ $a'=a_1\dots a_i\dots a_n\underbrace{0\dots 0}_{i-1}, b'$~--- аналогичн
 Но $(Q_0,a')\vdash^*(Q,0\dots 0)\vdash^*(P,\varepsilon)$,\newline
 $(Q_0,b')\vdash^*(Q,0\dots 0)\vdash^*(P,\varepsilon)$, откуда состояние $P$ должно быть как принимающим, так и не принимающим~--- противоречие.
 \end{enumerate}
+Получаем, что в НКА $\A$ $O(n)$ состояний, а в любом ДКА $\B: L(\B)=L_n$ $2^n$ состояний. В том числе $2^n$ состояний будет у того ДКА, который построен по $\A$ при помощи алгоритма$\,\blacksquare$
 \section*{Задача 4}
 Построим ДКА $\B$ по НКА $\A$:\newline
 $\begin{array}{|c|c|c|c|}
