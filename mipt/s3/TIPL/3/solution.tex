@@ -1,0 +1,56 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{graphicx}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning}
+\usepackage{amsmath}
+\usepackage{floatflt}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\title{Теория и реализация языков программирования.\\Задание 2: НКА и алгоритмы поиска подстрок}
+\date{задано 2013.09.18}
+\author{Сергей~Володин, 272 гр.}
+
+% названия автоматов
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+
+% регулярные языки
+\def\REG{{\mathsf{REG}}}
+
+\begin{document}
+\maketitle
+\section*{Упражнение 1}
+Пусть $\sim\,\subset X\times X$. $C(x)=\{z\in X|x\sim z\}$, $C(y)=\{w\in X|y\sim z\}$.
+\\[1pt]
+Пусть $\exists z\in C(x)\cap C(y)$. Тогда $x\sim z,y\sim z$, и $w\in C(x)\overset{\mathrm{def}}{\Leftrightarrow}x\sim w\underset{\substack{\mbox{\tiny транз.} \\ \mbox{\tiny симм.}}}{\overset{z\sim x}{\Leftrightarrow}}z\sim w\overset{y\sim z}{\Leftrightarrow}y\sim w\overset{\mathrm{def}}{\Leftrightarrow}w \in C(y)$, то есть, $C(x)=C(y)$.\newline
+В противном случае $\rceil (\exists z\in C(x)\cap C(y))\Leftrightarrow C(x)\cap C(y)=\varnothing$.
+Получаем, что возможны два случая:
+\begin{enumerate}[1.]
+\item $C(x)\cap C(y)=\varnothing$ {\em (не пересекаются)}
+\item $C(x)=C(y)$ {\em (совпадают)}
+\end{enumerate}
+\section*{Упражнение 2}
+Пусть $\varphi\colon\Sigma^*\longrightarrow\Delta^*$~--- морфизм, $\varphi(\sigma_i)\overset{\mbox{\tiny def}}{=}w_i\in\Delta^*$. Пусть $w\equiv a_1...a_n\in\Sigma^*$. Тогда $\varphi(w)\equiv \varphi(a_1...a_n)=\varphi(a_1)\cdot\varphi(a_2...a_n)=...=\varphi(a_1)\cdot...\cdot\varphi(a_n)\in\Delta^*$. Получаем, что $\varphi$~--- определена на $\Sigma^*$ ($\forall w\in\Sigma^*\hookrightarrow\mbox{задано значение }\varphi(w)$).
+\section*{Задача 1}
+Пусть $\varphi\colon\Sigma^*\supset X\longrightarrow Y\subset\Delta^*$~--- морфизм, $X\in\REG$. Докажем, что $Y\equiv\varphi(X)\in\REG$ индукцией по $R_3(X)$~--- количеству применений правила (3) из определения при выводе $X$:\newline
+$P(i)=(\forall X\in\REG\colon R_3(X)\leqslant\,\,\forall\varphi\mbox{~--- морфизм}\hookrightarrow \varphi(X)\in\REG)$.
+\begin{enumerate}[1.]
+\item Докажем $P(0)$: пусть $X\in\REG\colon R_3(X)=0$. Тогда $X$ получен без применения третьего правила. Значит, $\forall\varphi$~--- морфизм либо $X=\varnothing\Rightarrow\varphi(X)=\varnothing$, либо $X=\{\sigma\}\Rightarrow\varphi(X)=\{\varphi(\sigma)\}=\{w\}, w\in \Delta^*$.\newline
+\\[5pt]
+Докажем, что $\Delta^*\supset\{w\}\in\REG$. $\{w\}\equiv\{\sigma_1...\sigma_n\}\equiv\{\sigma_1\}\cdot...\cdot\{\sigma_n\}$. Поскольку $\{\sigma_i\}\in\REG$, и регулярные языки замкнуты относительно конкатенации (по определению), получаем требуемое.
+\\[5pt]
+Итак, $\varphi(X)\in\REG\,\blacksquare$
+\item Пусть $P(n)$. Докажем $P(n+1)$. Пусть $\REG\ni X\colon R_3(X)\leqslant n+1$. Если $R_3(X)<n+1$, $P(n)\Rightarrow X\in\REG$.\newline
+$\varangle X\colon R_3(X)=n+1$. Тогда рассмотрим случаи:
+\begin{enumerate}[a.]
+\item X=WZ, 
+\end{enumerate}
+\end{enumerate}
+\end{document}
