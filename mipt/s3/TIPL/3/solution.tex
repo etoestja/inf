@@ -52,7 +52,7 @@
 \end{enumerate}
 Таким образом, если заданы значения $\varphi(\sigma_i),\sigma_i\in X\subset\Sigma$, то морфизм $\varphi\colon \Sigma^*\supseteq X\longrightarrow\Delta^*$ с этими значениями существует и единственнен.
 \section*{Задача 1}
-Определим $R_3:\REG\ni X\longrightarrow \mathbb{N}\cup\{0\}$~--- количество применений правила $3$ из определения регулярности $X$. В случае $X=AB$ или $X=A|B, A,B\in\REG$ $R_3(X)\overset{\mathrm{def}}{=}1+R_3(A)+R_3(B)$. В случае $X=A^*, A\in\REG$, определим $R_3(X)\overset{\mathrm{def}}{=}1+R_3(A)$. В случае $X=\varnothing$ или $X=\{\sigma\}$ определим $R_3(X)\overset{\mathrm{def}}{=}0$.\newline
+Определим $R_3:\REG\ni X\longrightarrow \mathbb{N}\cup\{0\}$~--- количество применений правила $3$ из определения регулярности $X$. В случае $X=AB$ или $X=A|B, A,B\in\REG$ $R_3(X)\overset{\mathrm{def}}{=}1+R_3(A)+R_3(B)$. В случае $X=A^*, A\in\REG$, определим $R_3(X)\overset{\mathrm{def}}{=}1+R_3(A)$. В случае $X=\varnothing$ или $X=\{\sigma\}$ определим $R_3(X)\overset{\mathrm{def}}{=}0$. Функция $R_3(X)$ определена корректно, так как определение регулярного языка коррентное.\newline
 Пусть $\varphi\colon\Sigma^*\supset X\longrightarrow Y\subset\Delta^*$~--- морфизм, $X\in\REG$. Докажем, что $Y\equiv\varphi(X)\in\REG$ индукцией по $R_3(X)$:
 \\[5pt]
 $P(i)=(\forall X\in\REG\colon R_3(X)\leqslant i\,\,\forall\varphi\mbox{~--- морфизм}\hookrightarrow \varphi(X)\in\REG)$.
