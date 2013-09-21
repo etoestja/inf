@@ -53,7 +53,11 @@ $P(i)=(\forall X\in\REG\colon R_3(X)\leqslant\,\,\forall\varphi\mbox{~--- мор
 $\varangle X\colon R_3(X)=n+1$. Возможны случаи:
 \begin{enumerate}[a.]
 \item $X=WZ$, $W,Z\in\REG$. Тогда $\varphi(X)\equiv\varphi(WZ)=\{\varphi(wz)|w\in W,z\in Z\}=\{\varphi(w)\varphi(z)|w\in W,z\in Z\}=\\\{\varphi(w)|w\in W\}\cdot\{\varphi(z)|z\in Z\}=\varphi(W)\varphi(Z)$. $R_3(X)=1+R_3(W)+R_3(Z)=n+1\Rightarrow R_3(W),R_3(Z)\leqslant n\overset{P(n)}{\Rightarrow} \varphi(W),\varphi(Z)\in\REG\Rightarrow \varphi(X)=\varphi(W)\varphi(Z)\in\REG$.
-\item $X=W|Z$, $W,W\in\REG$. Тогда $\varphi(X)\equiv\varphi(W|Z)\equiv\varphi(W)|\varphi(Z)$. Аналогично $R_3(W),R_3(Z)\leqslant n\overset{P(n)}{\Rightarrow}\varphi(W),\varphi(Z)\in\REG\Rightarrow\varphi(X)=\varphi(W)|\varphi(Z)\in\REG$.
+\item $X=W|Z$, $W,Z\in\REG$. Тогда $\varphi(X)\equiv\varphi(W|Z)\equiv\varphi(W)|\varphi(Z)$. Аналогично $R_3(W),R_3(Z)\leqslant n\overset{P(n)}{\Rightarrow}\varphi(W),\varphi(Z)\in\REG\Rightarrow\varphi(X)=\varphi(W)|\varphi(Z)\in\REG$.
+\item $X=W^*, W\in\REG$. Тогда $R_3(X)=1+R_3(W)=n+1\Rightarrow R_3(W)=n\overset{P(n)}{\Rightarrow}\varphi(W)\in\REG\Rightarrow \varphi(W^*)=\varphi(\varepsilon|W|WW|...)=\varphi(\varepsilon)|\varphi(W)|\varphi(WW)...\overset{\varphi(\varepsilon)=\varepsilon}{=}\varepsilon|\varphi(W)|\varphi(WW)...=\varphi(W)^*\in\REG$.
+\\[5pt]
+Докажем, что $w\overset{\mathrm{def}}{=}\varphi(\varepsilon)=\varepsilon$. $\varphi(\varepsilon)\equiv\varphi(\varepsilon\varepsilon)=\varphi(\varepsilon)\varphi(\varepsilon)=ww\Rightarrow w=ww\Rightarrow |w|=|w||w|\Rightarrow w=\varphi(\varepsilon)=\varepsilon$.
+\\[5pt]
 \end{enumerate}
 \end{enumerate}
 \end{document}
