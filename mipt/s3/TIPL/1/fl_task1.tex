@@ -16,7 +16,7 @@
 \usepackage{multicol} %Несколько колонок
 \usepackage{graphicx}
 \usepackage[colorlinks,urlcolor=blue]{hyperref}
-
+\usepackage[stable]{footmisc}
 
 %% \voffset-5mm
 %% \def\baselinestretch{1.44}
@@ -29,6 +29,7 @@
 \newtheorem{Claim}{Утверждение}
 \newtheorem{Cor}{Следствие}
 \newtheorem{Theorem}{Теорема}
+\theoremstyle{definition}
 \newtheorem{Example}{Пример}
 \newtheorem*{known}{Теорема}
 \def\proofname{Доказательство}
@@ -74,19 +75,26 @@
 \def\R{{\cal R}}
 \def\A{{\cal A}}
 \def\B{{\cal B}}
+\def\C{{\cal C}}
 \def\D{{\cal D}}
 \let\w\omega
 
 %классы сложности
 \def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
 \newcounter{problem}
+\newcounter{uproblem}
 \newcounter{subproblem}
 \def\pr{\medskip\noindent\stepcounter{problem}{\bf \theproblem .  }\setcounter{subproblem}{0} }
 \def\prp{\medskip\noindent\stepcounter{problem}{\bf Задача \theproblem .  }\setcounter{subproblem}{0} }
+\def\prstar{\medskip\noindent\stepcounter{problem}{\bf Задача $\theproblem^*$ .  }\setcounter{subproblem}{0} }
+\def\prdag{\medskip\noindent\stepcounter{problem}{\bf Задача $\theproblem^\dagger$ .  }\setcounter{subproblem}{0} }
+\def\upr{\medskip\noindent\stepcounter{uproblem}{\bf Упражнение \theuproblem .  }\setcounter{subproblem}{0} }
 %\def\prp{\vspace{5pt}\stepcounter{problem}{\bf Задача \theproblem .  } }
 %\def\prs{\vspace{5pt}\stepcounter{problem}{\bf \theproblem .*   }
 \def\prsub{\medskip\noindent\stepcounter{subproblem}{\rm \thesubproblem .  } }
 %прочее
+\def\quotient{\backslash\negthickspace\sim}
 \begin{document}
 	\centerline{\LARGE Задание 1}
 
@@ -187,8 +195,11 @@
 	Запись регулярных языков с использованием скобок и определённых выше операций, называют \emph{регулярным выражением}.
 	Сами по себе скобки являются разделителем и не несут смысловой нагрузки: 
 	Регулярное выражение $(a) $  задаёт язык $\{a\}$, $(a|b) = \{a,b\}$, $(a|b)^* = \{a,b\}^* = \Sigma^*$.
-
-	В теории формальных языков, каждому классу языков соответствует модель вычислений, которая распознаёт данный класс языков. Для класса регулярных языков такой моделью является \emph{Конечный Автомат} (КА).
+	
+	\upr Показать, что $\eps \in \REG$.
+	\medskip
+	
+В теории формальных языков, каждому классу языков соответствует модель вычислений, которая распознаёт данный класс языков. Для класса регулярных языков такой моделью является \emph{Конечный Автомат} (КА).
 
 
 	\begin{Def}
