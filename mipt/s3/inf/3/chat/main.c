@@ -37,12 +37,12 @@ int main(int argc, char** argv)
         exit(-1);
     }
 
-    if((fdW = open(nameW, O_RDWR | O_NONBLOCK | O_NDELAY)) < 0){
+    if((fdW = open(nameW, O_RDWR /*| O_NONBLOCK | O_NDELAY*/)) < 0){
         printf("Can\'t open FIFO for writing\n");
         exit(-1);
     }
 
-    if((fdR = open(nameR, O_RDWR | O_NONBLOCK | O_NDELAY)) < 0){
+    if((fdR = open(nameR, O_RDWR /*| O_NONBLOCK | O_NDELAY*/)) < 0){
         printf("Can\'t open FIFO for reading\n");
         exit(-1);
     }
@@ -50,25 +50,13 @@ int main(int argc, char** argv)
     char buf[BUFSIZE];
 
     if(fork())
-    {
         for(;;)
-        {
             if((size = read(STDIN_FILENO, buf, BUFSIZE)) > 0)
-            {
                 write(fdW, buf, size);
-            }
-        }
-    }
     else
-    {
         for(;;)
-        {
             if((size = read(fdR, buf, BUFSIZE)) > 0)
-            {
                 write(STDOUT_FILENO, buf, size);
-            }
-        }
-    }
 
     close(fdW);
     close(fdR);
