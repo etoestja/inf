@@ -2,14 +2,11 @@
 \usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage[english,russian]{babel}
-\usepackage{graphicx}
 \usepackage{indentfirst}
 \usepackage{tikz} %Рисование автоматов
 \usetikzlibrary{automata,positioning}
 \usepackage{amsmath}
-\usepackage{floatflt}
 \usepackage{enumerate}
-\usepackage{hyperref}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{wasysym}
@@ -25,6 +22,8 @@
 % регулярные языки
 \def\REG{{\mathsf{REG}}}
 
+\newcommand{\niton}{\not\owns}
+
 \begin{document}
 \maketitle
 \section*{Упражнение 1}
@@ -38,7 +37,20 @@
 \item $C(x)=C(y)$ {\em (совпадают)}
 \end{enumerate}
 \section*{Упражнение 2}
-Пусть $\varphi\colon\Sigma^*\longrightarrow\Delta^*$~--- морфизм, $\varphi(\sigma_i)\overset{\mbox{\tiny def}}{=}w_i\in\Delta^*$. Пусть $w\equiv a_1...a_n\in\Sigma^*$. Тогда $\varphi(w)\equiv \varphi(a_1...a_n)=\varphi(a_1)\cdot\varphi(a_2...a_n)=...=\varphi(a_1)\cdot...\cdot\varphi(a_n)\in\Delta^*$. Получаем, что $\varphi$~--- определена на $\Sigma^*$ ($\forall w\in\Sigma^*\hookrightarrow\mbox{задано значение }\varphi(w)$).
+Пусть $\varphi\colon\Sigma^*\supseteq X\longrightarrow\Delta^*$. $\varphi(\sigma_i)\overset{\mbox{\tiny def}}{=}\delta_i\in\Delta^*$, $|\sigma_i|=1$.\newline
+\begin{enumerate}
+\item {\em (единственность)} Предположим, что существует такое $\varphi$~--- морфизм. Тогда $\forall w=w_1...w_n\in X, |w_i|=1\hookrightarrow\varphi(w)\equiv \varphi(w_1...w_n)=\varphi(w_1)\cdot\varphi(w_2...w_n)=...=\varphi(w_1)\cdot...\cdot\varphi(w_n)\in\Delta^*$. Для $w=\varepsilon$ получаем $\varphi(\varepsilon)=\varepsilon$, так как $\varphi$~--- морфизм: $w_0\overset{\mathrm{def}}{=}\varphi(\varepsilon)=\varepsilon$. $\varphi(\varepsilon)\equiv\varphi(\varepsilon\varepsilon)=\varphi(\varepsilon)\varphi(\varepsilon)=w_0w_0\Rightarrow w_0=w_0w_0\Rightarrow |w_0|=|w_0||w_0|\Rightarrow w_0=\varphi(\varepsilon)=\varepsilon$.
+\\[5pt]
+Таким образом, получаем, что такой морфизм единственный (если существует).
+\item {\em (существование)} Докажем, что определенное выше отображение $\varphi$~--- морфизм: пусть $x,y\in X$. Рассмотрим случаи:
+\begin{enumerate}[a.]
+\item $|x|=0,|y|=0\Rightarrow\varphi(xy)=\varphi(\varepsilon\varepsilon)=\varphi(\varepsilon)=\varepsilon=\varepsilon\varepsilon=\varphi(\varepsilon)\varphi(\varepsilon)$
+\item $|x|=0,|y|>0\Rightarrow\varphi(xy)=\varphi(y)=\varepsilon\varphi(y)=\varphi(x)\varphi(y)$
+\item $|x|>0,|y|=0\Rightarrow\varphi(xy)=\varphi(x)=\varphi(x)\varepsilon=\varphi(x)\varphi(y)$
+\item $|x|>0,|y|>0\Rightarrow\varphi(xy)=\varphi(x_1...x_my_1...y_n)=\underbrace{\varphi(x_1)...\varphi(x_m)}\underbrace{\varphi(y_1)...\varphi(y_n)}=\varphi(x)\varphi(y)$.
+\end{enumerate}
+\end{enumerate}
+Таким образом, если заданы значения $\varphi(\sigma_i),\sigma_i\in X\subset\Sigma$, то морфизм $\varphi\colon \Sigma^*\supseteq X\longrightarrow\Delta^*$ с этими значениями существует и единственнен.
 \section*{Задача 1}
 Определим $R_3:\REG\ni X\longrightarrow \mathbb{N}\cup\{0\}$~--- количество применений правила $3$ из определения регулярности $X$. В случае $X=AB$ или $X=A|B, A,B\in\REG$ $R_3(X)\overset{\mathrm{def}}{=}1+R_3(A)+R_3(B)$. В случае $X=A^*, A\in\REG$, определим $R_3(X)\overset{\mathrm{def}}{=}1+R_3(A)$. В случае $X=\varnothing$ или $X=\{\sigma\}$ определим $R_3(X)\overset{\mathrm{def}}{=}0$.\newline
 Пусть $\varphi\colon\Sigma^*\supset X\longrightarrow Y\subset\Delta^*$~--- морфизм, $X\in\REG$. Докажем, что $Y\equiv\varphi(X)\in\REG$ индукцией по $R_3(X)$:
@@ -57,10 +69,17 @@ $\varangle X\colon R_3(X)=n+1$. Возможны случаи:
 \item $X=WZ$, $W,Z\in\REG$. Тогда $\varphi(X)\equiv\varphi(WZ)=\{\varphi(wz)|w\in W,z\in Z\}=\{\varphi(w)\varphi(z)|w\in W,z\in Z\}=\\\{\varphi(w)|w\in W\}\cdot\{\varphi(z)|z\in Z\}=\varphi(W)\varphi(Z)$. $R_3(X)=1+R_3(W)+R_3(Z)=n+1\Rightarrow R_3(W),R_3(Z)\leqslant n\overset{P(n)}{\Rightarrow} \varphi(W),\varphi(Z)\in\REG\Rightarrow \varphi(X)=\varphi(W)\varphi(Z)\in\REG$.
 \item $X=W|Z$, $W,Z\in\REG$. Тогда $\varphi(X)\equiv\varphi(W|Z)\equiv\varphi(W)|\varphi(Z)$. Аналогично $R_3(W),R_3(Z)\leqslant n\overset{P(n)}{\Rightarrow}\varphi(W),\varphi(Z)\in\REG\Rightarrow\varphi(X)=\varphi(W)|\varphi(Z)\in\REG$.
 \item $X=W^*, W\in\REG$. Тогда $R_3(X)=1+R_3(W)=n+1\Rightarrow R_3(W)=n\overset{P(n)}{\Rightarrow}\varphi(W)\in\REG\Rightarrow \varphi(W^*)=\varphi(\varepsilon|W|WW|...)=\varphi(\varepsilon)|\varphi(W)|\varphi(WW)...\overset{\varphi(\varepsilon)=\varepsilon}{=}\varepsilon|\varphi(W)|\varphi(WW)...=\varphi(W)^*\in\REG$.
-\\[5pt]
-Докажем, что $w\overset{\mathrm{def}}{=}\varphi(\varepsilon)=\varepsilon$. $\varphi(\varepsilon)\equiv\varphi(\varepsilon\varepsilon)=\varphi(\varepsilon)\varphi(\varepsilon)=ww\Rightarrow w=ww\Rightarrow |w|=|w||w|\Rightarrow w=\varphi(\varepsilon)=\varepsilon$.
-\\[5pt]
 \end{enumerate}
 \end{enumerate}
 Получаем $\forall i\geqslant 0\hookrightarrow P(i)\Rightarrow\forall X\in\REG\,\forall\varphi\mbox{~--- морфизм}\hookrightarrow\varphi(X)\in\REG\,\blacksquare$
+\section*{Задача 2}
+\begin{enumerate}[1.]
+%Почему \varphi^-1 - морфизм, если \varphi - морфизм?
+\item Нет. Пусть $\Sigma=\{0,1\}$, $L=\Sigma^*$. Определим $\varphi\colon L\longrightarrow L\colon \forall w\in L\hookrightarrow\varphi(w)=\varepsilon$. В этом случае $\varphi$~--- морфизм, так как $\forall x\in L\,\forall y\in L\hookrightarrow\varphi(xy)=\varepsilon=\varepsilon\varepsilon=\varphi(x)\varphi(y)$. Тогда $\forall \varnothing\neq X\subset L\hookrightarrow\varphi(X)=\{\varepsilon\}$, так как $\forall w\in L\hookrightarrow\varphi(w)=\varepsilon$. Поскольку $\varphi(\varepsilon)=\varepsilon\in L$, $\varphi^{-1}(\varepsilon)\ni\varepsilon\Rightarrow \varphi^{-1}(L)\supset\{\varepsilon\}\neq\varnothing\Rightarrow\varphi^{-1}(L)\neq\varnothing\Rightarrow\varphi(\varphi^{-1}(L))=\{\varepsilon\}\neq L$.\newline
+Таким образом, $\exists L\subseteq\Sigma^*\,\exists\varphi\mbox{~--- морфизм}\colon \varphi(\varphi^{-1}(L))\neq L$.
+\item Нет. Пусть $\Sigma=\{a,b\}$, $L=\{b\}^*$, $\varphi(a)\overset{\mathrm{def}}{=}\varphi(b)\overset{\mathrm{def}}{=}a$. Доопределим $\varphi$ так, чтобы оно было морфизмом (это возможно, см. упражнение 2). Тогда $\varphi(L)\equiv\varphi(\{b^*\})\ni\varphi(b)=a\Rightarrow\varphi^{-1}(\varphi(L))\supset\varphi^{-1}(a)\ni a\notin L\Rightarrow \varphi^{-1}(\varphi(L))\nsubseteq L\Rightarrow\varphi^{-1}(\varphi(L))\neq L$.\newline
+Таким образом, $\exists L\subseteq\Sigma^*\,\exists\varphi\mbox{~--- морфизм}\colon \varphi^{-1}(\varphi(L))\neq L$.
+\item Нет. Пусть $\Sigma=\{a,b\}$, $L=\{ab\}$, морфизм $\varphi\colon\Sigma^*\longrightarrow\Sigma^*$~--- из предыдущего пункта. Тогда $\varphi(L)=\{\varphi(ab)\}=\{\varphi(a)\varphi(b)\}=\{aa\}$, $\varphi^{-1}(L)=\{x\in\Sigma^*|\varphi(x)\in\{ab\}\}=\{x\in\Sigma^*|\varphi(x)=ab\}=\varnothing$, так как $\varphi(\Sigma^*)=\varphi((a|b)^*)\overset{1.2.c}{=}(\varphi(a|b))^*=\{\varphi(a),\varphi(b)\}^*=\{a\}^*=a^*\niton ab$. Тогда $\varphi(\varphi^{-1}(L))=\varphi(\varnothing)=\varnothing\niton aa \in\varphi^{-1}(aa)=\varphi^{-1}(\varphi(L))$.\newline
+Таким образом, $\exists L\subseteq\Sigma^*\,\exists\varphi\mbox{~--- морфизм}\colon \varphi(\varphi^{-1}(L))\neq \varphi^{-1}(\varphi(L))$.
+\end{enumerate}
 \end{document}
