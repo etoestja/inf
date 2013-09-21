@@ -1,1 +1,9 @@
-chat
+1. (28.09) аналог cat через open, read, write, [printf]. lseek - для определения размера файла. динамически выделяемая память. можно кусками.
+2. (28.09) две команды с аргументами, запуск их, перенаправление stdout1 > stdin2. pipe. fork, exec, dup2.
+3. (28.09) две программы (chat). "неблокирующий stdin"
+4. (05.10) библиотека работы с конфигами вида
+ param1asfd    =  asdfsdf (либо табы)
+
+#commentsadfsdf
+ asdfasdfasdf = asdfasdf
+ функции: getkey(filename, keyname, *buf); setkey(filename, keyname, *buf). возможность отсутствия ключа для getkey и setkey
