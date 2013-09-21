@@ -8,18 +8,6 @@
 
 #define BUFSIZE 10
 
-int kbhit()
-{
-    struct timeval tv;
-    fd_set fds;
-    tv.tv_sec = 0;
-    tv.tv_usec = 0;
-    FD_ZERO(&fds);
-    FD_SET(STDIN_FILENO, &fds); //STDIN_FILENO is 0
-    select(STDIN_FILENO+1, &fds, NULL, NULL, &tv);
-    return FD_ISSET(STDIN_FILENO, &fds);
-}
-
 int main(int argc, char** argv)
 {
     int fdW, fdR;
@@ -61,17 +49,25 @@ int main(int argc, char** argv)
 
     char buf[BUFSIZE];
 
-    for(;;)
+    if(fork())
     {
-        if(kbhit() && (size = read(STDIN_FILENO, buf, BUFSIZE)) > 0)
+        for(;;)
         {
-            write(fdW, buf, size);
+            if((size = read(STDIN_FILENO, buf, BUFSIZE)) > 0)
+            {
+                write(fdW, buf, size);
+            }
         }
-        if((size = read(fdR, buf, BUFSIZE)) > 0)
+    }
+    else
+    {
+        for(;;)
         {
-            write(STDOUT_FILENO, buf, size);
+            if((size = read(fdR, buf, BUFSIZE)) > 0)
+            {
+                write(STDOUT_FILENO, buf, size);
+            }
         }
-//        printf("it\n");
     }
 
     close(fdW);
