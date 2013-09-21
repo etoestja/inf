@@ -1,0 +1,30 @@
+#!/bin/bash
+
+if [ "X$1" == "X" ]
+then
+    echo "Usage: $0 <task number>"
+    exit 1
+else
+    N=$1
+fi
+
+function link
+{
+    echo -n "https://dl.dropboxusercontent.com/u/31418200/fl/2013/fl_task${1}"
+}
+
+cd /home/seriy/Documents/p/inf/mipt/s3
+cd TIPL
+mkdir $N
+cd $N
+wget -N $(link $N).pdf
+status=$?
+if [ "X$status" != "X0" ]
+then
+    echo "Error $status, no file"
+    cd ..
+    rm -rf $N
+else
+    wget -N $(link $N).tex
+    echo "Download OK"
+fi
