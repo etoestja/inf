@@ -12,6 +12,7 @@
 \usepackage{hyperref}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{wasysym}
 \title{Теория и реализация языков программирования.\\Задание 2: НКА и алгоритмы поиска подстрок}
 \date{задано 2013.09.18}
 \author{Сергей~Володин, 272 гр.}
@@ -39,7 +40,8 @@
 \section*{Упражнение 2}
 Пусть $\varphi\colon\Sigma^*\longrightarrow\Delta^*$~--- морфизм, $\varphi(\sigma_i)\overset{\mbox{\tiny def}}{=}w_i\in\Delta^*$. Пусть $w\equiv a_1...a_n\in\Sigma^*$. Тогда $\varphi(w)\equiv \varphi(a_1...a_n)=\varphi(a_1)\cdot\varphi(a_2...a_n)=...=\varphi(a_1)\cdot...\cdot\varphi(a_n)\in\Delta^*$. Получаем, что $\varphi$~--- определена на $\Sigma^*$ ($\forall w\in\Sigma^*\hookrightarrow\mbox{задано значение }\varphi(w)$).
 \section*{Задача 1}
-Пусть $\varphi\colon\Sigma^*\supset X\longrightarrow Y\subset\Delta^*$~--- морфизм, $X\in\REG$. Докажем, что $Y\equiv\varphi(X)\in\REG$ индукцией по $R_3(X)$~--- количеству применений правила (3) из определения при выводе $X$:\newline
+Определим $R_3:\REG\ni X\longrightarrow \mathbb{N}\cup\{0\}$~--- количество применений правила $3$ из определения регулярности $X$. В случае $X=AB$ или $X=A|B, A,B\in\REG$ $R_3(X)\overset{\mathrm{def}}{=}1+R_3(A)+R_3(B)$. В случае $X=A^*, A\in\REG$, определим $R_3(X)\overset{\mathrm{def}}{=}1+R_3(A)$. В случае $X=\varnothing$ или $X=\{\sigma\}$ определим $R_3(X)\overset{\mathrm{def}}{=}0$.\newline
+Пусть $\varphi\colon\Sigma^*\supset X\longrightarrow Y\subset\Delta^*$~--- морфизм, $X\in\REG$. Докажем, что $Y\equiv\varphi(X)\in\REG$ индукцией по $R_3(X)$~--- максимальному количеству применений правила (3) из определения при выводе $X$:\newline
 $P(i)=(\forall X\in\REG\colon R_3(X)\leqslant\,\,\forall\varphi\mbox{~--- морфизм}\hookrightarrow \varphi(X)\in\REG)$.
 \begin{enumerate}[1.]
 \item Докажем $P(0)$: пусть $X\in\REG\colon R_3(X)=0$. Тогда $X$ получен без применения третьего правила. Значит, $\forall\varphi$~--- морфизм либо $X=\varnothing\Rightarrow\varphi(X)=\varnothing$, либо $X=\{\sigma\}\Rightarrow\varphi(X)=\{\varphi(\sigma)\}=\{w\}, w\in \Delta^*$.\newline
@@ -48,9 +50,10 @@ $P(i)=(\forall X\in\REG\colon R_3(X)\leqslant\,\,\forall\varphi\mbox{~--- мор
 \\[5pt]
 Итак, $\varphi(X)\in\REG\,\blacksquare$
 \item Пусть $P(n)$. Докажем $P(n+1)$. Пусть $\REG\ni X\colon R_3(X)\leqslant n+1$. Если $R_3(X)<n+1$, $P(n)\Rightarrow X\in\REG$.\newline
-$\varangle X\colon R_3(X)=n+1$. Тогда рассмотрим случаи:
+$\varangle X\colon R_3(X)=n+1$. Возможны случаи:
 \begin{enumerate}[a.]
-\item X=WZ, 
+\item $X=WZ$, $W,Z\in\REG$. Тогда $\varphi(X)\equiv\varphi(WZ)=\{\varphi(wz)|w\in W,z\in Z\}=\{\varphi(w)\varphi(z)|w\in W,z\in Z\}=\\\{\varphi(w)|w\in W\}\cdot\{\varphi(z)|z\in Z\}=\varphi(W)\varphi(Z)$. $R_3(X)=1+R_3(W)+R_3(Z)=n+1\Rightarrow R_3(W),R_3(Z)\leqslant n\overset{P(n)}{\Rightarrow} \varphi(W),\varphi(Z)\in\REG\Rightarrow \varphi(X)=\varphi(W)\varphi(Z)\in\REG$.
+\item $X=W|Z$, $W,W\in\REG$. Тогда $\varphi(X)\equiv\varphi(W|Z)\equiv\varphi(W)|\varphi(Z)$. Аналогично $R_3(W),R_3(Z)\leqslant n\overset{P(n)}{\Rightarrow}\varphi(W),\varphi(Z)\in\REG\Rightarrow\varphi(X)=\varphi(W)|\varphi(Z)\in\REG$.
 \end{enumerate}
 \end{enumerate}
 \end{document}
