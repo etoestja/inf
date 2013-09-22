@@ -8,27 +8,26 @@
 int main(int argc, char** argv)
 {
     int fd;
-    size_t size;
+    ssize_t size;
     char string[BUFSIZE];
 
-    if(argc)
-
-    umask(0);
-
-    if((fd = open("myfile", O_WRONLY | O_CREAT, 0666)) < 0){
-        printf("Can\'t open file\n");
-        exit(-1);
+    if(argc == 1)
+    {
+        printf("Usage: %s filename\n", argv[0]);
+        return(1);
     }
 
-    size = write(fd, string, 14);
-
-    if(size != 14){
-        printf("Can\'t write all string\n");
-        exit(-1);
+    if((fd = open(argv[1], O_RDONLY)) < 0)
+    {
+        printf("Can't open file %s\n", argv[1]);
+        return(1);
     }
+
+    while((size = read(fd, string, BUFSIZE)) > 0)
+        write(1, string, size);
 
     if(close(fd) < 0){
-        printf("Can\'t close file\n");
+        printf("Can\'t close file %s\n", argv[1]);
     }
 
     return 0;
