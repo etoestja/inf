@@ -8,7 +8,7 @@
 int main(int argc, char** argv)
 {
     int fd;
-    ssize_t size;
+    size_t size;
     char string[BUFSIZE];
 
     if(argc == 1)
