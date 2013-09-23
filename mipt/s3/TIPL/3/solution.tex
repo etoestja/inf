@@ -82,6 +82,39 @@ $\varangle X\colon R_3(X)=n+1$. Возможны случаи:
 \item Нет. Пусть $\Sigma=\{a,b\}$, $L=\{ab\}$, морфизм $\varphi\colon\Sigma^*\longrightarrow\Sigma^*$~--- из предыдущего пункта. Тогда $\varphi(L)=\{\varphi(ab)\}=\{\varphi(a)\varphi(b)\}=\{aa\}$, $\varphi^{-1}(L)=\{x\in\Sigma^*|\varphi(x)\in\{ab\}\}=\{x\in\Sigma^*|\varphi(x)=ab\}=\varnothing$, так как $\varphi(\Sigma^*)=\varphi((a|b)^*)\overset{1.2.c}{=}(\varphi(a|b))^*=\{\varphi(a),\varphi(b)\}^*=\{a\}^*=a^*\niton ab$. Тогда $\varphi(\varphi^{-1}(L))=\varphi(\varnothing)=\varnothing\niton aa \in\varphi^{-1}(aa)=\varphi^{-1}(\varphi(L))$.\newline
 Таким образом, $\exists L\subseteq\Sigma^*\,\exists\varphi\mbox{~--- морфизм}\colon \varphi(\varphi^{-1}(L))\neq \varphi^{-1}(\varphi(L))$.
 \section*{Задача 3}
-fuck
+$L\in\REG\Rightarrow\exists \A$~--- ДКА: $L(\A)=L$. Построим ДКА $\A'$ для $L^{-1}\overset{\mbox{\tiny def}}{=}\varphi^{-1}(L)$. Для этого каждый переход по $\sigma$ в $\A$ заменим на переход по $\varphi^{-1}(\sigma)$, а именно, переход по множеству слов понимается как множество переходов по словам, переход по слову~--- с введением дополнительных состояний.
+%Дописать!
+\section*{Задача 4}
+Пусть языки $\Sigma^*\supset X,Y\in\REG$. Докажем, что
+\begin{enumerate}[1.]
+\item $X\cup Y\in\REG$: из определения регулярности $\forall X,Y\in\REG\hookrightarrow X\cup Y\in\REG\,\blacksquare$
+\item $\overline{X}\overset{\mbox{\tiny def}}{=}\Sigma^*\backslash X\in\REG$: $X\in\REG\Rightarrow\exists\mbox{ полный ДКА }\A\colon L(\A)=X$. $F'\overset{\mbox{\tiny def}}{=}Q\backslash F$, $\A'$~--- автомат $\A$ с множеством принимающих состояний $F'$. Докажем, что $L(\A')=\Sigma^*\backslash X$: $w\in \Sigma^*$, $(q_0,w)\vdash^*(q_w,\varepsilon)$ {\em (здесь используется полнота)}. $w\in X\Leftrightarrow w\in L(\A)\Leftrightarrow q_w\in F\Leftrightarrow\urcorner(q_w\in Q\backslash F)\Leftrightarrow\urcorner(q_w\in F')\Leftrightarrow \urcorner(w\in L(\A'))$. Но $w\in X\Leftrightarrow\urcorner(w\in\Sigma^*\backslash X)$, откуда $\urcorner(w\in\Sigma^*\backslash X)\Leftrightarrow\urcorner(w\in L(\A'))$ и Получаем ДКА $\A'\colon L(\A')=\Sigma^*\backslash X\overset{\mbox{\tiny на}}{\underset{\mbox{\tiny семинаре}}{\Rightarrow}}\Sigma^*\backslash X\in\REG\,\blacksquare$
+\item $X\cap Y\in\REG$: $X\cap Y=\overline{\overline{X}\cup\overline{Y}}$. $X,Y\in\REG\overset{(2)}{\Rightarrow}\overline{X},\overline{Y}\in\REG\overset{(1)}{\Rightarrow}\overline{X}\cup\overline{Y}\in\REG\overset{(2)}{\Rightarrow}\overline{\overline{X}\cup\overline{Y}}\in\REG\,\blacksquare$
+\\[5pt]
+$w\in X\cap Y\Leftrightarrow \begin{cases}w\in X\\w\in Y\end{cases}\Leftrightarrow\begin{cases}\urcorner(w\in\overline{X})\\\urcorner(w\in\overline{Y})\end{cases}\Leftrightarrow
+\urcorner{\left[
+\begin{array}{l}
+w\in\overline{X}\\
+w\in\overline{Y}
+\end{array}
+\right.
+}\Leftrightarrow\urcorner(w\in\overline{X}\cup\overline{Y})\Leftrightarrow w\in\overline{\overline{X}\cup\overline{Y}}
+$ (подразумевается $w\in\Sigma^*$) $\blacksquare$
+\\[5pt]
+\item $X\backslash Y\in\REG$: $X\backslash Y=X\cap\overline{Y}$. $Y\in\REG\overset{(2)}{\Rightarrow}\overline{Y}\in\REG\overset{(3)}{\Rightarrow}X\cap\overline{Y}\in\REG\,\blacksquare$
+\\[5pt]
+$w\in X\cap\overline{Y}\Leftrightarrow\begin{cases}
+w\in X\\
+w\in \overline{Y}
+\end{cases}\Leftrightarrow\begin{cases}
+w\in X\\
+\urcorner(w\in Y)
+\end{cases}\Leftrightarrow w\in X\backslash Y$  (подразумевается $w\in\Sigma^*$) $\blacksquare$
+\\[5pt]
 \end{enumerate}
+\end{enumerate}
+\subsection*{Задача 5}
+$\Sigma\overset{\mbox{\tiny def}}{=}\{a\}$. Предположим, что $\Sigma^*\subset L=\{a^{2^n}|n\geqslant 0\}\in\REG\overset{\mbox{\tiny по лемме}}{\underset{\mbox{\tiny о накачке}}{\Rightarrow}}\exists p=p_0\geqslant 1\colon \forall w\in L\hookrightarrow(w=xyz,|y|\geqslant 1,|xy|\leqslant p, (\forall i\geqslant 0\hookrightarrow xy^iz\in L))$. Фиксируем $n=n_0=p, w_0=a^{2^{p}}\in L$. Получаем $w_0=x_0y_0z_0, |y0|\geqslant 1, |x_0y_0|\leqslant p$. Поскольку $L\subset a^*, y\in a^*$, откуда $y=a^j,\,j\geqslant 1$. Аналогично $x=a^i,z=a^k\Rightarrow w_0=a^{2^p}=xyz=a^{i+j+k}\Rightarrow i+j+k=2^p$. По лемме должно выполняться $xy^2z=a^{i+2j+k}\in L\Rightarrow a^{i+2j+k}=a^{2^q}$, откуда $i+2j+k=2^{q}\Rightarrow j=2^q-2^p\geqslant 2^{p+1}-2^p=2^p(2-1)=2^p$. Но $|x_0y_0|\leqslant p\Rightarrow |y_0|\leqslant p$. Получаем $p\geqslant |y_0|=j\geqslant 2^p$~--- противоречие, т.к. $\forall p\geqslant 1\hookrightarrow p<2^p$.
+\\[3pt]
+Значит, предположение неверно, и $L\not\in\REG\,\blacksquare$
 \end{document}
