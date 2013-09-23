@@ -142,7 +142,7 @@ y_0
 x\\
 y
 \end{array}
-\matrixr;x_0,y_0,\,x,y,\,t\in{\mathbb Z}$, $x_0,y_0,\,x,y$~--- фиксированные, $t\geqslant t_0$~--- параметр. Тогда $2013n+5=509k+29=2013(x_0+xt)+29=pt+q$, $p,q\in{\mathbb Z}$~--- фиксированные, ${\mathbb Z}\ni t\geqslant 0$~--- параметр.
+\matrixr;x_0,y_0,\,x,y,\,t\in{\mathbb Z}$, $x_0,y_0,\,x,y$~--- фиксированные, $t\geqslant t_0$~--- параметр. Тогда $2013n+5=509k+29=2013(x_0+xt)+5=pt+q$, $p,q\in{\mathbb Z}$~--- фиксированные, ${\mathbb Z}\ni t\geqslant 0$~--- параметр.
 \\[4pt]
 Получаем $L_1=\{a^{pt+q}|{\mathbb Z}\ni t\geqslant 0\}=\{a^{pt}|{\mathbb Z}\ni t\geqslant 0\}\cdot\{a^q\}=\{{(a^p)}^t|{\mathbb Z}\ni t\geqslant 0\}\cdot\{a^q\}=(a^p)^*a^q\equiv (\underbrace{a...a}_p)^*\underbrace{a...a}_q$~--- задается регулярным выражением $\blacksquare$
 \item Нет. Предположим, что $L_2=\{a^{200n^2+1}|{\mathbb Z}\ni n\geqslant 1000\}\in\REG\overset{\mbox{\tiny по лемме}}{\underset{\mbox{\tiny о накачке}}{\Rightarrow}}\exists p\geqslant 1\colon \forall w\in L_2\hookrightarrow(w=xyz,|y|\geqslant 1,|xy|\leqslant p, (\forall i\geqslant 0\hookrightarrow xy^iz\in L_2))$. Выберем ${\mathbb Z}\ni n=\max\{p,1000\}\geqslant 1000\Rightarrow w\overset{\mbox{\tiny def}}{=}a^{200n^2+1}\in L_2$. Получаем $\exists x,y,z\colon |y|\geqslant 1,|xy|\leqslant p\colon w=xyz$, откуда $x=a^i,y=a^j,z=a^k, i+j+k=200n^2+1$. Также получаем $xy^2z\in L_2$. Но $xy^2z=a^{i+2j+k}=a^{200m^2+1}\Rightarrow i+2j+k=200m^2+1\geqslant 200(n+1)^2+1\Rightarrow j\geqslant [200(n+1)^2+1]-[200n^2+1]=200+400n\geqslant 200+400p$. С другой стороны, $|xy|\leqslant p\Rightarrow j=|y|\leqslant p\Rightarrow p\geqslant j \geqslant 200+400p\Rightarrow 399p+200\leqslant 0$ при $p\geqslant 1$~--- противоречие.
