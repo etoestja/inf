@@ -2,9 +2,9 @@
 
 void print_bin(int t)
 {
-    int i, N = 20;
+    int i, N = 10;
     for(i = N; i >= 0; i--)
-        printf("%d ", t & (1 << i) ? 1 : 0);
+        printf("%d", t & (1 << i) ? 1 : 0);
 }
 
 int count_bin(int t, int a)
@@ -30,7 +30,7 @@ int main()
         {
             printf("%d\t", i);
             print_bin(i);
-            printf("\t%d\t%d", count_bin(i, 0), count_bin(i, 1));
+//            printf("\t%d\t%d", count_bin(i, 0), count_bin(i, 1));
             printf("\n");
         }
     }
