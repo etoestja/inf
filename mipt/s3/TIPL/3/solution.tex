@@ -149,7 +149,24 @@ y
 \\[3pt]
 Значит, предположение неверно, и $L_2\not\in\REG\,\blacksquare$
 %Критерий Коши, блин :)
-\item Да
-% потому что в следующей задаче просят построить ДКА...
+\item[3,4.] {\bf Можно не читать, доказательство не закончено} Да. $L_3=\{\mbox{itoa}_2(x)|0\leqslant x\mod 3=2\}$, где $\mbox{itoa}_2(x)$~--- запись числа $x$ в двоичной системе счисления, начиная со старших разрядов. Построим ДКА $\A\colon L(\A)=L_3$, чем докажем $L_3\in\REG$.\newline
+Реализуем алгоритм деления в столбик на конечном автомате $\A$.\newline
+Формализуем деление на 3 в столбик с остатком в двоичной системе счисления. Пусть $|\mbox{itoa}_2(x)|=n$. Функции $p,r\colon\overline{0,n}\longrightarrow{\mathbb N}\cup\{0\}$. $P(i)\overset{\mbox{\tiny def}}{=}\{x=3p(i)+r(i),r(i)<3\cdot 2^{n-i}\}$. Определим эти функции индуктивно и докажем $\forall i\in\overline{0,n}\hookrightarrow P(i)$.
+\begin{enumerate}
+\item Определение: $p(0)\overset{\mbox{\tiny def}}{=}0,r(0)\overset{\mbox{\tiny def}}{=}x$. Доказательство $P(0)$: $x=3\cdot 0+x$, $r(0)=x=\sum\limits_{k=0}^{n-1}2^kx_{n-k}<2^n<3\cdot 2^n$.
+\item Пусть $p(k),r(k)$ определены для $k\in\overline{0,i},\forall k\in\overline{0,i}\hookrightarrow P(k)$. Определим $p(i+1),r(i+1)$ и докажем $P(i+1)$
+\begin{enumerate}[1.]
+\item Если $r(i)<3\cdot 2^{n-i-1}$, то $p(i+1)\overset{\mbox{\tiny def}}{=}p(i)$, $r(i+1)\overset{\mbox{\tiny def}}{=}r(i)$. $x\overset{P(i)}{=}3p(i)+r(i)\equiv 3p(i+1)+r(i+1)$, $r(i+1)\equiv r(i)\overset{\mbox{\tiny случай}}{<}2^{n-i-1}\Rightarrow P(i+1)\,\blacksquare$
+\item Иначе, если $r(i)\geqslant 3\cdot 2^{n-i-1}$, $p(i+1)\overset{\mbox{\tiny def}}{=}p(i)+2^{n-i-1}$, $r(i+1)\overset{\mbox{\tiny def}}{=}r(i)-3\cdot 2^{n-i-1}\overset{\mbox{\tiny случай}}{\geqslant}0\Rightarrow 3p(i+1)+r(i+1)=3p(i)+3\cdot 2^{n-i+1}+r(i)-3\cdot 2^{n-i+1}=3p(i)+r(i)=x$. $r(i)\overset{P(i)}{<}3\cdot 2^{n-i}\Leftrightarrow r(i)<3\cdot 2^{n-i-1}+3\cdot 2^{n-i-1}\Leftrightarrow r(i)-3\cdot 2^{n-i-1}<3\cdot 2^{n-i-1}\Leftrightarrow r(i+1)<3\cdot 2^{n-i-1}$. Получаем $P(i+1)\,\blacksquare$
+\end{enumerate}
+\end{enumerate}
+Получаем $P(n)\Rightarrow x=3p(n)+r(n),r(n)<3\cdot 2^{n-n}=3\Rightarrow$ $p(n)$~--- частное, $r(n)$~--- остаток.
+\\[5pt]
+%Пусть $\A=(Q,\Sigma,q_0,\delta,F), \Sigma=\{0,1\}$.
+{\em Дальше была идея формально доказать, что строку можно разбить на куски длиной не более, чем 3 символа $\{0,11,101,100\}$ (<<пропусков>> вида (b.1) не больше трех подряд не в конце и не в начале слова) и что после прочтения каждого куска можно только хранить одно из трех чисел $\{0,1,2\}$ в состоянии автомата, а в конце это число и будет остатком...}
+%Будем последовательно рассматривать символы $\mbox{itoa}_2(x)$. $p_i,r_i\geqslant 0$~--- некоторые значения при рассмотрении $i$-го символа, причем $\forall x=3p+r\colon p,r\geqslant 0$. Не более, чем через шаге $p$ увеличивается, а $r$~--- уменьшается. Доказав это, будет доказана конечность. Если в некоторый момент $r\leq 3$, получим частное и остаток по определению делимости. Доказательство проведем по индукции по количеству рассмотренных символов.
+%Состояния будут называться $q_t^n$, где $0\leqslant r<2$~--- текущий остаток при делении числа, $n$~--- номер состояния. 
+%\\[1pt]
+%На $i$-м шаге рассматрива
 \end{enumerate}
 \end{document}
