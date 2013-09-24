@@ -86,13 +86,15 @@ $\varangle X\colon R_3(X)=n+1$. Возможны случаи:
 Докажем, что не всякий обратный морфизм~--- морфизм, то есть $\exists\Sigma\,\exists\Delta\,\exists\varphi\colon\Sigma^*\longrightarrow\Delta^*\colon\exists w_1\in\Delta^*\,\exists w_2\in\Delta^*\colon \varphi^{-1}(w_1w_2)\neq\varphi^{-1}(w_1)\cdot\varphi^{-1}(w_2)$ {\em (здесь немного модифицировано определение морфизма для $\varphi^{-1}$, так как множество значений $\varphi^{-1}$~--- это $2^{\Sigma^*}$, а не $\Sigma^*$)}.\newline
 Пусть $\Sigma=\Delta=\{a,b\}$, $\varphi(a)\overset{\mbox{\tiny def}}{=}\varphi(b)\overset{\mbox{\tiny def}}{=}ab$. Доопределим $\varphi$ так, чтобы оно было морфизмом (это возможно, см. упражнение 2). Тогда $\varphi^{-1}(a)=\varphi^{-1}(b)=\varnothing$, так как $\forall \varepsilon\neq w\in\Sigma^*\hookrightarrow|\varphi(w)|\geqslant 2$ и $|\varphi(\varepsilon)|=|\varepsilon|=0$, то есть, значение $|\varphi(w)|=1$ не достигается. Отсюда $\varphi^{-1}(a)\cdot\varphi^{-1}(b)=\varnothing$, но $\varphi^{-1}(ab)\supset\{a,b\}\Rightarrow\varphi^{-1}(ab)\neq\varnothing$. Поэтому $\varphi^{-1}(ab)\neq\varphi^{-1}(a)\varphi^{-1}(b)\,\blacksquare$
 \section*{Задача 3}
-$\Delta^*\supset L\in\REG\Rightarrow\exists\A=(Q,\Delta,q_0,\gamma,F),Q=\{q_0,...,q_n\}$~--- ДКА: $L(\A)=L$. Построим НКА $\A'=(Q',\Sigma,q_0,\gamma',F)$ для $L^{-1}\overset{\mbox{\tiny def}}{=}\varphi^{-1}(L)$.
-\begin{enumerate}
-\item $Q'\overset{\mbox{\tiny def}}{=}Q\cup\bigcup\limits_{\substack{i,j\in\overline{0,n},\delta\in\Delta\\\gamma(q_i,\delta)=q_j}}\{q^{ijl}_{\delta}|l\in\overline{1,\varphi(\delta)-1}\}$~--- для каждого перехода добавляются $\varphi(w)-1$ состояний.
-\item $\gamma'(q,\sigma)=\begin{cases}
-
-\end{cases}$
+{\em (Хопкрофт. 4.2.4. Обратный гомоморфизм)}\newline
+$\Delta^*\supset L\in\REG\Rightarrow\exists\A=(Q,\Delta,q_0,\gamma,F)$~--- ДКА: $L(\A)=L$. Построим НКА $\A'=(Q',\Sigma,q_0,\gamma',F)$ для $L^{-1}\overset{\mbox{\tiny def}}{=}\varphi^{-1}(L)$. Определим $\gamma'(q,\sigma)=\gamma(q,\varphi(\sigma))$. Докажем, что тогда $\gamma'(q,w)=\gamma(q,\varphi(w)):$
+\\[4pt]
+$P(i)=\{\forall w\in\Sigma^*\colon |w|\leqslant i\hookrightarrow\gamma'(q,w)=\gamma(q,\varphi(w))\}$.
+\begin{enumerate}[1.]
+\item Докажем для $i=0\Rightarrow w=\varepsilon$. $\gamma'(q,\varepsilon)\overset{\mbox{\tiny не определено}}{=}\varnothing\overset{\mbox{\tiny ДКА}}{=}\gamma(q,\varepsilon)=\gamma(q,\varphi(\varepsilon))$
+\item Пусть $P(i)\Rightarrow\forall w\in\Sigma^*\colon |w|\leqslant i\hookrightarrow\gamma'(q,w)=\gamma(q,\varphi(w))$. Пусть $\sigma\in\Sigma, |w|=i$. Тогда $\gamma'(q,w\sigma)=\gamma'(\gamma'(q,w),\sigma)=\gamma(\gamma'(q,w),\varphi(\sigma))\overset{\mbox{\tiny P(i)}}{=}\gamma(\gamma(q,\varphi(w)),\varphi(\sigma))=\gamma(q,\varphi(w)\varphi(\sigma))=\gamma(q,\varphi(w\sigma))\Rightarrow P(i+1)$.
 \end{enumerate}
+Тогда $x\in L^{-1}\Leftrightarrow\varphi(x)\in L\Leftrightarrow\varphi(x)\in L(\A)\Leftrightarrow\gamma(q_0,\varphi(x))=q\in F\Leftrightarrow\gamma'(q_0,x)=q\in F\Leftrightarrow x\in L(\A')\Rightarrow L^{-1}\equiv\varphi^{-1}(L)\in\REG\,\blacksquare$
 %Дописать!
 \section*{Задача 4}
 Пусть языки $\Sigma^*\supset X,Y\in\REG$. Докажем, что
