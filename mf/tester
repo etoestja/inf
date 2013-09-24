@@ -17,6 +17,10 @@ fi
 tests="$(ls test* | wc -l)"
 i=1
 
+use_files=1
+file_in="input.txt"
+file_out="output.txt"
+
 if [ "X$2" == "X-o" ]
 then
     doClear=1
@@ -40,7 +44,16 @@ function runTest()
     echo "========= TEST $i/$tests $bn: ========="
     cat $a
     echo "=== PROGRAM SAYS: ==="
+
+if [ "X$use_files" = "X1"  ]
+then
+    cat $a > $file_in
+    $progname
+    cat $file_out
+else
     time cat $a | $progname
+fi
+
     ansname="ans$bn"
     if [ -e "$ansname" ]
     then
