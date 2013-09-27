@@ -13,7 +13,8 @@ int Num[NMAX];
 int isDone[NMAX];
 int startTime[NMAX];
 int MTime;
-
+int tTime[NMAX];
+int wTime[NMAX];
 int temp;
 
 #define swap(a, b) {temp = a; a = b; b = temp;}
@@ -68,6 +69,7 @@ void fill()
         {
             if(currentProcess == i)
             {
+                tTime[i]++;
                 arr[currentTime][i] = S_RUNNING;
             }
             else
@@ -77,7 +79,11 @@ void fill()
                 else
                 {
                     if(!isDone[i])
+                    {
+                        tTime[i]++;
+                        wTime[i]++;
                         arr[currentTime][i] = S_WAITING;
+                    }
                     else
                         arr[currentTime][i] = S_DONE;
                 }
@@ -87,7 +93,10 @@ void fill()
             {
                 currentProcess = i;
                 startTime[i] = currentTime;
+                if(arr[currentTime][i] == S_WAITING)
+                    wTime[i]--;
                 arr[currentTime][i] = S_RUNNING;
+//                tTime[i]++;
             }
         }
 
@@ -105,7 +114,11 @@ void init()
 {
     int i;
     for(i = 0; i < N; i++)
+    {
         isDone[i] = 0;
+        wTime[i] = 0;
+        tTime[i] = 0;
+    }
 }
 
 void printN3(int x)
@@ -130,13 +143,13 @@ void print()
 {
     printf("n\\t|");
     int i, j, k;
-    for(i = 0; i < MTime; i++)
+    for(i = 0; i <= MTime; i++)
     {
         printN3(i);
     }
 
     printf("\n---|");
-    for(i = 0; i < MTime; i++)
+    for(i = 0; i <= MTime; i++)
     {
         printf("---");
     }
@@ -150,7 +163,7 @@ void print()
         {
             if(Num[j] == i)
             {
-                for(k = 0; k < MTime; k++)
+                for(k = 0; k <= MTime; k++)
                 {
                     printS3(arr[k][j]);
                 }
@@ -159,7 +172,39 @@ void print()
         }
     }
 
-    printf("\n");
+    double t, w;
+
+    printf("\nturnaround time = (");
+    for(i = 1; i <= N; i++)
+    {
+        for(j = 0; j < N; j++)
+        {
+            if(Num[j] == i)
+            {
+                printf("%d", tTime[j]);
+                t += tTime[j];
+                if(i < N)
+                    printf(" + ");
+            }
+        }
+    }
+    printf(") / %d = %lg\n", N, t / N);
+
+    printf("waiting time = (");
+    for(i = 1; i <= N; i++)
+    {
+        for(j = 0; j < N; j++)
+        {
+            if(Num[j] == i)
+            {
+                printf("%d", wTime[j]);
+                w += wTime[j];
+                if(i < N)
+                    printf(" + ");
+            }
+        }
+    }
+    printf(") / %d = %lg\n", N, w / N);
 }
 
 int main()
@@ -175,7 +220,7 @@ int main()
     }
 
     psort();
-    dumpArr();
+//    dumpArr();
 
     fill();
 
