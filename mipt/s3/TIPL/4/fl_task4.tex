@@ -1,0 +1,220 @@
+ \documentclass[12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}        % Кодировка входного документа;
+                                    % при необходимости, вместо cp1251
+                                    % можно указать cp866 (Alt-кодировка
+                                    % DOS) или koi8-r.
+
+\usepackage[english,russian]{babel} % Включение русификации, русских и
+                                    % английских стилей и переносов
+%%\usepackage{a4}
+%%\usepackage{moreverb}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,amsbsy,amstext,amscd,amsxtra,multicol}
+\usepackage{verbatim}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning}
+\usepackage{multicol} %Несколько колонок
+\usepackage{graphicx}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage[stable]{footmisc}
+
+%% \voffset-5mm
+%% \def\baselinestretch{1.44}
+\renewcommand{\theequation}{\arabic{equation}}
+\def\hm#1{#1\nobreak\discretionary{}{\hbox{$#1$}}{}}
+\newtheorem{Lemma}{Лемма}
+\theoremstyle{definiton}
+\newtheorem{Remark}{Замечание}
+%%\newtheorem{Def}{Определение}
+\newtheorem{Claim}{Утверждение}
+\newtheorem{Cor}{Следствие}
+\newtheorem{Theorem}{Теорема}
+\theoremstyle{definition}
+\newtheorem{Example}{Пример}
+\newtheorem*{known}{Теорема}
+\def\proofname{Доказательство}
+\theoremstyle{definition}
+\newtheorem{Def}{Определение}
+
+%% \newenvironment{Example} % имя окружения
+%% {\par\noindent{\bf Пример.}} % команды для \begin
+%% {\hfill$\scriptstyle\qed$} % команды для \end
+
+
+
+
+
+
+%\date{22 июня 2011 г.}
+\let\leq\leqslant
+\let\geq\geqslant
+\def\MT{\mathrm{MT}}
+%Обозначения ``ажуром''
+\def\BB{\mathbb B}
+\def\CC{\mathbb C}
+\def\RR{\mathbb R}
+\def\SS{\mathbb S}
+\def\ZZ{\mathbb Z}
+\def\NN{\mathbb N}
+\def\FF{\mathbb F}
+%греческие буквы
+\let\epsilon\varepsilon
+\let\es\emptyset
+\let\eps\varepsilon
+\let\al\alpha
+\let\sg\sigma
+\let\ga\gamma
+\let\ph\varphi
+\let\om\omega
+\let\ld\lambda
+\let\Ld\Lambda
+\let\vk\varkappa
+\let\Om\Omega
+\def\abstractname{}
+
+\def\R{{\cal R}}
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+\def\D{{\cal D}}
+\let\w\omega
+
+%классы сложности
+\def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
+\newcounter{problem}
+\newcounter{uproblem}
+\newcounter{subproblem}
+\def\pr{\medskip\noindent\stepcounter{problem}{\bf \theproblem .  }\setcounter{subproblem}{0} }
+\def\prstar{\medskip\noindent\stepcounter{problem}{\bf $\theproblem^*$\negthickspace.  }\setcounter{subproblem}{0} }
+\def\prpfrom[#1]{\medskip\noindent\stepcounter{problem}{\bf Задача \theproblem~(№#1 из задания).  }\setcounter{subproblem}{0} }
+\def\prp{\medskip\noindent\stepcounter{problem}{\bf Задача \theproblem .  }\setcounter{subproblem}{0} }
+\def\prpstar{\medskip\noindent\stepcounter{problem}{\bf Задача $\bf\theproblem^*$\negthickspace.  }\setcounter{subproblem}{0} }
+\def\prdag{\medskip\noindent\stepcounter{problem}{\bf Задача $\theproblem^{^\dagger}$\negthickspace\,.  }\setcounter{subproblem}{0} }
+\def\upr{\medskip\noindent\stepcounter{uproblem}{\bf Упражнение \theuproblem .  }\setcounter{subproblem}{0} }
+%\def\prp{\vspace{5pt}\stepcounter{problem}{\bf Задача \theproblem .  } }
+%\def\prs{\vspace{5pt}\stepcounter{problem}{\bf \theproblem .*   }
+\def\prsub{\medskip\noindent\stepcounter{subproblem}{\rm \thesubproblem .  } }
+\def\prsubstar{\medskip\noindent\stepcounter{subproblem}{\rm $\thesubproblem^*$\negthickspace.  } }
+%прочее
+\def\quotient{\backslash\negthickspace\sim}
+\begin{document}
+\centerline{\LARGE Задание 4}
+
+\medskip
+
+\begin{center}
+	{\Large Замкнутость регулярных языков, теорема Майхилла-Нероуда и минимальные автоматы}
+\end{center}
+
+\bigskip
+
+
+
+{\bf Ключевые слова }\footnote{минимальный необходимый объем понятий и навыков по
+этому разделу)}:{\em  язык, регулярный язык, ДКА, полный ДКА, НКА, отношение эквивалентности, декартово произведение.
+%алгебра регулярных выражений,  примеры нерегулярных языков;
+%поиск подстрок, алгоритм Кнута- Морисса- Пратта.
+
+%языки скобочных выражений (языки Дика). 
+}
+
+
+\section{Построение минимального автомата}
+
+ДКА $\A$ называется \emph{минимальным} автоматом, распознающим $L$, если $L(\A) = L$ и не существует ДКА $\B$, такого что $L(\B) = L$ и число состояний автомата $\B$ меньше числа состояний автомата $\A$.
+
+Для доказательства существования и корректности построения минимального автомата мы будем использовать теорему Майхилла-Нероуда. Нам потребуется аналогичное отношению М.Н. отношение эквивалентности, определённое на состояниях.
+
+\begin{Def}
+Зафиксируем автомат $\A$, распознающий язык $L$. Пусть $\delta(q_0, x_i) = q_i$, а $\delta(q_0, x_j) = q_j$. Тогда $q_i \sim_L q_j$, тогда и только тогда, когда $x_i \sim_L x_j$.  Данное отношение мы назовём соответствующим отношению Майхилла-Нероуда.
+\end{Def}
+
+Обратите внимание, что это \emph{два разных} отношения эквивалентности, потому что одно из них определено на множестве всех слов, а другое на множестве состояний. Мы обозначаем одинаково два разных отношения, потому что они схожи, но определены для разных объектах, поэтому это не приведёт к путанице.
+
+\begin{Theorem}\label{min-auto}
+	Для каждого регулярного языка, существует минимальный автомат, распознающий его. Состояния минимального автомата соответствуют классам эквивалентности по отношению Майхилла-Нероуда $\sim_L$ 
+\end{Theorem}
+\begin{proof}
+	В силу теоремы Майхилла-Нероуда, язык $L$ регулярен тогда и только тогда, когда отношение $\sim_L$ имеет конечный индекс. Рассмотрим автомат $\A$, построенный в доказательстве теоремы Майхилла-Нероуда и покажем, что он является минимальным. Допустим противное -- пусть автомат $\B$ имеет меньшее число состояний, чем $\A$. Тогда, по принципу Дирихле, существует два слова $x_i$ и $x_j$, такие что $x_i \not\sim_L x_j $ и $\delta_{\B}(q_0, x_i) = \delta_{\B}(q_0, x_j) = q$. Так как $x_i \not\sim_L x_j $, то найдётся такое слово $z$, что $x_iz \in L$, а $x_jz \not\in L$. Но тогда с одной стороны $\delta(q, z) \in F$, т.к. $x_iz \in L$, а с другой стороны $\delta(q, z) \not\in F$, поскольку $x_jz \not\in L$ -- приходим к противоречию.
+\end{proof}
+
+
+Просто из факта того, что язык $L$ имеет конечное число классов эквивалентности М.-Н., не совсем ясно как построить автомат $\A$, распознающий $L$. Однако, имея любой ДКА, распознающий $L$ можно конструктивно построить по нему минимальный автомат. 
+Рассмотрим регулярный язык $L$ и распознающий его полный ДКА $\A$. Идея построения по автомату $\A$ минимального состоит в склейке эквивалентных состояний. Под склейкой состояний $q_i \sim_L q_j$ мы понимаем удаление состояния $q_j$  из автомата $\A$ и направление всех переходов ведущих в него в состояние $q_i$.
+
+\begin{Claim}
+	Склеив все эквивалентные состояния автомата $\A$, мы получим минимальный автомат.
+\end{Claim}
+\begin{proof}
+	Склейка состояний $q_i \sim_L q_j$ не изменит язык $L(\A)$, потому что из состояния $q_j$ по слову $z$, автомат $\A$ попадает в принимающее состояние тогда и только тогда, когда он попадает в принимающее состояние по слову $z$ из состояния $q_i$. Таким образом, склеив все эквивалентные состояния автомата $\A$, мы получим минимальный автомат, потому что в силу определения эквивалентности на состояниях каждое состояние соответствует классу эквивалентности М.-Н. и по теореме \ref{min}, он является минимальным. 
+\end{proof}
+
+Осталось привести алгоритм склейки состояний.\\
+\smallskip
+
+\noindent\textbf{Алгоритм.} На вход алгоритма подаётся ДКА $\A$.\\
+\textbf{1.} В случае, если автомат $\A$ не является полным, пополним автомат $\A$, добавив состояние $q_D$, такое что $q_D \xrightarrow{\Sigma} q_D$, и если $(q,\sigma)=\es$, то теперь $(q,\sigma)=q_D$. Если в $\A$ есть состояния, не достижимые из начального состояния, удалим их.\\
+
+\noindent\textbf{2.} Разделим множество состояний на два подмножества: множество принимающих состояний $F = Q_1$ и его дополнение $Q\setminus F = Q_2$.\\
+
+\noindent$\mathbf{i+1}$. Пусть после $i$-ого шага алгоритма множество состояний $Q$ разбито на $j$ подмножеств $Q_1,\ldots,Q_j$. Зафиксируем символ $\sigma \in \Sigma$ сделаем следующее. Если для $q_k \in Q_k$ $q_k \xrightarrow{\sigma} q_l \in Q_l$, поместим состояние $q_k$ в множество $Q_{k,l}$. Получили новое разбиение $Q$ на подмножества $Q_{k,l}$ и повторяем для него эту процедуру для оставшихся символов $\sigma \in \Sigma$. Если после $|\Sigma|$ разбиений мы получили разбиение, в котором $j$ подмножеств, то алгоритм останавливается, в противном случае он продолжает работу. 
+\medskip
+
+Склеив все состояния, попавшие в одно подмножество, получим минимальный автомат. 
+
+\upr Доказать корректность данного алгоритма.
+
+
+
+\section{Задачи}
+
+\prp Вам сообщили, что язык $L$ имеет конечное число классов эквивалентности Майхилла-Нероуда и вам предоставили доступ к оракулу, который сообщает лежат ли два слова в одном классе эквивалентности или нет. Можно считать, что вы пишете программу на языке C, которая должна на выходе вывести описание автомата и в ней вы используете функцию $f(x,y)$, которая возвращает $1$, если $x$ и $y$ лежат в одном классе эквивалентности и $0$ в противном случае.
+
+\prpstar Даны два ДКА $\A$ и $\B$. Верно ли, что $L(\A) = L(\B)$ тогда и только тогда, когда для всех слов $w: |w| \leq |Q_\A||Q_\B|$, $w$ лежит как в $L(\A)$, так и в $L(\B)$. 
+\medskip
+
+Будем называть алгоритм \emph{эффективным}, если он реализуем за полиномиальное время. Например, программа на C, делает полиномиальное число тактов при исполнении алгоритма.
+
+\prp Предложите алгоритм, который проверяет порождают ли два регулярных выражения один и тот же язык или нет. Будет ли он эффективным?
+
+\prp
+
+\prsub Постройте ДКА $\A$ распознающий все слова, в которых чётное число единиц. 
+
+\prsub Постройте ДКА $\B$ распознающий все слова, в которых нечётное число нулей.
+
+\prsub Постройте автомат $\C$, распознающий все слова, в которых чётное число единиц и нечётное число нулей.
+
+\prsubstar Предложите алгоритм для построения пересечения языков, заданных ДКА.
+
+\prp Язык $L$ задан автоматом $\A$. Построить минимальный автомат для языка $\bar L$.
+
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+  %\draw[help lines] (0,0) grid (3,2);
+  \node[state ,initial] (q_0) 					 {$q_0$};
+  \node[state, accepting]		    (q_1) [ right = of q_0 ] {$q_1$};
+  \node[state]          (q_2) [ right = of q_1] {$q_2$};
+  \node[state, accepting]           (q_3) [ right = of q_2] {$q_3$};
+
+  \path[->] 
+		(q_0)	edge		node	{$a$}	(q_1)
+				edge [bend left] node {$b$}	(q_3)
+		(q_1)
+				edge		node	{$b$}	(q_2)
+		(q_2)
+				edge		node	{$b$}	(q_3)
+				edge [bend left] node {$a$}	(q_1);
+ \end{tikzpicture}
+\medskip
+
+Определим операцию обращения. Язык $L^R$ состоит из всех слов, зеркальных к словам из языка $L$. То есть $$L^R = \{ w\, |\, w = w_1w_2\ldots w_n ,\ w_nw_{n-1}\ldots w_1 \in L\}.$$
+
+\prdag Замкнуты ли регулярные языки относительно операции обращения? Предложите алгоритм построения ДКА для $L^R$ по ДКА для $L$.
+
+\section{P.S.}
+
+На выходе с семинара меня спросили как рисовать в техе стрелочки подобно тем, которые я рисовал на доске. Не знаю не пробовал — можете поискать ответ в книжках или задать вопрос на \url{http://tex.stackexchange.com}. Я обычно пишу отдельно по каждому состоянию $q \xrightarrow{\sigma} p$.
+
+
+\end{document}
