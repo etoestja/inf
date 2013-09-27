@@ -31,6 +31,7 @@ void psort()
                 swap(T0[j], T0[j + 1]);
                 swap(T[j], T[j + 1]);
                 swap(Num[j], Num[j + 1]);
+                swap(Tr[j], Tr[j + 1]);
             }
         }
 }
@@ -66,19 +67,22 @@ void fill()
     int i, t1;
     for(currentTime = 0; done < N; currentTime++)
     {
+//        printf("TIME=%d Cp=%d\n", currentTime, currentProcess);
 //        if(currentProcess == -1)
 //        {
             t1 = -1;
             for(i = 0; i < N; i++)
             {
-                if(!isDone[i] && currentTime >= T0[i] && (t1 == -1 || Tr[i] < Tr[t1]))
+                if(!isDone[i] && currentTime >= T0[i] && (t1 == -1 || (Tr[i] < Tr[t1] && Tr[i] > 0)))
                     t1 = i;
             }
-            if(t1 != -1)
+            if(t1 != currentProcess)
             {
                 currentProcess = t1;
+                //printf("cp=%d , %d, rem=%d, T=%d\n", t1, Num[t1], Tr[t1], T[t1]);
                 startTime[t1] = currentTime;
             }
+            //if(t1 == )
 //        }
 
         for(i = 0; i < N; i++)
@@ -117,11 +121,16 @@ void fill()
             }*/
         }
 
-        if(currentProcess != -1 && currentTime - startTime[currentProcess] + 1>= T[currentProcess])
+        if(currentProcess != -1 && Tr[currentProcess] == 0)
         {
+            //printf("ending %d\n", currentProcess);
             isDone[currentProcess] = 1;
             currentProcess = -1;
             done++;
+        }
+        else
+        {
+            //printf("not ending %d\n", currentProcess);
         }
     }
     MTime = currentTime - 1;
