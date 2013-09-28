@@ -33,7 +33,7 @@
 \section*{Задача 3}
 \section*{Задача 4}
 \begin{enumerate}
-\item $\Sigma=\{0,1\}$. Докажем, что $L(\A)=\{w\,\big|\,|w|_1=2t,t\in{\mathbb Z}\}$, $\A:$
+\item $\Sigma=\{0,1\}$. Докажем, что $L(\A)=L$, $L=\{w\,\big|\,|w|_1=2t,t\in{\mathbb Z}\}$, ДКА $\A:$
 \begin{center}
 \begin{center}
 \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
@@ -50,14 +50,16 @@
 Докажем утверждение $P(n)=\big[\forall w\in\Sigma^*\colon |w|=n\hookrightarrow \big(q_0\overset{w}{\longrightarrow}q_i\Rightarrow i=|w|_1\mod 2\big)\big]$.
 \begin{enumerate}
 \item Докажем $P(0)$. Поскольку $|w|=0\Rightarrow w=\varepsilon$, $P(0)=\big[q_0\overset{\varepsilon}{\longrightarrow}q_i\Rightarrow i=|\varepsilon|_1\mod 2\big]$. Поскольку $\delta(q_0,\varepsilon)=q_{\underline{0}}$, и $\underline{0}=|\varepsilon|_1$, получаем $P(0)\,\blacksquare$
-\item Пусть доказано $P(n)$, докажем $P(n+1)$. $P(n)=\big[\forall w\in\Sigma^*\colon |w|=n\hookrightarrow \big(q_0\overset{w}{\longrightarrow}q_i\Rightarrow i=|w|_1\mod 2\big)\big]$. Фиксируем $w\in\Sigma^*,|w|=n+1,w=w_0\sigma,|w_0|=n|\sigma|=1$. $\A$~--- полный $\Rightarrow(q_0,w)\equiv(q_0,w_0\sigma)\vdash^*(q_i,\sigma)\vdash(q_j,\varepsilon)$. $|w_0|=n\overset{P(n)}{\Rightarrow}i=|w_0|_1\mod 2$. $i\in\{0,1\}\,,\sigma\in\{0,1\}\Rightarrow$ рассмотрим четыре случая:
+\item Пусть доказано $P(n)$, докажем $P(n+1)$. $P(n)=\big[\forall w\in\Sigma^*\colon |w|=n\hookrightarrow \big(q_0\overset{w}{\longrightarrow}q_i\Rightarrow i=|w|_1\mod 2\big)\big]$. Фиксируем $w\in\Sigma^*,|w|=n+1,w=w_0\sigma,|w_0|=n,|\sigma|=1$. $\A$~--- полный $\Rightarrow(q_0,w)\equiv(q_0,w_0\sigma)\vdash^*(q_i,\sigma)\vdash(q_j,\varepsilon)$. $|w_0|=n\overset{P(n)}{\Rightarrow}i=|w_0|_1\mod 2$. $i\in\{0,1\}\,,\sigma\in\{0,1\}\Rightarrow$ рассмотрим четыре случая:
 \begin{enumerate}[a.]
-\item ($i=0,\sigma=0$)
-\item ($i=0,\sigma=1$)
-\item ($i=1,\sigma=0$)
-\item ($i=1,\sigma=1$)
+\item ($i=0,\sigma=0$). $(q_0,w_00)\vdash^*(q_0,0)\vdash(q_0,\varepsilon)\Rightarrow q_0\overset{w}{\longrightarrow}q_0\Rightarrow j=0$. $|w|_1\mod 2=|w_0|_1\mod 2+|0|_1\mod 2=0+0=0\Rightarrow 0=j=|w|_1\mod 2=0$.
+\item ($i=0,\sigma=1$). $(q_0,w_01)\vdash^*(q_0,1)\vdash(q_1,\varepsilon)\Rightarrow q_0\overset{w}{\longrightarrow}q_1\Rightarrow j=1$. $|w|_1\mod 2=|w_0|_1\mod 2+|1|_1\mod 2=0+1=1\Rightarrow 1=j=|w|_1\mod 2=1$.
+\item ($i=1,\sigma=0$). $(q_0,w_00)\vdash^*(q_1,0)\vdash(q_1,\varepsilon)\Rightarrow q_0\overset{w}{\longrightarrow}q_1\Rightarrow j=1$. $|w|_1\mod 2=|w_0|_1\mod 2+|0|_1\mod 2=1+0=1\Rightarrow 1=j=|w|_1\mod 2=1$.
+\item ($i=1,\sigma=1$). $(q_0,w_01)\vdash^*(q_1,1)\vdash(q_0,\varepsilon)\Rightarrow q_0\overset{w}{\longrightarrow}q_0\Rightarrow j=0$. $|w|_1\mod 2=|w_0|_1\mod 2+|1|_1\mod 2=(1+1)\mod 2=0\Rightarrow 0=j=|w|_1\mod 2=0$.
 \end{enumerate}
 \end{enumerate}
+Таким образом, $\forall n\in{\mathbb N}\cup\{0\}\hookrightarrow P(n)\Rightarrow \forall n\in{\mathbb N}\cup\{0\}\hookrightarrow \big[\forall w\in\Sigma^*\colon |w|=n\hookrightarrow \big(q_0\overset{w}{\longrightarrow}q_i\Rightarrow i=|w|_1\mod 2\big)\big]\Rightarrow\newline\forall w\in\Sigma^*\hookrightarrow q_0\overset{w}{\longrightarrow}q_{|w|_1\mod 2}$.
+Пусть $w\in L\Leftrightarrow |w|_1\mod 2=0\Leftrightarrow q_0\overset{w}{\longrightarrow}q_0\Leftrightarrow w\in L(\A)\,\blacksquare$
 \end{enumerate}
 \section*{Задача 5}
 \section*{Задача 6}
