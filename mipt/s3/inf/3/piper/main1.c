@@ -10,18 +10,19 @@ char *string = NULL;
 size_t len1;
 int len;
 
-char **args;
-int argsc;
+#define PROGN 2
+
+char **args[PROGN];
+int argsc[PROGN];
+int strLen[PROGN];
 
 #define DEBUG
-
-#define PROGN 2
 
 int rpid[PROGN];
 
 int main(int argc, char** argv, char** envp)
 {
-    int cpid, cstatus, strLen, i;
+    int i;
     int myPipe[2];
     if(pipe(myPipe) < 0)
     {
@@ -32,63 +33,53 @@ int main(int argc, char** argv, char** envp)
     for(i = 0; i < PROGN; i++)
     {
         getline(&string, &len1, stdin);
-        strLen = strlen(string);
+        strLen[i] = strlen(string);
 
-        mallocArgs(&args, strLen);
-        parseArgs(string, strLen, args, &argsc);
+        mallocArgs(&args[i], strLen[i]);
+        parseArgs(string, strLen[i], args[i], &(argsc[i]));
 
 #ifdef DEBUG
-        printArgs(args, argsc);
+        printf("i=%d\n", i);
+        printArgs(args[i], argsc[i]);
 #endif
-
-        if(argsc >= 1)
-        {
-            if(rpid[i] = fork())
-            {
-#ifdef DEBUG
-                printf("Starting %d\n", i);
-#endif
-            }
-            else
-            {
-                if(i == 0) //source
-                {
-                    dup2(myPipe[1], 1);
-                    close(myPipe[0]);
-                }
-                else if(i == 1)
-                {
-                    dup2(myPipe[0], 0);
-                    close(myPipe[1]);
-                }
-
-                cstatus = execvpe(args[0], args, envp);
-
-                printf("Error opening %s, code = %d\n", string, cstatus);
-                close(myPipe[!i]);
-                freeArgs(&args, &argsc, strLen);
-                free(string);
-                string = NULL;
-                return(1);
-            }
-        }
-        else
-        {
-            printf("Wrong input\n");
-            freeArgs(&args, &argsc, strLen);
-            free(string);
-            return(1);
-        }
-
-        freeArgs(&args, &argsc, strLen);
         free(string);
         string = NULL;
     }
+    if(argsc[0] > 0 && argsc[1] > 0)
+    {
+        if(!fork())
+        {
+            dup2(myPipe[1], 1); //source
+            close(myPipe[0]);
+            freeArgs(&args[1], &argsc[1], strLen[1]);
 
-    printf("wpid");
-    waitpid(rpid[0], &cstatus);
-    waitpid(rpid[1], &cstatus);
+            execvpe(args[0][0], args[0], envp);
 
-    printf("/wpid");
+            printf("Error opening %s\n", args[0][0]);
+            freeArgs(&args[0], &argsc[0], strLen[0]);
+            close(myPipe[1]);
+        }
+        else
+        {
+            dup2(myPipe[0], 0); //destination
+            close(myPipe[1]);
+            freeArgs(&args[0], &argsc[0], strLen[0]);
+
+            execvpe(args[1][0], args[1], envp);
+
+            printf("Error opening %s\n", args[1][0]);
+            freeArgs(&args[1], &argsc[1], strLen[1]);
+            close(myPipe[0]);
+        }
+    }
+    else
+    {
+        printf("Wrong input\n");
+        freeArgs(&args[0], &argsc[0], strLen[0]);
+        freeArgs(&args[1], &argsc[1], strLen[1]);
+        close(myPipe[0]);
+        close(myPipe[1]);
+    }
+
     return(0);
 }
