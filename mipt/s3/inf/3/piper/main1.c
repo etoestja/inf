@@ -24,7 +24,7 @@ int main(int argc, char** argv, char** envp)
     if(pipe(myPipe) < 0)
     {
         printf("Error creating pipe!\n");
-        return(1);;
+        return(1);
     }
 
     for(i = 0; i < PROGN; i++)
@@ -53,6 +53,13 @@ int main(int argc, char** argv, char** envp)
                 string = NULL;
                 return(1);
             }
+        }
+        else
+        {
+            printf("Wrong input\n");
+            freeArgs(&args, &argsc, strLen);
+            free(string);
+            return(1);
         }
 
         freeArgs(&args, &argsc, strLen);
