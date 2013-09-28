@@ -23,6 +23,8 @@ int getM(int p)
 
 int main()
 {
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
     scanf("%d", &N);
     scanf("%d", &k);
     scanf("%d", &R);

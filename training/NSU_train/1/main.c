@@ -2,6 +2,8 @@
 
 int main()
 {
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
     int res = 0, N, i;
     scanf("%d", &N);
 
