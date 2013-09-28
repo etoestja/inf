@@ -17,7 +17,7 @@ fi
 tests="$(ls test* | wc -l)"
 i=1
 
-use_files=1
+use_files=0
 file_in="input.txt"
 file_out="output.txt"
 
