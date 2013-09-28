@@ -13,9 +13,11 @@ int len;
 char **args;
 int argsc;
 
-//#define DEBUG
+#define DEBUG
 
 #define PROGN 2
+
+int rpid[PROGN];
 
 int main(int argc, char** argv, char** envp)
 {
@@ -41,11 +43,27 @@ int main(int argc, char** argv, char** envp)
 
         if(argsc >= 1)
         {
-            if(!(cpid = fork()))
+            if(rpid[i] = fork())
             {
-                dup2(myPipe[!i], !i);
-                close(myPipe[i]);
+#ifdef DEBUG
+                printf("Starting %d\n", i);
+#endif
+            }
+            else
+            {
+                if(i == 0) //source
+                {
+                    dup2(myPipe[1], 1);
+                    close(myPipe[0]);
+                }
+                else if(i == 1)
+                {
+                    dup2(myPipe[0], 0);
+                    close(myPipe[1]);
+                }
+
                 cstatus = execvpe(args[0], args, envp);
+
                 printf("Error opening %s, code = %d\n", string, cstatus);
                 close(myPipe[!i]);
                 freeArgs(&args, &argsc, strLen);
@@ -67,5 +85,10 @@ int main(int argc, char** argv, char** envp)
         string = NULL;
     }
 
+    printf("wpid");
+    waitpid(rpid[0], &cstatus);
+    waitpid(rpid[1], &cstatus);
+
+    printf("/wpid");
     return(0);
 }
