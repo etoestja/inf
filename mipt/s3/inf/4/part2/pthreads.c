@@ -1,4 +1,3 @@
-#define _GNU_SOURCE
 #include <pthread.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -7,7 +6,8 @@
 #include <sched.h>
 #include <time.h>
 
-#define MATRIX_SIZE (10240 + 512 * 8)
+//#define MATRIX_SIZE (10240 + 512 * 8)
+#define MATRIX_SIZE 2
 
 struct pthread_info {
 	int msize;
@@ -19,11 +19,20 @@ struct pthread_info {
 	int cpu;
 };
 
-void initMatricies();
-void multiplyMatricies();
-void printMatrix();
-void *thread_multiplication();
-int stick_this_thread_to_core();
+void initMatricies(int *a, int *b, int *c, int size);
+void *thread_multiplication(void *pargs);
+void multiplyMatricies(int *a, int *b, int *c, int size);
+int stick_this_thread_to_core(int core_id);
+
+void printm(int *a)
+{
+    for(int i = 0; i < MATRIX_SIZE; i++)
+    {
+        for(int j = 0; j < MATRIX_SIZE; j++)
+            printf("%d ", a[i * MATRIX_SIZE + j]);
+        printf("\n");
+    }
+}
 
 int main(int argc, char *argv[], char **envp){
 	int *a = NULL, *b = NULL, *c = NULL;
@@ -63,6 +72,12 @@ int main(int argc, char *argv[], char **envp){
 	time(&ftime);
 	printf("Finish Multiplying.\n");
 	printf("Finish of Multiplying.\nTime: %d sec.\n", (ftime - stime));
+        printf("\n");
+        printm(a);
+        printf("\n");
+        printm(b);
+        printf("\n");
+        printm(c);
 	printf("Now using threads.\n");
 	for(j = 1; j <= num_cores; j++){
 		printf("Start multiplying %d cores...\n", j);
@@ -76,7 +91,14 @@ int main(int argc, char *argv[], char **envp){
 		}
 		time(&ftime);
 		printf("Finish Multiplying.\n");
-		printf("Finish of Multiplying.\nTime: %d sec.\n", (ftime - stime));	}
+		printf("Finish of Multiplying.\nTime: %d sec.\n", (ftime - stime));
+        printf("\n");
+        printm(a);
+        printf("\n");
+        printm(b);
+        printf("\n");
+        printm(c);
+        }
 	return 0;
 }
 
@@ -103,14 +125,24 @@ void *thread_multiplication(void *pargs){
 }
 
 void initMatricies(int *a, int *b, int *c, int size){
-	int i = 0, j = 0;
+    int i = 0, j = 0;
 	for(i = 0; i < size; i++){
 		for(j = 0; j < size; j++){
-			a[i * size + j] = i + j;
-			b[i * size + j] = i * j;
+/*			a[i * size + j] = i + j;
+			b[i * size + j] = i * j;*/
 			c[i * size + j] = 0;
 		}
 	}
+
+    a[0] = 1;
+    a[1] = 2;
+    a[2] = 3;
+    a[3] = 4;
+
+    b[0] = 5;
+    b[1] = 6;
+    b[2] = 7;
+    b[3] = 8;
 }
 
 void multiplyMatricies(int *a, int *b, int *c, int size){
