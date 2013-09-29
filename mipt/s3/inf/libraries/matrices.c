@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "matrix.h"
+#include "matrices.h"
 
 int allocateMatrix(matrix *a, int rows, int cols)
 {
@@ -16,6 +16,21 @@ int allocateMatrix(matrix *a, int rows, int cols)
         a->v[i] = malloc(sizeof(mType) * cols);
 
     return(0);
+}
+
+void freeMatrix(matrix *a)
+{
+    if(a == NULL) return;
+
+    int i;
+    for(i = 0; i < a->rows; i++)
+        free(a->v[i]);
+
+    free(a->v);
+
+    a->v = NULL;
+    a->rows = 0;
+    a->cols = 0;
 }
 
 int readMatrix(matrix* a)
@@ -88,22 +103,4 @@ void printMatrix(matrix a)
         }
         printf("\n");
     }
-}
-
-int main()
-{
-    doReopen();
-    readMatrix(&a);
-    readMatrix(&b);
-#ifdef DEBUG
-    printf("A ");
-    printMatrix(a);
-    printf("\nB ");
-    printMatrix(b);
-    printf("\nC ");
-#endif
-    multiplyAllocateMatrices(a, b, &c);
-    multiplyMatrices(a, b, c, 0, 23);
-    printMatrix(c);
-    return(0);
 }

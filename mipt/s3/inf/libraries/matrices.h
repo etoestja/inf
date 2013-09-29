@@ -14,6 +14,10 @@ typedef struct
 // returns 0 if OK
 int allocateMatrix(matrix *a, int rows, int cols);
 
+// frees a->v and sets it to 0
+// sets a->cols, a->rows to 0
+void freeMatrix(matrix *a);
+
 // reads m n\n a11;a12...\na21;a22...
 // used scanf
 // returns 0 if OK

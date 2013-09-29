@@ -33,5 +33,9 @@ int main()
 
     printMatrix(c);
 
+    freeMatrix(&a);
+    freeMatrix(&b);
+    freeMatrix(&c);
+
     return(0);
 }
