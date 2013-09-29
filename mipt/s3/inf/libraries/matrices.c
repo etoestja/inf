@@ -9,11 +9,7 @@ int allocateMatrix(matrix *a, int rows, int cols)
     a->rows = rows;
     a->cols = cols;
 
-    a->v = malloc(sizeof(mType*) * rows);
-
-    int i;
-    for(i = 0; i < rows; i++)
-        a->v[i] = malloc(sizeof(mType) * cols);
+    a->v = malloc(sizeof(mType) * (rows * cols));
 
     return(0);
 }
@@ -21,10 +17,6 @@ int allocateMatrix(matrix *a, int rows, int cols)
 void freeMatrix(matrix *a)
 {
     if(a == NULL) return;
-
-    int i;
-    for(i = 0; i < a->rows; i++)
-        free(a->v[i]);
 
     free(a->v);
 
@@ -52,7 +44,7 @@ int readMatrix(matrix* a)
     for(i = 0; i < m; i++)
         for(j = 0; j < n; j++)
         {
-            scanf("%lf", &(a->v[i][j]));
+            scanf("%lf", &(a->v[i * n +j]));
             if(j < n - 1)
                 scanf("%c", &c);
         }
@@ -81,9 +73,9 @@ int multiplyMatrices(matrix a, matrix b, matrix c, int r0, int rstep)
     for(i = r0; i < a.rows; i += rstep)
         for(j = 0; j < b.cols; j++)
         {
-            c.v[i][j] = 0;
+            c.v[i * c.cols + j] = 0;
             for(k = 0; k < a.cols; k++)
-                c.v[i][j] += a.v[i][k] * b.v[k][j];
+                c.v[i * c.cols + j] += a.v[i * a.cols + k] * b.v[k * b.cols + j];
         }
 
     return(0);
@@ -97,7 +89,7 @@ void printMatrix(matrix a)
     {
         for(j = 0; j < a.cols; j++)
         {
-            printf("%lf", a.v[i][j]);
+            printf("%lf", a.v[i * a.cols + j]);
             if(j < a.cols - 1)
                 printf(";");
         }

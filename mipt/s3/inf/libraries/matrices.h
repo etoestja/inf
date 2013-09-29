@@ -5,7 +5,7 @@ typedef double mType; // code uses %lf
 
 typedef struct
 {
-    mType **v;
+    mType *v;
     unsigned rows;
     unsigned cols;
 } matrix;

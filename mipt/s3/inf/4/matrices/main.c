@@ -29,7 +29,7 @@ int main()
 #endif
 
     multiplyAllocateMatrices(a, b, &c);
-    multiplyMatrices(a, b, c, 0, 23);
+    multiplyMatrices(a, b, c, 0, 1);
 
     printMatrix(c);
 
