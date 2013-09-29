@@ -1,0 +1,24 @@
+cstr=1|2-3#
+
+got i=1, type=0, has=0
+got i=2, type=1, has=0
+got i=3, type=2, has=0
+CORRECT
+cstr=1|2-3-4
+
+got i=1, type=0, has=0
+got i=2, type=1, has=0
+got i=3, type=1, has=0
+got i=4, type=2, has=0
+CORRECT
+cstr=1|2#|3
+
+got i=1, type=0, has=0
+got i=2, type=2, has=0
+CORRECT
+cstr=1|2-3#
+
+got i=1, type=0, has=0
+got i=2, type=1, has=0
+got i=3, type=2, has=0
+CORRECT
