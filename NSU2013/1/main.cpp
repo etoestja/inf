@@ -141,6 +141,13 @@ bool run_cmd(int pt, char action)
                 return(false);
         }
 
+    if(action == '-')
+        for(j = 0; j < arr[is].size(); j++)
+        {
+            if(arr[is][j].n < pt && !arr[is][j].detached)
+                return(false);
+        }
+
     if(action == '+')
     {
 #ifdef DEBUG
