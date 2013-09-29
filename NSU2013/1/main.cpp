@@ -1,21 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
+#include <string>
 #include <vector>
 #include <string.h>
+#include <fstream>
 
 using namespace std;
 
 int N, i;
 
+#undef DEBUG
+//#define DEBUG
+
 void read_config();
 bool read_test_program();
 //bool do_test();
 
-char *config_string = NULL, *program_string = NULL;
+string config_string, program_string;
 size_t config_len1, program_len1;
 int config_len, program_len;
 
 enum ptype{PAR, SEQ, NONE};
+
+ifstream ain("input.txt");
+ofstream aout("output.txt");
 
 struct pp
 {
@@ -31,25 +40,16 @@ vector<pp> inp;
 
 void read_config()
 {
-    config_string = NULL;
-    getline(&config_string, &config_len1, stdin);
+    ain >> config_string;
 
-    config_len = strlen(config_string);
-
-    if(config_string[config_len - 1] == '\n')
-    {
-        config_string[config_len - 1] = 0;
-        config_len--;
-    }
+    config_len = config_string.length();
 #ifdef DEBUG
-    printf("cstr=%s\n", config_string);
+    printf("cstr=%s\n", config_string.c_str());
 #endif
-    int t;
     int i = 0;
     inp.clear();
     pp a;
     a.n = -1;
-    int sumLen = 0, lastLen;
     for(i = 0; i < config_len; i++)
     {
         if(config_string[i] >= '0' && config_string[i] <= '9')
@@ -118,7 +118,7 @@ bool run_cmd(int pt, char action)
 #ifdef DEBUG
     printf("runcmd pt=%d, action=%c\n", pt, action);
 #endif
-    int i, j, is, js;
+    int i, j, is = -1, js = -1;
 
     for(i = 0; i < arr.size(); i++)
         for(j = 0; j < arr[i].size(); j++)
@@ -128,6 +128,8 @@ bool run_cmd(int pt, char action)
                 js = j;
                 break;
             }
+    if(is == -1 || js == -1)
+        return(false);
 #ifdef DEBUG
     printf("found is=%d, js=%d\n", is, js);
 #endif
@@ -163,19 +165,12 @@ bool run_cmd(int pt, char action)
 
 bool read_test_program()
 {
-    program_string = NULL;
-    getline(&program_string, &program_len1, stdin);
-    program_len = strlen(program_string);
-    if(program_string[program_len - 1] == '\n')
-    {
-        program_string[program_len - 1] = 0;
-        program_len--;
-    }
+    ain >> program_string;
+    program_len = program_string.length();
 
 #ifdef DEBUG
-    printf("prog=%s\n", program_string);
+    printf("prog=%s\n", program_string.c_str());
 #endif
-
 
     a.p1 = -1;
     a.p2 = -1;
@@ -232,10 +227,7 @@ bool read_test_program()
 
 int main()
 {
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-
-    scanf("%d\n", &N);
+    ain >> N;
 
     for(i = 0; i < N; i++)
     {
@@ -243,7 +235,10 @@ int main()
         printf("reading %d\n", i);
 #endif
         read_config();
-        printf("%s\n", read_test_program() ? "CORRECT" : "INCORRECT");
+        if(read_test_program())
+            aout << "CORRECT" << endl;
+        else
+            aout << "INCORRECT" << endl;
     }
 
     return(0);
