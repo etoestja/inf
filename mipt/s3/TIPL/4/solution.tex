@@ -29,6 +29,14 @@
 \maketitle
 \section*{Упражнение 1}
 \section*{Задача 1}
+Будем <<искать>> представителей классов. Сначала найден $\varepsilon\in C_1$. Если $\varepsilon\sigma\equiv\sigma\notin C(\varepsilon)\Leftrightarrow f(\sigma,\varepsilon)=0$, найден представитель нового класса. Данную процедуру повторяем для всех найденных классов $\sim n^2$ операций, для них же на каждом шаге определяем $\delta(C_i,\sigma)=C_j$, где $x_i\in C_i$~--- найден, $j\colon x_i\sigma\in C_j$. Так будут найдены все классы, потому что на каждом шаге определяются переходы для какого-то состояния ДКА. Состояний конечное число, а когда автомат будет полным, алгоритм можно считать законченным. Корректность следует из построения: $\delta(C_i,\sigma)=C_j\Leftrightarrow x_i\sigma\in C_j$~--- см. доказательство теоремы Майхилла-Нероуда.\newline
+Более формально: $L\subset\Sigma^*\in\REG,\Sigma^*/\sim_L=\{C_i\}\equiv\{C_1,...,C_n\}$ ($n$ неизвестно, $C_i$ попарно различны). $f\colon \Sigma^*\times\Sigma^*\longrightarrow\{0,1\}$~--- задана, $f(x,y)=1\Leftrightarrow x\sim_Ly$.
+Построим ДКА $\A\colon L(\A)=L$.\newline
+$Q\overset{\mbox{\tiny def}}{=}\{C_i\}, q_0\overset{\mbox{\tiny def}}{=}C(\varepsilon)$. Докажем, что на $n$-м шаге нижеописанного алгоритма выполняется\newline
+$P(n)=[\forall i\in\overline{1,n}\hookrightarrow \mbox{найдены }x_i\in C_i, \forall\sigma\in\Sigma\hookrightarrow\mbox{определены }\delta(C_i,\sigma)=C_j\Leftrightarrow C_i\sigma\in C_j]$.
+\begin{enumerate}
+\item ($n=1$). $\Sigma^*\ni\varepsilon$ принадлежит какому-то классу. Без ограничения общности $\varepsilon\in C_1$. Рассмотрим все $\sigma_k\in\Sigma$. Если $f(\varepsilon,\sigma_k)=1$, то $x$
+\end{enumerate}
 \section*{Задача 2}
 \section*{Задача 3}
 \section*{Задача 4}
@@ -62,5 +70,81 @@
 Пусть $w\in L\Leftrightarrow |w|_1\mod 2=0\Leftrightarrow q_0\overset{w}{\longrightarrow}q_0\Leftrightarrow w\in L(\A)\,\blacksquare$
 \end{enumerate}
 \section*{Задача 5}
+Исходный автомат $\A$:
+\begin{center}
+% копипаста из задания
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+  %\draw[help lines] (0,0) grid (3,2);
+  \node[state ,initial] (q_0) 					 {$q_0$};
+  \node[state, accepting]		    (q_1) [ right = of q_0 ] {$q_1$};
+  \node[state]          (q_2) [ right = of q_1] {$q_2$};
+  \node[state, accepting]           (q_3) [ right = of q_2] {$q_3$};
+
+  \path[->] 
+		(q_0)	edge		node	{$a$}	(q_1)
+				edge [bend left] node {$b$}	(q_3)
+		(q_1)
+				edge		node	{$b$}	(q_2)
+		(q_2)
+				edge		node	{$b$}	(q_3)
+				edge [bend left] node {$a$}	(q_1);
+\end{tikzpicture}
+\end{center}
+Пополним автомат $\A$ до $\A'$ и удалим недостижимые из $q_0$ состояния: добавим $q_4\in Q',\,q_4\notin F'$, в него направим недостающие переходы:
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+  %\draw[help lines] (0,0) grid (3,2);
+  \node[state ,initial] (q_0) 					 {$q_0$};
+  \node[state, accepting]		    (q_1) [ right = of q_0 ] {$q_1$};
+  \node[state]          (q_2) [ right = of q_1] {$q_2$};
+  \node[state, accepting]           (q_3) [ right = of q_2] {$q_3$};
+  \node[state]           (q_4) [ below = of q_2] {$q_4$};
+
+  \path[->] 
+		(q_0)	edge		node	{$a$}	(q_1)
+				edge [bend left] node {$b$}	(q_3)
+		(q_1)
+				edge		node	{$b$}	(q_2)
+				edge [bend right]		node	{$a$}	(q_4)
+		(q_2)
+				edge		node	{$b$}	(q_3)
+				edge [bend left] node {$a$}	(q_1)
+		(q_3)
+				edge [bend left]		node	{$b$}	(q_4)
+				edge [bend right]		node	{$a$}	(q_4)
+		(q_4)
+				edge [loop below]		node	{$a,b$}	(q_4);
+\end{tikzpicture}
+\end{center}
+$L(\A')=L(\A)$, так как $x\in L(\A)\Rightarrow x\in L(\A')$, потому что $Q\subset Q',\,F=F',\delta\subset\delta'$. $x\notin L(\A)\Rightarrow$ либо $q_0\overset{x}{\longrightarrow}q\notin F$, но тогда $q_0\overset{x}{\longrightarrow}q\notin F'\Rightarrow x\notin L(\A')$, либо $\delta(q_0,x)=\varnothing$, тогда $\delta'(q_0,x)=q_4$, потому что был выполнен переход в $q_4$, которого не было в $\A$ (по построению, добавлены переходы только в $q_4$), и при обработке последующих символов $\A'$ остается в $q_4$.
+\\[5pt]
+Построим $A''\colon L(\A'')=\overline{L(\A')}\equiv\overline{L(\A)}$ по полному автомату $\A'$, определив $F''\overset{\mbox{\tiny def}}{=}Q'\setminus F'$:
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+  %\draw[help lines] (0,0) grid (3,2);
+  \node[state, initial, accepting] (q_0) 					 {$q_0$};
+  \node[state]		    (q_1) [ right = of q_0 ] {$q_1$};
+  \node[state, accepting]          (q_2) [ right = of q_1] {$q_2$};
+  \node[state]           (q_3) [ right = of q_2] {$q_3$};
+  \node[state, accepting]           (q_4) [ below = of q_2] {$q_4$};
+
+  \path[->] 
+		(q_0)	edge		node	{$a$}	(q_1)
+				edge [bend left] node {$b$}	(q_3)
+		(q_1)
+				edge		node	{$b$}	(q_2)
+				edge [bend right]		node	{$a$}	(q_4)
+		(q_2)
+				edge		node	{$b$}	(q_3)
+				edge [bend left] node {$a$}	(q_1)
+		(q_3)
+				edge [bend left]		node	{$b$}	(q_4)
+				edge [bend right]		node	{$a$}	(q_4)
+		(q_4)
+				edge [loop below]		node	{$a,b$}	(q_4);
+\end{tikzpicture}
+\end{center}
+Далее построим по $\A''$ минимальный по алгоритму:
+% дописать!
 \section*{Задача 6}
 \end{document}
