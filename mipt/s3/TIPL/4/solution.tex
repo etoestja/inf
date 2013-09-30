@@ -41,8 +41,7 @@ $P(n)=[\forall i\in\overline{1,n}\hookrightarrow \mbox{найдены }x_i\in C_
 \section*{Задача 3}
 \section*{Задача 4}
 \begin{enumerate}
-\item $\Sigma=\{0,1\}$. Докажем, что $L(\A)=L$, $L=\{w\,\big|\,|w|_1=2t,t\in{\mathbb Z}\}$, ДКА $\A:$
-\begin{center}
+\item $\Sigma=\{0,1\}$. Докажем, что $L(\A)=L$, $L_1\equiv L=\{w\,\big|\,|w|_1=2t,t\in{\mathbb Z}\}$, ДКА $\A:$
 \begin{center}
 \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
 	  \node[state, initial, accepting]  (q_0)   {$q_0$};
@@ -53,7 +52,6 @@ $P(n)=[\forall i\in\overline{1,n}\hookrightarrow \mbox{найдены }x_i\in C_
 			(q_0)	edge[loop below]		node	{$0$}	(q_0)
 			(q_1)	edge[loop below]		node	{$0$}	(q_1);
 \end{tikzpicture}
-\end{center}
 \end{center}
 Докажем утверждение $P(n)=\big[\forall w\in\Sigma^*\colon |w|=n\hookrightarrow \big(q_0\overset{w}{\longrightarrow}q_i\Rightarrow i=|w|_1\mod 2\big)\big]$.
 \begin{enumerate}
@@ -68,6 +66,82 @@ $P(n)=[\forall i\in\overline{1,n}\hookrightarrow \mbox{найдены }x_i\in C_
 \end{enumerate}
 Таким образом, $\forall n\in{\mathbb N}\cup\{0\}\hookrightarrow P(n)\Rightarrow \forall n\in{\mathbb N}\cup\{0\}\hookrightarrow \big[\forall w\in\Sigma^*\colon |w|=n\hookrightarrow \big(q_0\overset{w}{\longrightarrow}q_i\Rightarrow i=|w|_1\mod 2\big)\big]\Rightarrow\newline\forall w\in\Sigma^*\hookrightarrow q_0\overset{w}{\longrightarrow}q_{|w|_1\mod 2}$.
 Пусть $w\in L\Leftrightarrow |w|_1\mod 2=0\Leftrightarrow q_0\overset{w}{\longrightarrow}q_0\Leftrightarrow w\in L(\A)\,\blacksquare$
+\item $\Sigma=\{0,1\}$. $L_2=\{w\,\big|\,|w|_0=2t+1,t\in{\mathbb Z}\}$. Воспользуемся результатом (4.1) и построим ДКА $\B$:\\
+\begin{minipage}{0.8\textwidth}
+\begin{tabular}{l l}
+\begin{minipage}{0.8\textwidth}
+Поменяем в автомате из (4.1) нули и единицы местами. Получим $\A'$. Очевидно, $\A'$ будет распознавать все слова, в которых четное количество нулей. $
+A'$~--- полный, и все состояния достижимы из $q_0$.
+\end{minipage}&
+\begin{minipage}{0.4\textwidth}
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	  \node[state, initial, accepting]  (q_0)   {$q_0$};
+  	  \node[state] (q_1) [right = of q_0] {$q_1$};
+  	  \path[->] 
+			(q_0)	edge[bend right=40]		node	{$0$}	(q_1)
+			(q_1)	edge[bend right=40]		node	{$0$}	(q_0)
+			(q_0)	edge[loop below]		node	{$1$}	(q_0)
+			(q_1)	edge[loop below]		node	{$1$}	(q_1);
+\end{tikzpicture}
+\end{center}
+\end{minipage}\\
+\begin{minipage}{0.8\textwidth}
+Поэтому, переопределив $F''=Q''\setminus F$, получим $\A''\equiv\B$, который распознает все слова, в которых нечетное количество нулей.
+\end{minipage}&
+\begin{minipage}{0.4\textwidth}
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	  \node[state, initial]  (q_0)   {$q_0$};
+  	  \node[state, accepting] (q_1) [right = of q_0] {$q_1$};
+  	  \path[->] 
+			(q_0)	edge[bend right=40]		node	{$0$}	(q_1)
+			(q_1)	edge[bend right=40]		node	{$0$}	(q_0)
+			(q_0)	edge[loop below]		node	{$1$}	(q_0)
+			(q_1)	edge[loop below]		node	{$1$}	(q_1);
+\end{tikzpicture}
+\end{center}
+\end{minipage}\\
+\end{tabular}
+\end{minipage}
+\item Поскольку $L_3=\{\mbox{слова из 0 и 1, в которых четное число единиц и нечетное число нулей}\}=\newline=\{\mbox{слова из 0 и 1, в которых четное число единиц}\}\cap\{\mbox{слова из 0 и 1, в которых нечетное число нулей}\}\equiv L_1\cap L_2$, построим $\C\colon L(\C)=L_3$ по алгоритму, который докажем далее, в (4.4):
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	  \node[state, initial]  (q_00)   {$q^0_0$};
+  	  \node[state, accepting] (q_01) [above right = of q_00] {$q^0_1$};
+   	  \node[state] (q_10) [below right = of q_00] {$q^1_0$};
+   	  \node[state] (q_11) [above right = of q_10] {$q^1_1$};
+   	   \path[->] 
+   	 		(q_00)	edge[bend left]		node	{$0$}	(q_01)
+   	 				edge[bend left]  node[swap] {$1$}	(q_10)
+   	 		(q_01)  edge[bend left]		node[swap]	{$0$}	(q_00)
+   	 		   	 	edge[bend left]  node {$1$}	(q_11)
+   	 		(q_10)  edge[bend left]		node[swap]	{$0$}	(q_11)
+   	 		   	 	edge[bend left]  node {$1$}	(q_00)
+   	 		(q_11)  edge[bend left]		node	{$0$}	(q_10)
+   	 		   	 	edge[bend left]  node[swap] {$1$}	(q_01);
+\end{tikzpicture}
+\end{center}
+\item Дано: $\Sigma$~--- алфавит, $\A=(Q^\A,\Sigma,q^\A_0,\delta^\A,F^\A),\,\B=(Q^\B,\Sigma,q^\B_0,\delta^\B,F^\B)$~--- полные ДКА, в которых все состояния достижимы из начальных. $\Sigma^*\supset L^\A=L(\A),\Sigma^*\supset L^\B=L(\B)$. Задача: построить ДКА $\C=(Q^\C,\Sigma,q^\C_0,\delta^\C,F^\C)\colon L(\C)=L^\A\cap L^\B$.
+\\[5pt]
+Определим $Q^\C=Q^\A\times Q^\B$~--- множество всех пар состояних исходных автоматов.\newline
+Для краткости будем обозначать $Q^\C\ni (q^\A_i,q^\B_j)\overset{\mbox{\tiny def}}{\equiv}q^i_j$.\newline
+Определим $q^\C_0\overset{\mbox{\tiny def}}{=}q^0_0$, $F^\C=\{q^i_j\big|q^\A_i\in F^\A\wedge q^\B_j\in F^\B\}$\newline
+Определим $\delta^\C(q^i_j,\sigma)=\big(\delta^\A(q^\A_i,\sigma),\delta^\B(q^\B_j,\sigma)\big)$\newline
+Докажем утверждение\newline
+$P(n)=\big[\forall w\in\Sigma^*\colon |w|=n\hookrightarrow q^0_0\overset{w}{\longrightarrow}\big(\delta^\A(q^\A_0,w),\,\delta^\B(q^\B_0,w)\big)\big]$
+\begin{enumerate}[a.]
+\item ($n=0$) $\Sigma^*\ni w,|w|=0\Rightarrow w=\varepsilon$. Тогда $\delta^\C(q^0_0,\varepsilon)\overset{\mbox{\tiny по опр.}}{=}\big(\delta^\A(q^\A_0,\varepsilon),\delta^\B(q^\B_0,\varepsilon)\big)$, как и требовалось.
+\item ($n=1$) $\Sigma^*\ni w,|w|=1\Rightarrow w=\sigma\in\Sigma$. Тогда $\delta^\C(q^0_0,w)=\delta^\C(q^0_0,\sigma)\overset{\mbox{\tiny по опр.}}{=}\big(\delta^\A(q^\A_0,\sigma),\delta^\B(q^\B_0,\sigma)\big)$, как и требовалось.
+\item ($n+1$). Пусть $P(n)$. Докажем $P(n+1)$. Фиксируем $\Sigma^*\ni w\colon |w|=n+1$. Тогда $w\equiv w_0\sigma,\,|w_0|=n\,\sigma\in\Sigma$. $\delta^\C(q^0_0,w)=\delta^\C(q^0_0,w_0\sigma)\equiv\delta^\C(\delta^\C(q^0_0,w_0),\sigma)\overset{P(n)}{=}\delta^\C(\big(\delta^\A(q^\A_0,w_0),\,\delta^\B(q^\B_0,w_0)\big),\sigma)\overset{\mbox{\tiny по опр.}}{=}\big(\delta^\A(\delta^\A(q^\A_0,w_0),\sigma),\delta^\B(\delta^\B(q^\B_0,w_0),\sigma)\big)\underset{\delta^\A, \delta^\B}{\overset{\mbox{\tiny св-во }}{=}}\big(\delta^\A(q^\A_0,w),\delta^\B(q^\B_0,w)\big)\Rightarrow P(n+1)$.
+\end{enumerate}
+Получаем $w\in L^\A\cap L^\B\Leftrightarrow w\in L(\A)\cap L(\B)\Leftrightarrow\begin{cases}
+w\in L(\A)\\
+w\in L(\B)
+\end{cases}\Leftrightarrow \begin{cases}
+\delta^\A(q^\A_0,w)\in F^\A\\
+\delta^\B(q^\B_0,w)\in F^\B\\
+\end{cases}\Leftrightarrow \big(\delta^\A(q^\A_0,w),\delta^\B(q^\B_0,w)\big)\in F^\C\overset{P(|w|)}{\Leftrightarrow} \delta^\C(q^0_0,w)\in F^\C\Leftrightarrow w\in L(\C)\,\blacksquare$
 \end{enumerate}
 \section*{Задача 5}
 \begin{tabular}{l l}
