@@ -4,7 +4,7 @@
 \usepackage[english,russian]{babel}
 \usepackage{indentfirst}
 \usepackage{tikz} %Рисование автоматов
-\usetikzlibrary{automata,positioning}
+\usetikzlibrary{automata,positioning,arrows}
 \usepackage{amsmath}
 \usepackage{enumerate}
 \usepackage{amsfonts}
@@ -70,8 +70,9 @@ $P(n)=[\forall i\in\overline{1,n}\hookrightarrow \mbox{найдены }x_i\in C_
 Пусть $w\in L\Leftrightarrow |w|_1\mod 2=0\Leftrightarrow q_0\overset{w}{\longrightarrow}q_0\Leftrightarrow w\in L(\A)\,\blacksquare$
 \end{enumerate}
 \section*{Задача 5}
-Исходный автомат $\A$:
-\begin{center}
+\begin{tabular}{l l}
+Исходный автомат $\A$: & 
+\begin{minipage}{0.4\textwidth}\begin{center}
 % копипаста из задания
 \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
   %\draw[help lines] (0,0) grid (3,2);
@@ -89,8 +90,11 @@ $P(n)=[\forall i\in\overline{1,n}\hookrightarrow \mbox{найдены }x_i\in C_
 				edge		node	{$b$}	(q_3)
 				edge [bend left] node {$a$}	(q_1);
 \end{tikzpicture}
-\end{center}
+\end{center}\end{minipage}\\
+\begin{minipage}{0.4\textwidth}
 Пополним автомат $\A$ до $\A'$ и удалим недостижимые из $q_0$ состояния: добавим $q_4\in Q',\,q_4\notin F'$, в него направим недостающие переходы:
+\end{minipage} &
+\begin{minipage}{0.4\textwidth}
 \begin{center}
 \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
   %\draw[help lines] (0,0) grid (3,2);
@@ -116,9 +120,15 @@ $P(n)=[\forall i\in\overline{1,n}\hookrightarrow \mbox{найдены }x_i\in C_
 				edge [loop below]		node	{$a,b$}	(q_4);
 \end{tikzpicture}
 \end{center}
+\end{minipage}\\
+\end{tabular}\newline
 $L(\A')=L(\A)$, так как $x\in L(\A)\Rightarrow x\in L(\A')$, потому что $Q\subset Q',\,F=F',\delta\subset\delta'$. $x\notin L(\A)\Rightarrow$ либо $q_0\overset{x}{\longrightarrow}q\notin F$, но тогда $q_0\overset{x}{\longrightarrow}q\notin F'\Rightarrow x\notin L(\A')$, либо $\delta(q_0,x)=\varnothing$, тогда $\delta'(q_0,x)=q_4$, потому что был выполнен переход в $q_4$, которого не было в $\A$ (по построению, добавлены переходы только в $q_4$), и при обработке последующих символов $\A'$ остается в $q_4$.
 \\[5pt]
+\begin{tabular}{l l}
+\begin{minipage}{0.4\textwidth}
 Построим $A''\colon L(\A'')=\overline{L(\A')}\equiv\overline{L(\A)}$ по полному автомату $\A'$, определив $F''\overset{\mbox{\tiny def}}{=}Q'\setminus F'$:
+\end{minipage} &
+\begin{minipage}{0.4\textwidth}
 \begin{center}
 \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
   %\draw[help lines] (0,0) grid (3,2);
@@ -144,7 +154,88 @@ $L(\A')=L(\A)$, так как $x\in L(\A)\Rightarrow x\in L(\A')$, потому 
 				edge [loop below]		node	{$a,b$}	(q_4);
 \end{tikzpicture}
 \end{center}
-Далее построим по $\A''$ минимальный по алгоритму:
-% дописать!
+\end{minipage}\\
+\end{tabular}
+\newline
+Далее построим по $\A''$ минимальный $\A'''$ по алгоритму:
+\newline
+\begin{tabular}{c c}
+\begin{minipage}{0.4\textwidth}
+\begin{enumerate}[1.]
+\item \begin{tikzpicture}[baseline=-0.5ex,node distance=10mm,on grid,auto]
+\node (d_b) {$\big\{$};
+\node (q_0) [node distance=3mm, right of=d_b] {$0$};
+\node (q_2) [right of=q_0] {$2$};
+\node (q_4) [right of=q_2] {$4$};
+\node (d_41) [node distance=5mm, right of=q_4] {$\big|$};
+\node (q_1) [right of=q_4] {$1$};
+\node (q_3) [right of=q_1] {$3$};
+\node (d_f) [node distance=3mm,right of=q_3] {$\big\}$};
+\draw[->, bend left] (q_0) to node {$a$} (q_1);
+\draw[->, bend left] (q_2) to node {$a$} (q_1);
+\draw[->, loop below] (q_4) to node {$a$} (q_4);
+\draw[->, bend left] (q_1) to node {$a$} (q_4);
+\draw[->, bend right=50] (q_3) to node {$a$} (q_4);
+\end{tikzpicture}
+\item \begin{tikzpicture}[baseline=-0.5ex,node distance=10mm,on grid,auto]
+\node (d_b) {$\big\{$};
+\node (q_0) [node distance=3mm, right of=d_b] {$0$};
+\node (q_2) [right of=q_0] {$2$};
+\node (d_02) [node distance=5mm, right of=q_2] {$\big|$};
+\node (q_4) [right of=q_2] {$4$};
+\node (d_41) [node distance=5mm, right of=q_4] {$\big|$};
+\node (q_1) [right of=q_4] {$1$};
+\node (d_13) [node distance=5mm, right of=q_1] {$\big|$};
+\node (q_3) [right of=q_1] {$3$};
+\node (d_f) [node distance=3mm,right of=q_3] {$\big\}$};
+\draw[->, bend right] (q_0) to node {$b$} (q_3);
+\draw[->, bend right] (q_2) to node [swap] {$b$} (q_3);
+\draw[->, loop below] (q_4) to node {$b$} (q_4);
+\draw[->, bend right] (q_1) to node [swap] {$b$} (q_2);
+\draw[->, bend right=50] (q_3) to node [swap] {$b$} (q_4);
+\end{tikzpicture}~--- OK
+\item \begin{tikzpicture}[baseline=-0.5ex,node distance=10mm,on grid,auto]
+\node (d_b) {$\big\{$};
+\node (q_0) [node distance=3mm, right of=d_b] {$0$};
+\node (q_2) [right of=q_0] {$2$};
+\node (d_02) [node distance=5mm, right of=q_2] {$\big|$};
+\node (q_4) [right of=q_2] {$4$};
+\node (d_41) [node distance=5mm, right of=q_4] {$\big|$};
+\node (q_1) [right of=q_4] {$1$};
+\node (d_13) [node distance=5mm, right of=q_1] {$\big|$};
+\node (q_3) [right of=q_1] {$3$};
+\node (d_f) [node distance=3mm,right of=q_3] {$\big\}$};
+\draw[->, bend left] (q_0) to node {$a$} (q_1);
+\draw[->, bend left] (q_2) to node {$a$} (q_1);
+\draw[->, loop below] (q_4) to node {$a$} (q_4);
+\draw[->, bend left] (q_1) to node {$a$} (q_4);
+\draw[->, bend right=50] (q_3) to node {$a$} (q_4);
+\end{tikzpicture}~--- OK
+\end{enumerate}
+\end{minipage} &
+\begin{minipage}{0.3\textwidth}
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+  %\draw[help lines] (0,0) grid (3,2);
+  \node[state, initial, accepting] (q_0) 					 {$q_0$};
+  \node[state]		    (q_1) [ right = of q_0 ] {$q_1$};
+  \node[state, accepting] (q_4) [ right = of q_1] {$q_4$};
+  \node[state]           (q_3) [ right = of q_4] {$q_3$};
+
+  \path[->] 
+		(q_0)	edge [bend right]		node	{$a$}	(q_1)
+				edge [bend left] node {$b$}	(q_3)
+		(q_1)
+				edge [bend right]		node	{$b$}	(q_0)
+				edge 		node	{$a$}	(q_4)
+		(q_3)
+				edge [bend left]		node	{$b$}	(q_4)
+				edge [bend right]		node	{$a$}	(q_4)
+		(q_4)
+				edge [loop below]		node	{$a,b$}	(q_4);
+\end{tikzpicture}
+\end{center}
+\end{minipage}\\
+\end{tabular}
 \section*{Задача 6}
 \end{document}
