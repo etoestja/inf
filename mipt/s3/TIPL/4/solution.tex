@@ -20,6 +20,12 @@
 \def\B{{\cal B}}
 \def\C{{\cal C}}
 
+%+= и -=, иначе разъезжаются...
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
 % регулярные языки
 \def\REG{{\mathsf{REG}}}
 
@@ -56,14 +62,80 @@
 %Имеем построенный автомат со свойством: $\delta(q_0,w)=C(w)$. Выполним обход графа автомата, найдем пути до всех состояний, попутно <<собирая>> слова $w$, по которым туда можно попасть. Используя $g(w)$, пометим эти состояния принимающими, если $g(w)=1$. Тогда $\delta(q_0,w)\in F\Leftrightarrow g(w)=1\Leftrightarrow w\in L$.
 %\\[5pt]
 %Сначала найден $\varepsilon\in C_1$. Если $\varepsilon\sigma\equiv\sigma\notin C(\varepsilon)\Leftrightarrow f(\sigma,\varepsilon)=0$, найден представитель нового класса. Данную процедуру повторяем для всех найденных классов $\sim n^2$ операций, для них же на каждом шаге определяем $\delta(C_i,\sigma)=C_j$, где $x_i\in C_i$~--- найден, $j\colon x_i\sigma\in C_j$. Так будут найдены все классы, потому что на каждом шаге определяются переходы для какого-то состояния ДКА. Состояний конечное число, а когда автомат будет полным, алгоритм можно считать законченным. Корректность следует из построения: $\delta(C_i,\sigma)=C_j\Leftrightarrow x_i\sigma\in C_j$~--- см. доказательство теоремы Майхилла-Нероуда.\newline
-%{\em Более формально:} $L\subset\Sigma^*\in\REG,\Sigma^*/\sim_L=\{C_i\}\equiv\{C_1,...,C_n\}$ ($n$ неизвестно, $C_i$ попарно различны). $f\colon \Sigma^*\times\Sigma^*\longrightarrow\{0,1\}$~--- задана, $f(x,y)=1\Leftrightarrow x\sim_Ly$.
-%Построим ДКА $\A\colon L(\A)=L$.\newline
+%{\em Более формально:}
+$L\subset\Sigma^*\in\REG,\Sigma^*/\sim_L=\{C_i\}\equiv\{C_0,...,C_n\}$ ($n$ неизвестно, $C_i$ попарно различны).\newline
+$f\colon \Sigma^*\times\Sigma^*\longrightarrow\{0,1\}$~--- задана, $f(x,y)=1\Leftrightarrow x\sim_Ly$. $g\colon \Sigma^*\longrightarrow\{0,1\}$~--- задана, $g(w)=1\Leftrightarrow w\in L$.\newline
+Построим ДКА $\A=(Q,\Sigma,q_0,\delta,F)\colon L(\A)=L$, изоморфный минимальному ДКА (определение изоморфизма в упражнении).\newline
+$Q=\{q_i\}$~--- множество состояний.\newline
+$X\colon Q\longrightarrow \Sigma^*$~--- представители классов, соответствующих состояниям. Для краткости будем писать $x_i\equiv X(q_i)$.\newline
+%gjnjДокажем, что на каждом из нижеописанных шагов алгоритма выполняется
+%$$P=[\forall q_i\in Q\hookrightarrow \mbox{найдены }x_i\in C_i, \forall\sigma\in\Sigma\hookrightarrow\mbox{определены }\delta(q_i,\sigma)\mbox{, причем }\delta(q_i,\sigma)=q_j\Leftrightarrow x_i\sigma\in C_j]$$.
+{\em В алгоритме для состояний из $Q$ всегда известен представитель соответствующего класса (по построению, добавляются состояния только с известными представителями)}.
+\begin{enumerate}
+\item $\Sigma^*\ni\varepsilon$ принадлежит какому-то классу. Без ограничения общности $\varepsilon\in C_0$. Добавим состояние $q_0$, соответствующее $C(\varepsilon)$. Определим его как начальное.\newline
+Рассмотрим все $\sigma_k\in\Sigma$.\begin{enumerate}[1.]
+\item Если класс $C(\varepsilon\sigma_k)$ еще не встречался (не соответствует ни одному состоянию), то есть, $\forall q_i\in Q\hookrightarrow f(x_i,\varepsilon\sigma_k)=0$, то добавим в $Q$ новое состояние $q$, которое будет соответствовать классу $C(\varepsilon\sigma_k)$. Для него известен представитель соответствующего класса~--- $\sigma_k$. Поскольку $\delta(C_0,\sigma_k)=C(\varepsilon\sigma_k)$ (см. упражнение), для установления изоморфизма необходимо направить переход из $q_0$ в $q$: $\delta(q_0,\sigma_k)=q$.
+\item Иначе $\exists q_i\in Q\colon f(x_i,\varepsilon\sigma_k)=1\Rightarrow x_i\sim_L\varepsilon\sigma_k$, то есть, $\delta(C_0,\sigma_k)=C(x_i)$. Поэтому необходимо направить переход из $q_0$ в $q_i$: $\delta(q_0,\sigma_k)=q_i$.
+\end{enumerate}
+Заметим, что определены все переходы из $q_0$, и, возможно, добавлены новые состояния. Повторим алгоритм для них:
+\item (цикл) Если имеется состояние $q_i$, которому соответствует класс эквивалентности $C_i$ с найденным представителем $x_i$, и для $q_i$ не определен переход по $\sigma_k$, то рассмотрим два варианта. Иначе выход.
+\begin{enumerate}[1.]
+\item Класс $C(x_i\sigma_k)$ не встречался $\Leftrightarrow \forall q_j\in Q\hookrightarrow f(x_j,x_i\sigma)=0$. Тогда добавим новое состояние $q$ (представитель $x_i\sigma_k$ известен) и определим переход из $q_i$ по $\sigma_k$: $\delta(q_i,\sigma_k)=q$.
+\item Иначе $\exists q_j\in Q\colon f(x_j,x_i\sigma)=1$. Определим переход: $\delta(q_i,\sigma_k)=q_j$.
+\end{enumerate}
+\end{enumerate}
+Переходов в автомате не больше, чем $|Q||\Sigma|$. Поскольку строится изоморфизм между $Q$ и $\{C\}$, то $|Q|\leqslant|\{C\}|\Rightarrow$ количество переходов конечно $\Rightarrow$ цикл (2) будет конечным $\Rightarrow$ алгоритм завершится. По построению $\forall q\in Q\hookrightarrow \delta(q_i,\sigma)=q_j$, где $q_j$ соответствует $C(x_i\sigma)$. Также автомат полный. Из этих двух свойств заключаем, что множества состояний $Q$ и минимального ДКА изоморфны.\newline
+Осталось определить принимающие состояния:
+\begin{enumerate}[1.]
+\item Выполним обход графа автомата, найдем кратчайшие пути $y_i$ (слова) до каждого состояния $q_i$.
+\item Для каждого состояния выясним, должно быть оно принимающим или нет: $g(y_i)\overset{?}{=}1\Leftrightarrow y_i\in L\Leftrightarrow \delta(q_0,y_i)=q_i\in F$.
+\end{enumerate}
+%$\overline{Q}\subset Q$~--- множество помеченных состояний, то есть, тех, для классов которых известны представители.\newline
+%$p,q,r\in Q$~--- временные переменные.\newline
+%Под $\peq$ и $\meq$ подразумевается добавление и удаление элемента из множества.\newline
+%Операция $A[]$ возвращает некоторый элемент множества.\newline
+%{\em{Здесь подразумевается, что множества являются функциями некоторого параметра, <<времени>>. Выполнение каждой операции увеличивает этот параметр на 1}}\newline
+%Алгоритм (псевдокод):
+%\begin{enumerate}
+%\item[0.] $Q=\overline{Q}=P=\varnothing, i=0$
+%\item Добавим начальное состояние, соответствующее $C(\varepsilon)$:
+%\begin{enumerate}[1.]
+%\item $Q\peq q_0$
+%\item $P(q_0)\deq \varepsilon$ 
+%\item$\overline{Q}\peq q_0$
+%\end{enumerate}
+%\item $\mbox{\texttt while}(\overline{Q}\neq\varnothing)$
+%\begin{enumerate}[1.]
+%\item $q=\overline{Q}[]$
+%\item $\overline{Q}\meq q$
+%\item $\mbox{\texttt for } \sigma\in\Sigma$
+%\begin{enumerate}[1.]
+%\item $\mbox{\texttt if }\forall r\in Q\hookrightarrow f[P(r),P(q)\sigma]=0$
+%\begin{enumerate}[1.]
+%\item $p\deq q_{|Q|}$ % (Неиспользованный номер)
+%\item $Q\peq p$ % (Добавление нового состояния)
+%\item $P(p)\deq P(q)\sigma$ % (Для этого состояния известен представитель соответствующего класса~--- $P(q)\sigma$)
+%\item $\overline{Q}\peq p$ % (Помечаем новое состояние, чтобы потом добавить для него переходы)
+%\end{enumerate}
+%\item $\mbox{\texttt else }\exists r\in Q\colon f[P(r),P(q)\sigma]=1$
+%\begin{enumerate}[1.]
+%\item $p\deq r$
+%\end{enumerate}
+%\item $\delta(p,\sigma)\deq q$
+%\end{enumerate}
+%\end{enumerate}
+%\end{enumerate}
+%Докажем некоторые свойства алгоритмы выше:
+%\begin{enumerate}
+%\item Алгоритм завершится за конечное время. Действительно, в любой момент времени $\overline{Q}\subset Q$ (добавление в $\overline{Q}$ происходит только %после добавления в $Q$).
+%\item Для каждого состояния $q\in Q$ найден представитель класса, которое соответствует состоянию.
+%\end{enumerate}
 %$Q\overset{\mbox{\tiny def}}{=}\{C_i\}, q_0\overset{\mbox{\tiny def}}{=}C(\varepsilon)$. Докажем, что на $n$-м шаге нижеописанного алгоритма выполняется\newline
 %$P(n)=[\forall i\in\overline{1,n}\hookrightarrow \mbox{найдены }x_i\in C_i, \forall\sigma\in\Sigma\hookrightarrow\mbox{определены }\delta(C_i,\sigma)=C_j\Leftrightarrow C_i\sigma\in C_j]$.
 %\begin{enumerate}
-%\item ($n=1$). $\Sigma^*\ni\varepsilon$ принадлежит какому-то классу. Без ограничения общности $\varepsilon\in C_1$. Рассмотрим все $\sigma_k\in\Sigma$. Если $f(\varepsilon,\sigma_k)=1$, то $x$
+%\item ($n=1$). $\Sigma^*\ni\varepsilon$ принадлежит какому-то классу. Без ограничения общности $\varepsilon\in C_1$. Рассмотрим все $\sigma_k\in\Sigma$. Если %$f(\varepsilon,\sigma_k)=1$, то $x$
 %ДОДЕЛАТЬ!
-\end{enumerate}
+%\end{enumerate}
 \section*{Задача 2}
 \section*{Задача 3}
 Пусть $x,y$~--- РВ. Ответим на вопрос $L(x)\overset{?}{=}L(y)$.
