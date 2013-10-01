@@ -428,4 +428,37 @@ $L(\A')=L(\A)$, так как $x\in L(\A)\Rightarrow x\in L(\A')$, потому 
 \end{minipage}\\
 \end{tabular}
 \section*{Задача 6}
+{\em{(Хопкрофт, 4.2.2: Обращение)}}\newline
+$\Sigma$~--- алфавит. $\REG\ni X,Y,Z\subset\Sigma^*$, $R_3(X)$~--- из моего решения задания 3, задачи 1. Индукцией по $R_3(X)$ докажем
+$$P(n)=\big[\forall \Sigma^*\supset Z\in\REG\colon R_3(Z)\leqslant n\hookrightarrow Z^R\in\REG\big]$$
+\begin{enumerate}
+\item $R_3(Z)=0\Rightarrow$ рассмотрим два варианта:\begin{enumerate}
+\item $Z={\varepsilon}$. Тогда $Z^R=\{\varepsilon\}^R=\{\varepsilon\}\in\REG$.
+\item $Z=\{\sigma\}$, Тогда $Z^R=\{\sigma\}^R=\{\sigma\}\in\REG$.
+\end{enumerate}
+\item Пусть $P(n)$. Докажем $P(n+1)$. Фиксируем $Z\in\REG\colon R_3(Z)=n+1\Rightarrow$
+\begin{enumerate}
+\item $Z=X|Y,X,Y\in\REG$. Тогда (см. задание 3, задачу 1) $R_3(X),R_3(Y)\leqslant n\overset{P(n)}{\Rightarrow}X^R,Y^R\in\REG$. $Z^R\equiv(X|Y)^R=\{z^R\big|z\in X\vee z\in Y\}=\{x^R\big|x\in X\}\cup\{y^R\big|y\in Y\}=X^R|Y^R\in\REG$ $(X^R,Y^R\in\REG)$.
+\item $Z=XY,X,Y\in\REG$. Тогда (аналогично) $R_3(X),R_3(Y)\leqslant n\overset{P(n)}{\Rightarrow}X^R,Y^R\in\REG$. $Z^R\equiv(XY)^R=\{(xy)^R\big|x\in X\wedge y\in Y\}=\{y^Rx^R\big|x\in X\wedge y\in Y\}=\{y^R\big|y\in Y\}\cdot \{x^R\big|x\in X\}=Y^R\cdot X^R\in\REG$ $(X^R,Y^R\in\REG)$.
+\item $Z=X^*,X\in\REG$. Тогда $R_3(X)\leqslant n\overset{P(n)}{\Rightarrow}X^R\in\REG$. $Z^R=\left(\bigcup\limits_{i\in {\mathbb N}\cup \{0\}}X^i\right)^R=\bigcup\limits_{i\in {\mathbb N}\cup \{0\}}(X^R)^i=(X^R)^*\in\REG$ $(X^R\in\REG)$.
+\end{enumerate}
+\end{enumerate}
+$\,$
+\\[10pt]
+Пусть ДКА $\A_0=(Q_0,\Sigma,q_0,\delta_0,F_0)\colon L(\A)=L$. Добавим одно принимающее состояние $q_f$, в него направим $\varepsilon$-переходы из <<старых>> принимающих. Полученный автомат $\A=(Q,\Sigma,q_0,\delta,F)$, $F=\{q_f\}$. Построим НКА $\A'=(Q,\Sigma,q'_0,\delta',F')\colon L(\A')=A^R$.\newline
+Определим $\delta'(q_j,\sigma)=\{q_i\big|\delta(q_i,\sigma)=q_j\}$. Определим $F'=\{q_0\},q'_0=q_f$.\newline
+Докажем, что $L(\A')=L^R$, что эквивалентно $w\in L(\A')\Leftrightarrow w\in L^R$. Также $w\in L^R\Leftrightarrow w^R\in L\Leftrightarrow w^R \in L(\A)$. Поэтому докажем $w\in L(\A')\Leftrightarrow w^R\in L(\A)$.
+\begin{enumerate}
+\item <<$\Leftarrow$>>: $w^R\in L(\A)$. Так как принимающее состояние у $\A$ одно~--- $q_f$, то последней конфигурацией будет $(q_f,\varepsilon)$ (т.к. $q_f$ единственное принимающее, и слово было принято). Остальные состояния в цепочке обозначим как $q_1,...,q_n$. Цепочка конфигураций:\newline
+$(q_0,w_n...w_1)\vdash(q_1,w_{n-1}...w_1)\vdash...\vdash(q_{n-1},w_1)\vdash(q_n,\varepsilon)\vdash(q_f,\varepsilon)$, $q_f\in F$\newline
+Тогда $\delta'(q_f,\varepsilon)\ni q_n,\delta'(q_n,w_1)\ni q_{n-1},\delta'(q_{n-1},w_2)\ni q_{n-2},...,\delta'(q_1,w_n)\ni q_0$, поэтому для автомата $\A'$\newline
+$(q_f,w_1...w_n)\vdash(q_n,w_1...w_n)\vdash(q_{n-1},w_2...w_n)\vdash...\vdash(q_0,\varepsilon)$, $q_0\in F'\Rightarrow w\in L(\A')\,\blacksquare$
+\item <<$\Rightarrow$>> $w\in L(\A')$. Аналогично принимающее состояний у $\A'$ одно~--- $q_0$, поэтому цепочка должна заканчиваться на $(q_0,\varepsilon)$. Остальне состояния в цепочке обозначим $q_n,...,q_1$. Цепочка конфигураций:\newline $(q_f,w_1...w_n)\vdash(q_n,w_1...w_n)\vdash(q_{n-1},w_2...w_n)\vdash...\vdash(q_2,w_{n-1}w_n)\vdash(q_1,w_n)\vdash(q_0,\varepsilon)$, $q_0\in F'$.
+\\[5pt]
+Заметим, что $\delta'(q_j,\sigma)\ni q_i\Rightarrow \delta(q_i,\sigma)=q_j$ (из определения $\delta'$).
+\\[5pt]
+Из утверждения выше получаем $\delta(q_n,\varepsilon)=q_f,\delta(q_{n-1},w_1)=q_n,...,\delta(q_1,w_{n-1})=q_2,\delta(q_0,w_n)=q_1$.\newline
+Поэтому $(q_0,w_n...w_1)\vdash(q_1,w_{n-1}...w_2)\vdash...\vdash(q_n,\varepsilon)\vdash(q_f,\varepsilon)$, $q_f\in F\Rightarrow w^R\in L(\A)\,\blacksquare$
+\end{enumerate}
+По построенному НКА $\A'$, который распознает $L^R$, построим ДКА $\A''\colon L(\A'')=L(\A')=L^R\,\blacksquare$.
 \end{document}
