@@ -1,0 +1,293 @@
+ \documentclass[12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}        % Кодировка входного документа;
+                                    % при необходимости, вместо cp1251
+                                    % можно указать cp866 (Alt-кодировка
+                                    % DOS) или koi8-r.
+
+\usepackage[english,russian]{babel} % Включение русификации, русских и
+                                    % английских стилей и переносов
+%%\usepackage{a4}
+%%\usepackage{moreverb}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,amsbsy,amstext,amscd,amsxtra,multicol}
+\usepackage{verbatim}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning}
+\usepackage{multicol} %Несколько колонок
+\usepackage{graphicx}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage[stable]{footmisc}
+
+%% \voffset-5mm
+%% \def\baselinestretch{1.44}
+\renewcommand{\theequation}{\arabic{equation}}
+\def\hm#1{#1\nobreak\discretionary{}{\hbox{$#1$}}{}}
+\newtheorem{Lemma}{Лемма}
+\theoremstyle{definiton}
+\newtheorem{Remark}{Замечание}
+%%\newtheorem{Def}{Определение}
+\newtheorem{Claim}{Утверждение}
+\newtheorem{Cor}{Следствие}
+\newtheorem{Theorem}{Теорема}
+\theoremstyle{definition}
+\newtheorem{Example}{Пример}
+\newtheorem*{known}{Теорема}
+\def\proofname{Доказательство}
+\theoremstyle{definition}
+\newtheorem{Def}{Определение}
+
+%% \newenvironment{Example} % имя окружения
+%% {\par\noindent{\bf Пример.}} % команды для \begin
+%% {\hfill$\scriptstyle\qed$} % команды для \end
+
+
+
+
+
+
+%\date{22 июня 2011 г.}
+\let\leq\leqslant
+\let\geq\geqslant
+\def\MT{\mathrm{MT}}
+%Обозначения ``ажуром''
+\def\BB{\mathbb B}
+\def\CC{\mathbb C}
+\def\RR{\mathbb R}
+\def\SS{\mathbb S}
+\def\ZZ{\mathbb Z}
+\def\NN{\mathbb N}
+\def\FF{\mathbb F}
+%греческие буквы
+\let\epsilon\varepsilon
+\let\es\emptyset
+\let\eps\varepsilon
+\let\al\alpha
+\let\sg\sigma
+\let\ga\gamma
+\let\ph\varphi
+\let\om\omega
+\let\ld\lambda
+\let\Ld\Lambda
+\let\vk\varkappa
+\let\Om\Omega
+\def\abstractname{}
+
+\def\R{{\cal R}}
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+\def\D{{\cal D}}
+\let\w\omega
+
+%классы сложности
+\def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
+\newcounter{problem}
+\newcounter{uproblem}
+\newcounter{subproblem}
+\def\pr{\medskip\noindent\stepcounter{problem}{\bf \theproblem .  }\setcounter{subproblem}{0} }
+\def\prstar{\medskip\noindent\stepcounter{problem}{\bf $\theproblem^*$\negthickspace.  }\setcounter{subproblem}{0} }
+\def\prpfrom[#1]{\medskip\noindent\stepcounter{problem}{\bf Задача \theproblem~(№#1 из задания).  }\setcounter{subproblem}{0} }
+\def\prp{\medskip\noindent\stepcounter{problem}{\bf Задача \theproblem .  }\setcounter{subproblem}{0} }
+\def\prpstar{\medskip\noindent\stepcounter{problem}{\bf Задача $\bf\theproblem^*$\negthickspace.  }\setcounter{subproblem}{0} }
+\def\prdag{\medskip\noindent\stepcounter{problem}{\bf Задача $\theproblem^{^\dagger}$\negthickspace\,.  }\setcounter{subproblem}{0} }
+\def\upr{\medskip\noindent\stepcounter{uproblem}{\bf Упражнение \theuproblem .  }\setcounter{subproblem}{0} }
+%\def\prp{\vspace{5pt}\stepcounter{problem}{\bf Задача \theproblem .  } }
+%\def\prs{\vspace{5pt}\stepcounter{problem}{\bf \theproblem .*   }
+\def\prsub{\medskip\noindent\stepcounter{subproblem}{\rm \thesubproblem .  } }
+\def\prsubstar{\medskip\noindent\stepcounter{subproblem}{\rm $\thesubproblem^*$\negthickspace.  } }
+%прочее
+\def\quotient{\backslash\negthickspace\sim}
+\begin{document}
+\centerline{\LARGE Задание 5}
+
+\medskip
+
+\begin{center}
+	{\Large Регулярные грамматики}
+\end{center}
+
+\bigskip
+
+
+
+{\bf Ключевые слова }\footnote{минимальный необходимый объем понятий и навыков по
+этому разделу)}:{\em  язык, регулярный язык, ДКА, НКА,
+алгебра регулярных выражений,  грамматики, уравнения с регулярными коэффициентами. %примеры нерегулярных языков;
+%поиск подстрок, алгоритм Кнута- Морисса- Пратта.
+
+%языки скобочных выражений (языки Дика). 
+}
+
+
+\section{Грамматики}
+
+Одна из больших проблем науки, которую мы с вами изучаем -- определения. Их слишком много и они отличаются друг от друга, хотя в итоге конечно описывают одни и те же классы языков. Я призываю на экзамене пользоваться определениями из книги Серебрякова, хотя при выполнении задания вы можете пользоваться эквивалентными определениями из другой литературы.
+
+\begin{Def}
+	Грамматика $\Gamma$ определяется через
+	\begin{itemize}
+		\item $N$ -- множество нетерминальных символов
+		\item $T$ -- множество терминальных символов
+		\item $P$ -- множество правил вывода, $P \subseteq (N\cup T)^* \times (N\cup T)^*$.
+		\item $S$ -- аксиома, $S \in N$.
+	\end{itemize}
+	При этом, $N\cap T = \es$. Принято обозначение $\Gamma = G(N, T, P, S)$.
+	При описании грамматики приняты следующие соглашения. Нетерминалы обозначают заглавными буквами $A, B, C,\ldots$ терминалы обозначают строчными буквами, смешанные цепочки из $(N\cup T)^*$ обозначают греческими буквами $\alpha, \beta, \gamma$. Слово $w \in T^*$ порождается грамматикой $\Gamma$, если существует последовательность правил вывода, начинающаяся с правила вида $S \to \alpha$, в результате применения которых порождается слово $w$. Под применением правила $\alpha \to \beta$, понимается, что подслово $\alpha$ заменяется на подслово $\beta$
+\end{Def}
+
+
+В зависимости от ограничений, налагаемых на правила вывода, получаются разные классы языков. В рамках этого задания нас пока интересует только последний тип.
+\begin{itemize}
+	\item Если на множество правил $P$ не накладывается ограничений, то есть правила имеют вид $\alpha \to \beta$, то грамматика называется грамматикой типа $0$ по Хомскому
+	\item Грамматики, в которых правила имеют вид $\alpha A \beta \to \alpha \gamma \beta,\ |\gamma| > 0 $ называются грамматиками типа $1$  или Контекстно-зависимыми. В качестве исключения грамматике может принадлежать правило $S \to \eps$, но тогда нетерминал $S$ не может встречаться в правых частях. 
+	\item Грамматики, в которых правила имеют вид $A \to \alpha$, называются грамматиками типа $2$ или Контекстно-Свободными грамматиками.
+	\item Грамматики, в которых правила имеют вид $A \to xB $ или  $A \to x $, $x \in T^*$, называются грамматиками типа $3$ или праволинейными грамматиками.
+\end{itemize}
+
+В определении КЗ-грамматики существенно, что она является \emph{неукорачивающей}, т.е. правая часть правил всегда длинее левой. Эквивалентное определение из книги Серебрякова гласит, что в КЗ-грамматике все правила, кроме быть может $S \to \eps$, имеют вид $ \alpha \to \beta $, $|\alpha| < |\beta|$. Опять-таки, если есть правило $S \to \eps$, то нетерминал $S$ в правых частях правил встречаться не может.
+
+
+Очень часто грамматиками типа $3$ называют грамматики, в которых правила вывода имеют вид $A \to xB $ или  $A \to x $, $ x \in T $, также допускается правило $S \to \eps$  с всё той же оговоркой, что аксиома не может встречаться в правой части. Такие грамматики называются \emph{праволинейными регулярными} грамматиками.
+
+\upr Доказать, что праволинейные грамматики и праволинейные регулярные грамматики эквивалентны, т.е. порождают один и тот же тип языков.
+
+\begin{Def}
+	Грамматика типа 3 является \emph{неоднозначной}, если существует более одного способа вывести хотя бы одно слово из языка, порождённого грамматикой.
+\end{Def}
+
+Для грамматик другого типа, это определение неприемлемо. Вдумчивый читатель может подумать почему. Ответ будет дан в одной из следующих серий.
+
+
+Леволинейные грамматики определяются аналогично праволинейным: в них правила имеют вид $A \to Bx $ или $A \to x$...
+
+
+
+\section{Построение регулярного выражения по системе линейных уравнений с регулярными коэффициентами}
+
+Перед тем как перейти непосредственно к описанию системы линейных уравнений с регулярными коэффициентами, вспомним о свойствах регулярных выражений. Будем обозначать регулярные выражения греческими буквами. Очевидно, что $\alpha | \beta = \beta | \alpha $, поэтому операцию объединения часто обозначают как $+$. В роли умножения выступает операция конкатенации, в роли нуля -- $\varnothing$, а в роли единицы -- $\eps$. Для данных операций выполняются следующие свойства:
+\begin{multicols}{2}
+\begin{itemize}
+	\item $\alpha + \beta = \beta + \alpha$
+	\item $\alpha + (\beta + \gamma) = (\alpha+\beta)+\gamma$
+	\item $\alpha(\beta + \gamma) = \alpha\beta + \alpha\gamma$
+	\item $(\alpha+\beta)\gamma = \alpha\gamma + \beta\gamma$
+	\item $\alpha(\beta\gamma) = (\alpha\beta)\gamma$
+	\item $\alpha + \alpha = \alpha$
+	\item $\alpha^* = \alpha + \alpha^*$
+	\item $(\alpha^*)^* = \alpha^*$
+	\item $\varnothing^* = \eps$
+	\item $\alpha + \varnothing = \alpha$
+	\item $\alpha\cdot\eps = \eps\cdot\alpha = \alpha  $
+	\item $\alpha\cdot\varnothing = \varnothing\cdot\alpha =  \varnothing$
+\end{itemize}
+\end{multicols}
+
+Что вместе с замкнутостью регулярных выражений относительности конкатенации, объединения и итерации позволяет рассматривать линейные уравнения с регулярными коэффициентами. Вообще говоря, регулярные языки относительно объединения и конкатенации образуют полукольцо с единицей -- это полезно понимать, чтобы видеть, что алгебраические вещи возникают отнюдь не на пустом месте. Однако, наше использование систем линейных уравнений с регулярными коэффициентами сведётся лишь к формальной их записи -- на что-то более подробное, у нас, увы, времени нет.
+
+
+Итак, линейное уравнение с регулярными коэффициентами имеет вид:
+\[ X = \alpha X + \beta\]
+
+\emph{Наименьшей неподвижной точкой уравнения с регулярными коэффициентами} называется наименьшее по мощности множество $X^\prime$, при подстановке которого в уравнение, уравнение остаётся справедливым. Легко видеть, что наименьшей неподвижной точкой линейного уравнения с регулярными коэффицентами будет решение $X = \alpha^*\beta$.
+
+\upr Доказать, что $X = \alpha^*\beta$ является единственной наименьшей неподвижной точкой линейного уравнения $X = \alpha X + \beta$. Посмотрите доказательство этого факта в Ахо и Ульмане и сравните насколько «легко видеть» соотносится с «коротко доказать».
+\medskip
+
+Системой линейных уравнений с регулярными коэффициентами называется система вида
+
+\begin{gather*}
+	 X_1 = \alpha_{11}X_1 + \alpha_{12}X_2 + \ldots + \alpha_{1n}X_n + \alpha_{10}\\
+	 \hdots\\
+	 X_i = \alpha_{i1}X_1 + \alpha_{i2}X_2 + \ldots + \alpha_{in}X_n + \alpha_{i0}\\
+	 \hdots\\
+	 X_n = \alpha_{n1}X_1 + \alpha_{n2}X_2 + \ldots + \alpha_{nn}X_n + \alpha_{n0}\\
+\end{gather*}
+
+$i$-ое уравнение системы решается следующим образом:
+
+\[ X_i = \alpha_{ii}X_i + \underbrace{\alpha_{i1}X_1 + \ldots+ \alpha_{i i-1}X_{i-1} + \alpha_{i i+1}X_{i+1} + \ldots \alpha_{nn}X_n + \alpha_{i0}}_{\beta_i} \]
+
+Таким образом, $X_i = \alpha^*_{ii}\beta_i$.
+
+Для того, чтобы получить регулярное выражение, описывающие язык, порождаемый ПГ, нужно записать для правил ПГ систему линейных уравнений: для правил вида $ A_1 \to w_1A_1 | w_2A_2| \ldots w_nA_n| v_1|v_2|\ldots|v_k$ уравнение имеет вид
+\[ A_1  = w_1A_1 + w_2A_2 + \ldots + w_n A_n + (v_1 + v_2 + \ldots + v_k) \]
+
+Разрешив все уравнения системы и подставив решения в строчку с $S$ получим решение уравнения для $S$ вида $S = \gamma$, где $\gamma$ и будет искомым регулярным выражением.
+
+
+ С системами линейных уравнений с регулярными коэффициентами можно ознакомиться  в книге Ахо и Ульмана {\it Теория Синтаксического Анализа, Перевода и Компиляции Том I}
+
+
+
+
+\section{Задачи}
+
+Внимание, все задачи на построение автоматов должны быть снабжены диаграммами! 
+
+\prp
+\begin{multicols}{2}
+	
+На семинаре я строил по автомату праволинейную грамматику. Является ли полученная таким образом грамматика регулярной праволинейной? Постройте по автомату $\A$ регулярную праволинейную грамматику $G$, если алгоритм, предложенный на семинаре не подходит, предложите свой алгоритм (если возьмёте его из книжки, не списывайте страницами, пожалуйста).
+\vfill
+ \columnbreak 
+	
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	\node[state, initial]	(q_0)							{$q_0$};
+	\node[state] 		  	(q_1) [above right = of q_0]	{$q_1$};
+	\node[state, accepting] 	(q_2) [right = of q_1]			{$q_2$};
+	\node[state]			(q_3) [right = 2.5cm of q_0]			{$q_3$};
+	\node[state, accepting]	(q_4) [below right = of q_0]	{$q_4$};
+	\path[->]
+		(q_0)	edge	node {$\eps$}	(q_1)
+				edge	node {$\eps$}	(q_4)
+				edge	node {$a$} 		(q_3)
+		(q_1)	edge	node {$a$}		(q_2)
+				edge	node {$b$}		(q_3)
+		(q_2)	edge	node {$a$}		(q_3)
+		(q_3)	edge	node {$b$}		(q_4)
+		(q_4)	edge [bend left]	node {$a$} 		(q_0);
+\end{tikzpicture}
+
+
+\end{multicols}
+
+\prp
+
+\prsub Предложите алгоритм построения НКА по праволинейной грамматике.
+
+\prsub Постройте автомат по грамматике $G:$ $$ S\to abaA|abB|\eps,\ A\to aB|aa,\ B\to bA|aS$$
+
+\prsub Постройте регулярное выражение для языка $L(G)$.
+
+\prsub Является ли грамматика $G$ однозначной?
+
+\prp Верно ли, что праволинейная грамматика $G$ однозначна тогда и только тогда, когда построенный по ней автомат является детерминированным?
+
+\prp Назовём грамматику линейной, если в правой части её правил всего один нетерминал. Верно ли, что для любой линейной грамматики $G$, $L(G) \in \REG$?
+
+\bigskip
+
+Ещё раз напоминаю, что задачи, помеченные $\dagger$ являются дополнительными, поэтому списывать их из книжек -- бессмысленное увеличение энтропии.
+
+\begin{Def}
+	Для языка $L \subseteq \{\sigma_1,\sigma_2,\ldots,\sigma_n\}^* = \Sigma_n^*$ и языков $L_{\sigma_1}, L_{\sigma_2}, \ldots, L_{\sigma_n} \subseteq \Sigma_n^* $, подстановкой  в $L$ языков $L_{\sigma_1},\ldots, L_{\sigma_n}$ назовём язык $L^{\prime} $, такой что для всех слов $w = w[1]\ldots w[n]$ из языка $L$ справедливо $ L_{w[1]}L_{w[2]}\ldots L_{w[n]} \subseteq L^{\prime}$
+\end{Def}
+
+\prdag Доказать, что регулярные языки замкнуты относительно операции подстановки.
+
+\begin{Def}
+	Даны алфавиты $\Sigma$ и $\Delta$. Для языка $L \subseteq \Sigma\times \Delta$ определены операции проекции на $\Sigma^*$ и $\Delta^*$. Проекцией $L$ на $\Sigma^*$ называется язык $L_\Sigma = \{ w \in \Sigma^*\, |\, \exists v \in \Delta^* : (w,v) \in L \}$. Проекция $L$ на $\Delta^*$ определяется аналогичным образом.
+\end{Def}
+
+\prdag Доказать, что регулярные языки замкнуты относительно операции проекции.
+
+\begin{Def}
+	Для языка $L_\Sigma \subseteq \Sigma^*$, $\Delta$-целиндром называется язык $L$, такой что $L = \{w\, |\, w = (u, v), u \in L_\Sigma, v \in \Delta^* \}$
+\end{Def}
+
+\prdag Показать, что $\Sigma$-проекция $\Delta$-цилиндра $L$ есть $L$. Доказать, что регулярные языки замкнуты относительно операции цилиндра.
+
+
+
+\end{document}
