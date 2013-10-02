@@ -1,0 +1,49 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,arrows}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{wasysym}
+\title{Теория и реализация языков программирования.\\Задание 4: Замкнутость регулярных языков, теорема Майхилла-Нероуда и минимальные автоматы}
+\date{задано 2013.09.25}
+\author{Сергей~Володин, 272 гр.}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+% названия автоматов
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+
+%+= и -=, иначе разъезжаются...
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
+% регулярные языки
+\def\REG{{\mathsf{REG}}}
+
+\newcommand{\niton}{\not\owns}
+
+\begin{document}
+\maketitle
+{\bf Сделано позже срока сдачи.}
+\section*{Задача 2}
+{\em{Идея обсуждалась вместе с Владом Гончаренко.}}
+\begin{enumerate}[1.]
+\item В одну сторону утверждение из условия очевидно: если $L(\A)=L(\B)$, то $\forall w\hookrightarrow w\in L(\A)\Leftrightarrow w\in L(\B)$, в том числе и для тех, о которых говорится в условии.
+\item Докажем в другую сторону. $M=\{w\big ||w|\leqslant |Q^\A|\cdot |Q^\B|\}$. Если входные автоматы не полные, пополним их.
+\begin{enumerate}[1.]
+\item Утверждение: дан ДКА $\A$, $|Q|=n$, Состояние $q_i\in Q$ достижимо. Тогда кратчайший путь (слово) из $q_0$ в $q_i$ не больше $n$. Действительно, пусть иначе (кратчайший путь $w$ имеет большую длину). Значит (принцип Дирихле), автомат в какой-то вершине $q_1$ побывал дважды:  $w=xyz$, $(q_0,w)\equiv(q_0,xyz)\vdash(q_1,yz)\vdash(q_1,z)\vdash(q_i,\varepsilon)$, $|y|>0$. Удалив $y$, получим $w'=xz$, также попадем в $q_i$: $(q_0,w')\equiv(q_0,xz)\vdash(q_1,z)\vdash(q_i,\varepsilon)$, но путь стал короче~--- противоречие ($xyz$~--- самый короткий).
+\item Рассмотрим автомат $\C$, имитирующий работу двух входный автоматов $\A$ и $\B$ (такой построен в задаче 4.4). В нем $|Q^\A| \cdot |Q^\B|$ состояний. Кратчайшие пути до достижимых состояний не длиннее $|Q^\A| \cdot |Q^\B|$ (п. 1), поэтому, перебрав все $w\in M$ (то есть, слова, которые не длиннее $|Q^\A| \cdot |Q^\B|$, в том числе и те, которые могут быть кратчайшими путями), автомат $\C$ побывает в каждом достижимом состоянии. Значит, пара $(q^\A_i,q^\B_j)$ из конечных состояний входных автоматов после прочтения слов $w\in M$ достигнет всех своих возможных значений. То есть, $$\forall q^i_j\mbox{~--- достижимое}\hookrightarrow\exists m\in M\colon q^0_0\overset{m}{\longrightarrow}q^i_j.$$
+\item Рассмотрим произвольное $w\in\Sigma^*$. Пусть $q^0_0\overset{w}{\longrightarrow}q^i_j$ (здесь используется полнота автоматов). Значит, $q^i_j$~--- достижимое. Тогда (п.2) для него существует $m_0\in M\colon q^0_0\overset{m_0}{\longrightarrow}q^i_j$, иными словами, $q^\A_0\overset{m_0}{\longrightarrow}q^\A_i,q^\B_0\overset{m_0}{\longrightarrow}q^\B_j$.\newline
+Из условия имеем $\forall m\in M\hookrightarrow m\in L(\A)\Leftrightarrow m\in L(\B)$. В том числе это выполнено и для $m_0: m_0\in L(\A)\Leftrightarrow m_0\in L(\B)$. Значит, $q^\A_i\in F^\A\Leftrightarrow q^\B_j\in F^\B$. А это означает, что $w\in L(\A)\Leftrightarrow w\in L(\B)\,\blacksquare$
+\end{enumerate}
+\end{enumerate}
+\end{document}
