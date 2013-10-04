@@ -1,6 +1,12 @@
 #include <stdio.h>
+#include <pthread.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include "matrices.h"
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+#include <errno.h>
 
 int allocateMatrix(matrix *a, int rows, int cols)
 {
@@ -23,6 +29,85 @@ void freeMatrix(matrix *a)
     a->v = NULL;
     a->rows = 0;
     a->cols = 0;
+}
+
+typedef struct
+{
+    matrix a;
+    matrix b;
+    matrix c;
+    int r0;
+    int rstep;
+} multiplyMatricesThreadsArgs;
+
+void *multiplyMatricesThread(void *args_)
+{
+    multiplyMatricesThreadsArgs args = *((multiplyMatricesThreadsArgs*) args_);
+    multiplyMatrices(args.a, args.b, args.c, args.r0, args.rstep);
+    return(NULL);
+}
+
+int multiplyMatricesThreads(matrix a, matrix b, matrix c, int threadsN)
+{
+    if(a.cols != b.rows)
+        return(-1);
+    if(c.rows != a.rows || c.cols != b.cols)
+        return(-1);
+
+    int i, res;
+    pthread_t *thid = malloc(sizeof(pthread_t) * threadsN);
+    multiplyMatricesThreadsArgs args;
+
+    for(i = 0; i < threadsN; i++)
+    {
+        args.a = a;
+        args.b = b;
+        args.c = c;
+        args.r0 = i;
+        args.rstep = threadsN;
+        res = pthread_create(&thid[i], (pthread_attr_t *) NULL, multiplyMatricesThread, &args);
+        if(res != 0)
+            return(-1);
+    }
+
+    // waiting
+    for(i = 0; i < threadsN; i++)
+        pthread_join(thid[i], (void **)NULL);
+
+    return(0);
+}
+
+void allocateShared()
+{
+   int     *array;
+   int     shmid;
+   int     new = 1;
+   char    pathname[] = "06-1a.c";
+   key_t   key;
+
+   if((key = ftok(pathname,0)) < 0){
+     printf("Can\'t generate key\n");
+     exit(-1);
+   }
+
+   if((shmid = shmget(key, 4*sizeof(int), 0666|IPC_CREAT|IPC_EXCL)) < 0)
+   {
+      if(errno != EEXIST){
+         printf("Can\'t create shared memory\n");
+         exit(-1);
+      } else {
+         if((shmid = shmget(key, 3*sizeof(int), 0)) < 0){
+            printf("Can\'t find shared memory\n");
+            exit(-1);
+	 }
+         new = 0;
+      }
+   }
+
+   if((array = (int *)shmat(shmid, NULL, 0)) == (int *)(-1)){
+      printf("Can't attach shared memory\n");
+      exit(-1);
+   }
 }
 
 int readMatrix(matrix* a)

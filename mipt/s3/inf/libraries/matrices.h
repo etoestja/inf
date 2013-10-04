@@ -33,6 +33,10 @@ int multiplyAllocateMatrices(matrix a, matrix b, matrix *c);
 // returns 0 if OK
 int multiplyMatrices(matrix a, matrix b, matrix c, int r0, int rstep);
 
+// same as multiplyMatrices
+// uses threadsN threads
+int multiplyMatricesThreads(matrix a, matrix b, matrix c, int threadsN);
+
 // prints a in the same format as described in readMatrix
 // uses printf
 void printMatrix(matrix a);
