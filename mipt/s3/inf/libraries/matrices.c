@@ -14,6 +14,7 @@ int allocateMatrix(matrix *a, int rows, int cols)
         return(-1);
     a->rows = rows;
     a->cols = cols;
+    a->transposed = 0;
 
     a->v = malloc(sizeof(mType) * (rows * cols));
 
@@ -43,7 +44,14 @@ typedef struct
 void *multiplyMatricesThread(void *args_)
 {
     multiplyMatricesThreadsArgs args = *((multiplyMatricesThreadsArgs*) args_);
+#ifdef DEBUG
+    fprintf(stderr, "thread created\t*a=%p\t*b=%p\t*c=%p\tr0=%d\trstep=%d\n", &(args.a), &(args.b), &(args.c), args.r0, args.rstep);
+#endif
     multiplyMatrices(args.a, args.b, args.c, args.r0, args.rstep);
+
+#ifdef DEBUG
+    fprintf(stderr, "thread finished\t*a=%p\t*b=%p\t*c=%p\tr0=%d\trstep=%d\n", &(args.a), &(args.b), &(args.c), args.r0, args.rstep);
+#endif
     return(NULL);
 }
 
@@ -56,16 +64,16 @@ int multiplyMatricesThreads(matrix a, matrix b, matrix c, int threadsN)
 
     int i, res;
     pthread_t *thid = malloc(sizeof(pthread_t) * threadsN);
-    multiplyMatricesThreadsArgs args;
+    multiplyMatricesThreadsArgs* args = malloc(sizeof(multiplyMatricesThreadsArgs) * threadsN);
 
     for(i = 0; i < threadsN; i++)
     {
-        args.a = a;
-        args.b = b;
-        args.c = c;
-        args.r0 = i;
-        args.rstep = threadsN;
-        res = pthread_create(&thid[i], (pthread_attr_t *) NULL, multiplyMatricesThread, &args);
+        args[i].a = a;
+        args[i].b = b;
+        args[i].c = c;
+        args[i].r0 = i;
+        args[i].rstep = threadsN;
+        res = pthread_create(&thid[i], (pthread_attr_t *) NULL, multiplyMatricesThread, &(args[i]));
         if(res != 0)
             return(-1);
     }
@@ -110,7 +118,7 @@ void allocateShared()
    }
 }
 
-int readMatrix(matrix* a)
+int readMatrix(matrix* a, int transpose)
 {
     if(a == NULL)
         return(-1);
@@ -124,12 +132,14 @@ int readMatrix(matrix* a)
     if(allocateMatrix(a, m, n) != 0)
         return(-1);
 
+    a->transposed = transpose;
+
     int i, j;
     char c;
     for(i = 0; i < m; i++)
         for(j = 0; j < n; j++)
         {
-            scanf("%lf", &(a->v[i * n +j]));
+            scanf("%lf", transpose ? &(a->v[j * n + i]) : &(a->v[i * n + j]));
             if(j < n - 1)
                 scanf("%c", &c);
         }
@@ -160,7 +170,7 @@ int multiplyMatrices(matrix a, matrix b, matrix c, int r0, int rstep)
         {
             c.v[i * c.cols + j] = 0;
             for(k = 0; k < a.cols; k++)
-                c.v[i * c.cols + j] += a.v[i * a.cols + k] * b.v[k * b.cols + j];
+                c.v[i * c.cols + j] += a.v[i * a.cols + k] * b.v[j * b.cols + k];//b.v[k * b.cols + j];
         }
 
     return(0);
@@ -168,13 +178,13 @@ int multiplyMatrices(matrix a, matrix b, matrix c, int r0, int rstep)
 
 void printMatrix(matrix a)
 {
-    printf("%d, %d\n", a.rows, a.cols);
+    printf("%d, %d T=%d\n", a.rows, a.cols, a.transposed);
     int i, j;
     for(i = 0; i < a.rows; i++)
     {
         for(j = 0; j < a.cols; j++)
         {
-            printf("%lf", a.v[i * a.cols + j]);
+            printf("%lf", a.transposed ? a.v[j * a.cols + i] : a.v[i * a.cols + j]);
             if(j < a.cols - 1)
                 printf(";");
         }

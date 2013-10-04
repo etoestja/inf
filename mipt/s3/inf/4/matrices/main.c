@@ -17,10 +17,10 @@ int main()
 {
     doReopen();
 
-    readMatrix(&a);
-    readMatrix(&b);
+    readMatrix(&a, 0);
+    readMatrix(&b, 1);
 
-#ifdef DEBUG
+#ifdef MULTDEBUG
     printf("A ");
     printMatrix(a);
     printf("\nB ");
@@ -29,9 +29,17 @@ int main()
 #endif
 
     multiplyAllocateMatrices(a, b, &c);
-    multiplyMatrices(a, b, c, 0, 1);
+#ifdef MULTTHREADS
+    multiplyMatricesThreads(a, b, c, 4);
+#endif
 
+#ifdef MULTSIMPLE
+    multiplyMatrices(a, b, c, 0, 1);
+#endif
+
+#ifdef MULTPRINT
     printMatrix(c);
+#endif
 
     freeMatrix(&a);
     freeMatrix(&b);

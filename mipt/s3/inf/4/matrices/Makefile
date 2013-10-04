@@ -4,7 +4,7 @@ LIBRARY=matrices
 
 all: $(TARGET)
 $(TARGET): lib$(LIBRARY).a $(CFILE).c
-	gcc -pthread -L. $(CFILE).c -l$(LIBRARY) -o $(TARGET)
+	gcc -DMULTPRINT -DMULTTHREADS -pthread -L. $(CFILE).c -l$(LIBRARY) -o $(TARGET)
 lib%.a: %.o
 	ar rcs $@ $<
 $(LIBRARY).o: $(LIBRARY).c

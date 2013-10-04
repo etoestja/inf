@@ -8,6 +8,7 @@ typedef struct
     mType *v;
     unsigned rows;
     unsigned cols;
+    int transposed;
 } matrix;
 
 // allocates a->v rows x cols
@@ -20,14 +21,16 @@ void freeMatrix(matrix *a);
 
 // reads m n\n a11;a12...\na21;a22...
 // used scanf
+// second argument transposes matrix
 // returns 0 if OK
-int readMatrix(matrix* a);
+int readMatrix(matrix* a, int transpose);
 
 // allocates c->v a.rows x b.cols
 // returns 0 if OK
 int multiplyAllocateMatrices(matrix a, matrix b, matrix *c);
 
-// multiplies a x b, stores into c
+// multiplies a x b, stores into c.
+// b must be transposed (increases performance)
 // r0 - starting row
 // will calculate result for rows r0, r0+rstep, r0+2rstep...
 // returns 0 if OK
