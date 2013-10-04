@@ -1,6 +1,6 @@
 import sys
-M=50
-N=50
+M=1000
+N=1000
 def pm():
  print str(M)+" "+str(N)
  i=0
