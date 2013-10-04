@@ -1,0 +1,22 @@
+rm -rf *~
+rm -rf matrices.o
+rm -rf libmatrices.a
+rm -rf matricesMul
+gcc -pthread -c matrices.c
+ar rcs libmatrices.a matrices.o
+gcc -DMULTPROCESSES -DMULTPRINT -DMULTDEBUG -pthread -L. main.c -lmatrices -o matricesMul
+========= TEST 1/4 test2large: =========
+=== PROGRAM SAYS: ===
+process created *a=0x7fffe6f570d0   *b=0x7fffe6f570f0   *c=0x7fffe6f57110   r0=0    rstep=4
+process created *a=0x7fffe6f570d0   *b=0x7fffe6f570f0   *c=0x7fffe6f57110   r0=1    rstep=4
+process created *a=0x7fffe6f570d0   *b=0x7fffe6f570f0   *c=0x7fffe6f57110   r0=2    rstep=4
+process created *a=0x7fffe6f570d0   *b=0x7fffe6f570f0   *c=0x7fffe6f57110   r0=3    rstep=4
+process ended   *a=0x7fffe6f570d0   *b=0x7fffe6f570f0   *c=0x7fffe6f57110   r0=3    rstep=4
+process ended   *a=0x7fffe6f570d0   *b=0x7fffe6f570f0   *c=0x7fffe6f57110   r0=1    rstep=4
+process ended   *a=0x7fffe6f570d0   *b=0x7fffe6f570f0   *c=0x7fffe6f57110   r0=2    rstep=4
+process ended   *a=0x7fffe6f570d0   *b=0x7fffe6f570f0   *c=0x7fffe6f57110   r0=0    rstep=4
+
+
+real    0m8.415s
+user    0m23.445s
+sys 0m0.112s

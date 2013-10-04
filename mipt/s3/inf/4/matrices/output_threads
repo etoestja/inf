@@ -1,0 +1,27 @@
+rm -rf *~
+rm -rf matrices.o
+rm -rf libmatrices.a
+rm -rf matricesMul
+gcc -pthread -c matrices.c
+ar rcs libmatrices.a matrices.o
+gcc -DMULTTHREADS -DMULTPRINT -DMULTDEBUG -pthread -L. main.c -lmatrices -o matricesMul
+========= TEST 1/4 test2large: =========
+=== PROGRAM SAYS: ===
+thread created  *a=0x7f42dde26e70   *b=0x7f42dde26e90   *c=0x7f42dde26eb0   r0=1    rstep=4
+thread created  *a=0x7f42dd625e70   *b=0x7f42dd625e90   *c=0x7f42dd625eb0   r0=2    rstep=4
+thread created  *a=0x7f42de627e70   *b=0x7f42de627e90   *c=0x7f42de627eb0   r0=0    rstep=4
+thread created  *a=0x7f42dce24e70   *b=0x7f42dce24e90   *c=0x7f42dce24eb0   r0=3    rstep=4
+thread finished *a=0x7f42dd625e70   *b=0x7f42dd625e90   *c=0x7f42dd625eb0   r0=2    rstep=4
+*a->v=0x7f42df56d010    *b->v=0x7f42dedcb010    *c->v=0x7f42de629010
+thread finished *a=0x7f42dde26e70   *b=0x7f42dde26e90   *c=0x7f42dde26eb0   r0=1    rstep=4
+*a->v=0x7f42df56d010    *b->v=0x7f42dedcb010    *c->v=0x7f42de629010
+thread finished *a=0x7f42dce24e70   *b=0x7f42dce24e90   *c=0x7f42dce24eb0   r0=3    rstep=4
+*a->v=0x7f42df56d010    *b->v=0x7f42dedcb010    *c->v=0x7f42de629010
+thread finished *a=0x7f42de627e70   *b=0x7f42de627e90   *c=0x7f42de627eb0   r0=0    rstep=4
+*a->v=0x7f42df56d010    *b->v=0x7f42dedcb010    *c->v=0x7f42de629010
+
+
+real    0m8.462s
+user    0m23.393s
+sys 0m0.104s
+
