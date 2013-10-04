@@ -1,1 +1,1 @@
-/home/seriy/Documents/p/inf/mipt/s3/inf/libraries/matrices.c
+../../libraries/matrices.c
