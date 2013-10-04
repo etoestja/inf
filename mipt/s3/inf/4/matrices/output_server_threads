@@ -1,0 +1,63 @@
+rm -rf *~
+rm -rf matrices.o
+rm -rf libmatrices.a
+rm -rf matricesMul
+gcc -pthread -c matrices.c
+ar rcs libmatrices.a matrices.o
+gcc -DMULTTHREADS -DMULTPRINT -DMULTDEBUG -pthread -L. main.c -lmatrices -o matricesMul
+========= TEST 1/2 test2large: =========
+=== PROGRAM SAYS: ===
+thread created	*a=0xb3862320	*b=0xb3862338	*c=0xb3862350	r0=4	rstep=16
+thread created	*a=0xb4263320	*b=0xb4263338	*c=0xb4263350	r0=3	rstep=16
+thread created	*a=0xb5665320	*b=0xb5665338	*c=0xb5665350	r0=1	rstep=16
+thread created	*a=0xb6066320	*b=0xb6066338	*c=0xb6066350	r0=0	rstep=16
+thread created	*a=0xb2460320	*b=0xb2460338	*c=0xb2460350	r0=6	rstep=16
+thread created	*a=0xb4c64320	*b=0xb4c64338	*c=0xb4c64350	r0=2	rstep=16
+thread created	*a=0xb2e61320	*b=0xb2e61338	*c=0xb2e61350	r0=5	rstep=16
+thread created	*a=0xb1a5f320	*b=0xb1a5f338	*c=0xb1a5f350	r0=7	rstep=16
+thread created	*a=0xb105e320	*b=0xb105e338	*c=0xb105e350	r0=8	rstep=16
+thread created	*a=0xb065d320	*b=0xb065d338	*c=0xb065d350	r0=9	rstep=16
+thread created	*a=0xafc5c320	*b=0xafc5c338	*c=0xafc5c350	r0=10	rstep=16
+thread created	*a=0xaf25b320	*b=0xaf25b338	*c=0xaf25b350	r0=11	rstep=16
+thread created	*a=0xae85a320	*b=0xae85a338	*c=0xae85a350	r0=12	rstep=16
+thread created	*a=0xade59320	*b=0xade59338	*c=0xade59350	r0=13	rstep=16
+thread created	*a=0xaca57320	*b=0xaca57338	*c=0xaca57350	r0=15	rstep=16
+thread created	*a=0xad458320	*b=0xad458338	*c=0xad458350	r0=14	rstep=16
+thread finished	*a=0xad458320	*b=0xad458338	*c=0xad458350	r0=14	rstep=16
+*a->v=0xb6fab008	*b->v=0xb6809008	*c->v=0xb6067008
+thread finished	*a=0xaca57320	*b=0xaca57338	*c=0xaca57350	r0=15	rstep=16
+*a->v=0xb6fab008	*b->v=0xb6809008	*c->v=0xb6067008
+thread finished	*a=0xb105e320	*b=0xb105e338	*c=0xb105e350	r0=8	rstep=16
+*a->v=0xb6fab008	*b->v=0xb6809008	*c->v=0xb6067008
+thread finished	*a=0xaf25b320	*b=0xaf25b338	*c=0xaf25b350	r0=11	rstep=16
+*a->v=0xb6fab008	*b->v=0xb6809008	*c->v=0xb6067008
+thread finished	*a=0xb2460320	*b=0xb2460338	*c=0xb2460350	r0=6	rstep=16
+*a->v=0xb6fab008	*b->v=0xb6809008	*c->v=0xb6067008
+thread finished	*a=0xb4c64320	*b=0xb4c64338	*c=0xb4c64350	r0=2	rstep=16
+*a->v=0xb6fab008	*b->v=0xb6809008	*c->v=0xb6067008
+thread finished	*a=0xb065d320	*b=0xb065d338	*c=0xb065d350	r0=9	rstep=16
+*a->v=0xb6fab008	*b->v=0xb6809008	*c->v=0xb6067008
+thread finished	*a=0xae85a320	*b=0xae85a338	*c=0xae85a350	r0=12	rstep=16
+*a->v=0xb6fab008	*b->v=0xb6809008	*c->v=0xb6067008
+thread finished	*a=0xafc5c320	*b=0xafc5c338	*c=0xafc5c350	r0=10	rstep=16
+*a->v=0xb6fab008	*b->v=0xb6809008	*c->v=0xb6067008
+thread finished	*a=0xb4263320	*b=0xb4263338	*c=0xb4263350	r0=3	rstep=16
+*a->v=0xb6fab008	*b->v=0xb6809008	*c->v=0xb6067008
+thread finished	*a=0xb6066320	*b=0xb6066338	*c=0xb6066350	r0=0	rstep=16
+*a->v=0xb6fab008	*b->v=0xb6809008	*c->v=0xb6067008
+thread finished	*a=0xb3862320	*b=0xb3862338	*c=0xb3862350	r0=4	rstep=16
+*a->v=0xb6fab008	*b->v=0xb6809008	*c->v=0xb6067008
+thread finished	*a=0xade59320	*b=0xade59338	*c=0xade59350	r0=13	rstep=16
+*a->v=0xb6fab008	*b->v=0xb6809008	*c->v=0xb6067008
+thread finished	*a=0xb1a5f320	*b=0xb1a5f338	*c=0xb1a5f350	r0=7	rstep=16
+*a->v=0xb6fab008	*b->v=0xb6809008	*c->v=0xb6067008
+thread finished	*a=0xb2e61320	*b=0xb2e61338	*c=0xb2e61350	r0=5	rstep=16
+*a->v=0xb6fab008	*b->v=0xb6809008	*c->v=0xb6067008
+thread finished	*a=0xb5665320	*b=0xb5665338	*c=0xb5665350	r0=1	rstep=16
+*a->v=0xb6fab008	*b->v=0xb6809008	*c->v=0xb6067008
+
+
+real	0m5.777s
+user	0m18.724s
+sys	0m0.200s
+

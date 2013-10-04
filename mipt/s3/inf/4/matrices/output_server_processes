@@ -1,0 +1,48 @@
+rm -rf *~
+rm -rf matrices.o
+rm -rf libmatrices.a
+rm -rf matricesMul
+gcc -pthread -c matrices.c
+ar rcs libmatrices.a matrices.o
+gcc -DMULTPROCESSES -DMULTPRINT -DMULTDEBUG -pthread -L. main.c -lmatrices -o matricesMul
+========= TEST 1/2 test2large: =========
+=== PROGRAM SAYS: ===
+process created	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=0	rstep=16
+process created	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=1	rstep=16
+process created	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=2	rstep=16
+process created	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=3	rstep=16
+process created	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=4	rstep=16
+process created	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=5	rstep=16
+process created	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=6	rstep=16
+process created	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=7	rstep=16
+process created	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=8	rstep=16
+process created	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=9	rstep=16
+process created	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=10	rstep=16
+process created	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=11	rstep=16
+process created	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=12	rstep=16
+process created	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=13	rstep=16
+process created	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=14	rstep=16
+process created	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=15	rstep=16
+process ended	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=10	rstep=16
+process ended	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=15	rstep=16
+process ended	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=3	rstep=16
+process ended	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=7	rstep=16
+process ended	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=8	rstep=16
+process ended	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=12	rstep=16
+process ended	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=9	rstep=16
+process ended	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=13	rstep=16
+process ended	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=0	rstep=16
+process ended	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=5	rstep=16
+process ended	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=1	rstep=16
+process ended	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=4	rstep=16
+process ended	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=11	rstep=16
+process ended	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=14	rstep=16
+process ended	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=2	rstep=16
+process ended	*a=0xbfce0390	*b=0xbfce03a8	*c=0xbfce03c0	r0=6	rstep=16
+
+
+
+real	0m6.403s
+user	0m18.762s
+sys	0m0.175s
+
