@@ -17,9 +17,25 @@ int main()
 {
     doReopen();
 
-    readMatrix(&a, 0);
-    readMatrix(&b, 1);
+    readMatrix(&a, 0, 0, NULL);
+    readMatrix(&b, 1, 0, NULL);
 
+#ifdef MULTPROCESSES
+    multiplyAllocateMatrices(a, b, &c, 1, "main.c");
+    multiplyMatricesProcesses(a, b, c, 4);
+#endif
+
+#ifdef MULTTHREADS
+    multiplyAllocateMatrices(a, b, &c, 0, NULL);
+    multiplyMatricesThreads(a, b, c, 4);
+#endif
+
+#ifdef MULTSIMPLE
+    multiplyAllocateMatrices(a, b, &c, 0, NULL);
+    multiplyMatrices(a, b, c, 0, 1);
+#endif
+
+#ifdef MULTPRINT
 #ifdef MULTDEBUG
     printf("A ");
     printMatrix(a);
@@ -27,17 +43,6 @@ int main()
     printMatrix(b);
     printf("\nC ");
 #endif
-
-    multiplyAllocateMatrices(a, b, &c);
-#ifdef MULTTHREADS
-    multiplyMatricesThreads(a, b, c, 4);
-#endif
-
-#ifdef MULTSIMPLE
-    multiplyMatrices(a, b, c, 0, 1);
-#endif
-
-#ifdef MULTPRINT
     printMatrix(c);
 #endif
 

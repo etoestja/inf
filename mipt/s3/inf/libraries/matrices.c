@@ -8,15 +8,38 @@
 #include <sys/shm.h>
 #include <errno.h>
 
-int allocateMatrix(matrix *a, int rows, int cols)
+int allocateMatrix(matrix *a, int rows, int cols, int useShared, char* sharedName)
 {
     if(a == NULL)
         return(-1);
     a->rows = rows;
     a->cols = cols;
     a->transposed = 0;
+    a->useShared = useShared;
 
-    a->v = malloc(sizeof(mType) * (rows * cols));
+    int rsize = (rows * cols) * sizeof(mType);
+
+    if(useShared)
+    {
+        key_t key;
+
+        if((key = ftok(sharedName, 0)) < 0)
+            return(-1);
+
+        if((a->shmid = shmget(key, rsize, 0666|IPC_CREAT|IPC_EXCL)) < 0)
+        {
+        if(errno != EEXIST)
+            return(-1);
+        else
+            if((a->shmid = shmget(key, rsize, 0)) < 0)
+                return(-1);
+        }
+
+        if((a->v = (mType*) shmat(a->shmid, NULL, 0)) == (mType *)(-1))
+            return(-1);
+    }
+    else
+        a->v = malloc(rsize);
 
     return(0);
 }
@@ -25,7 +48,10 @@ void freeMatrix(matrix *a)
 {
     if(a == NULL) return;
 
-    free(a->v);
+    if(a->useShared)
+        shmdt(a->v);
+    else
+        free(a->v);
 
     a->v = NULL;
     a->rows = 0;
@@ -51,6 +77,7 @@ void *multiplyMatricesThread(void *args_)
 
 #ifdef DEBUG
     fprintf(stderr, "thread finished\t*a=%p\t*b=%p\t*c=%p\tr0=%d\trstep=%d\n", &(args.a), &(args.b), &(args.c), args.r0, args.rstep);
+    fprintf(stderr, "*a->v=%p\t*b->v=%p\t*c->v=%p\n", args.a.v, args.b.v, args.c.v);
 #endif
     return(NULL);
 }
@@ -82,43 +109,55 @@ int multiplyMatricesThreads(matrix a, matrix b, matrix c, int threadsN)
     for(i = 0; i < threadsN; i++)
         pthread_join(thid[i], (void **)NULL);
 
+    free(thid);
+    free(args);
+
     return(0);
 }
 
-void allocateShared()
+int multiplyMatricesProcesses(matrix a, matrix b, matrix c, int processesN)
 {
-   int     *array;
-   int     shmid;
-   int     new = 1;
-   char    pathname[] = "06-1a.c";
-   key_t   key;
+    if(a.cols != b.rows)
+        return(-1);
+    if(c.rows != a.rows || c.cols != b.cols)
+        return(-1);
 
-   if((key = ftok(pathname,0)) < 0){
-     printf("Can\'t generate key\n");
-     exit(-1);
-   }
+    int i, res;
+    pid_t *pids = malloc(sizeof(pid_t) * processesN);
+    int *statuses = malloc(sizeof(int) * processesN);
 
-   if((shmid = shmget(key, 4*sizeof(int), 0666|IPC_CREAT|IPC_EXCL)) < 0)
-   {
-      if(errno != EEXIST){
-         printf("Can\'t create shared memory\n");
-         exit(-1);
-      } else {
-         if((shmid = shmget(key, 3*sizeof(int), 0)) < 0){
-            printf("Can\'t find shared memory\n");
-            exit(-1);
-	 }
-         new = 0;
-      }
-   }
+    for(i = 0; i < processesN; i++)
+    {
+        if((pids[i] = fork()) != 0)
+        {
+            // parent
+        }
+        else
+        {
+            // child
+#ifdef DEBUG
+            fprintf(stderr, "process created\t*a=%p\t*b=%p\t*c=%p\tr0=%d\trstep=%d\n", &a, &b, &c, i, processesN);
+#endif
+            c.v = (mType*) shmat(c.shmid, NULL, 0);
+            multiplyMatrices(a, b, c, i, processesN);
+#ifdef DEBUG
+            fprintf(stderr, "process ended\t*a=%p\t*b=%p\t*c=%p\tr0=%d\trstep=%d\n", &a, &b, &c, i, processesN);
+#endif
+            exit(1);
+        }
+    }
 
-   if((array = (int *)shmat(shmid, NULL, 0)) == (int *)(-1)){
-      printf("Can't attach shared memory\n");
-      exit(-1);
-   }
+    // waiting
+    for(i = 0; i < processesN; i++)
+        waitpid(pids[i], &(statuses[i]), 0);
+
+    free(pids);
+    free(statuses);
+
+    return(0);
 }
 
-int readMatrix(matrix* a, int transpose)
+int readMatrix(matrix* a, int transpose, int useShared, char* sharedName)
 {
     if(a == NULL)
         return(-1);
@@ -129,7 +168,7 @@ int readMatrix(matrix* a, int transpose)
     if(scanf("%d", &n) != 1)
         return(-1);
 
-    if(allocateMatrix(a, m, n) != 0)
+    if(allocateMatrix(a, m, n, useShared, sharedName) != 0)
         return(-1);
 
     a->transposed = transpose;
@@ -147,12 +186,12 @@ int readMatrix(matrix* a, int transpose)
     return(0);
 }
 
-int multiplyAllocateMatrices(matrix a, matrix b, matrix *c)
+int multiplyAllocateMatrices(matrix a, matrix b, matrix *c, int useShared, char* sharedName)
 {
     if(a.cols != b.rows)
         return(-1);
 
-    if(allocateMatrix(c, a.rows, b.cols) != 0)
+    if(allocateMatrix(c, a.rows, b.cols, useShared, sharedName) != 0)
         return(-1);
     return(0);
 }
@@ -178,7 +217,7 @@ int multiplyMatrices(matrix a, matrix b, matrix c, int r0, int rstep)
 
 void printMatrix(matrix a)
 {
-    printf("%d, %d T=%d\n", a.rows, a.cols, a.transposed);
+    printf("%d, %d\n", a.rows, a.cols);
     int i, j;
     for(i = 0; i < a.rows; i++)
     {
