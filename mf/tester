@@ -17,7 +17,7 @@ fi
 tests="$(ls test* | wc -l)"
 i=1
 
-use_files=0
+use_files=1
 file_in="input.txt"
 file_out="output.txt"
 
@@ -42,14 +42,20 @@ function runTest()
     fi
     bn="$(basename $a)"
     echo "========= TEST $i/$tests $bn: ========="
-    cat $a
+    if (( "$(echo $bn | grep large --color=NEVER | wc -l)" == 0 ))
+    then
+        cat $a
+    fi
     echo "=== PROGRAM SAYS: ==="
 
 if [ "X$use_files" = "X1"  ]
 then
     cat $a > $file_in
     $progname
-    cat $file_out
+    if (( "$(echo $bn | grep large --color=NEVER | wc -l)" == 0 ))
+    then
+        cat $file_out
+    fi
 else
     time cat $a | $progname
 fi
