@@ -52,10 +52,10 @@ if [ "X$use_files" = "X1"  ]
 then
     cat $a > $file_in
     $progname
-    if (( "$(echo $bn | grep large --color=NEVER | wc -l)" == 0 ))
-    then
-        cat $file_out
-    fi
+#    if (( "$(echo $bn | grep large --color=NEVER | wc -l)" == 0 ))
+#    then
+#        cat $file_out
+#    fi
 else
     time cat $a | $progname
 fi
