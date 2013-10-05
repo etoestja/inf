@@ -1,0 +1,11 @@
+#!/bin/bash
+i=1
+N=5
+while (( $i <= $N ))
+do
+    cd $i
+    texcount -html -freq solution.tex > stats_solution.html
+    texcount -html -freq fl_task$i.tex > stats_task.html
+    cd ..
+    let i=i+1
+done
