@@ -10,7 +10,7 @@ matrix a, b, c;
 void doReopen()
 {
     freopen(INPUT,  "r", stdin);
-    freopen(OUTPUT, "w", stdout);
+//    freopen(OUTPUT, "w", stdout);
 }
 
 int main()
