@@ -17,7 +17,7 @@ int main()
     struct mymsgbuf
     {
        long mtype;
-    } mybuf;
+    } mybuf, mybufrc;
 
     mybuf.mtype = 1515;
 
@@ -40,7 +40,11 @@ int main()
             printf("Can\'t get msqid\n");
             exit(-1);
         }
-        else newm = 0;
+        else
+        {
+            msqid = msgget(key_msg, 0666 | IPC_CREAT);
+            newm = 0;
+        }
     }
 
 
@@ -66,10 +70,11 @@ int main()
       }
    }
 
-   if((array = (int *)shmat(shmid, NULL, 0)) == (int *)(-1)){
-             printf("Can't attach shared memory\n");
-                   exit(-1);
-                      }
+    if((array = (int *)shmat(shmid, NULL, 0)) == (int *)(-1))
+    {
+        printf("Can't attach shared memory\n");
+        exit(-1);
+    }
 
 
     if(newm)
@@ -87,7 +92,7 @@ int main()
 
     int len;
 
-    if ((len = msgrcv(msqid, (struct msgbuf *) &mybuf, 0, 0, 0)) < 0){
+    if ((len = msgrcv(msqid, (struct msgbuf *) &mybufrc, 0, 0, 0)) < 0){
         printf("Can\'t receive message from queue\n");
         exit(-1);
     }
@@ -105,6 +110,7 @@ int main()
    } else {
       array[2] += 1;
 #ifdef D1
+      sleep(10);
       array[0] += 1;
 #else
       array[1] += 1;
