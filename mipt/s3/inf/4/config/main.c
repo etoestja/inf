@@ -63,10 +63,11 @@ int testSetKey()
 {
     char fn[100];
     char key[100];
-    char v[100];
+    char* v = malloc(100);
     scanf("%s", fn);
     scanf("%s", key);
-    scanf("%s", v);
+    if(!scanf("%s", v))
+        v = NULL;
     char* res = setKey(fn, key, v);
     if(res == NULL)
         printf("Not found %s\n", key);

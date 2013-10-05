@@ -38,7 +38,8 @@ int configToFile(char* filename, config *conf)
     FILE* fd = fopen(filename, "w");
     int i;
     for(i = 0; i < conf->nStrings; i++)
-        fprintf(fd, "%s\n", conf->strings[i]);
+        if(conf->strings[i] != NULL)
+            fprintf(fd, "%s\n", conf->strings[i]);
 
     conf->nStrings = 0;
     conf->strings = NULL;
@@ -186,7 +187,7 @@ char* getKey(char* filename, char* keyname)
 char* setKey(char* filename, char* keyname, char* value)
 {
     config conf;
-    if(value == NULL || strlen(value) == 0)
+    if(value == NULL)
         return(NULL);
     if(fileToConfig(filename, &conf) != 0)
         return(NULL);
@@ -204,6 +205,12 @@ char* setKey(char* filename, char* keyname, char* value)
         {
             if(!strCmpSubstr(conf.strings[i], fk.keyPos, fk.keyL, keyname) && res == NULL)
             {
+                if(strlen(value) == 0)
+                {
+                    free(conf.strings[i]);
+                    conf.strings[i] = NULL;
+                    continue;
+                }
                 res = getSubstr(conf.strings[i], fk.valPos, fk.valL);
                 repl = malloc(sizeof(char) * (strlen(conf.strings[i]) - fk.valL + strlen(value)));
                 strncpy(repl, conf.strings[i], fk.valPos);
@@ -215,7 +222,7 @@ char* setKey(char* filename, char* keyname, char* value)
             }
         }
     }
-    if(res == NULL)
+    if(res == NULL && strlen(value) > 0)
     {
         conf.nStrings++;
         conf.strings = realloc(conf.strings, sizeof(char*) * (conf.nStrings));
@@ -225,7 +232,7 @@ char* setKey(char* filename, char* keyname, char* value)
         strcpy(tStr + strlen(keyname) + 1, value);
         tStr[strlen(keyname) + strlen(value) + 2] = 0;
         conf.strings[conf.nStrings - 1] = tStr;
-        printf("adding %s\n", tStr);
+//        printf("adding %s\n", tStr);
     }
     configToFile(filename, &conf);
     freeConfig(&conf);
