@@ -1,74 +1,46 @@
-#include <sys/types.h>
 #include <sys/shm.h>
 #include <errno.h>
-#include <sys/sem.h>
 #include <sys/ipc.h>
-#include <sys/msg.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 
+#define SEM 1
+
 int main()
 {
-    int msqid;
-    char pathname[]="main.c";
-    key_t  key_mem, key_msg;
+    key_t  key;
+    char pathname[] = "main.c";
 
-    struct mymsgbuf
+    int *array, shmid, new = 1;
+
+    if(smCreate(SEM) < 0)
     {
-       long mtype;
-    } mybuf, mybufrc;
-
-    mybuf.mtype = 1515;
-
-   int     *array;
-   int     shmid;
-   int     new = 1;
-   int newm = 1;
-
-    /* Create or attach message queue  */
-    
-    if((key_msg = ftok(pathname,0)) < 0){
-      printf("Can\'t generate key\n");
-      exit(-1);
+        printf("Can't create semaphore\n");
+        exit(-1);
     }
-    
-    if ((msqid = msgget(key_msg, 0666 | IPC_CREAT | IPC_EXCL)) < 0)
+
+    if((key = ftok(pathname,1)) < 0){
+        printf("Can\'t generate key\n");
+        exit(-1);
+    }
+
+    if((shmid = shmget(key, 3*sizeof(int), 0666|IPC_CREAT|IPC_EXCL)) < 0)
     {
         if(errno != EEXIST)
         {
-            printf("Can\'t get msqid\n");
+            printf("Can\'t create shared memory\n");
             exit(-1);
         }
         else
         {
-            msqid = msgget(key_msg, 0666 | IPC_CREAT);
-            newm = 0;
+            if((shmid = shmget(key, 3*sizeof(int), 0)) < 0){
+                printf("Can\'t find shared memory\n");
+                exit(-1);
+    	    }
+            new = 0;
         }
     }
-
-
-   if((key_mem = ftok(pathname,1)) < 0){
-     printf("Can\'t generate key\n");
-     exit(-1);
-   }
-
-   if((shmid = shmget(key_mem, 3*sizeof(int), 0666|IPC_CREAT|IPC_EXCL)) < 0)
-   {
-      if(errno != EEXIST)
-      {
-         printf("Can\'t create shared memory\n");
-         exit(-1);
-      }
-      else
-      {
-         if((shmid = shmget(key_mem, 3*sizeof(int), 0)) < 0){
-            printf("Can\'t find shared memory\n");
-            exit(-1);
-    	 }
-         new = 0;
-      }
-   }
 
     if((array = (int *)shmat(shmid, NULL, 0)) == (int *)(-1))
     {
@@ -76,57 +48,31 @@ int main()
         exit(-1);
     }
 
-
-    if(newm)
-    {
-        printf("sending1\n");
-        if(msgsnd(msqid, (struct msgbuf *) &mybuf, 0, 0) < 0)
-        {
-            printf("Can\'t send message to queue\n");
-            msgctl(msqid, IPC_RMID, (struct msqid_ds *) NULL);
-            exit(-1);
-        }
-    }
-
-    printf("receiving\n");
-
-    int len;
-
-    if ((len = msgrcv(msqid, (struct msgbuf *) &mybufrc, 0, 0, 0)) < 0){
-        printf("Can\'t receive message from queue\n");
-        exit(-1);
-    }
-
-    printf("recevived\n");
+    smP(SEM);
 
     if(new)
     {
 #ifdef D1
-      array[0] += 1;
+        array[0] += 1;
 #else
-      array[1] += 1;
+        array[1] += 1;
 #endif
-      array[2] =  1;
-   } else {
-      array[2] += 1;
-#ifdef D1
-      sleep(10);
-      array[0] += 1;
-#else
-      array[1] += 1;
-#endif
-   }
-
-    printf("sending\n");
-    
-    if(msgsnd(msqid, (struct msgbuf *) &mybuf, 0, 0) < 0)
-    {
-        printf("Can\'t send message to queue\n");
-        msgctl(msqid, IPC_RMID, (struct msqid_ds *) NULL);
-        exit(-1);
+        array[2] =  1;
     }
-   printf
-      ("Program 1 was spawn %d times, program 2 - %d times, total - %d times\n",
+    else
+    {
+        array[2] += 1;
+#ifdef D1
+        sleep(10);
+        array[0] += 1;
+#else
+        array[1] += 1;
+#endif
+    }
+
+    smV(SEM);
+
+    printf("Program 1 was spawn %d times, program 2 - %d times, total - %d times\n",
       array[0], array[1], array[2]);
 
    if(shmdt(array) < 0){
