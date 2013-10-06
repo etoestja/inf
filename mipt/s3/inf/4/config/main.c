@@ -67,7 +67,7 @@ int testSetKey()
     scanf("%s", fn);
     scanf("%s", key);
     if(!scanf("%s", v))
-        v = NULL;
+        v = "";
     char* res = setKey(fn, key, v);
     if(res == NULL)
         printf("Not found %s\n", key);
