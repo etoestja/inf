@@ -33,5 +33,30 @@
 
 \begin{document}
 \maketitle
+\section*{Задача 1}
+\begin{tabular}{l l}
+\begin{minipage}{0.6\textwidth}
+Нет, предложенный алгоритм может построить грамматику, которая не будет правилинейной регулярной. Например, для автомата $\A$ из условия переход $q_0\overset{\varepsilon}{\longrightarrow}q_1$ по алгоритму должен соответствовать правилу $q_0\longrightarrow\varepsilon q_1$, но это правило не имеет вид $A\longrightarrow xB$ ($\varepsilon=x\notin \Sigma$) или $A\longrightarrow x$ или $A\longrightarrow \varepsilon$.
+\end{minipage}
+\begin{minipage}{0.3\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	\node[state, initial]	(q_0)							{$q_0$};
+	\node[state] 		  	(q_1) [above right = of q_0]	{$q_1$};
+	\node[state, accepting] 	(q_2) [right = of q_1]			{$q_2$};
+	\node[state]			(q_3) [right = 2.5cm of q_0]			{$q_3$};
+	\node[state, accepting]	(q_4) [below right = of q_0]	{$q_4$};
+	\path[->]
+		(q_0)	edge	node {$\varepsilon$}	(q_1)
+				edge	node {$\varepsilon$}	(q_4)
+				edge	node {$a$} 		(q_3)
+		(q_1)	edge	node {$a$}		(q_2)
+				edge	node {$b$}		(q_3)
+		(q_2)	edge	node {$a$}		(q_3)
+		(q_3)	edge	node {$b$}		(q_4)
+		(q_4)	edge [bend left]	node {$a$} 		(q_0);
+\end{tikzpicture}
+\end{minipage}
+\end{tabular}\newline
+Заметим, что проблему можно решить, преобразовав НКА в ДКА. Тогда $\varepsilon$-переходов не будет. Остается один случай, в котором $q_0\in F$, и в $q_0$ есть переходы из других состояний: $\exists q_1\colon \delta(q_1,\sigma)=q_0$. Соответствующими правилами были бы $q_0\longrightarrow\varepsilon\,q_1\longrightarrow\sigma q_0$, которые не подходят для праволинейной регулярной грамматики (аксиома $q_0$ встречается в правой части при том, что есть переход $q_0\longrightarrow\varepsilon$)
 
 \end{document}
