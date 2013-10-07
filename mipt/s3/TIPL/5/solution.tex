@@ -277,7 +277,73 @@ $Q_3$ & & $Q_3\longrightarrow aQ_0|a$ & $Q_3\longrightarrow bQ_4|b$ \\\hline
 $Q_4$ & & $Q_4\longrightarrow aQ_0|a$ & \\\hline
 \end{tabular}
 \end{enumerate}
+\newpage
 \section*{Задача 2}
+\begin{enumerate}
+\item Пусть дана ПГ $G=(N,T,P,S)$. Построим по ней НКА $\A=(Q,T,\delta,q_0,F)\colon L(\A)=L(G)$.\begin{enumerate}[1.]
+\item Определим \begin{enumerate}[a.]
+\item $Q=N\cup\{q_f\}$
+\item $q_0\eqdef S$
+\item $F\eqdef\{q_f\}$
+\item $\delta\eqdef\varnothing$
+\end{enumerate}
+\item Рассмотрим переходы $P\ni p_i=A\longrightarrow xB$ (правила типа 1). Для них добавим\begin{enumerate}[a.]
+\item Состояния $q^i_1,...,q^i_{|x|-1}$, если $|x|>1$.
+\item Переходы: \label{stepAB}\begin{enumerate}[1.]
+\item $A\overset{\varepsilon}{\longrightarrow}B$, если $x=\varepsilon$.
+\item $A\overset{x_1}{\longrightarrow}B$, если $|x|=1$, $x_1\equiv x$.
+\item $A\overset{x_1}{\longrightarrow}q^i_1\overset{x_2}{\longrightarrow} q^i_2\longrightarrow...\longrightarrow q^i_{n-1}\overset{x_n}{\longrightarrow}B$, если $|x|>1$, $x=x_1...x_n$.
+\end{enumerate}
+\end{enumerate}
+\item Рассмотрим переходы $P\ni p_i=A\longrightarrow x$ (правила типа 2). Для них добавим\begin{enumerate}[a.]
+\item Состояния $q^i_1,...,q^i_{|x|-1}$, если $|x|>1$.
+\item Переходы: \label{stepAqf}\begin{enumerate}[1.]
+\item $A\overset{\varepsilon}{\longrightarrow}q_f$, если $x=\varepsilon$.
+\item $A\overset{x_1}{\longrightarrow}q_f$, если $|x|=1$, $x_1\equiv x$.
+\item $A\overset{x_1}{\longrightarrow}q^i_1\overset{x_2}{\longrightarrow} q^i_2\longrightarrow...\longrightarrow q^i_{n-1}\overset{x_n}{\longrightarrow}q_f$, если $|x|>1$, $x=x_1...x_n$.
+\end{enumerate}
+\end{enumerate}
+\end{enumerate}
+\item[1.5.] Докажем, что $L(G)=L(\A)$\begin{enumerate}[a.]
+\item Пусть $w\in L(G), n=|w|>0,w\equiv w_1...w_n$. Правила типа 1 не изменяют количество нетерминальных символов, а правила типа 2~--- уменьшают на 1. Аксиома~--- один нетерминал. Поэтому вывод слова длины $n$ имеет следующий вид: $n-1$ применений правил типа 1, затем применение правила типа 2. Также каждое правило не уменьшает количество нетерминальных символов. То есть, $S=q_0\longrightarrow w_1w_2...w_{i_1}q_1\longrightarrow w_1w_2...w_{i_1}...w_{i_2}q_2\longrightarrow...\longrightarrow w_1...w_{i_{n-1}}q_{n-1}\longrightarrow w_1...w_n$. По построению имеем $(q_0,w)\vdash^*(q_1,w_{i_1+1}...w_n)\vdash^*(q_2,w_{i_2+1}...w_n)\vdash^*(q_{n-1},w_{i_{n-1}}...w_n)\vdash(q_f,\varepsilon)$, $q_f\in F\Rightarrow w\in L(\A)$.
+\item Пусть $w\in L(G), |w|=0\Rightarrow w=\varepsilon$. Тогда во всех $n$ примененных правилах $x_i=\varepsilon$, а последнее~--- типа 2: $q_0\longrightarrow q_{i_1}\longrightarrow...\longrightarrow q_{i_{n-1}} \varepsilon$. По построению, $\delta(q_0,\varepsilon)=q_{i_1},...,\delta(q_{i_{n-1}},\varepsilon)=q_f$. Получаем $w\in L(\A)$
+\item Пусть $w\in L(\A)$. Тогда $F\ni\delta(q_0,w)=q_f$ (т.к. $F=\{q_f\}$). Рассмотрим цепочку конфигураций $(q_0,w)\vdash^*(q_f,\varepsilon)$. Выпишем оттуда все состояния $A_i\colon A_i\in N$. Тогда переходы $A_i\overset{x_i}{\longrightarrow}A_{i+1}$ между ними были добавлены на шагах \ref{stepAB}, а последний переход $A_m\overset{x_m}{\longrightarrow} q_f$~--- на шаге \ref{stepAqf}. Поэтому в грамматике есть правила $S\Rightarrow x_1A_1,...,A_m\Rightarrow x_m$. Отсюда $w\in L(G)$.
+\end{enumerate}
+\item Построим НКА $\A$ по грамматике $G$: $S\longrightarrow abaA|abB|\varepsilon,\ A\longrightarrow  aB|aa,\ B\longrightarrow bA|aS$
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	\node[state, initial]	(q_0)							{$q_0$};
+	\node[state, accepting] (q_f)  [right = of q_0]	{$q_f$};
+	\node[state] 			(q_11) [above = of q_f]	{$q^1_1$};
+	\node[state] 			(q_21) [below = of q_f]	{$q^2_1$};
+	\node[state] 			(q_12) [right = of q_11]	{$q^1_2$};
+	\node[state] 			(q_51) [right = of q_f]	{$q^5_1$};
+	\node[state] 			(q_B)  [right = of q_21]	{$B$};
+	\node[state] 			(q_A)  [right = of q_51]	{$A$};
+	\path[->]
+		(q_0)	edge	node {$a$}	(q_11)
+				edge	node {$\varepsilon$}	(q_f)
+				edge	node {$a$} 		(q_21)
+		(q_11)	edge	node {$b$}	(q_12)
+		(q_12)	edge	node {$a$}	(q_A)
+		(q_A)	edge	node {$a$}	(q_51)
+				edge [bend left=10]	node {$a$}	(q_B)
+		(q_51)	edge	node {$a$}	(q_f)
+		(q_21)	edge	node {$b$}	(q_B)
+		(q_B)	edge [bend left=70]	node {$a$}	(q_0)
+				edge [bend left=10]	node {$b$}	(q_A);
+\end{tikzpicture}
+\end{center}
+\item Запишем систему уравнений:
+$\begin{cases}
+(1) & S=abaA+abB+\varepsilon\\
+(2) & A=aB+aa\\
+(3) & B=bA+aS\\
+\end{cases}$. Подставим $(3)$ в $(2)$, получим $A=abA+aaS+aa$. Отсюда $A=(ab)^*(aaS+aa)$. Подставим в $(3)$: $B=b(ab)^*(aaS+aa)+aS$. Подставим $A,B$ в $(1)$: $$S=aba(ab)^*(aaS+aa)+ab(b(ab)^*(aaS+aa)+aS)+\varepsilon\equiv aba(ab)^*aaS+aba(ab)^*aa+abb(ab)^*aaS+abb(ab)^*aa+abaS\equiv$$
+$$\equiv(aba(ab)^*aa+abb(ab)^*aa+aba)S+aba(ab)^*aa+abb(ab)^*aa\Rightarrow$$
+$S=(aba(ab)^*aa+abb(ab)^*aa+aba)^*(aba(ab)^*aa+abb(ab)^*aa)$.
+\item Нет: $S\longrightarrow abaA\longrightarrow abaaa$, $S\longrightarrow abaA\longrightarrow abaaB\longrightarrow abaaaS\longrightarrow abaaa$.
+\end{enumerate}
 \section*{Задача 3}
 \section*{Задача 4}
 \section*{Задача 5}
