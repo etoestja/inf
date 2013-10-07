@@ -1,5 +1,6 @@
 \documentclass[a4paper]{article}
 \usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+%\geometry{paperwidth=210mm, paperheight=2000pt, left=5pt, top=5pt}
 \usepackage[utf8]{inputenc}
 \usepackage[english,russian]{babel}
 \usepackage{indentfirst}
@@ -28,15 +29,40 @@
 
 % регулярные языки
 \def\REG{{\mathsf{REG}}}
-
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\def\taskoneautomataB{\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	\node[state, initial, accepting]	(Q_0)							{$Q_0$};
+	\node[state, accepting]	(Q_1) [above right = of Q_0]	{$Q_1$};
+	\node[state] 	(Q_2) [below right = of Q_0]			{$Q_2$};
+	\node[state, accepting]	(Q_3) [right = of Q_1]			{$Q_3$};
+	\node[state, accepting]	(Q_4) [right = of Q_2]	{$Q_4$};
+	\path[->]
+		(Q_0)	edge	node {$a$}	(Q_1)
+				edge	node {$b$}	(Q_2)
+		(Q_1)	edge  [loop below]	node[swap] {$a$} (Q_1)
+				edge	node {$b$}		(Q_3)
+		(Q_2)	edge	node {$b$}		(Q_4)
+		(Q_3)	edge [bend left=10]	node {$a$}		(Q_0)
+				edge node {$b$}		(Q_4)
+		(Q_4)	edge [bend right=10]	node[swap] {$a$}		(Q_0);
+\end{tikzpicture}}
 \newcommand{\niton}{\not\owns}
 
 \begin{document}
 \maketitle
+\section*{Упражнение 1}
+\begin{enumerate}
+\item Докажем, что $\forall G_1$~--- ПРГ $\exists G_2$~--- ПГ$\colon L(G_1)=L(G_2)$: каждая ПРГ является ПГ, так как $T\subset T^*$, $\varepsilon\in T^*$. Поэтому можно взять $G_2\eqdef G_1$.
+\item Докажем, что $\forall G_2$~--- ПГ $\exists G_1$~--- ПРГ$\colon L(G_1)=L(G_2)$:\begin{enumerate}[1.]
+\item Построим по $G_2$ НКА $\A\colon L(\A)=L(G_2)$ (алгоритм и доказательство в задаче 2).
+\item По НКА $\A$ построим грамматику $G_1\colon L(G_1)=L(\A)$ (алгоритм и доказательство в задаче 1).
+\end{enumerate}
+\end{enumerate}
+\section*{Упражнение 2}
 \section*{Задача 1}
 \begin{tabular}{l l}
 \begin{minipage}{0.6\textwidth}
-Нет, предложенный алгоритм может построить грамматику, которая не будет правилинейной регулярной. Например, для автомата $\A$ из условия переход $q_0\overset{\varepsilon}{\longrightarrow}q_1$ по алгоритму должен соответствовать правилу $q_0\longrightarrow\varepsilon q_1$, но это правило не имеет вид $A\longrightarrow xB$ ($\varepsilon=x\notin \Sigma$) или $A\longrightarrow x$ или $A\longrightarrow \varepsilon$.
+Нет, предложенный алгоритм может построить грамматику, которая не будет правилинейной регулярной. Например, для автомата $\A_0$ из условия переход $q_0\overset{\varepsilon}{\longrightarrow}q_1$ по алгоритму должен соответствовать правилу $q_0\longrightarrow\varepsilon q_1$, но это правило не имеет вид $A\longrightarrow xB$ ($\varepsilon=x\notin \Sigma$) или $A\longrightarrow x$ или $A\longrightarrow \varepsilon$.
 \end{minipage}
 \begin{minipage}{0.3\textwidth}
 \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
@@ -57,6 +83,204 @@
 \end{tikzpicture}
 \end{minipage}
 \end{tabular}\newline
-Заметим, что проблему можно решить, преобразовав НКА в ДКА. Тогда $\varepsilon$-переходов не будет. Остается один случай, в котором $q_0\in F$, и в $q_0$ есть переходы из других состояний: $\exists q_1\colon \delta(q_1,\sigma)=q_0$. Соответствующими правилами были бы $q_0\longrightarrow\varepsilon\,q_1\longrightarrow\sigma q_0$, которые не подходят для праволинейной регулярной грамматики (аксиома $q_0$ встречается в правой части при том, что есть переход $q_0\longrightarrow\varepsilon$)
-
+{\em Далее $\A$~--- абстрактный входной автомат}\newline
+Заметим, что проблему можно решить, преобразовав НКА $\A$ в ДКА $\B$. Тогда $\varepsilon$-переходов не будет. Остается один случай, в котором $q_0\in F$, и в $q_0$ есть переходы из других состояний: $\exists q_1\colon \delta(q_1,\sigma)=q_0$. Соответствующими правилами были бы $q_0\longrightarrow\varepsilon,\,q_1\longrightarrow\sigma q_0$, которые не подходят для праволинейной регулярной грамматики (аксиома $q_0$ встречается в правой части при том, что есть переход $q_0\longrightarrow\varepsilon$)
+\\[5pt]\newpage
+Алгоритм:
+\begin{enumerate}
+\item Преобразуем данный НКА $\A$ в ДКА $\B$. $L(\A)=L(\B)$.
+\item По ДКА $\B=(Q,\Sigma,\delta,q_0,F)$ построим другой ДКА $\C=(Q',\Sigma,\delta',q_s,F')$:\begin{enumerate}
+\item $Q'\eqdef Q\cup\{q_s\}$ (добавим состояние $q_s$)
+\item $\delta'(q,\sigma)\eqdef\begin{cases}
+\delta(q_0,\sigma), & q=q_s\\
+\delta(q,\sigma),   & \mbox{иначе}
+\end{cases}$ (добавим такие же переходы из $q_s$ как из $q_0$)
+\item $F'\eqdef F\cup\big(q_0\in F\,?\,\{q_s\}\,:\,\varnothing\big)$ (если $q_0\in F$, то сделаем $q_s$ принимающим)
+\end{enumerate}
+Пример построения:\newline
+\begin{tabular}{|c|c|c|}
+\hline
+$\B$ & $\longrightarrow$ & $\C$\\
+\hline
+\begin{minipage}{0.25\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	\node[state, initial,accepting]	(q_0)				{$q_0$};
+	\node[state] (q_2) [right = of q_0]			{$q_2$};
+	\node[state] (q_1) [above = of q_2]	{$q_1$};
+	\node[state] (q_k) [below = of q_2]	{$q_k$};
+	\node (dots) [right = 1cm of q_2] {$...$};
+	\path[->]
+		(q_0)	edge	node {$\sigma_1$}	(q_1)
+				edge	node {$\sigma_2$}	(q_2)
+				edge	node[swap] {$\sigma_k$} 	(q_k);
+\end{tikzpicture}
+\end{minipage}&&
+\begin{minipage}{0.35\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	\node[state, initial, accepting]	(q_s)				{$q_s$};
+	\node[state, accepting]	(q_0) [right of=q_s]				{$q_0$};
+	\node[state] (q_2) [right = of q_0]			{$q_2$};
+	\node[state] (q_1) [above = of q_2]	{$q_1$};
+	\node[state] (q_k) [below = of q_2]	{$q_k$};
+	\node (dots) [right = 1cm of q_2] {$...$};
+	\path[->]
+		(q_0)	edge	node {$\sigma_1$}	(q_1)
+				edge	node {$\sigma_2$}	(q_2)
+				edge	node[swap] {$\sigma_k$} 	(q_k)
+		(q_s)	edge [bend left]	node {$\sigma_1$}	(q_1)
+				edge [bend left]	node {$\sigma_2$}	(q_2)
+				edge [bend right]	node[swap] {$\sigma_k$} 	(q_k);
+\end{tikzpicture}
+\end{minipage}\\
+\hline
+\end{tabular}
+\\[5pt]
+Докажем, что $L(\B)=L(\C)$:
+\begin{enumerate}[a.]
+\item $L(\B)\subset L(\C)$. Пусть $w\in L(\B)$.\begin{enumerate}[a.]
+\item $|w|=0\Rightarrow w=\varepsilon\Rightarrow q_0\in F\Rightarrow q_s\in F'\Rightarrow w\in L(\C)\,\blacksquare$
+\item $|w|>0\Rightarrow w=\sigma x,\,\sigma\in\Sigma,\,x\in\Sigma^*$. Тогда $\delta'(q_s,w)\equiv\delta'(q_s,\sigma x)=\delta'(\delta'(q_s,\sigma),x)$. Обозначим $q_i\eqdef \delta'(q_s,\sigma)\overset{\mbox{\tiny def } \delta'}{\equiv}\delta(q_0,\sigma)$.\newline
+Очевидно, что $q_i\neq q_s$ (иначе получим переход $q_0\overset{\sigma}{\longrightarrow}q_s$ в $\B$, но $q_s\notin F$). Значит, $\delta'(q_i,x)=\delta(q_i,x)\Rightarrow\delta'(q_s,w)\equiv\delta'(q_i,x)\equiv\delta(q_i,x)\equiv\delta(q_0,\sigma x)\equiv\delta(q_0,w)\in F$, т.к. $w\in L(\B)\Rightarrow w\in L(\C)\,\blacksquare$
+\end{enumerate}
+\item $L(\C)\subset L(\B)$. Пусть $w\in L(\C)$.\begin{enumerate}[a.]
+\item $|w|=0\Rightarrow w=\varepsilon\Rightarrow q_s\in F\Rightarrow q_0\in F\Rightarrow\delta(q_0,w)\equiv\delta(q_0,\varepsilon)=q_0\in F\Rightarrow w\in L(\B)\,\blacksquare$
+\item $|w|>0\Rightarrow w=\sigma x,\,\sigma\in\Sigma,\,x\in\Sigma^*$. $F'\ni\delta'(q_s,w)\equiv\delta'(q_s,\sigma x)\equiv\delta'(\delta'(q_s,\sigma),x)$. Аналогично $q_i\eqdef \delta'(q_s,\sigma)\equiv\delta(q_0,\sigma)\in Q\Rightarrow \delta'(q_i,x)=\delta(q_i,x)$\newline
+Получаем $F'\ni\delta(q_s,w)=\delta(q_i,x)=\delta(q_0,w)\Rightarrow\delta(q_0,w)\in F\Rightarrow w\in L(\B)\,\blacksquare$
+\end{enumerate}
+\end{enumerate}
+\item По $\C$ построим ПРГ $G=(Q',\Sigma,P,q_s)$:\begin{enumerate}[1.]
+\item $P=\underbrace{\{q_a\longrightarrow\sigma q_b\big|\delta'(q_a,\sigma)=q_b\}}_{(1)}\cup\underbrace{\{q_a\longrightarrow\sigma\big|\delta'(q_a,\sigma)=q_b\in F'\}}_{(2)}\cup\underbrace{\big(q_s\in F\,?\,\{q_s\longrightarrow\varepsilon\}\,:\,\varnothing\big)}_{(3)}$.\newline
+То есть, каждому переходу $q_a\overset{\sigma}{\longrightarrow}q_b$ в $\C$ соответствует правило $q_a\longrightarrow\sigma q_b\big|\sigma$, причем вторая часть тогда и только тогда, когда $q_b\in F'$. Если $q_s$~--- принимающее, то добавляется правило $q_s\longrightarrow\varepsilon$.
+\item $G$~--- ПРГ. Действительно, правила имеют один из видов ($\sigma\in\Sigma$) $A\longrightarrow\sigma B$, $A\longrightarrow\sigma$. Поскольку переходов в $q_s$ в $\C$ нет, то аксиома $q_s$ не будет встречаться в правых частях.
+\newline
+Также отметим некоторые свойства правил:\begin{enumerate}[a.]
+\item По построению $\forall P\ni p\equiv(\alpha,\beta)\hookrightarrow |\beta|_\Sigma-|\alpha|_\Sigma\in\overline{0,1}$, то есть, количество нетерминальных символов справа либо такое же, как слева, либо на 1 больше. Действительно, для групп правил $(1)$ и $(2)$ эта разница равна $1$, а для $(3)$ (если там есть правила) разница равна $0$.
+\item Также по построению $\C$ для всех правил справа нет $q_s$, так как в противном случае в $\C$ были бы переходы в $q_s$, что невозможно.
+\item Правила из $(1)$ и $(2)$ сохраняют количество нетерминальных символов, а $(3)$ уменьшает его на $1$.
+\item \label{leftone} В правилах слева всегда один нетерминал.
+\item \label{w1wninLGthen} Если $w_1...w_n\equiv w\in L(G),\,n>0,\,\forall i\in\overline{1,n}\hookrightarrow w_i\in\Sigma$, то есть, $q_s\Longrightarrow^*w_1...w_n$, то оно было получено применением $n-1$ правил из $(1)$, а затем одного правила из $(2)$, то есть, $q_s\Longrightarrow w_1q_1\Longrightarrow w_1w_2q_2\Longrightarrow...\Longrightarrow w_1w_2...w_{n-1}q_{n-1}\Longrightarrow w_1...w_n$.\newline
+Действительно,\begin{enumerate}[a.]
+\item \label{sum12} Количество нетерминальных символов в конце равно $n$, значит, было применено $n$ правил из $(1)$ и $(2)$
+\item \label{thirdfirst} Если первым было применено правило из $(3)$, то количество нетерминалов стало равно $0$, и далее ни одно правило не могло быть применено (см. \ref{leftone}). При этом количество нетерминалов осталось бы равно $0\neq n$~--- противоречие.
+\item \label{thirdnotfirst} Правило из $(3)$ не могло быть применено и далее, так как тогда бы получили $q_s$ в правой части некоторого (предыдущего по выводу) правила.
+\item Из \ref{thirdfirst} и \ref{thirdnotfirst} получаем, что применялись только правила из $(1)$ и $(2)$, а из \ref{sum12}~--- что всего таких применений было $n$.
+\item Применение правила из $(2)$ ранее, чем на последнем шаге привело бы к тому, что количество нетерминальных символов стало бы равно $0$, после чего (см. \ref{leftone}) правила бы применяться не могли. Однако, количество нетерминальных символов было бы меньше $n$~--- противоречие.
+\end{enumerate}
+\end{enumerate}
+\item Докажем, что $L(G)=L(\C)$, т.е. $\forall w\in\Sigma^*\hookrightarrow w\in L(G)\Leftrightarrow w\in L(\C)$:
+\begin{enumerate}[a.]
+\item $|w|=0\Rightarrow w=\varepsilon$\begin{enumerate}[a.]
+\item $w\in L(\C)\Rightarrow q_s\in F\Rightarrow$ правило $q_s\longrightarrow\varepsilon\in P$. Значит, $\varepsilon\equiv w\in L(G)\,\blacksquare$
+\item $w\in L(G)\Rightarrow$ правило $q_s\longrightarrow\varepsilon\in P$. Тогда $q_s\in F'\Rightarrow w\in L(\C)\,\blacksquare$
+\end{enumerate}
+\item $n\eqdef |w|>0\Rightarrow w=w_1...w_n,\,\forall i\in\overline{1,n}\hookrightarrow w_i\in\Sigma$.\begin{enumerate}[a.]
+\item $w\in L(\C)\Rightarrow (q_s,w)\equiv(q_s,w_1...w_n)\vdash(q_1,w_2...w_n)\vdash(q_2,w_3...w_n)\vdash...\vdash(q_{n-1},w_n)\vdash(q_n,\varepsilon),\,q_n\in F'$. Тогда, по построению $G$ имеем $P\ni q_s\longrightarrow w_1q_1,\,q_1\longrightarrow w_2q_2,\,...,\,q_{n-1}\longrightarrow w_n$. Значит,\newline
+$q_s\longrightarrow w_1q_1\longrightarrow w_1w_2q_2\longrightarrow...\longrightarrow w_1w_2...w_{n-1}q_{n-1}\longrightarrow w_1...w_n\in\Sigma^*\Rightarrow w\in L(G)\,\blacksquare$
+\item $w\in L(G)\overset{\ref{w1wninLGthen}}{\Rightarrow}q_s\longrightarrow w_1q_1\longrightarrow w_1w_2q_2\longrightarrow...\longrightarrow w_1w_2...w_{n-1}q_{n-1}\longrightarrow w_1...w_n$, и были применены правила $q_s\Rightarrow w_1q_1,\,...,\,q_{n-1}\Rightarrow w_n$ (также см. \ref{w1wninLGthen}).\newline
+Отсюда $\delta'(q_s,w_1)=q_1,\,\delta'(q_1,w_2)=q_2,\,...,\,\delta'(q_{n-1},w_n)\in F\Rightarrow\delta'(q_s,w)\in F\Rightarrow w\in L(\C)\,\blacksquare$
+\end{enumerate}
+\end{enumerate}
+%$P(n)=\big[\forall w\in\Sigma^*\colon |w|=n\hookrightarrow w\in L(\C)\Leftrightarrow w\in L(G)\big]$. Докажем $\forall n\geqslant 0\hookrightarrow P(n)$ по индукции:
+%\begin{enumerate}[1.]
+%\item $n=0\Rightarrow w=\varepsilon$\begin{enumerate}[a.]
+%\item $w\in L(\C)\Rightarrow q_s\in F\Rightarrow$ правило $q_s\longrightarrow\varepsilon\in P$. Значит, $\varepsilon\equiv w\in L(G)\,\blacksquare$
+%\item $w\in L(G)\Rightarrow$ правило $q_s\longrightarrow\varepsilon\in P$. Тогда $q_s\in F'\Rightarrow w\in L(\C)\,\blacksquare$
+%\end{enumerate}
+%Таким образом, $P(0)\,\blacksquare$
+%\item Пусть $P(n)$. $P(n)\Rightarrow \forall w_0\in\Sigma^*\colon |w_0|=n\hookrightarrow w_0\in L(\C)\Leftrightarrow w_0\in L(G)$. Докажем $P(n+1)\Leftrightarrow\big[\forall w\in\Sigma^*\colon |w|=n+1\hookrightarrow w\in L(\C)\Leftrightarrow w\in L(G)\big]$. Фиксируем $w\colon |w|=n+1$.\begin{enumerate}
+%\item $w\in L(\C)$
+%\end{enumerate}
+%\end{enumerate}
+\end{enumerate}
+\end{enumerate}
+Применим описанный алгоритм для автомата $\A_0$ из условия:
+\begin{enumerate}
+\item Построим по $\A_0$ ДКА $\B_0$:\newline
+\begin{tabular}{|c|c|c|}
+\hline
+$\A_0$ & Построение & $\B_0$\\\hline
+\begin{minipage}{0.3\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	\node[state, initial]	(q_0)							{$q_0$};
+	\node[state] 		  	(q_1) [above right = of q_0]	{$q_1$};
+	\node[state, accepting] 	(q_2) [right = of q_1]			{$q_2$};
+	\node[state]			(q_3) [right = 2.5cm of q_0]			{$q_3$};
+	\node[state, accepting]	(q_4) [below right = of q_0]	{$q_4$};
+	\path[->]
+		(q_0)	edge	node {$\varepsilon$}	(q_1)
+				edge	node {$\varepsilon$}	(q_4)
+				edge	node {$a$} 		(q_3)
+		(q_1)	edge	node {$a$}		(q_2)
+				edge	node {$b$}		(q_3)
+		(q_2)	edge	node {$a$}		(q_3)
+		(q_3)	edge	node {$b$}		(q_4)
+		(q_4)	edge [bend left]	node {$a$} 		(q_0);
+\end{tikzpicture}
+\end{minipage} &
+\begin{minipage}{0.3\textwidth}
+\small (отмечены начальная и принимающие)
+$$
+\begin{array}{|l|l|c|c|}
+\hline
+Q & q & a & b\\\hline
+\rightarrow Q_0 \rightarrow & q_0,q_1,q_4 & Q_1 & Q_2\\\hline
+Q_1\rightarrow & q_0,q_1,q_2,q_3,q_4 & Q_1 & Q_3\\\hline
+Q_2 & q_3 & \varnothing & Q_4\\\hline
+Q_3\rightarrow & q_3, q_4 & Q_0 & Q_4\\\hline
+Q_4\rightarrow & q_4 & Q_0 & \varnothing\\
+\hline
+\end{array}
+$$
+\end{minipage} &
+\begin{minipage}{0.3\textwidth}
+\taskoneautomataB
+\end{minipage}\\\hline
+\end{tabular}
+\item Построим $\C_0$ по $\B_0$, как описано в алгоритме:\newline
+\begin{tabular}{|c|c|c|}
+\hline
+$\B_0$ & $\C_0$\\\hline
+\begin{minipage}{0.3\textwidth}
+\taskoneautomataB
+\end{minipage} &
+\begin{minipage}{0.4\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	\node[state, initial, accepting]	(Q_s)							{$Q_s$};
+	\node[state, accepting]	(Q_0) [right of = Q_s]			{$Q_0$};
+	\node[state, accepting]	(Q_1) [above right = of Q_0]	{$Q_1$};
+	\node[state] 	(Q_2) [below right = of Q_0]			{$Q_2$};
+	\node[state, accepting]	(Q_3) [right = of Q_1]			{$Q_3$};
+	\node[state, accepting]	(Q_4) [right = of Q_2]	{$Q_4$};
+	\path[->]
+		(Q_s)	edge [bend left]	node {$a$}	(Q_1)
+				edge [bend right]	node[swap] {$b$}	(Q_2)
+		(Q_0)	edge	node {$a$}	(Q_1)
+				edge	node {$b$}	(Q_2)
+		(Q_1)	edge  [loop below]	node[swap] {$a$} (Q_1)
+				edge	node {$b$}		(Q_3)
+		(Q_2)	edge	node {$b$}		(Q_4)
+		(Q_3)	edge [bend left=10]	node {$a$}		(Q_0)
+				edge node {$b$}		(Q_4)
+		(Q_4)	edge [bend right=10]	node[swap] {$a$}		(Q_0);
+\end{tikzpicture}
+\end{minipage}\\\hline
+\end{tabular}
+\item Определим грамматику $G=(\Sigma, Q, P, Q_s)$. Выпишем правила $p\in P$:\newline
+\begin{tabular}{|c|l|l|l|}
+\hline
+$Q$ & $\varepsilon$ & $a$ & $b$\\\hline
+$Q_s$ & $Q_s\longrightarrow\varepsilon$ & $Q_s\longrightarrow aQ_1|a$ & $Q_s\longrightarrow bQ_2$ \\\hline
+$Q_0$ & & $Q_0\longrightarrow aQ_1|a$ & $Q_0\longrightarrow bQ_2$ \\\hline
+$Q_1$ & & $Q_1\longrightarrow aQ_1|a$ & $Q_1\longrightarrow bQ_3|b$ \\\hline
+$Q_2$ & & & $Q_2\longrightarrow bQ_4|b$\\\hline
+$Q_3$ & & $Q_3\longrightarrow aQ_0|a$ & $Q_3\longrightarrow bQ_4|b$ \\\hline
+$Q_4$ & & $Q_4\longrightarrow aQ_0|a$ & \\\hline
+\end{tabular}
+\end{enumerate}
+\section*{Задача 2}
+\section*{Задача 3}
+\section*{Задача 4}
+\section*{Задача 5}
+\section*{Задача 6}
+\section*{Задача 7}
 \end{document}
