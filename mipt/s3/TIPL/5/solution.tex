@@ -358,6 +358,15 @@ $S=(aba(ab)^*aa+abb(ab)^*aa+aba)^*(aba(ab)^*aa+abb(ab)^*aa)$.
 \end{tikzpicture}
 \end{center}
 \section*{Задача 4}
+Рассмотрим грамматику $G\colon P=\{S\longrightarrow 0S1,S\longrightarrow \varepsilon\}$. $L\eqdef\{0^n1^n\big| n\geqslant 0\}$. Докажем, что $w\in L(G)\Leftrightarrow w\in L$.
+\begin{enumerate}
+\item $w\in L\Rightarrow w=0^n1^n$\begin{enumerate}[a.]
+\item $n=0\Rightarrow w=\varepsilon$. Но $P\ni S\longrightarrow \varepsilon\Rightarrow w\equiv\varepsilon\in L(G)$.
+\item $n>0$. Применим первое правило $n$ раз, после чего применим второе: $S\longrightarrow 0S1\longrightarrow 00S11\longrightarrow...\longrightarrow \underbrace{0...0}_{n}S\underbrace{1...1}_n\longrightarrow 0^n1^n\Rightarrow w\in L(G)$
+\end{enumerate}
+\item $w\in L(G)$. Первое правило сохраняет количество нетерминалов, второе уменьшает на 1. Поэтому в выводе сначала $n$ применений первого правила, а затем одно применение второго. Количество нетерминалов не уменьшается. Вывод имеет вид $S\longrightarrow 0S1\longrightarrow...\longrightarrow \underbrace{0...0}_nS\underbrace{1...1}_n\longrightarrow 0^n1^n\in L$
+\end{enumerate}
+$G$~--- линейная, так как в правых частях правил не более одного нетерминала. Но $L\equiv L(G)\notin\REG$~--- было доказано на семинаре. Поэтому получаем, что утверждение $\forall G\mbox{~--- линеная}\hookrightarrow L(G)\in\REG$~--- неверно.
 \section*{Задача 5}
 \section*{Задача 6}
 \section*{Задача 7}
