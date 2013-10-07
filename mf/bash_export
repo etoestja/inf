@@ -1,5 +1,21 @@
 # Settings:
-INF_PATH=/home/seriy/Documents/p/inf
+if [ "$(hostname)" == "seriy-laptop" ]
+then
+    INF_PATH=/home/seriy/Documents/p/inf
+fi
+if [ "$(hostname)" == "seriy-server" ]
+then
+    INF_PATH=/home/seriy/Documents/p/inf
+fi
+if [ "$(hostname)" == "seriy-maemo" ]
+then
+    INF_PATH=/root/Documents/p/inf
+fi
+if [ "X$INF_PATH" == "X" ]
+then
+    echo "ERROR: Can't find Inf repo ($(hostname))"
+    exit
+fi
 
 
 alias armsync="rsync -avz -e ssh s27505@192.168.1.48:~ /home/seriy/Documents/p/inf/mipt/s2/12"
