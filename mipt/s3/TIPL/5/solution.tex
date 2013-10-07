@@ -345,6 +345,18 @@ $S=(aba(ab)^*aa+abb(ab)^*aa+aba)^*(aba(ab)^*aa+abb(ab)^*aa)$.
 \item Нет: $S\longrightarrow abaA\longrightarrow abaaa$, $S\longrightarrow abaA\longrightarrow abaaB\longrightarrow abaaaS\longrightarrow abaaa$.
 \end{enumerate}
 \section*{Задача 3}
+Для приведенного мной алгоритма это неверно. Возьмем грамматику $G\colon P=\{S\longrightarrow a,S\longrightarrow aa\}$. Алгоритм построит автомат $\A$, но он не будет детерминированным, так как $\delta(q_0,a)=\{q_f,q^2_1\}$.
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	\node[state, initial]	(q_0)							{$q_0$};
+	\node[state, accepting] (q_f)  [right = 2.9cm of q_0]	{$q_f$};
+	\node[state] 			(q_21) [below right = of q_0]	{$q^2_1$};
+	\path[->]
+		(q_0)	edge [bend right]	node[swap] {$a$}	(q_21)
+				edge	node {$a$}	(q_f)
+		(q_21)	edge [bend right]	node[swap] {$a$}	(q_f);
+\end{tikzpicture}
+\end{center}
 \section*{Задача 4}
 \section*{Задача 5}
 \section*{Задача 6}
