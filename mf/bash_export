@@ -13,7 +13,7 @@ then
 fi
 if [ "X$INF_PATH" == "X" ]
 then
-    echo "ERROR: Can't find Inf repo ($(hostname)), setting to default"
+    #echo "ERROR: Can't find Inf repo ($(hostname)), setting to default"
     INF_PATH=~/Documents/p/inf
 fi
 
