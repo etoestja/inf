@@ -55,14 +55,15 @@
 \item Докажем, что $\forall G_1$~--- ПРГ $\exists G_2$~--- ПГ$\colon L(G_1)=L(G_2)$: каждая ПРГ является ПГ, так как $T\subset T^*$, $\varepsilon\in T^*$. Поэтому можно взять $G_2\eqdef G_1$.
 \item Докажем, что $\forall G_2$~--- ПГ $\exists G_1$~--- ПРГ$\colon L(G_1)=L(G_2)$:\begin{enumerate}[1.]
 \item Построим по $G_2$ НКА $\A\colon L(\A)=L(G_2)$ (алгоритм и доказательство в задаче 2).
-\item По НКА $\A$ построим грамматику $G_1\colon L(G_1)=L(\A)$ (алгоритм и доказательство в задаче 1).
+\item По НКА $\A$ построим ПРГ $G_1\colon L(G_1)=L(\A)$ (алгоритм и доказательство в задаче 1).
 \end{enumerate}
 \end{enumerate}
+Это доказывает, что ПРГ и ПГ порождают одно и то же множество языков.
 \section*{Упражнение 2}
 \section*{Задача 1}
-\begin{tabular}{l l}
+\begin{tabular}{ll}
 \begin{minipage}{0.6\textwidth}
-Нет, предложенный алгоритм может построить грамматику, которая не будет правилинейной регулярной. Например, для автомата $\A_0$ из условия переход $q_0\overset{\varepsilon}{\longrightarrow}q_1$ по алгоритму должен соответствовать правилу $q_0\longrightarrow\varepsilon q_1$, но это правило не имеет вид $A\longrightarrow xB$ ($\varepsilon=x\notin \Sigma$) или $A\longrightarrow x$ или $A\longrightarrow \varepsilon$.
+Нет, предложенный алгоритм может построить грамматику, которая не будет праволинейной регулярной. Например, для автомата $\A_0$ из условия переход $q_0\overset{\varepsilon}{\longrightarrow}q_1$ по алгоритму должен соответствовать правилу $q_0\longrightarrow\varepsilon q_1$, но это правило не имеет вид $A\longrightarrow xB$ ($\varepsilon=x\notin \Sigma$) или $A\longrightarrow x$ или $A\longrightarrow \varepsilon$.
 \end{minipage}
 \begin{minipage}{0.3\textwidth}
 \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
@@ -94,7 +95,7 @@
 \item $\delta'(q,\sigma)\eqdef\begin{cases}
 \delta(q_0,\sigma), & q=q_s\\
 \delta(q,\sigma),   & \mbox{иначе}
-\end{cases}$ (добавим такие же переходы из $q_s$ как из $q_0$)
+\end{cases}$ (добавим такие же переходы из $q_s$, как из $q_0$)
 \item $F'\eqdef F\cup\big(q_0\in F\,?\,\{q_s\}\,:\,\varnothing\big)$ (если $q_0\in F$, то сделаем $q_s$ принимающим)
 \end{enumerate}
 Пример построения:\newline
@@ -150,13 +151,13 @@ $\B$ & $\longrightarrow$ & $\C$\\
 \end{enumerate}
 \item По $\C$ построим ПРГ $G=(Q',\Sigma,P,q_s)$:\begin{enumerate}[1.]
 \item $P=\underbrace{\{q_a\longrightarrow\sigma q_b\big|\delta'(q_a,\sigma)=q_b\}}_{(1)}\cup\underbrace{\{q_a\longrightarrow\sigma\big|\delta'(q_a,\sigma)=q_b\in F'\}}_{(2)}\cup\underbrace{\big(q_s\in F\,?\,\{q_s\longrightarrow\varepsilon\}\,:\,\varnothing\big)}_{(3)}$.\newline
-То есть, каждому переходу $q_a\overset{\sigma}{\longrightarrow}q_b$ в $\C$ соответствует правило $q_a\longrightarrow\sigma q_b\big|\sigma$, причем вторая часть тогда и только тогда, когда $q_b\in F'$. Если $q_s$~--- принимающее, то добавляется правило $q_s\longrightarrow\varepsilon$.
+То есть, каждому переходу $q_a\overset{\sigma}{\longrightarrow}q_b$ в $\C$ соответствует правило $q_a\longrightarrow\sigma q_b\big|\sigma$, причем вторая часть имеется тогда и только тогда, когда $q_b\in F'$. Если $q_s$~--- принимающее, то добавляется правило $q_s\longrightarrow\varepsilon$.
 \item $G$~--- ПРГ. Действительно, правила имеют один из видов ($\sigma\in\Sigma$) $A\longrightarrow\sigma B$, $A\longrightarrow\sigma$. Поскольку переходов в $q_s$ в $\C$ нет, то аксиома $q_s$ не будет встречаться в правых частях.
 \newline
 Также отметим некоторые свойства правил:\begin{enumerate}[a.]
 \item По построению $\forall P\ni p\equiv(\alpha,\beta)\hookrightarrow |\beta|_\Sigma-|\alpha|_\Sigma\in\overline{0,1}$, то есть, количество нетерминальных символов справа либо такое же, как слева, либо на 1 больше. Действительно, для групп правил $(1)$ и $(2)$ эта разница равна $1$, а для $(3)$ (если там есть правила) разница равна $0$.
 \item Также по построению $\C$ для всех правил справа нет $q_s$, так как в противном случае в $\C$ были бы переходы в $q_s$, что невозможно.
-\item Правила из $(1)$ и $(2)$ сохраняют количество нетерминальных символов, а $(3)$ уменьшает его на $1$.
+%\item Правила из $(1)$ и $(2)$ сохраняют количество нетерминальных символов, а $(3)$ уменьшает его на $1$.
 \item \label{leftone} В правилах слева всегда один нетерминал.
 \item \label{w1wninLGthen} Если $w_1...w_n\equiv w\in L(G),\,n>0,\,\forall i\in\overline{1,n}\hookrightarrow w_i\in\Sigma$, то есть, $q_s\Longrightarrow^*w_1...w_n$, то оно было получено применением $n-1$ правил из $(1)$, а затем одного правила из $(2)$, то есть, $q_s\Longrightarrow w_1q_1\Longrightarrow w_1w_2q_2\Longrightarrow...\Longrightarrow w_1w_2...w_{n-1}q_{n-1}\Longrightarrow w_1...w_n$.\newline
 Действительно,\begin{enumerate}[a.]
@@ -305,8 +306,8 @@ $Q_4$ & & $Q_4\longrightarrow aQ_0|a$ & \\\hline
 \end{enumerate}
 \end{enumerate}
 \item[1.5.] Докажем, что $L(G)=L(\A)$\begin{enumerate}[a.]
-\item Пусть $w\in L(G), n=|w|>0,w\equiv w_1...w_n$. Правила типа 1 не изменяют количество нетерминальных символов, а правила типа 2~--- уменьшают на 1. Аксиома~--- один нетерминал. Поэтому вывод слова длины $n$ имеет следующий вид: $n-1$ применений правил типа 1, затем применение правила типа 2. Также каждое правило не уменьшает количество нетерминальных символов. То есть, $S=q_0\longrightarrow w_1w_2...w_{i_1}q_1\longrightarrow w_1w_2...w_{i_1}...w_{i_2}q_2\longrightarrow...\longrightarrow w_1...w_{i_{n-1}}q_{n-1}\longrightarrow w_1...w_n$. По построению имеем $(q_0,w)\vdash^*(q_1,w_{i_1+1}...w_n)\vdash^*(q_2,w_{i_2+1}...w_n)\vdash^*(q_{n-1},w_{i_{n-1}}...w_n)\vdash(q_f,\varepsilon)$, $q_f\in F\Rightarrow w\in L(\A)$.
-\item Пусть $w\in L(G), |w|=0\Rightarrow w=\varepsilon$. Тогда во всех $n$ примененных правилах $x_i=\varepsilon$, а последнее~--- типа 2: $q_0\longrightarrow q_{i_1}\longrightarrow...\longrightarrow q_{i_{n-1}} \varepsilon$. По построению, $\delta(q_0,\varepsilon)=q_{i_1},...,\delta(q_{i_{n-1}},\varepsilon)=q_f$. Получаем $w\in L(\A)$
+\item Пусть $w\in L(G), n=|w|>0,w\equiv w_1...w_n$. Правила типа 1 не изменяют количество нетерминальных символов, а правила типа 2~--- уменьшают на 1. Аксиома~--- один нетерминал. В левой части каждого правила один нетерминал. Поэтому вывод слова $w$ имеет следующий вид: $m-1$ применений правил типа 1, затем применение правила типа 2~--- т.к. после правила (2) нельзя применить никакое правило. Также каждое правило не уменьшает количество нетерминальных символов. То есть, $S=q_0\longrightarrow w_1w_2...w_{i_1}q_1\longrightarrow w_1w_2...w_{i_1}...w_{i_2}q_2\longrightarrow...\longrightarrow w_1...w_{i_{m-1}}q_{m-1}\longrightarrow w_1...w_n$. По построению имеем $(q_0,w)\vdash^*(q_1,w_{i_1+1}...w_n)\vdash^*(q_2,w_{i_2+1}...w_n)\vdash^*(q_{m-1},w_{i_{m-1}}...w_n)\vdash(q_f,\varepsilon)$, $q_f\in F\Rightarrow w\in L(\A)$.
+\item Пусть $w\in L(G), |w|=0\Rightarrow w=\varepsilon$. Тогда во всех $m$ примененных правилах $x_i=\varepsilon$, а последнее~--- типа 2: $q_0\longrightarrow q_{i_1}\longrightarrow...\longrightarrow q_{i_{m-1}} \varepsilon$. По построению, $\delta(q_0,\varepsilon)=q_{i_1},...,\delta(q_{i_{m-1}},\varepsilon)=q_f$. Получаем $w\in L(\A)$
 \item Пусть $w\in L(\A)$. Тогда $F\ni\delta(q_0,w)=q_f$ (т.к. $F=\{q_f\}$). Рассмотрим цепочку конфигураций $(q_0,w)\vdash^*(q_f,\varepsilon)$. Выпишем оттуда все состояния $A_i\colon A_i\in N$. Тогда переходы $A_i\overset{x_i}{\longrightarrow}A_{i+1}$ между ними были добавлены на шагах \ref{stepAB}, а последний переход $A_m\overset{x_m}{\longrightarrow} q_f$~--- на шаге \ref{stepAqf}. Поэтому в грамматике есть правила $S\Rightarrow x_1A_1,...,A_m\Rightarrow x_m$. Отсюда $w\in L(G)$.
 \end{enumerate}
 \item Построим НКА $\A$ по грамматике $G$: $S\longrightarrow abaA|abB|\varepsilon,\ A\longrightarrow  aB|aa,\ B\longrightarrow bA|aS$
@@ -339,13 +340,13 @@ $\begin{cases}
 (1) & S=abaA+abB+\varepsilon\\
 (2) & A=aB+aa\\
 (3) & B=bA+aS\\
-\end{cases}$. Подставим $(3)$ в $(2)$, получим $A=abA+aaS+aa$. Отсюда $A=(ab)^*(aaS+aa)$. Подставим в $(3)$: $B=b(ab)^*(aaS+aa)+aS$. Подставим $A,B$ в $(1)$: $$S=aba(ab)^*(aaS+aa)+ab(b(ab)^*(aaS+aa)+aS)+\varepsilon\equiv aba(ab)^*aaS+aba(ab)^*aa+abb(ab)^*aaS+abb(ab)^*aa+abaS\equiv$$
-$$\equiv(aba(ab)^*aa+abb(ab)^*aa+aba)S+aba(ab)^*aa+abb(ab)^*aa\Rightarrow$$
-$S=(aba(ab)^*aa+abb(ab)^*aa+aba)^*(aba(ab)^*aa+abb(ab)^*aa)$.
+\end{cases}$. Подставим $(3)$ в $(2)$, получим $A=abA+aaS+aa$. Отсюда $A=(ab)^*(aaS+aa)$. Подставим в $(3)$: $B=b(ab)^*(aaS+aa)+aS$. Подставим $A,B$ в $(1)$: $$S=aba(ab)^*(aaS+aa)+ab(b(ab)^*(aaS+aa)+aS)+\varepsilon\equiv aba(ab)^*aaS+aba(ab)^*aa+abb(ab)^*aaS+abb(ab)^*aa+abaS+\varepsilon\equiv$$
+$$\equiv(aba(ab)^*aa+abb(ab)^*aa+aba)S+aba(ab)^*aa+abb(ab)^*aa+\varepsilon\Rightarrow$$
+$S=(aba(ab)^*aa+abb(ab)^*aa+aba)^*(aba(ab)^*aa+abb(ab)^*aa+\varepsilon)$.
 \item Нет: $S\longrightarrow abaA\longrightarrow abaaa$, $S\longrightarrow abaA\longrightarrow abaaB\longrightarrow abaaaS\longrightarrow abaaa$.
 \end{enumerate}
 \section*{Задача 3}
-Для приведенного мной алгоритма это неверно. Возьмем грамматику $G\colon P=\{S\longrightarrow a,S\longrightarrow aa\}$. Алгоритм построит автомат $\A$, но он не будет детерминированным, так как $\delta(q_0,a)=\{q_f,q^2_1\}$.
+Для приведенного мной алгоритма это неверно. Возьмем грамматику $G\colon P=\{S\longrightarrow a,S\longrightarrow aa\}$. Она будет праволинейной (все правила имеют вид $S\longrightarrow x,\,x\in\Sigma^*$) и однозначной: она порождает язык $\{a,aa\}$, каждое слово может быть получено единственным способом. Но алгоритм построит автомат $\A$, который не будет детерминированным, так как $\delta(q_0,a)=\{q_f,q^2_1\}$.
 \begin{center}
 \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
 	\node[state, initial]	(q_0)							{$q_0$};
@@ -364,7 +365,7 @@ $S=(aba(ab)^*aa+abb(ab)^*aa+aba)^*(aba(ab)^*aa+abb(ab)^*aa)$.
 \item $n=0\Rightarrow w=\varepsilon$. Но $P\ni S\longrightarrow \varepsilon\Rightarrow w\equiv\varepsilon\in L(G)$.
 \item $n>0$. Применим первое правило $n$ раз, после чего применим второе: $S\longrightarrow 0S1\longrightarrow 00S11\longrightarrow...\longrightarrow \underbrace{0...0}_{n}S\underbrace{1...1}_n\longrightarrow 0^n1^n\Rightarrow w\in L(G)$
 \end{enumerate}
-\item $w\in L(G)$. Первое правило сохраняет количество нетерминалов, второе уменьшает на 1. Поэтому в выводе сначала $n$ применений первого правила, а затем одно применение второго. Количество нетерминалов не уменьшается. Вывод имеет вид $S\longrightarrow 0S1\longrightarrow...\longrightarrow \underbrace{0...0}_nS\underbrace{1...1}_n\longrightarrow 0^n1^n\in L$
+\item $w\in L(G)$. Первое правило сохраняет количество нетерминалов, второе уменьшает на 1. Поэтому в выводе сначала $n$ применений первого правила, а затем одно применение второго. Количество терминалов не уменьшается. Вывод имеет вид $S\longrightarrow 0S1\longrightarrow...\longrightarrow \underbrace{0...0}_nS\underbrace{1...1}_n\longrightarrow 0^n1^n\in L$
 \end{enumerate}
 $G$~--- линейная, так как в правых частях правил не более одного нетерминала. Но $L\equiv L(G)\notin\REG$~--- было доказано на семинаре. Поэтому получаем, что утверждение $\forall G\mbox{~--- линеная}\hookrightarrow L(G)\in\REG$~--- неверно.
 \section*{Задача 5}
