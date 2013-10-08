@@ -369,6 +369,18 @@ $S=(aba(ab)^*aa+abb(ab)^*aa+aba)^*(aba(ab)^*aa+abb(ab)^*aa+\varepsilon)$.
 \end{enumerate}
 $G$~--- линейная, так как в правых частях правил не более одного нетерминала. Но $L\equiv L(G)\notin\REG$~--- было доказано на семинаре. Поэтому получаем, что утверждение $\forall G\mbox{~--- линеная}\hookrightarrow L(G)\in\REG$~--- неверно.
 \section*{Задача 5}
+Пусть $\Sigma=\{\sigma_1,...\sigma_n\}\supseteq L,L_{\sigma_1},...,L_{\sigma_n}\in\REG$. Докажем, что подстановка $L_{\sigma_1},...,L_{\sigma_n}$ в $L$ $L'=\{L_{w_1}...L_{w_k}\big| w_1...w_k\in L\}\in\REG$ индукцией по $R_3(L)$~--- количеству применений третьего пункта определения при получении языка $L$ (см. решение предыдущего задания)\begin{enumerate}
+\item $R_3(L)=0\Rightarrow$\begin{enumerate}
+\item $L=\varnothing$. Тогда $L'=\varnothing$, так как ни одно слово $w$ не в $L$. Получаем $L'\in\REG\,\blacksquare$
+\item $L=\{\varepsilon\}$. Тогда $L'=\varepsilon$ (конкатенация из $0$ строк). Получаем $L'\in\REG\,\blacksquare$
+\item $L=\{\sigma\}$. Тогда $L'=L_\sigma\in\REG\,\blacksquare$
+\end{enumerate}
+\item Пусть $\forall L\colon R_3(L)\leqslant n\hookrightarrow L'\in\REG$. Докажем для $n+1$. Варианты:\begin{enumerate}
+\item $L=XY$, $X,Y\in\REG$. Тогда подстановка в $X$ $L'_X\in\REG$ по предположению индукции. Аналогично для $L'_Y$. Но $L'=L'_XL'_Y$: $L'=\{L_{w_1}...L_{w_k}\big|w_1...w_k\in XY\}=\{L_{w_1}...L_{w_m}...L_{w_k}\big|w_1...w_m\in X,w_{m+1}...w_k\in Y\}=\{L_{w_1}...L_{w_m}\big|w_1...w_m\in X\}\cdot \{L_{w_{m+1}}...L_{w_k}\big|w_{m+1}...w_k\in Y\}=L'_XL'_Y$, поэтому $L'\in\REG$.
+\item $L=X|Y,X,Y\in\REG$. Аналогично $L'_X,L'_Y\in\REG$. Но $L'=\{L_{w_1}...L_{w_k}\big|w_1...w_k\in X|Y\}=\{L_{w_1}...L_{w_k}\big|w_1...w_k\in X\}\cup\{L_{w_1}...L_{w_k}\big|w_1...w_k\in Y\}=L'_XL'_Y\in\REG\,\blacksquare$
+\item $L=X^*,X\in\REG$. По предположению, $L'_X\in\REG$. Но $L'=\{L_{w_1}...L_{w_k}\big|w_1...w_k\in X^*\}=\{(L_{w_1}...L_{w_k})^*\big|w_1...w_k\in X\}={L'}_X^*\in\REG\,\blacksquare$
+\end{enumerate}
+\end{enumerate}
 \section*{Задача 6}
 \section*{Задача 7}
 \end{document}
