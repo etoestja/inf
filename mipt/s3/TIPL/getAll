@@ -1,6 +1,6 @@
 #!/bin/bash
 i=1
-N=5
+N=6
 while (( $i <= $N ))
 do
     ./get $i
