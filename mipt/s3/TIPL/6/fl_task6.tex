@@ -1,0 +1,145 @@
+ \documentclass[12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}        % Кодировка входного документа;
+                                    % при необходимости, вместо cp1251
+                                    % можно указать cp866 (Alt-кодировка
+                                    % DOS) или koi8-r.
+
+\usepackage[english,russian]{babel} % Включение русификации, русских и
+                                    % английских стилей и переносов
+%%\usepackage{a4}
+%%\usepackage{moreverb}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,amsbsy,amstext,amscd,amsxtra,multicol}
+\usepackage{verbatim}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning}
+\usepackage{multicol} %Несколько колонок
+\usepackage{graphicx}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage[stable]{footmisc}
+
+%% \voffset-5mm
+%% \def\baselinestretch{1.44}
+\renewcommand{\theequation}{\arabic{equation}}
+\def\hm#1{#1\nobreak\discretionary{}{\hbox{$#1$}}{}}
+\newtheorem{Lemma}{Лемма}
+\theoremstyle{definiton}
+\newtheorem{Remark}{Замечание}
+%%\newtheorem{Def}{Определение}
+\newtheorem{Claim}{Утверждение}
+\newtheorem{Cor}{Следствие}
+\newtheorem{Theorem}{Теорема}
+\theoremstyle{definition}
+\newtheorem{Example}{Пример}
+\newtheorem*{known}{Теорема}
+\def\proofname{Доказательство}
+\theoremstyle{definition}
+\newtheorem{Def}{Определение}
+
+%% \newenvironment{Example} % имя окружения
+%% {\par\noindent{\bf Пример.}} % команды для \begin
+%% {\hfill$\scriptstyle\qed$} % команды для \end
+
+
+
+
+
+
+%\date{22 июня 2011 г.}
+\let\leq\leqslant
+\let\geq\geqslant
+\def\MT{\mathrm{MT}}
+%Обозначения ``ажуром''
+\def\BB{\mathbb B}
+\def\CC{\mathbb C}
+\def\RR{\mathbb R}
+\def\SS{\mathbb S}
+\def\ZZ{\mathbb Z}
+\def\NN{\mathbb N}
+\def\FF{\mathbb F}
+%греческие буквы
+\let\epsilon\varepsilon
+\let\es\emptyset
+\let\eps\varepsilon
+\let\al\alpha
+\let\sg\sigma
+\let\ga\gamma
+\let\ph\varphi
+\let\om\omega
+\let\ld\lambda
+\let\Ld\Lambda
+\let\vk\varkappa
+\let\Om\Omega
+\def\abstractname{}
+
+\def\R{{\cal R}}
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+\def\D{{\cal D}}
+\let\w\omega
+
+%классы сложности
+\def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
+\newcounter{problem}
+\newcounter{uproblem}
+\newcounter{subproblem}
+\def\pr{\medskip\noindent\stepcounter{problem}{\bf \theproblem .  }\setcounter{subproblem}{0} }
+\def\prstar{\medskip\noindent\stepcounter{problem}{\bf $\theproblem^*$\negthickspace.  }\setcounter{subproblem}{0} }
+\def\prpfrom[#1]{\medskip\noindent\stepcounter{problem}{\bf Задача \theproblem~(№#1 из задания).  }\setcounter{subproblem}{0} }
+\def\prp{\medskip\noindent\stepcounter{problem}{\bf Задача \theproblem .  }\setcounter{subproblem}{0} }
+\def\prpstar{\medskip\noindent\stepcounter{problem}{\bf Задача $\bf\theproblem^*$\negthickspace.  }\setcounter{subproblem}{0} }
+\def\prdag{\medskip\noindent\stepcounter{problem}{\bf Задача $\theproblem^{^\dagger}$\negthickspace\,.  }\setcounter{subproblem}{0} }
+\def\upr{\medskip\noindent\stepcounter{uproblem}{\bf Упражнение \theuproblem .  }\setcounter{subproblem}{0} }
+%\def\prp{\vspace{5pt}\stepcounter{problem}{\bf Задача \theproblem .  } }
+%\def\prs{\vspace{5pt}\stepcounter{problem}{\bf \theproblem .*   }
+\def\prsub{\medskip\noindent\stepcounter{subproblem}{\rm \thesubproblem .  } }
+\def\prsubr{\medskip\noindent\stepcounter{subproblem}{\rm \thesubproblem)  } }
+\def\prsubstar{\medskip\noindent\stepcounter{subproblem}{\rm $\thesubproblem^*$\negthickspace.  } }
+\def\prsubrstar{\medskip\noindent\stepcounter{subproblem}{\rm $\thesubproblem^*$)  } }
+%прочее
+\def\quotient{\backslash\negthickspace\sim}
+\begin{document}
+\centerline{\LARGE Задание 6}
+
+\medskip
+
+\begin{center}
+	{\Large Грамматики}
+\end{center}
+
+\bigskip
+
+
+
+{\bf Ключевые слова }\footnote{минимальный необходимый объем понятий и навыков по
+этому разделу)}:{\em  язык, контекстно-свободный язык, грамматика, метод математической индукции. %примеры нерегулярных языков;
+%поиск подстрок, алгоритм Кнута- Морисса- Пратта.
+
+%языки скобочных выражений (языки Дика). 
+}
+
+
+
+\section{Задачи}
+
+\prpstar Написать грамматику, порождающую язык $a^{n^2}$.
+
+\prp  Написать КС-грамматику, порождающую 
+
+\prsubr язык палиндромов $L \subseteq\{a,b\}^*$, то есть $L = \{w\,|\, w = w^R\}$. Например, палиндромами являются слова «ротор» и «казак».
+
+\prsubr  язык $\bar L$.
+
+\prp Покажите индукцией по длине слова, что КС-грамматика с правилами $S\to SS|aSb|bSa|\eps$ порождает язык $L^=$ всех слов с равным числом литералов $a$ и $b$. 
+
+\prp Постройте КС-грамматику для языка $L =\{w\,|\, |w|_b \leq |w|_a\}$
+
+\prpstar Пусть дана КС-грамматика $G$ и ДКА $\A$. Предложите алгоритм, который строит КС-грамматику для языка $L(G)\cap L(\A)$.
+\bigskip
+
+Напоминаю, что все построения должны быть обоснованны. Если построение не обосновано и непонятно, то оно непроверяемо физически — задача об эквивалентности двух  КС-грамматик неразрешима.
+
+
+\end{document}
