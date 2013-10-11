@@ -1,43 +1,5 @@
 #include "common.h"
 
-int *clients;
-int clientsSize = 0;
-char** clientsNames;
-
-void addClient(int PID, char* name)
-{
-    int i;
-    for(i = 0; i < clientsSize; i++)
-    {
-        if(clients[i] == -1)
-        {
-            clients[i] = PID;
-            clientsNames[i] = malloc(strlen(name) + 1);
-            strcpy(clientsNames[i], name);
-            return;
-        }
-    }
-    clientsSize++;
-    clients = realloc(clients, sizeof(int) * (clientsSize));
-    clientsNames = realloc(clientsNames,  (sizeof(char*)) * (clientsSize));
-    clients[clientsSize - 1] = PID;
-    clientsNames[clientsSize - 1] = malloc(strlen(name) + 1);
-    strcpy(clientsNames[clientsSize - 1], name);
-}
-
-void rmClient(int PID)
-{
-    int i;
-    for(i = 0; i < clientsSize; i++)
-    {
-        if(clients[i] == PID)
-        {
-            return;
-            clients[i] = -1;
-        }
-    }
-}
-
 int main()
 {
     key_t key;
