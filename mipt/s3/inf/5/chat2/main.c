@@ -30,12 +30,14 @@ int main()
     init();
     int len, i, size;
     msgbuf buf;
+    char name[MSGLEN];
     int myPID = getpid();
 
     printf("Your name: ");
     fgets(buf.message, MSGLEN, stdin);
     if(buf.message[strlen(buf.message) - 1] == '\n')
         buf.message[strlen(buf.message) - 1] = 0;
+    strcpy(name, buf.message);
     buf.sourcePID = myPID;
     buf.mtype = TOSERVER;
     buf.type = MHELLO;
@@ -43,6 +45,8 @@ int main()
     {
         printf("Can't send message");
     }
+
+    int exiting = 0;
 
     if(fork()) // stdin -> msg
     {
@@ -52,16 +56,21 @@ int main()
                 size = strlen(buf.message);
                 if(size > 0 && buf.message[size - 1] == '\n')
                     buf.message[size - 1] = 0;
+                if(!strcmp(buf.message, EXIT_STR))
+                {
+                    strcpy(buf.message, name);
+                    buf.type = MBYE;
+                    exiting = 1;
+                }
                 else
-                    buf.message[size] = 0;
-                buf.type = MTEXT;
+                    buf.type = MTEXT;
 //                printf("got string len=%d\n", strlen(buf.message));
                 buf.sourcePID = myPID;
                 buf.mtype = TOSERVER;
                 if(msgsnd(msqid, (struct msgbuf *) &buf, MINLEN + strlen(buf.message) + 1, 0) < 0)
-                {
                     printf("Can't send message");
-                }
+                if(exiting)
+                    return(0);
             }
     }
     else

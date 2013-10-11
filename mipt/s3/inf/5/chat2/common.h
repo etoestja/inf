@@ -12,6 +12,7 @@
 #define MAXLEN (100 + 2 * sizeof(int))
 #define TOSERVER 1
 #define MINLEN (2 * sizeof(int))
+#define EXIT_STR "exit"
 
 enum mType{MTEXT, MHELLO, MBYE, MCOMES, MLEAVES};
 
