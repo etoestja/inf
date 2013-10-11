@@ -27,38 +27,49 @@ int main()
 
     for(;;)
     {
-        if ((len = msgrcv(msqid, (struct msgbuf *) &buf, MAXLEN, TOSERVER, 0)) < 0)
+        if ((len = msgrcv(msqid, (struct msgbuf *) &buf, MAXLEN, TOSERVER, 0)) >= MINLEN)
         {
-            if(len >= MINLEN)
+            printf("Got message mtype=%d type=%d sourcePID=%d msg=[%s]\n", buf.mtype, buf.type, buf.sourcePID, buf.message);
+            sndbuf = buf;
+            if(buf.type == MHELLO)
             {
-                sndbuf = buf;
-                if(buf.mtype == MHELLO)
-                {
-                    sndbuf.type = MCOMES;
-                    addClient(buf.sourcePID, buf.message);
-                }
-                else if(buf.mtype == MBYE)
-                {
-                    sndbuf.type = MLEAVES;
-                    rmClient(buf.sourcePID);
-                }
-//                else if(buf.mtype == MTEXT)
+                sndbuf.type = MCOMES;
 
                 for(i = 0; i < clientsSize; i++)
                 {
-                    if(clients[i] != -1)
+                    if(clients[i] != -1 && clients[i] != buf.sourcePID)
                     {
-                        if(sndbuf.type == MTEXT && sndbuf.destPID != 0 && sndbuf.destPID != clients[i])
-                            continue;
-                        sndbuf.mtype = clients[i];
+                        printf(" Telling about %d...\n", clients[i]);
+                        sndbuf.sourcePID = clients[i];
+                        sndbuf.mtype = buf.sourcePID;
+                        strcpy(sndbuf.message, clientsNames[i]);
                         if(msgsnd(msqid, (struct msgbuf *) &sndbuf, MINLEN + strlen(sndbuf.message) + 1, 0) < 0)
                             printf("Can't send message\n");
-
                     }
                 }
+
+                sndbuf = buf;
+                sndbuf.type = MCOMES;
+                addClient(buf.sourcePID, buf.message);
             }
-            else
-                printf("Got some strange message\n");
+            else if(buf.type == MBYE)
+            {
+                sndbuf.type = MLEAVES;
+                rmClient(buf.sourcePID);
+            }
+//              else if(buf.type == MTEXT)
+
+            for(i = 0; i < clientsSize; i++)
+            {
+                if(clients[i] != -1 && clients[i] != buf.sourcePID)
+                {
+                    printf(" relaying to %d...\n", clients[i]);
+                    sndbuf.mtype = clients[i];
+                    if(msgsnd(msqid, (struct msgbuf *) &sndbuf, MINLEN + strlen(sndbuf.message) + 1, 0) < 0)
+                        printf("Can't send message\n");
+
+                }
+            }
         }
 
     }

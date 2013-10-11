@@ -2,12 +2,11 @@
 #include <unistd.h>
 
 char name[MSGLEN];
+key_t key;
+int msqid;
 
-int main()
+void init()
 {
-    key_t key;
-    int msqid;
-
     /* Create or attach message queue  */
     if((key = ftok(PATHNAME, KEY2)) < 0)
     {
@@ -24,28 +23,71 @@ int main()
         else
             msqid = msgget(key, 0666 | IPC_CREAT);
     }
+}
 
+int main()
+{
+    init();
     int len, i, size;
     msgbuf buf;
-    buf.mtype = getpid();
+    int myPID = getpid();
+
+    printf("Your name: ");
+    scanf("%s", buf.message);
+    buf.sourcePID = myPID;
+    buf.mtype = TOSERVER;
+    buf.type = MHELLO;
+    if(msgsnd(msqid, (struct msgbuf *) &buf, MINLEN + strlen(buf.message) + 1, 0) < 0)
+    {
+        printf("Can't send message");
+    }
 
     if(fork()) // stdin -> msg
+    {
         for(;;)
             if((size = read(STDIN_FILENO, buf.message, MSGLEN - 1)) > 0)
             {
                 buf.message[size] = 0;
-                buf.
-                if(msgsnd(msqid, (struct msgbuf *) &sndbuf, MINLEN + strlen(sndbuf.message) + 1, 0) < 0)
+                buf.type = MTEXT;
+//                printf("got string %s\n", buf.message);
+                buf.sourcePID = myPID;
+                buf.mtype = TOSERVER;
+                if(msgsnd(msqid, (struct msgbuf *) &buf, MINLEN + strlen(buf.message) + 1, 0) < 0)
                 {
+                    printf("Can't send message");
                 }
             }
+    }
     else
+    {
+        init();
+        int i;
+        char* name;
         for(;;) // msg -> stdin
-            if((size = read(fdR, buf, BUFSIZE)) > 0)
-                write(STDOUT_FILENO, buf, size);
-
-    close(fdW);
-    close(fdR);
+        {
+            if ((len = msgrcv(msqid, (struct msgbuf *) &buf, MAXLEN, myPID, 0)) >= MINLEN)
+            {
+//                printf("Got message!\n");
+                if(buf.type == MCOMES)
+                {
+                    addClient(buf.sourcePID, buf.message);
+                    printf("[SYSTEM]: %s (%d) comes\n", buf.message, buf.sourcePID);
+                }
+                else if(buf.type == MLEAVES)
+                {
+                    rmClient(buf.sourcePID);
+                    printf("[SYSTEM]: %s (%d) leaves\n", buf.message, buf.sourcePID);
+                }
+                else if(buf.type == MTEXT)
+                {
+                    for(i = 0; i < clientsSize; i++)
+                        if(clients[i] == buf.sourcePID)
+                            name = clientsNames[i];
+                    printf("[%s (%d)]: %s", name, buf.sourcePID, buf.message);
+                }
+            }
+        }
+    }
 
     return 0;
 }

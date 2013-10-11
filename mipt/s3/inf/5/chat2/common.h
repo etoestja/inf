@@ -9,9 +9,9 @@
 #define PATHNAME "server.c"
 #define KEY2 0
 #define MSGLEN 100
-#define MAXLEN (100 + sizeof(int))
+#define MAXLEN (100 + 2 * sizeof(int))
 #define TOSERVER 1
-#define MINLEN (3 * sizeof(int))
+#define MINLEN (2 * sizeof(int))
 
 enum mType{MTEXT, MHELLO, MBYE, MCOMES, MLEAVES};
 
@@ -20,7 +20,6 @@ typedef struct
     long mtype;
     int type;
     int sourcePID;
-    int destPID;
     char message[MSGLEN];
 } msgbuf;
 
@@ -75,6 +74,7 @@ void printClients()
     printf("===\n");
 }
 
+#ifdef ADDRMTEST
 int main()
 {
     addClient(1231,"abacaba");
@@ -92,3 +92,4 @@ int main()
 
     return(0);
 }
+#endif

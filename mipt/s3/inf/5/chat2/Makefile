@@ -4,9 +4,9 @@ TARGET=chat
 TARGET2=server
 
 all: $(TARGET) $(TARGET2)
-$(TARGET2): $(CFILE2).c
+$(TARGET2): $(CFILE2).c common.h
 	gcc -L. $(CFILE2).c -o $(TARGET2)
-$(TARGET): $(CFILE).c
+$(TARGET): $(CFILE).c common.h
 	gcc -L. $(CFILE).c -o $(TARGET)
 lib%.a: %.o
 	ar rcs $@ $<
