@@ -33,7 +33,9 @@ int main()
     int myPID = getpid();
 
     printf("Your name: ");
-    scanf("%s", buf.message);
+    fgets(buf.message, MSGLEN, stdin);
+    if(buf.message[strlen(buf.message) - 1] == '\n')
+        buf.message[strlen(buf.message) - 1] = 0;
     buf.sourcePID = myPID;
     buf.mtype = TOSERVER;
     buf.type = MHELLO;
@@ -45,14 +47,15 @@ int main()
     if(fork()) // stdin -> msg
     {
         for(;;)
-            if((size = read(STDIN_FILENO, buf.message, MSGLEN - 5)) > 0)
+            if(fgets(buf.message, MSGLEN, stdin) != NULL)
             {
+                size = strlen(buf.message);
                 if(size > 0 && buf.message[size - 1] == '\n')
                     buf.message[size - 1] = 0;
                 else
                     buf.message[size] = 0;
                 buf.type = MTEXT;
-//                printf("got string %s\n", buf.message);
+//                printf("got string len=%d\n", strlen(buf.message));
                 buf.sourcePID = myPID;
                 buf.mtype = TOSERVER;
                 if(msgsnd(msqid, (struct msgbuf *) &buf, MINLEN + strlen(buf.message) + 1, 0) < 0)
