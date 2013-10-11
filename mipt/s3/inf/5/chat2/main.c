@@ -45,9 +45,12 @@ int main()
     if(fork()) // stdin -> msg
     {
         for(;;)
-            if((size = read(STDIN_FILENO, buf.message, MSGLEN - 1)) > 0)
+            if((size = read(STDIN_FILENO, buf.message, MSGLEN - 5)) > 0)
             {
-                buf.message[size] = 0;
+                if(size > 0 && buf.message[size - 1] == '\n')
+                    buf.message[size - 1] = 0;
+                else
+                    buf.message[size] = 0;
                 buf.type = MTEXT;
 //                printf("got string %s\n", buf.message);
                 buf.sourcePID = myPID;
@@ -83,7 +86,7 @@ int main()
                     for(i = 0; i < clientsSize; i++)
                         if(clients[i] == buf.sourcePID)
                             name = clientsNames[i];
-                    printf("[%s (%d)]: %s", name, buf.sourcePID, buf.message);
+                    printf("[%s (%d)]: %s\n", name, buf.sourcePID, buf.message);
                 }
             }
         }
