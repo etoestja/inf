@@ -36,7 +36,29 @@
 \maketitle
 \section*{Задача 1}
 \section*{Задача 2}
+$\Sigma\eqdef\{a,b\}$, $\Sigma^*\supset L\eqdef\{w\in\Sigma^*\big|w=w^R\}$~--- язык палиндромов из $a,b$.
+\begin{enumerate}
+\item Определим КС-грамматику $\Gamma\equiv(N,\Sigma,P,S)$, $P\eqdef\big\{\underbrace{S\longrightarrow\varepsilon}_{(1)},\,\underbrace{S\longrightarrow aSa}_{(2)},\,\underbrace{S\longrightarrow bSb}_{(3)}\big\}$.
+%\begin{enumerate}[a.]
+%\item $S\longrightarrow\varepsilon$,
+%\item $S\longrightarrow aSa$,
+%\item $S\longrightarrow bSb\big\}$
+%\end{enumerate}
+Докажем, что $L(\Gamma)=L$:
+\begin{enumerate}
+\item $L(\Gamma)\subseteq L$
+\item $L\subseteq L(\Gamma)$
+\end{enumerate}
+\item Определим грамматику $\overline{\Gamma}$
+\end{enumerate}
 \section*{Задача 3}
+$\Sigma\eqdef\{a,b\}$. $\Sigma^*\supset L^=\eqdef\{w\in\Sigma^*\big||w|_a=|w|_b\}$. КС-грамматика $\Gamma=\{N,\Sigma,P,S\}$, $P\eqdef\big\{\underbrace{S\longrightarrow SS}_{(1)},\,\underbrace{S\longrightarrow aSb}_{(2)},\,\underbrace{S\longrightarrow bSa}_{(3)}\big\}$
+%\begin{enumerate}[a.]
+%\item $S\longrightarrow SS$,
+%\item $S\longrightarrow aSb$,
+%\item $S\longrightarrow bSa\big\}$
+%\end{enumerate}
 \section*{Задача 4}
+$\Sigma\eqdef\{a,b\}$, $\Sigma^*\supset L\eqdef\{w\in\Sigma^*\big||w|_b\leqslant|w|_a\}$. Определим грамматику $\Gamma$.
 \section*{Задача 5}
 \end{document}
