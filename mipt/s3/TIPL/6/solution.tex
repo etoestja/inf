@@ -88,7 +88,35 @@ $\boxed{\mbox{Ответ: }\ansbac}$
 \item Определим грамматику $\overline{\Gamma}$
 \end{enumerate}
 \section*{Задача 3}
-$\Sigma\eqdef\{a,b\}$. $\Sigma^*\supset L^=\eqdef\{w\in\Sigma^*\big||w|_a=|w|_b\}$. КС-грамматика $\Gamma=\{N,\Sigma,P,S\}$, $P\eqdef\big\{\underbrace{S\longrightarrow SS}_{(1)},\,\underbrace{S\longrightarrow aSb}_{(2)},\,\underbrace{S\longrightarrow bSa}_{(3)}\big\}$
+$\Sigma\eqdef\{a,b\}$. $\Sigma^*\supset L^=\eqdef\{w\in\Sigma^*\big||w|_a=|w|_b\}$. КС-грамматика $\Gamma=\{N,\Sigma,P,S\}$,\newline
+$P\eqdef\big\{\underbrace{S\longrightarrow SS}_{(1)},\,\underbrace{S\longrightarrow aSb}_{(2)},\,\underbrace{S\longrightarrow bSa}_{(3)},\,\underbrace{S\longrightarrow \varepsilon}_{(4)}\big\}$.\newline
+Докажем, что $L(\Gamma)=L^=$:\begin{itemize}
+\item $L(\Gamma)\subset L$. $w\in L(\Gamma)\Rightarrow S\Longrightarrow^* w$. Пусть $\{w_k\}_{k=0}^I\subset (N\cup \Sigma)^*$~--- последовательность слов при выводе.\newline
+$P(k)\eqdef\big[|w_k|_a=|w_k|_b\big]$. Докажем, что $\forall k\in\overline{0,I}\hookrightarrow P(k)$:\begin{enumerate}[1.]
+\item $k=0\Rightarrow w_k\equiv w_0=S$. $|w_k|_a=|S|_a=0=|S|_b=|w_k|_b\Rightarrow P(0)$.
+\item $P(n)\Rightarrow |w_n|_a=|w_n|_b$. $n<I$. Пусть $w_n\overset{(i)}{\Longrightarrow}w_{n+1}$. Каждое из правил $(1)$---$(4)$ сохраняет равенство между $|w|_a$ и $|w|_b$:\newline$(1)$ и $(4)$ не изменяют их, а $(2)$ и $(3)$ увеличивают каждое на 1 $\Rightarrow |w_{n+1}|_a=|w_{n+1}|_b\Rightarrow P(n+1)$
+\end{enumerate}
+Получаем $P(I)\Rightarrow |w|_a\equiv|w_I|_a\overset{P(I)}{=}|w_I|_b\equiv|w|_b\Rightarrow w\in L^=$.
+\item $L\subset L(\Gamma)$.\newline
+Определим $S\colon \Sigma^*\longrightarrow {\mathbb Z}\colon w\in\Sigma^*\Rightarrow S(w)=|w|_a-|w|_b$.
+$w\in L^=\Leftrightarrow |w|_a=|w|_b\Leftrightarrow S(w)=0$. $|w|=n$. $w\in\Sigma^*\Rightarrow|w|=|w|_a+|w|_b=2|w|_a\Rightarrow |w|$~--- четно $\Rightarrow n=2m$.
+\\[5pt]
+Пусть $L\ni w=axa$. Тогда $0=S(w)=|axa|_a-|axa|_b=2+S(x)\Rightarrow S(x)=-2$. Отсюда следует, что $|x|\geqslant 0$. Пусть $|x|=t$, $x=x_1...x_t,\forall i\in\overline{1,t}\hookrightarrow x_i\in\Sigma$. Обозначим $f(t)\colon \overline{1,t}\longrightarrow {\mathbb Z}\colon f(i)=S(ax_1...x_i)$. Тогда $f(0)\equiv S(a)=1$, $f(t)\equiv S(ax_1...x_t)=1+S(x)=1-2=-1$. Заметим, что $|f(t+1)-f(t)|=1$ {\em (<<аналог непрерывности>>)}. Поэтому $\exists i\in\overline{1,t}\colon f(t)=0$ {\em <<принимает промежуточное значение>>}. Получаем, что $w=ax_1...x_ix_{i+1}...x_ta=w_lw_r$. Поскольку $0=S(w)=S(w_l)+S(w_r)$ и $S(w_l)\equiv f(i)=0$, $S(w_r)=0$. $S(w_l)=S(w_r)=0\Rightarrow w_l,w_r\in L$. Поскольку $|w_l|,|w_r|\geqslant |a|=1, |w|_l,|w_r|\leqslant |w|-1$. Но $w,w_l,w_r\in L\Rightarrow |w|,|w_l|,|w_r|$~--- четные. значит, $|w_l|,|w_r|\leqslant |w|-2$. Итак, $w=axa\in L\Rightarrow w=w_lw_r, |w_l|, |w_r|\in\overline{1, |w|-2}, w_l,w_r\in L$. Аналогично доказываем для $L\ni w=bxb$. Получаем $\boxed{w=\sigma x\sigma\in L\Rightarrow w=w_lw_r, |w_l|, |w_r|\in\overline{1, |w|-2}, w_l,w_r\in L}$.
+\\[5pt]
+$P(m)\eqdef \big[\forall w\in L\colon |w|=2m\hookrightarrow w\in L(\Gamma)\big]$. Докажем $\forall i\geqslant 0\hookrightarrow P(i)$:\begin{enumerate}
+\item $m=0\Rightarrow w=\varepsilon$. $S\overset{(4)}{\Longrightarrow} \varepsilon=w\Rightarrow w\in L(\Gamma)$
+\item Пусть $P(m)$. Докажем $P(m+1)$. Рассмотрим $w\in L\colon |w|=2(m+1)>2$. Значит, $w=\sigma_1x\sigma_2$. Заметим, что $|x|=2m$. Рассмотрим варианты для $(\sigma_1,\sigma_2)$:\begin{enumerate}[1.]
+\item $\sigma_1=a,\sigma_2=b$. Тогда $w\in L\Rightarrow 0=S(w)=|axb|_a-|axb|_b=1+|x|_a-|x|_b-1=S(x)$. Как было замечено, $|x|=2m$, поэтому, по предположению индукции, $S\overset{P(m)}{\Longrightarrow^*}x$. Но $S\overset{(2)}{\Longrightarrow}aSb\overset{P(m)}{\Longrightarrow^*}axb\Rightarrow w\in L(\Gamma)$
+\item $\sigma_1=b,\sigma_2=a$. Аналогично получаем $w=bxa$, $x\in L(\Gamma)\Rightarrow S\overset{(3)}{\Longrightarrow}bSa\overset{P(m)}{\Longrightarrow^*}bxa\Rightarrow w\in L(\Gamma)$
+\item[3, 4.] $\sigma\eqdef\sigma_1=\sigma_2$. Разобьем слово $w=\sigma x\sigma$ на {\em подслова} $w=w_1...w_k,\newline\forall i\in\overline{1,k}\hookrightarrow w_i\in\Sigma^*\cap L,\, |w_i|\leqslant |w|-2,\,w_i[1]\neq w_i[|w_i|]$.\newline
+ Для этого воспользуемся утверждением в рамочке (см. выше): разобьем $w=w_lw_r$, потом, если первый и последний символы $w_l$ совпадают, повторим для него (возможно, так как $w_l\in L$ по построению): $w_l=w_{ll}w_{lr}$, аналогично для $w_r$. Всего разбиений будет не больше $|w|$, так как части разбиения непустые (см. утверждение) $\Rightarrow$ алгоритм конечен. Каждое разбиение дает подслова из $L$~--- также см. утверждение. И части разбиения не длиннее исходного слова, а также $w_l,w_r\leqslant |w|-2$. Значит, $w_i\leqslant |w|-2$. Поэтому $S\overset{P(m)}{\Longrightarrow^*}w_l$, $S\overset{P(m)}{\Longrightarrow^*}w_r$~--- по предположению индукции. Покажем, как вывести $w$ из $S$: воспользуемся правилом $(1)$ $k-1$ раз:\newline
+ $S\overset{(1)}{\Longrightarrow}SS\overset{(1)}{\Longrightarrow}...\overset{(1)}{\Longrightarrow}S^k$.
+ Далее воспользуемся выводами $w_i$: $S^k\overset{\mbox{\tiny вывод }w_1}{\Longrightarrow^*}w_1S^{k-1}\Longrightarrow^*...\overset{\mbox{\tiny вывод }w_k}{\Longrightarrow^*}w_1...w_k\equiv w\Rightarrow w\in L(\Gamma)$
+\end{enumerate}
+% ура, блин... долбаные 3 часа... долбаная рамочка...
+%Тогда $w=x_1...x_m,\,\forall i\in\overline{1,m}\hookrightarrow |x_i|=2$. Применим правило $(1)$ $m$ раз. Получим $S\Longrightarrow^*S^m$.
+\end{enumerate}
+\end{itemize}
 %\begin{enumerate}[a.]
 %\item $S\longrightarrow SS$,
 %\item $S\longrightarrow aSb$,
