@@ -68,8 +68,8 @@ $\Sigma\eqdef\{a,b\}$, $\Sigma^*\supset L\eqdef\{w\in\Sigma^*\big|w=w^R\}$~--- �
 Итак, доказано $\forall k\in\overline{0,I}\hookrightarrow P(k)\Rightarrow P(I)\Rightarrow w\equiv w_I\overset{P(I)}{=}w_I^R\equiv w^R\Rightarrow w\in L\,\blacksquare$ 
 \end{enumerate}
 \item $L\subseteq L(\Gamma)$. Пусть $w\in L\Rightarrow w^R=w$. $|w|=n$. Рассмотрим $n\mod 2$:\begin{enumerate}[0.]
-\item $n\mod 2=0\Rightarrow w=xy,\,|x|=|y|$. $w=w^R\Rightarrow xy=y^Rx^R$. Поскольку $|x|=|y|$, $y=x^R\Rightarrow\boxed{w=xx^R}$.
-\item $n\mod 2=1\Rightarrow w=x\sigma y,\, |x|=|y|,\,\sigma\in\Sigma$. $w=w^R\Rightarrow x\sigma y=y^R\sigma^Rx^R=y^R\sigma x^R$. Так как $|x|=|y|$, $y=x^R\Rightarrow\boxed{w=x\sigma x^R}$.
+\item $n\mod 2=0\Rightarrow w=xy,\,|x|=|y|$. $w=w^R\Rightarrow xy=y^Rx^R$. Поскольку $|x|=|y|$, $y=x^R\Rightarrow\boxed{w=xx^R}$
+\item $n\mod 2=1\Rightarrow w=x\sigma y,\, |x|=|y|,\,\sigma\in\Sigma$. $w=w^R\Rightarrow x\sigma y=y^R\sigma^Rx^R=y^R\sigma x^R$. Так как $|x|=|y|$, $y=x^R\Rightarrow\boxed{w=x\sigma x^R}$
 \end{enumerate}
 Значит, $L=\{xx^R,\,xax^R,\,xbx^R\big| x\in\Sigma^*\}$.
 \\[5pt]
@@ -83,7 +83,7 @@ $\Sigma\eqdef\{a,b\}$, $\Sigma^*\supset L\eqdef\{w\in\Sigma^*\big|w=w^R\}$~--- �
 \item $w=xbx^R$. Было получено $S\Longrightarrow^*xSx^R$. Тогда $S\Longrightarrow^*xSx^R\overset{(5)}{\Longrightarrow}xbx^R\,\blacksquare$
 \end{enumerate}
 Получаем $w\in L(\Gamma)$.\newline
-$\boxed{\mbox{Ответ: }\ansbac}$
+$\boxed{\mbox{Ответ: }\ansbac.}$
 \end{enumerate}
 \item Определим грамматику $\overline{\Gamma}$
 \end{enumerate}
@@ -125,12 +125,12 @@ $P(m)\eqdef \big[\forall w\in L\colon |w|=2m\hookrightarrow w\in L(\Gamma)\big]$
 \section*{Задача 4}
 $\Sigma\eqdef\{a,b\}$, $\Sigma^*\supset L\eqdef\{w\in\Sigma^*\big||w|_b\leqslant|w|_a\}\equiv\{w\in\Sigma^*\big|S(w)\geqslant 0\}$ {\em (определение $S(w)$ см. в задаче 3)}.\newline
 Определим КС-грамматику $\Gamma=\{\{S\},\Sigma,P,S\}$,\newline
-$P\eqdef\big\{\underbrace{S\longrightarrow SS}_{(1)},\,\underbrace{S\longrightarrow aSb}_{(2)},\,\underbrace{S\longrightarrow bSa}_{(3)},\,\underbrace{S\longrightarrow \varepsilon}_{(4)},\,\underbrace{S\longrightarrow aS}_{(5)},\,\underbrace{S\longrightarrow Sa}_{(6)}\big\}$\newline (добавим в грамматику из предыдущей задачи правила $S\longrightarrow Sa$ и $S\longrightarrow aS$).\newline
+$P\eqdef\big\{\underbrace{S\longrightarrow SS}_{(1)},\,\underbrace{S\longrightarrow aSb}_{(2)},\,\underbrace{S\longrightarrow bSa}_{(3)},\,\underbrace{S\longrightarrow \varepsilon}_{(4)},\,\underbrace{S\longrightarrow aS}_{(5)}\big\}$\newline (добавим в грамматику из предыдущей задачи правила $S\longrightarrow Sa$ и $S\longrightarrow aS$).\newline
 Докажем, что $L(\Gamma)=L$:\begin{itemize}
 \item $L(\Gamma)\subset L$. $w\in L(\Gamma)\Rightarrow S\Longrightarrow^* w$. Пусть $\{w_k\}_{k=0}^I\subset (N\cup \Sigma)^*$~--- последовательность слов при выводе.\newline
 $P(k)\eqdef\big[S(w_k)\geqslant 0\big]$. Докажем, что $\forall k\in\overline{0,I}\hookrightarrow P(k)$:\begin{enumerate}[1.]
 \item $k=0\Rightarrow w_k\equiv w_0=S$. $|w_k|_a=|S|_a=0=|S|_b=|w_k|_b\Rightarrow P(0)$.
-\item $P(n)\Rightarrow S(w_n)\geqslant 0$. $n<I$. Пусть $w_n\overset{(i)}{\Longrightarrow}w_{n+1}$. Каждое из правил $(1)$---$(4)$ не уменьшает разницу $|w|_a-|w|_b\equiv S(w)$:\newline$(1)$ и $(4)$ не изменяют операнды, $(2)$ и $(3)$ увеличивают каждое на 1, $(5)$ и $(6)$ увеличивает разницу на 1$\Rightarrow S(w_{n+1})\geqslant 0\Rightarrow P(n+1)$
+\item $P(n)\Rightarrow S(w_n)\geqslant 0$. $n<I$. Пусть $w_n\overset{(i)}{\Longrightarrow}w_{n+1}$. Каждое из правил $(1)$---$(4)$ не уменьшает разницу $|w|_a-|w|_b\equiv S(w)$:\newline$(1)$ и $(4)$ не изменяют операнды, $(2)$ и $(3)$ увеличивают каждое на 1, $(5)$ увеличивает разницу на 1$\Rightarrow S(w_{n+1})\geqslant 0\Rightarrow P(n+1)$
 \end{enumerate}
 Получаем $P(I)\Rightarrow S(w)\equiv S(w_I)\geqslant 0\Rightarrow w\in L$.
 \item $L\subset L(\Gamma)$. Докажем, что $\forall w\in L\,\exists w^=\in L^=\colon w$~--- слово $w_0$ с добавленными в некоторые позиции символами $a$. Действительно, рассмотрим $w$, удалим из него $S(w)$ любых символов $a$, получим $w_0$, $S(w_0)=0\Rightarrow w_0\in L^=$, и $w$ получается из $w_0$ добавлением символов $a$ (в те же позиции, с которых они были удалены).
@@ -158,5 +158,6 @@ $\alpha S\beta\overset{(1)}{\Longrightarrow}\alpha SS\beta\overset{(3)}{\Longrig
 Дальнейшее применение правил (после этой измененной части) останется возможным (см. выше), результатом будет <<старый>> результат, с $f(i)$ буквами $a$ после соответствующего символа (также показано ранее).\newline
 Таким образом получено слово $\acute{w}=\weqv_1...\weqv_ia^{f(i)}...\weqv_{\neqv}$, получен его вывод в $\Gamma$. Применим такие же рассуждения для остальных символов, получим вывод $w$ в $\Gamma$ $\Rightarrow w\in L(\Gamma)\,\blacksquare$
 \end{itemize}
+$\boxed{\mbox{Ответ: } \Gamma=\{\{S\},\Sigma,P,S\},\,P=\big\{S\longrightarrow SS\big|aSb\big|bSa\big|\varepsilon\big|aS\big\}.}$
 \section*{Задача 5}
 \end{document}
