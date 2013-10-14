@@ -10,6 +10,7 @@
 \usepackage{enumerate}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\,min}
 \usepackage{wasysym}
 \title{Теория и реализация языков программирования.\\Задание 6: Грамматики}
 \date{задано 2013.10.09}
@@ -37,7 +38,7 @@
 \section*{Задача 1}
 \section*{Задача 2}
 $\Sigma\eqdef\{a,b\}$, $\Sigma^*\supset L\eqdef\{w\in\Sigma^*\big|w=w^R\}$~--- язык палиндромов из $a,b$.
-\begin{enumerate}
+\begin{enumerate}[i.]
 \def\ansba{$\Gamma\eqdef(\{S\},\Sigma,P,S)$, $P\eqdef\big\{\underbrace{S\longrightarrow\varepsilon}_{(1)},\,\underbrace{S\longrightarrow aSa}_{(2)},\,\underbrace{S\longrightarrow bSb}_{(3)},\,\underbrace{S\longrightarrow a}_{(4)},\,\underbrace{S\longrightarrow b}_{(5)}\big\}$}
 \def\ansbac{\Gamma\eqdef(\{S\},\Sigma,P,S)$, $P\eqdef\big\{S\longrightarrow\varepsilon\big|aSa\big|bSb\big|a\big|b\big\}}
 \item Определим КС-грамматику \ansba.\newline
@@ -89,8 +90,18 @@ $\boxed{\mbox{Ответ: }\ansbac.}$
 \\[5pt]
 {\em Пояснение: $D$ порождает $\Sigma^*$. $S$ порождает непалиндромы. Если первый и последний символ непалиндрома различны, то между ними может быть все, что угодно, а если они одинаковые, то между ними должен быть непалиндром.}
 \begin{enumerate}[1.]
-\item Докажем $D\Longrightarrow^* w\in\Sigma\Leftrightarrow w\in \Sigma^*$, что равносильно $w\in \Sigma^*\Rightarrow D\Longrightarrow^* w$. Если $w=\varepsilon$, то применим $D\overset{(3)}{\Longrightarrow}\varepsilon\equiv w$. Иначе $w=w_1...w_n,\,\forall i\in\overline{1,n}\hookrightarrow w_i\in\Sigma$. Рассмотрим символы $w_1,...,w_n$, если $w_i=a$, применим $(1)$, иначе применим $(2)$. Примененное правило обозначим за $P(i)$. Тогда $D\overset{P(1)}{\Longrightarrow}w_1D\overset{P(2)}{\Longrightarrow}...\overset{P(n)}{\Longrightarrow}w_1...w_nD\overset{(3)}{\Longrightarrow}w_1...w_n\equiv w$.
+\item \label{dall} Докажем $D\Longrightarrow^* w\in\Sigma\Leftrightarrow w\in \Sigma^*$, что равносильно $w\in \Sigma^*\Rightarrow D\Longrightarrow^* w$. Если $w=\varepsilon$, то применим $D\overset{(3)}{\Longrightarrow}\varepsilon\equiv w$. Иначе $w=w_1...w_n,\,\forall i\in\overline{1,n}\hookrightarrow w_i\in\Sigma$. Рассмотрим символы $w_1,...,w_n$, если $w_i=a$, применим $(1)$, иначе применим $(2)$. Примененное правило обозначим за $P(i)$. Тогда $D\overset{P(1)}{\Longrightarrow}w_1D\overset{P(2)}{\Longrightarrow}...\overset{P(n)}{\Longrightarrow}w_1...w_nD\overset{(3)}{\Longrightarrow}w_1...w_n\equiv w$.
+\def\go{\overline{\Gamma}}
+\def\lo{\overline{L}}
+\item Рассмотрим вывод в $\go$ (из $S$). Заметим, что правила $(6)$, $(7)$ не изменяют количество вхождений $S$ (оно остается равным 1). Правила $(4)$ и $(5)$ уменьшают количество $S$ на 1. Поэтому в начале вывода несколько применений правил $(6)$ и $(7)$, затем применение $(4)$ или $(5)$.
+\item Правила $(6)$ и $(7)$ сохраняют количество символов перед и после $S\Rightarrow$ после применений этих правил перед и после $S$ одинаковое число символов.
+\item Докажем $L(\go)=\lo$:\begin{enumerate}[1.]
+\item $w\in L(\go)$. Рассмотрим вывод $w$. Как было показано, перед применением правил $(6)$ или $(7)$ слово имеет вид $xSy$, $|x|=|y|,\,x,y\in\Sigma^*$. Применим $(4)$, получим $xaDby$. Пусть $D$ порождает $w_D\in\Sigma^*$. Тогда получим $w=xaw_Dby\in\Sigma^*$. Но $|x|=|y|$, поэтому $w[|x|+1]=a\neq b=w[|w|-(|x|+1)+1]\Rightarrow w\notin L\Rightarrow w\in\lo$. Аналогично при применении $(5)$. $\blacksquare$
+\item $w\in\lo$. $n\eqdef |w|$. Пусть $i=\min\{i\in\overline{1,n}\big|w[i]\neq w[n-i+1]\}$ {\em (первое несовпадение)}.\newline
+Пусть $w=xaw_Dbx^R$ (случай $w=xbw_Dax^R$ аналогичный). Рассмотрим символы $x=x_1...x_k$. Если $x_i=a$, применим правило $(6)$, если $x_i=b$, применим $(7)$. Примененное правило обозначим за $P(i)$. Получаем $S\overset{P(1)}{\Longrightarrow}x_1Sx_1\overset{P(2)}{\Longrightarrow}...\overset{P(k)}{\Longrightarrow}x_1...x_kSx_k...x_1\equiv xSx^R\overset{(4)}{\Longrightarrow}xaDbx^R$. В случае $w=xbw_Dax^R$ нужно последним применить $(5)$ вместо $(4)$. $w_D\in\Sigma^*$. В \ref{dall} было показано, что $D\Longrightarrow^* w_D$. Поэтому $S\overset{\mbox{\tiny см. ранее}}{\Longrightarrow^*}xaDbx^R\Longrightarrow^*xaw_Dx^R$.
 \end{enumerate}
+\end{enumerate}
+$\boxed{\mbox{Ответ: } \overline{\Gamma}=\{\{S,D\},\Sigma,\overline{P},S\},\,\overline{P}=\big\{D\longrightarrow aD|bD|\varepsilon,\,S\longrightarrow aSa|bSb|aDb|bDa\big\}.}$
 \end{enumerate}
 \section*{Задача 3}
 $\Sigma\eqdef\{a,b\}$. $\Sigma^*\supset L\eqdef L^=\eqdef\{w\in\Sigma^*\big||w|_a=|w|_b\}$. КС-грамматика $\Gamma=\{N,\Sigma,P,S\}$,\newline
