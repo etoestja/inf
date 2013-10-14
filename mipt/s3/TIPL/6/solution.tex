@@ -85,7 +85,12 @@ $\Sigma\eqdef\{a,b\}$, $\Sigma^*\supset L\eqdef\{w\in\Sigma^*\big|w=w^R\}$~--- �
 Получаем $w\in L(\Gamma)$.\newline
 $\boxed{\mbox{Ответ: }\ansbac.}$
 \end{enumerate}
-\item Определим грамматику $\overline{\Gamma}$
+\item Определим грамматику $\overline{\Gamma}=\{\{S,D\},\Sigma,\overline{P},S\}$, $\overline{P}=\big\{D\longrightarrow \underbrace{aD}_{(1)}|\underbrace{bD}_{(2)}|\underbrace{\varepsilon}_{(3)},\,S\longrightarrow \underbrace{aDb}_{(4)}|\underbrace{bDa}_{(5)}|\underbrace{aSa}_{(6)}|\underbrace{bSb}_{(7)}\big\}$.
+\\[5pt]
+{\em Пояснение: $D$ порождает $\Sigma^*$. $S$ порождает непалиндромы. Если первый и последний символ непалиндрома различны, то между ними может быть все, что угодно, а если они одинаковые, то между ними должен быть непалиндром.}
+\begin{enumerate}[1.]
+\item Докажем $D\Longrightarrow^* w\in\Sigma\Leftrightarrow w\in \Sigma^*$, что равносильно $w\in \Sigma^*\Rightarrow D\Longrightarrow^* w$. Если $w=\varepsilon$, то применим $D\overset{(3)}{\Longrightarrow}\varepsilon\equiv w$. Иначе $w=w_1...w_n,\,\forall i\in\overline{1,n}\hookrightarrow w_i\in\Sigma$. Рассмотрим символы $w_1,...,w_n$, если $w_i=a$, применим $(1)$, иначе применим $(2)$. Примененное правило обозначим за $P(i)$. Тогда $D\overset{P(1)}{\Longrightarrow}w_1D\overset{P(2)}{\Longrightarrow}...\overset{P(n)}{\Longrightarrow}w_1...w_nD\overset{(3)}{\Longrightarrow}w_1...w_n\equiv w$.
+\end{enumerate}
 \end{enumerate}
 \section*{Задача 3}
 $\Sigma\eqdef\{a,b\}$. $\Sigma^*\supset L\eqdef L^=\eqdef\{w\in\Sigma^*\big||w|_a=|w|_b\}$. КС-грамматика $\Gamma=\{N,\Sigma,P,S\}$,\newline
