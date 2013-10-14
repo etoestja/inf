@@ -88,7 +88,7 @@ $\boxed{\mbox{Ответ: }\ansbac}$
 \item Определим грамматику $\overline{\Gamma}$
 \end{enumerate}
 \section*{Задача 3}
-$\Sigma\eqdef\{a,b\}$. $\Sigma^*\supset L^=\eqdef\{w\in\Sigma^*\big||w|_a=|w|_b\}$. КС-грамматика $\Gamma=\{N,\Sigma,P,S\}$,\newline
+$\Sigma\eqdef\{a,b\}$. $\Sigma^*\supset L\eqdef L^=\eqdef\{w\in\Sigma^*\big||w|_a=|w|_b\}$. КС-грамматика $\Gamma=\{N,\Sigma,P,S\}$,\newline
 $P\eqdef\big\{\underbrace{S\longrightarrow SS}_{(1)},\,\underbrace{S\longrightarrow aSb}_{(2)},\,\underbrace{S\longrightarrow bSa}_{(3)},\,\underbrace{S\longrightarrow \varepsilon}_{(4)}\big\}$.\newline
 Докажем, что $L(\Gamma)=L^=$:\begin{itemize}
 \item $L(\Gamma)\subset L$. $w\in L(\Gamma)\Rightarrow S\Longrightarrow^* w$. Пусть $\{w_k\}_{k=0}^I\subset (N\cup \Sigma)^*$~--- последовательность слов при выводе.\newline
@@ -123,6 +123,40 @@ $P(m)\eqdef \big[\forall w\in L\colon |w|=2m\hookrightarrow w\in L(\Gamma)\big]$
 %\item $S\longrightarrow bSa\big\}$
 %\end{enumerate}
 \section*{Задача 4}
-$\Sigma\eqdef\{a,b\}$, $\Sigma^*\supset L\eqdef\{w\in\Sigma^*\big||w|_b\leqslant|w|_a\}$. Определим грамматику $\Gamma$.
+$\Sigma\eqdef\{a,b\}$, $\Sigma^*\supset L\eqdef\{w\in\Sigma^*\big||w|_b\leqslant|w|_a\}\equiv\{w\in\Sigma^*\big|S(w)\geqslant 0\}$ {\em (определение $S(w)$ см. в задаче 3)}.\newline
+Определим КС-грамматику $\Gamma=\{\{S\},\Sigma,P,S\}$,\newline
+$P\eqdef\big\{\underbrace{S\longrightarrow SS}_{(1)},\,\underbrace{S\longrightarrow aSb}_{(2)},\,\underbrace{S\longrightarrow bSa}_{(3)},\,\underbrace{S\longrightarrow \varepsilon}_{(4)},\,\underbrace{S\longrightarrow aS}_{(5)},\,\underbrace{S\longrightarrow Sa}_{(6)}\big\}$\newline (добавим в грамматику из предыдущей задачи правила $S\longrightarrow Sa$ и $S\longrightarrow aS$).\newline
+Докажем, что $L(\Gamma)=L$:\begin{itemize}
+\item $L(\Gamma)\subset L$. $w\in L(\Gamma)\Rightarrow S\Longrightarrow^* w$. Пусть $\{w_k\}_{k=0}^I\subset (N\cup \Sigma)^*$~--- последовательность слов при выводе.\newline
+$P(k)\eqdef\big[S(w_k)\geqslant 0\big]$. Докажем, что $\forall k\in\overline{0,I}\hookrightarrow P(k)$:\begin{enumerate}[1.]
+\item $k=0\Rightarrow w_k\equiv w_0=S$. $|w_k|_a=|S|_a=0=|S|_b=|w_k|_b\Rightarrow P(0)$.
+\item $P(n)\Rightarrow S(w_n)\geqslant 0$. $n<I$. Пусть $w_n\overset{(i)}{\Longrightarrow}w_{n+1}$. Каждое из правил $(1)$---$(4)$ не уменьшает разницу $|w|_a-|w|_b\equiv S(w)$:\newline$(1)$ и $(4)$ не изменяют операнды, $(2)$ и $(3)$ увеличивают каждое на 1, $(5)$ и $(6)$ увеличивает разницу на 1$\Rightarrow S(w_{n+1})\geqslant 0\Rightarrow P(n+1)$
+\end{enumerate}
+Получаем $P(I)\Rightarrow S(w)\equiv S(w_I)\geqslant 0\Rightarrow w\in L$.
+\item $L\subset L(\Gamma)$. Докажем, что $\forall w\in L\,\exists w^=\in L^=\colon w$~--- слово $w_0$ с добавленными в некоторые позиции символами $a$. Действительно, рассмотрим $w$, удалим из него $S(w)$ любых символов $a$, получим $w_0$, $S(w_0)=0\Rightarrow w_0\in L^=$, и $w$ получается из $w_0$ добавлением символов $a$ (в те же позиции, с которых они были удалены).
+\\[5pt]
+\def\neqv{n^=}
+\def\weqv{w^=}
+\def\ieq{^=}
+Фиксируем $w\in L$, $|w|=n$; $w^=$ найдем из доказанного утверждения выше. $|w^=|=\neqv$, $w^=\in L^=\Rightarrow \exists \{x_i\}^I_{i=0}\subset\{S\}\cup \Sigma^*$~--- последовательность слов при выводе слова $w^=$ в грамматике $\Gamma^=$ {\em из предыдущей задачи}, $\{p_i\}_{i=1}^I$~--- примененные правила.\newline
+Определим $f\colon \overline{1,\neqv}\longrightarrow {\mathbb N}\cup\{0\}$: $f(i)$~--- количество букв $a$, которые нужно добавить после $i$-го символа $\weqv$, чтобы получить после всех добавлений $w$, то есть, $w=\weqv_1a^{f(1)}\weqv_2a^{f(2)}...\weqv_na^{f(\neqv)}$.
+\\[5pt]
+Модифицируем вывод, добавив буквы $a$.
+\\[5pt]
+Заметим, что если в $\Gamma$ было применено правило $\alpha_1\alpha_2S\alpha_3\Longrightarrow\alpha_1\alpha_2\beta\alpha_3$, то после добавления символа $a$ то же правило из $\Gamma$ также может быть применено: $\alpha_1a\alpha_2S\alpha_3\Longrightarrow\alpha_1a\alpha_2\beta\alpha_3$, аналогично в случае, где $a$ добавлено после $S$. Иными словами, добавление букв $a$ оставляет возможность применить те же правила к тем же символам $S$ в последующих шагах вывода, причем результатом будет слово с добавленной буквой $a$. Такие же рассуждения применимы к добавлению многих букв $a$.
+\\[5pt]
+Каждый символ $\weqv_i$ был получен из правил $(2)$ или $(3)$ грамматики $\Gamma\ieq$ (остальные правила не добавляют терминалов). Пусть это произошло на $j(i)$-м шаге вывода. Покажем, как модифицировать этот шаг, чтобы после $i$-го символа $\weqv$ добавить $f(i)$ букв $a$:\begin{enumerate}
+\item $\weqv_i=a,\,p_{j(i)}=(2)$. То есть $x_{j(i)-1}\equiv\alpha S\beta\overset{(2)}{\Longrightarrow}\alpha \underline{a}Sb\beta\equiv x_{j(i)}$. Заменим это на\newline
+$\alpha S\beta\overset{(2)}{\Longrightarrow}\alpha \underline{a}Sb\beta\underbrace{\overset{(5)}{\Longrightarrow}\alpha \underline{a}aSb\beta\overset{(5)}{\Longrightarrow}...\overset{(5)}{\Longrightarrow}\alpha \underline{a}a^{f(i)}Sb\beta}_{f(i)\mbox{ раз}}$~--- верное применение правил в $\Gamma$.
+\item $\weqv_i=a,\,p_{j(i)}=(3)$. То есть $x_{j(i)-1}\equiv\alpha S\beta\overset{(3)}{\Longrightarrow}\alpha  bS\underline{a}\beta\equiv x_{j(i)}$. Заменим это на\newline
+$\alpha S\beta\overset{(1)}{\Longrightarrow}\alpha SS\beta\overset{(2)}{\Longrightarrow}\alpha bS\underline{a}S\beta\underbrace{\overset{(5)}{\Longrightarrow}\alpha bS\underline{a}aS\beta\overset{(5)}{\Longrightarrow}...\overset{(5)}{\Longrightarrow}\alpha bS\underline{a}a^{f(i)}S\beta}_{f(i)\mbox{ раз}}\overset{(4)}{\Longrightarrow}\alpha bS\underline{a}a^{f(i)}\beta$~--- верное применение правил в $\Gamma$.
+\item $\weqv_i=b,\,p_{j(i)}=(3)$. То есть $x_{j(i)-1}\equiv\alpha S\beta\overset{(3)}{\Longrightarrow}\alpha \underline{b}Sa\beta\equiv x_{j(i)}$. Заменим это на\newline
+$\alpha S\beta\overset{(3)}{\Longrightarrow}\alpha \underline{b}Sa\beta\underbrace{\overset{(5)}{\Longrightarrow}\alpha \underline{b}aSa\beta\overset{(5)}{\Longrightarrow}...\overset{(5)}{\Longrightarrow}\alpha \underline{b}a^{f(i)}Sa\beta}_{f(i)\mbox{ раз}}$~--- верное применение правил в $\Gamma$.
+\item $\weqv_i=b,\,p_{j(i)}=(2)$. То есть $x_{j(i)-1}\equiv\alpha S\beta\overset{(2)}{\Longrightarrow}\alpha  aS\underline{b}\beta\equiv x_{j(i)}$. Заменим это на\newline
+$\alpha S\beta\overset{(1)}{\Longrightarrow}\alpha SS\beta\overset{(3)}{\Longrightarrow}\alpha aS\underline{b}S\beta\underbrace{\overset{(5)}{\Longrightarrow}\alpha aS\underline{b}aS\beta\overset{(5)}{\Longrightarrow}...\overset{(5)}{\Longrightarrow}\alpha aS\underline{b}a^{f(i)}S\beta}_{f(i)\mbox{ раз}}\overset{(4)}{\Longrightarrow}\alpha aS\underline{b}a^{f(i)}\beta$~--- верное применение правил в $\Gamma$.
+\end{enumerate}
+Дальнейшее применение правил (после этой измененной части) останется возможным (см. выше), результатом будет <<старый>> результат, с $f(i)$ буквами $a$ после соответствующего символа (также показано ранее).\newline
+Таким образом получено слово $\acute{w}=\weqv_1...\weqv_ia^{f(i)}...\weqv_{\neqv}$, получен его вывод в $\Gamma$. Применим такие же рассуждения для остальных символов, получим вывод $w$ в $\Gamma$ $\Rightarrow w\in L(\Gamma)\,\blacksquare$
+\end{itemize}
 \section*{Задача 5}
 \end{document}
