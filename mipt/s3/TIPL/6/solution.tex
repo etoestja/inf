@@ -8,6 +8,7 @@
 \usetikzlibrary{automata,positioning,arrows}
 \usepackage{amsmath}
 \usepackage{enumerate}
+\usepackage{hyperref}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -36,6 +37,50 @@
 \begin{document}
 \maketitle
 \section*{Задача 1}
+{\em Идея взята у Николая Ионанова (272), с Хабрахабра, из книги Серебрякова.}\newline
+$\Sigma\eqdef\{a\}$. $\Sigma^*\supset L\eqdef\{a^{n^2}\big|n\in{\mathbb N}\cup \{0\} \}$. $\Gamma\eqdef (N,\Sigma,P,S)$. $N\eqdef \{S,A,B,C,D\}$. Список правил $P$:
+\begin{enumerate}[(1)]
+\item Правила, порождающие $S\Longrightarrow^* LA^nCB^nR$:\begin{enumerate}[1.]
+\item \label{rS} $S\longrightarrow LDR$
+\item \label{rDAB} $D\longrightarrow ADB$
+\item \label{rDeps} $D\longrightarrow C$
+\end{enumerate}
+\item Правила, реализующие $LA^nCB^nR\Longrightarrow^* a^{n^2}$.\begin{enumerate}[1.]
+\item \label{rACB} $ACB \longrightarrow BACa$~--- $AC$ и $B$ меняются с порождением $a$ ($AC$ движется вправо)
+\item \label{rACa} $ACa \longrightarrow aAC$~--- $AC$ и $a$ меняются ($AC$ движется вправо)
+\item \label{rACR} $ACR \longrightarrow CR$~--- символ $A$ удаляется, когда дошел до правого конца строки с $R$
+\item \label{rBC} $BC \longrightarrow CB$~--- $B$ и $C$ меняются ($C$ движется влево)
+\item \label{raC} $aC \longrightarrow Ca$~--- $a$ и $C$ меняются ($C$ движется влево)
+\item \label{rLa} $La \longrightarrow aL$~--- $L$ и $a$ меняются ($L$ движется вправо)
+\item \label{rLCa} $LCa \longrightarrow aLC$~--- $LC$ и $a$ меняются ($LC$ движется вправо)
+\item \label{rLCB}$LCB \longrightarrow LC$~--- <<$LC$ удаляет $B$>>
+\item \label{rLCR}$LCR \longrightarrow \varepsilon$~--- $LCR$ удаляются (конец)
+\end{enumerate}
+\end{enumerate}
+\subsection*{Объяснение}
+Первая часть порождает $S\Longrightarrow^* LA^nSB^nR$. Далее последний символ $A$ вместе с $C$ движется направо (правила \ref{rACB}, \ref{rACa}), порождая один символ $a$ при проходе через $B$ (правило \ref{rACB}). Всего символов $B$ $n$, поэтому каждая из $n$ $A$ породит $n$ символов $a$. Когда $AC$ дойдет до $R$, симол $A$ удалится (правило \ref{rACR}). Далее символ $C$ пойдет налево до первого символа $A$ (правила \ref{rBC} и \ref{raC}). Образуется подстрока $AC$, которая, двигаясь вправо к $R$, породит $n$ символов $a$. Когда все символы $A$ будут удалены, получим $n^2$ символов $a$, $C$ будет слева, рядом с $L$. $LC$ будет двигаться направо к $R$ (правила \ref{r)
+\subsection*{Доказательство}
+\begin{enumerate}
+\item Рассмотрим вывод слова $w$ в $\Gamma$. Пусть $\{x_k\}_{k=0}^I$~--- последовательность слов при выводе, $\{p_k\}_{k=1}^I$~--- примененные правила.
+\item Докажем, что $\exists k_0\colon \forall k> k_0\hookrightarrow p_k\mbox{ из } (2),\,\forall k\leqslant k_0\hookrightarrow p_k\mbox{ из } (1)$. \begin{enumerate}
+\item $x_0=S$
+\item $S$ есть слева только в \ref{rS}, поэтому $p_1=$\ref{rS}. Поэтому $w_2=LDR$.
+\item К $LDR$ нельзя применить никакие правила, кроме \ref{rDAB} и \ref{rDeps}. Получим $LADBR$ или $LCR$.
+\item К $LADBR$ аналогично нельзя применить ничего, кроме \ref{rDAB} и \ref{rDeps}. Получим $LAADBBR$ или $LACBR$.
+\item Повторяя рассуждения, получим, что $\exists k_0\colon x_{k_0-1}\overset{\ref{rDeps}}{\Longrightarrow} x_{k_0}=LA^nCB^nR$.
+\item Далее правила из $(1)$ не могут быть применены, так как в слове нет ни $S$, ни $D$, и правила из $(2)$ не порождают эти символы. Значит, далее правила из $(2)$.
+\end{enumerate}
+\end{enumerate}
+\subsection*{Демонстрация работы грамматики}
+После применения правил из $(1)$ дальнейшее применение правил определено однозначно. Следующая программа моделирует вывод слова $a^{n^2}$ из $LA^nCB^nR$, используя правила из $(2)$:\newline
+\href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s3/TIPL/6/KCsim.cpp}{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s3/TIPL/6/KCsim.cpp}~--- исходный код,\newline \href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s3/TIPL/6/task1KC}{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s3/TIPL/6/task1KC}~--- правила и входная строка. Запускать:
+\begin{verbatim}
+$ g++ KCsim.cpp -o KCsim
+$ cat task1KC | ./KCsim
+\end{verbatim}
+Результат работы (пример вывода $LA^2CB^2R\Longrightarrow^* a^{2^2}\equiv a^4$):\newline
+{\em Над стрелками указаны правила из $(2)$. Подчеркнута та часть, которая будет заменена.}\newline
+$LA\underline{ACB}BR \overset{(1)}{\Longrightarrow}LAB\underline{ACa}BR \overset{(2)}{\Longrightarrow}LABa\underline{ACB}R \overset{(1)}{\Longrightarrow}LABaB\underline{ACa}R \overset{(2)}{\Longrightarrow}LABaBa\underline{ACR} \overset{(3)}{\Longrightarrow}LABaB\underline{aC}R \overset{(5)}{\Longrightarrow}LABa\underline{BC}aR \overset{(4)}{\Longrightarrow}LAB\underline{aC}BaR \overset{(5)}{\Longrightarrow}LA\underline{BC}aBaR \overset{(4)}{\Longrightarrow}L\underline{ACB}aBaR \overset{(1)}{\Longrightarrow}LB\underline{ACa}aBaR \overset{(2)}{\Longrightarrow}LBa\underline{ACa}BaR \overset{(2)}{\Longrightarrow}LBaa\underline{ACB}aR \overset{(1)}{\Longrightarrow}LBaaB\underline{ACa}aR \overset{(2)}{\Longrightarrow}LBaaBa\underline{ACa}R \overset{(2)}{\Longrightarrow}LBaaBaa\underline{ACR} \overset{(3)}{\Longrightarrow}LBaaBa\underline{aC}R \overset{(5)}{\Longrightarrow}LBaaB\underline{aC}aR \overset{(5)}{\Longrightarrow}LBaa\underline{BC}aaR \overset{(4)}{\Longrightarrow}LBa\underline{aC}BaaR \overset{(5)}{\Longrightarrow}LB\underline{aC}aBaaR \overset{(5)}{\Longrightarrow}L\underline{BC}aaBaaR \overset{(4)}{\Longrightarrow}\underline{LCB}aaBaaR \overset{(8)}{\Longrightarrow}\underline{LCa}aBaaR \overset{(7)}{\Longrightarrow}a\underline{LCa}BaaR \overset{(7)}{\Longrightarrow}aa\underline{LCB}aaR \overset{(8)}{\Longrightarrow}aa\underline{LCa}aR \overset{(7)}{\Longrightarrow}aaa\underline{LCa}R \overset{(7)}{\Longrightarrow}aaaa\underline{LCR} \overset{(9)}{\Longrightarrow}aaaa$
 \section*{Задача 2}
 $\Sigma\eqdef\{a,b\}$, $\Sigma^*\supset L\eqdef\{w\in\Sigma^*\big|w=w^R\}$~--- язык палиндромов из $a,b$.
 \begin{enumerate}[i.]
