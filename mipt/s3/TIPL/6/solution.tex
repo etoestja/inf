@@ -49,17 +49,17 @@ $\Sigma\eqdef\{a\}$. $\Sigma^*\supset L\eqdef\{a^{n^2}\big|n\in{\mathbb N}\cup \
 \item \label{rACB} $ACB \longrightarrow BACa$~--- $AC$ и $B$ меняются с порождением $a$ ($AC$ движется вправо)
 \item \label{rACa} $ACa \longrightarrow aAC$~--- $AC$ и $a$ меняются ($AC$ движется вправо)
 \item \label{rACR} $ACR \longrightarrow CR$~--- символ $A$ удаляется, когда дошел до правого конца строки с $R$
-\item \label{rBC} $BC \longrightarrow CB$~--- $B$ и $C$ меняются ($C$ движется влево)
-\item \label{raC} $aC \longrightarrow Ca$~--- $a$ и $C$ меняются ($C$ движется влево)
-\item \label{rLa} $La \longrightarrow aL$~--- $L$ и $a$ меняются ($L$ движется вправо)
+\item \label{rBC}  $BC \longrightarrow CB$~--- $B$ и $C$ меняются ($C$ движется влево)
+\item \label{raC}  $aC \longrightarrow Ca$~--- $a$ и $C$ меняются ($C$ движется влево)
 \item \label{rLCa} $LCa \longrightarrow aLC$~--- $LC$ и $a$ меняются ($LC$ движется вправо)
-\item \label{rLCB}$LCB \longrightarrow LC$~--- <<$LC$ удаляет $B$>>
-\item \label{rLCR}$LCR \longrightarrow \varepsilon$~--- $LCR$ удаляются (конец)
+\item \label{rLCB} $LCB \longrightarrow LC$~--- <<$LC$ удаляет $B$>>
+\item \label{rLCR} $LCR \longrightarrow \varepsilon$~--- $LCR$ удаляются (конец)
 \end{enumerate}
 \end{enumerate}
 \subsection*{Объяснение}
-Первая часть порождает $S\Longrightarrow^* LA^nSB^nR$. Далее последний символ $A$ вместе с $C$ движется направо (правила \ref{rACB}, \ref{rACa}), порождая один символ $a$ при проходе через $B$ (правило \ref{rACB}). Всего символов $B$ $n$, поэтому каждая из $n$ $A$ породит $n$ символов $a$. Когда $AC$ дойдет до $R$, симол $A$ удалится (правило \ref{rACR}). Далее символ $C$ пойдет налево до первого символа $A$ (правила \ref{rBC} и \ref{raC}). Образуется подстрока $AC$, которая, двигаясь вправо к $R$, породит $n$ символов $a$. Когда все символы $A$ будут удалены, получим $n^2$ символов $a$, $C$ будет слева, рядом с $L$. $LC$ будет двигаться направо к $R$ (правила \ref{r)
+Первая часть $(1)$ порождает $S\Longrightarrow^* LA^nSB^nR$. Далее последний символ $A$ вместе с $C$ движется направо (правила \ref{rACB}, \ref{rACa}), порождая один символ $a$ при проходе через $B$ (правило \ref{rACB}). Всего символов $B$ $n$, поэтому каждая из $n$ $A$ породит $n$ символов $a$. Когда $AC$ дойдет до $R$, симол $A$ удалится (правило \ref{rACR}). Далее символ $C$ пойдет налево до первого символа $A$ (правила \ref{rBC} и \ref{raC}). Образуется подстрока $AC$, которая, двигаясь вправо к $R$, породит $n$ символов $a$. Так будет повторяться, пока не будут удалены все $A$. После получим $n^2$ символов $a$, $C$ будет слева, рядом с $L$. $LC$ будет двигаться направо к $R$ (правила \ref{rLCB}, \ref{rLCa}), удаляя $B$ (правило \ref{rLCB}). Когда $LC$ дойдет до $R$, они удалятся (правило \ref{rLCR}). Получим строку $a^{n^2}$.
 \subsection*{Доказательство}
+{\em{(Доказательство не дописано)}}
 \begin{enumerate}
 \item Рассмотрим вывод слова $w$ в $\Gamma$. Пусть $\{x_k\}_{k=0}^I$~--- последовательность слов при выводе, $\{p_k\}_{k=1}^I$~--- примененные правила.
 \item Докажем, что $\exists k_0\colon \forall k> k_0\hookrightarrow p_k\mbox{ из } (2),\,\forall k\leqslant k_0\hookrightarrow p_k\mbox{ из } (1)$. \begin{enumerate}
@@ -70,7 +70,9 @@ $\Sigma\eqdef\{a\}$. $\Sigma^*\supset L\eqdef\{a^{n^2}\big|n\in{\mathbb N}\cup \
 \item Повторяя рассуждения, получим, что $\exists k_0\colon x_{k_0-1}\overset{\ref{rDeps}}{\Longrightarrow} x_{k_0}=LA^nCB^nR$.
 \item Далее правила из $(1)$ не могут быть применены, так как в слове нет ни $S$, ни $D$, и правила из $(2)$ не порождают эти символы. Значит, далее правила из $(2)$.
 \end{enumerate}
+\item После $k_0$ правила только из $(2)$. Докажем, что вывод может иметь только тот вид, который описан в объяснении (на каждом шаге покажем, что другие правила не могли быть применены). Также докажем, что описанный вывод существует при всех $n$.
 \end{enumerate}
+Получаем, что $\forall n$ из $LA^nCB^nR$ существует вывод только $a^{n^2}$. И $\forall n$ из $S$ существует вывод только $LA^nCB^nR$. Также доказано, что в выводе сначала правила из $(1)$, а затем из $(2)$. Поэтому $\forall n$ из $S$ существует вывод только $a^{n^2}$ (правило \ref{rDAB} нужно применить $n$ раз). Поэтому $L(\Gamma)=L\,\blacksquare$
 \subsection*{Демонстрация работы грамматики}
 После применения правил из $(1)$ дальнейшее применение правил определено однозначно. Следующая программа моделирует вывод слова $a^{n^2}$ из $LA^nCB^nR$, используя правила из $(2)$:\newline
 \href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s3/TIPL/6/KCsim.cpp}{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s3/TIPL/6/KCsim.cpp}~--- исходный код,\newline \href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s3/TIPL/6/task1KC}{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s3/TIPL/6/task1KC}~--- правила и входная строка. Запускать:
