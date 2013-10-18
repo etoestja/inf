@@ -1,0 +1,242 @@
+ \documentclass[12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}        % Кодировка входного документа;
+                                    % при необходимости, вместо cp1251
+                                    % можно указать cp866 (Alt-кодировка
+                                    % DOS) или koi8-r.
+
+\usepackage[english,russian]{babel} % Включение русификации, русских и
+                                    % английских стилей и переносов
+%%\usepackage{a4}
+%%\usepackage{moreverb}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,amsbsy,amstext,amscd,amsxtra,multicol}
+\usepackage{verbatim}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning}
+\usepackage{multicol} %Несколько колонок
+\usepackage{graphicx}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage[stable]{footmisc}
+
+%% \voffset-5mm
+%% \def\baselinestretch{1.44}
+\renewcommand{\theequation}{\arabic{equation}}
+\def\hm#1{#1\nobreak\discretionary{}{\hbox{$#1$}}{}}
+\newtheorem{Lemma}{Лемма}
+\theoremstyle{definiton}
+\newtheorem{Remark}{Замечание}
+%%\newtheorem{Def}{Определение}
+\newtheorem{Claim}{Утверждение}
+\newtheorem{Cor}{Следствие}
+\newtheorem{Theorem}{Теорема}
+\theoremstyle{definition}
+\newtheorem{Example}{Пример}
+\newtheorem*{known}{Теорема}
+\def\proofname{Доказательство}
+\theoremstyle{definition}
+\newtheorem{Def}{Определение}
+
+%% \newenvironment{Example} % имя окружения
+%% {\par\noindent{\bf Пример.}} % команды для \begin
+%% {\hfill$\scriptstyle\qed$} % команды для \end
+
+
+
+
+
+
+%\date{22 июня 2011 г.}
+\let\leq\leqslant
+\let\geq\geqslant
+\def\MT{\mathrm{MT}}
+%Обозначения ``ажуром''
+\def\BB{\mathbb B}
+\def\CC{\mathbb C}
+\def\RR{\mathbb R}
+\def\SS{\mathbb S}
+\def\ZZ{\mathbb Z}
+\def\NN{\mathbb N}
+\def\FF{\mathbb F}
+%греческие буквы
+\let\epsilon\varepsilon
+\let\es\emptyset
+\let\eps\varepsilon
+\let\al\alpha
+\let\sg\sigma
+\let\ga\gamma
+\let\ph\varphi
+\let\om\omega
+\let\ld\lambda
+\let\Ld\Lambda
+\let\vk\varkappa
+\let\Om\Omega
+\def\abstractname{}
+
+\let\yield\Rightarrow
+
+\def\R{{\cal R}}
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+\def\D{{\cal D}}
+\let\w\omega
+
+%классы сложности
+\def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
+\newcounter{problem}
+\newcounter{uproblem}
+\newcounter{subproblem}
+\def\pr{\medskip\noindent\stepcounter{problem}{\bf \theproblem .  }\setcounter{subproblem}{0} }
+\def\prstar{\medskip\noindent\stepcounter{problem}{\bf $\theproblem^*$\negthickspace.  }\setcounter{subproblem}{0} }
+\def\prpfrom[#1]{\medskip\noindent\stepcounter{problem}{\bf Задача \theproblem~(№#1 из задания).  }\setcounter{subproblem}{0} }
+\def\prp{\medskip\noindent\stepcounter{problem}{\bf Задача \theproblem .  }\setcounter{subproblem}{0} }
+\def\prpstar{\medskip\noindent\stepcounter{problem}{\bf Задача $\bf\theproblem^*$\negthickspace.  }\setcounter{subproblem}{0} }
+\def\prdag{\medskip\noindent\stepcounter{problem}{\bf Задача $\theproblem^{^\dagger}$\negthickspace\,.  }\setcounter{subproblem}{0} }
+\def\upr{\medskip\noindent\stepcounter{uproblem}{\bf Упражнение \theuproblem .  }\setcounter{subproblem}{0} }
+%\def\prp{\vspace{5pt}\stepcounter{problem}{\bf Задача \theproblem .  } }
+%\def\prs{\vspace{5pt}\stepcounter{problem}{\bf \theproblem .*   }
+\def\prsub{\medskip\noindent\stepcounter{subproblem}{\rm \thesubproblem .  } }
+\def\prsubr{\medskip\noindent\stepcounter{subproblem}{\rm \thesubproblem)  } }
+\def\prsubstar{\medskip\noindent\stepcounter{subproblem}{\rm $\thesubproblem^*$\negthickspace.  } }
+\def\prsubrstar{\medskip\noindent\stepcounter{subproblem}{\rm $\thesubproblem^*$)  } }
+%прочее
+\def\quotient{\backslash\negthickspace\sim}
+\begin{document}
+\centerline{\LARGE Задание 7}
+
+\medskip
+
+\begin{center}
+	{\Large Контекстно-свобобные языки и магазинные автоматы}
+\end{center}
+
+\bigskip
+
+
+
+{\bf Ключевые слова }\footnote{минимальный необходимый объем понятий и навыков по
+этому разделу)}:{\em  язык, контекстно-свободный язык, магазинный автомат, грамматика, метод математической индукции. %примеры нерегулярных языков;
+%поиск подстрок, алгоритм Кнута- Морисса- Пратта.
+
+%языки скобочных выражений (языки Дика). 
+}
+
+\section{МП-автоматы }
+
+\subsection{Определения}
+
+Моделью вычислений, распознающей класс контекстно-свободных языков ($\CFL$), является автомат с магазинной памятью.
+
+Под магазинной памятью понимается стек. Вы должны быть знакомы со стеком из курса информатики, но на всякий случай я скажу про него пару слов. Неформально, стек -- это стопка, например такая как колода карт. Работать со стеком можно следующим образом: карты можно брать только последовательно с верхушки колоды -- если вы хотите вытащить вторую карту, то сначала вы должны взять первую, класть карты можно только на верх колоды. Сколько карт в колоде вы не знаете, а знаете только пуста колода или нет. 
+
+Формально,  под стеком понимается следующая структура данных:
+\begin{itemize}
+	\item  элементы стека располагаются в порядке добавления, первый элемент, добавленный в стек называется \emph{дном}, последний элемент, добавленный в стек, называется \emph{верхушкой};
+	\item  операция $push(a)$ добавляет элемент $a$ в стек, причём $a$ становится верхушкой стека;
+	\item  операция $pop()$ возвращает элемент $a$, находящийся на верхушке стека;
+	\item операция $empty()$ проверяет пустоту стека и возвращает истинное значение, если стек пуст.
+\end{itemize}
+
+
+ Магазинные автоматы встречаются куда более чаще, чем стековые, но называются они магазинными, потому что на заре этой науки кто-то застолбил название стековые автоматы и под ними стали пониматься такие автоматы со стеком, что автомат мог просматривать содержимое стека, не меняя его содержания, а менять его только согласно правилам работы со стеком, что сильно меняло класс языков, распознаваемых автоматом: например, язык $a^nb^nc^n$ не распознаётся ни одним МП-автоматом, но распознаётся стековым автоматом.
+
+Теперь дадим формальное определение автомату с магазинной памятью.
+
+\begin{Def}
+	Магазинный автомат содержит семь компонент и выглядит следующим образом: $P = (\Sigma, \Gamma, Q, q_0, Z_0, \delta, F)$, где
+	\begin{itemize}
+		\item $\Sigma$ -- входной алфавит;
+		\item $\Gamma$ -- алфавит стека, т.е. символы, которые можно добавлять в стек;
+		\item $Q$ -- множество состояний автомата;
+		\item $q_0 \in Q$ -- начальное состояние автомата;
+		\item $Z_0 \in \Gamma$ -- единственный символ, находящийся в стеке при начале работы автомата;
+		\item $ \delta : Q\times\{\Sigma\cup\eps\}\times\Gamma \to 2^{Q\times\Gamma^*}	$ -- функия переходов;
+		\item $ F $ -- множество принимающих состояний.
+	\end{itemize}
+	В начале работы автомат находится в состоянии $q_0$ и в магазине лежит только символ $Z_0$. за такт работы, автомат считывает букву из входного слова (или же не считывает и тогда выполняет $\eps$-переход) и действует согласно одному из правил перехода. А именно, пусть автомат находится в состоянии $q$, на верхушке стека лежит символ $z \in \Gamma$ и автомат считывает букву $\sigma$. Тогда автомат выбирает одну из пар $(q^\prime, \gamma) \in \delta(q,\sigma,z)$, переходит в состояние $q^\prime$, снимает с верхушки символ $z$ и добавляет в стек слово $\gamma$, причём, если $\gamma = \gamma_1\gamma_2\ldots\gamma_n$, то $\gamma_n$ оказывается снизу, а $\gamma_1$ сверху. 
+	Автомат завершает работу с ошибкой, если не может выполнить переход, а входное слово ещё не обработано. 
+	
+	Выделяют два типа магазинных автоматов, которые различаются по условию приёма входного слова. В первом случае, автомат $P$ принимает слово $w$, если существует такая последовательность переходов, что в результате обработки слова, он оказался в принимающем состоянии, в этом случае автомат $P$ является \emph{допускающим по заключительному состоянию}. Во втором случае, автомат $P$ принимает слово $w$, если существует такая последовательность переходов, что в результате\footnote{под «в результате» понимается что после обработки слова $w$ автомат оказался пуст. Если стек оказался пуст в процессе обработки слова, т.е. когда слово ешё не было прочитано до конца, то это не означает, что слово было принято автоматом} обработки слова, стек автомата оказался пуст, в этом случае автомат называется \emph{допускающим по пустому магазину}. 
+	
+\end{Def}
+
+\begin{Remark}
+	Если $\delta(q,\sigma,z) = \{(q_1,\gamma_1), (q_2,\gamma_2)  \}$, то автомат выбирает одну из пар и при переходе в состояние $q_1$ автомат помещает в стек $\gamma_1$, а при переходе в $q_2$, автомат помещает в стек $\gamma_2$. Автомат \textbf{не может} перейти в $q_1$, а в стек положить $\gamma_2$!
+\end{Remark}
+
+\begin{Def}
+	\emph{Конфигурацией} МП-автомата называется элемент множества $Q\times\Sigma^*\times\Gamma^*$. При начале работы на входе $w$ автомат $P$ находится в конфигурации $(q_0,w,Z_0)$. За такт работы автомат изменяет конфигурацию, согласно правилам перехода. Если автомат находился в конфигурации $(q,\sigma v, Z_n\ldots Z_2Z_1Z_0)$ и $\delta(q,\sigma,z) = \{(q_1,\gamma_1), (q_2,\gamma_2)  \}$, то автомат либо переходит в конфигурацию $(q_1,v,\gamma_1Z_{n-1}\ldots Z_1Z_0)$, либо в $(q_2,v,\gamma_2Z_{n-1}\ldots Z_1Z_0)$. Верхушка стека в цепочке $\gamma\in\Gamma^*$ находится слева, дно стека находится справа. 
+	
+	
+	На множестве конфигураций автомата $P$ введено \emph{отношение} $ \underset{P}{\vdash} $, такое что если из конфигурации $c_1$ согласно функции перехода $P$ есть переход в конфигурацию $c_2$, то $c_1 \underset{P}{\vdash} c_2$. Когда ясно о каком автомате идёт речь, мы будем опускать индекс отношения. Так, $(q,\sigma v, Z_n\ldots Z_2Z_1Z_0) \vdash (q_1,v,\gamma_1Z_{n-1}\ldots Z_1Z_0)$
+\end{Def}
+
+\begin{Remark}
+	При выполнении такта работы, автомат всегда снимает симол с верхушки стека. Например, если изначально автомат находился в конфигурации $(q_0,av,Z_0)$ и перешёл в конфигурацию $(q,v,aZ_0)$, то правило, которое он применил выглядит как $(q,aZ_0) \in \delta(q_0,a,Z_0)$. Кстати, в отличие от грамматик, входной алфавит и алфавит стека могут пересекаться. То есть, условие $\Sigma\cap\Gamma = \es$ \textbf{не} налагается.
+\end{Remark}
+
+Напомним, что \emph{транзитивным замыканием} бинарного отношения $R$ называется минимальное транзитивное бинарное отношение $R^*$, содержащее $R$. То есть, если $(a,b) \in R$ и $(b,c) \in R$, то $(a,c) \in R^*$, даже если $(a,c) \not\in R$. Кроме того, отношение $R^*$ само по себе является транзитивным, то есть, если $(a,b) \in R^*$ и $(b,c) \in R^*$, то и  $(a,c) \in R^*$.  
+
+Определим условие приёма слова $w$ автоматом $P$ через транзитивное замыкание отношения $\vdash$. Если автомат $P$ является допускающим по принимающему состоянию, то $w \in L(P)$ тогда и только тогда, когда $(q_0,w,Z_0) \vdash^* (q,\eps, \gamma) $,  где $q\in F$, $\gamma \in \Gamma^*$. Если автомат $P$ является допускающим по пустому магазину, то $(q_0,w,Z_0) \vdash^* (q, \eps, \eps)$, где $q \in Q$ -- не обязательно принимающее состояние.
+
+\subsection{Примеры}
+
+Графически магазинные автоматы задаются следующим образом: для каждого правила $\delta(q,\sigma,Z) = (p,\gamma)$ на переходе из состояния $q$ в состояние $p$ пишут $\sigma,Z/\gamma$. Если автомат принимает слово по пустому магазину, то принято считать, что $F = \es$.
+
+
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,every node/.style={text centered},initial text=]
+	\node [state,initial] (q_0)	{$q_0$};
+	\node [state] (q_1) [right = 4cm of q_0 ] {$q_1$};
+	\node [state,accepting] (q_2) [right = 4cm of q_1] {$q_2$};
+	\path[->]
+		(q_0) edge [in=30,out=150,loop] node {$a,Z_0/aZ_0$\\ $a,a/aa$} (q_0)
+			  edge node {$b,a/\eps$} (q_1)			
+		(q_1) edge node {$\eps,Z_0/\eps$} (q_2)
+			  edge [in=30,out=150,loop] node {$b,a/\eps$} (q_1);
+\end{tikzpicture}
+
+Данный автомат является допускающим по завершающему состоянию.
+
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,every node/.style={text centered},initial text=]
+	\node [state,initial] (q_0)	{$q_0$};
+	\node [state] (q_1) [right = 4cm of q_0 ] {$q_1$};
+	\path[->]
+		(q_0) edge [in=30,out=150,loop] node {$a,Z_0/aZ_0$\\ $a,a/aa$} (q_0)
+			  edge node {$b,a/\eps$} (q_1)			
+		(q_1) edge [in=30,out=150,loop] node {$b,a/\eps$\\ $\eps,Z_0/\eps$} (q_1);
+\end{tikzpicture}
+
+Данный автомат является допускающим по пустому стеку.
+
+\upr Показать, что данные автоматы распознают язык $L = \{a^nb^n\,|\, n > 0\}$.
+
+\begin{Def}
+	Магазинный автомат $P$ является \emph{детерминированным}, если множество $\delta(q,\sigma,Z)$ содержит не более одного правила $\forall \sigma \in \Sigma, \forall Z \in \Gamma$. Если для некоторой буквы $\sigma$, $\delta(q,\sigma,Z) \neq \es$, то $\delta(q,\eps,Z) = \es$.  То есть все переходы в автомате $P$ определены однозначно и в случае когда из пары $q,Z$ есть $\eps$-переход, то других переходов из данной пары нет.
+\end{Def}
+
+\upr Показать, что автоматы, изображённые на диаграммах являются детерминированными.
+
+Классическим примером КС-языков являются языки Дика. А именно, языком типа $D_n$ будем называть язык состоящий из правильных скобочных выражений c $n$ типами скобок. Формально, язык $D_n$ определён над размеченым алфавитом $\Sigma = \Sigma_n\cup \bar \Sigma_n$ -- в $\Sigma_n$ входят открывающиеся скобки, в $\bar \Sigma_n$ закрывающиеся. \emph{Скобочным итогом} $i-$го типа слова $w$, назовём число $\|w\|_i = |w|_{\sigma_i} - |w|_{\bar \sigma_i}$.
+Скобочное $w$ выражение является правильным скобочным выражением с $n$-типами скобок, если для любого префикса $p : w = ps$ и любого $i \leq n$ справедливо $\|p\|_i \geq 0$ и $\|w\|_i = 0$. То есть, 
+\[ D_n = \{ w \in \Sigma^*\,|\, \forall i \leq n, \forall k \leq |w|, \|w[1,k]\|_i \geq 0, \|w\|_i = 0  \}\]
+
+\upr Показать, что для любого $n \in \NN$, язык $D_n$ является КС-языком.
+
+
+\section{Задачи}
+
+\pr Пусть $D_2$ -- язык правильных скобочных выражений с двумя типами. Тогда $L = D_2 \cap ([_1|[_2)^*(_1]|_2])^*$. То есть, $L$ -- язык скобочных выражений ширины $1$, то есть $[_1[_2[_1\,_1]_2]_1] \in L$, а $[_1[_2[_1\,_1]_2][_2\,_2]_1] \not\in L$ .  Построить МП-автомат, распознающий язык $L^*$.
+
+\pr Привести алгоритм построения МП-автомата $P$, допускающего по заключительному состоянию по МП-автомату $N$, допускающего по пустому стеку. Привести алгоритм обратного построения по автомату $P$, автомата $N$. Если в задаче $1$ Вы построили $N$-автомат, постройте по нему аналогичный $P$-автомат, если вы построили $P$-автомат, постройте по нему аналогичный $N$-автомат. Если вы не можете придумать алгоритм, его можно прочитать в книге Хопкрофта-Мотвани-Ульмана, но это не означает, что надо его перетехивать.
+
+\pr Построить КС-грамматику $G$, порождающую $L$ или МП-автомат $M$, распознающий $L$.
+
+\prsub $L = \{a^ib^jc^k\,|\, i = j \vee i = k; i, j, k \geq 0 \}$
+
+\prsub $L = \Sigma^*\setminus\{a^nb^nc^n\,|\, n\geq 0\}$
+
+\prsubstar $L = \{ w \,|\, w = uv \yield u \neq v \}$, то есть $w \in L$ непредставимо в виде $uu$.
+
+
+\end{document}
