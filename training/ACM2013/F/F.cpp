@@ -40,6 +40,16 @@ long long gcd(long long a, long long b)
 		return gcd(b, a % b);
 }
 
+int isBadPalyndrome(char* x, int len)
+{
+	if(len % 2)
+		return(0);
+	for(int i = 0; i < len / 2; i++)
+		if(x[i] != x[len - i - 1])
+			return(0);
+	return(1);
+}
+
 void input()
 {
 	cin >> M;
@@ -172,7 +182,7 @@ int test()
     long quantity = fact[N] / fact[N - uniqN];
     int offsetMax = quantity / parts + 1;
     int posStep = offsetMax;
-    int i;
+    int i, i11;
     for(int offset = 0; offset < offsetMax; offset++)
         for(int pos = 0; (i = (pos + offset) * fact[N - uniqN]) < permN; pos += posStep)
         {
@@ -184,10 +194,11 @@ int test()
        		}
        		if(num[0] == '0') continue;
        		num[len] = 0;
+    		i11 = isBadPalyndrome(num, len);
        		number = atoll(num);
        		if(gcdq == -1) gcdq = number;
         	else gcdq = gcd(gcdq, number);
-            if(gcdq == 1)
+            if(gcdq == 1 || (i11 && gcdq == 11))
             {
                 offset = offsetMax;
                 break;
