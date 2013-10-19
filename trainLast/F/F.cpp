@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <vector>
 
 using namespace std;
 
@@ -104,6 +105,7 @@ void fill(int depth, int used[N], char arr[N])
 //	cout << "fill depth=" << depth << endl;
 	if(depth == N)
 	{
+        return;
 		cpCharN(perm[permN++], arr);
 //		printN(arr);
 //		cout << endl;
@@ -121,9 +123,16 @@ void fill(int depth, int used[N], char arr[N])
 //				cpIntN(used1, used);
 //				cpCharN(arr1, arr);
 				arr[depth] = i;//uniq[i];
-				used[i] = 1;
-				fill(depth + 1, used, arr);
-                used[i] = 0;
+                if(depth == N - 1)
+                {
+                    cpCharN(perm[permN++], arr);
+                }
+                else
+                {
+    				used[i] = 1;
+    				fill(depth + 1, used, arr);
+                    used[i] = 0;
+                }
 //				free(arr1);
 //				free(used1);
 			}
@@ -159,7 +168,7 @@ int test()
 //return 0;
 
 	long long number;
-    int parts = 100;
+    int parts = 200;
     long quantity = fact[N] / fact[N - uniqN];
     int offsetMax = quantity / parts + 1;
     int posStep = offsetMax;
@@ -188,11 +197,20 @@ int test()
 //		cout << endl;
         }
 
-	for(long long i = 1; i <= gcdq; i++)
+    vector<long long> vect;
+	for(long long i = 1; i * i <= gcdq; i++)
 	{
 		if(gcdq % i == 0)
+        {
+            if(i * i != gcdq)
+                vect.push_back(i);
 			cout << i << " ";
+        }
 	}
+
+    vector<long long>::reverse_iterator rit;
+    for(rit = vect.rbegin(); rit != vect.rend(); rit++)
+        cout << gcdq / *rit << " ";
 //	if(gcdq != 1)
 //		cout << gcdq;
 }
@@ -226,8 +244,8 @@ void fillPerm()
 
 int main()
 {
-//	freopen("input.txt", "r", stdin);
-//    freopen("output.txt", "w", stdout);
+	freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
 	fillFact();
 //	printFact();
 	fillPerm();
