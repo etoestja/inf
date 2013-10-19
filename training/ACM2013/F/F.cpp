@@ -205,7 +205,7 @@ int test()
     long quantity = fact[N] / fact[N - uniqN];
     int offsetMax = quantity / parts + 1;
     int posStep = offsetMax;
-    int i, i11;
+    int i, i11 = isBadPalyndrome((char*)str.c_str(), len);
     for(int offset = 0; offset < offsetMax; offset++)
         for(int pos = 0; (i = (pos + offset) * fact[N - uniqN]) < permN; pos += posStep)
         {
@@ -217,7 +217,6 @@ int test()
        		}
        		if(num[0] == '0') continue;
        		num[len] = 0;
-    		i11 = isBadPalyndrome(num, len);
        		number = atoll(num);
        		if(gcdq == -1) gcdq = number;
         	else gcdq = gcd(gcdq, number);
