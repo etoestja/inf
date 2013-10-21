@@ -14,6 +14,7 @@ using std::cin;
 
 #define DEBUG_PROGRESS
 #define DEBUG_OUTPUT
+//#define DEBUG_DEBUG
 
 class state
 {
@@ -90,6 +91,12 @@ bool tryRules()
                 firstApplyable = *it;
             applyableRules.push_back(*it);
         }
+#ifdef DEBUG_DEBUG
+        else
+        {
+            cout << " can't apply " << rulePrint(*it) << endl;
+        }
+#endif
 #ifdef DEBUG_PROGRESS
     cout << "state: [" << state << "]\t[" << input << "]" << "\t[" << stack << "]\t";
 #endif
@@ -138,7 +145,7 @@ bool tryRules()
 
 void inputA()
 {
-    ifstream file("task1A0");
+    ifstream file("task1A1");
     int N;
     file >> state;
     file >> stack;
@@ -154,6 +161,7 @@ void inputA()
             tR.stackRepl = "";
         delta.push_back(tR);
     }
+    cout << N << endl << endl;
 }
 
 void loop()

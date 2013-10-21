@@ -1,0 +1,13 @@
+q0 Z
+11
+q0 q0 ) a eps
+q0 q0 } b eps
+q0 q1 ( Z aZ
+q0 q1 { Z bZ
+q1 q1 ( b ab
+q1 q1 { b bb
+q1 q1 ( a aa
+q1 q1 { a ba
+q1 q0 ) a eps
+q1 q0 } b eps
+q0 q0 eps Z eps

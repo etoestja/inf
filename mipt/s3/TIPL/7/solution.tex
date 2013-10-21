@@ -74,10 +74,11 @@
 	\path[->]
 		(q_0) edge [out=40,in=140,loop] node[swap] {$\substack{ [_1,Z/[_1Z \\ [_1,[_1/[_1[_1 \\ [_1,[_2/[_1[_2 \\}$} (q_0)
 			  edge [out=-40,in=-140,loop] node {$\substack{ [_2,Z/[_2Z \\ [_2,[_1/[_2[_1 \\ [_2,[_2/[_2[_2 \\}$} (q_0)
-			  edge [bend left=10] node {$\substack{ ]_1,[_1/\varepsilon \\ ]_2,[_2/\varepsilon}$} (q_1)
+			  edge [out=20,in=160] node {$\substack{ ]_1,[_1/\varepsilon \\ ]_2,[_2/\varepsilon}$} (q_1)
+			  edge node [anchor=0,above=-0.15,swap] {$\varepsilon,Z/Z$} (q_1)
 		(q_1) edge [in=40,out=140,loop] node {$\substack{ ]_1,[_1/\varepsilon \\ ]_2,[_2/\varepsilon \\}$} (q_0)
 			  edge [in=-40,out=-140,loop] node [swap] {$\varepsilon,Z/\varepsilon$} (q_1)
-			  edge [bend left=10] node {$\substack{ [_1,Z/[_1Z \\ [_2,Z/[_2Z}$} (q_0);
+			  edge [in=-20,out=-160] node {$\substack{ [_1,Z/[_1Z \\ [_2,Z/[_2Z}$} (q_0);
 \end{tikzpicture}
 \end{minipage}
 \end{tabular}
@@ -107,12 +108,22 @@ $Q(k)\eqdef\big[P(w_2)[1,k]=w_1^R[1,k]\big]$.\begin{enumerate}[a.]
 \item \label{pr1} Рассмотрим $w_2=]_iw^0_2$. Но $\ref{wPalyndrom}\Rightarrow w_2=P(w_1)^R\Rightarrow w_1=P(w^0_2)^R[_i$ Из определения $\delta$ получаем $\forall\gamma(q_0,]_i,[_i\gamma)\vdash(q_1,\varepsilon,\gamma)$. Тогда $\underline{(q_0,w,Z)}\overset{\ref{wq0}}{\vdash^*}(q_0,w_2,(w_1)^RZ)\equiv(q_0,]_iw^0_2,[_iP(w^0_2)Z)\overset{\mbox{\tiny def }\delta}{\vdash}(q_1,w^0_2,P(w^0_2)Z)\overset{\ref{wq1}}{\vdash^*}\underline{(q_1,\varepsilon,Z)}$.
 \item $w_1=[_iw^0_1$. Из определения $\delta$ получаем $(q_1,[_i,Z)\vdash(q_1,\varepsilon,[_iZ)$. Тогда $(q_1,w,Z)\equiv(q_1,[_iw^0_1w_2,Z)\overset{\mbox{\tiny def }\delta}{\vdash}(q_0,w^0_1w_2,[_iZ)$. Но эта конфигурация может быть получена иначе: $(q_0,[_i,Z)\vdash(q_0,[_i,[_iZ)$. Значит, дальнейшие конфигурации также могут совпадать. Имеем $\ref{pr1}\Rightarrow\underline{(q_1,w,Z)\vdash^*(q_1,\varepsilon,Z)}$.
 \end{enumerate}
-\item Пусть $w\in L^*\Rightarrow w=w_1...w_k$, $\forall i\in\overline{1,k}\hookrightarrow w_i\in L$. Определим $f\colon L^*\longrightarrow {\mathbb N}\cup\{0\}$: $f(w)\ni k$ (многозначная функция).
+\item Пусть $w\in L^*\setminus\{\varepsilon\}\Rightarrow w=w_1...w_k$, $\forall i\in\overline{1,k}\hookrightarrow w_i\in L$. Определим $f\colon L^*\longrightarrow {\mathbb N}\cup\{0\}$: $f(w)\ni k$ (многозначная функция). Если $w=\varepsilon$, определим $f(w)\eqdef 0$.
 \item $P(k)\eqdef\big[\forall w\in L^*\colon f(w)\ni k\hookrightarrow (q_0,w,Z)\vdash^*(q_1,\varepsilon,Z)\big]$\begin{enumerate}
+\item Пусть $k=0$. Тогда $w=\varepsilon$. $(q_0,w,Z)\equiv(q_0,\varepsilon,Z)\vdash(q_1,\varepsilon,Z)\Rightarrow P(0)$.
 \item Пусть $k=1, w\in L^*\colon f(w)\ni 1\Rightarrow w\equiv w_1\in L$. $\ref{wOne}\Rightarrow (q_0,w,Z)\vdash^*(q_1,\varepsilon,Z)\Rightarrow P(1)\,\blacksquare$
-\item Пусть $P(k)$. $w\in L^*\colon f(w)\ni k+1\Rightarrow w=w_1...w_{k+1},\,\forall i\in\overline{1,k+1}\hookrightarrow w_i\in L$. $\varangle w_0\eqdef w_1...w_k\in L^*$. $f(w_0)\ni k\overset{P(k)}{\Rightarrow} (q_0,w_0,Z)\vdash^*(q_1,\varepsilon,Z)$. Тогда $(q_0,w,Z)\equiv(q_0,w_0w_{k+1},Z)\vdash^*(q_1,\varepsilon w_{k+1},Z)\overset{\ref{wOne}}{\vdash^*}(q_1,\varepsilon,Z)\Rightarrow P(k+1)\,\blacksquare$
+\item 
+% здесь еще одна хуита
+Пусть $P(k)$. $w\in L^*\colon f(w)\ni k+1\Rightarrow w=w_1...w_{k+1},\,\forall i\in\overline{1,k+1}\hookrightarrow w_i\in L$. $\varangle w_0\eqdef w_1...w_k\in L^*$. $f(w_0)\ni k\overset{P(k)}{\Rightarrow} (q_0,w_0,Z)\vdash^*(q_1,\varepsilon,Z)$. Тогда $(q_0,w,Z)\equiv(q_0,w_0w_{k+1},Z)\vdash^*(q_1,\varepsilon w_{k+1},Z)\overset{\ref{wOne}}{\vdash^*}(q_1,\varepsilon,Z)\Rightarrow P(k+1)\,\blacksquare$
 \end{enumerate}
 Получаем $\forall w\in L^*\hookrightarrow (q_0,w,Z)\vdash^*(q_1,\varepsilon,Z)\overset{\mbox{\tiny def }\delta}{\vdash}(q_1,\varepsilon,\varepsilon)\Rightarrow \forall w\in L^*\hookrightarrow w\in L(\A)\Rightarrow \boxed{L^*\subseteq L(\A)}$.
+\item \label{bottom} $\varangle\delta$. Заметим, что каждый переход, кроме $q_1\overset{\varepsilon
+,Z/\varepsilon}{\longrightarrow}q_1$ сохраняет количество $Z$ в стеке, и, более того, оставляет $Z$ на
+%НА ДНИЩЕ
+дне стека.
+\item Пусть $w\in L(\A)\Rightarrow(q_0,w,Z)\vdash^*(q,\varepsilon,\varepsilon)$. Изначально $Z$ в стеке, в конце его нет. Значит (\ref{bottom}), был переход $q_1\overset{\varepsilon
+,Z/\varepsilon}{\longrightarrow}q_1$. Но $Z$ был на дне стека, поэтому после стек пуст. Значит, это последняя конфигурация. Имеем $(q_0,w,Z)\vdash^*(q_1,\varepsilon,Z)\vdash(q_1,\varepsilon,\varepsilon)$. Рассмотрим $(q_0,w,Z)\vdash^*(q_1,\varepsilon,Z)$.
+%Переход $q_1\overset{\varepsilon,Z/\varepsilon}{\longrightarrow}q_1$ не использовался, поэтому рассмотрим автомат $\A'$ без него. Заметим, что $\A'$~--- детерминированный.
 \end{enumerate}
 \section*{Задача 2}
 \section*{Задача 3}
