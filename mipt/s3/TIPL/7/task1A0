@@ -1,0 +1,15 @@
+q_0 Z
+13
+q_0 q_0 ( Z 1Z
+q_0 q_0 { Z 2Z
+q_0 q_0 ( 1 11
+q_0 q_0 { 1 21
+q_0 q_0 ( 2 12
+q_0 q_0 { 2 22
+q_0 q_1 ) 1 eps
+q_0 q_1 } 2 eps
+q_1 q_1 ) 1 eps
+q_1 q_1 } 2 eps
+q_1 q_0 ( Z 1Z
+q_1 q_0 { Z 2Z
+q_1 q_1 eps Z eps
