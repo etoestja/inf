@@ -121,9 +121,19 @@ $Q(k)\eqdef\big[P(w_2)[1,k]=w_1^R[1,k]\big]$.\begin{enumerate}[a.]
 ,Z/\varepsilon}{\longrightarrow}q_1$ сохраняет количество $Z$ в стеке, и, более того, оставляет $Z$ на
 %НА ДНИЩЕ
 дне стека.
-\item Пусть $w\in L(\A)\Rightarrow(q_0,w,Z)\vdash^*(q,\varepsilon,\varepsilon)$. Изначально $Z$ в стеке, в конце его нет. Значит (\ref{bottom}), был переход $q_1\overset{\varepsilon
-,Z/\varepsilon}{\longrightarrow}q_1$. Но $Z$ был на дне стека, поэтому после стек пуст. Значит, это последняя конфигурация. Имеем $(q_0,w,Z)\vdash^*(q_1,\varepsilon,Z)\vdash(q_1,\varepsilon,\varepsilon)$. Рассмотрим $(q_0,w,Z)\vdash^*(q_1,\varepsilon,Z)$.
+\item Пусть $w\in L(\A)\Rightarrow(q_0,w,Z)\vdash^*(q,\varepsilon,\varepsilon)$.
+%\begin{enumerate}[a.]
+%\item Если $w=\varepsilon$, то $w\in L^*$
+%\item Пу
+%Пусть иначе. Изначально $Z$ в стеке, в конце его нет. Значит (\ref{bottom}), был переход $q_1\overset{\varepsilon
+%,Z/\varepsilon}{\longrightarrow}q_1$. Но $Z$ был на дне стека, поэтому после стек пуст. Значит, это последняя конфигурация. Имеем $(q_0,w,Z)\vdash^*(q_1,\varepsilon,Z)\vdash(q_1,\varepsilon,\varepsilon)$. Рассмотрим $(q_0,w,Z)\vdash^*(q_1,\varepsilon,Z)$. Пусть $\{c_i\}_{i=0}^I$~--- эта цепочка конфигураций, $c_i=(q_{k_i},w)$
 %Переход $q_1\overset{\varepsilon,Z/\varepsilon}{\longrightarrow}q_1$ не использовался, поэтому рассмотрим автомат $\A'$ без него. Заметим, что $\A'$~--- детерминированный.
+\item Пусть $(q_a,w,\phi)\vdash^*(q_b,\varepsilon,\gamma)$. Тогда $||\gamma||_i-||\phi||_i=||w||_i$. Докажем по индукции:\newline
+$Q(k)\eqdef\big[\forall w\colon |w|=k\,\forall q_a\,\forall q_b\,\forall\phi\,\forall\gamma\colon (q_a,w,\phi)\vdash^*(q_b,\varepsilon,\gamma)\hookrightarrow ||\gamma||_i-||\phi||_i=||w||_i\big]$.\begin{enumerate}[a.]
+\item $k=0\Rightarrow w=\varepsilon$. Поскольку все $\varepsilon$-переходы $q_0\overset{\varepsilon,Z/Z}{\longrightarrow}q_1$ и $q_1\overset{\varepsilon,Z/\varepsilon}{\longrightarrow}q_1$ не изменяют $||\cdot||_i$ для символов стека, получаем $||w||_i\equiv 0\equiv ||\phi||_i-||\delta||_i\Rightarrow Q(0)$.
+\item Пусть $Q(k)$. $\varangle w\colon |w|=k+1,\,(q_a,w,\phi)\vdash^*(q_c,\varepsilon,\gamma)$. $w=w_0\sigma$, $\sigma\in\Sigma$. $\varangle (q_a,w,\phi)\equiv(q_a,w_0\sigma,\phi)\vdash^*(q_b,\sigma,\psi)\vdash(q_c,\varepsilon,\gamma)$. $Q(k)\Rightarrow ||\psi||_i-||\phi||_i=||w_0||_i$. $\varangle$ последний переход. Из определения $\delta$ следует, что $||\gamma||_i-||\psi||_i=||\sigma||_i$: если $\sigma_i=[_i$, то в стек будет добавлена $\sigma_i$, иначе она будет удалена. Поэтому $||w||_i=||w_0||_i+||\sigma||_i=||\psi||_i-||\phi||_i+||\gamma||_i-||\psi||_i\equiv||\gamma||_i-||\phi||_i\Rightarrow Q(k+1)$.
+\end{enumerate}
+%\end{enumerate}
 \end{enumerate}
 \section*{Задача 2}
 \section*{Задача 3}
