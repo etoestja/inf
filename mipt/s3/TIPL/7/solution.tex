@@ -51,14 +51,14 @@
 \end{enumerate}
 \end{enumerate}
 \section*{Задача 1}
-Определим МП-автомат $\A=(\Sigma,\Gamma,Q,q_0,Z_0,\delta,F)$, допускающий по пустому стеку.\newline
+Определим МП-автомат $\A=(\Sigma,\Gamma,Q,q_0,Z,\delta,F)$, допускающий по пустому стеку.\newline
 \begin{tabular}{cc}
 \begin{minipage}{0.46\textwidth}
 \begin{enumerate}
 \item $n\eqdef2$
 \item $\Sigma_n\eqdef\{[_1,...,[_n\}\equiv\{[_1,[_2\},\,\overline{\Sigma}_n\eqdef\{]_1,...,]_n\}\equiv\{]_1,]_2\}$.
 \item $\Sigma\eqdef\Sigma_n\cup\overline{\Sigma}_n\equiv\{[_1,]_1,[_2,]_2\}$
-\item $\Gamma\eqdef\{Z_0\}\cup\overline{1,n}\equiv\{Z_0,1,2\}$.
+\item $\Gamma\eqdef\{Z\}\cup\overline{1,n}\equiv\{Z,1,2\}$.
 \item $Q\eqdef\{q_0,q_1\}$
 \item $\delta$ изображена справа
 \item $F\eqdef\varnothing$ ($N$-автомат)
@@ -66,19 +66,17 @@
 \end{minipage}
 &
 \begin{minipage}{0.46\textwidth}
+
 \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,every node/.style={text centered},initial text=]
 	\node [state,initial] (q_0)	{$q_0$};
 	\node [state] (q_1) [right = 4cm of q_0 ] {$q_1$};
 	\path[->]
-		(q_0) edge [out=30,in=150,loop] node[swap] {$[_1,Z_0/1Z_0$} (q_0)
-			  edge [in=210,out=330,loop] node {$[_2,Z_0/2Z_0$} (q_0)
-			  edge [bend left] node {$]_1,1/\varepsilon$} (q_1)
-			  edge [bend right] node [swap] {$]_2,2/\varepsilon$} (q_1)
-		(q_1) edge [out=30,in=150,loop] node [swap] {$]_1,1/\varepsilon$} (q_0)
-			  edge [in=210,out=330,loop] node {$]_2,2/\varepsilon$} (q_1)
-			  edge [in=1,out=179] node [swap] {$[_1,1/\varepsilon$} (q_0)
-			  edge [in=-1,out=181] node {$]_2,2/\varepsilon$} (q_0)
-			  edge [loop right] node {$\varepsilon,Z_0/\varepsilon$} (q_1);
+		(q_0) edge [out=40,in=140,loop] node[swap] {$\substack{ [_1,Z/1Z \\ [_1,1/11 \\ [_1,2/12 \\}$} (q_0)
+			  edge [out=-40,in=-140,loop] node {$\substack{ [_2,Z/2Z \\ [_2,1/21 \\ [_2,2/22 \\}$} (q_0)
+			  edge [bend left=10] node {$\substack{ ]_1,1/\varepsilon \\ ]_2,2/\varepsilon}$} (q_1)
+		(q_1) edge [in=40,out=140,loop] node {$\substack{ ]_1,1/\varepsilon \\ ]_2,2/\varepsilon \\}$} (q_0)
+			  edge [in=-40,out=-140,loop] node [swap] {$\varepsilon,Z_0/\varepsilon$} (q_1)
+			  edge [bend left=10] node {$\substack{ [_1,Z/1Z \\ [_2,Z/2Z}$} (q_0);
 \end{tikzpicture}
 \end{minipage}
 \end{tabular}
