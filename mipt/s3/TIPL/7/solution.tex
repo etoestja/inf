@@ -39,6 +39,14 @@
 \section*{Упражнение 1}
 \section*{Упражнение 2}
 \section*{Упражнение 3}
+\begin{enumerate}[1.]
+\item Грамматика $\Gamma=(\{S\},\Sigma_n\cup\overline{\Sigma}_n,P,S)$. $P=\big\{S\longrightarrow \sigma_i\overline{\sigma}_i|\sigma_iS\overline{\sigma}_i|SS\big\}$. $D_n=L(\Gamma)$.
+\item Исходное утверждение: $\forall w\left(\underbrace{w\in D_n}_{A}\Rightarrow\underbrace{\forall i\leqslant n\,\forall k\leqslant |w|\hookrightarrow ||w[1,k]||_i\geqslant 0,\,||w||_i=0}_{B}\right)$
+\item Отрицание обратного утверждения: $\exists w\colon \left(B\,\wedge\,\urcorner A\right)$. Пусть $w=\varepsilon$.\begin{enumerate}[a.]
+\item Тогда $k\leqslant |w|\Rightarrow k=0$, поэтому $\forall i\leqslant n\hookrightarrow ||w[1,k]||_i\equiv|\varepsilon|_{\sigma_i}-|\varepsilon|_{\overline{\sigma_i}}=0$ и $\forall i\leqslant n\hookrightarrow||w||_i=0$. Получаем $B$.
+\item Но $w=\varepsilon$ не порождается грамматикой $\Gamma$: первые два правила добавляют нетерминалов, поэтому не могут быть применены, и применение третьего правила не уменьшает количества нетерминалов. Получаем $\urcorner A\,\blacksquare$
+\end{enumerate}
+\end{enumerate}
 \section*{Задача 1}
 \section*{Задача 2}
 \section*{Задача 3}
