@@ -51,14 +51,15 @@
 \end{enumerate}
 \end{enumerate}
 \section*{Задача 1}
-Определим МП-автомат $\A=(\Sigma,\Gamma,Q,q_0,Z,\delta,F)$, допускающий по пустому стеку.\newline
+\begin{enumerate}
+\item Определим МП-автомат $\A=(\Sigma,\Gamma,Q,q_0,Z,\delta,F)$, допускающий по пустому стеку.\newline
 \begin{tabular}{cc}
 \begin{minipage}{0.46\textwidth}
 \begin{enumerate}
 \item $n\eqdef2$
 \item $\Sigma_n\eqdef\{[_1,...,[_n\}\equiv\{[_1,[_2\},\,\overline{\Sigma}_n\eqdef\{]_1,...,]_n\}\equiv\{]_1,]_2\}$.
 \item $\Sigma\eqdef\Sigma_n\cup\overline{\Sigma}_n\equiv\{[_1,]_1,[_2,]_2\}$
-\item $\Gamma\eqdef\{Z\}\cup\overline{1,n}\equiv\{Z,1,2\}$.
+\item $\Gamma\eqdef\{Z\}\Sigma_n\equiv\{Z,[_1,[_2\}$.
 \item $Q\eqdef\{q_0,q_1\}$
 \item $\delta$ изображена справа
 \item $F\eqdef\varnothing$ ($N$-автомат)
@@ -71,15 +72,48 @@
 	\node [state,initial] (q_0)	{$q_0$};
 	\node [state] (q_1) [right = 4cm of q_0 ] {$q_1$};
 	\path[->]
-		(q_0) edge [out=40,in=140,loop] node[swap] {$\substack{ [_1,Z/1Z \\ [_1,1/11 \\ [_1,2/12 \\}$} (q_0)
-			  edge [out=-40,in=-140,loop] node {$\substack{ [_2,Z/2Z \\ [_2,1/21 \\ [_2,2/22 \\}$} (q_0)
-			  edge [bend left=10] node {$\substack{ ]_1,1/\varepsilon \\ ]_2,2/\varepsilon}$} (q_1)
-		(q_1) edge [in=40,out=140,loop] node {$\substack{ ]_1,1/\varepsilon \\ ]_2,2/\varepsilon \\}$} (q_0)
-			  edge [in=-40,out=-140,loop] node [swap] {$\varepsilon,Z_0/\varepsilon$} (q_1)
-			  edge [bend left=10] node {$\substack{ [_1,Z/1Z \\ [_2,Z/2Z}$} (q_0);
+		(q_0) edge [out=40,in=140,loop] node[swap] {$\substack{ [_1,Z/[_1Z \\ [_1,[_1/[_1[_1 \\ [_1,[_2/[_1[_2 \\}$} (q_0)
+			  edge [out=-40,in=-140,loop] node {$\substack{ [_2,Z/[_2Z \\ [_2,[_1/[_2[_1 \\ [_2,[_2/[_2[_2 \\}$} (q_0)
+			  edge [bend left=10] node {$\substack{ ]_1,[_1/\varepsilon \\ ]_2,[_2/\varepsilon}$} (q_1)
+		(q_1) edge [in=40,out=140,loop] node {$\substack{ ]_1,[_1/\varepsilon \\ ]_2,[_2/\varepsilon \\}$} (q_0)
+			  edge [in=-40,out=-140,loop] node [swap] {$\varepsilon,Z/\varepsilon$} (q_1)
+			  edge [bend left=10] node {$\substack{ [_1,Z/[_1Z \\ [_2,Z/[_2Z}$} (q_0);
 \end{tikzpicture}
 \end{minipage}
 \end{tabular}
+\def\lb{{\big([_1\big|[_2\big)}}
+\def\rb{{\big(]_1\big|]_2\big)}}
+\item Определим морфизм $P\colon P\colon (\Sigma_n\cup\overline{\Sigma}_n)^*\longrightarrow (\Sigma_n\cup\overline{\Sigma}_n)^*$: $P([_i)=]_i,\,P(]_i)=[_i$~--- пары для скобок. Доопределим до морфизма: $P(w_1...w_l)=P(w_1)...P(w_l)$.
+\item \label{wLdiv} $L=D_2\cap\lb^*\rb^*$. $w\in L\Rightarrow w=w_1w_2,\,w_1=\lb^{n_1},\,w_2=\rb^{n_2}$. $w\in D_2\Rightarrow 0=||w||_i=||w_1||_i+||w_2||_i=|w_1|_{[_i}+|w_2|_{[_i}-|w_1|_{]_i}-|w_2|_{]_i}$. $w_1$ не содержит $]_i$, $w_2$ не содержит $[_i$, поэтому $0=|w_1|_{[_i}-|w_2|_{]_i}$. Сложим равенства, получим $0=|w_1|_{[_1}+|w_1|_{[_2}-|w_2|_{]_1}-|w_2|_{]_2}\Rightarrow |w_1|=|w_2|\Rightarrow n_1=n_2$.
+\item \label{wPalyndrom} $w\in L,\,|w_1|=s,\,w_1=[_{i_1}...[_{i_s},\,w_2=]_{j_1}...]_{j_s}$. Докажем, что $P(w_2)=w_1^R$:\newline
+$Q(k)\eqdef\big[P(w_2)[1,k]=w_1^R[1,k]\big]$.\begin{enumerate}[a.]
+\item Очевидно, $Q(0)$, так как $P(w_2)[1,0]\equiv\varepsilon\equiv w_1^R[1,0]$.
+\item Пусть $Q(k)$. Тогда $w_1=p[_{i_{s-k+1}}...[_{i_s},w_2=]_{i_s}...]_{i_{s-k+1}}q$. То есть, $k$ скобок от центра парные друг к другу. Обозначим их за $t=[_{i_{s-k+1}}...[_{i_s}]_{i_s}...]_{i_{s-k+1}}\Rightarrow ||t||_i=0$, $t$~--- ПСВ. Предположим $\urcorner Q(k+1)\overset{Q(k)}{\Rightarrow}P(w_2)[k+1]\neq w_1^R[k+1]$. Без ограничения общности $p=p_0[_1$, $q=]_2q_0$. Тогда $w=p_0[_1t]_2q_0$. Но $t$~--- ПСВ, поэтому пара для $[_1$~--- в $q_0$, пара для $]_2$~--- в $p_0$: $w=...[_2...[_1t]_2...]_1...$~--- не ПСВ $\Rightarrow w\notin D_2$~--- противоречие. Значит, $Q(k+1)$.
+\end{enumerate}
+%\item Определим $||\cdot||\colon \Sigma^*\rightarrow {\mathbb Z}$: $||w||=||w||_1+||w||_2$.
+%\item Пусть $w\in L,|w|=n$. Докажем $\forall i\in\overline{1,n-1}\hookrightarrow ||w[1,i]||<0$. %Действительно, $||w[1,i]||=||w||-||w[i+1,n]||=0-||w[i+1,n]||$
+%Действительно, $m$
+\item \label{wOne} Пусть $w\in L$. Докажем, что $(q_0,w,Z)\vdash^*(q_1,\varepsilon,Z)$ и $(q_1,w,Z)\vdash^*(q_1,\varepsilon,Z)$. $\ref{wLdiv}\Rightarrow w=w_1w_2$, $\ref{wPalyndrom}\Rightarrow P(w_1)^R=w_2$.\begin{enumerate}[a.]
+\item \label{wq0} Докажем $Q(k)\eqdef \big[(q_0,w_1[1,k],Z)\vdash^*(q_0,\varepsilon,(w_1[1,k])^RZ)\big]$:\begin{enumerate}[a.]
+\item $k=0\Rightarrow w_1[1,k]=\varepsilon\Rightarrow (w_1[1,k])^R=\varepsilon$. Получаем $(q_0,w_1[1,k],Z)\equiv(q_0,(w_1[1,k])^R,Z)\Rightarrow Q(0)$
+\item Пусть $Q(k)\Rightarrow (q_0,w_1[1,k],Z)\vdash^*(q_0,\varepsilon,(w_1[1,k])^RZ)$. Рассмотрим $w_1[k+1]=[_{i_{k+1}}$. По определению $\delta$ имеем $\forall \gamma (q_0,[_{i_{k+1}},\gamma)\vdash(q_0,\varepsilon,[_{i_{k+1}}\gamma)$. Тогда $(q_0,w[1,k+1],Z)\equiv(q_0,w_1[1,k][_{i_{k+1}},Z)\overset{Q(k)}{\vdash^*}(q_0,[_{i_{k+1}},(w_1[1,k])^RZ)\overset{\mbox{\tiny def }\delta}{\vdash}(q_0,\varepsilon,w_1[k+1](w_1[1,k])^RZ)\equiv(q_0,\varepsilon,(w_1[1,k+1])^RZ)\Rightarrow Q(k+1)$.
+\end{enumerate}
+\item \label{wq1} Докажем $Q(k)\eqdef\big[\forall \gamma\in\Gamma^+\hookrightarrow(q_1,w_2[1,k],P(w_2)[1,k]\gamma)\vdash^*(q_1,\varepsilon,\gamma)\big]$:\begin{enumerate}[a.]
+\item $k=0\Rightarrow w_2[1,k]\equiv\varepsilon\equiv P(w_2)[1,k]\Rightarrow Q(0)$
+\item Пусть $Q(k)\Rightarrow\forall\gamma\hookrightarrow(q_1,w_2[1,k],P(w_2)[1,k]\gamma)\vdash^*(q_1,\varepsilon,\gamma)$. $\varangle w_2[k+1]=]_{i_{k+1}}$.\newline
+Из определения $\delta$ получаем $\forall\gamma_1\hookrightarrow (q_1,]_{i_{k+1}},[_{i_{k+1}}\gamma_1)\vdash(q_1,\varepsilon,\gamma_1)$.\newline
+Значит, $(q_1,w_2[1,k+1],P(w_2)[1,k+1]\gamma)\equiv(q_1,w_2[1,k]]_{i_{k+1}},P(w_2)[1,k][_{i_{k+1}}\gamma)\overset{Q(k)}{\vdash^*}(q_1,]_{i_{k+1}},[_{i_{k+1}}\gamma)\overset{\mbox{\tiny def }\delta}{\vdash}(q_1,\varepsilon,\gamma)\Rightarrow Q(k+1)$.
+\end{enumerate}
+\item \label{pr1} Рассмотрим $w_2=]_iw^0_2$. Но $\ref{wPalyndrom}\Rightarrow w_2=P(w_1)^R\Rightarrow w_1=P(w^0_2)^R[_i$ Из определения $\delta$ получаем $\forall\gamma(q_0,]_i,[_i\gamma)\vdash(q_1,\varepsilon,\gamma)$. Тогда $\underline{(q_0,w,Z)}\overset{\ref{wq0}}{\vdash^*}(q_0,w_2,(w_1)^RZ)\equiv(q_0,]_iw^0_2,[_iP(w^0_2)Z)\overset{\mbox{\tiny def }\delta}{\vdash}(q_1,w^0_2,P(w^0_2)Z)\overset{\ref{wq1}}{\vdash^*}\underline{(q_1,\varepsilon,Z)}$.
+\item $w_1=[_iw^0_1$. Из определения $\delta$ получаем $(q_1,[_i,Z)\vdash(q_1,\varepsilon,[_iZ)$. Тогда $(q_1,w,Z)\equiv(q_1,[_iw^0_1w_2,Z)\overset{\mbox{\tiny def }\delta}{\vdash}(q_0,w^0_1w_2,[_iZ)$. Но эта конфигурация может быть получена иначе: $(q_0,[_i,Z)\vdash(q_0,[_i,[_iZ)$. Значит, дальнейшие конфигурации также могут совпадать. Имеем $\ref{pr1}\Rightarrow\underline{(q_1,w,Z)\vdash^*(q_1,\varepsilon,Z)}$.
+\end{enumerate}
+\item Пусть $w\in L^*\Rightarrow w=w_1...w_k$, $\forall i\in\overline{1,k}\hookrightarrow w_i\in L$. Определим $f\colon L^*\longrightarrow {\mathbb N}\cup\{0\}$: $f(w)\ni k$ (многозначная функция).
+\item $P(k)\eqdef\big[\forall w\in L^*\colon f(w)\ni k\hookrightarrow (q_0,w,Z)\vdash^*(q_1,\varepsilon,Z)\big]$\begin{enumerate}
+\item Пусть $k=1, w\in L^*\colon f(w)\ni 1\Rightarrow w\equiv w_1\in L$. $\ref{wOne}\Rightarrow (q_0,w,Z)\vdash^*(q_1,\varepsilon,Z)\Rightarrow P(1)\,\blacksquare$
+\item Пусть $P(k)$. $w\in L^*\colon f(w)\ni k+1\Rightarrow w=w_1...w_{k+1},\,\forall i\in\overline{1,k+1}\hookrightarrow w_i\in L$. $\varangle w_0\eqdef w_1...w_k\in L^*$. $f(w_0)\ni k\overset{P(k)}{\Rightarrow} (q_0,w_0,Z)\vdash^*(q_1,\varepsilon,Z)$. Тогда $(q_0,w,Z)\equiv(q_0,w_0w_{k+1},Z)\vdash^*(q_1,\varepsilon w_{k+1},Z)\overset{\ref{wOne}}{\vdash^*}(q_1,\varepsilon,Z)\Rightarrow P(k+1)\,\blacksquare$
+\end{enumerate}
+Получаем $\forall w\in L^*\hookrightarrow (q_0,w,Z)\vdash^*(q_1,\varepsilon,Z)\overset{\mbox{\tiny def }\delta}{\vdash}(q_1,\varepsilon,\varepsilon)\Rightarrow \forall w\in L^*\hookrightarrow w\in L(\A)\Rightarrow \boxed{L^*\subseteq L(\A)}$.
+\end{enumerate}
 \section*{Задача 2}
 \section*{Задача 3}
 \end{document}
