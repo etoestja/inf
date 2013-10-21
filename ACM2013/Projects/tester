@@ -1,0 +1,91 @@
+#!/bin/bash
+
+if [ "X$1" == "X" ]
+then
+    echo "Usage: $0 progname"
+    echo "Looks for test* in pwd and runs progname on all these tests."
+    echo "Put answers for testA to anstestA."
+    echo ""
+    echo "Options:"
+    echo " -o after progname clears output after each test."
+    echo " testname after progname to run particular test (use instead of -o)"
+    exit 1
+else
+    progname="$1"
+fi
+
+tests="$(ls test* | wc -l)"
+i=1
+
+use_files=0
+file_in="input.txt"
+file_out="output.txt"
+
+if [ "X$2" == "X-o" ]
+then
+    doClear=1
+fi
+
+if [ "X$2" != "X" ] && [ "X$2" != "X-o" ]
+then
+    doTest=$2
+fi
+
+rm -f test*~
+
+function runTest()
+{
+    a=$1
+    if [ "X$doClear" == "X1" ]
+    then
+        clear
+    fi
+    bn="$(basename $a)"
+    echo "========= TEST $i/$tests $bn: ========="
+    if (( "$(echo $bn | grep large --color=NEVER | wc -l)" == 0 ))
+    then
+        cat $a
+    fi
+    echo "=== PROGRAM SAYS: ==="
+
+if [ "X$use_files" = "X1"  ]
+then
+    cat $a > $file_in
+    $progname
+    if (( "$(echo $bn | grep large --color=NEVER | wc -l)" == 0 ))
+    then
+        cat $file_out
+    fi
+else
+    time cat $a | $progname
+fi
+
+    ansname="ans$bn"
+    if [ -e "$ansname" ]
+    then
+        echo "=== ANSWER: ==="
+        cat $ansname
+    fi
+    echo ""
+
+    if [ "X$doClear" == "X1" ]
+    then
+        read
+    fi
+    let i=i+1
+}
+
+if [ "x$doTest" == "x" ]
+then
+    for a in $(ls test*)
+    do
+        runTest $a
+    done
+else
+    runTest $doTest
+fi
+
+if [ "X$doClear" == "X1" ]
+then
+    clear
+fi
