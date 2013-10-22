@@ -136,7 +136,28 @@ $Q(k)\eqdef\big[\forall w\colon |w|=k\,\forall q_a\,\forall q_b\,\forall\phi\,\f
 \end{enumerate}
 \end{enumerate}
 \section*{Задача 2}
-
+\begin{enumerate}
+\item Пусть $N=(\Sigma,\Gamma_N,Q_N,\delta_N,Z_0,q_0,F_N)$~--- МП-автомат, допускающий по пустому стеку. Построим МП-автомат $P=(\Sigma,\Gamma,Q,\delta,Z_0,q_s,F)$, допускающий по заключительному состоянию $\colon L(N)=L(P)$.\begin{enumerate}[a.]
+\item $\Gamma=\Gamma_N\cup \{X\}$
+\item $Q=Q_N\cup\{q_s,q_f\}$
+\item $F=\{q_f\}$
+\item $\delta$~--- $\delta_N$ с добавленными переходами: $q_s\overset{\varepsilon,Z_0/Z_0X}{\longrightarrow}q_0$, $q_i\overset{\varepsilon,X/X}{\longrightarrow}q_f,\,q_i\in Q_N$.
+\end{enumerate}
+\begin{enumerate}[1.]
+\item Пусть $w\in L(N)$. Тогда $(q_0,w,Z_0)\vdash^*(q,\varepsilon,\varepsilon)$~--- в $N$. Для $P$: $(q_s,w,Z_0)\vdash(q_0,w,Z_0X)\overset{(*)}{\vdash^*}(q,\varepsilon,X)\vdash(q_f,\varepsilon,X)$. Переходы, отмеченные $(*)$ возможны, так как в $P$ сохранены переходы из $N$. Добавление $X$ на дно стека не изменит работу автомата, т.к. $X$ не будет удаляться из стека (в противном случае получим удаление символа из пустого стека в $N$). Но $q_f\in F\Rightarrow w\in L(P)$
+\item Пусть $w\in L(P)$. Принимающее состояние одно, поэтому цепочка конфигураций имеет вид $(q_s,w,Z_0)\vdash^*(q_f,\varepsilon,\gamma)$. Из $q_s$ переход один, поэтому цепочка имеет вид $(q_s,w,Z_0)\vdash(q_0,w,Z_0X)\vdash^*(q_f,\varepsilon,\gamma)$. Переходы в $q_f$ только при $X$ на верхушке стека. Также $X$ всегда остается на дне стека, т.к. переходы из исходного автомата не удаляют $X$. Поэтому $\gamma=X$. Имеем $(q_0,w,Z_0X)\vdash^*(q,\varepsilon,X)\vdash(q_f,\varepsilon,X)$. Удалим $X$, получим цепочку конфигураций в $N$: $(q_0,w,Z_0)\vdash^*(q,\varepsilon,\varepsilon)\Rightarrow w\in L(N)$.
+\end{enumerate}
+\item Пусть $P=(\Sigma,\Gamma_P,Q_P,\delta_P,Z_0,q_0,F_P)$~--- МП-автомат, допускающий по принимающему состоянию. Построим МП-автомат $N=(\Sigma,\Gamma,Q,\delta,Z_0,q_s,F)$, принимающий по пустому стеку $\colon L(N)=L(P)$.\begin{enumerate}[a.]
+\item $F=\varnothing$
+\item $\Gamma=\Gamma_P\cup\{X\}$
+\item $Q=Q_P\cup\{q_s,q_f\}$
+\item $\delta$~--- $\delta_P$ с добавленными переходами: $q_s\overset{\varepsilon,Z_0/Z_0X}{\longrightarrow}q_0$; $q_i\overset{\varepsilon,\gamma/\gamma}{\longrightarrow}q_f,\,\gamma\in\Gamma,\,q_i\in F$; а также $q_f\overset{\varepsilon,\gamma/\varepsilon}{\longrightarrow}q_f,\,\gamma\in \Gamma$.
+\end{enumerate}
+\begin{enumerate}
+\item Пусть $w\in L(P)$. Тогда в $P$ $(q_0,w,Z_0)\vdash^*(q,\varepsilon,\mu),\,q\in F$. Тогда в $N$ имеем $(q_s,w,Z_0)\vdash(q_0,w,Z_0X)\overset{(*)}{\vdash^*}(q,\varepsilon,\mu X)\vdash(q_f,\varepsilon,\kappa)\overset{(*_2)}{\vdash^*}(q_f,\varepsilon,\varepsilon)$. Корректность переходов $(*)$ доказывается также, как в предыдущем пункте, переходы $(*_2)$ возможны, т.к. в $\delta$ есть переходы $q_f\overset{\varepsilon,\gamma/\varepsilon}{\longrightarrow}q_f$. Получаем $(q_s,w,Z)\vdash^*(q_f,\varepsilon,\varepsilon)\Rightarrow w\in L(N)$.
+\item Пусть $w\in L(N)$. После $q_s$ в стеке на дне всегда $X$. В конце его нет, и в изначальном автомате $P$ нет удалений $X$ (т.к. $X\notin \Gamma_P$). Значит, был переход $q_f\longrightarrow q_f$. Но из $q_f$ нет переходов в другие состояния, поэтому $q_f$~--- последнее состояние: $(q_s,w,Z_0)\vdash(q_0,w,Z_0X)\vdash^*(q_f,\varepsilon,\varepsilon)$. Найдем первую конфигурацию с конца, состояние которой~--- не $q_f$: $(q_s,w,Z_0)\vdash(q_0,w,Z_0X)\vdash^*(q,w,\mu X)\vdash^*(q_f,\varepsilon,\varepsilon)$. Переходы в $q_f$ есть только из $q_k\in F$, поэтому $q\in F$. Отсюда получаем цепочку конфигураций в $P$: $(q_0,w,Z_0)\vdash^*(q,w,\mu)$, так как наличие одного символа на дне стека не изменяет работу автомата в данном случае. $q\in F\Rightarrow w\in L(P)$.
+\end{enumerate}
+\end{enumerate}
 \section*{Задача 3}
 \begin{enumerate}
 \item $\Sigma\eqdef\{a,b,c\}$. КС-грамматика $\Gamma\equiv(N,\Sigma,P,S)$.\begin{enumerate}
