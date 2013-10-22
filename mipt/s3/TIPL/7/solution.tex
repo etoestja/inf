@@ -136,5 +136,35 @@ $Q(k)\eqdef\big[\forall w\colon |w|=k\,\forall q_a\,\forall q_b\,\forall\phi\,\f
 \end{enumerate}
 \end{enumerate}
 \section*{Задача 2}
+
 \section*{Задача 3}
+\begin{enumerate}
+\item $\Sigma\eqdef\{a,b,c\}$. КС-грамматика $\Gamma\equiv(N,\Sigma,P,S)$.\begin{enumerate}
+\item $N\eqdef\{S,A,B,A_1,A_2,B_1\}$
+\item $P=\{S\longrightarrow A|B,\,A\longrightarrow A_1A_2,\,A_1\longrightarrow aA_1b|\varepsilon,\,A_2\longrightarrow cA_2|\varepsilon,\,B\longrightarrow aBc|B_1,\,B_1\longrightarrow bB_1|\varepsilon\}$
+\end{enumerate}
+\begin{enumerate}[1.]
+\item $L\eqdef\{a^ib^jc^k\big|i=j\vee i=k,\,i,j,k\geqslant 0\}$
+\item \label{aibi} Докажем, что $A_1$ порождает $a^ib^i$:\begin{enumerate}
+\item Фиксируем $i$. Применим $A_1\longrightarrow aA_1b$ $i$ раз, получим $a^iA_1b^i$. Применим $A_1\longrightarrow\varepsilon$. Получим $a^ib^i$
+\item Пусть $A_0\longrightarrow^*w\in \Sigma^*$. Заметим, что к $A_1$ могут быть применены только правила $A_1\longrightarrow aA_1b$ и $A_1\longrightarrow\varepsilon$. Оба не добавляют нетерминалов, первое не уменьшает количество $A_1$, второе уменьшает его на $1$. Значит (КС-грамматика, правила применяются к нетермиранам), в выводе $i$ применений первого, одно применение второго. Получаем $w=a^ib^i$.
+\end{enumerate}
+\item \label {same} Аналогично (используя количество нетерминалов в правилах) докажем, что $A_2$ порождает $c^j$, $B_1$ порождает $b^k$, $B$ порождает $a^ib^jc^i$.
+\item Пусть $w\in L$. Построим вывод $w$ в $\Gamma$:\begin{enumerate}
+\item Если $w=\varepsilon$, то вывод следующий: $S\overset{S\rightarrow B}{\longrightarrow} B\overset{B\rightarrow B_1}{\longrightarrow} B_1\overset{B_1\rightarrow\varepsilon}{\longrightarrow} \varepsilon$
+\item Пусть $w\neq\varepsilon, w=a^ib^ic^k$. $S\overset{S\rightarrow A_1A_2}{\longrightarrow}A_1A_2$.\begin{enumerate}
+\item $\ref{aibi}\Longrightarrow A_1\rightarrow^* a^ib^i$
+\item $\ref{same}\Longrightarrow A_2\rightarrow^* c^j$
+\end{enumerate}
+Получаем $S\rightarrow^* a^ib^ic^j$
+\item Пусть $w\neq\varepsilon, w=a^ib^ja^i$. $\ref{same}\Rightarrow S\rightarrow^* a^ib^jc^i$.
+\end{enumerate}
+Получаем $\boxed{L\subseteq L(\Gamma)}$
+\item Пусть $S\longrightarrow^* w$. Из $S$ могут быть получены только $A$ и $B$. Рассмотрим эти случаи:\begin{enumerate}
+\item Первое правило $S\longrightarrow A$. Из $A$ могут быть получены только $A_1A_2$, \ref{aibi} $\Rightarrow$ из $A_1$ получено $a_ib_i$, \ref{same} $\Rightarrow$ из $A_2$~--- $c_j$. Получаем, что $w=a^ib^ic^j\in L$.
+\item Первое правило $S\longrightarrow B$. \ref{same} $\Rightarrow$ из $B$ может быть получено только $w\equiv a_ib^jc^i\in L$
+\end{enumerate}
+Получаем $\boxed{L(\Gamma)\subseteq L}$
+\end{enumerate}
+\end{enumerate}
 \end{document}
