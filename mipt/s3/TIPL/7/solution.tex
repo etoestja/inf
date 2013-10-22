@@ -159,6 +159,26 @@ $Q(k)\eqdef\big[\forall w\colon |w|=k\,\forall q_a\,\forall q_b\,\forall\phi\,\f
 \item Пусть $w\in L(P)$. Тогда в $P$ $(q_0,w,Z_0)\vdash^*(q,\varepsilon,\mu),\,q\in F$. Тогда в $N$ имеем $(q_s,w,Z_0)\vdash(q_0,w,Z_0X)\overset{(*)}{\vdash^*}(q,\varepsilon,\mu X)\vdash(q_f,\varepsilon,\kappa)\overset{(*_2)}{\vdash^*}(q_f,\varepsilon,\varepsilon)$. Корректность переходов $(*)$ доказывается также, как в предыдущем пункте, переходы $(*_2)$ возможны, т.к. в $\delta$ есть переходы $q_f\overset{\varepsilon,\gamma/\varepsilon}{\longrightarrow}q_f$. Получаем $(q_s,w,Z)\vdash^*(q_f,\varepsilon,\varepsilon)\Rightarrow w\in L(N)$.
 \item Пусть $w\in L(N)$. После $q_s$ в стеке на дне всегда $X$. В конце его нет, и в изначальном автомате $P$ нет удалений $X$ (т.к. $X\notin \Gamma_P$). Значит, был переход $q_f\longrightarrow q_f$. Но из $q_f$ нет переходов в другие состояния, поэтому $q_f$~--- последнее состояние: $(q_s,w,Z_0)\vdash(q_0,w,Z_0X)\vdash^*(q_f,\varepsilon,\varepsilon)$. Найдем первую конфигурацию с конца, состояние которой~--- не $q_f$: $(q_s,w,Z_0)\vdash(q_0,w,Z_0X)\vdash^*(q,w,\mu X)\vdash^*(q_f,\varepsilon,\varepsilon)$. Переходы в $q_f$ есть только из $q_k\in F$, поэтому $q\in F$. Отсюда получаем цепочку конфигураций в $P$: $(q_0,w,Z_0)\vdash^*(q,w,\mu)$, так как наличие одного символа на дне стека не изменяет работу автомата в данном случае. $q\in F\Rightarrow w\in L(P)$.
 \end{enumerate}
+\item МП-автомат, эквивалентный автомату из задачи 1, принимающий по допускающему состоянию:
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,every node/.style={text centered},initial text=]
+	\node [state,initial] (q_s)	{$q_s$};
+	\node [state] (q_0) [right = 3cm of q_s]	{$q_0$};
+	\node [state] (q_1) [right = 4cm of q_0 ] {$q_1$};
+	\node [state,accepting] (q_f) [shift={(5 cm,-4cm)}] {$q_f$};
+	\path[->]
+		(q_s) edge node {$\varepsilon,Z/ZX$} (q_0)
+		(q_0) edge [out=40,in=140,loop] node[swap] {$\substack{ [_1,Z/[_1Z \\ [_1,[_1/[_1[_1 \\ [_1,[_2/[_1[_2 \\}$} (q_0)
+			  edge [out=-40,in=-140,loop] node {$\substack{ [_2,Z/[_2Z \\ [_2,[_1/[_2[_1 \\ [_2,[_2/[_2[_2 \\}$} (q_0)
+			  edge [out=20,in=160] node {$\substack{ ]_1,[_1/\varepsilon \\ ]_2,[_2/\varepsilon}$} (q_1)
+			  edge node [anchor=0,above=-0.15,swap] {$\varepsilon,Z/Z$} (q_1)
+			  edge [out=-30,in=95] node [anchor=0,above=-0.8,swap] {$\varepsilon,X/X$} (q_f)
+		(q_1) edge [in=40,out=140,loop] node {$\substack{ ]_1,[_1/\varepsilon \\ ]_2,[_2/\varepsilon \\}$} (q_0)
+			  edge [in=-40,out=-140,loop] node [swap] {$\varepsilon,Z/\varepsilon$} (q_1)
+			  edge [in=-20,out=-160] node {$\substack{ [_1,Z/[_1Z \\ [_2,Z/[_2Z}$} (q_0)
+			  edge [out=210,in=85] node [anchor=0,above=-0.4,swap] {$\varepsilon,X/X$} (q_f);
+\end{tikzpicture}
+\end{center}
 \end{enumerate}
 \section*{Задача 3}
 \begin{enumerate}
@@ -191,3 +211,4 @@ $Q(k)\eqdef\big[\forall w\colon |w|=k\,\forall q_a\,\forall q_b\,\forall\phi\,\f
 \end{enumerate}
 \end{enumerate}
 \end{document}
+% ГРЕБАНЫЙ ACM!!11
