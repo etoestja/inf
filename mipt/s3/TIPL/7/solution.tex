@@ -112,28 +112,28 @@ $Q(k)\eqdef\big[P(w_2)[1,k]=w_1^R[1,k]\big]$.\begin{enumerate}[a.]
 \item $P(k)\eqdef\big[\forall w\in L^*\colon f(w)\ni k\hookrightarrow (q_0,w,Z)\vdash^*(q_1,\varepsilon,Z)\big]$\begin{enumerate}
 \item Пусть $k=0$. Тогда $w=\varepsilon$. $(q_0,w,Z)\equiv(q_0,\varepsilon,Z)\vdash(q_1,\varepsilon,Z)\Rightarrow P(0)$.
 \item Пусть $k=1, w\in L^*\colon f(w)\ni 1\Rightarrow w\equiv w_1\in L$. $\ref{wOne}\Rightarrow (q_0,w,Z)\vdash^*(q_1,\varepsilon,Z)\Rightarrow P(1)\,\blacksquare$
-\item 
-% здесь еще одна хуита
-Пусть $P(k)$. $w\in L^*\colon f(w)\ni k+1\Rightarrow w=w_1...w_{k+1},\,\forall i\in\overline{1,k+1}\hookrightarrow w_i\in L$. $\varangle w_0\eqdef w_1...w_k\in L^*$. $f(w_0)\ni k\overset{P(k)}{\Rightarrow} (q_0,w_0,Z)\vdash^*(q_1,\varepsilon,Z)$. Тогда $(q_0,w,Z)\equiv(q_0,w_0w_{k+1},Z)\vdash^*(q_1,\varepsilon w_{k+1},Z)\overset{\ref{wOne}}{\vdash^*}(q_1,\varepsilon,Z)\Rightarrow P(k+1)\,\blacksquare$
+\item Пусть $P(k)$. $w\in L^*\colon f(w)\ni k+1\Rightarrow w=w_1...w_{k+1},\,\forall i\in\overline{1,k+1}\hookrightarrow w_i\in L$. $\varangle w_0\eqdef w_1...w_k\in L^*$. $f(w_0)\ni k\overset{P(k)}{\Rightarrow} (q_0,w_0,Z)\vdash^*(q_1,\varepsilon,Z)$. Тогда $(q_0,w,Z)\equiv(q_0,w_0w_{k+1},Z)\vdash^*(q_1,\varepsilon w_{k+1},Z)\overset{\ref{wOne}}{\vdash^*}(q_1,\varepsilon,Z)\Rightarrow P(k+1)\,\blacksquare$
 \end{enumerate}
 Получаем $\forall w\in L^*\hookrightarrow (q_0,w,Z)\vdash^*(q_1,\varepsilon,Z)\overset{\mbox{\tiny def }\delta}{\vdash}(q_1,\varepsilon,\varepsilon)\Rightarrow \forall w\in L^*\hookrightarrow w\in L(\A)\Rightarrow \boxed{L^*\subseteq L(\A)}$.
 \item \label{bottom} $\varangle\delta$. Заметим, что каждый переход, кроме $q_1\overset{\varepsilon
-,Z/\varepsilon}{\longrightarrow}q_1$ сохраняет количество $Z$ в стеке, и, более того, оставляет $Z$ на
-%НА ДНИЩЕ
-дне стека.
-\item Пусть $w\in L(\A)\Rightarrow(q_0,w,Z)\vdash^*(q,\varepsilon,\varepsilon)$.
-%\begin{enumerate}[a.]
-%\item Если $w=\varepsilon$, то $w\in L^*$
-%\item Пу
-%Пусть иначе. Изначально $Z$ в стеке, в конце его нет. Значит (\ref{bottom}), был переход $q_1\overset{\varepsilon
-%,Z/\varepsilon}{\longrightarrow}q_1$. Но $Z$ был на дне стека, поэтому после стек пуст. Значит, это последняя конфигурация. Имеем $(q_0,w,Z)\vdash^*(q_1,\varepsilon,Z)\vdash(q_1,\varepsilon,\varepsilon)$. Рассмотрим $(q_0,w,Z)\vdash^*(q_1,\varepsilon,Z)$. Пусть $\{c_i\}_{i=0}^I$~--- эта цепочка конфигураций, $c_i=(q_{k_i},w)$
-%Переход $q_1\overset{\varepsilon,Z/\varepsilon}{\longrightarrow}q_1$ не использовался, поэтому рассмотрим автомат $\A'$ без него. Заметим, что $\A'$~--- детерминированный.
-\item Пусть $(q_a,w,\phi)\vdash^*(q_b,\varepsilon,\gamma)$. Тогда $||\gamma||_i-||\phi||_i=||w||_i$. Докажем по индукции:\newline
+,Z/\varepsilon}{\longrightarrow}q_1$ сохраняет количество $Z$ в стеке, и, более того, оставляет $Z$ на дне стека.
+\item \label{normAndAutomata} Пусть $(q_a,w,\phi)\vdash^*(q_b,\varepsilon,\gamma)$. Тогда $||\gamma||_i-||\phi||_i=||w||_i$. Докажем по индукции:\newline
 $Q(k)\eqdef\big[\forall w\colon |w|=k\,\forall q_a\,\forall q_b\,\forall\phi\,\forall\gamma\colon (q_a,w,\phi)\vdash^*(q_b,\varepsilon,\gamma)\hookrightarrow ||\gamma||_i-||\phi||_i=||w||_i\big]$.\begin{enumerate}[a.]
 \item $k=0\Rightarrow w=\varepsilon$. Поскольку все $\varepsilon$-переходы $q_0\overset{\varepsilon,Z/Z}{\longrightarrow}q_1$ и $q_1\overset{\varepsilon,Z/\varepsilon}{\longrightarrow}q_1$ не изменяют $||\cdot||_i$ для символов стека, получаем $||w||_i\equiv 0\equiv ||\phi||_i-||\delta||_i\Rightarrow Q(0)$.
 \item Пусть $Q(k)$. $\varangle w\colon |w|=k+1,\,(q_a,w,\phi)\vdash^*(q_c,\varepsilon,\gamma)$. $w=w_0\sigma$, $\sigma\in\Sigma$. $\varangle (q_a,w,\phi)\equiv(q_a,w_0\sigma,\phi)\vdash^*(q_b,\sigma,\psi)\vdash(q_c,\varepsilon,\gamma)$. $Q(k)\Rightarrow ||\psi||_i-||\phi||_i=||w_0||_i$. $\varangle$ последний переход. Из определения $\delta$ следует, что $||\gamma||_i-||\psi||_i=||\sigma||_i$: если $\sigma_i=[_i$, то в стек будет добавлена $\sigma_i$, иначе она будет удалена. Поэтому $||w||_i=||w_0||_i+||\sigma||_i=||\psi||_i-||\phi||_i+||\gamma||_i-||\psi||_i\equiv||\gamma||_i-||\phi||_i\Rightarrow Q(k+1)$.
 \end{enumerate}
-%\end{enumerate}
+\item Пусть $w\in L(\A)\Rightarrow(q_0,w,Z)\vdash^*(q,\varepsilon,\varepsilon)$.
+\begin{enumerate}[a.]
+\item Если $w=\varepsilon$, то $w\in L^*$
+\item Пусть иначе. Изначально $Z$ в стеке, в конце его нет. Значит (\ref{bottom}), был переход $q_1\overset{\varepsilon
+,Z/\varepsilon}{\longrightarrow}q_1$. Но $Z$ был на дне стека, поэтому после стек пуст. Значит, это последняя конфигурация. Имеем $(q_0,w,Z)\vdash^*(q_1,\varepsilon,Z)\vdash(q_1,\varepsilon,\varepsilon)$. Рассмотрим $(q_0,w,Z)\vdash^*(q_1,\varepsilon,Z)$. Пусть $\{c_i\}_{i=0}^I$~--- эта цепочка конфигураций, $c_i=(q_{k_i},w_i,\gamma_i)$\begin{enumerate}
+\item $\varangle \delta$. Заметим, что автомат реализует алгоритм проверки на ПСВ: если была прочитана скобка $[_i$, то она положена в стек. Скобки вынимаются из стека тогда и только тогда, когда прочитана парная скобка. Значит, $w$~--- ПСВ.
+\item Рассмотрим все конфигурации $c_{i_j}\colon \gamma_{i_j}=Z\Rightarrow c_i\equiv (q_{k_{i_j}},w_{i_j},Z)$. Рассмотрим первую пару $c_{i_1}\vdash^*c_{i_{2}}$. Было прочитано слово $x_1$. $\ref{normAndAutomata}\Rightarrow ||x_1||_i=||Z||_i-||Z||_i=0$. Получаем, что  $x_1$~--- подстрока ПСВ со скобочным итогом, равным нулю. Значит, $x_1$~--- ПСВ. Пусть $x_1=ab$, в $a$ только открывающие скобки, в $b$ первая закрывающая. Пусть в $b$ есть открывающие скобки, а именно, $b=cd$, в $d$ первая открывающая скобка. После прочтения $a$ автомат находится в $q_0$ (\ref{wq0}). Далее после прочтения $c$ автомат в $q_1$ (\ref{wq1}). Стек не пуст, так как иначе эта пара конфигураций не первая. Но из $q_1$ нет переходов по открывающим скобкам с непустым стеком~--- противоречие. Получаем, что в $b$ нет открывающих скобок $\Rightarrow$ $x_1\in L$. Далее рассуждение можно продолжить, так как следующий после $x_1$ символ в $w$~--- открывающая скобка (иначе скобочный итог отрицательный), по ней автомат переходит в $q_0$.\newline
+Получаем, что $w=x_1...x_m$, $\forall q\in\overline{1,m}\hookrightarrow x_q\in L$. Поэтому $w\in L^*$.
+\end{enumerate}
+Получаем $\boxed{L(\A)\subseteq L^*}$.
+%Переход $q_1\overset{\varepsilon,Z/\varepsilon}{\longrightarrow}q_1$ не использовался, поэтому рассмотрим автомат $\A'$ без него. Заметим, что $\A'$~--- детерминированный.
+\end{enumerate}
 \end{enumerate}
 \section*{Задача 2}
 \section*{Задача 3}
