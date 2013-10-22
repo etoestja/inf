@@ -209,6 +209,23 @@ $Q(k)\eqdef\big[\forall w\colon |w|=k\,\forall q_a\,\forall q_b\,\forall\phi\,\f
 \end{enumerate}
 Получаем $\boxed{L(\Gamma)\subseteq L}$
 \end{enumerate}
+\item {\em{(Не дописано, можно не читать)}} Построим сначала $\Gamma\colon L_0\eqdef L(\Gamma)=\{a^ib^jc^k\big|i\neq j\vee i\neq k\}$:
+\begin{enumerate}
+\item $S\Longrightarrow S_1S_2$
+\item $S_1\longrightarrow AB$
+\item $A\longrightarrow aAb|B$
+\item $B\longrightarrow C|D$
+\item $C\longrightarrow aC|a$
+\item $D\longrightarrow bD|b$
+\end{enumerate}
+Эта часть грамматики строит слова $A\Longrightarrow^* a^ib^j,i\neq j$. Правила $A\longrightarrow aAb$ порождают $a^iAb^i$, а $B$ добавляет <<лишние>> буквы $a$ или $b$.\newline
+Для построения грамматики, распознающей язык $L=\Sigma^*\setminus\{a^nb^nc^n\big|n\geqslant 0\}$ из условия, рассмотрим возможные случаи. $\Sigma^*\ni w\neq a^nb^nc^n$.\begin{enumerate}
+\item Первый символ $b$ или $c\Rightarrow$ далее могут быть любые символы: $(b|c)\Sigma^+\subset L$. Задается РВ, значит, задается регулярной грамматикой, значит, задается КС-грамматикой.
+\item Первый символ $a$, после символов $a$ нет ничего, либо есть $c$. $a^+\Sigma^*(c|\varepsilon)\Sigma^*$
+\item Первый символ $a$, после символы $b$, после $a$ или ничего: $a^+b^+(a|\varepsilon)\Sigma^*$
+\item $a^ib^jc^k\Sigma^+$. {\em{рассмотреть}}
+\item $a^ib^jc^k,\,i\neq j\vee j\neq k$. Воспользуемся грамматикой для $L_0$. $(i\neq j\vee j\neq k)\Leftrightarrow \urcorner(i=j=k)$.
+\end{enumerate}
 \end{enumerate}
 \end{document}
 % ГРЕБАНЫЙ ACM!!11
