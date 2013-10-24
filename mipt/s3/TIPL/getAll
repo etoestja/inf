@@ -1,6 +1,13 @@
 #!/bin/bash
 i=1
-N=7
+N=8
+
+if [ "X$1" != "X" ]
+then
+    ./get $1
+    exit
+fi
+
 while (( $i <= $N ))
 do
     ./get $i

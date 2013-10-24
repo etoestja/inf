@@ -1,0 +1,326 @@
+ \documentclass[12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}        % Кодировка входного документа;
+                                    % при необходимости, вместо cp1251
+                                    % можно указать cp866 (Alt-кодировка
+                                    % DOS) или koi8-r.
+
+\usepackage[english,russian]{babel} % Включение русификации, русских и
+                                    % английских стилей и переносов
+%%\usepackage{a4}
+%%\usepackage{moreverb}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,amsbsy,amstext,amscd,amsxtra,multicol}
+\usepackage{verbatim}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning}
+\usepackage{multicol} %Несколько колонок
+\usepackage{graphicx}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage[stable]{footmisc}
+
+%% \voffset-5mm
+%% \def\baselinestretch{1.44}
+\renewcommand{\theequation}{\arabic{equation}}
+\def\hm#1{#1\nobreak\discretionary{}{\hbox{$#1$}}{}}
+\newtheorem{Lemma}{Лемма}
+\theoremstyle{definiton}
+\newtheorem{Remark}{Замечание}
+%%\newtheorem{Def}{Определение}
+\newtheorem{Claim}{Утверждение}
+\newtheorem{Cor}{Следствие}
+\newtheorem{Theorem}{Теорема}
+\theoremstyle{definition}
+\newtheorem{Example}{Пример}
+\newtheorem*{known}{Теорема}
+\def\proofname{Доказательство}
+\theoremstyle{definition}
+\newtheorem{Def}{Определение}
+
+%% \newenvironment{Example} % имя окружения
+%% {\par\noindent{\bf Пример.}} % команды для \begin
+%% {\hfill$\scriptstyle\qed$} % команды для \end
+
+
+
+
+
+
+%\date{22 июня 2011 г.}
+\let\leq\leqslant
+\let\geq\geqslant
+\def\MT{\mathrm{MT}}
+%Обозначения ``ажуром''
+\def\BB{\mathbb B}
+\def\CC{\mathbb C}
+\def\RR{\mathbb R}
+\def\SS{\mathbb S}
+\def\ZZ{\mathbb Z}
+\def\NN{\mathbb N}
+\def\FF{\mathbb F}
+%греческие буквы
+\let\epsilon\varepsilon
+\let\es\emptyset
+\let\eps\varepsilon
+\let\al\alpha
+\let\sg\sigma
+\let\ga\gamma
+\let\ph\varphi
+\let\om\omega
+\let\ld\lambda
+\let\Ld\Lambda
+\let\vk\varkappa
+\let\Om\Omega
+\def\abstractname{}
+
+\let\yield\Rightarrow
+
+\def\R{{\cal R}}
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+\def\D{{\cal D}}
+\let\w\omega
+
+%классы сложности
+\def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
+\newcounter{problem}
+\newcounter{uproblem}
+\newcounter{subproblem}
+\def\pr{\medskip\noindent\stepcounter{problem}{\bf \theproblem .  }\setcounter{subproblem}{0} }
+\def\prstar{\medskip\noindent\stepcounter{problem}{\bf $\mathbf{\theproblem}^*$\negthickspace.  }\setcounter{subproblem}{0} }
+\def\prpfrom[#1]{\medskip\noindent\stepcounter{problem}{\bf Задача \theproblem~(№#1 из задания).  }\setcounter{subproblem}{0} }
+\def\prp{\medskip\noindent\stepcounter{problem}{\bf Задача \theproblem .  }\setcounter{subproblem}{0} }
+\def\prpstar{\medskip\noindent\stepcounter{problem}{\bf Задача $\bf\theproblem^*$\negthickspace.  }\setcounter{subproblem}{0} }
+\def\prdag{\medskip\noindent\stepcounter{problem}{\bf Задача $\mathbf{\theproblem}^{^\dagger}$\negthickspace\,.  }\setcounter{subproblem}{0} }
+\def\upr{\medskip\noindent\stepcounter{uproblem}{\bf Упражнение \theuproblem .  }\setcounter{subproblem}{0} }
+%\def\prp{\vspace{5pt}\stepcounter{problem}{\bf Задача \theproblem .  } }
+%\def\prs{\vspace{5pt}\stepcounter{problem}{\bf \theproblem .*   }
+\def\prsub{\medskip\noindent\stepcounter{subproblem}{\rm \thesubproblem .  } }
+\def\prsubr{\medskip\noindent\stepcounter{subproblem}{\rm \thesubproblem)  } }
+\def\prsubstar{\medskip\noindent\stepcounter{subproblem}{\rm $\thesubproblem^*$\negthickspace.  } }
+\def\prsubrstar{\medskip\noindent\stepcounter{subproblem}{\rm $\thesubproblem^*$)  } }
+%прочее
+\def\quotient{\backslash\negthickspace\sim}
+\begin{document}
+\centerline{\LARGE Задание 8}
+
+\medskip
+
+\begin{center}
+	{\Large Контекстно-свободные языки и магазинные автоматы II}
+\end{center}
+
+\bigskip
+
+
+
+{\bf Ключевые слова }\footnote{минимальный необходимый объем понятий и навыков по
+этому разделу)}:{\em  язык, контекстно-свободный язык, магазинный автомат, грамматика, метод математической индукции. %примеры нерегулярных языков;
+%поиск подстрок, алгоритм Кнута- Морисса- Пратта.
+
+%языки скобочных выражений (языки Дика). 
+}
+
+
+\section{КС-грамматики}
+
+\subsection{Определение}
+Вспомним сначала что такое грамматика.
+
+\begin{Def}
+	Грамматикой $\Gamma$ называется четвёрка $(N, T, P, S)$, где
+	\begin{itemize}
+		\item $N$ -- множество нетерминальных символов
+		\item $T$ -- множество терминальных символов
+		\item $P$ -- множество правил вывода, $P \subseteq (N\cup T)^* \times (N\cup T)^*$.
+		\item $S$ -- аксиома, $S \in N$.
+	\end{itemize}
+	При этом, $N\cap T = \es$, нетерминалы обычно обозначаются заглавными буквами $A, B, C,\ldots$, терминалы обычно обозначаются строчными буквами и/или цифрами, смешанные цепочки из $(N\cup T)^*$ обозначают греческими буквами $\alpha, \beta, \gamma$. Слово $w \in T^*$ порождается грамматикой $\Gamma$, если существует последовательность правил вывода, начинающаяся с правила вида $S \to \alpha$, в результате применения которых порождается слово $w$. Под применением правила $\alpha \to \beta$, понимается, что подслово $\alpha$ заменяется на подслово $\beta$
+\end{Def}
+
+Грамматика называется \emph{контекстно-свободной} (тип 2 по Хомскому), если все правила грамматики имеют вид $A \to \alpha$, где $A$ -- нетерминал, а $\alpha$ -- цепочка, которая может состоять как из терминалов, так и нетерминалов.
+
+При записи правил так же используются вспомогательное обозначение $A -> \alpha | \beta$, которое означает, что есть два правила: $A \to \alpha$ и $A \to \beta$.
+
+\begin{Example}\label{Gex}
+	Грамматика $ G $ задана правилами:
+	\begin{align*}
+		S &\to aAB\\	
+		A &\to aA | a\\
+		B &\to bB | b\\
+	\end{align*}
+	Слово $aabb$ выводится грамматикой. Последовательность применений правил вывода такая:
+	\begin{align*}
+		&S \\
+		S &\to aAB\\
+		&aAB\\
+		A &\to a\\
+		&aaB\\
+		B &\to bB\\
+		&aabB\\
+		B &\to b\\
+		&aabb
+	\end{align*}
+\end{Example}
+
+\subsection{Вывод, левый вывод, дерево разбора}
+
+\emph{Выводом} цепочки $\alpha$ называется такая последовательность применений правил с указанием раскрываемого нетерминала, что применяя правила из неё начиная с аксиомы получается цепочка $\alpha$. Если цепочка $\alpha$ не содержит нетерминалов, то $\alpha$ принадлежит языку, порождаемому КС-грамматикой. Нам будет удобно пользоваться такими понятиями как левый вывод и правый вывод.  \emph{Левым выводом} называют такой вывод, что на каждом его шаге раскрывается самый левый нетерминал в промежуточной цепочке. Вывод в примере \ref{Gex} является левым. Правый вывод определяется аналогично.
+
+
+Также мы будем использовать деревья вывода. С формальным определением дерева вывода вы можете познакомиться, например, в книге Хопкрофта, Мотвани и Ульмана, а мы рассмотрим пример деревьев вывода и затем дадим неформальное описание этого понятия. 
+
+\begin{Example}\label{GTree}
+	Грамматика $G$, $T = \{a, +, *\}$ задана правилами:
+	\begin{align*}
+		S &\to E\\
+		E &\to E+E\\
+		E &\to E*E\\
+		E &\to I\\
+		I &\to a\\
+	\end{align*}
+
+	Построим деревья вывода для слова $a + a * a$:
+
+	
+	\begin{multicols}{2}
+		\begin{flushleft}
+			
+		\begin{tikzpicture}
+			\node {$S$} %root
+			child{ node   {$E$} 
+				child   { node {$I$}
+					child{node {$a$}}
+				}
+			}
+			child {node {$+$}}
+			child{ node  {$E$}
+				child { node  {$E$}
+					child  { node {$I$}
+						child{node {$a$}}
+					}
+				}
+				child{ node {$*$}}
+				child{ node {$E$}
+					child{ node {$I$}
+						child{node {$a$}}
+					}
+				}			
+			};
+		\end{tikzpicture}
+				\end{flushleft}
+		\begin{flushright}
+			
+		\begin{tikzpicture}
+			\node {$S$} %root
+			child{ node   {$E$} 
+				child { node  {$E$}
+					child  { node {$I$}
+						child{node {$a$}}
+					}
+				}
+				child{ node {$+$}}
+				child{ node {$E$}
+					child{ node {$I$}
+						child{node {$a$}}
+					}
+				}
+			}
+			child {node {$*$}}
+			child{ node  {$E$}
+				child   { node {$I$}
+					child{node {$a$}}
+				}			
+			};
+		\end{tikzpicture}
+				\end{flushright}	
+	\end{multicols}
+	
+   Теперь опишем понятие дерева вывода, которое также называется деревом разбора. Зафиксируем грамматику $G$. \emph{Деревом вывода} для слова $w$  называется упорядоченное дерево, в корне которого находится аксиома $S$, каждая вершина помечена нетерминалом, терминалом или пустым словом, если вершина помечена терминалом или $\eps$, то эта вершина является листом, если же вершина помечена нетерминалом $A$, то для некоторого правила $ A \to X_1X_2\ldots X_n \in P$ ($X_i \in N\cup T$) вершины-дети $A$ помечены символами $X_1, X_2\ldots X_n$ слева направо. Листья дерева вывода образуют слово $w$.
+	
+	Как мы видим, синтаксически деревья вывода принципиально разные: в первом случае выражение интерпретируется как  $a + (a*a)$, а во втором как $(a+a)*a$, что приводит к непредсказуемому результату при выполнении стандартных операций!
+	
+\end{Example}
+
+Эта проблема приводит нас к новому важному понятию -- неоднозначности. Грамматика $G$ является \emph{неоднозначной}, если хотя бы для одного слова существует два различных дерева вывода.
+
+
+
+
+Левый и правый вывод помимо удобства важны тем, что они фактически задают порядок обхода дерева вывода, поэтому каждому левому выводу соответствует ровно одно дерево разбора, а каждому дереву забора соответствует ровно один левый вывод.
+
+\upr Доказать, что грамматика $G$ является однозначной тогда и только тогда, когда каждое слово, порождаемое $G$ имеет ровно один левый(правый) вывод.
+
+\section{От КС-грамматик к МП-автоматам}
+
+Приведём алгоритм построения МП-автомата по описанию КС-грамматики и докажем его корректность.
+
+Для каждой грамматики $G$ введём вспомогательное отношение $\yield $ на множестве $(N\cup T)^*\times (N\cup T)^*$. будем говорить, что $\alpha \yield \beta$, если существует правило, которое переводит цепочку $\alpha$ в цепочку $\beta$. Отношение $\yield_L$ определим аналогично, только с условием, что цепочка $\beta$ имеет левый вывод из $\alpha$. Если цепочка $\beta$ выводится из $\alpha$ за $k$ шагов, будем обозначать это как $\alpha \yield^k \beta$. Будем также использовать транзитивное замыкание $\yield^*$ отношения $\yield$. Неформально, $\alpha \yield^* \beta$, если для некоторого $k$ выполняется $\alpha \yield^k \beta$.
+
+\textbf{Построение.} По КС-грамматике $G = (N,T,P,S)$, построим N-автомат\footnote{МП-автомат, допускающий по пустому стеку} $M = (T, N\cup T, {q_0}, q_0, S, \delta, \es)$. Как видно из описания автомата, он содержит ровно одно состояние. Осталось описать только функцию переходов $ \delta$. Она устроена следующим образом:
+\begin{itemize}
+	\item $A \to \alpha \in P \Rightarrow \delta(q_0,\eps,A) \vdash (q_0,\alpha)$ ;
+	\item $\forall \sigma \in T: \delta(q_0,\sigma,\sigma) \vdash (q_0,\eps) $;
+\end{itemize}
+
+\textbf{Корректность.} Покажем, что $L(G) \subseteq L(M)$. Поясним неформально принцип работы автомата. В начале работы автомата, на дне стека лежит аксиома $S$. Если слово $w$ выводится грамматикой $G$, то существует левый вывод данного слова. Автомат будет имитировать левый вывод следующим образом. Если на верхушке стека находится нетерминал $A$, то необходимо продолжить левый вывод и применить очередное правило. Если же на верхушке стека находится последовательность терминалов, то она является префиксом необработанной части слова $w$, а значит считывая терминалы из стека и «сокращая» их с терминалами $w$ автомат добирается до ближайшего левого нетерминала в выведенной цепочке и продолжает левый вывод или же добирается до дна стека и в случае совпадения содержимого стека с необработанной частью $w$, слово $w$ будет принято, в противном случае, автомат аварийно завершит работу. 
+
+
+Теперь формально.
+\begin{Claim}\label{gen_to_conf}
+	Если на верхушке стека лежит нетерминал $A$, \\ $A \yield^*_L u$, при этом автомат $M$ находится в конфигурации $(q_0, uv, A\alpha)$,  то $(q_0, uv, A\alpha) \vdash^* (q_0, v, \alpha)$.
+\end{Claim}
+\begin{proof}
+	
+
+  Проведём доказательство по индукции, параметром индукции будет длина $k$ левого вывода $\yield_L^k$. 
+
+База: $k = 1$. Тогда существует правило $\delta(q_0,\eps,A) \vdash (q_0,u)$, а далее необработанный префикс $u$ сокращается со словом $u$ на верхушке стека, следовательно $(q_0, uv, A\alpha) \vdash^* (q_0, v, \alpha)$.
+
+Переход: пусть утверждение верно для $k = n$, покажем что оно верно для $n+1$. Пусть первый вывод в цепочке левого вывода $u$ из $A$ будет $A \to u_1B\beta$,  $u_1 \in T^*$.Тогда $u = u_1u_2$ и $(q_0, u_1u_2v, A\alpha) \vdash^* (q_0, u_2v, B\beta\alpha)$ -- если $u_1 \neq \eps$, то необработанный префикс $u_1$ сокращается с $u_1$ в стеке. Но $B\beta \yield_L^k u_2 $, а отсюда следует, что $u_2 = u_3u_4$, и $B \yield^l_L u_3$, причём $l \leq n$, а значит $(q_0, u_2v, B\beta\alpha) \vdash^* (q_0, u_3v, \beta\alpha)$ по предложению индукции.  Продолжая сокращать префикс $u_i$ с терминалами в стеке и пользоваться тем фактом, что очередной префикс $u_i$ выводится из нетерминала в цепочке $\beta$ за не большее чем $n$ число выводов, получим, что $\beta$ удаляется из стека, то есть $ (q_0, u_3v, \beta\alpha) \vdash^* (q_0, v, \alpha)$ .
+\end{proof}
+
+В частности, из утверждения \ref{gen_to_conf} следует, что если $S \yield_L w$, то $(q_0, w, S) \vdash^* (q_0,\eps,\eps)$, что и означает, что $w \in L(M)$.
+
+Покажем теперь, что $L(M) \subseteq L(G)$. Каждой успешной\footnote{Под «успешной» мы понимаем, что на этой последовательности конфигураций слово $w$ было принято автоматом.} последовательности конфигураций на входе $w$ автомата $M$ соответствует левый вывод $w$ в грамматике $G$. А именно каждому переходу $\delta(q_0, \eps, A) \vdash (q_0, \alpha)$ соответствует применению правила $A \to \alpha$ на шаге вывода. 
+
+Докажем это.
+
+
+%\label{conf_to_gen}
+\upr Доказаьть, что	если $(q_0, u,\alpha) \vdash^* (q_0, \eps, \eps)$, то $\alpha \yield^*_L u$.
+
+ Отсюда следует, что если $w \in L(M)$, то $w \in L(G)$, т.к. первое влечёт $(q_0,w,S) \vdash^* (q_0,\eps,\eps)$.
+
+
+
+
+
+\section{Задачи}
+
+
+\prp Даны языки $ L_1 = \{ a^nb^nc^m\, |\, n, m \geq 0 \} $, $ L_2 = \{ f^na^mb^m\, |\, n, m \geq 0 \} $. Построить однозначную КС-грамматику, порождающую язык $L = L_1 \cup L_2$ и детерминированный МП-автомат, распознающий язык $L$. За однозначность грамматики и детерминированность автомата дополнительные очки. Если не получается их построить, стройте неоднозначную КСГ/недетерминированный МП-автомат.
+
+\prp Построить КС-грамматику или МП-автомат для языка $\{xcy\, |\, x \neq y, x,y \in \{a,b\}^* \}$.
+
+\medskip
+
+Расширенным МП-автоматом называется МП-автомат, который может извлекать из стека за такт работы не обязательно один, а возможно несколько символов, но при этом не более чем некоторое константное число $c$. Таким образом, в нём допустимы правила вида $\delta(q,a,\alpha) \vdash (p,\beta)$, где $\alpha < c$.
+
+
+\prp Доказать, что если $M$ является расширенным МП-автоматом, то существует МП-автомат $M^\prime$, такой что $L(M) = L(M^\prime)$. Докажите, что если $M$ детерминированный автомат, то найдётся и детерминированный автомат $M^\prime$.
+\medskip
+
+На семинаре я вас обманул, сказав что МП-автомат с одним состоянием можно легко получить взяв за алфавит стека $Q\times \Gamma$. Для обычных МП-автоматов это неверно.
+
+\prdag Докажите, что для расширенного МП-автомата $M$ есть расширенный МП-автомат $M^\prime$ с одним состоянием, алфавит стека которого есть $Q_M \times \Gamma_M$.
+\medskip
+
+МП-автоматом с предпросмотром назовём МП-автомат, который может считывать с входной ленты не более, чем константное число символов. При этом, ему на вход подаётся слово $w\$$, где $\$$ -- маркер конца слова, $ w \in \Sigma^*$,  $\$ \not\in \Sigma$, алфавит автомата -- $\Sigma \cup \{\$\} $.  Таким образом, в нём допустимы правила вида $\delta(q,u,x) \vdash (p,z)$, $\delta(q,v\$,x) \vdash (p,z)$ где $|u| < c$ и $|v\$| < c$. 
+
+\prpstar Доказать, что если $M$ является МП-автоматом с предпросмотром, то существует МП-автомат $M^\prime$, такой что $L(M) = L(M^\prime)$.
+
+
+
+\end{document}
