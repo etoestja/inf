@@ -16,35 +16,37 @@
 typedef struct
 {
     char text[MSGLEN];
+    int sender;
+    int read;
 } message;
-
-
 
 #define USERS 2
 #define FILENAME "messages"
 #define MESSAGES 10
-#define FILESIZE (MESSAGES * sizeof(message) + (USERS + 1) * sizeof(int))
+#define FILESIZE (MESSAGES * sizeof(message) + sizeof(int))
 
 // for SV
 #define PATHNAME "main.c"
 
-#define NSEMS 3
+#define NSEMS 4
 
 int   semid;
 key_t key;
     
 int myID, hisID;
 
-int* lastMsg;
+int* freeSlot;
 message* messages;
 
 void* ptr;
 
-// mutex empty (Nmsg) full (N-Nmsg)
-//  1     0             N
-int semsInitial[NSEMS] = {1, 0, MESSAGES};
+int fileCreatedNow;
 
-enum _SEMS = {MUTEX, EMPTY, FULL};
+int semsInitial[NSEMS] = {0, 0, 1, MESSAGES};
+
+//           m for 0  m for 1 mutex N-msgs
+//              0       0       1     N
+enum _SEMS {EMPTY0, EMPTY1, MUTEX, FULL};
 
 void getHisID()
 {
@@ -109,12 +111,16 @@ void map(char* filename)
 	int fd = open(filename, O_RDWR | O_CREAT, 0666);
 
     ptr = NULL;
+    fileCreatedNow = 0;
 
 	if(fd == -1)
         return;
 
     if(!existed)
+    {
         ftruncate(fd, FILESIZE);
+        fileCreatedNow = 1;
+    }
 
     ptr = (void*) mmap(NULL, FILESIZE, PROT_WRITE | PROT_READ, MAP_SHARED, fd, 0);
 
@@ -126,9 +132,8 @@ void map(char* filename)
 
 void mapInterpret()
 {
-    lastMsg = (int*) ptr;
-    write
-    messages = (message*) (ptr + (sizeof(int) * (USERS + 1)));
+    freeSlot = (int*) ptr;
+    messages = (message*) (ptr + sizeof(int));
 
 }
 
@@ -144,11 +149,49 @@ void initAll()
         printf("ptr = NULL!\n");
         exit(-1);
     }
+
+    struct sembuf bufMutex;
+    bufMutex.sem_num = MUTEX;
+    bufMutex.sem_op  = -1;
+    bufMutex.sem_flg = 0;
+    if(semop(semid, &bufMutex, 1) < 0)
+    {
+        printf("init mutex error\n");
+    }
+
+    if(fileCreatedNow)
+    {
+        *freeSlot = 0;
+    }
+
+    bufMutex.sem_op = 1;
+    if(semop(semid, &bufMutex, 1) < 0)
+    {
+        printf("init /mutex error\n");
+    }
 }
 
-int main()
+void messageCopy(char* dest, char* src)
 {
-    message tMsg;
+    int i;
+    for(i = 0; i < MSGLEN; i++)
+        dest[i] = src[i];
+}
+
+int main(int argc, char** argv)
+{
+    if(argc < 2)
+    {
+        printf("Usage: %s myid\n", argv[0]);
+        printf(" myid is 0 or 1\n");
+        return(-1);
+    }
+
+    if(argv[1][0] == '1') myID = 1;
+    else myID = 0;
+    getHisID();
+
+    char tMsg[MSGLEN];
     ssize_t size;
 
     struct sembuf bufMutex, buf0;
@@ -164,7 +207,7 @@ int main()
         initAll();
         for(;;)
         {
-            if((size = read(STDIN_FILENO, tMsg.text, MSGLEN)) > 0)
+            if((size = read(STDIN_FILENO, tMsg, MSGLEN)) > 0)
             {
                 //waiting until there is space
                 buf0.sem_num = FULL;
@@ -178,16 +221,31 @@ int main()
                 if(semop(semid, &bufMutex, 1) < 0)
                     printf("parent mutex error\n");
 
+                messageCopy(messages[*freeSlot].text, tMsg);
+                messages[*freeSlot].sender = myID;
+                messages[*freeSlot].read = 0;
 
+                *freeSlot++;
+                *freeSlot %= MESSAGES;
+
+                buf0.sem_num = hisID == 0 ? EMPTY0 : EMPTY1;
+                buf0.sem_op = +1;
+                if(semop(semid, &buf0, 1) < 0)
+                {
+                    printf("parent /empty error\n");
+                    exit(-1);
+                }
+
+                bufMutex.sem_op = 1;
+
+                if(semop(semid, &bufMutex, 1) < 0)
+                {
+                    printf("parent /mutex error\n");
+                }
+
+                printf("SEND OK!\n");
             }
         }
-
-/*        for(;;)
-            if((size = read(STDIN_FILENO, tMsg.text, MSGLEN)) > 0)
-            {
-                arr[position++] = tMsg;
-                write(fdR, 
-            }*/
     }
     else
     {
