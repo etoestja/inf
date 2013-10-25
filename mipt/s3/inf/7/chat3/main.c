@@ -17,6 +17,7 @@ typedef struct
 {
     char text[MSGLEN];
     int sender;
+    int size;
     int read;
 } message;
 
@@ -24,6 +25,8 @@ typedef struct
 #define FILENAME "messages"
 #define MESSAGES 10
 #define FILESIZE (MESSAGES * sizeof(message) + sizeof(int))
+
+//#define DEBUG
 
 // for SV
 #define PATHNAME "main.c"
@@ -162,6 +165,9 @@ void initAll()
     if(fileCreatedNow)
     {
         *freeSlot = 0;
+        int i;
+        for(i = 0; i < MESSAGES; i++)
+            messages[i].read = 1;
     }
 
     bufMutex.sem_op = 1;
@@ -171,10 +177,10 @@ void initAll()
     }
 }
 
-void messageCopy(char* dest, char* src)
+void messageCopy(char* dest, char* src, ssize_t size)
 {
-    int i;
-    for(i = 0; i < MSGLEN; i++)
+    ssize_t i;
+    for(i = 0; i < size; i++)
         dest[i] = src[i];
 }
 
@@ -209,6 +215,7 @@ int main(int argc, char** argv)
         {
             if((size = read(STDIN_FILENO, tMsg, MSGLEN)) > 0)
             {
+//                if(tMsg[size - 1] == '\n') size--;
                 //waiting until there is space
                 buf0.sem_num = FULL;
                 buf0.sem_op = -1;
@@ -221,14 +228,28 @@ int main(int argc, char** argv)
                 if(semop(semid, &bufMutex, 1) < 0)
                     printf("parent mutex error\n");
 
-                messageCopy(messages[*freeSlot].text, tMsg);
+#ifdef DEBUG
+                char str[MSGLEN + 1];
+                messageCopy(str, tMsg, size);
+                str[size] = 0;
+                printf("writing messages[%d]={%s}, %d...\n", *freeSlot, str, size);
+#endif
+
+                messageCopy(messages[*freeSlot].text, tMsg, size);
                 messages[*freeSlot].sender = myID;
                 messages[*freeSlot].read = 0;
+                messages[*freeSlot].size = size;
 
-                *freeSlot++;
-                *freeSlot %= MESSAGES;
+#ifdef DEBUG
+                printf("freeSlot: %d -> ", *freeSlot);
+#endif
+                *freeSlot = (*freeSlot + 1) % MESSAGES;
 
-                buf0.sem_num = hisID == 0 ? EMPTY0 : EMPTY1;
+#ifdef DEBUG
+                printf("%d\n", *freeSlot);
+#endif
+
+                buf0.sem_num = ((hisID == 0) ? EMPTY0 : EMPTY1);
                 buf0.sem_op = +1;
                 if(semop(semid, &buf0, 1) < 0)
                 {
@@ -242,14 +263,57 @@ int main(int argc, char** argv)
                 {
                     printf("parent /mutex error\n");
                 }
-
+#ifdef DEBUG
                 printf("SEND OK!\n");
+#endif
             }
         }
     }
     else
     {
         initAll();
+        for(;;)
+        {
+            buf0.sem_num = ((myID == 0) ? EMPTY0 : EMPTY1);
+            buf0.sem_op = -1;
+            if(semop(semid, &buf0, 1) < 0)
+            {
+                printf("child empty error\n");
+            }
+
+            bufMutex.sem_op = -1;
+            if(semop(semid, &bufMutex, 1) < 0)
+                printf("child mutex error");
+
+            int i;
+            for(i = 0; i < MESSAGES; i++)
+            {
+                if((messages[i].read == 0) && (messages[i].sender == (hisID)))
+                {
+#ifdef DEBUG
+                    char str[MSGLEN + 1];
+                    messageCopy(str, messages[i].text, messages[i].size);
+                    str[messages[i].size] = 0;
+                    printf("free=%d, messages[%d]={%s}, %d: ", *freeSlot, i, str, messages[i].size);
+#endif
+                    messages[i].read = 1;
+                    write(STDOUT_FILENO, messages[i].text, messages[i].size);
+                }
+            }
+
+            buf0.sem_num = FULL;
+            buf0.sem_op = 1;
+            if(semop(semid, &buf0, 1) < 0)
+                printf("child /full error\n");
+
+            bufMutex.sem_op = 1;
+            if(semop(semid, &bufMutex, 1) < 0)
+                printf("child /mutex error");
+
+#ifdef DEBUG
+            printf("RCV OK!\n");
+#endif
+        }
 /*        for(;;)
             if((size = read(fdR, buf, BUFSIZE)) > 0)
                 write(STDOUT_FILENO, buf, size);*/
