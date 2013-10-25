@@ -26,7 +26,7 @@ typedef struct
 #define MESSAGES 10
 #define FILESIZE (MESSAGES * sizeof(message) + sizeof(int))
 
-//#define DEBUG
+#define DEBUG
 
 // for SV
 #define PATHNAME "main.c"
@@ -186,6 +186,10 @@ void messageCopy(char* dest, char* src, ssize_t size)
 
 int main(int argc, char** argv)
 {
+#ifdef GETKEY
+    getKey();
+    printf("%.8p\n", key);
+#else
     if(argc < 2)
     {
         printf("Usage: %s myid\n", argv[0]);
@@ -213,6 +217,7 @@ int main(int argc, char** argv)
         initAll();
         for(;;)
         {
+            write(STDIN_FILENO, ">", 1);
             if((size = read(STDIN_FILENO, tMsg, MSGLEN)) > 0)
             {
 //                if(tMsg[size - 1] == '\n') size--;
@@ -297,6 +302,7 @@ int main(int argc, char** argv)
                     printf("free=%d, messages[%d]={%s}, %d: ", *freeSlot, i, str, messages[i].size);
 #endif
                     messages[i].read = 1;
+                    write(STDOUT_FILENO, "<", 1);
                     write(STDOUT_FILENO, messages[i].text, messages[i].size);
                 }
             }
@@ -318,5 +324,6 @@ int main(int argc, char** argv)
             if((size = read(fdR, buf, BUFSIZE)) > 0)
                 write(STDOUT_FILENO, buf, size);*/
     }
-
+    return(0);
+#endif
 }
