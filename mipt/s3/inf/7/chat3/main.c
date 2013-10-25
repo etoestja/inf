@@ -4,6 +4,7 @@
 #include <sys/ipc.h>
 #include <errno.h>
 #include <sys/sem.h>
+#include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -26,7 +27,7 @@ typedef struct
 #define MESSAGES 10
 #define FILESIZE (MESSAGES * sizeof(message) + sizeof(int))
 
-#define DEBUG
+//#define DEBUG
 
 // for SV
 #define PATHNAME "main.c"
@@ -184,6 +185,23 @@ void messageCopy(char* dest, char* src, ssize_t size)
         dest[i] = src[i];
 }
 
+int messageCmp(char* msg, char* str, ssize_t size)
+{
+    size--;
+    if(strlen(str) != size)
+        return(1);
+    int i;
+    for(i = 0; i < size; i++)
+        if(msg[i] != str[i])
+            return(1);
+    return(0);
+}
+
+int messageLastN(char* msg, ssize_t size)
+{
+    return(msg[size - 1] == '\n');
+}
+
 int main(int argc, char** argv)
 {
 #ifdef GETKEY
@@ -215,11 +233,18 @@ int main(int argc, char** argv)
     {
         // stdin > file
         initAll();
+        int prevN = 1;
         for(;;)
         {
-            write(STDIN_FILENO, ">", 1);
+            if(prevN) write(STDIN_FILENO, ">", 1);
             if((size = read(STDIN_FILENO, tMsg, MSGLEN)) > 0)
             {
+                prevN = messageLastN(tMsg, size);
+                if(!messageCmp(tMsg, "exit", size))
+                {
+                    write(STDOUT_FILENO, "bye\n", 4);
+                    return(0);
+                }
 //                if(tMsg[size - 1] == '\n') size--;
                 //waiting until there is space
                 buf0.sem_num = FULL;
@@ -302,8 +327,9 @@ int main(int argc, char** argv)
                     printf("free=%d, messages[%d]={%s}, %d: ", *freeSlot, i, str, messages[i].size);
 #endif
                     messages[i].read = 1;
-                    write(STDOUT_FILENO, "<", 1);
                     write(STDOUT_FILENO, messages[i].text, messages[i].size);
+                    if(messageLastN(messages[i].text, messages[i].size))
+                        write(STDOUT_FILENO, ">", 1);
                 }
             }
 
