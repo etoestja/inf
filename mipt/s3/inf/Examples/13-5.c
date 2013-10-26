@@ -7,7 +7,7 @@ void (*p)(int);
 
 void my_handler(int nsig){
 
-   printf("Receive signal %d, CTRL-C pressed\n");
+   printf("Receive signal %d, CTRL-C pressed\n", nsig);
    i = i+1;
    if(i == 5) signal(SIGINT, p);
 
