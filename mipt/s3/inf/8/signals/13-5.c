@@ -16,6 +16,7 @@ void my_handler(int nsig){
 int main(void){
 
     p = signal(SIGINT, my_handler);
+    signal(SIGTERM, my_handler);
     while(1);
     return 0;
 
