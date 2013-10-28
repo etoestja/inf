@@ -55,7 +55,7 @@
 \end{enumerate}
 \end{minipage}
 &
-\begin{minipage}{0.46\textwidth}
+\begin{minipage}{0.6\textwidth}
 
 \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,every node/.style={text centered},initial text=]
 	\node [state,initial,accepting] (q_0)	{$q_0$};
@@ -76,8 +76,16 @@
 \end{tikzpicture}
 \end{minipage}
 \end{tabular}
+\item Определим грамматику {\bf{ОНА НЕОДНОЗНАЧНАЯ, ПОФИКСИТЬ!}} $G=(\Sigma,T,P,S)$:\begin{enumerate}[1.]
+\item $T\eqdef\{S,A,B,X,C,F\}$
+\item P:\begin{enumerate}
+\item $S\longrightarrow XC|FX|X$
+\item $X\longrightarrow aXb|\varepsilon$
+\item $C\longrightarrow cC|c$
+\item $F\longrightarrow fF|f$
 \end{enumerate}
-
+\end{enumerate}
+\end{enumerate}
 \section*{Задача 2}
 \section*{Задача 3}
 \section*{Задача 4}
