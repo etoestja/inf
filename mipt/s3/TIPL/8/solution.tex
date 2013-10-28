@@ -42,6 +42,42 @@
 \section*{Упражнение 1}
 \section*{Упражнение 2}
 \section*{Задача 1}
+\begin{enumerate}
+\item Определим МП-автомат $\A=(\Sigma,\Gamma,Q,q_0,Z,\delta,F)$, допускающий по принимающему состоянию.\newline
+\begin{tabular}{cc}
+\begin{minipage}{0.4\textwidth}
+\begin{enumerate}
+\item $\Sigma\eqdef\{a,b,c,f\}$
+\item $\Gamma\eqdef\{F,Z\}$
+\item $Q\eqdef\{q_0,q_1,q_2,q_3\}$
+\item $\delta$ изображена справа
+\item $F\eqdef\{q_0,q_3\}$
+\end{enumerate}
+\end{minipage}
+&
+\begin{minipage}{0.46\textwidth}
+
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,every node/.style={text centered},initial text=]
+	\node [state,initial,accepting] (q_0)	{$q_0$};
+	\node [state] (q_1) [right = 2.5cm of q_0 ] {$q_1$};
+	\node [state] (q_2) [right = 2.5cm of q_1 ] {$q_2$};
+	\node [state,accepting] (q_3) [right = 2.5cm of q_2 ] {$q_3$};
+	\path[->]
+		(q_0) edge [in=225,out=-45,loop] node {$f,Z/F$} (q_0)
+			  edge [in=135,out=45,loop] node[swap] {$f,F/F$} (q_0)
+			  edge node {$\substack{a,F/aF\\a,Z/aZ}$} (q_1)
+			  edge [out=-25.5,in=205.5] node[swap] {$c,Z/Z$} (q_3)
+		(q_1) edge [in=135,out=45,loop] node[swap] {$a,a/aa$} (q_1)
+			  edge node {$b,a/\varepsilon$} (q_2)
+		(q_2) edge [in=135,out=45,loop] node[swap] {$b,a/\varepsilon$} (q_2)
+			  edge node {$\substack{\varepsilon,Z/Z\\\varepsilon,F/F}$} (q_3)
+		(q_3) edge [in=135,out=45,loop] node[swap] {$c,Z/Z$} (q_3)
+		;
+\end{tikzpicture}
+\end{minipage}
+\end{tabular}
+\end{enumerate}
+
 \section*{Задача 2}
 \section*{Задача 3}
 \section*{Задача 4}
