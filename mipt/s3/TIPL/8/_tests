@@ -1,0 +1,10 @@
+test1 REJECTED aa
+test2 ACCEPTED abc
+test3 ACCEPTED fab
+test4 REJECTED fabc
+test5 ACCEPTED fffffffaaaaabbbbb
+test6 ACCEPTED aaaaabbbbb
+test7 REJECTED ffffaaaaaacccccbbbbb
+test8 ACCEPTED 
+test9 ACCEPTED c
+testA REJECTED abb
