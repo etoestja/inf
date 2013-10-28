@@ -1,0 +1,13 @@
+2 q_0 q_3
+q_0 Z
+10
+q_0 q_0 f F F
+q_0 q_0 f Z F
+q_0 q_1 a F aF
+q_0 q_1 a Z aZ
+q_1 q_1 a a aa
+q_1 q_2 b a eps
+q_2 q_2 b a eps
+q_2 q_3 eps Z Z
+q_2 q_3 eps F F
+q_3 q_3 c Z Z
