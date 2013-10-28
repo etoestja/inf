@@ -3,6 +3,7 @@
 if [ "X$1" == "X" ]
 then
     echo "Usage: $0 progname"
+    echo " OR $0 --view to view tests"
     echo "Looks for test* in pwd and runs progname on all these tests."
     echo "Put answers for testA to anstestA."
     echo ""
@@ -14,10 +15,16 @@ else
     progname="$1"
 fi
 
+if [ "X$1" == "X--view" ]
+then
+    for a in $(ls test*);do echo "$a $(cat ans$a) $(cat $a)";done
+    exit
+fi
+
 tests="$(ls test* | wc -l)"
 i=1
 
-use_files=1
+use_files=0
 file_in="input.txt"
 file_out="output.txt"
 
