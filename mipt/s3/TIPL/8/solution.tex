@@ -40,6 +40,12 @@
 \begin{document}
 \maketitle
 \section*{Упражнение 1}
+\begin{enumerate}
+\item Левый вывод однозначно задает дерево вывода, так как вывод~--- последовательность слов из $(N\cup T)^*$ с указанием нетерминала для каждого слова и правила. Будем определять дерево так: если $A\longrightarrow x_1...x_n$. добавим к вершине $A$ потомков $x_1$,...,$x_n$ в таком порядке. Если два левых вывода различны, то построенные таким образом деревья также получатся различными.
+\item Если дано дерево вывода, то левый вывод можно получить его обходом в глубину, выбирая на каждом шаге самого левого из непросмотренных потомков. Если два дерева вывода различны, то так построенные выводы также получатся различными.
+\item Пусть существует единственное дерево вывода. Предположим, что существуют два различных левых вывода. Построим по ним деревья вывода. Они получатся различными~--- противоречие.
+\item Аналогично, если существует единственный левый вывод, то существует единственное дерево вывода.
+\end{enumerate}
 \section*{Упражнение 2}
 \section*{Задача 1}
 \begin{enumerate}
@@ -86,9 +92,99 @@
 \item $F\longrightarrow fF|f$
 \end{enumerate}
 \end{enumerate}
+\item Автомат является детерминированным по определению ($|\delta(q,\sigma,\gamma)|\leqslant 1$, и если $\delta(q,\sigma,\gamma)\neq\varnothing$, то $\delta(q,\varepsilon,\gamma)=\varnothing$).
+\item Докажем, что грамматика однозначная: действительно, для каждого нетерминала $X,C,F$ можно применить только два правила, причем одно из них уменьшает количество $X,C,F$, а второе сохраняет. Поэтому после применения второго нельзя применить первые. Правила для $X$ либо добавляют $a,b$, либо нет, причем другие правила не добавляют $a,b$. Значит, количество применений правила $X\longrightarrow aXb$ фиксировано для каждого слова. Аналогично получаем, что к $C,F$ можно применить только одно правило при фиксированном порожденном слове.\newline
+$XC$, $FX$ и $X$ не имеют пересечений в множествах порождаемых слов из терминалов: действительно, $C$ добавляет $c$, $F$ добавляет $f$, $X$ не порождает $c$ или $f$. Поэтому при фиксированном слове $S$ может перейти только в одно из этих слов.
+\item Докажем, что $L(G)=L$:\begin{enumerate}
+\item $L\subset L(G)$. Пусть $w\in L$. Построим вывод:\begin{enumerate}
+\item Если $w=f^na^mb^m$, $n>0$,\newline
+$\underline{S}\rightarrow \underline{F}X\rightarrow f\underline{F}X\rightarrow...\rightarrow f^n\underline{X}\rightarrow f^na\underline{X}b\rightarrow...\rightarrow f^na^m\underline{X}b^m\rightarrow f^na^mb^m$.
+\item Если $w=a^nb^nc^m$, $m>0$,\newline
+$\underline{S}\rightarrow \underline{X}C\rightarrow a\underline{X}bC\rightarrow...\rightarrow a^n\underline{X}b^nC\rightarrow a^nb^n\underline{C}\rightarrow a^nb^nc\underline{C}\rightarrow...\rightarrow a^nb^nc^m$.
+\item Если $w=a^nb^n$,\newline
+$\underline{S}\rightarrow \underline{X}\rightarrow a\underline{X}b\rightarrow...\rightarrow a^n\underline{X}b^n\rightarrow a^nb^n$.
+\end{enumerate}
+\item $L(G)\subset L$. Очевидно, $C$ порождает $c^k$, $k>0$; $F$ порождает $f^l$, $l>0$; $X$ порождает $a^nb^n$, $n\geqslant 0$. Также заметим.\newline
+Пусть $w\in L(G)$. Рассмотрим вывод. Рассмотрим первое правило:\begin{enumerate}
+\item $S\rightarrow X$. Тогда $w=a^nb^n\in L$
+\item $S\rightarrow XC$. Тогда $w=a^nb^nc^n\in L$
+\item $S\rightarrow FX$. Тогда $w=f^na^mb^m\in L$.
+\end{enumerate}
+\end{enumerate}
+\item Докажем, что $L(\A)=L$:\begin{enumerate}
+\item Пусть $w\in L$.\begin{enumerate}
+\item \label{bb} $w=a^nb^nc^m,n>0,m\geqslant 0$. Тогда $(q_0,a^nb^nc^m,Z)\vdash(q_1,a^{n-1}b^nc^m,aZ)\vdash(q_1,a^{n-2}b^nc^m,aaZ)\vdash...\vdash(q_1,b^nc^m,a^nZ)\vdash(q_2,b^{n-1}c^m,a^{n-1}Z)\vdash(q_2,b^{n-2}c^m,a^{n-2}Z)\vdash...\vdash(q_2,c^m,Z)\vdash(q_3,c^m,Z)\vdash...\vdash(q_3,\varepsilon,Z)$. $q_3\in F\Rightarrow w\in L(\A)$.
+\item $w=c^m,m\geqslant 0$. Тогда $(q_0,c^m,Z)\vdash(q_3,c^m,Z)\vdash...\vdash(q_3,\varepsilon,Z)$. $q_3\in F\Rightarrow w\in L(\A)$
+\item \label{aa} $w=f^n,n\geqslant 0$. Тогда $(q_0,f^n,Z)\vdash(q_0,f^{n-1},F)\vdash...\vdash(q_0,\varepsilon,F)$. $q_0\in F\Rightarrow w\in L(\A)$
+\item $w=f^na^mb^m, n\geqslant 0, m>0$. Тогда $(q_0,f^na^mb^m)\overset{\ref{aa}}{\vdash^*}(q_0,a^mb^m,F)\overset{\ref{bb}}{\vdash^*}(q_2,\varepsilon,F)\vdash(q_3,\varepsilon,F)$. $q_3\in F\Rightarrow w\in L(\A)$.
+\end{enumerate}
+\item Пусть $w\in L(\A)\Rightarrow (q_0,w,Z)\vdash^*(q,\varepsilon,\gamma),\,q\in F\equiv\{q_0,q_3\}$.\begin{enumerate}
+\item $q=q_0$. Переходы в $q_0$ только из $q_0$ по $f$, поэтому $w=f^m\in L$
+\item $q=q_3$. Переходов в $q_3$ три:\begin{enumerate}
+\item Был совершен переход $q_0\overset{c,Z/Z}{\longrightarrow}q_3$. Как было отмечено, в $q_0$ переходы только по $f$. Но эти переходы заменяют $Z$ на дне стека на $F$, поэтому переход из данного случая не мог быть произведен. Значит, $w=cw_1$, и цепочка конфигураций имеет вид $(q_0,cw_1,Z)\vdash(q_3,w_1,Z)$. Но из $q_3$ переходы только по $c$, значит, $w=c^l\in L$
+\item Был совершен переход $q_2\overset{\varepsilon,Z/Z}{\longrightarrow}q_3$. Поскольку на дне стека $Z$, а не $F$, то символы $f$ не были прочитаны (они могут быть прочитаны только в $q_0$, когда $Z$ на дне стека, и прочтение заменит $Z$ на $f$). Рассмотрим последний переход в $q_2$. Это был переход вида $\overset{b,a/\varepsilon}{\longrightarrow}q_2$ (других нет), значит, в стеке был символ $a$. В $q_2$ есть переходы только из $q_1$, поэтому перед попаданием в $q_2$ (буквы $a$ удаляются из стека при прочтении $b$) конфигурация была $(q_1,b^nx,a^n\gamma)$. Но буквы $a$ могли быть добавлены только при прочтении $a$, другие символы не могли быть прочитаны, поэтому $w=a^nb^nx$. Из $q_3$ есть переходы только по $c$, значит, $w=a^nb^nc^m\in L$
+\item Был совершен переход $q_2\overset{\varepsilon,F/F}{\longrightarrow}q_3$. Значит, были прочтены $f$. Аналогично получаем, что $w=f^na^mb^mx$. Но из $q_3$ нет переходов при $F$ на верхушке стека, значит, $x=\varepsilon$, и $w=f^na^mb^m\in L$.
+\end{enumerate}
+\end{enumerate}
+\end{enumerate}
 \end{enumerate}
 \section*{Задача 2}
 \section*{Задача 3}
+\begin{enumerate}
+\item $M'=(\Sigma,\Gamma,Q',q_0,Z,\delta',F)$~--- расширенный МП-автомат, допускающий по принимающему состоянию. Построим {\em обычный} МП-автомат $M=(\Sigma,\Gamma,Q,q_0,Z,\delta,F)$, допускающий по принимающему состоянию:\begin{enumerate}
+\item $Q=Q'\cup\bigcup\limits_{i=1}^{|\delta'|}Q_i$, где для каждого перехода $i$ в исходном автомате $\delta(q,\sigma,\alpha)\ni(s,\beta)$ определено\newline
+$Q_i\eqdef\begin{cases}
+\varnothing, & |\alpha|=1\\
+\{s^1_i,...,s^{|\alpha|-1}_i\} & |\alpha|\geqslant 2
+\end{cases}$~--- $|\alpha|-1$ новых состояний.
+\item $\delta=\bigcup\limits_{i=1}^{|\delta'|}\delta_i$, где для каждого перехода $i$ в исходном автомате $\delta(q,\sigma,\alpha)\ni(s,\beta)$ определено\newline
+$\delta_i\eqdef\begin{cases}
+q\overset{\sigma,\alpha/\beta}{\longrightarrow} s, & |\alpha|=1\\
+q\overset{\sigma,\alpha_1/\varepsilon}{\longrightarrow}s_i^1\cup s_i^1\overset{\varepsilon,\alpha_2/\varepsilon}{\longrightarrow}s_i^2\cup...\cup s_i^{n-1}\overset{\varepsilon,\alpha_n/\beta}{\longrightarrow}s & |\alpha|\geqslant 1
+\end{cases}$, где $\alpha=\alpha_1...\alpha_n,\,\forall i\in\overline{1,n}\hookrightarrow \alpha_i\in \Gamma$ во втором случае.
+\end{enumerate}
+Иными словами, переходы, удаляющие один символ не изменяются, а остальные переходы вида
+%\begin{tabular}{ccc}
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,every node/.style={text centered},initial text=]
+	\node [state] (q_0)	{$p$};
+	\node [state] (q_1) [right = 2cm of q_0 ] {$q$};
+	\path[->]
+		(q_0) edge node {$\sigma,\alpha/\beta$} (q_1);
+\end{tikzpicture}
+\end{center}
+%&
+
+заменяются на переходы
+%&
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,every node/.style={text centered},initial text=]
+	\node [state] (p)	{$p$};
+	\node [state] (q) [right = 8cm of p ] {$q$};
+	\node [state] (q_1) [below right = 2cm of p] {$s_1$};
+	\node [state] (q_2) [right = 2cm of q_1] {$s_2$};
+	\node (dots)  [right = 1.5cm of q_2] {$...$};
+	\node [state] (q_n1) [below left = 2cm of q] {$s_{n-1}$};
+	\path[->]
+		(p) edge node {$\sigma,\alpha_1/\varepsilon$} (q_1)
+		(q_1) edge node {$\varepsilon,\alpha_2/\varepsilon$} (q_2)
+		(q_2) edge node {$ $} (dots)
+		(dots) edge node {$ $} (q_n1)
+		(q_n1) edge node {$\varepsilon,\alpha_n/\beta$} (q)
+		;
+\end{tikzpicture}
+%\end{tabular}
+\end{center}
+\begin{enumerate}[1.]
+\item ($L(M')\subseteq L(M)$) Пусть $w\in L(M')$. Рассмотрим цепочку конфигураций в исходном автомате. Каждый переход, удаляющий один символ из стека может быть совершен в новом автомате, т.к. он содержится в $\delta$. Переходы, удаляющие больше одного символы также могут быть совершены (по построению). Получаем, что $M$ оказывается в том же состоянии $q$, что и $M'$. $q\in F\Rightarrow w\in L(M)$
+\item ($L(M)\subseteq L(M')$). Пусть $w\in L(M)\Rightarrow q_0\overset{w}{\longrightarrow}q\in F$. Рассмотрим цепочку конфигураций. Переходы по состояниям $s_i^1...s_i^n$ можно <<свернуть>> в один переход из исходного по построению (степени исхода и захода у созданных вершин равны 1, поэтому, путь из $s^i_j$ может быть только в соответствующее состояние $q$). Таким образом, исходный автомат также может оказаться в состоянии $q\in F\Rightarrow w\in L(M')$
+\end{enumerate}
+\item {\em{В задании не дано определение детерминированного расширенного МП-автомата, поэтому используется определение для обычных МП-автоматов (одно правило по первому символу, который удаляется из стека)}}\newline
+Пусть $M'$~--- детерминированный, докажем, что $M$~--- детерминированный. Действительно, из созданных состояний $s_i^j$ переход один по построению, и в другое состояние.\newline
+По определению детерминированности $M'$ имеем\newline
+$\forall q\in Q'\,\forall\sigma\in\Sigma\,\forall\gamma\in\Gamma\hookrightarrow|\delta'(q,\sigma,\gamma)|\leqslant 1$, и\newline $\forall\sigma\in\Sigma\,\forall\gamma\in\Gamma\hookrightarrow(\delta'(q,\varnothing,\gamma)\neq\varnothing\Rightarrow\delta'(q,\sigma,\gamma)=\varnothing)$
+Поскольку для каждого измененного перехода из $q$ было изменено только состояние, куда совершается переход и символ, удаляемый из стека (вместо слова), получаем это же утверждение для $M$ $\Rightarrow$ $M$~--- детерминированный.
+\end{enumerate}
 \section*{Задача 4}
 \section*{Задача 5}
 \end{document}
