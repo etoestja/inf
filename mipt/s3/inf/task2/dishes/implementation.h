@@ -1,6 +1,7 @@
 // initialization
 void initWasher();
 void initCleaner();
+void initCommon();
 
 //#define USE_SECONDS
 

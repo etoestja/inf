@@ -18,7 +18,13 @@ int N;
 int config[TMAX];
 int time[TMAX];
 
-#include "implementation_file_semaphores.c"
+#ifdef USE_A
+    #include "implementation_file_semaphores.c"
+#elif USE_B
+    #include "implementation_pipe_semaphores.c"
+#else
+#error "Specify USE_X"
+#endif
 
 enum action {setConfig, setTime};
 
@@ -91,6 +97,9 @@ int main(int argc, char** argv, char* envp[])
     {
         printf("Please give TABLE_LIMIT positive integer value\n");
     }
+
+    initCommon();
+
     cPid = fork();
     if(cPid < 0)
     {

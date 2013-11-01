@@ -64,7 +64,7 @@ void getKey()
 
 void getSemID()
 {
-    semsInitial[2] = N;
+    semsInitial[FULL] = N;
     //printf("initial2=%d\n", semsInitial[2]);
     getKey();
     if((semid = semget(key, NSEMS, 0666 | IPC_CREAT | IPC_EXCL)) < 0)
@@ -265,4 +265,9 @@ int receiveClean()
 
     clean(res, time[res]);
     return(res);
+}
+
+void initCommon()
+{
+
 }
