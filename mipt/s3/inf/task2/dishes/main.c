@@ -22,6 +22,8 @@ int time[TMAX];
     #include "implementation_file_semaphores.c"
 #elif USE_B
     #include "implementation_pipe_semaphores.c"
+#elif USE_C
+    #include "implementation_messagequeue_semaphores.c"
 #else
 #error "Specify USE_X"
 #endif
