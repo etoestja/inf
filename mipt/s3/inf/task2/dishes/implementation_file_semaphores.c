@@ -1,4 +1,3 @@
-#include "implementation.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/mman.h>
@@ -6,24 +5,44 @@
 #include <errno.h>
 #include <sys/sem.h>
 #include <unistd.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/sem.h>
+#include "implementation.h"
+
 #define FILENAME "a_file"
 #define PATHNAME "main.c"
 #define NSEMS 3
 
+int erase;
+
+union semun {
+    int              val;    /* Value for SETVAL */
+    struct semid_ds *buf;    /* Buffer for IPC_STAT, IPC_SET */
+    unsigned short  *array;  /* Array for GETALL, SETALL */
+    struct seminfo  *__buf;  /* Buffer for IPC_INFO
+                                          (Linux-specific) */
+};
+
+
 int semid;
-key_key;
+key_t key;
 int* freeSlot;
 int* dishes;
 void* ptr;
-int semsInitial[NSEMS] = {0, 1, N};
+int semsInitial[NSEMS] = {0, 1, 0};
 enum _SEMS {EMPTY, MUTEX, FULL};
 
-int* ptr;
 int fileSize;
 
 int fileLen(char* filename)
 {
-        return(lseek(open(filename, O_RDONLY), 0, SEEK_END));
+    return(lseek(open(filename, O_RDONLY), 0, SEEK_END));
 }
 
 int fileExists(char* filename)
@@ -42,9 +61,11 @@ void getKey()
 {
     key = ftok(PATHNAME, 0);
 }
- 
+
 void getSemID()
 {
+    semsInitial[2] = N;
+    //printf("initial2=%d\n", semsInitial[2]);
     getKey();
     if((semid = semget(key, NSEMS, 0666 | IPC_CREAT | IPC_EXCL)) < 0)
     {
@@ -62,23 +83,21 @@ void getSemID()
             exit(-1);
         }
     }
-    else
+    if(erase)
     {
-        //created OK now
+        //created OK
         int i;
-        struct sembuf mybuf;
+        union semun semopts;
+
         for(i = 0; i < NSEMS; i++)
         {
-            mybuf.sem_num = i;
-            mybuf.sem_op  = semsInitial[i];
-            mybuf.sem_flg = 0;
-            if(semop(semid, &mybuf, 1) < 0){
-                printf("Semaphore initialization failed i=%d value=%d semid=%d\n", i, semsInitial[i], semid);
+            semopts.val = semsInitial[i];
+            if(semctl(semid, i, SETVAL, semopts) < 0)
+            {
+                fprintf(stderr, "Can't semctl!\n");
                 exit(-1);
-            }  
-
+            }
         }
-
     }
 }
 
@@ -86,11 +105,13 @@ void map()
 {
     setFileSize();
     int existed = fileExists(FILENAME);
-	int fd = open(FILENAME, O_RDWR | O_CREAT, 0666);
+    if(existed && fileLen(FILENAME) != fileSize)
+        existed = 0;
+    int fd = open(FILENAME, O_RDWR | O_CREAT, 0666);
 
     ptr = NULL;
 
-	if(fd == -1)
+    if(fd == -1)
         return;
 
     if(!existed)
@@ -100,7 +121,7 @@ void map()
 
     close(fd);
 
-	if(ptr == MAP_FAILED)
+    if(ptr == MAP_FAILED)
         ptr = NULL;
     if(ptr == NULL)
     {
@@ -112,24 +133,30 @@ void map()
 void mapInterpret()
 {
     freeSlot = (int*) ptr;
-    dishes = (int*) (ptr + sizeof(int);
+    dishes = (int*) (ptr + sizeof(int));
 }
 
-void initWasher(char* filename)
+void initWasher()
 {
+    erase = 1;
     getSemID();
     map();
     mapInterpret();
     *freeSlot = 0;
+    int i;
     for(i = 0; i < N; i++)
         dishes[i] = 0;
 }
 
 void initCleaner()
 {
+    erase = 0;
+    getSemID();
+    map();
+    mapInterpret();
 }
 
-int send(int dish)
+int washSend(int dish, int doWash)
 {
     struct sembuf bufMutex, buf0;
     bufMutex.sem_num = MUTEX;
@@ -141,8 +168,13 @@ int send(int dish)
     buf0.sem_num = FULL;
     buf0.sem_op = -1;
 
+    //fprintf(stderr, "FULL=%d\n", semctl(semid, FULL, GETVAL, 0));
+
     if(semop(semid, &buf0, 1) < 0)
         printf("send full error\n");
+
+    if(doWash)
+        wash(dish, time[dish]);
 
     bufMutex.sem_op = -1;
 
@@ -158,7 +190,7 @@ int send(int dish)
 #ifdef DEBUG
     printf("freeSlot: %d -> ", *freeSlot);
 #endif
-    *freeSlot = (*freeSlot + 1) % MESSAGES;
+    *freeSlot = (*freeSlot + 1) % N;
 
 #ifdef DEBUG
     printf("%d\n", *freeSlot);
@@ -183,48 +215,54 @@ int send(int dish)
 #endif
 }
 
-int receive()
+int receiveClean()
 {
-    
-            buf0.sem_num = ((myID == 0) ? EMPTY0 : EMPTY1);
-            buf0.sem_op = -1;
-            if(semop(semid, &buf0, 1) < 0)
-            {
-                printf("child empty error\n");
-            }
+    struct sembuf bufMutex, buf0;
+    bufMutex.sem_num = MUTEX;
+    bufMutex.sem_op  = -1;
+    bufMutex.sem_flg = 0;
 
-            bufMutex.sem_op = -1;
-            if(semop(semid, &bufMutex, 1) < 0)
-                printf("child mutex error");
+    buf0.sem_flg = 0;
 
-            int i;
-            for(i = 0; i < MESSAGES; i++)
-            {
-                if((messages[i].read == 0) && (messages[i].sender == (hisID)))
-                {
+    buf0.sem_num = EMPTY;
+    buf0.sem_op = -1;
+    if(semop(semid, &buf0, 1) < 0)
+    {
+        printf("receive empty error\n");
+    }
+
+    bufMutex.sem_op = -1;
+    if(semop(semid, &bufMutex, 1) < 0)
+        printf("receive mutex error");
+
+    int i;
+    int res = TMAX;
+    for(i = 0; i < N; i++)
+    {
+        if(dishes[i] >= 0 && dishes[i] != TMAX)
+        {
+            res = dishes[i];
+            dishes[i] = -1;
+            break;
+        }
+    }
+
+    buf0.sem_num = FULL;
+    buf0.sem_op = 1;
+    if(semop(semid, &buf0, 1) < 0)
+        printf("receive /full error\n");
+
+    bufMutex.sem_op = 1;
+    if(semop(semid, &bufMutex, 1) < 0)
+        printf("receive /mutex error");
+
 #ifdef DEBUG
-                    char str[MSGLEN + 1];
-                    messageCopy(str, messages[i].text, messages[i].size);
-                    str[messages[i].size] = 0;
-                    printf("free=%d, messages[%d]={%s}, %d: ", *freeSlot, i, str, messages[i].size);
+    printf("RCV OK!\n");
 #endif
-                    messages[i].read = 1;
-                    write(STDOUT_FILENO, messages[i].text, messages[i].size);
-                    if(messageLastN(messages[i].text, messages[i].size))
-                        write(STDOUT_FILENO, ">", 1);
-                }
-            }
 
-            buf0.sem_num = FULL;
-            buf0.sem_op = 1;
-            if(semop(semid, &buf0, 1) < 0)
-                printf("child /full error\n");
+    if(res == TMAX)
+        cleanedAll();
 
-            bufMutex.sem_op = 1;
-            if(semop(semid, &bufMutex, 1) < 0)
-                printf("child /mutex error");
-
-#ifdef DEBUG
-            printf("RCV OK!\n");
-#endif
+    clean(res, time[res]);
+    return(res);
 }

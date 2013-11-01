@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <stdlib.h>
 
 int wPid, cPid;
@@ -8,6 +9,8 @@ int N;
 
 #define TMAX 1000
 
+//#define DEBUG
+
 #define cleanerFilename "cleaner"
 #define washerFilename  "washer"
 #define configFilename  "config"
@@ -15,9 +18,9 @@ int N;
 int config[TMAX];
 int time[TMAX];
 
-enum action {setConfig, setTime};
+#include "implementation_file_semaphores.c"
 
-#define DEBUG
+enum action {setConfig, setTime};
 
 void printConfig()
 {
@@ -71,7 +74,7 @@ void parseFile(const char* filename, int action)
     }
 }
 
-int main(int argc, char* argv, char* envp[])
+int main(int argc, char** argv, char* envp[])
 {
     wPid = getpid();
     char* Nstr = getenv("TABLE_LIMIT");
@@ -82,7 +85,7 @@ int main(int argc, char* argv, char* envp[])
     }
     N = atoi(Nstr);
 #ifdef DEBUG
-    printf("N=%d\n", N);
+    //printf("N=%d\n", N);
 #endif
     if(N == 0)
     {
@@ -97,31 +100,36 @@ int main(int argc, char* argv, char* envp[])
     if(cPid)
     {
         // washer
+        initWasher();
         parseFile(configFilename, setConfig);
         parseFile(washerFilename, setTime);
 #ifdef DEBUG
-        printConfig();
-        printTime();
+        //printConfig();
+        //printTime();
 #endif
         int i, j;
         for(i = 0; i < TMAX; i++)
         {
+            //printf("config[%d]=%d\n", i, config[i]);
             for(j = config[i]; j > 0; j--)
-            {
-                fprintf(stderr, "Washing type %d num %d... ", i, config[i] - j);
-                usleep(time[i]);
-                fprintf(stderr, "OK\n");
-            }
+                washSend(i, 1);
         }
+        washSend(TMAX, 0);
+        waitpid(cPid, NULL, 0);
+        washedAll();
 
     }
     else
     {
         // cleaner
         parseFile(cleanerFilename, setTime);
+        initCleaner();
 #ifdef DEBUG
-        printTime();
+        //sleep(1);
+        //printTime();
 #endif
+        for(;;)
+            receiveClean();
     }
 
 }
