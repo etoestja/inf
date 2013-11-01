@@ -17,6 +17,29 @@ int time[TMAX];
 
 enum action {setConfig, setTime};
 
+#define DEBUG
+
+void printConfig()
+{
+    fprintf(stderr, "=CONFIG=\n");
+    int i;
+    for(i = 0; i < TMAX; i++)
+    {
+        if(config[i] != 0)
+            fprintf(stderr, "%d: %d\n", i, config[i]);
+    }
+}
+void printTime()
+{
+    fprintf(stderr, "=TIME=\n");
+    int i;
+    for(i = 0; i < TMAX; i++)
+    {
+        if(time[i] != 0)
+            fprintf(stderr, "%d: %d\n", i, time[i]);
+    }
+}
+
 void initConfig()
 {
     int i;
@@ -38,7 +61,7 @@ void parseFile(const char* filename, int action)
     {
         if(t1 < 0 || t1 >= TMAX)
         {
-            printf("Type should be in [0,%d)\n!", TMAX);
+            printf("Type should be in [0,%d) (got %d)\n", TMAX, t1);
             exit(-1);
         }
         if(action == setConfig)
@@ -76,12 +99,29 @@ int main(int argc, char* argv, char* envp[])
         // washer
         parseFile(configFilename, setConfig);
         parseFile(washerFilename, setTime);
+#ifdef DEBUG
+        printConfig();
+        printTime();
+#endif
+        int i, j;
+        for(i = 0; i < TMAX; i++)
+        {
+            for(j = config[i]; j > 0; j--)
+            {
+                fprintf(stderr, "Washing type %d num %d... ", i, config[i] - j);
+                usleep(time[i]);
+                fprintf(stderr, "OK\n");
+            }
+        }
 
     }
     else
     {
         // cleaner
         parseFile(cleanerFilename, setTime);
+#ifdef DEBUG
+        printTime();
+#endif
     }
 
 }
