@@ -1,0 +1,9 @@
+all: A B C D
+A:
+	gcc -m32 -D USE_A main.c -o A
+B:
+	gcc -m32 -D USE_B main.c -o B
+C:
+	gcc -m32 -D USE_C main.c -o C
+D:
+	gcc -m32 -D USE_D main.c -o D
