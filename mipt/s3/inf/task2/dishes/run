@@ -41,7 +41,7 @@ then
         runTest $a
     done
 else
-    runTest $doTest
+    runTest tests/$doTest
 fi
 
 clear
