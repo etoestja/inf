@@ -145,7 +145,7 @@ void initWasher()
     *freeSlot = 0;
     int i;
     for(i = 0; i < N; i++)
-        dishes[i] = 0;
+        dishes[i] = -1;
 }
 
 void initCleaner()
