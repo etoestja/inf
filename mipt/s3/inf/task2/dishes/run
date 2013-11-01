@@ -1,0 +1,46 @@
+#!/bin/bash
+
+tests="$(ls tests | wc -l)"
+i=1
+
+doTest=$1
+
+function runTest()
+{
+    a=$1
+    clear
+    bn="$(basename $a)"
+    echo "========= TEST $i/$tests $bn: ========="
+
+    export TABLE_LIMIT=$TABLE_LIMIT
+
+    cp $a/washer .
+    cp $a/cleaner .
+    cp $a/config .
+
+    echo "=== PROGRAM A (file) SAYS: ==="
+    ./A 3>&1 1>&2 2>&3 3>&- | tee resA
+    read
+    echo "=== PROGRAM B (pipe) SAYS: ==="
+    ./B 3>&1 1>&2 2>&3 3>&- | tee resB
+    read
+    echo "=== PROGRAM C (mesq) SAYS: ==="
+    ./C 3>&1 1>&2 2>&3 3>&- | tee resC
+    read
+    echo "=== PROGRAM D (sham) SAYS: ==="
+    ./D 3>&1 1>&2 2>&3 3>&- | tee resD
+    read
+    let i=i+1
+}
+
+if [ "x$doTest" == "x" ]
+then
+    for a in tests/*
+    do
+        runTest $a
+    done
+else
+    runTest $doTest
+fi
+
+clear
