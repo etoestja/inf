@@ -12,6 +12,7 @@ function runTest()
     bn="$(basename $a)"
     echo "========= TEST $i/$tests $bn: ========="
 
+    TABLE_LIMIT=$(cat $a/TABLE_LIMIT)   
     export TABLE_LIMIT=$TABLE_LIMIT
 
     cp $a/washer .
