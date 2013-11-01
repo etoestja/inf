@@ -1,9 +1,22 @@
 all: A B C D
-A:
+A: main.c implementation_file_semaphores.c semaphores_lib.c
 	gcc -m32 -D USE_A main.c -o A
-B:
+B: main.c
 	gcc -m32 -D USE_B main.c -o B
-C:
+C: main.c
 	gcc -m32 -D USE_C main.c -o C
-D:
+D: main.c
 	gcc -m32 -D USE_D main.c -o D
+clean:
+	-rm -rf A B C D
+	-killall -9 A
+	-killall -9 B
+	-killall -9 C
+	-killall -9 D
+	-rm -rf cleaner
+	-rm -rf washer
+	-rm -rf config
+	-rm -rf resA
+	-rm -rf resB
+	-rm -rf resC
+	-rm -rf resD
