@@ -26,7 +26,7 @@ int main()
     size = read(fd[0], resstring, 14);
     size = write(fd[1], string, 14);
     signal(SIGUSR1, handler);
-
+t
     char buf[BUFSIZE];
 
     if(fork())
