@@ -1,0 +1,6 @@
+1. link, unlink... аналог rm (1 балл)
+2. аналог ln - жесткая ссылка (1 балл)
+3. аналог ln -s - символьная ссылка (1 балл)
+4. аналог ls -l (3 балла)
+
+используя link, unlink, symlink, opendir, closedir, readdir, fcntl, ...
