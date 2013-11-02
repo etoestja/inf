@@ -31,6 +31,7 @@ void parentHandler(int nsig)
         if((size = read(fd[0], buf, BUFSIZE)) > 0)
         {
             write(STDOUT_FILENO, buf, size);
+            readOK = 0;
             kill(cPid, SIGUSR2);
         }
     }
@@ -43,12 +44,13 @@ void childHandler(int nsig)
     {
         readOK = 1;
         fprintf(stderr, "child: parent read OK\n");
+        kill(pPid, SIGUSR2);
     }
     else if(nsig == SIGUSR1)
     {
+        while(!readOK) usleep(2);
         if((size = read(fd[0], buf, BUFSIZE)) > 0)
         {
-            while(!readOK) usleep(2);
             readOK = 0;
             write(fd[1], buf, size);
             kill(pPid, SIGUSR1);
