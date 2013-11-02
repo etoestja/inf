@@ -13,8 +13,6 @@ function link
     echo -n "https://dl.dropboxusercontent.com/u/31418200/fl/2013/fl_task${1}"
 }
 
-cd $INF_PATH/mipt/s3
-cd TIPL
 mkdir $N
 cd $N
 wget -N $(link $N).pdf
