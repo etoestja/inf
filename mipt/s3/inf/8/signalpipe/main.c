@@ -23,7 +23,7 @@ void parentHandler(int nsig)
     printf("parent got signal %d\n", nsig);
     if(nsig == SIGUSR2)
     {
-        fprintf(stderr, "parent: child read OK\n");
+        fprintf(stderr, "parent: child read OK\n\n");
         readOK = 1;
     }
     else if(nsig == SIGUSR1)
