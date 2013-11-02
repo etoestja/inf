@@ -22,7 +22,10 @@ void parentHandler(int nsig)
 {
     printf("parent got signal %d\n", nsig);
     if(nsig == SIGUSR2)
+    {
+        fprintf(stderr, "parent: child read OK\n");
         readOK = 1;
+    }
     else if(nsig == SIGUSR1)
     {
         if((size = read(fd[0], buf, BUFSIZE)) > 0)
@@ -37,7 +40,10 @@ void childHandler(int nsig)
 {
     fprintf(stderr, "child got signal %d\n", nsig);
     if(nsig == SIGUSR2)
+    {
         readOK = 1;
+        fprintf(stderr, "child: parent read OK\n");
+    }
     else if(nsig == SIGUSR1)
     {
         if((size = read(fd[0], buf, BUFSIZE)) > 0)
@@ -68,9 +74,9 @@ int main()
         signal(SIGUSR2, parentHandler);
         for(;;)
         {
+            while(!readOK) usleep(2);
             if((size = read(STDIN_FILENO, buf, BUFSIZE)) > 0)
             {
-                while(!readOK) usleep(2);
                 readOK = 0;
                 write(fd[1], buf, size);
                 fprintf(stderr, "sending to child %d\n", cPid);
