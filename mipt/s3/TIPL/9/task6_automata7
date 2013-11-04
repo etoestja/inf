@@ -1,0 +1,8 @@
+q0
+2 a Z
+5
+q0 q0 a Z aZ
+q0 q0 a a aa
+q0 q1 b a eps
+q1 q1 b a eps
+q1 q1 eps Z eps
