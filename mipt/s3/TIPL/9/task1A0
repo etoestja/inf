@@ -1,0 +1,43 @@
+3 q_1 q_2 q_4
+q_0 Z
+32
+q_0 q_0 a Z AZ
+q_0 q_0 a A aA
+q_0 q_0 a a aa
+q_0 q_0 a B aB
+q_0 q_0 a b ab
+
+q_0 q_0 b Z BZ
+q_0 q_0 b A bA
+q_0 q_0 b a ba
+q_0 a_0 b B bB
+q_0 q_0 b b bb
+
+q_0 q_3 c Z Z
+q_0 q_1 c A A
+q_0 q_1 c a a
+q_0 q_1 c B B
+q_0 q_1 c b b
+
+q_1 q_1 a a eps
+q_1 q_1 b b eps
+
+q_1 q_2 a b b
+q_1 q_2 a B b
+q_1 q_2 b a a
+q_1 q_2 b A a
+
+q_1 q_3 eps Z Z
+q_1 q_3 a A eps
+q_1 q_3 b B eps
+
+q_3 q_4 a Z Z
+q_3 q_4 b Z Z
+
+q_4 q_4 a Z Z
+q_4 q_4 b Z Z
+
+q_2 q_2 a a a
+q_2 q_2 a b b
+q_2 q_2 b a a
+q_2 q_2 b b b
