@@ -2,7 +2,7 @@
 #include <vector>
 #include <string>
 #include <set>
-#include <algorithm>
+#include <fstream>
 
 using std::cin;
 using std::cout;
@@ -11,7 +11,10 @@ using std::endl;
 using std::string;
 using std::vector;
 using std::set;
-using std::next_permutation;
+using std::ifstream;
+
+string filename = "task6_automata7";
+ifstream in(filename.c_str());
 
 class rule
 {
@@ -25,7 +28,7 @@ public:
 
 vector<rule> rules;
 set<string> states;
-string initial;
+string initial, stackInitial;
 vector<string> Galph;
 
 int N, G;
@@ -53,21 +56,22 @@ void getStates(int n, int c = 0, vector<string> prev = vector<string>(0))
 
 int main()
 {
-    cin >> initial;
+    in >> initial;
+    in >> stackInitial;
 
-    cin >> G;
+    in >> G;
     string g;
     for(int i = 0; i < G; i++)
     {
-        cin >> g;
+        in >> g;
         Galph.push_back(g);
     }
 
-    cin >> N;
+    in >> N;
     rule t;
     for(int i = 0; i < N; i++)
     {
-        cin >> t.q1 >> t.q2 >> t.input >> t.X >> t.Y;
+        in >> t.q1 >> t.q2 >> t.input >> t.X >> t.Y;
         if(!t.Y.compare("eps"))
             t.Y = "";
         if(!t.input.compare("eps"))
@@ -87,10 +91,7 @@ int main()
     vector<string>::iterator git;
     for(sit = states.begin(); sit != states.end(); sit++)
     {
-        for(git = Galph.begin(); git != Galph.end(); git++)
-        {
-            cout << "S->[" << initial << *git << *sit << "]" << endl;
-        }
+        cout << "S->[" << initial << stackInitial << *sit << "]" << endl;
     }
     cout << endl;
 
@@ -107,26 +108,37 @@ int main()
 
     for(it = rules.begin(); it != rules.end(); it++)
     {
-        getStates((*it).Y.length());
+        if((*it).Y.length() > 0)
+            getStates((*it).Y.length());
+        else
+        {
+            string inp;
+            if((*it).input.length() == 0)
+                inp = "eps";
+            else inp = (*it).input;
+            cout << "[" << (*it).q1 << (*it).X << (*it).q2 << "]->" << inp << endl;
+            continue;
+        }
         
         int i;
         vector< vector<string> >::iterator ssit;
-        for(i = 0, ssit = states2.begin(); ssit != states2.end(); ssit++, i++)
+        for(ssit = states2.begin(); ssit != states2.end(); ssit++)
         {
             cout << "[" << (*it).q1 << (*it).X << (*ssit)[(*ssit).size() - 1] << "]->" << (*it).input;
-            for(git = (*ssit).begin(); git != (*ssit).end(); git++)
+            for(i = 0, git = (*ssit).begin(); git != (*ssit).end(); git++, i++)
             {
                 cout << "[";
                 if(i == 0)
                     cout << (*it).q2;
                 else
                     cout << (*ssit)[i - 1];
-                cout << *git;
                 cout << (*it).Y[i];
+                cout << *git;
                 cout << "]";
             }
             cout << endl;
         }
+        cout << endl;
     }
 
     return(0);
