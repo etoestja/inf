@@ -269,25 +269,37 @@ $\begin{array}{|l|lll|}
 \end{multicols}
 \vspace{-7ex}
 Заменим подчеркнутые слова на новые нетерминалы:
-\vspace{-7ex}
+\vspace{-6ex}
 \begin{multicols}{2}
 	\begin{align*}
 		A &\to a|A'C|A'B|X_0C|A'A|X_1C|X_1B|X_1X_2|A'B'|X_3C|X_1B'|X_1X_4|X_5B'|X_5X_4|X_9C\\
 		B &\to B'A'|X_7A'|X_8A'|X_8X_5\\
 		C &\to A'B'|X_3C|X_1B'|X_1X_4|X_5B'|X_5X_4|X_9C\\
 		S &\to a|A'C|A'B|X_0C|A'A|X_1C|X_1B|X_1X_2|B'A'|X_7A'|X_8A'|X_8X_5|A'B'|X_3C|X_1B'|X_1X_4|X_5B'|X_5X_4|X_9C\\			
+	\end{align*}
+\end{multicols}
+\vspace{-6ex}
+\vspace{-6ex}
+\begin{multicols}{3}
+	\begin{align*}
 		A' &\to a\\
 		B' &\to b\\
 		X_0 &\to A'B\\
 		X_1 &\to A'A\\
+	\end{align*}	
+	
+	\begin{align*}
 		X_2 &\to BC\\
 		X_3 &\to A'B'\\
 		X_4 &\to B'C\\
 		X_5 &\to BA'\\		
+	\end{align*}	
+	
+	\begin{align*}
 		X_6 &\to AB'\\
 		X_7 &\to B'B\\
 		X_8 &\to B'A\\
-		X_9 &\to X_5X_6
+		X_9 &\to X_5X_6\\
 	\end{align*}	
 \end{multicols}
 \vspace{-7ex}
