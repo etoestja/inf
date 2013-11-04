@@ -1,0 +1,27 @@
+==== TESTS @ Tue Nov  5 01:45:06 MSK 2013 ====
+
+test1 ACCEPTED abac
+test10 ACCEPTED cababab
+test11 ACCEPTED abababac
+test12 ACCEPTED aababaaacaababaaa
+test13 ACCEPTED acaaaaaaa
+test14 REJECTED aaaaacaaaaa
+test15 ACCEPTED abacab
+test16 ACCEPTED abcbaa
+test17 ACCEPTED acab
+test18 ACCEPTED aaacbbb
+test19 REJECTED aaacaaa
+test2 REJECTED c
+test20 REJECTED baabcbaab
+test21 REJECTED baabcbaabc
+test22 REJECTED abcaacbaabca
+test23 ACCEPTED baabcbaa
+test24 ACCEPTED baacbaab
+test25 REJECTED aaaaccababccccccccbbcbc
+test3 REJECTED abacaba
+test4 ACCEPTED ac
+test5 ACCEPTED ca
+test6 ACCEPTED ababaabababacababa
+test7 REJECTED abbbabcbabbba
+test8 REJECTED aca
+test9 ACCEPTED abacab
