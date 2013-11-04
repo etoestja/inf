@@ -1,0 +1,122 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+%\geometry{paperwidth=210mm, paperheight=2000pt, left=5pt, top=5pt}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,arrows}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{wasysym}
+\title{Теория и реализация языков программирования.\\Задание 9: преобразование контекстно-свободных языков}
+\date{задано 2013.10.23}
+\author{Сергей~Володин, 272 гр.}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+% названия автоматов
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+
+%+= и -=, иначе разъезжаются...
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
+% пустое слово
+\def\eps{\varepsilon}
+
+% регулярные языки
+\def\REG{{\mathsf{REG}}}
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\newcommand{\niton}{\not\owns}
+
+\begin{document}
+\maketitle
+\section*{Упражнение 1}
+\section*{Упражнение 2}
+\section*{Упражнение 3}
+\section*{Упражнение 4}
+\section*{Задача 1}
+$L\eqdef\{xcy\big|x,y\in \{a,b\}^*,x\neq y^R\}\subset\Sigma\eqdef\{a,b,c\}$.
+\begin{enumerate}[1.]
+\item Определим МП-автомат $\A\eqdef(\Sigma,\Gamma,Q,q_0,Z,\delta,F)$, допускающий по принимающему состоянию:\newline
+\begin{tabular}{ll}
+\begin{minipage}{0.3\textwidth}
+\begin{enumerate}[1.]
+\item $\Gamma\eqdef\{a,b,Z\}$
+\item $Q\eqdef\{q_0,q_1,q_2,q_3,q_4\}$
+\item $\delta$ изображена справа
+\item $F\eqdef\{q_2,q_4\}$
+\end{enumerate}
+\end{minipage}
+&
+\begin{minipage}{0.6\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,every node/.style={text centered},initial text=]
+	\node [state,initial] (q_0)	{$q_0$};
+	\node [state] (q_1) [right = 2.5cm of q_0 ] {$q_1$};
+	\node [state, accepting] (q_2) [below = 1.5cm of q_1 ] {$q_2$};
+	\node [state] (q_3) [right = 2.5cm of q_1 ] {$q_3$};
+	\node [state, accepting] (q_4) [right = 2.5cm of q_3 ] {$q_4$};
+	\path[->]
+		(q_0) edge [out=40,in=140,loop] node [swap] {$\substack{a,Z/aZ\\a,a/aa\\a,b/ab}$} (q_0)
+			  edge [out=-40,in=-140,loop] node {$\substack{b,Z/bZ\\b,a/ba\\b,b/bb}$} (q_0)
+			  edge node {$\substack{c,Z/Z\\c,a/a\\c,b/b}$} (q_1)
+		(q_1) edge [out=40,in=140,loop] node [swap] {$\substack{a,a/\varepsilon\\b,b/\varepsilon}$} (q_1)
+			  edge node [swap] {$\substack{a,b/b\\b,a/a}$} (q_2)
+			  edge node {$\varepsilon,Z/Z$} (q_3)
+		(q_2) edge [out=-50,in=50,loop] node [swap] {$\substack{a,a/a\\b,b/b\\a,b/b\\b,a/a}$} (q_2)
+		(q_3) edge node {$\substack{a,Z/Z\\b,Z/Z}$} (q_4)
+		(q_4) edge [out=40,in=140,loop] node [swap] {$\substack{a,Z/Z\\b,Z/Z}$} (q_4)
+		;
+\end{tikzpicture}
+\end{minipage}\\
+\end{tabular}
+\item $\A$~--- детерминированный, так как из каждой конфигурации $(q,w,\gamma)$ переход определен однозначно.\newline
+$\varepsilon$-переход $q_1\overset{\varepsilon,Z/Z}{\longrightarrow}q_3$~--- единственный переход из $q_1$ при $Z$ на верхушке стека.
+\item Докажем, что $L\subseteq L(\A)$:\begin{enumerate}[1.]
+\item \label{1.1adding} Пусть $w\in \{a,b\}^*$. Докажем, что $(q_0,w,Z)\vdash^*(q_0,\varepsilon,w^RZ)$ по индукции по $|w|$:\newline
+$P(n)\eqdef\big[\forall w\in\{a,b\}^*\colon |w|=n\hookrightarrow (q_0,w,Z)\vdash^*(q_0,\varepsilon,w^RZ)\big]$\begin{enumerate}
+\item $n=0\Rightarrow |w|=0\Rightarrow w=\varepsilon$. Тогда $w^R\equiv\varepsilon$, и $(q_0,w,Z)\equiv(q_0,\varepsilon,Z)\equiv(q_0,\varepsilon,w^RZ)\Rightarrow P(0)$.
+\item Фиксируем $n\geqslant 0$, пусть $\underline{P(n)}$. Пусть $w\in\{a,b\}^*,|w|=n+1$. Тогда $w=w_0\sigma,|w_0|=n$. $P(n)\Rightarrow (q_0,w_0,Z)\vdash^*(q_0,\varepsilon,w_0^RZ)$. Тогда $(q_0,w,Z)\equiv(q_0,w_0\sigma,Z)\vdash^*(q_0,\sigma,w_0^RZ).$\newline
+$\varangle$ переходы из $(q_0,\sigma,w_0^RZ)$. На верхушке стека $\gamma\in\Gamma$, входной символ $\sigma\in\{a,b\}$. Во всех случаях он будет добавлен в стек (см. определение $\delta$), значит, $(q_0,\sigma,w_0^RZ)\vdash(q_0,\varepsilon,\sigma w_0^RZ)\equiv(q_0,\varepsilon,w^RZ)\Rightarrow \underline{P(n+1)}$
+\end{enumerate}
+\item \label{1.1c} Из определения $\delta$ $(q_0,cw,\gamma)\vdash^*(q_1,w,\gamma)$, $|\gamma|>0$.
+\item \label{1.1removing} Докажем $(q_1,x,xZ)\vdash^*(q_1,\varepsilon,Z)$ по индукции по $|x|$: $P(n)\eqdef\big[\forall w\in\{a,b\}^*\colon |w|=n\hookrightarrow (q_1,x,xZ)\vdash^*(q_1,\varepsilon,Z)\big]$\begin{enumerate}
+\item $n=0\Rightarrow |x|=0\Rightarrow x=\varepsilon$. Тогда $(q_1,x,xZ)\equiv (q_1,\varepsilon,Z)\Rightarrow P(0)$
+\item Фиксируем $n\geqslant 0$. Пусть $\underline{P(n)}$. Пусть $x\in\{a,b\}^*\colon |x|=n+1\Rightarrow x=x_0\sigma,|x_0|=n\overset{P(n)}{\Rightarrow} (q_1,x_0,x_0Z)\vdash^*(q_1,\varepsilon,Z)$. Тогда $(q_1,x,xZ)\equiv(q_1,x_0\sigma,x_0\sigma Z)\vdash^*(q_1,\sigma,\sigma Z)$. Входной символ совпадает с символом на верхушке стека, из определения $\delta$ получаем, что символ будет удален из стека: $(q_1,\sigma,\sigma Z)\vdash(q_1,\varepsilon,Z)\Rightarrow P(n)$.
+\end{enumerate}
+\item \label{1.1q2neq} Из определения $\delta$ имеем $(q_1,\sigma_1x,\sigma_2\gamma)\vdash(q_2,x,\sigma_2\gamma)$ при $\sigma_1\neq\sigma_2$, $\sigma_1,\sigma_2\in\{a,b\}^*$.
+\item \label{1.1q2eat} Из определения $\delta$ имеем $(q_2,x,\gamma)\vdash^*(q_2,\varepsilon,\gamma)$, $x\in\{a,b\}^*$ (доказывается очевидно по индукции).
+\item \label{1.1q1q3} Из определения $\delta$ имеем $(q_1,x,Z)\vdash(q_3,x,Z)$
+\item \label{1.1q3q4} Из определения $\delta$ имеем $(q_3,\sigma x,Z)\vdash(q_4,x,Z)$, $\sigma\in \{a,b\}$.
+\item \label{1.1q4eat} Из определения $\delta$ имеем $(q_4,x,Z)\vdash^*(q_4,\varepsilon,Z),\,x\in\{a,b\}^*$ (доказывается очевидно по индукции).
+\item Пусть $w\in L\Rightarrow w=xcy,x\neq y^R;x,y\in\{a,b\}^*$. $x\neq y^R\Leftrightarrow x^R\neq y$. Рассмотрим случаи:
+\begin{enumerate}
+\item Выделим максимальную по длине общую часть $w$ длины $i$ у слов $x^R$ и $y$: $x^R=wx_1,y=wy_1$, $x_1\neq y_1$. Тогда $x=x_1^Rw^R, w=xcy=x_1^Rw^Rcwy_1$. Цепочка конфигураций:\newline $(q_0,w,Z)\equiv(q_0,x_1^Rw^Rcwy_1,Z)\overset{\ref{1.1adding}}{\vdash^*}(q_0,cwy_1,wx_1Z)\overset{\ref{1.1c}}{\vdash}(q_1,wy_1,wx_1Z)\overset{\ref{1.1removing}}{\vdash^*}(q_1,y_1,x_1Z)$.
+\begin{enumerate}
+\item $|x_1|>0,|y_1|>0$, $x_1[1]\neq y_1[1]$. Обозначим $y_1=y^1...y^l,\,\forall i\in\overline{1,l}\hookrightarrow y^i\in \{a,b\}^*$. Тогда $(q_1,y_1,x_1Z)\equiv(q_1,y^1...y^l,x_1Z)\overset{\ref{1.1q2neq}}{\vdash}(q_2,y^2...y^l,x_1Z)\overset{\ref{1.1q2eat}}{\vdash^*}(q_2,\varepsilon,x_1Z)$. $q_2\in F\Rightarrow \underline{w\in L(\A)}$.
+\item $|x_1|=0,|y_1|>0$. $y_1=\sigma y_0,\,\sigma\in\{a,b\}$. $(q_1,y_1,x_1Z)\equiv(q_1,\sigma y_0,Z)\overset{\ref{1.1q1q3}}{\vdash}(q_3,\sigma y_0,Z)\overset{\ref{1.1q3q4}}{\vdash}(q_4,y_0,Z)\overset{\ref{1.1q4eat}}{\vdash^*}(q_4,\varepsilon,Z)$. $q_4\in F\Rightarrow \underline{w\in L(\A)}$.
+\item $|x_1|>0,|y_1|=0$. Тогда $(q_1,y_1,x_1Z)\equiv(q_1,\varepsilon,x_1Z)$.
+\end{enumerate}
+\end{enumerate}
+\end{enumerate}
+\end{enumerate}
+%\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,every node/.style={text centered},initial text=]
+%	\node [state,initial,accepting] (q_0)	{$q_0$}; 
+%	\node [state] (q_1) [right = 2.5cm of q_0 ] {$q_1$};
+%	\path[->]
+%		(q_0) edge node [swap] {$\varepsilon,Z_0/Z_0$} (q_1);
+%\end{tikzpicture}
+\section*{Задача 2}
+\section*{Задача 3}
+\section*{Задача 4}
+\section*{Задача 5}
+\section*{Задача 6}
+\end{document}
