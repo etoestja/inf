@@ -52,27 +52,28 @@ $L\eqdef\{xcy\big|x,y\in \{a,b\}^*,x\neq y^R\}\subset\Sigma\eqdef\{a,b,c\}$.
 \begin{tabular}{ll}
 \begin{minipage}{0.3\textwidth}
 \begin{enumerate}[1.]
-\item $\Gamma\eqdef\{a,b,Z\}$
+\item $\Gamma\eqdef\{a,b,A,B,Z\}$
 \item $Q\eqdef\{q_0,q_1,q_2,q_3,q_4\}$
 \item $\delta$ изображена справа
-\item $F\eqdef\{q_2,q_4\}$
+\item $F\eqdef\{q_1,q_2,q_4\}$
 \end{enumerate}
 \end{minipage}
 &
 \begin{minipage}{0.6\textwidth}
 \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,every node/.style={text centered},initial text=]
 	\node [state,initial] (q_0)	{$q_0$};
-	\node [state] (q_1) [right = 2.5cm of q_0 ] {$q_1$};
-	\node [state, accepting] (q_2) [below = 1.5cm of q_1 ] {$q_2$};
+	\node [state,accepting] (q_1) [right = 3.2cm of q_0 ] {$q_1$};
 	\node [state] (q_3) [right = 2.5cm of q_1 ] {$q_3$};
+	\node [state, accepting] (q_2) [below = 2cm of q_3 ] {$q_2$};
 	\node [state, accepting] (q_4) [right = 2.5cm of q_3 ] {$q_4$};
 	\path[->]
-		(q_0) edge [out=40,in=140,loop] node [swap] {$\substack{a,Z/aZ\\a,a/aa\\a,b/ab}$} (q_0)
-			  edge [out=-40,in=-140,loop] node {$\substack{b,Z/bZ\\b,a/ba\\b,b/bb}$} (q_0)
-			  edge node {$\substack{c,Z/Z\\c,a/a\\c,b/b}$} (q_1)
-		(q_1) edge [out=40,in=140,loop] node [swap] {$\substack{a,a/\varepsilon\\b,b/\varepsilon}$} (q_1)
-			  edge node [swap] {$\substack{a,b/b\\b,a/a}$} (q_2)
-			  edge node {$\varepsilon,Z/Z$} (q_3)
+		(q_0) edge [out=40,in=140,loop] node [swap] {$\substack{a,Z/AZ\\a,A,aA\\a,a/aa\\a,B/aB\\a,b/ab}$} (q_0)
+			  edge [out=-40,in=-140,loop] node {$\substack{b,Z/BZ\\B,A/bA\\b,a/ba\\b,B/bB\\b,b/bb}$} (q_0)
+			  edge node [swap] {$\substack{c,A/A\\c,a/a\\c,B/B\\c,b/b}$} (q_1)
+			  edge [out=20,in=160] node {$c,Z/Z$} (q_3)
+		(q_1) edge [out=-80,in=-160,loop] node [below=0.07,swap] {$\substack{a,a/\varepsilon\\b,b/\varepsilon}$} (q_1)
+			  edge [out=-70,in=110] node [below=-0.01,swap] {$\substack{a,B/b\\a,b/b\\b,A/a\\b,a/a}$} (q_2)
+			  edge node [swap] {$\substack{a,A/\varepsilon\\b,B/\varepsilon}$} (q_3)
 		(q_2) edge [out=-50,in=50,loop] node [swap] {$\substack{a,a/a\\b,b/b\\a,b/b\\b,a/a}$} (q_2)
 		(q_3) edge node {$\substack{a,Z/Z\\b,Z/Z}$} (q_4)
 		(q_4) edge [out=40,in=140,loop] node [swap] {$\substack{a,Z/Z\\b,Z/Z}$} (q_4)
