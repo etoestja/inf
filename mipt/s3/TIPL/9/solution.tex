@@ -114,9 +114,26 @@ $\varangle$ переходы из $(q_0,\sigma,w_0^RZ)$. На верхушке �
 %	\path[->]
 %		(q_0) edge node [swap] {$\varepsilon,Z_0/Z_0$} (q_1);
 %\end{tikzpicture}
+{\fontsize{400}{1} df}
 \section*{Задача 2}
 \section*{Задача 3}
 \section*{Задача 4}
 \section*{Задача 5}
+$\Sigma_2\eqdef\{[_1,[_2\},\,\overline{\Sigma}_2\eqdef\{]_1,]_2\}$. $D_2\overset{\mbox{\tiny def}}{\mbox{ --- }}$ язык ПСП над $\Sigma\eqdef \Sigma_2\cup\overline{\Sigma}_2$. $\Delta\eqdef\{a,b\}$. $\varphi\colon \Sigma^*\longrightarrow \Delta^*$, $\varphi([_1)\eqdef a$, $\varphi([_2)\eqdef b$, $\varphi(]_1)\eqdef b$, $\varphi(]_2)\eqdef a$. Доопределим $\varphi$ до морфизма (см. решение упр. 2 из задания 3). $L\eqdef \varphi(D_2\cap \Sigma^*)\equiv \varphi(D_2)$.
+\begin{enumerate}
+\item Докажем, что $L\subseteq L'$. Пусть $\underline{y\in L}\equiv \varphi(D_2)$. Тогда $\exists x\in D_2\colon y=\varphi(x)$. $x$~--- ПСП $\Rightarrow$ $\forall i\in\overline{1,2}\hookrightarrow |x|_{[_i}=|x|_{]_i}$. Сложим равенства, получим: $|x|_{[_1}+|x|_{]_2}=|x|_{]_1}+|x|_{[_2}$. Пусть $x=x_1...x_m,\,\forall i\in\overline{1,m}\hookrightarrow x_i\in\Sigma$. Тогда $y=\varphi(x)=\varphi(x_1)...\varphi(x_m)=y_1...y_m,\,\forall i\in\overline{1,m}\hookrightarrow y_i=\varphi(x_i)\in\Delta$. Но из определения $\varphi$ имеем $[_1,]_2\overset{\varphi}{\rightarrow}a;\,]_1,[_2\overset{\varphi}{\rightarrow}b$. Тогда $|y|_a=|x|_{[_1}+|x|_{]_2}\equiv|x|_{]_1}+|x|_{[_2}=|y|_b\Rightarrow \underline{y\in L'}$ $\blacksquare$
+\item Докажем, что $L'\subseteq L$ индукцией по длине $y\in L'$: $P(n)\eqdef\big[\forall y\in L'\colon |y|\leqslant n\hookrightarrow y\in L\big]$.\newline
+Заметим, что $y\in L\Leftrightarrow y\in \varphi(D_2)\Leftrightarrow \varphi^{-1}(y)\cap D_2\neq\varnothing$. Поэтому будем искать прообраз слова $y$, принадлежащий $D_2$.\begin{enumerate}
+\item $n=0\Rightarrow |y|=0\Rightarrow y=\varepsilon\in L'$. Пусть $x\eqdef\varepsilon\in D_2$ (так как пустое слово~--- ПСП). Тогда $y=\varepsilon\equiv\varphi(x)\Rightarrow y\in \varphi(D_2)\equiv L\Rightarrow P(0)$
+\item Фиксируем $n>0$. Пусть $P(n-1)$. Пусть $y\in L'\colon |y|=n$. Поскольку $|y|=n>0$, и $|y|$~--- четно (см. решение задачи 3 из задания 6), то $|y|\geqslant 2$. Рассмотрим первый и последний символы $\sigma_l$ и $\sigma_r$ слова $y\equiv \sigma_ly_1\sigma_r$:\begin{enumerate}
+\item $\sigma_l=a,\,\sigma_r=b$. Тогда $y=ay_1b$. $|y_1|=n-2\leqslant n-1\overset{P(n-1)}{\Rightarrow}\exists x_1\in D_2\colon \varphi(x_1)=y_1$. Определим $x=[_1x_1]_1$. $x_1\in D_2\Rightarrow x_1$~--- ПСП $\Rightarrow x$~--- ПСП, так как получен из ПСП добавленим скобок типа $1$ слева и справа $\Rightarrow x\in D_2$. Но $\varphi(x)\equiv\varphi([_1x_1]_1)=\varphi([_1)\varphi(x_1)\varphi(]_1)=ay_1b\equiv y$. Получаем $\varphi^{-1}(y)\cap D_2\ni x\Rightarrow \varphi^{-1}(y)\cap D_2\neq\varnothing$.
+\item $\sigma_l=b,\,\sigma_r=b$. Тогда $y=by_1a$. $|y_1|=n-2\leqslant n-1\overset{P(n-1)}{\Rightarrow}\exists x_1\in D_2\colon \varphi(x_1)=y_1$. Определим $x=[_2x_1]_2$. $x_1\in D_2\Rightarrow x_1$~--- ПСП $\Rightarrow x$~--- ПСП, так как получен из ПСП добавленим скобок типа $2$ слева и справа $\Rightarrow x\in D_2$. Но $\varphi(x)\equiv\varphi([_2x_1]_2)=\varphi([_2)\varphi(x_1)\varphi(]_2)=by_1a\equiv y$. Получаем $\varphi^{-1}(y)\cap D_2\ni x\Rightarrow \varphi^{-1}(y)\cap D_2\neq\varnothing$.
+\item $\sigma_l=\sigma_r$. Тогда $y=\sigma y_1\sigma\in L'$. Воспользуемся утверждением в рамочке из решения задачи 3 задания 6:
+$$\boxed{y=\sigma y_1\sigma\in L'\Rightarrow\exists y_l,y_r\colon y=y_ly_r, |y_l|, |y_r|\in\overline{1, |y|-2}, y_l,y_r\in L'}$$
+Но $|y_l|,|y_r|\leqslant |y|-2=n-2\leqslant n-1\overset{P(n-1)}{\Rightarrow}\exists x_l,x_r\in D_2\colon y_l=\varphi(x_l),y_r=\varphi(x_r)$. Определим $x\eqdef x_lx_r$. Тогда $x\in D_2$ (конкатенация ПСП~--- ПСП), и $\varphi(x)=\varphi(x_lx_r)=\varphi(x_l)\varphi(x_r)=y_ly_r=y\Rightarrow \varphi^{-1}(y)\cap D_2\ni x\Rightarrow\varphi^{-1}(y)\cap D_2\neq\varnothing$
+\end{enumerate}
+\end{enumerate}
+$\blacksquare$
+\end{enumerate}
 \section*{Задача 6}
 \end{document}
