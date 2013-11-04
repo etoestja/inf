@@ -17,7 +17,8 @@ fi
 
 if [ "X$1" == "X--view" ]
 then
-    for a in $(ls test*);do echo "$a $(cat ans$a) $(cat $a)";done
+    echo -e "==== TESTS @ $(date) ====\n">viewtests
+    for a in $(ls test*);do echo "$a $(cat ans$a) $(cat $a)"|tee -a viewtests;done
     exit
 fi
 
