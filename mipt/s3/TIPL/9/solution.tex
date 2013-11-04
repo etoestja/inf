@@ -8,6 +8,8 @@
 \usetikzlibrary{automata,positioning,arrows}
 \usepackage{amsmath}
 \usepackage{enumerate}
+\usepackage[makeroom]{cancel} % зачеркивание
+\usepackage{multicol} %Несколько колонок
 \usepackage{hyperref}
 \usepackage{amsfonts}
 \usepackage{amssymb}
@@ -117,6 +119,179 @@ $\varangle$ переходы из $(q_0,\sigma,w_0^RZ)$. На верхушке �
 {\fontsize{400}{1} df}
 \section*{Задача 2}
 \section*{Задача 3}
+$\Sigma\eqdef\{a,b\}$, $\Gamma\eqdef(N,\Sigma,P,S)$. $N\eqdef\{A,B,C,D,E,F,G\}$ $P:$
+\vspace{-7ex}
+\begin{multicols}{2}
+	\begin{align*}
+		S &\to A|B|C|E|AG \\
+		A &\to C |aABC|\eps\\
+		B &\to bABa|aCbDaGb|\eps\\
+	\end{align*}
+
+	\begin{align*}
+		C &\to BaAbC|aGD|\eps\\
+		F &\to aBaaCbA|aGE\\
+		E &\to A\\			
+	\end{align*}	
+\end{multicols}
+\vspace{-7ex}
+\begin{enumerate}
+\item Удалим бесплодные символы (для упрощения):\begin{enumerate}
+\item $V_0\eqdef \{a,b\}$
+\item $V_1=V_0\cup\{A,B,C\}=\{a,b,A,B,C\}$
+\item $V_2=V_1\cup\{S,F,E\}=\{a,b,S,A,B,C,F,E\}$
+\item $V_3=V_2\cup\varnothing$
+\end{enumerate}
+Тогда $V_3\setminus\Sigma=\{S,A,B,C,F,E\}$. Удалим нетерминалы $N\setminus V_3=\{D,G\}$ и правила, их содержащие: $N'\eqdef N\setminus V_3=\{S,A,B,C,F,E\}$, $P'$:
+\vspace{-7ex}
+\begin{multicols}{2}
+	\begin{align*}
+		S &\to A|B|C|E|\cancel{AG} \\
+		A &\to C |aABC|\eps\\
+		B &\to bABa|\cancel{aCbDaGb}|\eps\\
+	\end{align*}
+
+	\begin{align*}
+		C &\to BaAbC|\cancel{aGD}|\eps\\
+		F &\to aBaaCbA|\cancel{aGE}\\
+		E &\to A\\			
+	\end{align*}	
+\end{multicols}
+\vspace{-7ex}
+\item Удалим недостижимые символы (для упрощения):\begin{enumerate}
+\item $V_0\eqdef\{S\}$
+\item $V_1=V_0\cup\{A,B,C,E\}$
+\item $V_2=V_1\cup\varnothing$
+\end{enumerate}
+$N''\eqdef\{A,B,C,E,S\}$, $P''$:
+\vspace{-7ex}
+\begin{multicols}{2}
+	\begin{align*}
+		S &\to A|B|C|E|\cancel{AG} \\
+		A &\to C |aABC|\eps\\
+		B &\to bABa|\cancel{aCbDaGb}|\eps\\
+	\end{align*}
+
+	\begin{align*}
+		C &\to BaAbC|\cancel{aGD}|\eps\\
+		F &\to \cancel{aBaaCbA|aGE}\\
+		E &\to A\\			
+	\end{align*}	
+\end{multicols}
+\vspace{-7ex}
+\item[1,2.] Имеем $P''$:
+\vspace{-7ex}
+\begin{multicols}{2}
+	\begin{align*}
+		S &\to A|B|C|E\\
+		A &\to C |aABC|\eps\\
+		B &\to bABa|\eps\\
+	\end{align*}
+
+	\begin{align*}
+		C &\to BaAbC|\eps\\
+		E &\to A\\			
+	\end{align*}	
+\end{multicols}
+\vspace{-7ex}
+\item Удалим $\varepsilon$-правила:\begin{enumerate}
+\item $A,B,C$~--- $\varepsilon$-порождающие.
+\item $S,E$~--- $\varepsilon$-порождающие ($S\rightarrow A$, $E\rightarrow A$)
+\end{enumerate}
+Перепишем правила, содержащие $\varepsilon$-порождающие нетерминалы справа ($2^k$ правил для каждого правила, содержащего $k$ $\varepsilon$-порождающих нетерминалов). $P'''$:
+\vspace{-7ex}
+\begin{multicols}{2}
+	\begin{align*}
+		S &\to A|B|C|E\\
+		A &\to C|a|aC|aB|aBC|aA|aAC|aAB|aABC\\
+		B &\to ba|bBa|bAa|bABa\\
+	\end{align*}
+
+	\begin{align*}
+		C &\to ab|abC|aAb|aAbC|Bab|BabC|BaAbC\\
+		E &\to A\\			
+	\end{align*}	
+\end{multicols}
+\vspace{-7ex}
+Грамматика с такими правилами порождает язык $L(\Gamma)\setminus\{\varepsilon\}$.
+\item Найдем цепные пары (множества пар соответствуют добавлениям на шагах алгоритма):\begin{enumerate}
+\item $(S,S),(A,A),(B,B),(C,C),(E,E)$
+\item $(S,A),(S,B),(S,C),(S,E);(A,C);(E,A)$
+\item $(S,C);\cancel{(S,A)};(E,C)$
+\end{enumerate}
+\item Выпишем новое множество правил $P''''$:\newline
+$\begin{array}{|l|lll|}
+\hline
+\mbox{Цепная пара} & \multicolumn{3}{c|}{\mbox{Правила}}\\\hline
+(S,S) & \multicolumn{3}{c|}{\varnothing}\\\hline
+(A,A) & A & \to & a|aC|aB|aBC|aA|aAC|aAB|aABC\\\hline
+(B,B) & B & \to & ba|bBa|bAa|bABa\\\hline
+(C,C) & C & \to & ab|abC|aAb|aAbC|Bab|BabC|BaAbC\\\hline
+(E,E) & \multicolumn{3}{c|}{\varnothing}\\\hline
+(S,A) & S & \to & a|aC|aB|aBC|aA|aAC|aAB|aABC\\\hline
+(S,B) & S & \to & ba|bBa|bAa|bABa\\\hline
+(S,C) & S & \to & ab|abC|aAb|aAbC|Bab|BabC|BaAbC\\\hline
+(S,E) & \multicolumn{3}{c|}{\varnothing}\\\hline
+(A,C) & A & \to & ab|abC|aAb|aAbC|Bab|BabC|BaAbC\\\hline
+(E,A) & E & \to & a|aC|aB|aBC|aA|aAC|aAB|aABC\\\hline
+(S,C) & S & \to & ab|abC|aAb|aAbC|Bab|BabC|BaAbC\\\hline
+(E,C) & E & \to & ab|abC|aAb|aAbC|Bab|BabC|BaAbC\\\hline
+\end{array}$
+\item Нетерминалы $A,B,C,E,S$ не являются бесплодными: $A\to a,B\to ba,C\to ab,E\to a,S\to ab$.
+\item Удалим недостижимые:\begin{enumerate}
+\item $V_0\eqdef\{S\}$
+\item $V_1\eqdef\{S,A,B,C\}$
+\item $V_2=V_1$
+\end{enumerate}
+Удаляем $E$. $P^{(5)}$:
+\vspace{-7ex}
+\begin{multicols}{2}
+	\begin{align*}
+		A &\to a|aC|aB|aBC|aA|aAC|aAB|aABC|ab|abC|aAb|aAbC|Bab|BabC|BaAbC\\
+		B &\to ba|bBa|bAa|bABa\\
+		C &\to ab|abC|aAb|aAbC|Bab|BabC|BaAbC\\
+		S &\to a|aC|aB|aBC|aA|aAC|aAB|aABC|ba|bBa|bAa|bABa|ab|abC|aAb|aAbC|Bab|BabC|BaAbC\\
+	\end{align*}	
+\end{multicols}
+\vspace{-7ex}
+\item Приведем к нормальной форме Хомского. Добавим нетерминалы $A',B'$, $A'\to a,B'\to b$. Заменим в правилах $a$ на $A'$, $b$ на $B'$. Подчеркнем слова из нетерминалов длины 2 в правых частях правил, которые заменим на новые нетерминалы:
+\vspace{-7ex}
+\begin{multicols}{2}
+	\begin{align*}
+		A &\to a|A'C|A'B|\underline{A'B}C|A'A|\underline{A'A}C|\underline{A'A}B|\underline{A'A}\,\underline{BC}|A'B'|\underline{A'B'}C|\underline{A'A}B'|\underline{A'A}\,\underline{B'C}|\underline{BA'}B'|\underline{BA'}\,\underline{B'C}|\underline{BA'}\,\underline{AB'}C\\
+		B &\to B'A'|\underline{B'B}A'|\underline{B'A}A'|\underline{B'A}\,\underline{BA'}\\
+		C &\to A'B'|\underline{A'B'}C|\underline{A'A}B'|\underline{A'A}\,\underline{B'C}|\underline{BA'}B'|\underline{BA'}\,\underline{B'C}|\underline{BA'}\,\underline{AB'}\,C\\
+		S &\to a|A'C|A'B|\underline{A'B}C|A'A|\underline{A'A}C|\underline{A'A}B|\underline{A'A}\,\underline{BC}|B'A'|\underline{B'B}A'\\
+		S &\to \underline{B'A}A'|\underline{B'A}\,\underline{BA'}|A'B'|\underline{A'B'}\,C|\underline{A'A}B'|\underline{A'A}\,\underline{B'C}|\underline{BA'}B'|\underline{BA'}\,\underline{B'C}|\underline{BA'}\,\underline{AB'}C\\			
+		A' &\to a\\
+		B' &\to b\\
+	\end{align*}	
+\end{multicols}
+\vspace{-7ex}
+Заменим подчеркнутые слова на новые нетерминалы:
+\vspace{-7ex}
+\begin{multicols}{2}
+	\begin{align*}
+		A &\to a|A'C|A'B|X_0C|A'A|X_1C|X_1B|X_1X_2|A'B'|X_3C|X_1B'|X_1X_4|X_5B'|X_5X_4|X_9C\\
+		B &\to B'A'|X_7A'|X_8A'|X_8X_5\\
+		C &\to A'B'|X_3C|X_1B'|X_1X_4|X_5B'|X_5X_4|X_9C\\
+		S &\to a|A'C|A'B|X_0C|A'A|X_1C|X_1B|X_1X_2|B'A'|X_7A'|X_8A'|X_8X_5|A'B'|X_3C|X_1B'|X_1X_4|X_5B'|X_5X_4|X_9C\\			
+		A' &\to a\\
+		B' &\to b\\
+		X_0 &\to A'B\\
+		X_1 &\to A'A\\
+		X_2 &\to BC\\
+		X_3 &\to A'B'\\
+		X_4 &\to B'C\\
+		X_5 &\to BA'\\		
+		X_6 &\to AB'\\
+		X_7 &\to B'B\\
+		X_8 &\to B'A\\
+		X_9 &\to X_5X_6
+	\end{align*}	
+\end{multicols}
+\vspace{-7ex}
+\end{enumerate}
 \section*{Задача 4}
 \section*{Задача 5}
 $\Sigma_2\eqdef\{[_1,[_2\},\,\overline{\Sigma}_2\eqdef\{]_1,]_2\}$. $D_2\overset{\mbox{\tiny def}}{\mbox{ --- }}$ язык ПСП над $\Sigma\eqdef \Sigma_2\cup\overline{\Sigma}_2$. $\Delta\eqdef\{a,b\}$. $\varphi\colon \Sigma^*\longrightarrow \Delta^*$, $\varphi([_1)\eqdef a$, $\varphi([_2)\eqdef b$, $\varphi(]_1)\eqdef b$, $\varphi(]_2)\eqdef a$. Доопределим $\varphi$ до морфизма (см. решение упр. 2 из задания 3). $L\eqdef \varphi(D_2\cap \Sigma^*)\equiv \varphi(D_2)$.
