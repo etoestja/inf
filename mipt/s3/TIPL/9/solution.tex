@@ -60,10 +60,11 @@ $P(k)\Rightarrow (q_0,u_l,Z_0)\vdash^*(s_0,\varepsilon,Z_1...Z_m)$. Примен
 \item $[s_0Z_1s_1]\to z\equiv u_r\in\Sigma^*$. Тогда $y=\underbrace{u_l}_{\mbox{\tiny префикс } x}\underbrace{u_r}_{z}\underbrace{[s_1Z_2s_2]...[s_{m-1}Z_ms_m]}_{\mbox{\tiny суффикс } x}$. Отсюда $Z_2...Z_m=Y_1...Y_n$, $s_1=r_0$, $u=u_lu_r$. $[s_0Z_1s_1]\to u_r\in P\Rightarrow (s_0,u_r,Z_1)\vdash(s_1,\varepsilon,\varepsilon)$~--- из определения $P$.\newline $(q_0,u,Z_0)\equiv(q_0,u_lu_r,Z_0)\overset{P(k)}{\vdash^*}(s_0,u_r,Z_1...Z_m)\vdash(s_1,\varepsilon,Z_2...Z_m)\equiv(r_0,\varepsilon,Y_1...Y_n)$.
 \end{enumerate}
 \end{enumerate}
-\item Пусть $\underline{w\in L(G)}\Rightarrow\exists n\colon S\overset{\mbox{\tiny левый вывод}}{\underset{\mbox{\tiny n шагов}}{\Rightarrow^*}} w\in\Sigma^*$. На последнем, $n-1$ шаге был раскрыт нетерминал $[qZp]\to w_r$, поэтому этот левый вывод имеет вид $S\Rightarrow^* w_l[qZp]\Rightarrow w_lw_r$. Имеем $w=w_lw_r$. Значит, по определению $P$, $(q,w_r,Z)\to(p,\varepsilon,\varepsilon)$. $(q_0,w,Z_0)\equiv(q_0,w_lw_r,Z_0)\overset{P(n-1)}{\vdash^*}(q,w_r,Z)\vdash(p,\varepsilon,\varepsilon)\Rightarrow\underline{w\in L(M)}\,\blacksquare$
+\item Пусть $\underline{w\in L(G)}\Rightarrow\exists n\colon S\overset{\mbox{\tiny левый вывод}}{\underset{\mbox{\tiny n шагов}}{\Rightarrow^*}} w\in\Sigma^*$. На последнем, $n-1$ шаге был раскрыт нетерминал $[qZp]\to w_r$, поэтому этот левый вывод имеет вид $S\Rightarrow^* w_l[qZp]\Rightarrow w_lw_r$. Имеем $w=w_lw_r$. $[qZp]\to w_r\in P\Rightarrow(q,w_r,Z)\to(p,\varepsilon,\varepsilon)$.\newline $(q_0,w,Z_0)\equiv(q_0,w_lw_r,Z_0)\overset{P(n-1)}{\vdash^*}(q,w_r,Z)\vdash(p,\varepsilon,\varepsilon)\Rightarrow\underline{w\in L(M)}\,\blacksquare$
 \end{enumerate}
 \section*{Упражнение 3}
 \section*{Упражнение 4}
+\newpage
 \section*{Задача 1}
 $L\eqdef\{xcy\big|x,y\in \{a,b\}^*,x\neq y^R\}\subset\Sigma^*,\,\Sigma\eqdef\{a,b,c\}$.
 \begin{enumerate}[1.]
