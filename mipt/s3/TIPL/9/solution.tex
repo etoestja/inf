@@ -16,7 +16,7 @@
 \DeclareMathOperator*{\argmin}{arg\,min}
 \usepackage{wasysym}
 \title{Теория и реализация языков программирования.\\Задание 9: преобразование контекстно-свободных языков}
-\date{задано 2013.10.23}
+\date{задано 2013.10.30}
 \author{Сергей~Володин, 272 гр.}
 \newcommand{\matrixl}{\left|\left|}
 \newcommand{\matrixr}{\right|\right|}
@@ -81,32 +81,63 @@ $L\eqdef\{xcy\big|x,y\in \{a,b\}^*,x\neq y^R\}\subset\Sigma\eqdef\{a,b,c\}$.
 \end{tikzpicture}
 \end{minipage}\\
 \end{tabular}
-\item $\A$~--- детерминированный, так как из каждой конфигурации $(q,w,\gamma)$ переход определен однозначно.\newline
-$\varepsilon$-переход $q_1\overset{\varepsilon,Z/Z}{\longrightarrow}q_3$~--- единственный переход из $q_1$ при $Z$ на верхушке стека.
-\item Докажем, что $L\subseteq L(\A)$:\begin{enumerate}[1.]
-\item \label{1.1adding} Пусть $w\in \{a,b\}^*$. Докажем, что $(q_0,w,Z)\vdash^*(q_0,\varepsilon,w^RZ)$ по индукции по $|w|$:\newline
-$P(n)\eqdef\big[\forall w\in\{a,b\}^*\colon |w|=n\hookrightarrow (q_0,w,Z)\vdash^*(q_0,\varepsilon,w^RZ)\big]$\begin{enumerate}
-\item $n=0\Rightarrow |w|=0\Rightarrow w=\varepsilon$. Тогда $w^R\equiv\varepsilon$, и $(q_0,w,Z)\equiv(q_0,\varepsilon,Z)\equiv(q_0,\varepsilon,w^RZ)\Rightarrow P(0)$.
-\item Фиксируем $n\geqslant 0$, пусть $\underline{P(n)}$. Пусть $w\in\{a,b\}^*,|w|=n+1$. Тогда $w=w_0\sigma,|w_0|=n$. $P(n)\Rightarrow (q_0,w_0,Z)\vdash^*(q_0,\varepsilon,w_0^RZ)$. Тогда $(q_0,w,Z)\equiv(q_0,w_0\sigma,Z)\vdash^*(q_0,\sigma,w_0^RZ).$\newline
-$\varangle$ переходы из $(q_0,\sigma,w_0^RZ)$. На верхушке стека $\gamma\in\Gamma$, входной символ $\sigma\in\{a,b\}$. Во всех случаях он будет добавлен в стек (см. определение $\delta$), значит, $(q_0,\sigma,w_0^RZ)\vdash(q_0,\varepsilon,\sigma w_0^RZ)\equiv(q_0,\varepsilon,w^RZ)\Rightarrow \underline{P(n+1)}$
+\item $\A$~--- детерминированный, так как из каждой конфигурации $(q,w,\gamma)$ переход определен однозначно, и $\varepsilon$-переходов нет.
+\item Определим $U\colon \{a,b\}\rightarrow \{A,B\}\colon U(a)=A,\,U(b)=B$. Определим $U_r\colon \{a,b\}^*\rightarrow \{a,b,A,B\}^*$:\newline
+$U_r(w)=\begin{cases}
+\varepsilon, & w=\varepsilon\\
+w_1...w_{n-1}U(w_n), & w=w_1...w_n,\,\forall i\in\overline{1,n}\hookrightarrow w_i\in\{a,b\}
+\end{cases}$~--- заменяет последний символ на заглавный.
+\item Докажем, что $L\subseteq L(\A)$:\begin{enumerate}
+\item \label{1.1adding} Пусть $w\in \{a,b\}^*$. Докажем, что $(q_0,w,Z)\vdash^*(q_0,\varepsilon,U_r(w^R)Z)$ индукцией по $|w|$:\newline
+$P(n)\eqdef\big[\forall w\in\{a,b\}^*\colon |w|=n\hookrightarrow (q_0,w,Z)\vdash^*(q_0,\varepsilon,U_r(w^R)Z)\big]$\begin{enumerate}
+\item $n=0\Rightarrow |w|=0\Rightarrow w=\varepsilon$. Тогда $U_r(w^R)\equiv\varepsilon$, и $(q_0,w,Z)\equiv(q_0,\varepsilon,Z)\equiv(q_0,\varepsilon,U_r(w^R)Z)\Rightarrow P(0)$.
+\item $n=1\Rightarrow w=\sigma\in\Sigma$. Рассмотрим переходы из $(q_0,\sigma,Z)$. В стек будет добавлен $U_r(\sigma)$ $\Rightarrow$ $(q_0,w,Z)\equiv(q_0,\sigma,Z)\vdash(q_0,\varepsilon,U_r(\sigma)Z)\equiv(q_0,\varepsilon,U_r(w^R)Z)\Rightarrow P(1)$.
+\item Фиксируем $n\geqslant 1$, пусть $\underline{P(n)}$. Пусть $w\in\{a,b\}^*,|w|=n+1$. Тогда $w=w_0\sigma,|w_0|=n>0$.\newline
+$P(n)\Rightarrow (q_0,w_0,Z)\vdash^*(q_0,\varepsilon,U_r(w_0^R)Z)$. Тогда $(q_0,w,Z)\equiv(q_0,w_0\sigma,Z)\vdash^*(q_0,\sigma,U_r(w_0^R)Z).$\newline
+$\varangle$ переходы из $(q_0,\sigma,U(w_0^R)Z)$. На верхушке стека $\gamma\in\{a,b,A,B\}$~--- первый символ $U_r(w_0^R)$,\newline
+входной символ $\sigma\in\{a,b\}$. Во всех случаях он будет добавлен в стек (см. определение $\delta$), значит, $(q_0,\sigma,U_r(w_0^R)Z)\vdash(q_0,\varepsilon,\sigma U_r(w_0^R)Z)\overset{|w_0|>0}{=}(q_0,\varepsilon,U_r(w^R)Z)\Rightarrow \underline{P(n+1)}$.
 \end{enumerate}
-\item \label{1.1c} Из определения $\delta$ $(q_0,cw,\gamma)\vdash^*(q_1,w,\gamma)$, $|\gamma|>0$.
-\item \label{1.1removing} Докажем $(q_1,x,xZ)\vdash^*(q_1,\varepsilon,Z)$ по индукции по $|x|$: $P(n)\eqdef\big[\forall w\in\{a,b\}^*\colon |w|=n\hookrightarrow (q_1,x,xZ)\vdash^*(q_1,\varepsilon,Z)\big]$\begin{enumerate}
+\item \label{1.1c} Из определения $\delta$ имеем $(q_0,cw,\gamma)\vdash^*(q_1,w,\gamma)$, $|\gamma|>0,\gamma\neq Z$.
+\item \label{1.1removing} Докажем $(q_1,x,xZ)\vdash^*(q_1,\varepsilon,Z)$ индукцией по $|x|$: $P(n)\eqdef\big[\forall x\in\{a,b\}^*\colon |x|=n\hookrightarrow (q_1,x,xZ)\vdash^*(q_1,\varepsilon,Z)\big]$\begin{enumerate}
 \item $n=0\Rightarrow |x|=0\Rightarrow x=\varepsilon$. Тогда $(q_1,x,xZ)\equiv (q_1,\varepsilon,Z)\Rightarrow P(0)$
 \item Фиксируем $n\geqslant 0$. Пусть $\underline{P(n)}$. Пусть $x\in\{a,b\}^*\colon |x|=n+1\Rightarrow x=x_0\sigma,|x_0|=n\overset{P(n)}{\Rightarrow} (q_1,x_0,x_0Z)\vdash^*(q_1,\varepsilon,Z)$. Тогда $(q_1,x,xZ)\equiv(q_1,x_0\sigma,x_0\sigma Z)\vdash^*(q_1,\sigma,\sigma Z)$. Входной символ совпадает с символом на верхушке стека, из определения $\delta$ получаем, что символ будет удален из стека: $(q_1,\sigma,\sigma Z)\vdash(q_1,\varepsilon,Z)\Rightarrow P(n)$.
 \end{enumerate}
-\item \label{1.1q2neq} Из определения $\delta$ имеем $(q_1,\sigma_1x,\sigma_2\gamma)\vdash(q_2,x,\sigma_2\gamma)$ при $\sigma_1\neq\sigma_2$, $\sigma_1,\sigma_2\in\{a,b\}^*$.
-\item \label{1.1q2eat} Из определения $\delta$ имеем $(q_2,x,\gamma)\vdash^*(q_2,\varepsilon,\gamma)$, $x\in\{a,b\}^*$ (доказывается очевидно по индукции).
-\item \label{1.1q1q3} Из определения $\delta$ имеем $(q_1,x,Z)\vdash(q_3,x,Z)$
-\item \label{1.1q3q4} Из определения $\delta$ имеем $(q_3,\sigma x,Z)\vdash(q_4,x,Z)$, $\sigma\in \{a,b\}$.
-\item \label{1.1q4eat} Из определения $\delta$ имеем $(q_4,x,Z)\vdash^*(q_4,\varepsilon,Z),\,x\in\{a,b\}^*$ (доказывается очевидно по индукции).
-\item Пусть $w\in L\Rightarrow w=xcy,x\neq y^R;x,y\in\{a,b\}^*$. $x\neq y^R\Leftrightarrow x^R\neq y$. Рассмотрим случаи:
-\begin{enumerate}
-\item Выделим максимальную по длине общую часть $w$ длины $i$ у слов $x^R$ и $y$: $x^R=wx_1,y=wy_1$, $x_1\neq y_1$. Тогда $x=x_1^Rw^R, w=xcy=x_1^Rw^Rcwy_1$. Цепочка конфигураций:\newline $(q_0,w,Z)\equiv(q_0,x_1^Rw^Rcwy_1,Z)\overset{\ref{1.1adding}}{\vdash^*}(q_0,cwy_1,wx_1Z)\overset{\ref{1.1c}}{\vdash}(q_1,wy_1,wx_1Z)\overset{\ref{1.1removing}}{\vdash^*}(q_1,y_1,x_1Z)$.
-\begin{enumerate}
-\item $|x_1|>0,|y_1|>0$, $x_1[1]\neq y_1[1]$. Обозначим $y_1=y^1...y^l,\,\forall i\in\overline{1,l}\hookrightarrow y^i\in \{a,b\}^*$. Тогда $(q_1,y_1,x_1Z)\equiv(q_1,y^1...y^l,x_1Z)\overset{\ref{1.1q2neq}}{\vdash}(q_2,y^2...y^l,x_1Z)\overset{\ref{1.1q2eat}}{\vdash^*}(q_2,\varepsilon,x_1Z)$. $q_2\in F\Rightarrow \underline{w\in L(\A)}$.
-\item $|x_1|=0,|y_1|>0$. $y_1=\sigma y_0,\,\sigma\in\{a,b\}$. $(q_1,y_1,x_1Z)\equiv(q_1,\sigma y_0,Z)\overset{\ref{1.1q1q3}}{\vdash}(q_3,\sigma y_0,Z)\overset{\ref{1.1q3q4}}{\vdash}(q_4,y_0,Z)\overset{\ref{1.1q4eat}}{\vdash^*}(q_4,\varepsilon,Z)$. $q_4\in F\Rightarrow \underline{w\in L(\A)}$.
-\item $|x_1|>0,|y_1|=0$. Тогда $(q_1,y_1,x_1Z)\equiv(q_1,\varepsilon,x_1Z)$.
+\item \label{1.1q1q2} Пусть $\sigma_1,\sigma_2\in\{a,b\}$, $\sigma_1\neq\sigma_2$. Тогда $(q_1,\sigma_1,U_r(\sigma_2)\gamma)\vdash(q_2,\varepsilon,\sigma_2\gamma)$ и $(q_1,\sigma_1,\sigma_2\gamma)\vdash(q_2,\varepsilon,\sigma_2\gamma)$~--- из определения $\delta$.
+\item \label{1.1q2eat} Пусть $x\in\{a,b\}^*$, $\gamma\in\{a,b\}$. Тогда $(q_2,x,\gamma\kappa)\vdash^*(q_2,\varepsilon,\gamma\kappa)$~--- доказывается очевидно по индукции (переходы из $q_2$ в $q_2$ определены для всех символов $a,b$ на входе и в стеке и не изменяют стек).
+\item \label{1.1q1q3} Пусть $\sigma\in\{a,b\}$. Тогда $(q_1,\sigma,U_r(\sigma)\gamma)\vdash(q_3,\varepsilon,\gamma)$~--- из определения $\delta$.
+\item \label{1.1q3q4} Пусть $\sigma\in\{a,b\}$. Тогда $(q_3,\sigma,Z)\vdash(q_4,\varepsilon,Z)$~--- из определения $\delta$
+\item \label{1.1q4eat} Пусть $x\in\{a,b\}^*$. Тогда $(q_4,x,Z)\vdash^*(q_4,\varepsilon,Z)$~--- доказывается очевидно по индукции (из $q_4$ есть переходы в $q_4$ по $a$ и $b$ при $Z$ на верхушке стека)
+\item \label{q1q3jump} Из определения $\delta$ имеем $(q_0,c,Z)\vdash(q_3,\varepsilon,Z)$.
+\item Пусть $\underline{w\in L}\Rightarrow w=xcy,x\neq y^R;x,y\in\{a,b\}^*$. $x\neq y^R\Leftrightarrow x^R\neq y$. Выделим максимальную по длине общую часть $\tau$ длины $i$ у слов $x^R$ и $y$: $x^R=\tau x_1,y=\tau y_1$, $x_1\neq y_1$. Тогда $x=x_1^R\tau^R, w=xcy=x_1^R\tau^Rc\tau y_1$.\begin{enumerate} \item Пусть $|x_1|>0$. $(q_0,w,Z)\equiv(q_0,x_1^R\tau ^Rc\tau y_1,Z)\underset{|x_1|>0}{\overset{\ref{1.1adding}}{\vdash^*}}(q_0,c\tau y_1,U_r(\tau x_1)Z)\overset{\ref{1.1c}}{\vdash}(q_1,\tau y_1,U_r(\tau x_1)Z)\overset{|x_1|>0}{\equiv}\newline
+\equiv(q_1,\tau y_1,\tau U_r(x_1)Z)\overset{\ref{1.1removing}}{\vdash^*}(q_1,y_1,U_r(x_1)Z)$.\begin{enumerate}
+\item Пусть $|y_1|>0$, $x_1[1]\neq y_1[1]$. Обозначим $y_1=y^1...y^l,\,\forall i\in\overline{1,l}\hookrightarrow y^i\in \{a,b\}^*$
+Тогда $(q_1,y_1,U_r(x_1)Z)\equiv(q_1,y^1...y^l,U_r(x_1)Z)\overset{\ref{1.1q1q2}}{\vdash}(q_2,y^2...y^l,U_r(x_1)Z)\overset{\ref{1.1q2eat}}{\vdash^*}(q_2,\varepsilon,U_r(x_1)Z)$. $q_2\in F\Rightarrow \underline{w\in L(\A)}$.
+\item Пусть $|y_1|=0$. Тогда $w=x_1^R\tau^Rc\tau y_1\equiv x_1^R\tau^Rc\tau\Rightarrow (q_0,w,Z)\equiv(q_0,x_1^R\tau^Rc\tau,Z)\underset{|x_1|>0}{\overset{\ref{1.1adding}}{\vdash^*}}(q_0,c\tau,\tau U_r(x_1)Z)\underset{|x_1|>0}{\overset{\ref{1.1c}}{\vdash}}(q_1,\tau,\tau U_r(x_1)Z)\overset{\ref{1.1q2eat}}{\vdash^*}(q_1,\varepsilon,U_r(x_1)Z)$. $q_1\in F\Rightarrow\underline{w\in L(\A)}$
+\end{enumerate}
+\item Пусть $|x_1|=0$. Тогда $w=\tau^Rc\tau y_1,\,y_1\in\{a,b\}^*$. $x^R\neq y\Rightarrow \tau\neq\tau y_1\Rightarrow |y_1|>0\Rightarrow y_1=\varkappa\varPsi,\,\varkappa\in\{a,b\}$\begin{enumerate}
+\item $|\tau|>0\Rightarrow \tau=\tau_0\sigma,\,\sigma\in\{a,b\}$. Получаем $(q_0,w,Z)\equiv(q_0,\tau^Rc\tau y_1,Z)\underset{|\tau|>0}{\overset{\ref{1.1adding}}{\vdash^*}}(q_0,c\tau y_1,U_r(\tau)Z)\underset{|\tau|>0}{\overset{\ref{1.1c}}{\vdash}}(q_1,\tau y_1,U_r(\tau)Z)\equiv(q_1,\tau_0\sigma y_1,\tau_0U_r(\sigma)Z)\overset{\ref{1.1removing}}{\vdash^*}(q_1,\sigma y_1,U_r(\sigma)Z)\overset{\ref{1.1q1q3}}{\vdash}(q_3,y_1,Z)\equiv(q_3,\varkappa\varPsi,Z)\overset{\ref{1.1q3q4}}{\vdash}(q_4,\varPsi,Z)\overset{\ref{1.1q4eat}}{\vdash^*}(q_4,\varepsilon,Z)$. $q_4\in F\Rightarrow \underline{w\in L(\A)}$
+\item $|\tau|=0\Rightarrow w=x_1^R\tau^Rc\tau y_1\equiv cy_1\Rightarrow (q_0,w,Z)\equiv(q_0,cy_1,Z)\overset{\ref{q1q3jump}}{\vdash}(q_3,y_1,Z)\equiv(q_3,\varkappa\varPsi,Z)\overset{\ref{1.1q3q4}}{\vdash}(q_4,\varPsi,Z)\overset{\ref{1.1q4eat}}{\vdash^*}(q_4,\varepsilon,Z)$. $q_4\in F\Rightarrow \underline{w\in L(\A)}$
+\end{enumerate}
+\end{enumerate}
+\end{enumerate}
+\item Докажем, что $L(\A)\subseteq L$. Пусть $w\in L(\A)\Rightarrow (q_0,w,Z)\vdash^*(q,\varepsilon,\gamma)$, $q\in F$:\begin{enumerate}
+\item \label{1.2q1} $q=q_1$. В $q_1$ прочитываются $a,b$. Переходы в $q_1$ есть только из $q_0$ по $c$. В $q_0$ прочитываются символы $a,b$. Значит, $w=xcy,\,x,y\in\{a,b\}^*$. Если $x=\varepsilon$, то был совершен переход $q_0\overset{c,Z/Z}{\longrightarrow}q_3$~--- противоречие. Автомат детерминированный, поэтому цепочка конфигураций при выводе $w$ имеет вид $(q_0,w,Z)\equiv(q_0,xcy,Z)\underset{|x|>0}{\overset{\ref{1.1adding}}{\vdash}}(q_0,cy,U_r(x^R)Z)\underset{|x|>0}{\overset{\ref{1.1c}}{\vdash}}(q_1,y,U_r(x^R)Z)\boxed{=}$. Выделим максимальную общую часть от начала для слов $x^R$ и $y$: $x^R=\tau x_1$, $y=\tau y_1$, $x_1\neq y_1$.\begin{enumerate}
+\item $|\tau|=0,|x_1|=0\Rightarrow |x|=0$~--- \underline{противоречие}
+\item $|\tau|>0,|x_1|=0\Rightarrow\tau=\tau_0\sigma,\,\sigma\in\{a,b\}$. $\boxed{=}(q_1,\tau_0\sigma y_1,\tau_0 U_r(\sigma)Z)\overset{\ref{1.1removing}}{\vdash^*}(q_1,\sigma y_1,U_r(\sigma)Z)\overset{\ref{1.1q1q3}}{\vdash}(q_3,...)$~--- \underline{противоречие}, из $q_3$ нет переходов в $q_1$.
+\item $|\tau|\geqslant 0,|x_1|>0$. Тогда $\boxed{=}(q_1,\tau y_1,\tau U_r(x_1)Z)\overset{\ref{1.1removing}}{\vdash^*}(q_1,y_1,U_r(x_1)Z)\boxed{=_1}$.\begin{enumerate}[a.]
+\item $|y_1|=0\Rightarrow\boxed{=_1}(q_1,\varepsilon,U_r(x_1))$. Тогда $w=\underbrace{x_1^R\tau^R}_{x}c\underbrace{\tau y_1^R}_y,\,x^R=\tau x_1\underset{|x_1|>0}{\neq}\tau=y\Rightarrow\underline{w\in L}$.
+\item $|y_1|>0$. Тогда $x_1[1]\neq y_1[1]$, и $\boxed{=_1}(q_1,y_1,U_r(x_1)Z)\underset{x_1[1]\neq y_1[1]}{\overset{\ref{1.1q1q2}}{\vdash}}(q_3,...)$~--- \underline{противоречие}, из $q_3$ нет переходов в $q_1$.
+\end{enumerate}
+\end{enumerate}
+\item $q=q_2$. В $q_2$ есть переходы только из $q_1$, в $q_2$ прочитываются $a,b$. $\ref{1.2q1}\Rightarrow w=xcy,\,|x|\neq 0,\,x,y\in\{a,b\}^*$. При переходе в $q_2$ прочитывается символ, поэтому $|y|>0$. Аналогично $\ref{1.2q1}$ выделим общую часть $x^R=\tau x_1,y=\tau y_1$. Аналогично $\ref{1.2q1}$ ($|x|>0$) получаем $(q_0,w,Z)\vdash^*(q_1,\tau y_1,U_r(\tau x_1)Z)\boxed{=}$. Рассмотрим
+%блять, снова
+случаи:\begin{enumerate}
+\item $|\tau|=0,|x_1|=0\Rightarrow|x|=0$~--- \underline{противоречие}
+\item $|\tau|>0,|x_1|=0\Rightarrow\tau=\tau_0\sigma,\,\sigma\in\{a,b\}$. $\boxed{=}(q_1,\tau_0\sigma y_1,\tau_0 U_r(\sigma)Z)\overset{\ref{1.1removing}}{\vdash^*}(q_1,\sigma y_1,U_r(\sigma)Z)\overset{\ref{1.1q1q3}}{\vdash}(q_3,...)$~--- \underline{противоречие}, из $q_3$ нет переходов в $q_2$.
+\item $|\tau|\geqslant 0,|x_1|>0$. Тогда $\boxed{=}(q_1,\tau y_1,\tau U_r(x_1)Z)\overset{\ref{1.1removing}}{\vdash^*}(q_1,y_1,U_r(x_1)Z)\boxed{=_1}$.\begin{enumerate}[a.]
+\item $|y_1|=0\Rightarrow\boxed{=_1}(q_1,\varepsilon,U_r(x_1))$. В $\ref{1.2q1}$ было показано, что автомат остановится в $q_1$~--- \underline{противоречие}.
+\item $|y_1|>0$. Тогда $x_1[1]\neq y_1[1]$. Обозначим $x_1=\sigma_1 x_1^0,\,y_1=\sigma_2 y^0_1$, и $\boxed{=_1}(q_1,\sigma_1 y^0_1,U_r(\sigma_2 x^0_1)Z)\underset{x_1[1]\neq y_1[1]}{\overset{\ref{1.1q1q2}}{\vdash}}\newline(q_3,y^0_1,U_r(x^0_1)Z)\overset{\ref{1.1q2eat}}{\vdash^*}(q_3,\varepsilon,U_r(x^0_1)Z)$ {\em (последние переходы возможны только при $x^0_1\neq\varepsilon$)}.\newline
+Получаем $x_1\neq y_1\Rightarrow x^R\neq y\Rightarrow \underline{w\in L}$.
 \end{enumerate}
 \end{enumerate}
 \end{enumerate}
@@ -117,7 +148,7 @@ $\varangle$ переходы из $(q_0,\sigma,w_0^RZ)$. На верхушке �
 %	\path[->]
 %		(q_0) edge node [swap] {$\varepsilon,Z_0/Z_0$} (q_1);
 %\end{tikzpicture}
-{\fontsize{400}{1} df}
+%{\fontsize{400}{1} df}
 \section*{Задача 2}
 \section*{Задача 3}
 $\Sigma\eqdef\{a,b\}$, $\Gamma\eqdef(N,\Sigma,P,S)$. $N\eqdef\{A,B,C,D,E,F,G\}$ $P:$
