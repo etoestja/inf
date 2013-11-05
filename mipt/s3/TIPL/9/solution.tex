@@ -364,4 +364,66 @@ $$\boxed{y=\sigma y_1\sigma\in L'\Rightarrow\exists y_l,y_r\colon y=y_ly_r, |y_l
 $\blacksquare$
 \end{enumerate}
 \section*{Задача 6}
+Автомат $\A=(\Sigma,\Gamma,Q,q_0,Z_0,\delta,\varnothing)$ из $7$-го задания:\newline
+\begin{tabular}{cc}
+\begin{minipage}{0.3\textwidth}
+\begin{enumerate}
+\item $\Sigma=\{a,b\}$
+\item $\Gamma=\{a,Z\}$
+\item $Q=\{q_0,q_1\}$
+\item $\delta$ изображена справа
+\end{enumerate}
+\end{minipage}
+&
+\begin{minipage}{0.3\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,every node/.style={text centered},initial text=]
+	\node [state,initial] (q_0)	{$q_0$};
+	\node [state] (q_1) [right = 4cm of q_0 ] {$q_1$};
+	\path[->]
+		(q_0) edge [in=30,out=150,loop] node {$a,Z_0/aZ_0\  a,a/aa$} (q_0)
+			  edge node {$b,a/\eps$} (q_1)			
+		(q_1) edge [in=30,out=150,loop] node {$b,a/\eps\ \eps,Z_0/\eps$} (q_1);
+\end{tikzpicture}
+\end{minipage}\\
+\end{tabular}
+\newline
+Определим грамматику $G=(N,\Sigma,P,S)$. $N=\{S\}\cup\{[qZp]\big|q,p\in Q,Z\in \Gamma\}$
+\begin{enumerate}
+\item Добавим правила $S\to [q_0Z_0q_0]|[q_0Z_0q_1]$
+\item Рассмотрим переходы из $\delta$, добавим правила\begin{enumerate}
+\item $\delta\ni q_0\overset{a,Z_0/aZ_0}{\longrightarrow}q_0$: $[q_0Z_0q_0]\to a[q_0aq_0][q_0Z_0q_0]\big|a[q_0aq_1][q_1Z_0q_0]$, $[q_0Z_0q_1]\to a[q_0aq_0][q_0Z_0q_1]\big|a[q_0aq_1][q_1Z_0q_1]$
+\item $\delta\ni q_0\overset{a,a/aa}{\longrightarrow}q_0$: $[q_0aq_0]\to a[q_0aq_0][q_0aq_0]\big|a[q_0aq_1][q_1aq_0]$, $[q_0aq_1]\to a[q_0aq_0][q_0aq_1]\big|a[q_0aq_1][q_1aq_1]$
+\item $\delta\ni q_0\overset{b,a/\varepsilon}{\longrightarrow}q_1$: $[q_0aq_1]\to b$
+\item $\delta\ni q_1\overset{b,a/\varepsilon}{\longrightarrow}q_1$: $[q_1aq_1]\to b$
+\item $\delta\ni q_0\overset{\varepsilon,Z_0/\varepsilon}{\longrightarrow}q_1$: $[q_1Z_0q_1]\to \varepsilon$
+\end{enumerate}
+\item Удалим бесплодные нетерминалы:\begin{enumerate}
+\item $V_0=\{a,b\}$
+\item $V_1=V_0\cup\{[q_0aq_1],[q_1aq_1],[q_1Z_0q_1]\}$
+\item $V_2=V_1\cup\{[q_0Z_0q_1]\}$
+\item $V_3=V_2\cup\{S\}$
+\item $V_4=V_3$.
+\end{enumerate}
+Имеем правила $S\to [q_0Z_0q_1]$, $[q_0Z_0q_1]\to a[q_0aq_1][q_1Z_0q_1]$,  $[q_0aq_1]\to a[q_0aq_1][q_1aq_1]\big|b$, $[q_1aq_1]\to b$, $[q_1Z_0q_1]\to \varepsilon$
+\item Удалим недостижимые нетерминалы:\begin{enumerate}
+\item $V_0=\{S\}$
+\item $V_1=V_0\cup\{[q_0Z_0q_1]\}$
+\item $V_2=V_1\cup\{[q_0aq_1],[q_1Z_0q_1]\}$
+\item $V_3=V_2\cup\{[q_1aq_1]\}$
+\item $V_4=V_3$
+\end{enumerate}
+(все достижимы)
+\item Переобозначим: $$S\to \underbrace{[q_0Z_0q_1]}_A, \underbrace{[q_0Z_0q_1]}_A\to a\underbrace{[q_0aq_1]}_B\underbrace{[q_1Z_0q_1]}_C, \underbrace{[q_0aq_1]}_B\to a\underbrace{[q_0aq_1]}_B\underbrace{[q_1aq_1]}_D\big|b, \underbrace{[q_1aq_1]}_D\to b, \underbrace{[q_1Z_0q_1]}_C\to \varepsilon,$$
+получим $$S\to A, A\to aBC, B\to aBD|b, D\to b, C\to \varepsilon$$
+Из $D,C$ есть только правила $D\to b,C\to\varepsilon$, поэтому они раскрываются единственным образом. Уберем их, получим грамматику $G'$, причем $G'$~--- однозначная $\Leftrightarrow$ $G$~--- однозначная:
+$$S\to A, A\to aB, B\to aBb|b$$
+Аналогично для $S\to A$ (раскрывается единственным образом). Получим $G''\colon$ $G''$~--- однозначная $\Leftrightarrow$ $G$~--- однозначная:
+$$S\to aB, B\to aBb|b$$
+После примения правила $B\to b$ нельзя применить правило $B\to aBb$, и каждое применение $B\to aBb$ увеличивает количество символов $a$ и $b$ на 1. Поэтому количество его применений фиксировано. Отсюда получаем, что грамматика $G''$~--- однозначная $\Rightarrow$ $G'$~--- однозначная $\Rightarrow$ $G$~--- однозначная.
+\\[5pt]
+\end{enumerate}
+Ответ:\begin{enumerate}
+\item $G\colon S\to \underbrace{[q_0Z_0q_1]}_A, \underbrace{[q_0Z_0q_1]}_A\to a\underbrace{[q_0aq_1]}_B\underbrace{[q_1Z_0q_1]}_C, \underbrace{[q_0aq_1]}_B\to a\underbrace{[q_0aq_1]}_B\underbrace{[q_1aq_1]}_D\big|b, \underbrace{[q_1aq_1]}_D\to b, \underbrace{[q_1Z_0q_1]}_C\to \varepsilon$, после переобозначения $S\to A, A\to aBC, B\to aBD|b, D\to b, C\to \varepsilon$
+\item $G$~--- однозначная.
+\end{enumerate}
 \end{document}
