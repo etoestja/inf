@@ -108,6 +108,8 @@ int main()
 
     for(it = rules.begin(); it != rules.end(); it++)
     {
+#define streps(x) ((x).length() ? (x) : "eps")
+        cout << "RULE " << (*it).q1 << "-" << streps((*it).input) << "," << (*it).X << "/" << streps((*it).Y) << "->" << (*it).q2 << endl;
         if((*it).Y.length() > 0)
             getStates((*it).Y.length());
         else
