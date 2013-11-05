@@ -1,6 +1,6 @@
 #!/bin/bash
 i=1
-N=5
+N=9
 while (( $i <= $N ))
 do
     cd $i
