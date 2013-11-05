@@ -36,6 +36,7 @@
 
 % регулярные языки
 \def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
 \def\eqdef{\overset{\mbox{\tiny def}}{=}}
 \newcommand{\niton}{\not\owns}
 
@@ -178,7 +179,17 @@ $\varangle$ переходы из $(q_0,\sigma,U(w_0^R)Z)$. На верхушк�
 %		(q_0) edge node [swap] {$\varepsilon,Z_0/Z_0$} (q_1);
 %\end{tikzpicture}
 %{\fontsize{400}{1} df}
+\newpage
 \section*{Задача 2}
+Схема доказательства:\newline
+$L\in\CFL\Rightarrow\exists n,\varphi,R\colon R\in\REG,\,\varphi\mbox{~--- морфизм}\colon \Sigma^*\longrightarrow\Delta^*,\,L=\varphi(D_n\cap R)$. Из доказательства теоремы ХШ следует, что $\varphi$ может быть таким, что $|\varphi(\sigma)|\leqslant 1,\,\sigma\in\{[_1,...,[_n,]_1,...,]_n\}\equiv\Sigma$. Тогда $\forall w\in\Sigma^*\hookrightarrow {\rm Pref}(\varphi(w))=\varphi({\rm Pref}(w))$. Значит, ${\rm Pref}(L)={\rm Pref}(\varphi(D_n\cap R))=\varphi({\rm Pref}(D_n\cap R))=\varphi({\rm Pref}(D_n)\cap{\rm Pref}(R))=\varphi({\rm Pref}(D_n))\cap\varphi({\rm Pref}(R))=\varphi(D_n)\cap\varphi({\rm Pref}(R))$. Но ${\rm Pref(R)}\in\REG$: пусть $\A$~--- ДКА, $L(\A)=R$. $\A'$~--- автомат $\A$ со всеми принимающими состояниями. Тогда $L(\A')={\rm Pref}(R)$. Получаем ${\rm Pref}(L)=\varphi(D_n\cap R')$, $R'={\rm Pref}(R)\in\REG\Rightarrow {\rm Pref}(L)\in\CFL$.
+\begin{enumerate}
+\item \label{2.1} Докажем, что $x\in \Sigma^*\Rightarrow {\rm Pref}(\varphi(x))=\varphi({\rm Pref}(x))$: если $w=\varepsilon$, то $\varphi(x)=\varepsilon$. Тогда ${\rm Pref}(\varphi(x))\equiv{\rm Pref}(\varepsilon)=\varepsilon=\varphi(\varepsilon)=\varphi({\rm Pref}(\varepsilon))$. Если $w=w_1...w_n$, то ${\rm Pref}(\varphi(w_1...w_n))={\rm Pref}(\varphi(w_1)...\varphi(w_n))=\{\varepsilon,\varphi(w_1),\varphi(w_1)\varphi(w_2),...,\varphi(w_1)...\varphi(w_n)\}=\varphi(\{\varepsilon,w_1,w_1w_2,...,w_1...w_n\})=\varphi({\rm Pref}(w))$.
+\item Докажем, что $X\subset\Sigma^*\Rightarrow{\rm Pref}(\varphi(X))=\varphi({\rm Pref}(X))$: ${\rm Pref}(\varphi(X))=\{{\rm Pref}(\varphi(x))|x\in X\}\overset{\ref{2.1}}{=}\{\varphi({\rm Pref}(x))|x\in X\}=\varphi(\{{\rm Pref}(x)|x\in X\})=\varphi({\rm Pref}(X))$.
+\item Докажем, что ${\rm Pref}(X\cap Y)={\rm Pref}(X)\cap{\rm Pref}(Y)$: $x\in {\rm Pref}(X\cap Y)\Leftrightarrow xy\in X\cap Y\Leftrightarrow xy\in X,xy\in Y\Leftrightarrow xy\in{\rm Pref}(X),xy\in {\rm Pref}(Y)\Leftrightarrow xy\in {\rm Pref}(X)\cap {\rm Pref}(Y)$
+\item Докажем, что $\varphi({\rm Pref}(D_n))=\varphi(D_n)$: $\varphi(\sigma)\neq\varepsilon$ только если $\sigma=]_a$. Уберем открывающую $[_a$
+\end{enumerate}
+(не дописано).
 \section*{Задача 3}
 $\Sigma\eqdef\{a,b\}$, $\Gamma\eqdef(N,\Sigma,P,S)$. $N\eqdef\{A,B,C,D,E,F,G\}$ $P:$
 \vspace{-7ex}
@@ -367,6 +378,7 @@ $\begin{array}{|l|lll|}
 \end{multicols}
 \vspace{-7ex}
 \section*{Задача 4}
+\newpage
 \section*{Задача 5}
 $\Sigma_2\eqdef\{[_1,[_2\},\,\overline{\Sigma}_2\eqdef\{]_1,]_2\}$. $D_2\overset{\mbox{\tiny def}}{\mbox{ --- }}$ язык ПСП над $\Sigma\eqdef \Sigma_2\cup\overline{\Sigma}_2$. $\Delta\eqdef\{a,b\}$. $\varphi\colon \Sigma^*\longrightarrow \Delta^*$, $\varphi([_1)\eqdef a$, $\varphi([_2)\eqdef b$, $\varphi(]_1)\eqdef b$, $\varphi(]_2)\eqdef a$. Доопределим $\varphi$ до морфизма (см. решение упр. 2 из задания 3). $L\eqdef \varphi(D_2\cap \Sigma^*)\equiv \varphi(D_2)$. $L'\eqdef\{w\in\Delta^*\big||w|_a=|w|_b\}$.
 \begin{enumerate}
