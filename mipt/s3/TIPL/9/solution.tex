@@ -46,7 +46,7 @@
 \section*{Упражнение 3}
 \section*{Упражнение 4}
 \section*{Задача 1}
-$L\eqdef\{xcy\big|x,y\in \{a,b\}^*,x\neq y^R\}\subset\Sigma\eqdef\{a,b,c\}$.
+$L\eqdef\{xcy\big|x,y\in \{a,b\}^*,x\neq y^R\}\subset\Sigma^*,\,\Sigma\eqdef\{a,b,c\}$.
 \begin{enumerate}[1.]
 \item Определим МП-автомат $\A\eqdef(\Sigma,\Gamma,Q,q_0,Z,\delta,F)$, допускающий по принимающему состоянию:\newline
 \begin{tabular}{ll}
@@ -67,7 +67,7 @@ $L\eqdef\{xcy\big|x,y\in \{a,b\}^*,x\neq y^R\}\subset\Sigma\eqdef\{a,b,c\}$.
 	\node [state, accepting] (q_2) [below = 2cm of q_3 ] {$q_2$};
 	\node [state, accepting] (q_4) [right = 2.5cm of q_3 ] {$q_4$};
 	\path[->]
-		(q_0) edge [out=40,in=140,loop] node [swap] {$\substack{a,Z/AZ\\a,A,aA\\a,a/aa\\a,B/aB\\a,b/ab}$} (q_0)
+		(q_0) edge [out=40,in=140,loop] node [swap] {$\substack{a,Z/AZ\\a,A/aA\\a,a/aa\\a,B/aB\\a,b/ab}$} (q_0)
 			  edge [out=-40,in=-140,loop] node {$\substack{b,Z/BZ\\B,A/bA\\b,a/ba\\b,B/bB\\b,b/bb}$} (q_0)
 			  edge node [swap] {$\substack{c,A/A\\c,a/a\\c,B/B\\c,b/b}$} (q_1)
 			  edge [out=20,in=160] node {$c,Z/Z$} (q_3)
@@ -309,7 +309,9 @@ $\begin{array}{|l|lll|}
 	\end{align*}	
 \end{multicols}
 \vspace{-7ex}
-Заменим подчеркнутые слова на новые нетерминалы:
+Заменим подчеркнутые слова на новые нетерминалы, получим
+\end{enumerate}
+\underline{Ответ}:
 \vspace{-6ex}
 \begin{multicols}{2}
 	\begin{align*}
@@ -344,10 +346,9 @@ $\begin{array}{|l|lll|}
 	\end{align*}	
 \end{multicols}
 \vspace{-7ex}
-\end{enumerate}
 \section*{Задача 4}
 \section*{Задача 5}
-$\Sigma_2\eqdef\{[_1,[_2\},\,\overline{\Sigma}_2\eqdef\{]_1,]_2\}$. $D_2\overset{\mbox{\tiny def}}{\mbox{ --- }}$ язык ПСП над $\Sigma\eqdef \Sigma_2\cup\overline{\Sigma}_2$. $\Delta\eqdef\{a,b\}$. $\varphi\colon \Sigma^*\longrightarrow \Delta^*$, $\varphi([_1)\eqdef a$, $\varphi([_2)\eqdef b$, $\varphi(]_1)\eqdef b$, $\varphi(]_2)\eqdef a$. Доопределим $\varphi$ до морфизма (см. решение упр. 2 из задания 3). $L\eqdef \varphi(D_2\cap \Sigma^*)\equiv \varphi(D_2)$.
+$\Sigma_2\eqdef\{[_1,[_2\},\,\overline{\Sigma}_2\eqdef\{]_1,]_2\}$. $D_2\overset{\mbox{\tiny def}}{\mbox{ --- }}$ язык ПСП над $\Sigma\eqdef \Sigma_2\cup\overline{\Sigma}_2$. $\Delta\eqdef\{a,b\}$. $\varphi\colon \Sigma^*\longrightarrow \Delta^*$, $\varphi([_1)\eqdef a$, $\varphi([_2)\eqdef b$, $\varphi(]_1)\eqdef b$, $\varphi(]_2)\eqdef a$. Доопределим $\varphi$ до морфизма (см. решение упр. 2 из задания 3). $L\eqdef \varphi(D_2\cap \Sigma^*)\equiv \varphi(D_2)$. $L'\eqdef\{w\in\Delta^*\big||w|_a=|w|_b\}$.
 \begin{enumerate}
 \item Докажем, что $L\subseteq L'$. Пусть $\underline{y\in L}\equiv \varphi(D_2)$. Тогда $\exists x\in D_2\colon y=\varphi(x)$. $x$~--- ПСП $\Rightarrow$ $\forall i\in\overline{1,2}\hookrightarrow |x|_{[_i}=|x|_{]_i}$. Сложим равенства, получим: $|x|_{[_1}+|x|_{]_2}=|x|_{]_1}+|x|_{[_2}$. Пусть $x=x_1...x_m,\,\forall i\in\overline{1,m}\hookrightarrow x_i\in\Sigma$. Тогда $y=\varphi(x)=\varphi(x_1)...\varphi(x_m)=y_1...y_m,\,\forall i\in\overline{1,m}\hookrightarrow y_i=\varphi(x_i)\in\Delta$. Но из определения $\varphi$ имеем $[_1,]_2\overset{\varphi}{\rightarrow}a;\,]_1,[_2\overset{\varphi}{\rightarrow}b$. Тогда $|y|_a=|x|_{[_1}+|x|_{]_2}\equiv|x|_{]_1}+|x|_{[_2}=|y|_b\Rightarrow \underline{y\in L'}$ $\blacksquare$
 \item Докажем, что $L'\subseteq L$ индукцией по длине $y\in L'$: $P(n)\eqdef\big[\forall y\in L'\colon |y|\leqslant n\hookrightarrow y\in L\big]$.\newline
@@ -363,13 +364,14 @@ $$\boxed{y=\sigma y_1\sigma\in L'\Rightarrow\exists y_l,y_r\colon y=y_ly_r, |y_l
 \end{enumerate}
 $\blacksquare$
 \end{enumerate}
+\underline{Ответ}: Верно, что $L=\{w\big||w|_a=|w|_b\}$.
 \section*{Задача 6}
 Автомат $\A=(\Sigma,\Gamma,Q,q_0,Z_0,\delta,\varnothing)$ из $7$-го задания:\newline
 \begin{tabular}{cc}
 \begin{minipage}{0.3\textwidth}
 \begin{enumerate}
 \item $\Sigma=\{a,b\}$
-\item $\Gamma=\{a,Z\}$
+\item $\Gamma=\{a,Z_0\}$
 \item $Q=\{q_0,q_1\}$
 \item $\delta$ изображена справа
 \end{enumerate}
@@ -415,15 +417,16 @@ $\blacksquare$
 (все достижимы)
 \item Переобозначим: $$S\to \underbrace{[q_0Z_0q_1]}_A, \underbrace{[q_0Z_0q_1]}_A\to a\underbrace{[q_0aq_1]}_B\underbrace{[q_1Z_0q_1]}_C, \underbrace{[q_0aq_1]}_B\to a\underbrace{[q_0aq_1]}_B\underbrace{[q_1aq_1]}_D\big|b, \underbrace{[q_1aq_1]}_D\to b, \underbrace{[q_1Z_0q_1]}_C\to \varepsilon,$$
 получим $$S\to A, A\to aBC, B\to aBD|b, D\to b, C\to \varepsilon$$
-Из $D,C$ есть только правила $D\to b,C\to\varepsilon$, поэтому они раскрываются единственным образом. Уберем их, получим грамматику $G'$, причем $G'$~--- однозначная $\Leftrightarrow$ $G$~--- однозначная:
+\item Из $D,C$ есть только правила $D\to b,C\to\varepsilon$, поэтому они раскрываются единственным образом. Уберем их, получим грамматику $G'$, причем $G'$~--- однозначная $\Leftrightarrow$ $G$~--- однозначная:
 $$S\to A, A\to aB, B\to aBb|b$$
-Аналогично для $S\to A$ (раскрывается единственным образом). Получим $G''\colon$ $G''$~--- однозначная $\Leftrightarrow$ $G$~--- однозначная:
+Аналогично для $S\to A$ (раскрывается единственным образом). Получим $G''\colon$ $G''$~--- однозначная $\Leftrightarrow$ $G'$~--- однозначная:
 $$S\to aB, B\to aBb|b$$
-После примения правила $B\to b$ нельзя применить правило $B\to aBb$, и каждое применение $B\to aBb$ увеличивает количество символов $a$ и $b$ на 1. Поэтому количество его применений фиксировано. Отсюда получаем, что грамматика $G''$~--- однозначная $\Rightarrow$ $G'$~--- однозначная $\Rightarrow$ $G$~--- однозначная.
+После примения правила $B\to b$ нельзя применить правило $B\to aBb$, и каждое применение $B\to aBb$ увеличивает количество символов $a$ и $b$ на 1. Поэтому количество его применений фиксировано для каждого $w\in L(G'')$. Отсюда получаем, что грамматика $G''$~--- однозначная $\Rightarrow$ $G'$~--- однозначная $\Rightarrow$ $G$~--- однозначная.
 \\[5pt]
 \end{enumerate}
-Ответ:\begin{enumerate}
-\item $G\colon S\to \underbrace{[q_0Z_0q_1]}_A, \underbrace{[q_0Z_0q_1]}_A\to a\underbrace{[q_0aq_1]}_B\underbrace{[q_1Z_0q_1]}_C, \underbrace{[q_0aq_1]}_B\to a\underbrace{[q_0aq_1]}_B\underbrace{[q_1aq_1]}_D\big|b, \underbrace{[q_1aq_1]}_D\to b, \underbrace{[q_1Z_0q_1]}_C\to \varepsilon$, после переобозначения $S\to A, A\to aBC, B\to aBD|b, D\to b, C\to \varepsilon$
+\underline{Ответ}:\begin{enumerate}
+\item $G\colon S\to \underbrace{[q_0Z_0q_1]}_A, \underbrace{[q_0Z_0q_1]}_A\to a\underbrace{[q_0aq_1]}_B\underbrace{[q_1Z_0q_1]}_C, \underbrace{[q_0aq_1]}_B\to a\underbrace{[q_0aq_1]}_B\underbrace{[q_1aq_1]}_D\big|b, \underbrace{[q_1aq_1]}_D\to b, \underbrace{[q_1Z_0q_1]}_C\to \varepsilon$
+\item После переобозначения $S\to A, A\to aBC, B\to aBD|b, D\to b, C\to \varepsilon$
 \item $G$~--- однозначная.
 \end{enumerate}
 \end{document}
