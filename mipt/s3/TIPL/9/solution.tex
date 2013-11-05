@@ -43,6 +43,18 @@
 \maketitle
 \section*{Упражнение 1}
 \section*{Упражнение 2}
+$N$-автомат $M=(\Sigma,\Gamma,Q,q_0,Z_0,\delta,\varnothing)$. $G=(N,\Sigma,P,S)$~--- построена по алгоритму. Докажем, что $L(G)\subseteq L(M)$. Будем рассматривать только левые выводы.\begin{enumerate}
+\item $\forall w\colon S\overset{\mbox{\tiny левый}}{\underset{\mbox{\tiny вывод}}{\Rightarrow^*}} w$, $w\in(\Sigma\cup N)^*,\, w\notin \Sigma^*\hookrightarrow w=u[r_0Y_1r_1][r_1Y_2r_2]...[r_{n-1}Y_nr_n]$, $u\in\Sigma^*$, $r_i\in Q$, $Y_i\in \Gamma$~--- доказывается индукцией по длине левого вывода из свойств добавленных правил (слева всегда, возможно, нетерминалы, затем, возможно, терминалы. $[qZp]\to ...[...Yp]$, поэтому соседние состояния, отделенные скобками совпадают: $...r][r...$).
+\item $P(k)\eqdef\big[\forall n\,\forall w\colon S\overset{\mbox{\tiny левый вывод}}{\underset{\mbox{\tiny k шагов}}{\Rightarrow^*}} w\equiv u[r_0Y_1r_1]...[r_{n-1}Y_nr_n]\hookrightarrow(q_0,u,Z_0)\vdash^*(r_0,\varepsilon,Y_1...Y_n)\big]$\begin{enumerate}
+\item $n=1$. Из определения $P$ могут быть только правила $S\to[q_0Z_0p]$, и $(q_0,\varepsilon,Z_0)\equiv(q_0,\varepsilon,Z_0)\Rightarrow P(1)$
+\item Пусть $P(k)$. Рассмотрим левый вывод длины $k+1$: $S\Rightarrow^*y\equiv u[r_0Y_1r_1][r_1Y_2r_2]...[r_{n-1}Y_nr_n]$. Пусть начальная часть этого вывода длины $k$ имеет вид $S\Rightarrow^*x\equiv u_l[s_0Z_1s_1][s_1Z_2s_2]...[s_{m-1}Z_ms_m]$. На последнем, $k+1$-м шаге был раскрыт первый нетерминал $[s_0Z_1s_1]\to z\equiv u_r[t_0W_1t_1][t_1W_2t_2]...[t_{l-1}W_lt_l]$.\newline
+Тогда $y=\underbrace{u_l}_{\mbox{\tiny префикс } x}\underbrace{u_r[t_0W_1t_1][t_1W_2t_2]...[t_{l-1}W_lt_l]}_{z}\underbrace{[s_1Z_2s_2]...[s_{m-1}Z_ms_m]}_{\mbox{\tiny суффикс } x}$. \newline
+Отсюда $W_1...W_lZ_2...Z_m=Y_1...Y_n,\,u=u_lu_r,\,t_0=r_0$.\newline
+$P(k)\Rightarrow (q_0,u_l,Z_0)\vdash^*(s_0,\varepsilon,Z_1...Z_m)$. Применено правило $[s_0Z_1s_1]\to z\Rightarrow (s_0,u_r,Z_1)\vdash(t_0,\varepsilon,W_1...W_l)$.\newline
+Тогда $(q_0,u,Z_0)\equiv(q_0,u_lu_r,Z_0)\vdash^*(s_0,u_r,Z_1...Z_m)\vdash(t_0,\varepsilon,W_1...W_lZ_2...Z_m)\equiv(r_0,\varepsilon,Y_1...Y_n)$.
+\end{enumerate}
+\item Пусть $\underline{w\in L(G)}\Rightarrow\exists k\colon S\overset{\mbox{\tiny левый вывод}}{\underset{\mbox{\tiny n шагов}}{\Rightarrow^*}} w\in\Sigma^*\overset{P(n)}{\Rightarrow}(q_0,w,Z_0)\vdash^*(q_0,\varepsilon,\varepsilon)\Rightarrow \underline{w\in L(M)}$
+\end{enumerate}
 \section*{Упражнение 3}
 \section*{Упражнение 4}
 \section*{Задача 1}
