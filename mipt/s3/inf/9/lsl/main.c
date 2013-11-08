@@ -2,6 +2,7 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <unistd.h>
+#include <string.h>
 #include <stdlib.h>
 
 int alphasortQsort(const void* a, const void* b)
@@ -32,21 +33,32 @@ int main(int argc, char* argv[])
 
     printf("total %d\n", count);
 
-    struct dirent** directory = malloc(sizeof(struct dirent*) * count);
+    struct dirent* directory = malloc(sizeof(struct dirent) * count), *t;
 
     rewinddir(dir);
 
     int i = 0;
-    while((directory[i++] = readdir(dir)) != NULL);
+    while((t = readdir(dir)) != NULL)
+        directory[i++] = *t;
 
-    qsort(directory, count, sizeof(struct dirent*), alphasortQsort);
+    //qsort(directory, count, sizeof(struct dirent*), alphasortQsort);
+
+    char* path = NULL;
 
     for(i = 0; i < count; i++)
     {
-        printf("%s ", directory[i]->d_name);
-        printf("\n");
+        //printf("name=%s, %d ", directory[i].d_name, strlen(directory[i].d_name));
+        path = malloc(sizeof(char) * (strlen(argv[1]) + strlen(directory[i].d_name) + 1));
+        strcpy(path, argv[1]);
+        strcat(path, "/");
+        strcat(path, directory[i].d_name);
+        printf("%s\n", path);
+        free(path);
+        path = NULL;
     }
-    
+
+    free(directory);
+
     if(closedir(dir) < 0)
     {
         printf("closedir failed [%s]\n", argv[1]);
