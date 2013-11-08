@@ -1,14 +1,12 @@
 #include <stdio.h>
 #include <sys/types.h>
-#include <sys/stat.h>
 #include <dirent.h>
-#include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
 
-int filter(const struct dirent *item)
+int alphasortQsort(const void* a, const void* b)
 {
-    return(1);
+    return(alphasort((const struct dirent**) a, (const struct dirent**) b));
 }
 
 int main(int argc, char* argv[])
@@ -19,35 +17,41 @@ int main(int argc, char* argv[])
         return(-1);
     }
 
-    struct dirent **contents;
-    int count = scandir(argv[1], &contents, filter, alphasort);
+    DIR* dir = opendir(argv[1]);
+
+    if(dir == NULL)
+    {
+        printf("opendir failed [%s]\n", argv[1]);
+        return(-1);
+    }
+
+    int count = 0;
+
+    while(readdir(dir) != NULL)
+        count++;
 
     printf("total %d\n", count);
 
-    if(count < 0)
-    {
-        printf("scandir failed [%s]\n", argv[1]);
-        return(-1);
-    }
-    if(count == 0)
-        return(0);
+    struct dirent** directory = malloc(sizeof(struct dirent*) * count);
 
-    int i;
-    struct stat info;
-    char* path = NULL;
+    rewinddir(dir);
+
+    int i = 0;
+    while((directory[i++] = readdir(dir)) != NULL);
+
+    qsort(directory, count, sizeof(struct dirent*), alphasortQsort);
+
     for(i = 0; i < count; i++)
     {
-        path = malloc(sizeof(char) * (strlen(argv[1]) + 1 + strlen(contents[i]->d_name) + 1));
-        strcpy(path, argv[1]);
-        strcat(path, "/");
-        strcat(path, contents[i]->d_name);
-        printf("%s, %s\n", contents[i]->d_name, path);
-        free(path);
-        free(contents[i]);
-        path = NULL;
+        printf("%s ", directory[i]->d_name);
+        printf("\n");
+    }
+    
+    if(closedir(dir) < 0)
+    {
+        printf("closedir failed [%s]\n", argv[1]);
+        return(-1);
     }
 
-    free(contents);
-    
     return(0);
 }
