@@ -1,13 +1,39 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <dirent.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
 
 int alphasortQsort(const void* a, const void* b)
 {
+    struct dirent *x = *((const struct dirent**) a);
+    struct dirent *y = *((const struct dirent**) b);
+    if(S_ISDIR(x->d_type))
     return(alphasort((const struct dirent**) a, (const struct dirent**) b));
+}
+
+void printPerm(mode_t mode)
+{
+    if(S_ISDIR(mode))
+        printf("d");
+    else if(S_ISREG(mode))
+        printf("-");
+    else if(S_ISLNK(mode))
+        printf("-");
+
+    printf(S_IRUSR & mode ? "r" : "-");
+    printf(S_IWUSR & mode ? "w" : "-");
+    printf(S_IXUSR & mode ? "x" : "-");
+
+    printf(S_IRGRP & mode ? "r" : "-");
+    printf(S_IWGRP & mode ? "w" : "-");
+    printf(S_IXGRP & mode ? "x" : "-");
+
+    printf(S_IROTH & mode ? "r" : "-");
+    printf(S_IWOTH & mode ? "w" : "-");
+    printf(S_IXOTH & mode ? "x" : "-");
 }
 
 int main(int argc, char* argv[])
@@ -45,14 +71,22 @@ int main(int argc, char* argv[])
 
     char* path = NULL;
 
+    struct stat tStat;
+
     for(i = 0; i < count; i++)
     {
+        if(directory[i].d_name[0] == '.') continue;
         //printf("name=%s, %d ", directory[i].d_name, strlen(directory[i].d_name));
         path = malloc(sizeof(char) * (strlen(argv[1]) + strlen(directory[i].d_name) + 1));
         strcpy(path, argv[1]);
         strcat(path, "/");
         strcat(path, directory[i].d_name);
-        printf("%s\n", path);
+        lstat(path, &tStat);
+
+        printPerm(tStat.st_mode);
+        printf("\t%s", directory[i].d_name);
+
+        printf("\n");
         free(path);
         path = NULL;
     }
