@@ -1,0 +1,133 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm, landscape]{geometry}
+%\geometry{paperwidth=210mm, paperheight=2000pt, left=5pt, top=5pt}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,arrows}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage[makeroom]{cancel} % зачеркивание
+\usepackage{multicol} %Несколько колонок
+\usepackage{hyperref}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{wasysym}
+\title{Теория и реализация языков программирования.\\Вопрос}
+\date{2013.11.10}
+\author{Сергей~Володин, 272 гр.}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+% названия автоматов
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+
+%+= и -=, иначе разъезжаются...
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
+% пустое слово
+\def\eps{\varepsilon}
+
+% регулярные языки
+\def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\newcommand{\niton}{\not\owns}
+
+\begin{document}
+\maketitle
+Автоматы для РВ $R=a(a|b)^*a(bb|a)$. $\A$~--- построен по алгоритму РВ$\to$НКА.
+\begin{enumerate}
+\item Можно ли использовать без доказательство то, что $L(\B)=L(\A)$?
+\item Можно ли в качестве входного автомата для алгоритма НКА$\to$ДКА использовать $\B$?
+\end{enumerate}
+\begin{tabular}{cc}
+%\hline
+\begin{minipage}{0.05\textwidth}
+\begin{center}
+$\A$
+\end{center}
+\end{minipage} &
+\begin{minipage}{0.8\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=1.5	cm,on grid,auto,initial text=]
+	  \node[state, initial]  (q_0)   {$q_0$};
+  	  \node[state] (q_1) [right = of q_0] {$q_1$};
+  	  \node[state] (q_2) [right = of q_1] {$q_2$};
+  	  \node[state] (q_3) [right = of q_2] {$q_3$};
+  	  \node[state] (q_4) [above right = of q_3] {$q_4$};
+  	  \node[state] (q_5) [below right = of q_3] {$q_5$};
+  	  \node[state] (q_6) [right = of q_4] {$q_6$};
+  	  \node[state] (q_7) [right = of q_5] {$q_7$};
+  	  \node[state] (q_8) [below right = of q_6] {$q_8$};
+  	  \node[state] (q_9) [right = of q_8] {$q_9$};
+  	  \node[state] (q_10) [right = of q_9] {$q_{10}$};
+  	  \node[state] (q_11) [right = of q_10] {$q_{11}$};
+  	  \node[state] (q_12) [right = of q_11] {$q_{12}$};
+  	  \node[state] (q_13) [above right = of q_12] {$q_{13}$};
+  	  \node[state] (q_14) [below right = of q_12] {$q_{14}$};
+  	  \node[state] (q_17) [right = of q_14] {$q_{17}$};
+  	  \node[state] (q_15) [right = of q_13] {$q_{15}$};
+  	  \node[state] (q_16) [right = of q_15] {$q_{16}$};
+  	  \node[state] (q_18) [right = of q_16] {$q_{18}$};
+  	  \node[state,accepting] (q_19) [below right = of q_18] {$q_{19}$};
+  	  \path[->] 
+			(q_0)	edge		node	{$a$}	(q_1)
+			(q_1)	edge		node	{$\varepsilon$}	(q_2)
+			(q_2)	edge		node	{$\varepsilon$}	(q_3)
+			(q_2)	edge[bend left=100]		node	{$\varepsilon$}	(q_9)
+			(q_3)	edge		node	{$\varepsilon$}	(q_4)
+			(q_3)	edge		node	{$\varepsilon$}	(q_5)
+			(q_4)	edge		node	{$a$}	(q_6)
+			(q_5)	edge		node	{$b$}	(q_7)
+			(q_6)	edge		node	{$\varepsilon$}	(q_8)
+			(q_7)	edge		node	{$\varepsilon$}	(q_8)
+			(q_8)	edge		node	{$\varepsilon$}	(q_3)
+			(q_8)	edge		node	{$\varepsilon$}	(q_9)
+			(q_9)	edge		node	{$\varepsilon$}	(q_10)
+			(q_10)	edge		node	{$a$}	(q_11)
+			(q_11)	edge		node	{$\varepsilon$}	(q_12)
+			(q_12)	edge		node	{$\varepsilon$}	(q_13)
+			(q_12)	edge		node	{$\varepsilon$}	(q_14)
+			(q_13)	edge		node	{$b$}	(q_15)
+			(q_15)	edge		node	{$\varepsilon$}	(q_16)
+			(q_15)	edge		node	{$\varepsilon$}	(q_16)
+			(q_16)	edge		node	{$b$}	(q_18)
+			(q_18)	edge		node	{$\varepsilon$}	(q_19)
+			(q_14)	edge		node	{$a$}	(q_17)
+			(q_17)	edge		node	{$\varepsilon$}	(q_19)
+		;
+\end{tikzpicture}
+\end{minipage}\\
+%\hline
+\begin{minipage}{0.05\textwidth}
+\begin{center}
+$\B$
+\end{center}
+\end{minipage} &
+\begin{minipage}{0.8\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=1.5	cm,on grid,auto,initial text=]
+	  \node[state, initial]  (q_0)   {$q_0$};
+  	  \node[state] (q_1) [right = of q_0] {$q_1$};
+  	  \node[state] (q_2) [right = of q_1] {$q_2$};
+  	  \node[state,accepting] (q_3) [above right = of q_2] {$q_3$};
+  	  \node[state] (q_4) [below right = of q_2] {$q_4$};
+  	  \node[state,accepting] (q_5) [right = of q_4] {$q_5$};
+  	  \path[->] 
+			(q_0)	edge		node	{$a$}	(q_1)
+			(q_1)	edge[loop]		node	{$a,b$}	(q_1)
+			(q_1)	edge		node	{$a$}	(q_2)
+			(q_2)	edge		node	{$a$}	(q_3)
+			(q_2)	edge		node	{$b$}	(q_4)
+			(q_4)	edge		node	{$b$}	(q_5)
+		;
+\end{tikzpicture}
+\end{minipage}\\
+%\hline
+\end{tabular}
+\end{document}
