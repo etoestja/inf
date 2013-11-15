@@ -34,55 +34,182 @@ int digitsN(int a)
     return(r);
 }
 
-void printIntFill(int a, int b)
+void printIntFill(int a, int b, char* s)
 {
     int i;
-    for(i = 0; i < b - digitsN(a); i++)
-        printf("0");
-    printf("%d", a);
+    int diff = b - digitsN(a);
+    for(i = 0; i < diff; i++)
+        s[i] = '0';
+    sprintf(s + (diff > 0 ? diff : 0), "%d", a);
+    if(diff >= 0)
+        s[b] = 0;
+    else s[digitsN(a)] = 0;
+    //printf("%s", s);
 }
 
-void printDate(struct tm then)
+void itoa(char** dest, int t)
 {
+    int NN = digitsN(t);
+    *dest = malloc(NN + 1);
+    if(t == 0)
+        (*dest)[0] = 0;
+    int d;
+    int i = 1;
+    while(t)
+    {
+        d = t % 10;
+        (*dest)[NN - i] = '0' + d;
+        t /= 10;
+        i++;
+    }
+
+    (*dest)[NN] = 0;
+}
+
+void printDate(struct tm then, char** s1, char** s2, char** s3)
+{
+    (*s2) = malloc(10);
+    (*s3) = malloc(10);
     time_t a = time(NULL);
     struct tm now = *localtime(&a);
-    printIntFill(then.tm_mday, 2);
-    printf(" ");
-    printf("%s", MONTHS[then.tm_mon]);
-    printf(" ");
+    printIntFill(then.tm_mday, 1, (*s2));
+    (*s1) = strdup(MONTHS[then.tm_mon]);
     if(now.tm_year != then.tm_year)
     {
-        printf("%d", then.tm_year + 1901);
+        printIntFill(then.tm_year + 1901, 4, *s3);
     }
     else
     {
-        printIntFill(then.tm_hour, 2);
-        printf(":");
-        printIntFill(then.tm_min, 2);
+        printIntFill(then.tm_hour, 2, *s3);
+        (*s3)[2] = ':';
+        printIntFill(then.tm_min, 2, (*s3) + 3);
     }
+    //printf("%s %s %s", (*s1), (*s2), (*s3));
     //no
 }
 
-void printPerm(mode_t mode)
+void printPerm(mode_t mode, char** x)
 {
+    *x = malloc(11); //magic
     if(S_ISDIR(mode))
-        printf("d");
+        (*x)[0] = 'd';
     else if(S_ISREG(mode))
-        printf("-");
+        (*x)[0] = '-';
     else if(S_ISLNK(mode))
-        printf("-");
+        (*x)[0] = 'l';
+    else
+        (*x)[0] = ' ';
 
-    printf(S_IRUSR & mode ? "r" : "-");
-    printf(S_IWUSR & mode ? "w" : "-");
-    printf(S_IXUSR & mode ? "x" : "-");
+    (*x)[1] = (S_IRUSR & mode ? 'r' : '-');
+    (*x)[2] = (S_IWUSR & mode ? 'w' : '-');
+    (*x)[3] = (S_IXUSR & mode ? 'x' : '-');
 
-    printf(S_IRGRP & mode ? "r" : "-");
-    printf(S_IWGRP & mode ? "w" : "-");
-    printf(S_IXGRP & mode ? "x" : "-");
+    (*x)[4] = (S_IRGRP & mode ? 'r' : '-');
+    (*x)[5] = (S_IWGRP & mode ? 'w' : '-');
+    (*x)[6] = (S_IXGRP & mode ? 'x' : '-');
 
-    printf(S_IROTH & mode ? "r" : "-");
-    printf(S_IWOTH & mode ? "w" : "-");
-    printf(S_IXOTH & mode ? "x" : "-");
+    (*x)[7] = (S_IROTH & mode ? 'r' : '-');
+    (*x)[8] = (S_IWOTH & mode ? 'w' : '-');
+    (*x)[9] = (S_IXOTH & mode ? 'x' : '-');
+    (*x)[10]= 0;
+    //printf("%s", *x);
+}
+
+char*** array;
+int arrayC, arrayR;
+int* arrayM;
+enum align {L, R};
+int arrayAlign[] = {L, R, L, L, R, L, R, R, L};
+
+void arrayCreate2(int P, int Q)
+{
+    arrayR = P;
+    arrayC = Q;
+    array = malloc(sizeof(char**) * P);
+    int i, j;
+    for(i = 0; i < P; i++)
+    {
+        array[i] = malloc(sizeof(char*) * Q);
+        for(j = 0; j < Q; j++)
+            array[i][j] = "";
+    }
+}
+
+void fillSpaces(int N)
+{
+    int i;
+    for(i = 0; i < N; i++)
+        printf(" ");
+}
+
+void arrayUpd()
+{
+    int i, j;
+    arrayM = malloc(sizeof(int) * arrayC);
+    for(i = 0; i < arrayC; i++)
+    {
+        arrayM[i] = 0;
+        for(j = 0; j < arrayR; j++)
+        {
+            if(arrayM[i] < strlen(array[j][i]))
+                arrayM[i] = strlen(array[j][i]);
+        }
+    }
+}
+
+void arrayPrint()
+{
+    int i, j;
+    for(i = 0; i < arrayR; i++)
+    {
+        if(strlen(array[i][0]) == 0) continue;
+        for(j = 0; j < arrayC; j++)
+        {
+            if(arrayAlign[j] == R && strlen(array[i][j]) < arrayM[j])
+                fillSpaces(arrayM[j] - strlen(array[i][j]));
+            printf(array[i][j]);
+            if(arrayAlign[j] == L && strlen(array[i][j]) < arrayM[j])
+                fillSpaces(arrayM[j] - strlen(array[i][j]));
+            if(j + 1 < arrayC)
+                printf(" ");
+        }
+        printf("\n");
+    }
+}
+
+char* getLink(char* x)
+{
+    struct stat sb;
+    char *linkname;
+    ssize_t r;
+
+    if (lstat(x, &sb) == -1) {
+        perror("lstat");
+        exit(EXIT_FAILURE);
+    }
+
+    linkname = malloc(sb.st_size + 1);
+    if (linkname == NULL) {
+        fprintf(stderr, "insufficient memory\n");
+        exit(EXIT_FAILURE);
+    }
+
+    r = readlink(x, linkname, sb.st_size + 1);
+
+    if (r < 0) {
+        perror("lstat");
+        exit(EXIT_FAILURE);
+    }
+
+    if (r > sb.st_size) {
+        fprintf(stderr, "symlink increased in size "
+                "between lstat() and readlink()\n");
+        exit(EXIT_FAILURE);
+    }
+
+    linkname[sb.st_size] = '\0';
+
+    return(linkname);
 }
 
 int main(int argc, char* argv[])
@@ -127,6 +254,9 @@ int main(int argc, char* argv[])
 
     struct tm cftime;
 
+    arrayCreate2(count, 9);
+    int j = 0;
+
     for(i = 0; i < count; i++)
     {
         if(directory[i].d_name[0] == '.') continue;
@@ -141,34 +271,50 @@ int main(int argc, char* argv[])
         structUser = getpwuid(tStat.st_uid);
         structGroup = getgrgid(tStat.st_gid);
 
-        printPerm(tStat.st_mode);
-        printf("\t%d", tStat.st_nlink);
+        printPerm(tStat.st_mode, &(array[j][0]));
+        itoa(&(array[j][1]), tStat.st_nlink);
         if(structUser == NULL)
-            printf("\t%d", tStat.st_uid);
+            itoa(&(array[j][2]), tStat.st_uid);
         else
-            printf("\t%s", structUser->pw_name);
+            array[j][2] = strdup(structUser->pw_name);
 
         if(structGroup == NULL)
-            printf("\t%d", tStat.st_gid);
+            itoa(&(array[j][3]), tStat.st_gid);
         else
-            printf("\t%s", structGroup->gr_name);
+            array[j][3] = strdup(structGroup->gr_name);
 
-        printf("\t%d", tStat.st_size);
+        //printf("\t%d", tStat.st_size);
+        itoa(&(array[j][4]), tStat.st_size);
 
         localtime_r(&tStat.st_mtime, &cftime);
-        printf("\t");
-        printDate(cftime);
 
-        printf("\t%s", directory[i].d_name);
+        printDate(cftime, &(array[j][5]), &(array[j][6]), &(array[j][7]));
 
-        printf("\n");
-        free(path);
+
+        if(S_ISLNK(tStat.st_mode))
+        {
+            char* ll = getLink(path);
+            array[j][8] = malloc(strlen(directory[i].d_name) + strlen(" -> ") + strlen(ll) + 1);
+            strcpy(array[j][8], directory[i].d_name);
+            strcat(array[j][8], " -> ");
+            strcat(array[j][8], ll);
+        }
+        else
+        {
+            array[j][8] = strdup(directory[i].d_name);
+        }
+
+        j++;
+        //free(path);
         path = NULL;
     }
 
     free(directory);
 
     printf("total %d\n", totalBlocks);
+
+    arrayUpd();
+    arrayPrint();
 
     if(closedir(dir) < 0)
     {
@@ -178,3 +324,14 @@ int main(int argc, char* argv[])
 
     return(0);
 }
+
+//int main(int argc, char* argv[])
+//{
+//    arrayCreate2(2, 2);
+//    array[0][0] = "abacaba";
+//    array[0][1] = "xy";
+//    array[1][0] = "xxx";
+//    array[1][1] = "dfsfasfasdfasdf";
+//    arrayUpd();
+//    arrayPrint();
+//}
