@@ -15,31 +15,23 @@ int main()
     Trie* myTrie = new Trie(NULL); // root
     string t, t1;
 
-    cin >> N;
+    N = 100;
+    string a;
+
+	char aa[2];
 
     for(unsigned i = 0; i < N; i++)
     {
-        cin >> t;
-        myTrie->insert((unsigned char*) t.c_str());
+	aa[0] = 'a' + (i % 10);
+	aa[1] = 0;
+	a.append(aa);
+        //cin >> t;
+        myTrie->insert((unsigned char*) a.c_str());
     }
     myTrie->update();
     qDebug() << myTrie->print().c_str();
 
-    t = "";
-    while(cin >> t1)
-    {
-        t += " ";
-        t += t1;
-    }
-
-    vector< pair<unsigned, string> > resVec;
-    resVec = myTrie->find(t);
-
-    cout << t << endl;
-
-    vector< pair<unsigned, string> >::iterator it;
-    for(it = resVec.begin(); it != resVec.end(); it++)
-        cout << "pattern [" << (*it).second << "]" << " at " << (*it).first << endl;
+    myTrie->find(t);
 
 
 //    myTrie->insert((char *) "abacaba");

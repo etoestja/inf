@@ -149,30 +149,31 @@ string Trie::getFullInfo()
 vector< pair<unsigned, string> > Trie::find(string text)
 {
     vector< pair<unsigned, string> > resVect;
-    string::iterator it;
     Trie *pos = this, *outLink = NULL, *piLink = NULL;
     unsigned i = 0;
 
-    for(it = text.begin(); it != text.end(); it++, i++)
-    {
-        qDebug() << "position=" << pos->getShortInfo().c_str() << " char=" << *it;
+	char c;
 
-        if(pos->c[(unsigned) *it] != NULL) //there is a link
+    for(;;)
+    {
+	scanf("%c", &c);
+	if(!(c >= 'A' && c <= 'z')) c = 'a';
+        if(pos->c[(unsigned) c] != NULL) //there is a link
         {
-            qDebug() << "found a link" << pos->c[(unsigned) *it]->getShortInfo().c_str();
-            pos = pos->c[(unsigned) *it];
-        }
+            //qDebug() << "found a link" << pos->c[(unsigned) c]->getShortInfo().c_str();
+            pos = pos->c[(unsigned) c];
+       	} 
         else
         {
-            qDebug() << "ntfnd a link";
+            //qDebug() << "ntfnd a link";
             piLink = pos->pi;
-            while(piLink != this && piLink->c[(unsigned) *it] == NULL)
+            while(piLink != this && piLink->c[(unsigned) c] == NULL)
             {
                 piLink = piLink->pi;
             }
             pos = piLink;
-            if(pos == this && pos->c[(unsigned) *it] != NULL)
-                pos = pos->c[(unsigned) *it];
+            if(pos == this && pos->c[(unsigned) c] != NULL)
+                pos = pos->c[(unsigned) c];
         }
 
         outLink = pos;
@@ -180,7 +181,7 @@ vector< pair<unsigned, string> > Trie::find(string text)
         while(outLink != this)
         {
             resVect.push_back(pair<unsigned, string> (i - pos->getString().length(), outLink->getString()));
-            qDebug() << "STRING " << outLink->getShortInfo().c_str();
+            //qDebug() << "STRING " << outLink->getShortInfo().c_str();
             outLink = outLink->out;
         }
     }
