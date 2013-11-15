@@ -5,13 +5,62 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
+#include <pwd.h>
+#include <grp.h>
+#include <time.h>
+
+const char* MONTHS[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+
+#define BLOCKSIZE_COEFF_D 2
 
 int alphasortQsort(const void* a, const void* b)
 {
-    struct dirent *x = *((const struct dirent**) a);
-    struct dirent *y = *((const struct dirent**) b);
-    if(S_ISDIR(x->d_type))
+    //const struct dirent *x = *((const struct dirent**) a);
+    //const struct dirent *y = *((const struct dirent**) b);
+    //if(S_ISDIR(x->d_type))
     return(alphasort((const struct dirent**) a, (const struct dirent**) b));
+}
+
+int digitsN(int a)
+{
+    if(a == 0)
+        return(1);
+    int r = 0;
+    while(a)
+    {
+        a /= 10;
+        r++;
+    }
+    return(r);
+}
+
+void printIntFill(int a, int b)
+{
+    int i;
+    for(i = 0; i < b - digitsN(a); i++)
+        printf("0");
+    printf("%d", a);
+}
+
+void printDate(struct tm then)
+{
+    time_t a = time(NULL);
+    struct tm now = *localtime(&a);
+    printIntFill(then.tm_mday, 2);
+    printf(" ");
+    printf("%s", MONTHS[then.tm_mon]);
+    printf(" ");
+    if(now.tm_year != then.tm_year)
+    {
+        printf("%d", then.tm_year + 1901);
+    }
+    else
+    {
+        printIntFill(then.tm_hour, 2);
+        printf(":");
+        printIntFill(then.tm_min, 2);
+    }
+    //no
 }
 
 void printPerm(mode_t mode)
@@ -57,8 +106,6 @@ int main(int argc, char* argv[])
     while(readdir(dir) != NULL)
         count++;
 
-    printf("total %d\n", count);
-
     struct dirent* directory = malloc(sizeof(struct dirent) * count), *t;
 
     rewinddir(dir);
@@ -73,17 +120,45 @@ int main(int argc, char* argv[])
 
     struct stat tStat;
 
+    int totalBlocks = 0;
+
+    struct passwd *structUser;
+    struct group  *structGroup;
+
+    struct tm cftime;
+
     for(i = 0; i < count; i++)
     {
         if(directory[i].d_name[0] == '.') continue;
         //printf("name=%s, %d ", directory[i].d_name, strlen(directory[i].d_name));
-        path = malloc(sizeof(char) * (strlen(argv[1]) + strlen(directory[i].d_name) + 1));
+        path = malloc(sizeof(char) * (strlen(argv[1]) + strlen(directory[i].d_name) + 2));
         strcpy(path, argv[1]);
         strcat(path, "/");
         strcat(path, directory[i].d_name);
         lstat(path, &tStat);
 
+        totalBlocks += tStat.st_blocks / BLOCKSIZE_COEFF_D;
+        structUser = getpwuid(tStat.st_uid);
+        structGroup = getgrgid(tStat.st_gid);
+
         printPerm(tStat.st_mode);
+        printf("\t%d", tStat.st_nlink);
+        if(structUser == NULL)
+            printf("\t%d", tStat.st_uid);
+        else
+            printf("\t%s", structUser->pw_name);
+
+        if(structGroup == NULL)
+            printf("\t%d", tStat.st_gid);
+        else
+            printf("\t%s", structGroup->gr_name);
+
+        printf("\t%d", tStat.st_size);
+
+        localtime_r(&tStat.st_mtime, &cftime);
+        printf("\t");
+        printDate(cftime);
+
         printf("\t%s", directory[i].d_name);
 
         printf("\n");
@@ -92,6 +167,8 @@ int main(int argc, char* argv[])
     }
 
     free(directory);
+
+    printf("total %d\n", totalBlocks);
 
     if(closedir(dir) < 0)
     {
