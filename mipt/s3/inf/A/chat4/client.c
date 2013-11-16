@@ -47,5 +47,30 @@ int main(int argc, char* argv[])
         return(-1);
     }
 
+    pid_t cpid = fork();
+    if(cpid < 0)
+    {
+        perror("Can't fork");
+        return(-1);
+    }
+
+    if(cpid == 0)
+    {
+        // child
+        if(fork())
+            for(;;)
+                if((size = read(STDIN_FILENO, buf, BUFSIZE)) > 0)
+                    write(fdW, buf, size);
+        else
+            for(;;)
+                if((size = read(fdR, buf, BUFSIZE)) > 0)
+                    write(STDOUT_FILENO, buf, size);
+
+    }
+    else
+    {
+        // parent
+    }
+
     close(serverSocket);
 }
