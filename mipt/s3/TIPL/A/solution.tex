@@ -1,0 +1,114 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+%\geometry{paperwidth=210mm, paperheight=2000pt, left=5pt, top=5pt}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,arrows,trees}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage[makeroom]{cancel} % зачеркивание
+\usepackage{multicol} %Несколько колонок
+\usepackage{hyperref}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{wasysym}
+\title{Теория и реализация языков программирования.\\Задание 10: LL-анализ}
+\date{задано 2013.11.13}
+\author{Сергей~Володин, 272 гр.}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+% названия автоматов
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+
+%+= и -=, иначе разъезжаются...
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
+% пустое слово
+\def\eps{\varepsilon}
+
+% регулярные языки
+\def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\newcommand{\niton}{\not\owns}
+
+\begin{document}
+\maketitle
+\subsection*{Упражнение 1}
+Пусть $G=(N,T,P,S)$. Занумеруем правила из $P$: $P=\{P_1,...,P_n\}$.\newline
+Определим синтаксический перевод $T_l=(N, T, T', R, S)$:\begin{enumerate}
+\item $T'=\{1,...,n\}$
+\item $R$ определяется через $P$: каждому правилу $P\ni P_i=(X,Y_1...Y_n)$ сопоставим правила в $R$: пусть $Y_{j_1}...Y_{j_l}$~--- максимальная подпоследовательность из нетерминалов из слова $Y_1...Y_n$. Тогда $X\longrightarrow Y_1...Y_n,iY_{j_1}...Y_{j_l})\in P'$.\newline
+По построению нетерминалы, входящие в $\alpha\equiv Y_1...Y_n$ входят также в $\beta\equiv Y_{j_1}...Y_{j_l}$, причем с той же кратностью.
+\end{enumerate}
+Докажем, что слово $w\in L(G)$ переводится в левый вывод $w$. {\bf TODO}
+\subsection*{Упражнение 2}
+$w=a*(a+a)$. Построим правый вывод по дереву вывода (из задания):\newline
+\begin{tabular}{ll}
+\begin{minipage}{0.4\textwidth}
+\begin{tikzpicture}
+	\node {$E$} %root
+		child{ node{$2$} }
+		child{ node   {$T$}
+			child{ node{$3$} }
+		 	child{ node {$T$}
+				child{ node{$4$} }				
+				child[sibling angle=90,clockwise from=0]{ node{$F$}
+					child[sibling angle=0,clockwise from=270]{ node {$6$} }
+				}
+			}
+			child{ node {$F$}
+				child{ node {$5$}  }
+				child{ node {$E$} 
+					child{ node{$1$} } 
+					child{ node{$E$}
+						child{ node{$2$} }
+						child[sibling angle=90,clockwise from=0]{ node{$T$}
+							child[sibling angle=0,clockwise from=270]{ node{$4$} }
+							child[level distance = 1.75cm, sibling angle=0,clockwise from=300]{ node{$F$}
+								child[sibling angle=0,clockwise from=270]{ node {$6$} }
+							}
+						}
+					}
+					child{ node{$T$}
+						child{ node{$4$} }
+						child{ node{$F$}
+							child{ node {$6$} }
+						}
+					}
+				}
+			}
+	};
+\end{tikzpicture}
+\end{minipage} &
+\begin{minipage}{0.5\textwidth}
+Чтобы получить правый вывод, обойдем дерево разбора в $G'$ следующим образом:
+\begin{enumerate}
+\item Выпишем самого левого потомка (по структуре правил, это всегда будет номер правила из $G$)
+\item Выполним разбор оставшихся потомков справа налево.
+\end{enumerate}
+\end{minipage}\\
+\end{tabular}
+\newline
+Получаем последовательность правил правого вывода $w$ в $G$: $P_r=23514624646$.\newline
+Правый вывод {\em (выделен раскрываемый нетерминал)}: $\underline{E}\overset{2}{\Rightarrow}\underline{T}\overset{3}{\Rightarrow}T*\underline{F}\overset{5}{\Rightarrow}T*(\underline{E})\overset{1}{\Rightarrow}T*(E+\underline{T})\overset{4}{\Rightarrow}T*(E+\underline{F})\overset{6}{\Rightarrow}T*(\underline{E}+a)\overset{2}{\Rightarrow}T*(\underline{T}+a)\overset{4}{\Rightarrow}T*(\underline{F}+a)\overset{6}{\Rightarrow}\underline{T}*(a+a)\overset{4}{\Rightarrow}\underline{F}*(a+a)\overset{6}{\Rightarrow}a*(a+a)=w$.\newline
+По определению, правый разбор~--- примененнные при правом выводе правила в обратном порядке: $(P_r)^R=64642641532$.
+\subsection*{Упражнение 3}
+\subsection*{Упражнение 4}
+\subsection*{Упражнение 5}
+\subsection*{Упражнение 6}
+\subsection*{Задача 1}
+\subsection*{Задача 2}
+\subsection*{Задача 3}
+\subsection*{Задача 4}
+\subsection*{Задача 5}
+\subsection*{Задача 6}
+\end{document}
