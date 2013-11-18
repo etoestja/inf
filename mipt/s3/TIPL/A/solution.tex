@@ -105,7 +105,122 @@ $w=a*(a+a)$. Построим правый вывод по дереву выво
 \subsection*{Упражнение 4}
 \subsection*{Упражнение 5}
 \subsection*{Упражнение 6}
+\newpage
 \subsection*{Задача 1}
+$w=((a))\in L(G)$: $\underline{E}\overset{2}{\Rightarrow}\underline{T}\overset{4}{\Rightarrow}\underline{F}\overset{5}{\Rightarrow}(\underline{E})\overset{2}{\Rightarrow}(\underline{T})\overset{4}{\Rightarrow}(\underline{F})\overset{5}{\Rightarrow}((E))\overset{2}{\Rightarrow}((\underline{T}))\overset{4}{\Rightarrow}((\underline{F}))\overset{6}{\Rightarrow}((a))$.\begin{enumerate}
+\item Построим дерево вывода $w$ в $G$ и соответствующее дерево в $G'$:
+	\begin{multicols}{2}
+		\begin{flushleft}
+			
+		\begin{tikzpicture}
+			\node {$E$} %root
+				child
+				{
+					node {$T$}
+					child
+					{ 
+						node {$F$}
+						child
+						{
+							node {$($}
+						}
+						child
+						{
+							node {$E$}	
+							child
+							{
+								node{$T$}
+								child
+								{
+									node{$F$}
+									child
+									{
+										node {$($}
+									}
+									child
+									{
+										node {$E$}
+										child
+										{
+											node {$T$}
+											child
+											{
+												node {$F$}
+												child
+												{
+													node {$a$}
+												}
+											}
+										}
+									}
+									child
+									{
+										node {$)$}
+									}
+								}
+							}
+						}
+						child
+						{
+							node {$)$}
+						}
+					}
+				};
+		\end{tikzpicture}
+		\end{flushleft}
+		
+		\begin{flushright}
+			
+		\begin{tikzpicture}
+%						child[sibling angle=90,clockwise from=0]{ node{$fF$}
+			\node {$E$} %root
+				child {node {$2$}}
+				child
+				{
+					node {$T$}
+					child {node {$4$}}
+					child
+					{ 
+						node {$F$}
+						child {node {$5$}}
+						child
+						{
+							node {$E$}	
+							child {node {$2$}}
+							child
+							{
+								node{$T$}
+								child {node {$4$}}
+								child
+								{
+									node{$F$}
+									child {node {$5$}}
+									child
+									{
+										node {$E$}
+										child {node {$2$}}
+										child
+										{
+											node {$T$}
+											child {node {$4$}}
+											child
+											{
+												node {$F$}
+												child {node {$6$}}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				};
+		\end{tikzpicture}
+		\end{flushright}	
+	\end{multicols}
+\item Левый разбор: обойдем второе дерево в глубину, всегда выбирая самого левого непосещенного потомка: $P_l=245245246$.
+\item Правый разбор: обойдем второе дерево в глубину, как указано в решении упражнения 2: $(P_r)^R=245245246\Rightarrow P_r=642542542$.
+\end{enumerate}
 \subsection*{Задача 2}
 \subsection*{Задача 3}
 \subsection*{Задача 4}
