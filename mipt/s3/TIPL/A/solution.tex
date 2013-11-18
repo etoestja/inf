@@ -45,6 +45,10 @@
 \def\first{\mathrm{ FIRST} }
 \def\follow{\mathrm{ FOLLOW} }
 
+% LL LR (rubtsov)
+\def\LL{{\mathrm{LL}}}
+\def\LR{{\mathrm{LR}}}
+
 \newcounter{rowItemCount}
 \newcounter{subRowItemCount}
 \newcommand\rowItem{
@@ -355,6 +359,27 @@ $\$$ & {\bf Err.} & {\bf Err.} & {\bf Acc.} \\\hline
 \end{enumerate}
 \subsection*{Задача 3}
 \subsection*{Задача 4}
+\begin{enumerate}
+\item $\Sigma'\eqdef\{0,1,\$\}$, $N'\eqdef(S',S)$, пополненная грамматика $G'=(N',\Sigma',P',S)$.\newline $P'\eqdef\{S'\overset{(0)}{\to}S\$,S\overset{(1)}{\to}aSaa,S\overset{(2)}{\to}bSba,S\overset{(3)}{\to}b,S\overset{(4)}{\to}\varepsilon\}$
+\item Найдем $\first_1$:\newline
+\begin{tabular}{|r|c|c|c|c|c|}
+\hline
+$i$ & $F_i(a)$ & $F_i(b)$ & $F_i(\$)$ & $F_i(S)$ & $F_i(S')$\\\hline
+$0$ & $\{a\}$ & $\{b\}$ & $\{\$\}$ & $\{\varepsilon\}$ & $\varnothing$\\\hline
+$1$ & $\{a\}$ & $\{b\}$ & $\{\$\}$ & $\{\varepsilon,a,b\}$ & $\{\$\}$\\\hline
+$2$ & $\{a\}$ & $\{b\}$ & $\{\$\}$ & $\{\varepsilon,a,b\}$ & $\{\$,a,b\}$\\\hline
+$3$ & $\{a\}$ & $\{b\}$ & $\{\$\}$ & $\{\varepsilon,a,b\}$ & $\{\$,a,b\}$\\\hline
+\end{tabular}
+\item Возьмем $\alpha=\$$, $\beta=\varepsilon$. Тогда $S'\overset{(1)}{\Rightarrow_l}\underbrace{\varepsilon}_{w}\underbrace{S}_{A}\underbrace{\$}_{\alpha}$. Рассмотрим пару правил $\underbrace{S}_A\overset{(2)}{\to}\underbrace{bSba}_\beta$, $\underbrace{S}_A\overset{(3)}{\to}\underbrace{b}_\gamma$.\newline
+Имеем $\first(\beta\alpha)\equiv\first(bSba\$)=\{b\}$,\newline
+$\first(\gamma\alpha)\equiv\first(b\$)=\{b\}$.\newline
+Получаем $\first(\beta\alpha)\cap\first(\gamma\alpha)=\{b\}\neq\varnothing$ $\Rightarrow$ $G'$~--- не $\LL(1)$-грамматика.
+\item Найдем $\first_2$:\newline
+\end{enumerate}
 \subsection*{Задача 5}
 \subsection*{Задача 6}
+Предположим, что $L\eqdef a^*\cup a^nb^n$~--- LL-язык. Тогда $\exists k\exists G\colon L(G)=L$ и $G$~--- $\LL(k)$-грамматика. Тогда $\exists \A$~--- детерминированный МП-автомат с выходом.
+\begin{enumerate}
+\item Фиксируем $n$. $\varangle a^{nk}\in L$, $(a^(nk)\$,S\$,\varepsilon)\vdash^*(a^k,Y_1...Y_l\$,\cdot)$. Рассмотрим
+\end{enumerate}
 \end{document}
