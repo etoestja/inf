@@ -360,23 +360,91 @@ $\$$ & {\bf Err.} & {\bf Err.} & {\bf Acc.} \\\hline
 \subsection*{Задача 3}
 \subsection*{Задача 4}
 \begin{enumerate}
-\item $\Sigma'\eqdef\{0,1,\$\}$, $N'\eqdef(S',S)$, пополненная грамматика $G'=(N',\Sigma',P',S)$.\newline $P'\eqdef\{S'\overset{(0)}{\to}S\$,S\overset{(1)}{\to}aSaa,S\overset{(2)}{\to}bSba,S\overset{(3)}{\to}b,S\overset{(4)}{\to}\varepsilon\}$
+\item $\Sigma'\eqdef\{0,1,\$\}$, $N'\eqdef(S',S,A)$, пополненная грамматика $G'=(N',\Sigma',P',S)$.\newline $P'\eqdef\{S'\overset{(0)}{\to}S\$,S\overset{(1)}{\to}aAaa,S\overset{(2)}{\to}bAba,A\overset{(3)}{\to}b,A\overset{(4)}{\to}\varepsilon\}$
 \item Найдем $\first_1$:\newline
-\begin{tabular}{|r|c|c|c|c|c|}
+\begin{tabular}{|r|c|c|c|c|c|c|}
 \hline
-$i$ & $F_i(a)$ & $F_i(b)$ & $F_i(\$)$ & $F_i(S)$ & $F_i(S')$\\\hline
-$0$ & $\{a\}$ & $\{b\}$ & $\{\$\}$ & $\{\varepsilon\}$ & $\varnothing$\\\hline
-$1$ & $\{a\}$ & $\{b\}$ & $\{\$\}$ & $\{\varepsilon,a,b\}$ & $\{\$\}$\\\hline
-$2$ & $\{a\}$ & $\{b\}$ & $\{\$\}$ & $\{\varepsilon,a,b\}$ & $\{\$,a,b\}$\\\hline
-$3$ & $\{a\}$ & $\{b\}$ & $\{\$\}$ & $\{\varepsilon,a,b\}$ & $\{\$,a,b\}$\\\hline
+$i$ & $F_i(a)$ & $F_i(b)$ & $F_i(\$)$ & $F_i(S)$ & $F_i(S')$ & $F_i(A)$\\\hline
+$0$ & $\{a\}$ & $\{b\}$ & $\{\$\}$ & $\varnothing$ & $\varnothing$ & $\{\varepsilon\}$\\\hline
+$1$ & $\{a\}$ & $\{b\}$ & $\{\$\}$ & $\{a,b\}$ & $\varnothing$ & $\{b,\varepsilon\}$\\\hline
+$2$ & $\{a\}$ & $\{b\}$ & $\{\$\}$ & $\{a,b\}$ & $\{a,b\}$ & $\{b,\varepsilon\}$\\\hline
+$3$ & $\{a\}$ & $\{b\}$ & $\{\$\}$ & $\{a,b\}$ & $\{a,b\}$ & $\{b,\varepsilon\}$\\\hline
 \end{tabular}
-\item Возьмем $\alpha=\$$, $\beta=\varepsilon$. Тогда $S'\overset{(1)}{\Rightarrow_l}\underbrace{\varepsilon}_{w}\underbrace{S}_{A}\underbrace{\$}_{\alpha}$. Рассмотрим пару правил $\underbrace{S}_A\overset{(2)}{\to}\underbrace{bSba}_\beta$, $\underbrace{S}_A\overset{(3)}{\to}\underbrace{b}_\gamma$.\newline
-Имеем $\first(\beta\alpha)\equiv\first(bSba\$)=\{b\}$,\newline
-$\first(\gamma\alpha)\equiv\first(b\$)=\{b\}$.\newline
-Получаем $\first(\beta\alpha)\cap\first(\gamma\alpha)=\{b\}\neq\varnothing$ $\Rightarrow$ $G'$~--- не $\LL(1)$-грамматика.
+\item Возьмем $\alpha=ba,\,w=b,\,\beta=b,\,\gamma=\varepsilon$, нетерминал $A$. Тогда $A\overset{(3)}{\to}b\equiv\beta,\,A\overset{(4)}{\to}\varepsilon\equiv\gamma,\,S'\overset{(0)}{\Rightarrow}\underline{S}\$\overset{(2)}{\Rightarrow}\underbrace{b}_wA\underbrace{ba\$}_\alpha$.\newline
+Имеем $F\eqdef\first(\beta\alpha)\equiv\first(ba\$)=\{b\}$ и $G\eqdef\first(\gamma\alpha)=\first(bba\$)=\{b\}$ и $F\cap G=\{b\}\neq\varnothing$.\newline
+Получаем $\exists A\exists\alpha,\beta\colon A\to\alpha,A\to\beta\in P',\,\exists w\,\exists \alpha\colon S'\Rightarrow_l^* wA\alpha,\,\first(\beta\alpha)\cap\first(\gamma\alpha)\neq\varnothing$~--- формальное отрицание утверждения Теоремы 1 из задания. Получаем, что $G'$~--- не $\LL(1)$-грамматика.
 \item Найдем $\first_2$:\newline
+\begin{tabular}{|r|c|c|c|c|c|c|}
+\hline
+$i$ & $F_i(a)$ & $F_i(b)$ & $F_i(\$)$ & $F_i(S)$ & $F_i(S')$ & $F_i(A)$\\\hline
+$0$ & $\{a\}$ & $\{b\}$ & $\{\$\}$ & $\varnothing$ & $\varnothing$ & $\varnothing$\\\hline
+$1$ & $\{a\}$ & $\{b\}$ & $\{\$\}$ & $\{ab,aa,bb\}$ & $\varnothing$ & $\{b,\varepsilon\}$\\\hline
+$2$ & $\{a\}$ & $\{b\}$ & $\{\$\}$ & $\{ab,aa,bb\}$ & $\{ab,aa,bb\}$ & $\{b,\varepsilon\}$\\\hline
+$3$ & $\{a\}$ & $\{b\}$ & $\{\$\}$ & $\{ab,aa,bb\}$ & $\{ab,aa,bb\}$ & $\{b,\varepsilon\}$\\\hline
+\end{tabular}
+\item Докажем, что $G'$~--- $\LL(2)$-грамматика, пользуясь Теоремой 1. Рассмотрим пары правил $X\to \beta,\,X\to\gamma$:\begin{enumerate}
+\item $S\overset{(1)}{\to}\underbrace{aAaa}_\beta,\,S\overset{(2)}{\to}\underbrace{bAba}_\gamma$. Тогда $\forall\alpha\hookrightarrow$ слова из $F\eqdef\first_2(\beta\alpha)$ начинаются с $a$, слова из $G\eqdef\first_2(\gamma\alpha)$ начинаются с $b$, поэтому $F\cap G=\varnothing$
+\item $A\overset{(3)}{\to}\underbrace{b}_\beta,\,A\overset{(4)}{\to}\underbrace{\varepsilon}_\gamma$. Пусть $S\Rightarrow_l^*wA\alpha$. Тогда $\alpha[1,2]\in\{aa,ba\}$~--- действительно, нетерминал $A$ может появиться только после применения $(1)$ или $(2)$. Рассмотрим эти два случая:\begin{enumerate}
+\item $\alpha[1,2]=aa$. Тогда $F\eqdef\first_2(\beta\alpha)=\first_2(baa)=\{ba\}$, $G\eqdef\first_2(\gamma\alpha)=\first_2(aa)=\{aa\}$. Поэтому $F\cap G=\varnothing$
+\item $\alpha[1,2]=ba$. Тогда $F\eqdef\first_2(\beta\alpha)=\first_2(bba)=\{bb\}$, $G\eqdef\first_2(\gamma\alpha)=\first_2(ba)=\{ba\}$. Поэтому $F\cap G=\varnothing$
+\end{enumerate}
+\end{enumerate}
+\item Найдем $\follow_2$:\newline
+\begin{tabular}{|r|c|c|c|}
+\hline
+$i$ & $F_i(S)$ & $F_i(S')$ & $F_i(A)$\\\hline
+$0$ & $\varnothing$ & $\varnothing$ & $\varnothing$\\\hline
+$1$ & $\{\$\}$ & $\varnothing$ & $\{aa,ba\}$\\\hline
+$2$ & $\{\$\}$ & $\varnothing$ & $\{aa,ba\}$\\\hline
+\end{tabular}
 \end{enumerate}
 \subsection*{Задача 5}
+\begin{enumerate}
+\item $N\eqdef\{S,A\}$, $T\eqdef\{a,b\}$, $G\eqdef\{N,T,P,S\}$. $P=\{S\to ba|A,\,A\to a|Aab|Ab\}$.
+\item Удалим непосредственную левую рекурсию: $N'\eqdef\{S,A,A'\}$, $P'\eqdef\{S\to bA|A,\,A\to aA',\,A'\to abA'|bA'|\varepsilon\}$.\newline
+$G'\eqdef\{N',T,P',S\}$.
+\item $L(G')=L(G)$~--- так как применен алгоритм
+\item $G''$~--- пополненная грамматика: $T''\eqdef\{a,b,\$\}$, $N''\eqdef\{S,S',A,A'\}$,\newline
+$P''\eqdef\{S'\overset{(0)}{\to}S\$,S\overset{(1)}{\to}ba,S\overset{(2)}{\to}A,A\overset{(3)}{\to}aA',A'\overset{(4)}{\to}abA',A'\overset{(5)}{\to}bA',A'\overset{(6)}{\to}\varepsilon\}$
+\item Найдем $\first$:\newline
+\begin{tabular}{|r|c|c|c|c|c|c|c|}
+\hline
+$i$ & $F_i(a)$ & $F_i(b)$ & $F_i(\$)$ & $F_i(S)$ & $F_i(S')$ & $F_i(A)$ & $F_i(A')$\\\hline
+$0$ & $\{a\}$ & $\{b\}$ & $\{\$\}$ & $\varnothing$ & $\varnothing$ & $\varnothing$ & $\{\varepsilon\}$\\\hline
+$1$ & $\{a\}$ & $\{b\}$ & $\{\$\}$ & $\{b\}$ & $\varnothing$ & $\{a\}$ & $\{a,b,\varepsilon\}$\\\hline
+$2$ & $\{a\}$ & $\{b\}$ & $\{\$\}$ & $\{b,a\}$ & $\{b\}$ & $\{a\}$ & $\{a,b,\varepsilon\}$\\\hline
+$3$ & $\{a\}$ & $\{b\}$ & $\{\$\}$ & $\{b,a\}$ & $\{b,a\}$ & $\{a\}$ & $\{a,b,\varepsilon\}$\\\hline
+$4$ & $\{a\}$ & $\{b\}$ & $\{\$\}$ & $\{b,a\}$ & $\{b,a\}$ & $\{a\}$ & $\{a,b,\varepsilon\}$\\\hline
+\end{tabular}
+\item Докажем, что $G'$~--- $\LL(1)$-грамматика. Рассмотрим пары правил $X\to\beta,\,X\to\gamma$:\begin{enumerate}
+\item $S\overset{(1)}{\to}\underbrace{ba}_\beta$, $S\overset{(2)}{\to}\underbrace{A}_\gamma$. Тогда $\forall\alpha\hookrightarrow F\eqdef\first(\beta\alpha)=\first(b)=\{b\},\,G\eqdef\first(\gamma\alpha)=\{a\}\Rightarrow F\cap G=\varnothing$
+\item $A'\overset{(4)}{\to}\underline{a}bA'$, $A'\overset{(5)}{\to}\underline{b}A'$. Аналогично $F\cap G=\varnothing$.
+\item $A'\overset{(4)}{\to}\underbrace{abA'}_\beta$, $A'\overset{(6)}{\to}\underbrace{\varepsilon}_\gamma$. Пусть $S'\Rightarrow_l^*wA\alpha$. Тогда $\alpha=\$$, так правила $(4),(5),(6)$ оставляют $A'$ последним символом слова. Тогда $F\eqdef\first(\beta\alpha)=\{a\}$, $G\eqdef\first(\gamma\alpha)=\{\$\}$, поэтому $F\cap G=\varnothing$.
+\item $A'\overset{(5)}{\to}\underbrace{bA'}_\beta$, $A'\overset{(6)}{\to}\underbrace{\varepsilon}_\gamma$. Пусть $S'\Rightarrow_l^*wA\alpha$. Аналогично $\alpha=\$$. Тогда $F\eqdef\first(\beta\alpha)=\{b\}$, $G\eqdef\first(\gamma\alpha)=\{\$\}$, поэтому $F\cap G=\varnothing$.
+\end{enumerate}
+\item Найдем $\follow$:\newline
+\begin{tabular}{|r|c|c|c|c|c|c|c|}
+\hline
+$i$ & $F_i(S')$ & $F_i(S)$ & $F_i(A)$ & $F_i(A')$\\\hline
+$0$ & $\varnothing$ & $\varnothing$ & $\varnothing$ & $\varnothing$\\\hline
+$1$ & $\varnothing$ & $\{\$\}$ & $\varnothing$ & $\varnothing$\\\hline
+$2$ & $\varnothing$ & $\{\$\}$ & $\{\$\}$ & $\varnothing$\\\hline
+$3$ & $\varnothing$ & $\{\$\}$ & $\{\$\}$ & $\{\$\}$\\\hline
+$4$ & $\varnothing$ & $\{\$\}$ & $\{\$\}$ & $\{\$\}$\\\hline
+\end{tabular}
+\item Построим $\LL$-анализатор:\newline
+\begin{tabular}{|l|c|c|c|}
+\hline
+& $a$ & $b$ & $\$$\\\hline
+$S'$ & $S'\overset{(0)}{\to}S\$$ & $S'\overset{(0)}{\to}S\$$ & {\bf Err.} \\\hline
+$S$ & $S\overset{(2)}{\to}A$ & $S\overset{(2)}{\to}A$ & {\bf Err.} \\\hline
+$A$ & $A\overset{(3)}{\to}aA'$ & {\bf Err.} & {\bf Err.} \\\hline
+$A'$ & $A'\overset{(4)}{\to}abA'$ & $A'\overset{(5)}{\to}bA'$ & $A'\overset{(6)}{\to}\varepsilon$ \\\hline
+$a$ & $\varepsilon$ & {\bf Err.} & {\bf Err.}\\\hline
+$b$ & {\bf Err.} & $\varepsilon$ & {\bf Err.} \\\hline
+$\$$ & {\bf Err.} & {\bf Err.} & {\bf Acc.} \\\hline
+\end{tabular}
+\end{enumerate}
 \subsection*{Задача 6}
 Предположим, что $L\eqdef a^*\cup a^nb^n$~--- LL-язык. Тогда $\exists k\exists G\colon L(G)=L$ и $G$~--- $\LL(k)$-грамматика. Тогда $\exists \A$~--- детерминированный МП-автомат с выходом.
 \begin{enumerate}
