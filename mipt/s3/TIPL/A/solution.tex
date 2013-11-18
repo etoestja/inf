@@ -238,50 +238,119 @@ $w=((a))\in L(G)$: $\underline{E}\overset{2}{\Rightarrow}\underline{T}\overset{4
 \end{enumerate}
 \subsection*{Задача 2}
 \begin{enumerate}
-\item $\Sigma=\{0,1\}$, $N=\{S\}$, $G=(N,\Sigma,P,S)$, $P=\big\{\overbrace{S\to 0S}^{(1)},\overbrace{S\to 1S}^{(2)},\overbrace{S\to \varepsilon}^{(3)}\big\}$.
+\item $\Sigma'=\{0,1, \$\}$, $N'=\{S',S\}$. Пополненная грамматика $G'=(N',\Sigma',P',S')$, $P=\big\{\overbrace{S'\to S\$}^{(0)},\overbrace{S\to 0S}^{(1)},\overbrace{S\to 1S}^{(2)},\overbrace{S\to \varepsilon}^{(3)}\big\}$.
 \item Вычислим $\first$:\newline
-\begin{tabular}{rl|c|c|c|}
-& & $F_i(0)$ & $F_i(1)$ & $F_i(S)$\\ \hline
-\rowItem & Определим $F_0$: & $\varnothing$ & $\varnothing$ & $\varnothing$\\
-\subRowItem & Терминалы: $F_0(0)\eqdef \{0\}$, $F_0(1)\eqdef \{1\}$. & $\{0\}$ & $\{1\}$ & $\varnothing$\\
-\subRowItem & Нетерминалы: есть правило $S\overset{(3)}{\to}\varepsilon\Rightarrow F_0(S)\eqdef\{\varepsilon\}$ & $\{0\}$ & $\{1\}$ & $\{\varepsilon\}$\\
-\rowItem & Определим $F_1=F_0$ & $\{0\}$ & $\{1\}$ & $\{\varepsilon\}$\\
-\subRowItem & Рассмотрим правило $S\overset{(1)}{\to}\underline{0}S$. $F_0(\underline{0})=\{0\}\niton\varepsilon\Rightarrow F_1(S)\leftarrow \{0\}$ & $\{0\}$ & $\{1\}$ & $\{\varepsilon,0\}$ \\
-\subRowItem & Рассмотрим правило $S\overset{(2)}{\to}\underline{1}S$. $F_0(\underline{1})=\{1\}\niton\varepsilon\Rightarrow F_1(S)\leftarrow \{1\}$ & $\{0\}$ & $\{1\}$ & $\{\varepsilon,0,1\}$ \\
-\subRowItem & Рассмотрим правило $S\overset{(3)}{\to}\underline{\varepsilon}$. $|\underline{\varepsilon}|=0\Rightarrow$ не изменяем $F_1$ & $\{0\}$ & $\{1\}$ & $\{\varepsilon,0,1\}$ \\
-\rowItem & Определим $F_2=F_1$: & $\{0\}$ & $\{1\}$ & $\{\varepsilon,0,1\}$\\
-\subRowItem & Рассмотрим правило $S\overset{(1)}{\to}\underline{0}S$. $F_1(\underline{0})=\{0\}\niton\varepsilon\Rightarrow F_2(S)\leftarrow \{0\}$ & $\{0\}$ & $\{1\}$ & $\{\varepsilon,0,1\}$ \\
-\subRowItem & Рассмотрим правило $S\overset{(2)}{\to}\underline{1}S$. $F_1(\underline{1})=\{1\}\niton\varepsilon\Rightarrow F_2(S)\leftarrow \{1\}$ & $\{0\}$ & $\{1\}$ & $\{\varepsilon,0,1\}$ \\
-\subRowItem & Рассмотрим правило $S\overset{(3)}{\to}\underline{\varepsilon}$. $|\underline{\varepsilon}|=0\Rightarrow$ не изменяем $F_2$ & $\{0\}$ & $\{1\}$ & $\{\varepsilon,0,1\}$ \\
-\subRowItem & Имеем $F_2=F_1$ $\Rightarrow$ выход & $\{0\}$ & $\{1\}$ & $\{\varepsilon,0,1\}$ \\\hline
+\begin{tabular}{rl|c|c|c|c|c|}
+& & $F_i(0)$ & $F_i(1)$ & $F_i(\$)$ & $F_i(S)$ & $F_i(S')$\\ \hline
+\rowItem & Определим $F_0$: & $\varnothing$ & $\varnothing$ & $\varnothing$ & $\varnothing$ & $\varnothing$\\
+\subRowItem & Терминалы: $F_0(0)\eqdef \{0\}$, $F_0(1)\eqdef \{1\}$, $F_0(\$)\eqdef\{\$\}$. & $\{0\}$ & $\{1\}$ & $\{\$\}$ & $\varnothing$ & $\varnothing$\\
+\subRowItem & Есть правило $S\overset{(3)}{\to}\varepsilon\Rightarrow F_0(S)\eqdef\{\varepsilon\}$ & $\{0\}$ & $\{1\}$ & $\{\$\}$ & $\{\varepsilon\}$ & $\varnothing$\\
+\subRowItem & Нет правила $S'\to\varepsilon\Rightarrow F_0(S')\eqdef\varnothing$ & $\{0\}$ & $\{1\}$ & $\{\$\}$ & $\{\varepsilon\}$ & $\varnothing$\\\hline
+\rowItem & Определим $F_1=F_0$ & $\{0\}$ & $\{1\}$ & $\{\$\}$ & $\{\varepsilon\}$ & $\varnothing$\\
+\subRowItem & \begin{minipage}{0.45\textwidth}Рассмотрим символы правой части правила $S'\overset{(0)}{\to}S\$$.
+\begin{minipage}{0.9\textwidth}
+\begin{enumerate}
+\item[1. $\underline{S}\$$] $F_0(\underline{S})=\{\varepsilon\}\ni\varepsilon$. $F_0(\underline{S})\setminus\{\varepsilon\}=\varnothing\rightarrow F_1(S')$.
+\item[2. $S\underline{\$}$] $F_0(\underline{\$})=\{\$\}\niton\varepsilon$. $F_0(\underline{\$})\setminus\{\varepsilon\}=\{\$\}\rightarrow F_1(S')$.
+\end{enumerate}
+\end{minipage}
+\end{minipage} & $\{0\}$ & $\{1\}$ & $\{\$\}$ & $\{\varepsilon\}$ & $\{\$\}$\\
+\subRowItem & Рассмотрим правило $S\overset{(1)}{\to}\underline{0}S$. $F_0(\underline{0})=\{0\}\niton\varepsilon\Rightarrow F_1(S)\leftarrow \{0\}$ & $\{0\}$ & $\{1\}$ & $\{\$\}$ & $\{\varepsilon,0\}$ & $\{\$\}$ \\
+\subRowItem & Рассмотрим правило $S\overset{(2)}{\to}\underline{1}S$. $F_0(\underline{1})=\{1\}\niton\varepsilon\Rightarrow F_1(S)\leftarrow \{1\}$ & $\{0\}$ & $\{1\}$ & $\{\$\}$ & $\{\varepsilon,0,1\}$ & $\{\$\}$ \\
+\subRowItem & Рассмотрим правило $S\overset{(3)}{\to}\underline{\varepsilon}$. $|\underline{\varepsilon}|=0\Rightarrow$ не изменяем $F_1$ & $\{0\}$ & $\{1\}$ & $\{\$\}$ & $\{\varepsilon,0,1\}$ & $\{\$\}$ \\\hline
+
+
+\rowItem & Определим $F_2=F_1$: & $\{0\}$ & $\{1\}$ & $\{\$\}$ & $\{\varepsilon,0,1\}$ & $\{\$\}$\\
+\subRowItem & \begin{minipage}{0.45\textwidth}Рассмотрим символы правой части правила $S'\overset{(0)}{\to}S\$$.
+\begin{minipage}{\textwidth}
+\begin{enumerate}
+\item[1. $\underline{S}\$$] $F_1(\underline{S})=\{\varepsilon,0,1\}\ni\varepsilon$. $F_1(\underline{S})\setminus\{\varepsilon\}=\{0,1\}\rightarrow F_2(S')$.
+\item[2. $S\underline{\$}$] $F_1(\underline{\$})=\{\$\}\niton\varepsilon$. $F_0(\underline{\$})\setminus\{\varepsilon\}=\{\$\}\rightarrow F_2(S')$.
+\end{enumerate}
+\end{minipage}
+\end{minipage} & $\{0\}$ & $\{1\}$ & $\{\$\}$ & $\{\varepsilon,0,1\}$ & $\{\$,0,1\}$ \\
+\subRowItem & Рассмотрим правило $S\overset{(1)}{\to}\underline{0}S$. $F_1(\underline{0})=\{0\}\niton\varepsilon\Rightarrow F_2(S)\leftarrow \{0\}$ & $\{0\}$ & $\{1\}$ & $\{\$\}$ & $\{\varepsilon,0,1\}$ & $\{\$,0,1\}$\\
+\subRowItem & Рассмотрим правило $S\overset{(2)}{\to}\underline{1}S$. $F_1(\underline{1})=\{1\}\niton\varepsilon\Rightarrow F_2(S)\leftarrow \{1\}$ & $\{0\}$ & $\{1\}$ & $\{\$\}$ & $\{\varepsilon,0,1\}$ & $\{\$,0,1\}$\\
+\subRowItem & Рассмотрим правило $S\overset{(3)}{\to}\underline{\varepsilon}$. $|\underline{\varepsilon}|=0\Rightarrow$ не изменяем $F_2$ & $\{0\}$ & $\{1\}$ & $\{\$\}$ & $\{\varepsilon,0,1\}$ & $\{\$,0,1\}$\\\hline
+\rowItem & Определим $F_3=F_2$: & $\{0\}$ & $\{1\}$ & $\{\$\}$ & $\{\varepsilon,0,1\}$ & $\{\$,0,1\}$\\
+\subRowItem & \begin{minipage}{0.45\textwidth}Рассмотрим символы правой части правила $S'\overset{(0)}{\to}S\$$.
+\begin{minipage}{\textwidth}
+\begin{enumerate}
+\item[1. $\underline{S}\$$] $F_2(\underline{S})=\{\varepsilon,0,1\}\ni\varepsilon$. $F_2(\underline{S})\setminus\{\varepsilon\}=\{0,1\}\rightarrow F_3(S')$.
+\item[2. $S\underline{\$}$] $F_2(\underline{\$})=\{\$\}\niton\varepsilon$. $F_2(\underline{\$})\setminus\{\varepsilon\}=\{\$\}\rightarrow F_3(S')$.
+\end{enumerate}
+\end{minipage}
+\end{minipage} & $\{0\}$ & $\{1\}$ & $\{\$\}$ & $\{\varepsilon,0,1\}$ & $\{\$,0,1\}$\\
+\subRowItem & Рассмотрим правило $S\overset{(1)}{\to}\underline{0}S$. $F_2(\underline{0})=\{0\}\niton\varepsilon\Rightarrow F_3(S)\leftarrow \{0\}$ & $\{0\}$ & $\{1\}$ & $\{\$\}$ & $\{\varepsilon,0,1\}$ & $\{\$,0,1\}$\\
+\subRowItem & Рассмотрим правило $S\overset{(2)}{\to}\underline{1}S$. $F_2(\underline{1})=\{1\}\niton\varepsilon\Rightarrow F_3(S)\leftarrow \{1\}$ & $\{0\}$ & $\{1\}$ & $\{\$\}$ & $\{\varepsilon,0,1\}$ & $\{\$,0,1\}$\\
+\subRowItem & Рассмотрим правило $S\overset{(3)}{\to}\underline{\varepsilon}$. $|\underline{\varepsilon}|=0\Rightarrow$ не изменяем $F_3$ & $\{0\}$ & $\{1\}$ & $\{\$\}$ & $\{\varepsilon,0,1\}$ & $\{\$,0,1\}$\\\hline
+\subRowItem & Имеем $F_3=F_2$ $\Rightarrow$ выход & $\{0\}$ & $\{1\}$ & $\{\$\}$ & $\{\varepsilon,0,1\}$ & $\{\$,0,1\}$\\\hline
 \end{tabular}
 \item Вычислим $\follow$:\newline
 \setcounter{subRowItemCount}{0}
 \setcounter{rowItemCount}{0}
-\begin{tabular}{rl|c|}
-& & $F_i(S)$\\ \hline
-\rowItem & Определим $F_0$: & $\varnothing$\\
-\rowItem & Определим $F_1=F_0$: & $\varnothing$\\\hline
+\begin{tabular}{rl|c|c|}
+& & $F_i(S)$ & $F_i(S')$\\ \hline
+\rowItem & Определим $F_0$: & $\varnothing$ & $\varnothing$\\
+\rowItem & Определим $F_1=F_0$: & $\varnothing$ & $\varnothing$\\\hline
+\subRowItem & Рассмотрим правило $\underbrace{S'}_A\overset{(0)}{\to}\underbrace{\varepsilon}_\alpha\underbrace{S}_X\underbrace{\$}_{\beta}$
+\begin{minipage}{0.4\textwidth}\begin{enumerate}
+\item $\first(\beta)=\{\$\}\Rightarrow\first(\beta)\setminus\{\varepsilon\}=\{\$\}\to F_1(S)$.
+\item $\varepsilon\notin\first(\beta)$.
+\end{enumerate}\end{minipage} & $\{\$\}$ & $\varnothing$\\\hline
 \subRowItem & Рассмотрим правило $\underbrace{S}_A\overset{(1)}{\to}\underbrace{0}_\alpha\underbrace{S}_X\underbrace{\varepsilon}_{\beta}$
-\begin{minipage}{0.45\textwidth}\begin{enumerate}
+\begin{minipage}{0.4\textwidth}\begin{enumerate}
 \item $\first(\beta)=\{\varepsilon\}\Rightarrow\first(\beta)\setminus\{\varepsilon\}=\varnothing\to F_1(S)$.
 \item $\varepsilon\in\first(\beta)$, поэтому $F_1(S)\leftarrow F_0(S)=\varnothing$
-\end{enumerate}\end{minipage} & $\varnothing$\\\hline
+\end{enumerate}\end{minipage} & $\{\$\}$ & $\varnothing$\\\hline
 \subRowItem & Рассмотрим правило $\underbrace{S}_A\overset{(2)}{\to}\underbrace{1}_\alpha\underbrace{S}_X\underbrace{\varepsilon}_{\beta}$
-\begin{minipage}{0.45\textwidth}\begin{enumerate}
+\begin{minipage}{0.4\textwidth}\begin{enumerate}
 \item $\first(\beta)=\{\varepsilon\}\Rightarrow\first(\beta)\setminus\{\varepsilon\}=\varnothing\to F_1(S)$.
 \item $\varepsilon\in\first(\beta)$, поэтому $F_1(S)\leftarrow F_0(S)=\varnothing$
-\end{enumerate}\end{minipage} & $\varnothing$\\\hline
-\subRowItem & Рассмотрим правило $\underbrace{S}_A\overset{(3)}{\to}\varepsilon$. Оно не имеет вид $A\to \alpha X\beta$, не изменяем $F_1$& $\varnothing$\\\hline
-\subRowItem & Имеем $F_1=F_0$ $\Rightarrow$ выход & $\varnothing$\\\hline
+\end{enumerate}\end{minipage} & $\{\$\}$ & $\varnothing$\\\hline
+\subRowItem & Рассмотрим правило $\underbrace{S}_A\overset{(3)}{\to}\varepsilon$. Оно не имеет вид $A\to \alpha X\beta$, не изменяем $F_1$ & $\{\$\}$ & $\varnothing$\\\hline
+\rowItem & Определим $F_2=F_1$: & $\{\$\}$ & $\varnothing$\\\hline
+\subRowItem & Рассмотрим правило $\underbrace{S'}_A\overset{(0)}{\to}\underbrace{\varepsilon}_\alpha\underbrace{S}_X\underbrace{\$}_{\beta}$
+\begin{minipage}{0.4\textwidth}\begin{enumerate}
+\item $\first(\beta)=\{\$\}\Rightarrow\first(\beta)\setminus\{\varepsilon\}=\{\$\}\to F_2(S)$.
+\item $\varepsilon\notin\first(\beta)$.
+\end{enumerate}\end{minipage} & $\{\$\}$ & $\varnothing$\\\hline
+\subRowItem & Рассмотрим правило $\underbrace{S}_A\overset{(1)}{\to}\underbrace{0}_\alpha\underbrace{S}_X\underbrace{\varepsilon}_{\beta}$
+\begin{minipage}{0.4\textwidth}\begin{enumerate}
+\item $\first(\beta)=\{\varepsilon\}\Rightarrow\first(\beta)\setminus\{\varepsilon\}=\varnothing\to F_2(S)$.
+\item $\varepsilon\in\first(\beta)$, поэтому $F_3(S)\leftarrow F_1(S)=\{\$\}$
+\end{enumerate}\end{minipage} & $\{\$\}$ & $\varnothing$\\\hline
+\subRowItem & Рассмотрим правило $\underbrace{S}_A\overset{(2)}{\to}\underbrace{1}_\alpha\underbrace{S}_X\underbrace{\varepsilon}_{\beta}$
+\begin{minipage}{0.4\textwidth}\begin{enumerate}
+\item $\first(\beta)=\{\varepsilon\}\Rightarrow\first(\beta)\setminus\{\varepsilon\}=\varnothing\to F_2(S)$.
+\item $\varepsilon\in\first(\beta)$, поэтому $F_3(S)\leftarrow F_2(S)=\{\$\}$
+\end{enumerate}\end{minipage} & $\{\$\}$ & $\varnothing$\\\hline
+\subRowItem & Рассмотрим правило $\underbrace{S}_A\overset{(3)}{\to}\varepsilon$. Оно не имеет вид $A\to \alpha X\beta$, не изменяем $F_1$ & $\{\$\}$ & $\varnothing$\\\hline
+\subRowItem & Имеем $F_2=F_1$ $\Rightarrow$ выход & $\{\$\}$ & $\varnothing$\\\hline
 \end{tabular}
 \item Таблица переходов для $LL(1)$-анализатора:\newline
-\begin{tabular}{|l|l|l|}
+\begin{tabular}{cc}
+\begin{minipage}{0.29\textwidth}
+\begin{tabular}{|l|l|l|l|}
 \hline
-& $0$ & $1$\\\hline
-S & $S\overset{(1)}{\to}0S$ & $S\overset{(1)}{\to}1S$\\\hline
-0 & $\varepsilon$ & {\bf Err.}\\\hline
-1 & {\bf Err.} & $\varepsilon$\\\hline
+& $0$ & $1$ & $\$$\\\hline
+$S'$ & $S'\overset{(0)}{\to}S\$$ & $S'\overset{(0)}{\to}S\$$ & $S'\overset{(0)}{\to}S\$$ \\\hline
+$S$ & $S\overset{(1)}{\to}0S$ & $S\overset{(2)}{\to}1S$ & $S\overset{(3)}{\to}\varepsilon$ \\\hline
+$0$ & $\varepsilon$ & {\bf Err.} & {\bf Err.}\\\hline
+$1$ & {\bf Err.} & $\varepsilon$ & {\bf Err.}\\\hline
+$\$$ & {\bf Err.} & {\bf Err.} & {\bf Acc.} \\\hline
+\end{tabular}
+\end{minipage} &
+\begin{minipage}{0.7\textwidth}
+\begin{enumerate}
+\item $(S',0)$: правило $S'\overset{(0)}{\to}S\$$: $\first(S\$)=\first(S)\oplus\first(\$)=\{0,1,\$\}\ni 0$
+\item $(S',1)$: правило $S'\overset{(0)}{\to}S\$$: $\first(S\$)=\first(S)\oplus\first(\$)=\{0,1,\$\}\ni 1$
+\item $(S',\$)$: правило $S'\overset{(0)}{\to}S\$$: $\first(S\$)=\first(S)\oplus\first(\$)=\{0,1,\$\}\ni \$$
+\item $(S,0)$: правило $S\overset{(1)}{\to}0S$: $\first(0S)=\{0\}\ni 0$
+\item $(S,1)$: правило $S\overset{(2)}{\to}1S$: $\first(1S)=\{1\}\ni 1$
+\item $(S,\$)$: правило $S\overset{(3)}{\to}\varepsilon$: $\follow(S)=\{\$\}\ni \$$
+\end{enumerate}
+\end{minipage}
 \end{tabular}
 \end{enumerate}
 \subsection*{Задача 3}
