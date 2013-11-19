@@ -9,7 +9,7 @@
 \usepackage{amsmath}
 \usepackage{enumerate}
 \usepackage[makeroom]{cancel} % зачеркивание
-\usepackage{multicol} %Несколько колонок
+\usepackage{multicol,multirow} %Несколько колонок
 \usepackage{hyperref}
 \usepackage{tabularx}
 \usepackage{amsfonts}
@@ -358,6 +358,19 @@ $\$$ & {\bf Err.} & {\bf Err.} & {\bf Acc.} \\\hline
 \end{tabular}
 \end{enumerate}
 \subsection*{Задача 3}
+$N\eqdef\{E,T,F\}$, $T\eqdef\{a,(,),+,*\}$, $G\eqdef(N,T,P,E)$, $P\eqdef\{E\to E+T|T|\varepsilon,T \to T*F|F,F\to (E)|a\}$\newline
+Построим $\first_1$:\newline
+\begin{tabular}{|r|c|c|c|c|c|c|c|c|}
+\hline
+\multirow{2}{*}{$i$} & \multicolumn{8}{c|}{$F_i(\cdot)$}\\\cline{2-9}
+& $a$ & $($ & $)$ & $+$ & $*$ & $E$ & $T$ & $F$\\\hline
+$0$ & $\{a\}$ & $\{(\}$ & $\{)\}$ & $\{+\}$ & $\{*\}$ & $\{\varepsilon\}$ & $\varnothing$ & $\varnothing$\\\hline
+$1$ & $\{a\}$ & $\{(\}$ & $\{)\}$ & $\{+\}$ & $\{*\}$ & $\{\varepsilon,+\}$ & $\varnothing$ & $\{(,a\}$\\\hline
+$2$ & $\{a\}$ & $\{(\}$ & $\{)\}$ & $\{+\}$ & $\{*\}$ & $\{\varepsilon,+\}$ & $\{(,a\}$ & $\{(,a\}$\\\hline
+$3$ & $\{a\}$ & $\{(\}$ & $\{)\}$ & $\{+\}$ & $\{*\}$ & $\{\varepsilon,+,(,a\}$ & $\{(,a\}$ & $\{(,a\}$\\\hline
+$4$ & $\{a\}$ & $\{(\}$ & $\{)\}$ & $\{+\}$ & $\{*\}$ & $\{\varepsilon,+,(,a\}$ & $\{(,a\}$ & $\{(,a\}$\\\hline
+\end{tabular}\newline
+Ответ: $\boxed{\first(E)=\{\varepsilon,+,(,a\}}$
 \subsection*{Задача 4}
 \begin{enumerate}
 \item $\Sigma'\eqdef\{0,1,\$\}$, $N'\eqdef(S',S,A)$, пополненная грамматика $G'=(N',\Sigma',P',S)$.\newline $P'\eqdef\{S'\overset{(0)}{\to}S\$,S\overset{(1)}{\to}aAaa,S\overset{(2)}{\to}bAba,A\overset{(3)}{\to}b,A\overset{(4)}{\to}\varepsilon\}$
@@ -437,7 +450,7 @@ $4$ & $\varnothing$ & $\{\$\}$ & $\{\$\}$ & $\{\$\}$\\\hline
 \hline
 & $a$ & $b$ & $\$$\\\hline
 $S'$ & $S'\overset{(0)}{\to}S\$$ & $S'\overset{(0)}{\to}S\$$ & {\bf Err.} \\\hline
-$S$ & $S\overset{(2)}{\to}A$ & $S\overset{(2)}{\to}A$ & {\bf Err.} \\\hline
+$S$ & $S\overset{(2)}{\to}A$ & $S\overset{(1)}{\to}ba$ & {\bf Err.} \\\hline
 $A$ & $A\overset{(3)}{\to}aA'$ & {\bf Err.} & {\bf Err.} \\\hline
 $A'$ & $A'\overset{(4)}{\to}abA'$ & $A'\overset{(5)}{\to}bA'$ & $A'\overset{(6)}{\to}\varepsilon$ \\\hline
 $a$ & $\varepsilon$ & {\bf Err.} & {\bf Err.}\\\hline
