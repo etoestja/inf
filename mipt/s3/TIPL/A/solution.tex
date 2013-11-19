@@ -243,6 +243,11 @@ $w=((a))\in L(G)$: $\underline{E}\overset{2}{\Rightarrow}\underline{T}\overset{4
 \subsection*{Задача 2}
 \begin{enumerate}
 \item $\Sigma'=\{0,1, \$\}$, $N'=\{S',S\}$. Пополненная грамматика $G'=(N',\Sigma',P',S')$, $P=\big\{\overbrace{S'\to S\$}^{(0)},\overbrace{S\to 0S}^{(1)},\overbrace{S\to 1S}^{(2)},\overbrace{S\to \varepsilon}^{(3)}\big\}$.
+\item $G$~--- $\LL(1)$-грамматика. Докажем это по Теореме 1. Рассмотрим пары правил:\begin{enumerate}
+\item $S\to 0S$ и $S\to 1S$. Правые части $\beta$ и $\gamma$ начинаются с $0$ и $1$ соответственно, поэтому для всех $\alpha$ имеем $\first(\beta\alpha)\cap\first(\gamma\alpha)=\varnothing$
+\item $S\to 0S$ и $S\to\varepsilon$. Правила $(1),(2),(3)$ оставляют $S$ на последнем месте, поэтому $\alpha=\$$. Имеем $\beta=0S$, $\gamma=\varepsilon$. Тогда $\first(\beta\alpha)=\{0\}$, $\first(\gamma\alpha)=\{\$\}$, они не пересекаются.
+\item $S\to 1S$ и $S\to\varepsilon$~--- аналогично.
+\end{enumerate}
 \item Вычислим $\first$:\newline
 \begin{tabular}{rl|c|c|c|c|c|}
 & & $F_i(0)$ & $F_i(1)$ & $F_i(\$)$ & $F_i(S)$ & $F_i(S')$\\ \hline
