@@ -7,6 +7,10 @@
 #include <stdlib.h>
 #include <strings.h>
 #include <errno.h>
+#include <unistd.h>
+#include "sems.h"
+
+int semid;
 
 int main(int argc, char* argv[])
 {
@@ -31,7 +35,7 @@ int main(int argc, char* argv[])
         return(-1);
     }
 
-    if(listen(serverSocket, SERVER_LISTEN_N) == -1)
+    if(listen(serverSocket, CLIENTS_N) == -1)
     {
         perror("Can't listen!");
         return(-1);
@@ -39,6 +43,10 @@ int main(int argc, char* argv[])
 
     const int addrLen = sizeof(clntAddr);
     pid_t pid;
+
+    char buf[MSGLEN];
+    size_t size;
+
     for(;;)
     {
         bzero(&clntAddr, addrLen);
@@ -57,7 +65,9 @@ int main(int argc, char* argv[])
         if(pid == 0)
         {
             close(serverSocket);
-
+            
+            while((size = recv(clientSocket, buf, MSGLEN, 0)) > 0)
+                write(STDOUT_FILENO, buf, size);
 
             close(clientSocket);
             return(0);

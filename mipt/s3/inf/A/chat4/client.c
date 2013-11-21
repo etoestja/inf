@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <strings.h>
 #include <errno.h>
+#include <unistd.h>
 
 int main(int argc, char* argv[])
 {
@@ -54,22 +55,23 @@ int main(int argc, char* argv[])
         return(-1);
     }
 
+    size_t size;
+    char buf[MSGLEN];
+
     if(cpid == 0)
     {
         // child
-        if(fork())
-            for(;;)
-                if((size = read(STDIN_FILENO, buf, BUFSIZE)) > 0)
-                    write(fdW, buf, size);
-        else
-            for(;;)
-                if((size = read(fdR, buf, BUFSIZE)) > 0)
-                    write(STDOUT_FILENO, buf, size);
-
+        for(;;)
+            if((size = recv(serverSocket, buf, MSGLEN, 0)) > 0)
+                write(STDOUT_FILENO, buf, size);
     }
     else
     {
         // parent
+        for(;;)
+            if((size = read(STDIN_FILENO, buf, MSGLEN)) > 0)
+                if(send(serverSocket, buf, size, 0) < 0)
+                    printf("child send failed!");
     }
 
     close(serverSocket);
