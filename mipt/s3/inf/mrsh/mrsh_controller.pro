@@ -8,5 +8,7 @@ DEPENDPATH += .
 INCLUDEPATH += .
 
 # Input
-HEADERS += common.h
-SOURCES += common.c controller.c multicast.c
+HEADERS += common.h \
+    myaes.h
+SOURCES += common.c controller.c multicast.c \
+    myaes.c

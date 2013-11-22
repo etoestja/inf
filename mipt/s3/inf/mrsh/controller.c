@@ -10,11 +10,19 @@
 #include <unistd.h>
 #include "common.h"
 #include "multicast.h"
+#include "myaes.h"
+#include <string.h>
 
 #define CMDERROR "fuck you!\n"
 
 int main(int argc, char* argv[])
 {
+    AESInit();
+    const char AA[] = "VWORPVWORP!!1";
+    int len = strlen(AA) + 1;
+    char* a = (char*) AESEncrypt((void*) (AA), &len);
+    char* b = (char*) AESDecrypt((char*) a, &len);
+    printf("str: %s, dec: %s\n", AA, b);
     if(argc < 2)
     {
         printf("Usage: %s REAL_IFACE_IP\n", argv[0]);

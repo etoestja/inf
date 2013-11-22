@@ -4,3 +4,4 @@ Makefile
 controller
 starter
 *.o
+*.autosave
