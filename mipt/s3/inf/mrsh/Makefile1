@@ -1,0 +1,12 @@
+CFLAGS=-m32
+all: controller starter
+controller: controller.o common.o
+	gcc $(CFLAGS) common.o controller.o -o $@
+starter: starter.o common.o
+	gcc $(CFLAGS) common.o starter.o -o $@
+.o: common.h $<.c common.c
+	gcc $(CFLAGS) $<.c -o $@
+clean:
+	rm -rf *.o
+	rm -rf starter controller
+	rm -rf *~
