@@ -61,9 +61,14 @@ int main(int argc, char* argv[])
     if(cpid == 0)
     {
         // child
+        broadcastMessage bm;
         for(;;)
-            if((size = recv(serverSocket, buf, MSGLEN, 0)) > 0)
-                write(STDOUT_FILENO, buf, size);
+            if((size = recv(serverSocket, &bm, MSGLEN + 3 * sizeof(int), 0)) > 0)
+            {
+                if(bm.first)
+                    fprintf(stderr, "[%d]: ", bm.sender);
+                write(STDOUT_FILENO, bm.text, bm.size);
+            }
     }
     else
     {

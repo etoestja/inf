@@ -10,6 +10,8 @@
 typedef struct
 {
     int sender;
+    int size;
+    int first;
     char text[MSGLEN];
 } broadcastMessage;
 

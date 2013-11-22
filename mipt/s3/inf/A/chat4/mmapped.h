@@ -13,6 +13,7 @@ typedef struct
     int sender;
     int size;
     int leftread;
+    int first;
 } message;
 
 #define FILENAME "messages"
@@ -20,5 +21,6 @@ typedef struct
 
 void initMPD();
 void messageCopy(char* dest, char* src, ssize_t size);
+int messageLastN(char* msg, ssize_t size);
 
 #endif
