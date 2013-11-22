@@ -42,6 +42,7 @@ int main(int argc, char* argv[])
             {
                 bm.command[size - 1] = 0;
                 fprintf(stderr, "[%s]\n", bm.command);
+                multicastTx(&bm, sizeof(bm));
             }
         }
     }

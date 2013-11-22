@@ -26,9 +26,9 @@ int main(int argc, char* argv[])
 
     for(;;)
     {
-        if((size = multicastRx(&bm, sizeof(bm))) == sizeof(bm))
+        if((size = multicastRx(&bm, sizeof(bm))) > 0)
         {
-            printf(bm.command);
+            printf("sz=%d, cmd=%s\n", size, bm.command);
         }
     }
 }
