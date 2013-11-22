@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
 
     for(;;)
     {
-        if((size = multicastRx(&bm, sizeof(bm))) > 0)
+        if((size = multicastRx(&bm, sizeof(bm))) == sizeof(broadcastMessage))
         {
             printf("sz=%d, cmd=%s\n", size, bm.command);
         }
