@@ -10,11 +10,13 @@
 #include <unistd.h>
 #include "sems.h"
 #include "mmapped.h"
+#include "msgqueue.h"
 
 int semid;
 int msqid;
 
 int* freeSlot;
+int* clientsN;
 message* messages;
 
 void* ptr;
@@ -48,6 +50,10 @@ int main(int argc, char* argv[])
         return(-1);
     }
 
+    initSMS();
+    initMPD();
+    initMSQ();
+
     const int addrLen = sizeof(clntAddr);
     pid_t pid;
 
@@ -56,7 +62,7 @@ int main(int argc, char* argv[])
 
     int i;
 
-    for(i = 0; ; i++)
+    for(i = 1; ; i++)
     {
         bzero(&clntAddr, addrLen);
         if((clientSocket = accept(serverSocket, (struct sockaddr *) &clntAddr, (socklen_t*) (&addrLen))) == -1)
@@ -65,21 +71,125 @@ int main(int argc, char* argv[])
           return(-1);
         }
         fprintf(stderr, "Accepted client %s id=%d\n", inet_ntoa(clntAddr.sin_addr), i);
-        /* Создадим процесс для работы с клиентом */
+
         if((pid = fork()) == -1)
         {
           perror("Can't fork"); 
           return(-1);
         }
+
         if(pid == 0)
         {
             close(serverSocket);
+
+            mymsg mbuf;
+            struct sembuf sbuf, sbuf1;
+
+            sbuf.sem_num = MUTEX;
+            sbuf.sem_flg = 0;
+            sbuf.sem_op = -1;
+
+            if(semop(semid, &sbuf, 1) < 0)
+                fprintf(stderr, "client %d init <mutex> error!\n", i);
+
+            (*clientsN)++;
+
+            sbuf.sem_op = 1;
+
+            if(semop(semid, &sbuf, 1) < 0)
+                fprintf(stderr, "client %d init </mutex> error!\n", i);
+
             
-            while((size = recv(clientSocket, buf, MSGLEN, 0)) > 0)
+            if(fork())
             {
-                fprintf(stderr, "Client %d: ", i);
-                write(STDOUT_FILENO, buf, size);
+                int j;
+                while((size = recv(clientSocket, buf, MSGLEN, 0)) > 0)
+                {
+                    fprintf(stderr, "Client %d: ", i);
+                    write(STDOUT_FILENO, buf, size);
+
+                    sbuf1.sem_num = FULL;
+                    sbuf1.sem_op = -1;
+                    sbuf1.sem_flg = 0;
+                    if(semop(semid, &sbuf1, 1) < 0)
+                        fprintf(stderr, "client %d FULL-- error!", i);
+
+                    sbuf.sem_num = MUTEX;
+                    sbuf.sem_op = -1;
+                    sbuf.sem_flg = 0;
+
+                    if(semop(semid, &sbuf, 1) < 0)
+                        fprintf(stderr, "client %d <mutex> error!", i);
+
+                    messageCopy(messages[*freeSlot].text, buf, size);
+                    messages[*freeSlot].size = size;
+
+                    messages[*freeSlot].leftread = *clientsN;
+                    mbuf.position = *freeSlot;
+
+                    *freeSlot = (*freeSlot + 1) % MSGMAX;
+
+                    sbuf.sem_op = 1;
+                    sbuf.sem_flg = 0;
+
+                    if(semop(semid, &sbuf, 1) < 0)
+                        fprintf(stderr, "client %d </mutex> error!", i);
+
+                    for(j = 1; j <= *clientsN; j++)
+                    {
+                        if(j != i)
+                        {
+                            mbuf.mtype = j;
+                            if(msgsnd(msqid, &mbuf, sizeof(mbuf), 0) < 0)
+                            {
+                                fprintf(stderr, "client %d error broadcasting to %d!\n", i, j);
+                            }
+                        }
+                    }
+                }
             }
+            else
+            {
+                while(msgrcv(msqid, (mymsg* ) (&mbuf), sizeof(buf), i, 0))
+                {
+                    send(clientSocket, messages[mbuf.position].text, messages[mbuf.position].size, 0);
+
+                    sbuf.sem_num = MUTEX;
+                    sbuf.sem_op = -1;
+                    sbuf.sem_flg = 0;
+
+                    if(semop(semid, &sbuf, 1) < 0)
+                        fprintf(stderr, "client %d broadcast <mutex> error!\n", i);
+
+                    messages[mbuf.position].leftread--;
+                    if(messages[mbuf.position].leftread == 0)
+                    {
+                        sbuf1.sem_num = FULL;
+                        sbuf1.sem_op = 1;
+                        sbuf1.sem_flg = 0;
+                        if(semop(semid, &sbuf1, 1) < 0)
+                            fprintf(stderr, "client %d broadcast FULL++ error!\n", i);
+                    }
+
+                    sbuf.sem_op = 1;
+                    if(semop(semid, &sbuf, 1) < 0)
+                        fprintf(stderr, "client %d broadcast </mutex> error!\n", i);
+                }
+            }
+
+//            sbuf.sem_num = MUTEX;
+//            sbuf.sem_flg = 0;
+//            sbuf.sem_op = -1;
+
+//            if(semop(semid, &sbuf, 1) < 0)
+//                fprintf(stderr, "client %d death <mutex> error!\n", i);
+
+//            *clientsN--;
+
+//            sbuf.sem_op = 1;
+
+//            if(semop(semid, &sbuf, 1) < 0)
+//                fprintf(stderr, "client %d death </mutex> error!\n", i);
 
             close(clientSocket);
             return(0);

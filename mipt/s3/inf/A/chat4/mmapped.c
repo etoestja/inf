@@ -13,6 +13,7 @@
 #include "common.h"
 
 extern int* freeSlot;
+extern int* clientsN;
 extern message* messages;
 
 extern void* ptr;
@@ -54,14 +55,12 @@ void map(char* filename)
 void mapInterpret()
 {
     freeSlot = (int*) ptr;
-    messages = (message*) (ptr + sizeof(int));
-
+    clientsN = (int*) (ptr + sizeof(int));
+    messages = (message*) (ptr + 2 * sizeof(int));
 }
 
-void initAll()
+void initMPD()
 {
-    getKey();
-    getSemID();
     map(FILENAME);
     if(ptr != NULL)
         mapInterpret();
@@ -71,12 +70,14 @@ void initAll()
         exit(-1);
     }
 
+    *clientsN = 0;
+
     if(fileCreatedNow)
     {
         *freeSlot = 0;
         int i;
-        for(i = 0; i < MESSAGES; i++)
-            messages[i].read = 1;
+        for(i = 0; i < MSGMAX; i++)
+            messages[i].leftread = 0;
     }
 }
 
@@ -90,7 +91,7 @@ void messageCopy(char* dest, char* src, ssize_t size)
 int messageCmp(char* msg, char* str, ssize_t size)
 {
     size--;
-    if(strlen(str) != size)
+    if(strlen(str) != (unsigned int) size)
         return(1);
     int i;
     for(i = 0; i < size; i++)

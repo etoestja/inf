@@ -6,6 +6,7 @@
 #include <sys/stat.h>
 #include <sys/ipc.h>
 #include "msgqueue.h"
+#include <sys/msg.h>
 #include <stdio.h>
 
 int eraseQueue;
@@ -26,7 +27,7 @@ void getMsqID()
      {
          if(eraseQueue)
          {
-             if(msgctl(msqid, IPC_RMID) < 0)
+             if(msgctl(msqid, IPC_RMID, NULL) < 0)
              {
                  printf("Can't rm queue\n");
                  exit(-1);

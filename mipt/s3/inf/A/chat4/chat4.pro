@@ -3,10 +3,10 @@
 ######################################################################
 
 TEMPLATE = app
-TARGET = 
+TARGET = server
 DEPENDPATH += .
 INCLUDEPATH += .
 
 # Input
 HEADERS += common.h mmapped.h msgqueue.h sems.h
-SOURCES += client.c common.c mmapped.c msgqueue.c sems.c server.c
+SOURCES += common.c mmapped.c msgqueue.c sems.c server.c

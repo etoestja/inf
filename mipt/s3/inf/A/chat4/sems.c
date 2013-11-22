@@ -16,16 +16,12 @@ key_t key;
     
 int semsInitial[NSEMS] = {1, MSGMAX};
 
-//           m for 0  m for 1 mutex N-msgs
-//              0       0       1     N
-enum _SEMS {MUTEX, FULL};
-
 void getKey()
 {
     key = ftok(PATHNAME, 0);
 }
  
-void getSemID()
+void initSMS()
 {
     if((semid = semget(key, NSEMS, 0666 | IPC_CREAT | IPC_EXCL)) < 0)
     {
