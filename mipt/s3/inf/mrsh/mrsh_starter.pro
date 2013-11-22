@@ -8,5 +8,6 @@ DEPENDPATH += .
 INCLUDEPATH += .
 
 # Input
-HEADERS += common.h
+HEADERS += common.h \
+    multicast.h
 SOURCES += common.c multicast.c starter.c

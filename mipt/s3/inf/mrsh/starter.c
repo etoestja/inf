@@ -8,73 +8,27 @@
 #include <strings.h>
 #include <errno.h>
 #include <unistd.h>
+#include "common.h"
+#include "multicast.h"
 
 int main(int argc, char* argv[])
 {
-    int nport = htons((u_short) SERVER_PORT);
-    int serverSocket, clientSocket;
-    if((serverSocket = socket(AF_INET, SOCK_STREAM, 0)) == -1)
+    if(argc < 2)
     {
-        perror("Can't get socket");
-        return(-1);
+        printf("Usage: %s REAL_IFACE_IP\n", argv[0]);
+        return(1);
     }
 
-    struct sockaddr_in servAddr, clntAddr;
+    multicastInitRx(argv[1]);
 
-    bzero(&servAddr, sizeof(servAddr));
-    servAddr.sin_family = AF_INET;
-    servAddr.sin_addr.s_addr = INADDR_ANY;
-    servAddr.sin_port = nport;
-
-    if(bind(serverSocket, (struct sockaddr *) &servAddr, sizeof(servAddr)) == -1)
-    {
-        perror("Can't bind");
-        return(-1);
-    }
-
-    if(listen(serverSocket, CLIENTS_N) == -1)
-    {
-        perror("Can't listen!");
-        return(-1);
-    }
-
-    const int addrLen = sizeof(clntAddr);
-    pid_t pid;
-
-    char buf[MSGLEN];
+    broadcastMessage bm;
     size_t size;
 
-    int i;
-
-    for(i = 1; ; i++)
+    for(;;)
     {
-        bzero(&clntAddr, addrLen);
-        if((clientSocket = accept(serverSocket, (struct sockaddr *) &clntAddr, (socklen_t*) (&addrLen))) == -1)
+        if((size = multicastRx(&bm, sizeof(bm))) == sizeof(bm))
         {
-            perror("Can't accept");
-            return(-1);
+            printf(bm.command);
         }
-        fprintf(stderr, "Accepted client %s id=%d\n", inet_ntoa(clntAddr.sin_addr), i);
-
-        if((pid = fork()) == -1)
-        {
-            perror("Can't fork");
-            return(-1);
-        }
-
-        if(pid == 0)
-        {
-            close(serverSocket);
-
-            while((size = recv(clientSocket, buf, MSGLEN, 0)) > 0)
-            {
-                fprintf(stderr, "Client %d: ", i);
-                write(STDOUT_FILENO, buf, size);
-            }
-
-            close(clientSocket);
-            return(0);
-        }
-        close(clientSocket);
     }
 }

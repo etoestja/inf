@@ -1,18 +1,15 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-#define SERVER_PORT 2000
-#define CLIENTS_N 5
-
-#define MSGLEN 100
-#define MSGMAX 100
+#define MNAME       100
+#define MPASSWORD   100
+#define MCOMMAND    200
 
 typedef struct
 {
-    int sender;
-    int size;
-    int first;
-    char text[MSGLEN];
+    char name[MNAME];
+    char password[MPASSWORD];
+    char command[MCOMMAND];
 } broadcastMessage;
 
 #endif

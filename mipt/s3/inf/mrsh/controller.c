@@ -8,55 +8,41 @@
 #include <strings.h>
 #include <errno.h>
 #include <unistd.h>
+#include "common.h"
+#include "multicast.h"
+
+#define CMDERROR "fuck you!\n"
 
 int main(int argc, char* argv[])
 {
-    char* serverName;
-
-    if(argc <= 1)
+    if(argc < 2)
     {
-        printf("Usage: %s servername\n", argv[0]);
-        return(-1);
-    }
-    else
-        serverName = argv[1];
-
-    struct hostent *ht;
-    if((ht = (struct hostent*) gethostbyname(serverName)) == NULL)
-    {
-        perror("Can't gethostbyname");
-        return(-1);
+        printf("Usage: %s REAL_IFACE_IP\n", argv[0]);
+        return(1);
     }
 
-    struct sockaddr_in servAddr;
+    multicastInitTx(argv[1]);
 
-    bzero(&servAddr, sizeof(servAddr));
-    bcopy(ht->h_addr, &servAddr.sin_addr, ht->h_length);
-    servAddr.sin_family = ht->h_addrtype;
-    servAddr.sin_port = htons(SERVER_PORT);
-
-    int serverSocket;
-    if((serverSocket = socket(AF_INET, SOCK_STREAM, 0)) == -1)
-    {
-        perror("Can't socket()");
-        return(-1);
-    }
-
-    if(connect(serverSocket, (struct sockaddr *) &servAddr, sizeof(servAddr)) == -1)
-    {
-        perror("Can't connect to server");
-        return(-1);
-    }
-
-    pid_t cpid = fork();
+    broadcastMessage bm;
     size_t size;
-    char buf[MSGLEN];
 
-    // parent
+    int error = 0;
+
     for(;;)
-        if((size = read(STDIN_FILENO, buf, MSGLEN)) > 0)
-            if(send(serverSocket, buf, size, 0) < 0)
-                printf("child send failed!");
-
-    close(serverSocket);
+    {
+        if((size = read(STDIN_FILENO, bm.command, MCOMMAND - 1)) > 0)
+        {
+            if(bm.command[size - 1] != '\n')
+            {
+                write(STDOUT_FILENO, CMDERROR, sizeof(CMDERROR) - 1);
+                error = 2;
+            }
+            else if(error > 0) error--;
+            if(error == 0)
+            {
+                bm.command[size - 1] = 0;
+                fprintf(stderr, "[%s]\n", bm.command);
+            }
+        }
+    }
 }
