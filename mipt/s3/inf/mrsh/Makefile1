@@ -1,4 +1,4 @@
-CFLAGS=-m32
+CFLAGS=
 all: controller starter
 controller: multicast.o controller.o common.o
 	gcc $(CFLAGS) multicast.o common.o controller.o -o $@
