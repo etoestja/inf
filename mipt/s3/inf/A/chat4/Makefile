@@ -1,10 +1,10 @@
 CFLAGS=-m32
 all: server client
-client: sems.o common.o client.o
+client: sems.o common.o client.o client.c
 	gcc $(CFLAGS) common.o client.o -o $@
-server: sems.o common.o server.o
-	gcc $(CFLAGS) common.o server.o sems.o -o $@
-.o: common.h
+server: mmapped.o msgqueue.o sems.o common.o server.o server.c
+	gcc $(CFLAGS) msgqueue.o common.o server.o sems.o mmapped.o -o $@
+.o: common.h $<.c common.c
 	gcc $(CFLAGS) $<.c -o $@
 clean:
 	rm -rf *.o

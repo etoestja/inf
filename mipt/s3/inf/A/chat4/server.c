@@ -9,8 +9,15 @@
 #include <errno.h>
 #include <unistd.h>
 #include "sems.h"
+#include "mmapped.h"
 
 int semid;
+int msqid;
+
+int* freeSlot;
+message* messages;
+
+void* ptr;
 
 int main(int argc, char* argv[])
 {
@@ -47,7 +54,9 @@ int main(int argc, char* argv[])
     char buf[MSGLEN];
     size_t size;
 
-    for(;;)
+    int i;
+
+    for(i = 0; ; i++)
     {
         bzero(&clntAddr, addrLen);
         if((clientSocket = accept(serverSocket, (struct sockaddr *) &clntAddr, (socklen_t*) (&addrLen))) == -1)
@@ -55,7 +64,7 @@ int main(int argc, char* argv[])
           perror("Can't accept"); 
           return(-1);
         }
-        fprintf(stderr, "Accepted client %s\n", inet_ntoa(clntAddr.sin_addr));
+        fprintf(stderr, "Accepted client %s id=%d\n", inet_ntoa(clntAddr.sin_addr), i);
         /* Создадим процесс для работы с клиентом */
         if((pid = fork()) == -1)
         {
@@ -67,7 +76,10 @@ int main(int argc, char* argv[])
             close(serverSocket);
             
             while((size = recv(clientSocket, buf, MSGLEN, 0)) > 0)
+            {
+                fprintf(stderr, "Client %d: ", i);
                 write(STDOUT_FILENO, buf, size);
+            }
 
             close(clientSocket);
             return(0);
