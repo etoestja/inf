@@ -77,7 +77,10 @@ void initMPD()
         *freeSlot = 0;
         int i;
         for(i = 0; i < MSGMAX; i++)
+        {
             messages[i].leftread = 0;
+            messages[i].size = 0;
+        }
     }
 }
 

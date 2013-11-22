@@ -82,8 +82,40 @@ int main(int argc, char* argv[])
         {
             close(serverSocket);
 
+            broadcastMessage bm;
             mymsg mbuf;
             struct sembuf sbuf, sbuf1;
+
+            int k;
+            for(k = 0; k < MSGMAX; k++)
+            {
+                sbuf.sem_num = MUTEX;
+                sbuf.sem_op = -1;
+                sbuf.sem_flg = 0;
+
+                if(semop(semid, &sbuf, 1) < 0)
+                    fprintf(stderr, "client %d fread <mutex> error!\n", i);
+
+                bm.size = 0;
+                if(messages[k].size > 0)
+                {
+                    messageCopy(bm.text, messages[k].text, messages[k].size);
+                    bm.sender = messages[k].sender;
+                    bm.size = messages[k].size;
+                    bm.first = messages[k].first;
+                }
+
+                sbuf.sem_op = 1;
+                if(semop(semid, &sbuf, 1) < 0)
+                    fprintf(stderr, "client %d fread </mutex> error!\n", i);
+
+                if(bm.size > 0)
+                {
+                    send(clientSocket, &bm, bm.size + 3 * sizeof(int), 0);
+                    fprintf(stderr, "init sending len=%d: ", bm.size);
+                    write(STDOUT_FILENO, bm.text, bm.size);
+                }
+            }
 
             sbuf.sem_num = MUTEX;
             sbuf.sem_flg = 0;
@@ -168,7 +200,6 @@ int main(int argc, char* argv[])
             }
             else
             {
-                broadcastMessage bm;
                 while(msgrcv(msqid, (mymsg* ) (&mbuf), sizeof(buf), i, 0))
                 {
                     sbuf.sem_num = MUTEX;
