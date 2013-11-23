@@ -9,5 +9,7 @@ INCLUDEPATH += .
 
 # Input
 HEADERS += common.h \
-    multicast.h
-SOURCES += common.c multicast.c starter.c
+    multicast.h \
+    parseargs.h
+SOURCES += common.c multicast.c starter.c \
+    parseargs.c

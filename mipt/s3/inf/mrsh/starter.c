@@ -6,15 +6,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <strings.h>
+#include <string.h>
 #include <errno.h>
 #include <unistd.h>
 #include "common.h"
 #include "multicast.h"
 #include "myaes.h"
+#include "parseargs.h"
 
 #define RXMAX (2 * sizeof(broadcastMessage))
 
-int main(int argc, char* argv[])
+char **args;
+int argsc;
+
+int main(int argc, char* argv[], char** envp)
 {
     AESInit();
     MD5_CTX md5handler;
@@ -34,6 +39,9 @@ int main(int argc, char* argv[])
     int len;
 
     unsigned char md5Digest1[MD5_DIGEST_LENGTH];
+
+    int strLen;
+    pid_t cpid;
 
     for(;;)
     {
@@ -62,6 +70,36 @@ int main(int argc, char* argv[])
                 if(i == MD5_DIGEST_LENGTH)
                 {
                     fprintf(stderr, "sz=%d, cmd=%s\n", size, bm->command);
+                    strLen = strlen(bm->command);
+
+                    mallocArgs(&args, strLen);
+                    parseArgs(bm->command, strLen, args, &argsc);
+
+#ifdef DEBUG
+                    printArgs(args, argsc);
+#endif
+
+                    if(argsc == 1 && !strcmp(args[0], "exit"))
+                    {
+                        freeArgs(&args, &argsc, strLen);
+                        printf("Bye\n");
+                        return(0);
+                    }
+                    else if(argsc >= 1)
+                    {
+                        if(cpid = fork())
+                        {
+//                            waitpid(cpid, &cstatus, 0);
+//                            if(cstatus != 0)
+//                            {
+//                                printf("Error opening %s\n", bm->command);
+//                            }
+                        }
+                        else
+                            return(execvpe(args[0], args, envp));
+                    }
+
+                    freeArgs(&args, &argsc, strLen);
                 }
             }
         }
