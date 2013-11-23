@@ -7,6 +7,8 @@
 #define MPASSWORD   100
 #define MCOMMAND    200
 
+#define MD5_DIGEST_PLAIN_LENGTH 32
+
 typedef struct
 {
     unsigned char md5digest[MD5_DIGEST_LENGTH];

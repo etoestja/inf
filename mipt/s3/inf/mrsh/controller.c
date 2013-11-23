@@ -11,25 +11,36 @@
 #include "common.h"
 #include "multicast.h"
 #include "myaes.h"
+#include "myauth.h"
 #include <string.h>
 
 #define CMDERROR "fuck you!\n"
 
-int main(int argc, char* argv[])
-{
-    AESInit();
-    MD5_CTX md5handler;
+char name[MNAME], password[MPASSWORD];
 
-//    const char AA[] = "VWORPVWORP!!1";
-//    int len = strlen(AA) + 1;
-//    char* a = (char*) AESEncrypt((void*) (AA), &len);
-//    char* b = (char*) AESDecrypt((char*) a, &len);
-//    printf("str: %s, dec: %s\n", AA, b);
+int main(int argc, char* argv[])
+{   
+    AESInit();
+    authInfoReadFile();
+    MD5_CTX md5handler;
     if(argc < 2)
     {
         printf("Usage: %s REAL_IFACE_IP\n", argv[0]);
         return(1);
     }
+
+    printf("User: ");
+    scanf("%s", name);
+    strcpy(password, getpass("Password: "));
+
+    //printf("[%s]", password);
+    if(!authenticate(name, password))
+    {
+        fprintf(stderr, "Wrong username/password!\n");
+        return(1);
+    }
+
+    printf("Welcome!\n");
 
     multicastInitTx(argv[1]);
 

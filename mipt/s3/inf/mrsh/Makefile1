@@ -1,7 +1,7 @@
 CFLAGS=-lcrypto
 all: controller starter
-controller: myaes.o multicast.o controller.o common.o
-	gcc $(CFLAGS) myaes.o multicast.o common.o controller.o -o $@
+controller: myaes.o myauth.o multicast.o controller.o common.o
+	gcc $(CFLAGS) myauth.o myaes.o multicast.o common.o controller.o -o $@
 starter: parseargs.o multicast.o myaes.o starter.o common.o
 	gcc $(CFLAGS) parseargs.o multicast.o myaes.o common.o starter.o -o $@
 .o: common.h $<.c common.c
