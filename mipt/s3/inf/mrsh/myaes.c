@@ -4,6 +4,11 @@
 #include <openssl/evp.h>
 #include "myaes.h"
 
+/*
+ * BASED ON
+ *  http://saju.net.in/code/misc/openssl_aes.c.txt
+ */
+
 #define AES_BLOCK_SIZE 128
 
 /**

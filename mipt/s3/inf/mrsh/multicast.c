@@ -8,6 +8,11 @@
 #include <unistd.h>
 #include <string.h>
 
+/*
+ * BASED ON
+ *  http://publib.boulder.ibm.com/infocenter/iseries/v5r3/index.jsp?topic=%2Frzab6%2Frzab6x2multicast.htm
+ */
+
 struct in_addr        localInterface;
 struct sockaddr_in    groupSock;
 extern int            sd;
@@ -91,16 +96,17 @@ void multicastInit(char* ifaceAddr)
     /*
    * Disable loopback so you do not receive your own datagrams.
    */
-    {
-        char loopch=0;
+//    {
+//        //char loopch=0;
+//        char loopch=1;
 
-        if (setsockopt(sd, IPPROTO_IP, IP_MULTICAST_LOOP,
-                       (char *)&loopch, sizeof(loopch)) < 0) {
-            perror("setting IP_MULTICAST_LOOP:");
-            close(sd);
-            exit(1);
-        }
-    }
+//        if (setsockopt(sd, IPPROTO_IP, IP_MULTICAST_LOOP,
+//                       (char *)&loopch, sizeof(loopch)) < 0) {
+//            perror("setting IP_MULTICAST_LOOP:");
+//            close(sd);
+//            exit(1);
+//        }
+//    }
 
     /*
    * Set local interface for outbound multicast datagrams.
