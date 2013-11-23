@@ -9,6 +9,8 @@ INCLUDEPATH += .
 
 # Input
 HEADERS += common.h \
-    myaes.h
+    myaes.h \
+    myauth.h
 SOURCES += common.c controller.c multicast.c \
-    myaes.c
+    myaes.c \
+    myauth.c
