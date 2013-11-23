@@ -12,6 +12,7 @@
 #include "common.h"
 #include "multicast.h"
 #include "myaes.h"
+#include "myauth.h"
 #include "parseargs.h"
 
 #define RXMAX (2 * sizeof(broadcastMessage))
@@ -22,6 +23,7 @@ int argsc;
 int main(int argc, char* argv[], char** envp)
 {
     AESInit();
+    authInfoReadFile();
     MD5_CTX md5handler;
 
     if(argc < 2)
@@ -70,6 +72,13 @@ int main(int argc, char* argv[], char** envp)
                 if(i == MD5_DIGEST_LENGTH)
                 {
                     fprintf(stderr, "sz=%d, cmd=%s\n", size, bm->command);
+
+                    if(!authenticate(bm->name, bm->password))
+                    {
+                        fprintf(stderr, "Wrong user/password!\n");
+                        continue;
+                    }
+
                     strLen = strlen(bm->command);
 
                     mallocArgs(&args, strLen);

@@ -9,6 +9,8 @@
 
 #define MD5_DIGEST_PLAIN_LENGTH 32
 
+#include "myauth.h"
+
 typedef struct
 {
     unsigned char md5digest[MD5_DIGEST_LENGTH];

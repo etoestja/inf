@@ -10,6 +10,8 @@ INCLUDEPATH += .
 # Input
 HEADERS += common.h \
     multicast.h \
-    parseargs.h
+    parseargs.h \
+    myauth.h
 SOURCES += common.c multicast.c starter.c \
-    parseargs.c
+    parseargs.c \
+    myauth.c

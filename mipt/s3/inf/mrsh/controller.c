@@ -29,12 +29,14 @@ int main(int argc, char* argv[])
         return(1);
     }
 
+    broadcastMessage bm;
+
     printf("User: ");
-    scanf("%s", name);
-    strcpy(password, getpass("Password: "));
+    scanf("%s", bm.name);
+    strcpy(bm.password, getpass("Password: "));
 
     //printf("[%s]", password);
-    if(!authenticate(name, password))
+    if(!authenticate(bm.name, bm.password))
     {
         fprintf(stderr, "Wrong username/password!\n");
         return(1);
@@ -44,7 +46,6 @@ int main(int argc, char* argv[])
 
     multicastInitTx(argv[1]);
 
-    broadcastMessage bm;
     size_t size;
 
     int error = 0;
@@ -64,6 +65,7 @@ int main(int argc, char* argv[])
             else if(error > 0) error--;
             if(error == 0)
             {
+                //bm.password[0] = 1;
                 bm.command[size - 1] = 0;
                 fprintf(stderr, "[%s]\n", bm.command);
                 len = sizeof(bm);
