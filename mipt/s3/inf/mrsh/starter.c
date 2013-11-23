@@ -91,7 +91,7 @@ int main(int argc, char* argv[], char** envp)
                     }
                     if(argsc == 1 && !strcmp(args[0], "list"))
                     {
-                        strcpy(response.response, " online\n");
+                        strcpy(response.response, "Online!\n");
                         TRANSMIT();
                     }
                     else if(argsc >= 1 && args != NULL)
