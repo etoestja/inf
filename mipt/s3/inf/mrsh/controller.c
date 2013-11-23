@@ -14,7 +14,7 @@
 #include "myauth.h"
 #include <string.h>
 
-#define CMDERROR "fuck you!\n"
+#define CMDERROR "Command is TOO long (ignored)!\n"
 
 char name[MNAME], password[MPASSWORD];
 
