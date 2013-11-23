@@ -82,12 +82,17 @@ int main(int argc, char* argv[], char** envp)
                     mallocArgs(&args, strLen);
                     parseArgs(bm->command, strLen, args, &argsc);
 
-                    if(argsc == 1 && !strcmp(args[0], "die"))
+                    if(argsc == 1 && !strcmp(args[0], "exit"))
                     {
                         freeArgs(&args, &argsc, strLen);
                         strcpy(response.response, "Bye!\n");
                         TRANSMIT();
                         return(0);
+                    }
+                    if(argsc == 1 && !strcmp(args[0], "list"))
+                    {
+                        strcpy(response.response, " online\n");
+                        TRANSMIT();
                     }
                     else if(argsc >= 1 && args != NULL)
                     {
