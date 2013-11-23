@@ -19,4 +19,6 @@ typedef struct
     char command[MCOMMAND];
 } broadcastMessage;
 
+#define RXMAX (2 * sizeof(broadcastMessage))
+
 #endif

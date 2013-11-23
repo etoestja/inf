@@ -15,8 +15,6 @@
 #include "myauth.h"
 #include "parseargs.h"
 
-#define RXMAX (2 * sizeof(broadcastMessage))
-
 char **args;
 int argsc;
 
@@ -32,6 +30,7 @@ int main(int argc, char* argv[], char** envp)
         return(1);
     }
 
+    //multicastInitTx(argv[1]);
     multicastInitRx(argv[1]);
 
     broadcastMessage *bm;
@@ -72,6 +71,7 @@ int main(int argc, char* argv[], char** envp)
                 if(i == MD5_DIGEST_LENGTH)
                 {
                     fprintf(stderr, "sz=%d, cmd=%s\n", size, bm->command);
+                    //multicastTx("test", 4);
 
                     if(!authenticate(bm->name, bm->password))
                     {

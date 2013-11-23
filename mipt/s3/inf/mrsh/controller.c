@@ -45,6 +45,7 @@ int main(int argc, char* argv[])
     printf("Welcome!\n");
 
     multicastInitTx(argv[1]);
+    //multicastInitRx(argv[1]);
 
     size_t size;
 
@@ -52,6 +53,18 @@ int main(int argc, char* argv[])
 
     void* cipher;
     int len;
+
+//    char buf[100];
+
+//    if(!fork())
+//    {
+//        for(;;)
+//            if((size = multicastRx(buf, RXMAX)) > 0)
+//            {
+//                write(STDOUT_FILENO, buf, size);
+//            }
+//        return(0);
+//    }
 
     for(;;)
     {
