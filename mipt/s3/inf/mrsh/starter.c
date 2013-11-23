@@ -18,6 +18,9 @@
 char **args;
 int argsc;
 
+int sd;
+
+#define TRANSMIT() {MD5(((void*) &response) + MD5_DIGEST_LENGTH, sizeof(responseMessage) - MD5_DIGEST_LENGTH, response.md5digest); slen = sizeof(response); cipher = AESEncrypt((void*) &response, &slen); multicastTx(cipher, slen);}
 int main(int argc, char* argv[], char** envp)
 {
     AESInit();
@@ -30,86 +33,102 @@ int main(int argc, char* argv[], char** envp)
         return(1);
     }
 
-    //multicastInitTx(argv[1]);
-    multicastInitRx(argv[1]);
+    multicastInit(argv[1]);
 
     broadcastMessage *bm;
     size_t size;
 
-    void *buf = malloc(RXMAX);
-    int len;
+    responseMessage response;
+    response.type = RESPONSE;
+    gethostname(response.hostname, MHOSTNAME - 1);
 
-    unsigned char md5Digest1[MD5_DIGEST_LENGTH];
+    void *buf = malloc(RXMAX);
+    int len, slen;
 
     int strLen;
-    pid_t cpid;
+
+    void* plain, *cipher;
 
     for(;;)
     {
         if((size = multicastRx(buf, RXMAX)) > 0)
         {
             len = size;
-            bm = (broadcastMessage*) AESDecrypt(buf, &len);
-            if(len <= 0 || bm == NULL)
-            {
-                fprintf(stderr, "Error decoding!\n");
-            }
-            else
-            {
-                MD5(((void*) bm) + MD5_DIGEST_LENGTH, sizeof(*bm) - MD5_DIGEST_LENGTH, md5Digest1);
+            printf("got size=%d\n", size);
 
-                int i;
-                for(i = 0; i < MD5_DIGEST_LENGTH; i++)
+            plain = decryptMessageCheckHash(buf, &len);
+            if((plain != NULL) && (len == sizeof(broadcastMessage)))
+            {
+                bm = ((broadcastMessage*) plain);
+                if(bm->type == COMMAND)
                 {
-                    if(md5Digest1[i] != bm->md5digest[i])
-                    {
-                        fprintf(stderr, "Wrong hash!\n");
-                        break;
-                    }
-                }
-
-                if(i == MD5_DIGEST_LENGTH)
-                {
-                    fprintf(stderr, "sz=%d, cmd=%s\n", size, bm->command);
-                    //multicastTx("test", 4);
+//                    strcpy(response.response, "RCV OK!");
+//                    TRANSMIT();
 
                     if(!authenticate(bm->name, bm->password))
                     {
-                        fprintf(stderr, "Wrong user/password!\n");
+                        strcpy(response.response, "Wrong user/password!\n");
+                        TRANSMIT();
                         continue;
                     }
 
                     strLen = strlen(bm->command);
+//                    if(strLen == 0)
+//                        continue;
+                    //printf("strLen=%d, cmd=%s\n", strLen, bm->command);
 
+                    argsc = 0;
+                    args = NULL;
                     mallocArgs(&args, strLen);
                     parseArgs(bm->command, strLen, args, &argsc);
 
-#ifdef DEBUG
-                    printArgs(args, argsc);
-#endif
-
-                    if(argsc == 1 && !strcmp(args[0], "exit"))
+                    if(argsc == 1 && !strcmp(args[0], "die"))
                     {
                         freeArgs(&args, &argsc, strLen);
-                        printf("Bye\n");
+                        strcpy(response.response, "Bye!\n");
+                        TRANSMIT();
                         return(0);
                     }
-                    else if(argsc >= 1)
+                    else if(argsc >= 1 && args != NULL)
                     {
-                        if(cpid = fork())
+                        if(!fork())
                         {
-//                            waitpid(cpid, &cstatus, 0);
-//                            if(cstatus != 0)
-//                            {
-//                                printf("Error opening %s\n", bm->command);
-//                            }
+                            int fd[2];
+                            if(pipe(fd) < 0)
+                            {
+                                fprintf(stderr, "Can't pipe!");
+                            }
+                            //child
+                            if(!fork())
+                            {
+                                //child child. sending responses.
+                                for(;;)
+                                {
+                                    if((size = read(fd[0], response.response, MRESPONSE - 1)) > 0)
+                                    {
+                                        response.response[size] = 0;
+                                        TRANSMIT();
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                dup2(fd[1], 1);
+                                execvpe(args[0], args, envp);
+                                strcpy(response.response, "Wrong command\n");
+                                TRANSMIT();
+                                return(-1);
+                            }
                         }
-                        else
-                            return(execvpe(args[0], args, envp));
                     }
 
-                    freeArgs(&args, &argsc, strLen);
+                    if(args != NULL)
+                        freeArgs(&args, &argsc, strLen);
                 }
+            }
+            else if(len != sizeof(responseMessage))
+            {
+                fprintf(stderr, "Wrong length!\n");
             }
         }
     }

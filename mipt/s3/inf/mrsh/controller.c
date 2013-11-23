@@ -18,11 +18,14 @@
 
 char name[MNAME], password[MPASSWORD];
 
+int sd;
+
 int main(int argc, char* argv[])
 {   
+    MD5_CTX md5handler;
     AESInit();
     authInfoReadFile();
-    MD5_CTX md5handler;
+
     if(argc < 2)
     {
         printf("Usage: %s REAL_IFACE_IP\n", argv[0]);
@@ -44,8 +47,7 @@ int main(int argc, char* argv[])
 
     printf("Welcome!\n");
 
-    multicastInitTx(argv[1]);
-    //multicastInitRx(argv[1]);
+    multicastInit(argv[1]);
 
     size_t size;
 
@@ -54,20 +56,32 @@ int main(int argc, char* argv[])
     void* cipher;
     int len;
 
-//    char buf[100];
+    char buf[RXMAX];
 
-//    if(!fork())
-//    {
-//        for(;;)
-//            if((size = multicastRx(buf, RXMAX)) > 0)
-//            {
-//                write(STDOUT_FILENO, buf, size);
-//            }
-//        return(0);
-//    }
+    if(!fork())
+    {
+        for(;;)
+            if((size = multicastRx(buf, RXMAX)) > 0)
+            {
+                len = size;
+                void* plain = decryptMessageCheckHash(buf, &len);
+                if(plain != NULL)
+                {
+                    if(len == sizeof(responseMessage) && *((char*) (plain + MD5_DIGEST_LENGTH)) == RESPONSE)
+                    {
+                        responseMessage resp = *(responseMessage*) plain;
+                        printf("%s: %s", resp.hostname, resp.response);
+                    }
+                }
+                else
+                    fprintf(stderr, "not a response!\n");
+            }
+        return(0);
+    }
 
     for(;;)
     {
+        //fprintf(stderr, "$ ");
         if((size = read(STDIN_FILENO, bm.command, MCOMMAND - 1)) > 0)
         {
             if(bm.command[size - 1] != '\n')
@@ -80,13 +94,14 @@ int main(int argc, char* argv[])
             {
                 //bm.password[0] = 1;
                 bm.command[size - 1] = 0;
-                fprintf(stderr, "[%s]\n", bm.command);
+                bm.type = COMMAND;
+                //fprintf(stderr, "[%s]\n", bm.command);
                 len = sizeof(bm);
 
                 MD5(((void*) &bm) + MD5_DIGEST_LENGTH, sizeof(bm) - MD5_DIGEST_LENGTH, bm.md5digest);
 
                 cipher = AESEncrypt((void*) &bm, &len);
-                printf("sending len=%d\n", len);
+                //printf("sending len=%d\n", len);
 
                 multicastTx(cipher, len);
                 //multicastTx(bm.command, size);

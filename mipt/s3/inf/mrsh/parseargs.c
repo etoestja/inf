@@ -4,7 +4,7 @@
 #include <string.h>
 #include "parseargs.h"
 
-#define MAXLEN 1000
+//#define DEBUG
 
 void mallocArgs(char*** args, int strLen)
 {
@@ -29,12 +29,6 @@ void parseArgs(char* string, int len, char** args, int* argsc)
 
     int lastLen;
 
-    if(string[len - 1] == '\n')
-    {
-        string[len - 1] = 0;
-        len--;
-    }
-
     while(sumLen < len && sscanf(string + sumLen, "%s%n", args[currentArg], &lastLen))
     {
 //        printf("sumLen = %d currentArg=%d lastLen=%d\n", sumLen, currentArg, lastLen);
@@ -45,7 +39,7 @@ void parseArgs(char* string, int len, char** args, int* argsc)
     *argsc = currentArg;
 
     // free this, because it will be NULLed
-    free(args[*argsc]);
+    //free(args[*argsc]);
     args[*argsc] = NULL;
 }
 
