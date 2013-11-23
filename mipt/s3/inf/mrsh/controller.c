@@ -18,11 +18,13 @@
 int main(int argc, char* argv[])
 {
     AESInit();
-    const char AA[] = "VWORPVWORP!!1";
-    int len = strlen(AA) + 1;
-    char* a = (char*) AESEncrypt((void*) (AA), &len);
-    char* b = (char*) AESDecrypt((char*) a, &len);
-    printf("str: %s, dec: %s\n", AA, b);
+    MD5_CTX md5handler;
+
+//    const char AA[] = "VWORPVWORP!!1";
+//    int len = strlen(AA) + 1;
+//    char* a = (char*) AESEncrypt((void*) (AA), &len);
+//    char* b = (char*) AESDecrypt((char*) a, &len);
+//    printf("str: %s, dec: %s\n", AA, b);
     if(argc < 2)
     {
         printf("Usage: %s REAL_IFACE_IP\n", argv[0]);
@@ -35,6 +37,9 @@ int main(int argc, char* argv[])
     size_t size;
 
     int error = 0;
+
+    void* cipher;
+    int len;
 
     for(;;)
     {
@@ -50,7 +55,15 @@ int main(int argc, char* argv[])
             {
                 bm.command[size - 1] = 0;
                 fprintf(stderr, "[%s]\n", bm.command);
-                multicastTx(&bm, sizeof(bm));
+                len = sizeof(bm);
+
+                MD5(((void*) &bm) + MD5_DIGEST_LENGTH, sizeof(bm) - MD5_DIGEST_LENGTH, bm.md5digest);
+
+                cipher = AESEncrypt((void*) &bm, &len);
+                printf("sending len=%d\n", len);
+
+                multicastTx(cipher, len);
+                //multicastTx(bm.command, size);
             }
         }
     }

@@ -1,12 +1,15 @@
 #ifndef COMMON_H
 #define COMMON_H
 
+#include "openssl/md5.h"
+
 #define MNAME       100
 #define MPASSWORD   100
 #define MCOMMAND    200
 
 typedef struct
 {
+    unsigned char md5digest[MD5_DIGEST_LENGTH];
     char name[MNAME];
     char password[MPASSWORD];
     char command[MCOMMAND];
