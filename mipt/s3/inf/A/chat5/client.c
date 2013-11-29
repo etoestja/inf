@@ -43,6 +43,21 @@ void printDirection(int d)
 int getMyID()
 {
     struct sembuf sbuf;
+
+    sbuf.sem_op = -1;
+    sbuf.sem_num = CLIENTREADY;
+    sbuf.sem_flg = 0;
+
+    if(semop(semid, &sbuf, 1) < 0)
+        fprintf(stderr, "getMyID cready!\n");
+
+    sbuf.sem_op = 1;
+    sbuf.sem_num = CLIENTREADY;
+    sbuf.sem_flg = 0;
+
+    if(semop(semid, &sbuf, 1) < 0)
+        fprintf(stderr, "getMyID /cready!\n");
+
     sbuf.sem_op = -1;
     sbuf.sem_num = MUTEX;
     sbuf.sem_flg = 0;
@@ -76,7 +91,7 @@ void communicateWithClient(int id, int cSocket, int getID)
         if(recv(cSocket, &tMsg, sizeof(message), 0) != sizeof(message))
             fprintf(stderr, "can't receive from p2p client!\n");
         id = tMsg.id;
-        fprintf(stderr, "set id to %d\n");
+        fprintf(stderr, "set id to %d\n", id);
     }
 
     if(fork())
@@ -198,20 +213,14 @@ int main(int argc, char* argv[])
     {
         fprintf(stderr, "myPort=%d\nPlease wait, connecting...\n", myPort);
 
+        struct sembuf sbuf;
+
         client tClient;
         tClient.port = myPort;
         tClient.action = ADD;
 
         if(send(serverInfoSocket, &tClient, sizeof(client), 0) < 0)
             fprintf(stderr, "Can't send port to server\n");
-
-        struct sembuf sbuf;
-        sbuf.sem_op = -1;
-        sbuf.sem_num = CLIENTREADY;
-        sbuf.sem_flg = 0;
-
-        if(semop(semid, &sbuf, 1) < 0)
-            fprintf(stderr, "Error waiting!\n");
 
         int myID = getMyID();
 
@@ -227,6 +236,7 @@ int main(int argc, char* argv[])
                 fprintf(stderr, "Read symbols, len=%d\n", size);
                 tMsg.len = size;
                 tMsg.id = myID;
+
                 sbuf.sem_op = -1;
                 sbuf.sem_num = MUTEX;
                 sbuf.sem_flg = 0;
@@ -340,7 +350,7 @@ int main(int argc, char* argv[])
                                 fprintf(stderr, "SIS: connect OK\n");
 
                                 message tMsg;
-                                tMsg.id = tC.id;
+                                tMsg.id = getMyID();
 
                                 if(send(clientSocket, &tMsg, sizeof(message), 0) < 0)
                                     fprintf(stderr, "Add %d can't transmit first packet\n", tC.id);
