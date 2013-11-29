@@ -9,12 +9,12 @@
 #include <fcntl.h>
 
 #define PATHNAME "server.c"
-#define NSEMS 2
+#define NSEMS 3
 
 //           m for 0  m for 1 mutex N-msgs
 //              0       0       1     N
 enum _SEMS {MUTEX, FULL, CLIENTREADY};
 
-void initSMS(const char* path);
+void initSMS(const char* path, int keyP);
 
 #endif

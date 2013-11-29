@@ -16,9 +16,9 @@ key_t key;
     
 int semsInitial[NSEMS] = {1, CLIENTSMAX, 0};
  
-void initSMS(const char *path)
+void initSMS(const char *path, int keyP)
 {
-    key = ftok(path, 0);
+    key = ftok(path, keyP);
     if((semid = semget(key, NSEMS, 0666 | IPC_CREAT | IPC_EXCL)) < 0)
     {
         if(errno == EEXIST)

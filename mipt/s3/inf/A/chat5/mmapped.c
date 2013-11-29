@@ -55,9 +55,9 @@ void mapInterpret()
     clients = (client*) (ptr);
 }
 
-void initMPD()
+void initMPD(char* filename)
 {
-    map(FILENAME);
+    map(filename);
     if(ptr != NULL)
         mapInterpret();
     else

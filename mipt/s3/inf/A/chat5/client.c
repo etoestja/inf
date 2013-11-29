@@ -8,6 +8,9 @@
 #include <strings.h>
 #include <errno.h>
 #include <unistd.h>
+#include "sems.h"
+#include "mmapped.h"
+#include "msgqueue.h"
 
 #define MSGN 1000
 
@@ -15,13 +18,18 @@ typedef struct
 {
     char text[MSGN];
     int len;
-    int id;
 } message;
+
+extern client* clients;
+extern void* ptr;
+int semid, msqid;
 
 int main(int argc, char* argv[])
 {
     char* serverName;
     int myPort;
+
+    pid_t myPID = getpid();
 
     if(argc <= 1)
     {
@@ -34,7 +42,20 @@ int main(int argc, char* argv[])
         myPort = atoi(argv[1]);
     }
 
-    initSMS("client.c");
+    const int myPIDMLen = 10;
+
+    char* clientsF1 = "clients";
+    char* clientsF2 = malloc((myPIDMLen + 1) * sizeof(char));
+    sprintf(clientsF2, "%d", myPID);
+
+    char* clientsF = malloc(sizeof(char) * (strlen(clientsF1) + strlen(clientsF2) + 1));
+    clientsF[0] = 0;
+    strcat(clientsF, clientsF1);
+    strcat(clientsF, clientsF2);
+
+    initSMS("client.c", 2 * myPID);
+    initMSQ("client.c", 2 * myPID + 1);
+    initMPD(clientsF);
 
     struct hostent *ht;
     if((ht = (struct hostent*) gethostbyname(serverName)) == NULL)
@@ -70,10 +91,12 @@ int main(int argc, char* argv[])
         return(-1);
     }
 
+    int listenPort = htons((u_short) myPort);
+
     bzero(&listenAddr, sizeof(listenAddr));
     listenAddr.sin_family = AF_INET;
     listenAddr.sin_addr.s_addr = INADDR_ANY;
-    listenAddr.sin_port = nport;
+    listenAddr.sin_port = listenPort;
 
     if(bind(listenSocket, (struct sockaddr *) &listenAddr, sizeof(listenAddr)) == -1)
     {
@@ -89,36 +112,53 @@ int main(int argc, char* argv[])
 
     if(fork())
     {
+        fprintf(stderr, "Please wait, connecting...\n");
+        struct sembuf sbuf;
+        sbuf.sem_op = -1;
+        sbuf.sem_id = CLIENTREADY;
+        sbuf.sem_flg = 0;
+
+        if(semop(semid, &sbuf, 1) < 0)
+            fprintf(stderr, "Error waiting!\n");
+
         message tMsg;
-        if((size = read(STDIN_FILENO, tMsg.text, MSGN) > 0)
+        if((size = read(STDIN_FILENO, tMsg.text, MSGN)) > 0)
         {
+
         }
     }
     else
     {
-        for(;;)
+        if(!fork())
         {
-            bzero(&clntAddr, addrLen);
-            if((rxSocket = accept(listenSocket, (struct sockaddr *) &clntAddr, (socklen_t*) (&addrLen))) == -1)
+            for(;;)
             {
-                perror("Can't accept");
-                return(-1);
-            }
-            fprintf(stderr, "Accepted client %s\n", inet_ntoa(clntAddr.sin_addr));
-            if(!fork())
-            {
-                for(;;)
+                else
                 {
-                    message tMsg;
-                    if(recv(rxSocket, &tMsg, sizeof(message), 0) != sizeof(message))
-                        fprintf("can't receive from p2p client!\n");
-                    fprintf(stderr, "[%d]: ", tMsg.id);
-                    write(STDOUT_FILENO, tMsg.text, tMsg.len);
+                    for(;;)
+                    {
+                        bzero(&clntAddr, addrLen);
+                        if((rxSocket = accept(listenSocket, (struct sockaddr *) &clntAddr, (socklen_t*) (&addrLen))) == -1)
+                        {
+                            perror("Can't accept");
+                            return(-1);
+                        }
+                        fprintf(stderr, "Accepted client %s\n", inet_ntoa(clntAddr.sin_addr));
+                        if(!fork())
+                        {
+                            for(;;)
+                            {
+                                message tMsg;
+                                if(recv(rxSocket, &tMsg, sizeof(message), 0) != sizeof(message))
+                                    fprintf("can't receive from p2p client!\n");
+                                fprintf(stderr, "[%d]: ", tMsg.id);
+                                write(STDOUT_FILENO, tMsg.text, tMsg.len);
+                            }
+                            return(0);
+                        }
+                    }
                 }
-                return(0);
             }
-        }
-    }
 
-    close(serverInfoSocket);
-}
+            close(serverInfoSocket);
+        }

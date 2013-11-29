@@ -9,6 +9,7 @@
 #define MAXIPLEN 100
 
 enum _ACTION {ADD, REMOVE};
+enum _DIRECTION {NEW2OLD, OLD2NEW, NEW2NEW};
 
 typedef struct
 {
@@ -16,6 +17,7 @@ typedef struct
     int port;
     int id;
     int action;
+    int direction;
 } client;
 
 #endif

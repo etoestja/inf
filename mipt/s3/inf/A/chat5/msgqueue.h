@@ -9,9 +9,6 @@
 #include <sys/msg.h>
 #include "common.h"
 
-#define PATHNAME "server.c"
-#define KEY2 1
-
 typedef struct
 {
     long mtype;
@@ -19,6 +16,6 @@ typedef struct
     client cl;
 } mymsg;
 
-void initMSQ();
+void initMSQ(char* path, int keyP);
 
 #endif

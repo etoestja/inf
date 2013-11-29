@@ -7,9 +7,8 @@
 #include <sys/ipc.h>
 #include "common.h"
 
-#define FILENAME "clients"
 #define FILESIZE (CLIENTSMAX * sizeof(client))
 
-void initMPD();
+void initMPD(char* filename);
 
 #endif

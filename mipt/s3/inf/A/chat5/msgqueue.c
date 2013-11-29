@@ -15,10 +15,10 @@ extern int msqid;
 
 key_t key;
 
-void getMsqID()
+void getMsqID(char* path, int keyP)
 {
     /* Create or attach message queue  */
-     if((key = ftok(PATHNAME, KEY2)) < 0)
+     if((key = ftok(path, keyP)) < 0)
      {
          printf("Can't get key, exiting\n");
          exit(-1);
@@ -37,8 +37,8 @@ void getMsqID()
      }
 }
 
-void initMSQ()
+void initMSQ(char* path, int keyP)
 {
     eraseQueue = 1;
-    getMsqID();
+    getMsqID(path, keyP);
 }

@@ -50,9 +50,9 @@ int main(int argc, char* argv[])
         return(-1);
     }
 
-    initSMS("server.c");
-    initMPD();
-    initMSQ();
+    initSMS("server.c", 0);
+    initMPD("clients");
+    initMSQ("server.c", 1);
 
     const int addrLen = sizeof(clntAddr);
     pid_t pid;
@@ -96,7 +96,6 @@ int main(int argc, char* argv[])
                     {
                         if(send(clientSocket, &(tMsg.cl), sizeof(client), 0) < 0)
                             fprintf(stderr, "client %d error sending about %d\n", i, tMsg.cl.id);
-
                     }
                     else
                         fprintf(stderr, "client %d got wrong message\n", i);
@@ -104,6 +103,8 @@ int main(int argc, char* argv[])
             }
             else
             {
+                for(;;)
+                {
                 if(recv(clientSocket, &tClBuf, sizeof(client), 0) != sizeof(client))
                 {
                     fprintf(stderr, "Error getting from i=%d\n", i);
@@ -112,6 +113,7 @@ int main(int argc, char* argv[])
                 if(tClBuf.action == ADD)
                 {
                     tClBuf.id = i;
+                    tClBuf.direction = NEW2OLD;
                     strcpy(tClBuf.ip, inet_ntoa(clntAddr.sin_addr));
 
                     sbuf1.sem_num = FULL;
@@ -133,11 +135,13 @@ int main(int argc, char* argv[])
                         if(clients[j].port != -1)
                         {
                             tMsg.cl = clients[j];
+                            tMsg.cl.direction = OLD2NEW;
                             tMsg.mtype = i;
                             if(msgsnd(msqid, &tMsg, sizeof(mymsg), 0) < 0)
                                 fprintf(stderr, "client %d error telling about %d\n", i, tMsg.cl.id);
 
                             tMsg.cl = tClBuf;
+                            tMsg.cl.direction = NEW2OLD;
                             tMsg.mtype = clients[j].id;
                             if(msgsnd(msqid, &tMsg, sizeof(mymsg), 0) < 0)
                                 fprintf(stderr, "client %d error telling to %d\n", i, tMsg.cl.id);
@@ -157,6 +161,13 @@ int main(int argc, char* argv[])
                     sbuf.sem_op = 1;
                     if(semop(semid, &sbuf, 1) < 0)
                         fprintf(stderr, "client %d init </mutex> error!\n", i);
+
+                    tMsg.cl = tClBuf;
+                    tMsg.cl.direction = NEW2NEW;
+                    tMsg.mtype = i;
+                    if(msgsnd(msqid, &tMsg, sizeof(mymsg), 0) < 0)
+                        fprintf(stderr, "client %d error telling to himself\n", i);
+                }
                 }
             }
             return(0);
