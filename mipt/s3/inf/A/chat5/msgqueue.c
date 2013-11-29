@@ -20,21 +20,23 @@ void getMsqID(char* path, int keyP)
     /* Create or attach message queue  */
      if((key = ftok(path, keyP)) < 0)
      {
-         printf("Can't get key, exiting\n");
+         fprintf(stderr, "Can't get key, exiting\n");
          exit(-1);
      }
-     if((msqid = msgget(key, 0666 | IPC_CREAT)) < 0)
+     if((msqid = msgget(key, 0666 | IPC_CREAT)) >= 0)
      {
          if(eraseQueue)
          {
              if(msgctl(msqid, IPC_RMID, NULL) < 0)
              {
-                 printf("Can't rm queue\n");
+                 fprintf(stderr, "Can't rm queue\n");
                  exit(-1);
              }
              msqid = msgget(key, 0666 | IPC_CREAT);
          }
      }
+     else
+         fprintf(stderr, "Can't get msqueue!\n");
 }
 
 void initMSQ(char* path, int keyP)

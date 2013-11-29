@@ -10,3 +10,4 @@ clean:
 	rm -rf *.o
 	rm -rf server client
 	rm -rf *~
+	rm -rf clients*

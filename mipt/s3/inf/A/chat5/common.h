@@ -1,7 +1,7 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-#define SERVER_PORT 2000
+#define SERVER_PORT 9809
 #define CLIENTS_N 5
 
 #define CLIENTSMAX 100

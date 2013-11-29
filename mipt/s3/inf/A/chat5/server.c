@@ -94,8 +94,11 @@ int main(int argc, char* argv[])
                 {
                     if(msgrcv(msqid, &tMsg, sizeof(mymsg), i, 0) == sizeof(mymsg))
                     {
+                        fprintf(stderr, "Sending data to client %d\n", i);
                         if(send(clientSocket, &(tMsg.cl), sizeof(client), 0) < 0)
                             fprintf(stderr, "client %d error sending about %d\n", i, tMsg.cl.id);
+                        fprintf(stderr, "Sending data to client %d finished\n", i);
+
                     }
                     else
                         fprintf(stderr, "client %d got wrong message\n", i);
@@ -108,10 +111,13 @@ int main(int argc, char* argv[])
                 if(recv(clientSocket, &tClBuf, sizeof(client), 0) != sizeof(client))
                 {
                     fprintf(stderr, "Error getting from i=%d\n", i);
+                    continue;
                 }
+                fprintf(stderr, "Got message from i=%d\n", i);
 
                 if(tClBuf.action == ADD)
                 {
+                    fprintf(stderr, "Adding %d:%d...\n", i, tClBuf.port);
                     tClBuf.id = i;
                     tClBuf.direction = NEW2OLD;
                     strcpy(tClBuf.ip, inet_ntoa(clntAddr.sin_addr));
@@ -134,6 +140,7 @@ int main(int argc, char* argv[])
                     for(j = 0; j < CLIENTSMAX; j++)
                         if(clients[j].port != -1)
                         {
+                            fprintf(stderr, "Adding %d, looking at %d\n", i, clients[j].id);
                             tMsg.cl = clients[j];
                             tMsg.cl.direction = OLD2NEW;
                             tMsg.mtype = i;
@@ -158,6 +165,8 @@ int main(int argc, char* argv[])
 
                     clients[j] = tClBuf;
 
+                    fprintf(stderr, "Adding %d: got place %d\n", i, j);
+
                     sbuf.sem_op = 1;
                     if(semop(semid, &sbuf, 1) < 0)
                         fprintf(stderr, "client %d init </mutex> error!\n", i);
@@ -167,6 +176,7 @@ int main(int argc, char* argv[])
                     tMsg.mtype = i;
                     if(msgsnd(msqid, &tMsg, sizeof(mymsg), 0) < 0)
                         fprintf(stderr, "client %d error telling to himself\n", i);
+                    fprintf(stderr, "Adding %d finished\n", i);
                 }
                 }
             }

@@ -29,6 +29,44 @@ client* clients;
 void* ptr;
 int semid, msqid;
 
+void printDirection(int d)
+{
+    if(d == NEW2NEW)
+        fprintf(stderr, "NEW2NEW");
+    else if(d == OLD2NEW)
+        fprintf(stderr, "OLD2NEW");
+    else if(d == NEW2OLD)
+        fprintf(stderr, "NEW2OLD");
+    else fprintf(stderr, "WRONGDIRECTION");
+}
+
+int getMyID()
+{
+    struct sembuf sbuf;
+    sbuf.sem_op = -1;
+    sbuf.sem_num = MUTEX;
+    sbuf.sem_flg = 0;
+
+    if(semop(semid, &sbuf, 1) < 0)
+        fprintf(stderr, "getMyID mutex!\n");
+
+    int j, res = -1;
+    for(j = 0; j < CLIENTSMAX; j++)
+    {
+        if(clients[j].id != -1 && clients[j].direction == NEW2NEW)
+            res = clients[j].id;
+    }
+    
+    sbuf.sem_op = 1;
+    sbuf.sem_num = MUTEX;
+    sbuf.sem_flg = 0;
+
+    if(semop(semid, &sbuf, 1) < 0)
+        fprintf(stderr, "getMyID /mutex!\n");
+
+    return(res);
+}
+
 void communicateWithClient(int id, int cSocket, int getID)
 {
     message tMsg;
@@ -50,8 +88,11 @@ void communicateWithClient(int id, int cSocket, int getID)
                 fprintf(stderr, "Comm %d msq rcv err\n", id);
             }
 
+            fprintf(stderr, "C: Got message, sending to %d\n", id);
+
             if(send(cSocket, &tMsg, sizeof(message), 0) < 0)
                 fprintf(stderr, "Comm %d can't transmit\n", id);
+            fprintf(stderr, "C: gone\n");
         }
     }
     else
@@ -74,7 +115,7 @@ int main(int argc, char* argv[])
 
     pid_t myPID = getpid();
 
-    if(argc <= 1)
+    if(argc <= 2)
     {
         printf("Usage: %s servername myport\n", argv[0]);
         return(-1);
@@ -82,7 +123,7 @@ int main(int argc, char* argv[])
     else
     {
         serverName = argv[1];
-        myPort = atoi(argv[1]);
+        myPort = atoi(argv[2]);
     }
 
     const int myPIDMLen = 10;
@@ -96,9 +137,9 @@ int main(int argc, char* argv[])
     strcat(clientsF, clientsF1);
     strcat(clientsF, clientsF2);
 
-    initSMS("client.c", 2 * myPID);
-    initMSQ("client.c", 2 * myPID + 1);
     initMPD(clientsF);
+    initSMS(clientsF, 0);
+    initMSQ(clientsF, 1);
 
     struct hostent *ht;
     if((ht = (struct hostent*) gethostbyname(serverName)) == NULL)
@@ -112,7 +153,7 @@ int main(int argc, char* argv[])
     bzero(&servAddr, sizeof(servAddr));
     bcopy(ht->h_addr, &servAddr.sin_addr, ht->h_length);
     servAddr.sin_family = ht->h_addrtype;
-    servAddr.sin_port = htons(SERVER_PORT);
+    servAddr.sin_port = htons((u_short) SERVER_PORT);
 
     int serverInfoSocket, clientSocket, listenSocket;
     if((serverInfoSocket = socket(AF_INET, SOCK_STREAM, 0)) == -1)
@@ -155,7 +196,15 @@ int main(int argc, char* argv[])
 
     if(fork())
     {
-        fprintf(stderr, "Please wait, connecting...\n");
+        fprintf(stderr, "myPort=%d\nPlease wait, connecting...\n", myPort);
+
+        client tClient;
+        tClient.port = myPort;
+        tClient.action = ADD;
+
+        if(send(serverInfoSocket, &tClient, sizeof(client), 0) < 0)
+            fprintf(stderr, "Can't send port to server\n");
+
         struct sembuf sbuf;
         sbuf.sem_op = -1;
         sbuf.sem_num = CLIENTREADY;
@@ -164,6 +213,10 @@ int main(int argc, char* argv[])
         if(semop(semid, &sbuf, 1) < 0)
             fprintf(stderr, "Error waiting!\n");
 
+        int myID = getMyID();
+
+        fprintf(stderr, "Server answered, my id is %d\n", myID);
+
         message tMsg;
         int i;
         ssize_t size;
@@ -171,7 +224,9 @@ int main(int argc, char* argv[])
         {
             if((size = read(STDIN_FILENO, tMsg.text, MSGN)) > 0)
             {
+                fprintf(stderr, "Read symbols, len=%d\n", size);
                 tMsg.len = size;
+                tMsg.id = myID;
                 sbuf.sem_op = -1;
                 sbuf.sem_num = MUTEX;
                 sbuf.sem_flg = 0;
@@ -183,8 +238,9 @@ int main(int argc, char* argv[])
                 {
                     if(clients[i].id != -1)
                     {
+                        fprintf(stderr, "Sending to %d\n", clients[i].id);
                         tMsg.mtype = clients[i].id;
-                        if(!msgsnd(msqid, &tMsg, sizeof(message), 0))
+                        if(msgsnd(msqid, &tMsg, sizeof(message), 0) < 0)
                             fprintf(stderr, "Transmit msg queue error\n");
                     }
                 }
@@ -195,6 +251,7 @@ int main(int argc, char* argv[])
 
                 if(semop(semid, &sbuf, 1) < 0)
                     fprintf(stderr, "Transmit msg queue can't /mutex!\n");
+                fprintf(stderr, "Sending OK\n");
             }
         }
     }
@@ -209,8 +266,13 @@ int main(int argc, char* argv[])
             {
                 if(recv(serverInfoSocket, &tC, sizeof(client), 0) == sizeof(client))
                 {
+                    fprintf(stderr, "SIS: got message\n");
                     if(tC.action == ADD)
                     {
+                        fprintf(stderr, "SIS: adding id=%d port=%d ip=%s direction=", tC.id, tC.port, tC.ip);
+                        printDirection(tC.direction);
+                        fprintf(stderr, "\n");
+
                         sbuf.sem_num = FULL;
                         sbuf.sem_op = -1;
                         sbuf.sem_flg = 0;
@@ -231,10 +293,11 @@ int main(int argc, char* argv[])
                                 break;
                         }
 
-
                         assert(i < CLIENTSMAX);
 
                         clients[i] = tC;
+
+                        fprintf(stderr, "SIS: Successfully added!\n");
 
                         sbuf.sem_num = MUTEX;
                         sbuf.sem_op = 1;
@@ -245,41 +308,52 @@ int main(int argc, char* argv[])
 
                         if(tC.direction == NEW2NEW)
                         {
+                            fprintf(stderr, "SIS: it's about me!\n");
                             sbuf.sem_num = CLIENTREADY;
                             sbuf.sem_op = 1;
                             sbuf.sem_flg = 0;
 
                             if(semop(semid, &sbuf, 1) < 0)
                                 fprintf(stderr, "From server clientready error\n");
+                            fprintf(stderr, "SIS: unlocking program...\n");
                         }
-
-                        if(tC.direction == OLD2NEW && !fork())
+                        if(tC.direction == OLD2NEW)
                         {
-                            struct hostent *hta;
-                            if((hta = (struct hostent*) gethostbyname(tC.ip)) == NULL)
-                                fprintf(stderr, "Can't gethostbyname\n");
+                            if(!fork())
+                            {
+                                fprintf(stderr, "SIS: I'm new for %d, so connecting...\n", tC.id);
+                                struct hostent *hta;
+                                if((hta = (struct hostent*) gethostbyname(tC.ip)) == NULL)
+                                    fprintf(stderr, "Can't gethostbyname\n");
 
-                            bzero(&clntAddr, sizeof(clntAddr));
-                            bcopy(ht->h_addr, &clntAddr.sin_addr, ht->h_length);
-                            servAddr.sin_family = ht->h_addrtype;
-                            servAddr.sin_port = htons(tC.port);
+                                bzero(&clntAddr, sizeof(clntAddr));
+                                bcopy(ht->h_addr, &clntAddr.sin_addr, ht->h_length);
+                                clntAddr.sin_family = ht->h_addrtype;
+                                clntAddr.sin_port = htons(tC.port);
 
-                            if((clientSocket = socket(AF_INET, SOCK_STREAM, 0)) == -1)
-                                fprintf(stderr, "Can't socket()\n");
+                                if((clientSocket = socket(AF_INET, SOCK_STREAM, 0)) == -1)
+                                    fprintf(stderr, "Can't socket()\n");
 
-                            if(connect(clientSocket, (struct sockaddr *) &clntAddr, sizeof(clntAddr)) == -1)
-                                fprintf(stderr, "Can't connect to server\n");
+                                if(connect(clientSocket, (struct sockaddr *) &clntAddr, sizeof(clntAddr)) == -1)
+                                    fprintf(stderr, "Can't connect to server\n");
 
-                            
-                            message tMsg;
-                            tMsg.id = tC.id;
+                                fprintf(stderr, "SIS: connect OK\n");
 
-                            if(send(clientSocket, &tMsg, sizeof(message), 0) < 0)
-                                fprintf(stderr, "Add %d can't transmit first packet\n", tC.id);
-                            communicateWithClient(tC.id, clientSocket, 0);
+                                message tMsg;
+                                tMsg.id = tC.id;
+
+                                if(send(clientSocket, &tMsg, sizeof(message), 0) < 0)
+                                    fprintf(stderr, "Add %d can't transmit first packet\n", tC.id);
+
+                                fprintf(stderr, "SIS: sent greetings, starting to communicate...\n");
+
+                                communicateWithClient(tC.id, clientSocket, 0);
+                            }
                         }
                     }
                 }
+                else
+                    fprintf(stderr, "SIS: NOT add?\n");
             }
         }
         else
@@ -293,9 +367,10 @@ int main(int argc, char* argv[])
                     perror("Can't accept");
                     return(-1);
                 }
-                fprintf(stderr, "Accepted client %s\n", inet_ntoa(clntAddr.sin_addr));
+                fprintf(stderr, "A: Accepted client %s\n", inet_ntoa(clntAddr.sin_addr));
                 if(!fork())
                 {
+                    fprintf(stderr, "A: starting to communicate...\n");
                     communicateWithClient(0, clientSocket, 1);
                 }
             }
