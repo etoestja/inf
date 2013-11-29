@@ -62,8 +62,8 @@ int main(int argc, char* argv[], char** envp)
                 bm = ((broadcastMessage*) plain);
                 if(bm->type == COMMAND)
                 {
-//                    strcpy(response.response, "RCV OK!");
-//                    TRANSMIT();
+                    strcpy(response.response, "Received\n");
+                    TRANSMIT();
 
                     if(!authenticate(bm->name, bm->password))
                     {
@@ -71,6 +71,9 @@ int main(int argc, char* argv[], char** envp)
                         TRANSMIT();
                         continue;
                     }
+
+                    strcpy(response.response, "Starting!\n");
+                    TRANSMIT();
 
                     strLen = strlen(bm->command);
 //                    if(strLen == 0)
@@ -106,23 +109,36 @@ int main(int argc, char* argv[], char** envp)
                             //child
                             if(!fork())
                             {
-                                //child child. sending responses.
-                                for(;;)
                                 {
-                                    if((size = read(fd[0], response.response, MRESPONSE - 1)) > 0)
+                                    //child child. sending responses.
+                                    for(;;)
                                     {
-                                        response.response[size] = 0;
-                                        TRANSMIT();
+                                        if((size = read(fd[0], response.response, MRESPONSE - 1)) > 0)
+                                        {
+                                            response.response[size] = 0;
+                                            TRANSMIT();
+                                        }
                                     }
                                 }
                             }
                             else
                             {
-                                dup2(fd[1], 1);
-                                execvpe(args[0], args, envp);
-                                strcpy(response.response, "Wrong command\n");
-                                TRANSMIT();
-                                return(-1);
+                                int res;
+                                pid_t tPID = fork();
+                                if(!tPID)
+                                {
+                                    dup2(fd[1], 1);
+                                    execvpe(args[0], args, envp);
+                                    strcpy(response.response, "Wrong command\n");
+                                    TRANSMIT();
+                                    return(-1);
+                                }
+                                else
+                                {
+                                    waitpid(tPID, &res, 0);
+                                    strcpy(response.response, "Command finished\n");
+                                    TRANSMIT();
+                                }
                             }
                         }
                     }
