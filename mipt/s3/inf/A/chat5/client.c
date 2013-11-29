@@ -13,16 +13,57 @@
 #include "msgqueue.h"
 
 #define MSGN 1000
+#define MSGNEWCLIENTTYPE CLIENTSMAX
 
 typedef struct
 {
+    long mtype;
     char text[MSGN];
+    int id;
     int len;
 } message;
 
 extern client* clients;
 extern void* ptr;
 int semid, msqid;
+
+void communicateWithClient(int id, int cSocket, int getID)
+{
+    if(getID)
+    {
+        fprintf(stderr, "Awaiting first packet...\n");
+        if(recv(cSocket, &tMsg, sizeof(message), 0) != sizeof(message))
+            fprintf("can't receive from p2p client!\n");
+        id = tMsg.id;
+        fprintf(stderr, "set id to %d\n");
+    }
+
+    if(fork())
+    {
+        message tMsg;
+        for(;;)
+        {
+            if(msgrcv(msqid, &tMsg, sizeof(message), id, 0) != sizeof(message))
+            {
+                fprintf(stderr, "Comm %d msq rcv err\n", id);
+            }
+
+            if(send(cSocket, &tMsg, sizeof(message)) < 0)
+                fprintf(stderr, "Comm %d can't transmit\n", id);
+        }
+    }
+    else
+    {
+        message tMsg;
+        for(;;)
+        {
+            if(recv(cSocket, &tMsg, sizeof(message), 0) != sizeof(message))
+                fprintf("can't receive from p2p client!\n");
+            fprintf(stderr, "[%d]: ", id);
+            write(STDOUT_FILENO, tMsg.text, tMsg.len);
+        }
+    }
+}
 
 int main(int argc, char* argv[])
 {
@@ -71,7 +112,7 @@ int main(int argc, char* argv[])
     servAddr.sin_family = ht->h_addrtype;
     servAddr.sin_port = htons(SERVER_PORT);
 
-    int serverInfoSocket, clientSocket[CLIENTSMAX], listenSocket, rxSocket;
+    int serverInfoSocket, clientSocket, listenSocket;
     if((serverInfoSocket = socket(AF_INET, SOCK_STREAM, 0)) == -1)
     {
         perror("Can't socket()");
@@ -122,43 +163,140 @@ int main(int argc, char* argv[])
             fprintf(stderr, "Error waiting!\n");
 
         message tMsg;
-        if((size = read(STDIN_FILENO, tMsg.text, MSGN)) > 0)
+        int i;
+        for(;;)
         {
+            if((size = read(STDIN_FILENO, tMsg.text, MSGN)) > 0)
+            {
+                tMsg.len = size;
+                sbuf.sem_op = -1;
+                sbuf.sem_id = MUTEX;
+                sbuf.sem_flg = 0;
 
+                if(semop(semid, &sbuf, 1) < 0)
+                    fprintf(stderr, "Transmit msg queue can't mutex!\n");
+
+                for(i = 0; i < CLIENTSMAX; i++)
+                {
+                    if(clients[i].id != -1)
+                    {
+                        tMsg.mtype = clients[i].id;
+                        if(!msgsnd(msqid, tMsg, sizeof(message), 0))
+                            fprintf(stderr, "Transmit msg queue error\n");
+                    }
+                }
+
+                sbuf.sem_op = 1;
+                sbuf.sem_num = MUTEX;
+                sbuf.sem_flg = 0;
+
+                if(semop(semid, &sbuf, 1) < 0)
+                    fprintf(stderr, "Transmit msg queue can't /mutex!\n");
+            }
         }
     }
     else
     {
         if(!fork())
         {
+            client tC;
+            int i;
+            struct sembuf sbuf;
             for(;;)
             {
-                else
+                if(recv(serverInfoSocket, &tC, sizeof(client), 0) == sizeof(client))
                 {
-                    for(;;)
+                    if(tC.action == ADD)
                     {
-                        bzero(&clntAddr, addrLen);
-                        if((rxSocket = accept(listenSocket, (struct sockaddr *) &clntAddr, (socklen_t*) (&addrLen))) == -1)
+                        sbuf.sem_num = FULL;
+                        sbuf.sem_op = -1;
+                        sbuf.sem_flg = 0;
+
+                        if(semop(semid, &sbuf, 1) < 0)
+                            fprintf(stderr, "From server full error\n");
+
+                        sbuf.sem_num = MUTEX;
+                        sbuf.sem_op = -1;
+                        sbuf.sem_flg = 0;
+
+                        if(semop(semid, &sbuf, 1) < 0)
+                            fprintf(stderr, "From server mutex error\n");
+
+                        for(i = 0; i < CLIENTSMAX; i++)
                         {
-                            perror("Can't accept");
-                            return(-1);
+                            if(clients[i].id == -1)
+                                break;
                         }
-                        fprintf(stderr, "Accepted client %s\n", inet_ntoa(clntAddr.sin_addr));
-                        if(!fork())
+
+
+                        assert(i < CLIENTSMAX);
+
+                        clients[i] = tC;
+
+                        sbuf.sem_num = MUTEX;
+                        sbuf.sem_op = 1;
+                        sbuf.sem_flg = 0;
+
+                        if(semop(semid, &sbuf, 1) < 0)
+                            fprintf(stderr, "From server /mutex error\n");
+
+                        if(tC.direction == NEW2NEW)
                         {
-                            for(;;)
-                            {
-                                message tMsg;
-                                if(recv(rxSocket, &tMsg, sizeof(message), 0) != sizeof(message))
-                                    fprintf("can't receive from p2p client!\n");
-                                fprintf(stderr, "[%d]: ", tMsg.id);
-                                write(STDOUT_FILENO, tMsg.text, tMsg.len);
-                            }
-                            return(0);
+                            sbuf.sem_num = CLIENTREADY;
+                            sbuf.sem_op = 1;
+                            sbuf.sem_flg = 0;
+
+                            if(semop(semid, &sbuf, 1) < 0)
+                                fprintf(stderr, "From server clientready error\n");
+                        }
+
+                        if(tC.direction == OLD2NEW && !fork())
+                        {
+                            struct hostent *hta;
+                            if((hta = (struct hostent*) gethostbyname(tC.ip)) == NULL)
+                                fprintf(stderr, "Can't gethostbyname\n");
+
+                            bzero(&clntAddr, sizeof(clntAddr));
+                            bcopy(ht->h_addr, &clntAddr.sin_addr, ht->h_length);
+                            servAddr.sin_family = ht->h_addrtype;
+                            servAddr.sin_port = htons(tC.port);
+
+                            if((clientSocket = socket(AF_INET, SOCK_STREAM, 0)) == -1)
+                                fprintf(stderr, "Can't socket()\n");
+
+                            if(connect(clientSocket, (struct sockaddr *) &clntAddr, sizeof(clntAddr)) == -1)
+                                fprintf(stderr, "Can't connect to server\n");
+
+                            
+                            message tMsg;
+                            tMsg.id = tC.id;
+
+                            if(send(clientSocket, &tMsg, sizeof(message)) < 0)
+                                fprintf(stderr, "Add %d can't transmit first packet\n", id);
+                            communicateWithClient(tC.id, clientSocket, 0);
                         }
                     }
                 }
             }
-
-            close(serverInfoSocket);
         }
+        else
+        {
+            for(;;)
+            {
+                bzero(&clntAddr, addrLen);
+                if((clientSocket = accept(listenSocket, (struct sockaddr *) &clntAddr, (socklen_t*) (&addrLen))) == -1)
+                {
+                    perror("Can't accept");
+                    return(-1);
+                }
+                fprintf(stderr, "Accepted client %s\n", inet_ntoa(clntAddr.sin_addr));
+                if(!fork())
+                {
+                    communicateWithClient(0, clientSocket, 1);
+                }
+            }
+        }
+    }
+
+    close(serverInfoSocket);
+}
