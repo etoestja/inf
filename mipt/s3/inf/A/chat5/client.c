@@ -4,8 +4,10 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <stdio.h>
+#include <assert.h>
 #include <stdlib.h>
 #include <strings.h>
+#include <string.h>
 #include <errno.h>
 #include <unistd.h>
 #include "sems.h"
@@ -23,24 +25,24 @@ typedef struct
     int len;
 } message;
 
-extern client* clients;
-extern void* ptr;
+client* clients;
+void* ptr;
 int semid, msqid;
 
 void communicateWithClient(int id, int cSocket, int getID)
 {
+    message tMsg;
     if(getID)
     {
         fprintf(stderr, "Awaiting first packet...\n");
         if(recv(cSocket, &tMsg, sizeof(message), 0) != sizeof(message))
-            fprintf("can't receive from p2p client!\n");
+            fprintf(stderr, "can't receive from p2p client!\n");
         id = tMsg.id;
         fprintf(stderr, "set id to %d\n");
     }
 
     if(fork())
     {
-        message tMsg;
         for(;;)
         {
             if(msgrcv(msqid, &tMsg, sizeof(message), id, 0) != sizeof(message))
@@ -48,7 +50,7 @@ void communicateWithClient(int id, int cSocket, int getID)
                 fprintf(stderr, "Comm %d msq rcv err\n", id);
             }
 
-            if(send(cSocket, &tMsg, sizeof(message)) < 0)
+            if(send(cSocket, &tMsg, sizeof(message), 0) < 0)
                 fprintf(stderr, "Comm %d can't transmit\n", id);
         }
     }
@@ -58,7 +60,7 @@ void communicateWithClient(int id, int cSocket, int getID)
         for(;;)
         {
             if(recv(cSocket, &tMsg, sizeof(message), 0) != sizeof(message))
-                fprintf("can't receive from p2p client!\n");
+                fprintf(stderr, "can't receive from p2p client!\n");
             fprintf(stderr, "[%d]: ", id);
             write(STDOUT_FILENO, tMsg.text, tMsg.len);
         }
@@ -156,7 +158,7 @@ int main(int argc, char* argv[])
         fprintf(stderr, "Please wait, connecting...\n");
         struct sembuf sbuf;
         sbuf.sem_op = -1;
-        sbuf.sem_id = CLIENTREADY;
+        sbuf.sem_num = CLIENTREADY;
         sbuf.sem_flg = 0;
 
         if(semop(semid, &sbuf, 1) < 0)
@@ -164,13 +166,14 @@ int main(int argc, char* argv[])
 
         message tMsg;
         int i;
+        ssize_t size;
         for(;;)
         {
             if((size = read(STDIN_FILENO, tMsg.text, MSGN)) > 0)
             {
                 tMsg.len = size;
                 sbuf.sem_op = -1;
-                sbuf.sem_id = MUTEX;
+                sbuf.sem_num = MUTEX;
                 sbuf.sem_flg = 0;
 
                 if(semop(semid, &sbuf, 1) < 0)
@@ -181,7 +184,7 @@ int main(int argc, char* argv[])
                     if(clients[i].id != -1)
                     {
                         tMsg.mtype = clients[i].id;
-                        if(!msgsnd(msqid, tMsg, sizeof(message), 0))
+                        if(!msgsnd(msqid, &tMsg, sizeof(message), 0))
                             fprintf(stderr, "Transmit msg queue error\n");
                     }
                 }
@@ -271,8 +274,8 @@ int main(int argc, char* argv[])
                             message tMsg;
                             tMsg.id = tC.id;
 
-                            if(send(clientSocket, &tMsg, sizeof(message)) < 0)
-                                fprintf(stderr, "Add %d can't transmit first packet\n", id);
+                            if(send(clientSocket, &tMsg, sizeof(message), 0) < 0)
+                                fprintf(stderr, "Add %d can't transmit first packet\n", tC.id);
                             communicateWithClient(tC.id, clientSocket, 0);
                         }
                     }
@@ -281,6 +284,7 @@ int main(int argc, char* argv[])
         }
         else
         {
+            int addrLen = sizeof(clntAddr);
             for(;;)
             {
                 bzero(&clntAddr, addrLen);

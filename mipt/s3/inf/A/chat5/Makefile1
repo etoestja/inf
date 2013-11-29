@@ -1,4 +1,4 @@
-CFLAGS=-m32
+CFLAGS=
 all: server client
 client: sems.o common.o client.o client.c
 	gcc $(CFLAGS) mmapped.o msgqueue.o sems.o common.o client.o -o $@
