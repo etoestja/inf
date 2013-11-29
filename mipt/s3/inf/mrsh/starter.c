@@ -1,4 +1,5 @@
 #include "common.h"
+#include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
@@ -136,7 +137,7 @@ int main(int argc, char* argv[], char** envp)
                                 else
                                 {
                                     waitpid(tPID, &res, 0);
-                                    strcpy(response.response, "Command finished\n");
+                                    sprintf(response.response, "Command [%s] finished with code %d\n", bm->command, WEXITSTATUS(res));
                                     TRANSMIT();
                                 }
                             }
