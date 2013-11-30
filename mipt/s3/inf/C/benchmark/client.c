@@ -58,8 +58,11 @@ int main(int argc, char* argv[])
 
     // parent
     for(;;)
+    {
         if(send(serverSocket, buf, blockSize, 0) < 0)
-            printf("child send failed!");
+            fprintf(stderr, "child send failed!\n");
+    }
 
     close(serverSocket);
+    return(0);
 }

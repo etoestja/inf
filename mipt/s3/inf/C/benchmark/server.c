@@ -82,8 +82,8 @@ int main(int argc, char* argv[])
                 sbuf.sem_op = -1;
                 sbuf.sem_flg = 0;
 
-                //if(semop(semid, &sbuf, 1) < 0)
-                //    fprintf(stderr, "stats <mutex> error!\n", i);
+                if(semop(semid, &sbuf, 1) < 0)
+                    fprintf(stderr, "stats <mutex> error!\n", i);
 
                 tDataLen = clients[i].dataLen;
                 tDuration = clients[i].duration;
@@ -92,12 +92,13 @@ int main(int argc, char* argv[])
                 sbuf.sem_op = 1;
                 sbuf.sem_flg = 0;
 
-                //if(semop(semid, &sbuf, 1) < 0)
-                //    fprintf(stderr, "stats </mutex> error!\n", i);
+                if(semop(semid, &sbuf, 1) < 0)
+                    fprintf(stderr, "stats </mutex> error!\n", i);
 
                 if(tDuration > 0)
-                    printf("%lfMB/s\t", tDataLen * 1.0 / tDuration);
+                    fprintf(stderr, "%lfB/s\t", tDataLen * 1.0 / tDuration);
             }
+            fprintf(stderr, "\n");
             sleep(1);
         }
     }
