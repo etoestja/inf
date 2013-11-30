@@ -153,10 +153,10 @@ int main(int argc, char* argv[])
 
             for(;;)
             {
-                if((size = recv(clientSocket, buf, blockSize, 0)) != blockSize)
+                if((size = recv(clientSocket, buf, blockSize, 0)) <= 0)
                 {
                     fprintf(stderr, "Client %d send wrong message sz=%d\n", i, size);
-                    return(-1);
+		    return(-1);
                 }
 
                 sbuf.sem_num = MUTEX;
