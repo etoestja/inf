@@ -17,6 +17,7 @@ int msqid;
 
 client* clients;
 void* ptr;
+struct timeb oldTime;
 
 int main(int argc, char* argv[])
 {
@@ -74,8 +75,11 @@ int main(int argc, char* argv[])
     if(!fork())
     {
         unsigned long long tDataLen, tDuration;
+	long double tmSpeed, tlSpeed, taSpeed;
+	int touched = 0;
         for(;;)
         {
+	    touched = 0;
             for(i = 0; i < CLIENTSMAX; i++)
             {
                 sbuf.sem_num = MUTEX;
@@ -87,6 +91,8 @@ int main(int argc, char* argv[])
 
                 tDataLen = clients[i].dataLen;
                 tDuration = clients[i].duration;
+                tlSpeed = clients[i].lastSpeed;
+                tmSpeed = clients[i].maxSpeed;
 
                 sbuf.sem_num = MUTEX;
                 sbuf.sem_op = 1;
@@ -96,9 +102,17 @@ int main(int argc, char* argv[])
                     fprintf(stderr, "stats </mutex> error!\n", i);
 
                 if(tDuration > 0)
-                    fprintf(stderr, "%lfB/s\t", tDataLen * 1.0 / tDuration);
+		{
+		    taSpeed = tDataLen;
+		    taSpeed /= tDuration;
+		    taSpeed *= 1000;
+                    fprintf(stderr, "%d: curr %llf MB/s\tavg %llf MB/s\tmax %llfMB/s\n", i, tlSpeed / 1024 / 1024, taSpeed / 1024 / 1024, tmSpeed / 1024 / 1024);
+//                    fprintf(stderr, "%llu/%llu\t", tDataLen, tDuration);
+                    touched = 1;
+                }
             }
-            fprintf(stderr, "\n");
+	    if(touched)
+	            fprintf(stderr, "\n");
             sleep(1);
         }
     }
@@ -133,11 +147,15 @@ int main(int argc, char* argv[])
             if(semop(semid, &sbuf, 1) < 0)
                 fprintf(stderr, "client %d init <full> error!\n", i);
 
+	    unsigned long long lastDiff = 0, lastLen = 0;
+
+	    setTime();
+
             for(;;)
             {
-                if(recv(clientSocket, buf, blockSize, 0) != blockSize)
+                if((size = recv(clientSocket, buf, blockSize, 0)) != blockSize)
                 {
-                    fprintf(stderr, "Client %d send wrong message\n", i);
+                    fprintf(stderr, "Client %d send wrong message sz=%d\n", i, size);
                     return(-1);
                 }
 
@@ -148,8 +166,24 @@ int main(int argc, char* argv[])
                 if(semop(semid, &sbuf, 1) < 0)
                     fprintf(stderr, "client %d fread <mutex> error!\n", i);
 
-                clients[i].dataLen += blockSize;
-                clients[i].duration += 1;
+                lastLen += blockSize;
+                lastDiff = getTimeDifference();
+
+		if(lastDiff > DMIN)
+		{
+	                clients[i].dataLen += lastLen;
+	                clients[i].duration += lastDiff;
+
+			clients[i].lastSpeed = lastLen;
+			clients[i].lastSpeed /= lastDiff;
+			clients[i].lastSpeed *= 1000;
+
+			if(clients[i].lastSpeed > clients[i].maxSpeed)
+				clients[i].maxSpeed = clients[i].lastSpeed;
+
+			lastLen = 0;
+			setTime();
+		}
 
                 sbuf.sem_op = 1;
                 if(semop(semid, &sbuf, 1) < 0)

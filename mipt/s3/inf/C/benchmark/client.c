@@ -9,6 +9,8 @@
 #include <errno.h>
 #include <unistd.h>
 
+struct timeb oldTime;
+
 int main(int argc, char* argv[])
 {
     char* serverName;

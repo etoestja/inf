@@ -73,6 +73,8 @@ void initMPD(char* filename)
         {
             clients[i].duration = 0;
             clients[i].dataLen = 0;
+	    clients[i].maxSpeed = 0;
+	    clients[i].lastSpeed = 0;
         }
     }
 }
