@@ -67,7 +67,7 @@ int main(int argc, char* argv[])
     me.maxSpeed = 0;
     unsigned long long tDiff = 0, tLen = 0;
     long double taSpeed;
-    const int T = 10;
+    const int T = 1;
     int t = 0;
     for(;;)
     {
@@ -93,7 +93,7 @@ int main(int argc, char* argv[])
 			taSpeed = me.dataLen;
     		    	taSpeed /= me.duration;
 			taSpeed *= 1000;
-	                fprintf(stderr, "curr %llf MB/s\tavg %llf MB/s\tmax %llfMB/s\n", me.lastSpeed / 1024 / 1024, taSpeed / 1024 / 1024, me.maxSpeed / 1024 / 1024);
+	                fprintf(stderr, "%llf\t%llf\t%llf\n", me.lastSpeed / 1024 / 1024, taSpeed / 1024 / 1024, me.maxSpeed / 1024 / 1024);
 			t = 0;
 		}
 	}
