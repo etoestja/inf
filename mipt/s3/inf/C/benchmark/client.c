@@ -58,11 +58,43 @@ int main(int argc, char* argv[])
 
     char *buf = malloc(sizeof(char) * blockSize);
 
+
     // parent
+    setTime();
+    client me;
+    me.duration = 0;
+    unsigned long long tDiff = 0, tLen = 0;
+    long double taSpeed;
+    const int T = 10;
+    int t = 0;
     for(;;)
     {
         if(send(serverSocket, buf, blockSize, 0) < 0)
             fprintf(stderr, "child send failed!\n");
+	tDiff = getTimeDifference();
+	tLen += blockSize;
+
+	if(tDiff > DMIN)
+	{
+		t++;
+		me.dataLen += tLen;
+		me.duration += tDiff;
+		me.lastSpeed = tLen;
+		me.lastSpeed /= tDiff;
+		me.lastSpeed *= 1000;
+		if(me.maxSpeed < me.lastSpeed)
+			me.maxSpeed = me.lastSpeed;
+		tLen = 0;
+		setTime();
+		if(t >= T)
+		{
+			taSpeed = me.dataLen;
+    		    	taSpeed /= me.duration;
+			taSpeed *= 1000;
+	                fprintf(stderr, "curr %llf MB/s\tavg %llf MB/s\tmax %llfMB/s\n", me.lastSpeed / 1024 / 1024, taSpeed / 1024 / 1024, me.maxSpeed / 1024 / 1024);
+			t = 0;
+		}
+	}
     }
 
     close(serverSocket);
