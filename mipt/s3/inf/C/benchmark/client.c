@@ -63,6 +63,8 @@ int main(int argc, char* argv[])
     setTime();
     client me;
     me.duration = 0;
+    me.dataLen = 0;
+    me.maxSpeed = 0;
     unsigned long long tDiff = 0, tLen = 0;
     long double taSpeed;
     const int T = 10;
