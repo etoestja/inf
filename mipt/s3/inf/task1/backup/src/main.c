@@ -6,10 +6,15 @@
 #include <sys/stat.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <utime.h>
 #include <sys/types.h>
+#include <sys/time.h>
+
+// Print progress?
+#define PRINT_PROGRESS
 
 // Print additional information?
-#define DEBUG
+//#define DEBUG
 
 // Colorize?
 #define USE_COLORS
@@ -37,16 +42,26 @@ typedef struct
 {
     int exists;
     time_t lastModified;
+    time_t lastAccessed;
     int type;
 } fileInfo;
+
+
+void nofprintf(FILE* fstream, ...)
+{
+    return;
+}
 
 #ifdef DEBUG
     #define dfprintf fprintf
 #else
-void dfprintf(FILE* fstream, ...)
-{
-    return;
-}
+    #define dfprintf nofprintf
+#endif
+
+#ifdef PRINT_PROGRESS
+    #define pfprintf fprintf
+#else
+    #define pfprintf nofprintf
 #endif
 
 int getFileInfo(char* path, fileInfo *res)
@@ -73,6 +88,7 @@ int getFileInfo(char* path, fileInfo *res)
     }
 
     res->lastModified = tStat.st_mtime;
+    res->lastAccessed = tStat.st_atime;
 
     return(0);
 }
@@ -88,23 +104,36 @@ char* getPathAddItem(char* dir, char* item)
     return(res);
 }
 
-int cp(char* src, char* dest)
+int setMATime(char* path, time_t M, time_t A)
+{
+    struct utimbuf tUtimBuf;
+    tUtimBuf.actime  = A;
+    tUtimBuf.modtime = M;
+
+    if(utime(path, &tUtimBuf))
+    {
+        pfprintf(stderr, "utime ");
+        return(1);
+    }
+    return(0);
+}
+
+int cp(char* src, char* dest, fileInfo* srcInfo)
 {
     int fdSrc  = open(src,  O_RDONLY);
 
     if(fdSrc < 0)
     {
-        fprintf(stderr, "src ");
+        pfprintf(stderr, "src ");
         close(fdSrc);
         return(-1);
     }
-
 
     int fdDest = open(dest, O_WRONLY | O_CREAT, 0777);
 
     if(errno == EEXIST)
     {
-        //fprintf(stderr, "REOPEN\n");
+        //pfprintf(stderr, "REOPEN\n");
         fdDest = open(dest, O_WRONLY, 0777);
     }
 
@@ -124,13 +153,16 @@ int cp(char* src, char* dest)
     else
     {
         if(fdDest < 0)
-            fprintf(stderr, "dest ");
+            pfprintf(stderr, "dest ");
         //fprintf(stderr, "OPNF fdSrc=%d fdDest=%d\n", fdSrc, fdDest);
         res = 1;
     }
 
     close(fdSrc);
     close(fdDest);
+
+    if(setMATime(dest, srcInfo->lastModified, srcInfo->lastAccessed))
+        return(-1);
 
     return(res);
 }
@@ -147,13 +179,28 @@ int directoryScanBackup(char* src, char* dest)
 
     if(dir == NULL)
     {
-        fprintf(stderr, PATHCOLOR "%s" RESET ": opendir " ERRORCOLOR "failed" RESET "\n", src);
+        pfprintf(stderr, PATHCOLOR "%s" RESET ": opendir " ERRORCOLOR "failed" RESET "\n", src);
         return(-1);
     }
 
     if(mkdir(dest, 0777) && errno != EEXIST)
     {
-        fprintf(stderr, PATHCOLOR "%s" RESET ": mkdir " ERRORCOLOR "failed" RESET " [%s]\n", src, dest);
+        pfprintf(stderr, PATHCOLOR "%s" RESET ": mkdir " ERRORCOLOR "failed" RESET " [%s]\n", src, dest);
+        closedir(dir);
+        return(-1);
+    }
+
+    fileInfo infoDir;
+    if(getFileInfo(src, &infoDir))
+    {
+        pfprintf(stderr, PATHCOLOR "%s" RESET ": getFileInfo " ERRORCOLOR "failed" RESET "\n", src);
+        closedir(dir);
+        return(-1);
+    }
+    if(setMATime(dest, infoDir.lastModified,  infoDir.lastAccessed))
+    {
+        pfprintf(stderr, "failed\n");
+        closedir(dir);
         return(-1);
     }
 
@@ -168,18 +215,18 @@ int directoryScanBackup(char* src, char* dest)
         pathSrc  = getPathAddItem(src, directory->d_name);
         pathDest = getPathAddItem(dest, directory->d_name);
 
-        dfprintf(stderr, PATHCOLOR "%s" RESET ": ", pathSrc);
+        pfprintf(stderr, PATHCOLOR "%s" RESET ": ", pathSrc);
 
         if(getFileInfo(pathSrc, &infoSrc))
         {
-            fprintf(stderr, ERRORCOLOR "Can't stat file %s!" RESET "\n", pathSrc);
+            pfprintf(stderr, ERRORCOLOR "Can't stat file %s!" RESET "\n", pathSrc);
             res = -1;
             continue;
         }
 
         if(getFileInfo(pathDest, &infoDest))
         {
-            fprintf(stderr, ERRORCOLOR "Can't stat file %s!" RESET "\n", pathSrc);
+            pfprintf(stderr, ERRORCOLOR "Can't stat file %s!" RESET "\n", pathSrc);
             res = -1;
             continue;
         }
@@ -188,7 +235,7 @@ int directoryScanBackup(char* src, char* dest)
         {
             if(infoSrc.type == _DIRECTORY)
             {
-                dfprintf(stderr, "opening...\n");
+                pfprintf(stderr, "opening...\n");
                 if(directoryScanBackup(pathSrc, pathDest))
                     res = -1;
             }
@@ -196,12 +243,12 @@ int directoryScanBackup(char* src, char* dest)
             {
                 if(!infoDest.exists || infoDest.lastModified < infoSrc.lastModified)
                 {
-                    fprintf(stderr, "cp " PATHCOLOR "%s" RESET " ", pathDest);
-                    if(cp(pathSrc, pathDest))
-                        fprintf(stderr, ERRORCOLOR "error!" RESET "\n");
-                    else fprintf(stderr, OKCOLOR "OK" RESET "\n");
+                    pfprintf(stderr, "cp " PATHCOLOR "%s" RESET " ", pathDest);
+                    if(cp(pathSrc, pathDest, &infoSrc))
+                        pfprintf(stderr, ERRORCOLOR "error!" RESET "\n");
+                    else pfprintf(stderr, OKCOLOR "OK" RESET "\n");
                 }
-                else fprintf(stderr, SKIPCOLOR "skipping" RESET "\n");
+                else pfprintf(stderr, SKIPCOLOR "skipping" RESET "\n");
             }
         }
         else
@@ -215,7 +262,7 @@ int directoryScanBackup(char* src, char* dest)
 
     if(closedir(dir) < 0)
     {
-        dfprintf(stderr, "closedir failed [%s]\n", src);
+        pfprintf(stderr, "closedir failed [%s]\n", src);
         return(-1);
     }
 
