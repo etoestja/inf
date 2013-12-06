@@ -1,0 +1,1 @@
+../../../../informatics/cubic/main.cpp
