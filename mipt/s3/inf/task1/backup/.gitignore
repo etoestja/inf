@@ -2,3 +2,8 @@
 lib/*.a
 lib/*.o
 *.tgz
+qt/Makefile
+qt/backup
+qt/*.o
+*~
+tests/*/dest
