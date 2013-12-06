@@ -157,8 +157,7 @@ int cp(char* src, char* dest, fileInfo* srcInfo)
     }
     else
     {
-        if(fdDest < 0)
-            pfprintf(stderr, "dest ");
+        pfprintf(stderr, "dest ");
         //fprintf(stderr, "OPNF fdSrc=%d fdDest=%d\n", fdSrc, fdDest);
         res = 1;
     }
@@ -283,7 +282,10 @@ int directoryScanBackup(char* src, char* dest)
                 {
                     pfprintf(stderr, "cp " PATHCOLOR "%s" RESET " ", pathDest);
                     if(cp(pathSrc, pathDest, &infoSrc))
+                    {
                         pfprintf(stderr, ERRORCOLOR "error!" RESET "\n");
+                        res = -1;
+                    }
                     else
                     {
                         pfprintf(stderr, OKCOLOR "OK" RESET " gzip... ");
@@ -308,7 +310,7 @@ int directoryScanBackup(char* src, char* dest)
             }
         }
         else
-            dfprintf(stderr, "\n");
+            pfprintf(stderr, "\n");
 
         free(pathSrc);
         pathSrc = NULL;
@@ -344,7 +346,16 @@ int main(int argc, char** argv, char** envp)
 
     envpGlobal = &envp;
 
-    directoryScanBackup(argv[1], argv[2]);
+    if(directoryScanBackup(argv[1], argv[2]))
+    {
+        printf(ERRORCOLOR "Completed, with errors" RESET "\n");
+        return(-1);
+    }
+    else
+    {
+        printf(OKCOLOR "Completed, no errors" RESET "\n");
+        return(0);
+    }
 
     return(0);
 }
