@@ -4,6 +4,7 @@
 #include <dirent.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <utime.h>
@@ -52,6 +53,8 @@ void nofprintf(FILE* fstream, ...)
     return;
 }
 
+const char* extensionGZ = ".gz";
+
 #ifdef DEBUG
     #define dfprintf fprintf
 #else
@@ -63,6 +66,8 @@ void nofprintf(FILE* fstream, ...)
 #else
     #define pfprintf nofprintf
 #endif
+
+char*** envpGlobal;
 
 int getFileInfo(char* path, fileInfo *res)
 {
@@ -167,6 +172,35 @@ int cp(char* src, char* dest, fileInfo* srcInfo)
     return(res);
 }
 
+int fileGZ(char* path)
+{
+//    const char* command = "tar";
+//    const char* args[] = {command, "-C", directory, "-czf", fullDestPathGZ, file, NULL};
+
+    const char* command = "gzip";
+    const char* args[] = {command, "-f", path, NULL};
+
+    //fprintf(stderr, "cmd=%s -C %s -czf %s %s\n", command, directory, fullDestPathGZ, file);
+
+    pid_t tPID;
+    int status;
+
+    if((tPID = fork()))
+    {
+        if(waitpid(tPID, &status, 0) < 0)
+            return(-1);
+        if(WIFEXITED(status) && WEXITSTATUS(status) == 0)
+            return(0);
+        return(-1);
+    }
+    else
+    {
+        execvpe(command, args, *envpGlobal);
+        return(-1);
+    }
+    return(-1);
+}
+
 int directoryScanBackup(char* src, char* dest)
 {
     if(src == NULL || dest == NULL)
@@ -197,16 +231,10 @@ int directoryScanBackup(char* src, char* dest)
         closedir(dir);
         return(-1);
     }
-    if(setMATime(dest, infoDir.lastModified,  infoDir.lastAccessed))
-    {
-        pfprintf(stderr, "failed\n");
-        closedir(dir);
-        return(-1);
-    }
 
     struct dirent *directory;
-    char *pathSrc = NULL, *pathDest = NULL;
-    fileInfo infoSrc, infoDest;
+    char *pathSrc = NULL, *pathDest = NULL, *pathDestGZ = NULL;
+    fileInfo infoSrc, /*infoDest,*/ infoDestGZ;
 
     while((directory = readdir(dir)) != NULL)
     {
@@ -214,6 +242,9 @@ int directoryScanBackup(char* src, char* dest)
 
         pathSrc  = getPathAddItem(src, directory->d_name);
         pathDest = getPathAddItem(dest, directory->d_name);
+        pathDestGZ = malloc(sizeof(char) * (strlen(pathDest) + strlen(extensionGZ) + 1));
+        strcpy(pathDestGZ, pathDest);
+        strcat(pathDestGZ, extensionGZ);
 
         pfprintf(stderr, PATHCOLOR "%s" RESET ": ", pathSrc);
 
@@ -224,9 +255,16 @@ int directoryScanBackup(char* src, char* dest)
             continue;
         }
 
-        if(getFileInfo(pathDest, &infoDest))
+//        if(getFileInfo(pathDest, &infoDest))
+//        {
+//            pfprintf(stderr, ERRORCOLOR "Can't stat file %s!" RESET "\n", pathDest);
+//            res = -1;
+//            continue;
+//        }
+
+        if(getFileInfo(pathDestGZ, &infoDestGZ))
         {
-            pfprintf(stderr, ERRORCOLOR "Can't stat file %s!" RESET "\n", pathSrc);
+            pfprintf(stderr, ERRORCOLOR "Can't stat file %s!" RESET "\n", pathDestGZ);
             res = -1;
             continue;
         }
@@ -241,12 +279,30 @@ int directoryScanBackup(char* src, char* dest)
             }
             else
             {
-                if(!infoDest.exists || infoDest.lastModified < infoSrc.lastModified)
+                if(!infoDestGZ.exists || infoDestGZ.lastModified < infoSrc.lastModified)
                 {
                     pfprintf(stderr, "cp " PATHCOLOR "%s" RESET " ", pathDest);
                     if(cp(pathSrc, pathDest, &infoSrc))
                         pfprintf(stderr, ERRORCOLOR "error!" RESET "\n");
-                    else pfprintf(stderr, OKCOLOR "OK" RESET "\n");
+                    else
+                    {
+                        pfprintf(stderr, OKCOLOR "OK" RESET " gzip... ");
+                        if(fileGZ(pathDest))
+                        {
+                            pfprintf(stderr, ERRORCOLOR "error!" RESET "\n");
+                            res = -1;
+                        }
+                        else
+                        {
+                            pfprintf(stderr, OKCOLOR "OK" RESET "\n");
+                            if(setMATime(pathDestGZ, infoSrc.lastModified,  infoSrc.lastAccessed))
+                            {
+                                //fprintf(stderr, "path=%s\n", pathDestGZ);
+                                pfprintf(stderr, ERRORCOLOR "gz failed" RESET "\n");
+                                res = -1;
+                            }
+                        }
+                    }
                 }
                 else pfprintf(stderr, SKIPCOLOR "skipping" RESET "\n");
             }
@@ -258,11 +314,20 @@ int directoryScanBackup(char* src, char* dest)
         pathSrc = NULL;
         free(pathDest);
         pathDest = NULL;
+        free(pathDestGZ);
+        pathDestGZ = NULL;
     }
 
     if(closedir(dir) < 0)
     {
         pfprintf(stderr, "closedir failed [%s]\n", src);
+        return(-1);
+    }
+
+    if(setMATime(dest, infoDir.lastModified,  infoDir.lastAccessed))
+    {
+        pfprintf(stderr, ERRORCOLOR "failed" RESET "\n");
+        closedir(dir);
         return(-1);
     }
 
@@ -276,6 +341,8 @@ int main(int argc, char** argv, char** envp)
         printf("Usage: %s /path/to/src_dir /path/to/dest_dir\n", argv[0]);
         return(-1);
     }
+
+    envpGlobal = &envp;
 
     directoryScanBackup(argv[1], argv[2]);
 
