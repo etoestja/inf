@@ -1,7 +1,7 @@
 CFLAGS=
 all: server client
 client: sems.o common.o client.o client.c
-	gcc $(CFLAGS) mmapped.o msgqueue.o sems.o common.o client.o -o $@
+	gcc $(CFLAGS) common.o client.o -o $@
 server: mmapped.o msgqueue.o sems.o common.o server.o server.c
 	gcc $(CFLAGS) msgqueue.o common.o server.o sems.o mmapped.o -o $@
 .o: common.h $<.c common.c
@@ -10,4 +10,3 @@ clean:
 	rm -rf *.o
 	rm -rf server client
 	rm -rf *~
-	rm -rf clients*

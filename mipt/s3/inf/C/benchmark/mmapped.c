@@ -71,8 +71,10 @@ void initMPD(char* filename)
         int i;
         for(i = 0; i < CLIENTSMAX; i++)
         {
-            clients[i].port = -1;
-            clients[i].id = -1;
+            clients[i].duration = 0;
+            clients[i].dataLen = 0;
+	    clients[i].maxSpeed = 0;
+	    clients[i].lastSpeed = 0;
         }
     }
 }
