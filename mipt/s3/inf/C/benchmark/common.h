@@ -7,7 +7,7 @@
 
 #define CLIENTSMAX 100
 
-#define DMIN 100
+#define DMIN 10
 
 typedef struct
 {
