@@ -7,6 +7,7 @@ typedef double nType;
 #define EPS 1e-10
 
 //#define DEBUG
+#define USEFILES
 
 typedef struct matrix
 {
@@ -225,10 +226,21 @@ void printMatrices(matrix* A, matrix * B)
 void printMatrix(matrix *M)
 {
     int i, j;
+    for(i = 0; i < M->R; i++)
+    {
+        for(j = 0; j < M->C; j++)
+            printf("%lf\t", M->ptr[i][j]);
+        printf("\n");
+    }
+}
+
+void printMatrixComplex(matrix *M)
+{
+    int i, j;
     for(i = 0; i < M->R / 2; i++)
     {
         for(j = 0; j < M->C / 2; j++)
-            printf("%lf %lf\t", M->ptr[i][j], M->ptr[i, j + M->C / 2]);
+            printf("%lf\t%lf\t", M->ptr[i][j], M->ptr[i][j + M->C / 2]);
         printf("\n");
     }
 }
@@ -273,9 +285,10 @@ int main(int argc, char** argv)
     for(ss = 0; ss < argc; ss++)
         printf("argv#%d=%s\n", ss, argv[ss]);
 */
-
+#ifdef USEFILES
     freopen("matrix.in", "r", stdin);
     freopen("matrix.out", "w", stdout);
+#endif
 
     int N;
     scanf("%d", &N);
@@ -295,7 +308,7 @@ int main(int argc, char** argv)
     if(M2->R == 0 || M2->C == 0)
         return(1);
 
-    printMatrix(M2);
+    printMatrixComplex(M2);
 
     freeMatrix(M1);
     freeMatrix(M2);
