@@ -1,0 +1,4 @@
+LRk
+LRk.pro.user
+analyzer.o grammar.o main.o rule.o situation.o situation_set.o
+Makefile
