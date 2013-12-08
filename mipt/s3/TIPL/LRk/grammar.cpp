@@ -107,15 +107,21 @@ set<string> Grammar::firstAppend(set<string> xParse, set<string> yParse)
 
 set<string> Grammar::firstAppend(string xParse, string yPlain)
 {
-    set<string> res;
+    set<string> res, tRes;
     string::iterator it;
     set<string>::iterator sit;
+
     for(it = xParse.begin(); it != xParse.end(); it++)
     {
-        set<string> currentF = F[stringFromChar(*it)];
-        for(sit = currentF.begin(); sit != currentF.end(); sit++)
-            res.insert(((*sit) + yPlain).substr(0, k));
+        if(it == xParse.begin())
+            tRes = F[stringFromChar(*it)];
+        else
+            tRes = firstAppend(tRes, F[stringFromChar(*it)]);
     }
+
+    for(sit = tRes.begin(); sit != tRes.end(); sit++)
+        res.insert(((*sit) + yPlain).substr(0, k));
+
     return(res);
 }
 
