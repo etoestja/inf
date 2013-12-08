@@ -8,7 +8,7 @@ using std::endl;
 int main()
 {
     //cout << "Hello World!" << endl;
-    Grammar G(cin);
+    Grammar G(cin, 2);
     cout << G.print();
     return 0;
 }

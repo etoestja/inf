@@ -7,12 +7,14 @@ SOURCES += main.cpp \
     rule.cpp \
     analyzer.cpp \
     situation.cpp \
-    situation_set.cpp
+    situation_set.cpp \
+    common.cpp
 
 HEADERS += \
     grammar.h \
     rule.h \
     analyzer.h \
     situation.h \
-    situation_set.h
+    situation_set.h \
+    common.h
 
