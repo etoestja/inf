@@ -9,8 +9,13 @@ class Analyzer
 private:
     Grammar G;
     SituationSet states;
+
+    void calcStates();
+    SituationSet closure(SituationSet s);
+
 public:
     Analyzer();
+    Analyzer(Grammar G);
 };
 
 #endif // ANALYZER_H

@@ -10,10 +10,16 @@ using std::istream;
 const string EPS = "eps";
 
 class Grammar;
+class Analyzer;
+class Situation;
+class SituationSet;
 
 class Rule
 {
     friend class Grammar;
+    friend class Analyzer;
+    friend class Situation;
+    friend class SituationSet;
 private:
     string L;
     string R;

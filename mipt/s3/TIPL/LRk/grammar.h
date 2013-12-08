@@ -12,8 +12,11 @@ using std::vector;
 using std::set;
 using std::map;
 
+class Analyzer;
+
 class Grammar
 {
+    friend class Analyzer;
 private:
     unsigned int k;
     string S;

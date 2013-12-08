@@ -2,16 +2,21 @@
 #define SET_H
 
 #include "situation.h"
-#include <vector>
+#include <set>
 
-using std::vector;
+using std::set;
+
+class Analyzer;
 
 class SituationSet
 {
+    friend class Analyzer;
 private:
-    vector<situation> situations;
+    set<Situation, Situation> situations;
 public:
     SituationSet();
+    void add(Situation s);
+    void add(SituationSet ss);
 };
 
 #endif // SET_H
