@@ -32,6 +32,7 @@ public:
     void read(istream &s);
     string& getL();
     string& getR();
+    bool operator==(const Rule& a) const;
 };
 
 #endif // RULE_H

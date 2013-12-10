@@ -35,3 +35,9 @@ Rule::Rule(string tL, string tR)
     L = tL;
     R = tR;
 }
+
+
+bool Rule::operator==(const Rule &a) const
+{
+    return(!L.compare(a.L) && !R.compare(a.R));
+}

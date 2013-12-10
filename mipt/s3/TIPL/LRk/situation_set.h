@@ -3,6 +3,7 @@
 
 #include "situation.h"
 #include <set>
+#include <string>
 
 using std::set;
 
@@ -17,6 +18,9 @@ public:
     SituationSet();
     void add(Situation s);
     void add(SituationSet ss);
+    bool operator==(SituationSet& a) const;
+    string print() const;
+    bool operator()(const SituationSet &a, const SituationSet &b) const;
 };
 
 #endif // SET_H

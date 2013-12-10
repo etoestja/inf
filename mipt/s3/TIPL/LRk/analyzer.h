@@ -4,18 +4,23 @@
 #include "grammar.h"
 #include "situation_set.h"
 
+#include <string>
+
+using std::string;
+
 class Analyzer
 {
 private:
     Grammar G;
-    SituationSet states;
+    set<SituationSet, SituationSet> states;
 
     void calcStates();
     SituationSet closure(SituationSet s);
 
 public:
     Analyzer();
-    Analyzer(Grammar G);
+    Analyzer(Grammar _G);
+    string print();
 };
 
 #endif // ANALYZER_H
