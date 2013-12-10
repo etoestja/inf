@@ -1,0 +1,90 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+%\geometry{paperwidth=210mm, paperheight=2000pt, left=5pt, top=5pt}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,arrows,trees}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage[makeroom]{cancel} % зачеркивание
+\usepackage{multicol,multirow} %Несколько колонок
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{wasysym}
+\title{Теория и реализация языков программирования.\\Доказательство алгоритма Brzozowski ($\mathrm{DRDR}\A\cong\A_{\min}$)}
+\date{\today}
+\author{Сергей~Володин, 272 гр.}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+% названия автоматов  (rubtsov)
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+
+%+= и -=, иначе разъезжаются...
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
+% пустое слово  (rubtsov)
+\def\eps{\varepsilon}
+
+% регулярные языки  (rubtsov)
+\def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\newcommand{\niton}{\not\owns}
+
+%FIRST & FOLLOW (rubtsov)
+\def\first{\mathrm{ FIRST} }
+\def\follow{\mathrm{ FOLLOW} }
+
+% LL LR (rubtsov)
+\def\LL{{\mathrm{LL}}}
+\def\LR{{\mathrm{LR}}}
+
+\def\D{{\mathrm{D}}}
+\def\R{{\mathrm{R}}}
+
+\begin{document}
+\maketitle
+% да, я ее купил
+{\em{Доказательство основано на доказательстве со стр. 116-117 книги \href{http://lib.mipt.ru/book/283234/}{<<Elements of Automata Theory>>, Jacques Sakarovitch}}}
+\begin{enumerate}
+\item До того, как не указано обратное считаем, что у автоматов нет $\varepsilon$-переходов.\newline
+Обобщим определение конечного автомата: $\A=(Q,\Sigma,\delta,I,F)$, где $I$ вместо $q_0$~--- множесто начальных состояний.\newline
+$w\in L(\A)\overset{\mbox{\tiny def}}{\Leftrightarrow} \exists i\in I\colon (i,w)\vdash^*(q,\varepsilon), q\in F$, где $\vdash^*$~--- из изначального определения. Автомат называем детерминированным, если $|I|=1$, и он детерминированный в смысле изначального определения.
+\item Определим $\R\A\eqdef(Q,\Sigma,\delta^r,F,I)$~--- автомат с обращенными переходами, распознающий $L(\A)^r$. $\delta^r(p,a)\ni q\Leftrightarrow \delta(q,a)\ni p$. (отличие от изначального алгоритма в том, что не создается $\varepsilon$-переходов и новых состояний).
+\begin{itemize}
+\item Пусть $|I|=1$. Тогда у $\R\A$ одно принимающее состояние.
+\item По построению, $\R\R\A=\A$.
+\end{itemize}
+\item Определим $\D\A\eqdef(Q',\Sigma,\delta,I',F')$~--- автомат, полученный детерминизацией $\A$ по модифицированному алгоритму:
+\begin{itemize}
+\item Пусть $|I|>1$. В начале соединим $\varepsilon$-переходами все начальные состояния, и выберем в качестве нового начального какое-нибудь одно. Очевидно, полученный автомат будет эквивалентен исходному, но он уже будет иметь одно начальное состояние. Далее выполним исходный алгоритм.
+\item В определении указана та же функция переходов, что и у $\A$. Имеется в виду, что $\delta$ доопределена следующим образом на множествах состояний исходного автомата: $\delta(X,a)=\bigcup\limits_{x\in X}\delta(x,a)$. Заметим, что именно такую функцию переходов даст алгоритм: $\delta^{\mbox{\tiny alg.}}(X,a)=\bigcup\limits_{x\in X}\varepsilon\mbox{-closure}(\delta(x,a))$, и $\varepsilon$-переходов в исходном автомате нет (кроме тех, которые соединяют старые начальные, но все эти состояния будут объединены в одно множество-состояние, поэтому равенство сохранится).
+\end{itemize}
+\item Пусть $\A=(Q,\Sigma,\delta,I,F)$~--- НКА, причем $\R\A$~--- детерминированный, и все его состояния достижимы. Тогда $\D\A\cong \A_{\min}$.\begin{enumerate}
+\item $L\eqdef L(\A)$. $\R\A$~--- детерминированный, поэтому имеет одно начальное состояние. Значит, $\A$ имеет одно принимающее состояние: $F=\{f\}$.
+\item Пусть $x,y\in\Sigma^*\colon x\sim_L y$. Докажем, что $\delta(I, x)=\delta(I, y)$.\newline
+Действительно, пусть $\underline{p\in\delta(I,x)}$. Тогда $\exists i\in I\colon i\overset{x}{\to}p$. Поскольку все состояния $\R\A$ достижимы по условию (из его начального состояния $f$), имеем слово $z$ и путь $p\overset{z}{\to}f$ в $\A$. Получаем, $i\overset{x}{\to}p\overset{z}{\to}f\in F$, и $xz\in L$. Но $x\sim y$, значит, $yz\in L$. Значит, $\exists i'\in I\colon (i',yz)\vdash^*(f,\varepsilon)$. Пусть перед прочтением $z$ автомат находился в $p'$. Тогда $p'\overset{z}{\to}f$. $\R\A$~--- детерминированный, поэтому в нем путь из $f$ по $z$ единственный, поэтому $p=p'$. Значит, $i'\overset{y}{\to}p\overset{z}{\to}f$, т.е. $\delta(i',y)\ni p$, а, значит, $\underline{p\in\delta(I,y)}$. Аналогично доказывается обратное включение $\delta(I,y)\subseteq\delta(I,x)$.
+\item Заметим, что задана функция $\varphi$, сопоставляющая классу эквивалентности некоторое состояние автомата $\D\A$: классу с представителем $x$ сопоставлено состояние $\delta(I,x)$. Корректность (значение функции не зависит от выбора представителя класса) как раз доказана выше.
+\item Поскольку все состояния $\D\A$ достижимы, $\varphi$~--- сюръективно: состояние $\delta(I,w)$ можно выразить как $\varphi(C(w))$. Отсюда следует, что количество состояний $\D\A$ не больше, чем $|\Sigma^*/\sim_L|$. Значит, эти числа равны.
+\item Изоморфизм между каноническим минимальным автоматом и $\D\A$ уже построен: действительно, $\varphi$~--- биекция (сюръективность $+$ равенство мощностей $\mbox{E}\varphi$ и $\mbox{D}\varphi$). Также $\varphi$ сохраняет переходы: \begin{enumerate}
+\item Пусть $C(w)\overset{a}{\to} C(wa)$ (переходы на классах эквивалентности).\newline
+Тогда $\varphi(C(w))=\delta(I,w)\overset{a}{\to}\delta(\delta(I,w),a)=\delta(I,wa)=\varphi(C(wa))$.
+\item Пусть $X\overset{a}{\to}Y$ (переходы на состояниях).\newline
+$X=\delta(I,w)$. Тогда $\delta(I,wa)=Y$, $X=\varphi(C(w))$, и $\varphi^{-1}(X)=C(w)\overset{a}{\to}C(wa)=\varphi^{-1}(Y)$.
+\end{enumerate}
+\end{enumerate}
+$\blacksquare$
+\item Пусть дан НКА $\A$. Построим $\B\eqdef\R\D\R\A$. $\R\B\equiv\D\R\A$~--- детерминированный, все его состояния достижимы. Тогда $\D\B\cong\B_{\min}=\A_{\min}$, так как $L(\B)={L(\A)^{R}}^{R}=L(\A)$, т.е. $\boxed{\D\R\D\R\A\cong\A_{\min}}$
+\item Заметим, что доказываемая изоморфность сохранится, если разрешить $\varepsilon$-переходы в $\A$, т.к. $\varepsilon$-переходов уже не будет после первой детерминизации $\D\R\A$.
+\end{enumerate}
+\end{document}
