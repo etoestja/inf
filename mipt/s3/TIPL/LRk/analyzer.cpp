@@ -29,6 +29,27 @@ void Analyzer::calcStates()
     cerr << "TSET=" << tSet.print() << endl;
 
     states.insert(closure(tSet));
+
+    set<SituationSet, SituationSet> prevStates;
+    set<SituationSet, SituationSet>::iterator ssit;
+    set<Situation>::iterator sit;
+    SituationSet tSituation;
+    SituationSet nSet;
+    while(true)
+    {
+        prevStates = states;
+
+        for(ssit = states.begin(); ssit != states.end(); ssit++)
+        {
+            tSituation = *ssit;
+            for(sit = tSituation.situations.begin(); sit != tS.situations.end(); sit++)
+            {                l
+            }
+        }
+
+        if(prevStates == states)
+            break;
+    }
 }
 
 SituationSet Analyzer::closure(SituationSet s)
