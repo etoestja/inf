@@ -1,0 +1,138 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[      3517,        128]
+NotebookOptionsPosition[      3197,        112]
+NotebookOutlinePosition[      3534,        127]
+CellTagsIndexPosition[      3491,        124]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{"FullSimplify", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"A", "+", 
+      RowBox[{"z", "^", "2"}], "+", 
+      RowBox[{"y", "^", "2"}]}], ")"}], "*", 
+    RowBox[{"(", 
+     RowBox[{"B", "+", 
+      RowBox[{"x", "^", "2"}], "+", 
+      RowBox[{"z", "^", "2"}]}], ")"}], "*", 
+    RowBox[{"(", 
+     RowBox[{"C", "+", 
+      RowBox[{"x", "^", "2"}], "+", 
+      RowBox[{"y", "^", "2"}]}], ")"}]}], "-", 
+   RowBox[{"2", "*", 
+    RowBox[{"x", "^", "2"}], "*", 
+    RowBox[{"y", "^", "2"}], "*", 
+    RowBox[{"z", "^", "2"}]}], "-", 
+   RowBox[{
+    RowBox[{"x", "^", "2"}], "*", 
+    RowBox[{"z", "^", "2"}], "*", 
+    RowBox[{"(", 
+     RowBox[{"B", "+", 
+      RowBox[{"x", "^", "2"}], "+", 
+      RowBox[{"z", "^", "2"}]}], ")"}]}], "-", 
+   RowBox[{
+    RowBox[{"x", "^", "2"}], "*", 
+    RowBox[{"y", "^", "2"}], "*", 
+    RowBox[{"(", 
+     RowBox[{"C", "+", 
+      RowBox[{"x", "^", "2"}], "+", 
+      RowBox[{"y", "^", "2"}]}], ")"}]}], "-", 
+   RowBox[{
+    RowBox[{"y", "^", "2"}], "*", 
+    RowBox[{"z", "^", "2"}], "*", 
+    RowBox[{"(", 
+     RowBox[{"A", "+", 
+      RowBox[{"y", "^", "2"}], "+", 
+      RowBox[{"z", "^", "2"}]}], ")"}]}], "-", 
+   RowBox[{"A", "*", "B", "*", "C"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.59706562950303*^9, 3.59706576882286*^9}, {
+  3.597065853028627*^9, 3.597065854629302*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"B", " ", 
+   SuperscriptBox["y", "2"], " ", 
+   RowBox[{"(", 
+    RowBox[{"C", "+", 
+     SuperscriptBox["x", "2"], "+", 
+     SuperscriptBox["y", "2"]}], ")"}]}], "+", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"C", " ", 
+      RowBox[{"(", 
+       RowBox[{"B", "+", 
+        SuperscriptBox["x", "2"]}], ")"}]}], "+", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"B", "+", "C"}], ")"}], " ", 
+      SuperscriptBox["y", "2"]}]}], ")"}], " ", 
+   SuperscriptBox["z", "2"]}], "+", 
+  RowBox[{"C", " ", 
+   SuperscriptBox["z", "4"]}], "+", 
+  RowBox[{"A", " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"B", " ", 
+      RowBox[{"(", 
+       RowBox[{
+        SuperscriptBox["x", "2"], "+", 
+        SuperscriptBox["y", "2"]}], ")"}]}], "+", 
+     RowBox[{
+      SuperscriptBox["x", "2"], " ", 
+      RowBox[{"(", 
+       RowBox[{"C", "+", 
+        SuperscriptBox["x", "2"], "+", 
+        SuperscriptBox["y", "2"]}], ")"}]}], "+", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"C", "+", 
+        SuperscriptBox["x", "2"]}], ")"}], " ", 
+      SuperscriptBox["z", "2"]}]}], ")"}]}]}]], "Output",
+ CellChangeTimes->{{3.597065727088916*^9, 3.597065769570352*^9}, 
+   3.5970658553300953`*^9}]
+}, Open  ]]
+},
+WindowSize->{640, 623},
+WindowMargins->{{140, Automatic}, {Automatic, 20}},
+FrontEndVersion->"7.0 for Linux x86 (64-bit) (October 28, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[567, 22, 1370, 43, 72, "Input"],
+Cell[1940, 67, 1241, 42, 52, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+
