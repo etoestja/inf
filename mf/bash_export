@@ -1,22 +1,17 @@
 # Settings:
 if [ "$(hostname)" == "seriy-laptop" ]
 then
-    INF_PATH=/home/seriy/Documents/p/inf
-fi
-if [ "$(hostname)" == "seriy-server" ]
-then
-    INF_PATH=/home/seriy/Documents/p/inf
+    INF_PATH=/home/seriy/Documents/p/git/inf
 fi
 if [ "$(hostname)" == "seriy-maemo" ]
 then
-    INF_PATH=/root/Documents/p/inf
+    INF_PATH=/root/Documents/p/git/inf
 fi
 if [ "X$INF_PATH" == "X" ]
 then
     #echo "ERROR: Can't find Inf repo ($(hostname)), setting to default"
-    INF_PATH=~/Documents/p/inf
+    INF_PATH=~/Documents/p/git/inf
 fi
-
 
 alias armsync="rsync -avz -e ssh s27505@192.168.1.48:~ /home/seriy/Documents/p/inf/mipt/s2/12"
 alias sshlk="ssh -l s27505 lk3.mipt.ru"
