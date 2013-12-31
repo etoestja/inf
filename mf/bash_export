@@ -9,7 +9,7 @@ then
 fi
 if [ "$(hostname)" == "seriy-maemo" ]
 then
-    INF_PATH=/root/Documents/p/inf
+    INF_PATH=/root/Documents/p/git/inf
 fi
 if [ "X$INF_PATH" == "X" ]
 then
