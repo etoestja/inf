@@ -8,5 +8,6 @@ sudo mount -t cifs //127.0.0.1/incoming -o username=username,password=password /
 
 ==== 42fm ====
 sudo ssh -l s27505 lk3.mipt.ru -C -L 8000:92.241.191.10:8000
+sudo ssh -l st27203 kpm7.mipt.ru -C -L 8000:92.241.191.10:8000
 
 usage: vlc http://127.0.0.1:8000/stealkill or mplayer http://127.0.0.1:8000/stealkill
