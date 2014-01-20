@@ -1,0 +1,47 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=50mm, right=50mm, top=5mm, bottom=5mm]{geometry}
+%\geometry{paperwidth=210mm, paperheight=2000pt, left=5pt, top=5pt}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,arrows,trees}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage[makeroom]{cancel} % зачеркивание
+\usepackage{multicol,multirow} %Несколько колонок
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{wasysym}
+\title{Теория и реализация языков программирования.\\Задание 10: LL-анализ}
+\date{задано 2013.11.13}
+\author{Сергей~Володин, 272 гр.}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+
+
+%+= и -=, иначе разъезжаются...
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
+% пустое слово  (rubtsov)
+\def\eps{\varepsilon}
+
+% регулярные языки  (rubtsov)
+\def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\newcommand{\niton}{\not\owns}
+
+
+
+\begin{document}
+$(*)\Leftrightarrow 3^{\sin x}y'=y\cos x\Leftrightarrow 3^{\sin x}\frac{dy}{dx}=y\cos x\Leftrightarrow \frac{dy}{y}=\frac{\cos x}{3^{\sin x}}dx\Leftrightarrow \int\frac{dy}{y}=\int\frac{\cos x}{3^{\sin x}}dx\Leftrightarrow(*)$\newline
+Рассмотрим последний интеграл: $\int\frac{\cos x}{3^{\sin x}}dx\equiv\int\frac{\cos x}{3^{\sin x}}dx=\int\frac{d\sin x}{3^{\sin x}}=|t=\sin x|=\int\frac{dt}{3^t}=-\frac{1}{3^t\ln 3}+C=-\frac{1}{3^{\sin x}\ln 3}+C$.\newline
+Тогда $(*)\Leftrightarrow \ln|y|=-\frac{1}{3^{\sin x}\ln 3}+C\Leftrightarrow y=C e^{-\frac{1}{3^{\sin x}\ln 3}}$
+\end{document}
