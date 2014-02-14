@@ -1,0 +1,34 @@
+#!/bin/bash
+
+if [ "X$1" == "X" ]
+then
+    echo "Usage: $0 <task number>"
+    exit 1
+else
+    N=$1
+fi
+
+function link
+{
+    echo -n "https://dl.dropboxusercontent.com/u/31418200/amv/2014/amv_task${1}"
+}
+
+dn=$N
+if (( $N == 10 ))
+then
+    dn=A
+fi
+
+mkdir $dn
+cd $dn
+wget -N $(link $N).pdf
+status=$?
+if [ "X$status" != "X0" ]
+then
+    echo "Error $status, no file"
+    cd ..
+    rm -rf $N
+else
+    wget -N $(link $N).tex
+    echo "Download OK"
+fi

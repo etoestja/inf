@@ -1,0 +1,229 @@
+ \documentclass[12pt, leqno]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}        % Кодировка входного документа;
+                                    % при необходимости, вместо cp1251
+                                    % можно указать cp866 (Alt-кодировка
+                                    % DOS) или koi8-r.
+
+\usepackage[english,russian]{babel} % Включение русификации, русских и
+                                    % английских стилей и переносов
+%%\usepackage{a4}
+%%\usepackage{moreverb}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,amsbsy,amstext,amscd,amsxtra,multicol}
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{algorithm2e}
+
+\usepackage{tabto} %Табуляция
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,trees}
+\usepackage{multicol} %Несколько колонок
+\usepackage{graphicx}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage[stable]{footmisc}
+
+\usepackage{enumitem} %Item tricks
+
+
+%% \voffset-5mm
+%% \def\baselinestretch{1.44}
+\renewcommand{\theequation}{\arabic{equation}}
+\def\hm#1{#1\nobreak\discretionary{}{\hbox{$#1$}}{}}
+\newtheorem{Lemma}{Лемма}
+\theoremstyle{definiton}
+\newtheorem{Remark}{Замечание}
+%%\newtheorem{Def}{Определение}
+\newtheorem{Claim}{Утверждение}
+\newtheorem{Cor}{Следствие}
+\newtheorem{Theorem}{Теорема}
+\newtheorem*{known}{Теорема}
+\def\proofname{Доказательство}
+\theoremstyle{definition}
+\newtheorem{Def}{Определение}
+\theoremstyle{definition}
+\newtheorem{Example}{Пример}
+
+%% \newenvironment{Example} % имя окружения
+%% {\par\noindent{\bf Пример.}} % команды для \begin
+%% {\hfill$\scriptstyle\qed$} % команды для \end
+
+
+
+
+
+
+%\date{22 июня 2011 г.}
+\let\leq\leqslant
+\let\geq\geqslant
+\def\MT{\mathrm{MT}}
+%Обозначения ``ажуром''
+\def\BB{\mathbb B}
+\def\CC{\mathbb C}
+\def\RR{\mathbb R}
+\def\SS{\mathbb S}
+\def\ZZ{\mathbb Z}
+\def\NN{\mathbb N}
+\def\FF{\mathbb F}
+%греческие буквы
+\let\epsilon\varepsilon
+\let\es\varnothing
+\let\eps\varepsilon
+\let\al\alpha
+\let\sg\sigma
+\let\ga\gamma
+\let\ph\varphi
+\let\om\omega
+\let\ld\lambda
+\let\Ld\Lambda
+\let\vk\varkappa
+\let\Om\Omega
+\def\first{\mathrm{ FIRST} }
+\def\follow{\mathrm{ FOLLOW} }
+\let\yield\Rightarrow
+\def\abstractname{}
+
+\def\R{{\cal R}}
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+\def\D{{\cal D}}
+\let\w\omega
+
+%классы сложности
+\def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
+\def\LL{{\mathrm{LL}}}
+\newcounter{problem}
+\newcounter{uproblem}
+\newcounter{subproblem}
+\def\pr{\medskip\noindent\stepcounter{problem}{\bf \theproblem .  }\setcounter{subproblem}{0} }
+\def\prp{\medskip\noindent\stepcounter{problem}{\bf Задача \theproblem .  }\setcounter{subproblem}{0} }
+\def\prstar{\medskip\noindent\stepcounter{problem}{\bf Задача $\bf \theproblem^*$\negthickspace.  }\setcounter{subproblem}{0} }
+\def\prdag{\medskip\noindent\stepcounter{problem}{\bf Задача $\theproblem^\dagger$ .  }\setcounter{subproblem}{0} }
+\def\upr{\medskip\noindent\stepcounter{uproblem}{\bf Упражнение \theuproblem .  }\setcounter{subproblem}{0} }
+%\def\prp{\vspace{5pt}\stepcounter{problem}{\bf Задача \theproblem .  } }
+%\def\prs{\vspace{5pt}\stepcounter{problem}{\bf \theproblem .*   }
+\def\prsub{\medskip\noindent\stepcounter{subproblem}{\rm \thesubproblem .  } }
+%прочее
+\def\quotient{\backslash\negthickspace\sim}
+
+\begin{document}
+\centerline{\LARGE Задание 1}
+
+\medskip
+
+\begin{center}
+	{\Large Алгоритмы и оценка сложности }
+\end{center}
+
+\bigskip
+
+{\bf Литература: }
+\begin{enumerate}
+
+\item Кормен Т., Лейзерсон Ч., Ривест Р., Штайн К. \\ {\it Алгоритмы. Построение и анализ. }\\  2-е изд. М.: Вильямс, 2005. Главы 1-4.
+
+\end{enumerate}
+
+\section{Предисловие}
+
+Основным учебником по нашему курсу будет книга \emph{CLRS} (Cormen, Thomas H.; Leiserson, Charles E., Rivest, Ronald L., Stein, Clifford). Все ссылки я буду давать на неё. Её стоит взять в библиотеке или скачать с \href{http://lib.mipt.ru/book/16736/}{lib.mipt.ru}. К каждому семинару я буду говорить какие главы по ней стоит прочесть. Составляя задание я буду считать, что вы приступили к его исполнению, прочитав соответствующие главы. Поэтому, в отличие от прошлого семестра, я практически не буду писать теории, а просто буду акцентировать внимание на некоторых моментах.  
+
+\section{Анализ алгоритмов}
+
+	Одна из важных задач нашего курса -- оценивать время работы алгоритма. При выполнении этого действия необходимо помнить с какой моделью вычислений мы работаем -- например,  на двухленточной машине Тьюринга копирование\footnote{На вход подаётся слово $x$, на выходе должно быть написано слово $xx$.} любого слова можно осуществить за $2n$ шагов, что несправедливо для одноленточной МТ.
+	
+	
+	В ближайшее время (скорее всего до начала изучения классов сложности) мы будем предполагать, что имеем дело с RAM-моделью. Говоря нестрого, можно считать, что мы пишем программы, например, на языке C и примитивные операции, например присвоения, а, в зависимости от контекста, и сложение с умножением стоят константу времени. Например, если нас интересует быстрое умножение чисел, то нельзя за константу принимать сложение и умножение этих чисел. Пока нас будет интересовать только оценка времени работы алгоритма.
+	
+\begin{Example}
+	На вход подаётся число $n$, необходимо найти все простые числа до $n$ включительно. Приведён псевдокод решения этой задачи:
+\end{Example}
+
+	\begin{algorithm}[H]
+	 \SetAlgoLined
+	 \For {i := 2 \textbf{\emph{to}} n}{
+		Prime[i] := \emph{True} $\rightarrow c_1$
+	 }
+	\For {i := 2 to $\lfloor\sqrt{n}\rfloor$}{
+		\If {\emph{Prime[i] ==} True $\rightarrow c_2$}{
+			j := 0 $\rightarrow c_3$\\
+			\While {i*i + i*j $\leq$ n $\rightarrow c_4$ }{
+				Prime[i*i+i*j] = \emph{False} $\rightarrow c_5$\\
+				j = j + 1 $\rightarrow c_6$
+			}
+		}
+	 }	
+	\end{algorithm}
+\medskip
+
+После выполнения этого кода Prime[i] будет истинно тогда и только тогда, когда число i простое. Подробно прочитать об этом алгоритме можно, например, в \href{http://ru.wikipedia.org/wiki/Решето_Эратосфена}{Википедии}.
+
+Псевдокод выписан для оценки сложности работы алгоритма. Обозначение $\rightarrow c_i$ означает, что данная операция стоит константу $c_i$. Сейчас мы приведём верхнюю оценку сложности. Для этого суммируем вклад каждой учтённой нами операции в сложность алгоритма:
+$$
+ T(n) \leq	c_1n +  \sum_{i = 2}^{i=\lfloor\sqrt{n}\rfloor}( c_2 + c_3 + \lfloor n/i - i \rfloor( c_4 + c_5 + c_6 )  ) )
+$$
+	
+Делая эту оценку, мы считали, что кажды раз попадаем внутрь оператора \textbf{if}.  Как мы видим, часть констант в формуле можно заменить одной, так как сумма констант -- константа.
+
+$$
+ T(n) \leq	c_1n + (\lfloor\sqrt{n}\rfloor-1) d_1 + \sum_{i = 2}^{i=\lfloor\sqrt{n}\rfloor}\lfloor n/i - i \rfloor d_2 
+$$
+
+Но поскольку при асимптотических оценках, константны нам вообще не особо интересны, то мы можем взять среди всех этих констант максимальную и вынести её за скобки. 
+
+$$
+ T(n) \leq	cn + c(\lfloor\sqrt{n}\rfloor-1) + c\sum_{i = 2}^{i=\lfloor\sqrt{n}\rfloor}\lfloor n/i - i \rfloor 
+$$
+$$
+ T(n) \leq	cn + c(\lfloor\sqrt{n}\rfloor-1) + c(\lfloor\sqrt{n}\rfloor-1)\lfloor( \lceil\sqrt{n}\rceil - \lfloor\sqrt{n}\rfloor + n/2 - 2  )\rfloor
+$$
+
+Переходя к асимптотическим оценкам мы можем избавиться от членов $cn$ и $c(\lfloor\sqrt{n}\rfloor-1)$ и получим, что
+$T(n) = O(n\lfloor\sqrt{n}\rfloor)$.
+
+Для получения этой верхней оценки можно было затратить куда меньше сил, а именно оценить последнюю сумму как $n\lfloor\sqrt{n}\rfloor$, поскольку всего в цикле алгоритм делает $\lfloor\sqrt{n}\rfloor$ шагов и внутри второго цикла он делает не более, чем $n$ шагов. Поэтому, любые вложенные циклы можно оценивать сверху как произведение числа их операций, а для более улучшенного результата нужна более тонкая оценка.
+
+Почему при оценки числа шагов некоторые строчки мы не учитывали, например \textbf{for} i := 2 \textbf{to} n, а некоторые например \textbf{while} i*i+i*j $\leq$ n  учитывали? Потому что изменение аргумента на цикле \textbf{for} для нас естественно и незначимо -- можно считать, что мы его загнали во все константы внутри \textbf{for}, в то же время, проврерка условия i*i+i*j $\leq$ n  требует нескольких операций, но каждую из них мы считаем константой и поэтому оцениваем проверку выполнения этого условия константой. Легко заметить, что все строчки на одном уровне цикла мы могли оценить в одну константу -- нас фактически интересует только уровень вложения операции. Так, не учитывая, например, проверку условия в \textbf{while}, мы бы получили тот же результат.
+
+Хороша ли эта оценка? На самом деле нет. Предложение о том, что каждый раз на операторе \textbf{if} мы попадаем внутрь цикла сильно завысило нашу оценку. Из теоретико-числовых соображений следует оценка $O(n\log\log{n})$ в модели RAM.
+
+\section{Алгоритм Карацубы}
+
+Этот алгоритм интересен тем, что с его помощью можно перемножить два числа быстрее чем за квадратичное время, которое даёт обычный алгоритм, которому учат в школе. Это простой и изящный алгоритм, который опроверг «гипотезу $n^2$» о том, что числа не могут быть перемножены быстрее, чем за квадратичное время. Сложность этого алгоритма мы оценим на ближайшем семинаре, а пока опишем сам алгоритм.
+
+Пусть есть два числа $x$ и $y$. Запись $x = x_1x_0$, $y = y_1y_0$ означает, что $x = x_1\times10^m + x_0$, $x_0 \leq 10^m$. то есть, число $x$ в десятичной записи разбивается на два числа $x_1$ и $x_0$, причём их конкатенация даёт $x$. Умножение в рамках данной задачи мы бужем обозначать символом $\times$. Заметьте, что алгоритм не зависит от системы счисления, поэтому вместо основания $10$, как например в задании, может быть основание $2$.
+
+Алгоритм основан на следующем факте:
+
+\begin{align*}	
+& x\times y = (x_1\times10^m + x_0)(y_1\times10^m + y_0) =\\ 
+= &x_1\times y_1 \times10^{2m} + x_0\times y_0 + (x_1\times y_0 + y_1\times x_0)\times10^m=\\ 
+= &z_2\times 10^{2m} + z_0 + z_1\times10^m
+\end{align*}
+
+причём $z_1 =  (x_1\times y_0 + y_1\times x_0) = (x_1 + x_0)\times(y_1 + y_0) - z_2 - z_0$.
+
+Таким образом, для вычисления произведения $x\times y$ требуется не $4$ умножения, а $3$: по одному для вычисления $z_2$ и $z_0$, а потом ещё одно для вычисления $z_1$. Алгоритм применяется рекурсивно, то есть вспомогательные произведения $z_i$ тоже вычисляются по данному алгоритму.
+
+
+\section{Домашнее задание}
+
+Задачи из канонического задания на первую неделю (\textbf{1-5}). 
+
+
+\prp Найдите лучшую оценку на $T(n)$. Обратите внимание, что просто брать $f(n)$ вместо, скажем, $O(f(n))$ и использовав основную теорему о рекурсии писать результат в качестве ответа не корректно!
+
+\prsub $T(n) = 2T(\frac{n}{3}) + \Theta(n^2)$
+
+\prsub $T(n) = 4T(\frac{n}{3}) + \Omega(n)$
+
+\prsub $T(n) = 2T(\frac{n}{3}) + {\rm O}(n)$
+
+\prp Приведите алгоритм разложение числа на простые множители и оцените его сложность. Используйте как вспомогательный алгоритм (возможно модифицировнное) решето Эратосфена.
+
+\prstar Докажите оценку $O(n\log\log{n})$ в модели RAM для решета Эратосфена. Найти указанную теоретико-числовую оценку можно в Википедии.
+
+
+
+\end{document}
