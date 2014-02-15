@@ -1,0 +1,70 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+%\geometry{paperwidth=210mm, paperheight=2000pt, left=5pt, top=5pt}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,arrows,trees}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage[makeroom]{cancel} % зачеркивание
+\usepackage{multicol,multirow} %Несколько колонок
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{wasysym}
+\title{Алгоритмы и модели вычислений.\\Задание 1: Алгоритмы и оценка сложности}
+\date{задано 2014.02.13}
+\author{Сергей~Володин, 272 гр.}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+% названия автоматов  (rubtsov)
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+
+%+= и -=, иначе разъезжаются...
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
+% пустое слово  (rubtsov)
+\def\eps{\varepsilon}
+
+% регулярные языки  (rubtsov)
+\def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\newcommand{\niton}{\not\owns}
+
+%FIRST & FOLLOW (rubtsov)
+\def\first{\mathrm{ FIRST} }
+\def\follow{\mathrm{ FOLLOW} }
+
+% LL LR (rubtsov)
+\def\LL{{\mathrm{LL}}}
+\def\LR{{\mathrm{LR}}}
+
+\newcounter{rowItemCount}
+\newcounter{subRowItemCount}
+\newcommand\rowItem{
+    \setcounter{subRowItemCount}{0}
+    \arabic{rowItemCount}.\addtocounter{rowItemCount}{1}}
+\newcommand\subRowItem{
+    \addtocounter{subRowItemCount}{1}
+    \addtocounter{rowItemCount}{-1}
+    \arabic{rowItemCount}.\arabic{subRowItemCount}.\addtocounter{rowItemCount}{1}}
+
+\begin{document}
+\maketitle
+\subsection*{Задача 1}
+\begin{enumerate}
+\item $T(n)=2T(\frac{n}{3})+\Theta(n^2)$
+\end{enumerate}
+\subsection*{Задача 2}
+\subsection*{Задача 3}
+\end{document}
