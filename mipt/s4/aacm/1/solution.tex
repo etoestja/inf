@@ -58,9 +58,40 @@
     \addtocounter{subRowItemCount}{1}
     \addtocounter{rowItemCount}{-1}
     \arabic{rowItemCount}.\arabic{subRowItemCount}.\addtocounter{rowItemCount}{1}}
+    
+\newcommand{\smalll}[1]{\overline{\overline{#1}}}
+\newcommand{\smallo}{\bar{\bar{o}}}
 
 \begin{document}
 \maketitle
+\subsection*{(каноническое) Задача 1}
+$f(n) \eqdef \sum\limits_{i=1}^n\frac{1}{i}$, $g(n)=\log n$. Доказать: $f=\Theta(g)\Leftrightarrow \begin{cases}
+f=O(g)\\
+g=O(f)\\
+\end{cases}\Leftrightarrow \begin{cases}
+\exists C_1,n_1\colon\forall n\geqslant n_1\hookrightarrow f(n)\leqslant C_1 g(n) & (1)\\
+\exists C_2,n_2\colon\forall n\geqslant n_2\hookrightarrow g(n)\leqslant C_2 f(n) & (2)\\
+\end{cases}$
+\begin{enumerate}
+\item \label{c1_0} Докажем утверждение: пусть $f(n),g(n)\colon \exists n_0,C>0\colon \forall n\geqslant n_0\hookrightarrow \underbrace{f(n+1)-f(n)}_{\Delta_f(n)}\leqslant C_1\underbrace{g(n+1)-g(n)}_{\Delta_g(n)}$. Тогда $f=O(g)$. Действительно, выберем $C_2>0$ таким образом, что $f(n_0)\leqslant C_2g(n_0)$ (всегда можно сделать). Возьмем $C$ из определения $O$ как $C=\max(C_1,C_2)$. Докажем по индукции $\forall n\geqslant n_0\hookrightarrow f(n)\leqslant Cg(n)$:\begin{enumerate}
+\item $f(n_0)\leqslant C_2g(n_0)\leqslant Cg(n_0)\blacksquare$
+\item Пусть $f(n)\leqslant Cg(n)$. Докажем для $n+1$: по условию $\Delta_f(n)=f(n+1)-f(n)\leqslant C_1(g(n+1)-g(n))\leqslant C(g(n+1)-g(n))$. Перегруппируем, получим $f(n+1)-Cg(n+1)\leqslant f(n)-Cg(n)\overset{\mbox{предп.}}{\leqslant} 0$, т.е. $f(n+1)\leqslant Cg(n+1)\blacksquare$
+\end{enumerate}
+\item Докажем $(1)$. \begin{enumerate}
+\item \label{c1_1_1} $\varangle \Delta_f(n)\eqdef f(n+1)-f(n)=\frac{1}{n+1}\leqslant \frac{1}{n}$. 
+\item \label{c1_1_2} $\varangle \Delta_g(n)\eqdef g(n+1)-g(n)=\log(n+1)-\log n=\log\frac{n+1}{n}=\log(1+\frac{1}{n})=\frac{1}{n}+\smallo(\frac{1}{n})=\boxed{*}$, $n\to\infty$. Но по определению $\smallo$ $\exists n_1\colon\forall n\geqslant n_1\hookrightarrow \boxed{*}\geqslant \frac{1}{n}(1-\frac{1}{2})=\frac{1}{2}\frac{1}{n}$. Тогда $\frac{1}{n}\leqslant 2\boxed{*}=2(g(n+1)-g(n))$
+\item Получаем $\Delta_f(n)=f(n+1)-f(n)\overset{\ref{c1_1_1}}{\leqslant} \frac{1}{n}\overset{\ref{c1_1_2}}{\leqslant} 2(g(n+1)-g(n))=2\Delta_g(n)$, и по $\ref{c1_0}$ получаем $f=O(g)$.
+\end{enumerate}
+\item Докажем $(2)$. \begin{enumerate}
+\item \label{c1_2_1} $\varangle \Delta_f(n)=\frac{1}{n+1}$. Докажем, что это больше, чем $\frac{1}{2}\frac{1}{n}$: $\frac{1}{n+1}-\frac{1}{2}\frac{1}{n}=\frac{2n-n-1}{2n(n+1)}=\frac{n-1}{2n(n+1)}\geqslant 0$, $n\geqslant 1$. Итак, $\Delta_f(n)\geqslant \frac{1}{2}\frac{1}{n}$
+\item \label{c1_2_2} $\ref{c1_1_2}\Rightarrow \Delta_g(n)=\frac{1}{n}+\smallo(\frac{1}{n})\leqslant \frac{1}{n}(1+\frac{1}{2})$ при $n\geqslant n_2>1$. Значит, $\frac{3}{2}\frac{1}{n}\geqslant\Delta_g(n)$
+\item $\Delta_g(n)\overset{\ref{c1_2_2}}{\leqslant}\frac{3}{2}\frac{1}{n}\overset{\ref{c1_2_1}}{\leqslant}\frac{3}{2}\cdot 2\cdot \Delta_f(n)$ при $n\geqslant n_2$, и по $\ref{c1_0}$ получаем $g=O(f)$.
+\end{enumerate}
+\end{enumerate}
+\subsection*{(каноническое) Задача 2}
+\subsection*{(каноническое) Задача 3}
+\subsection*{(каноническое) Задача 4}
+\subsection*{(каноническое) Задача 5}
 \subsection*{Задача 1}
 \begin{enumerate}
 \item $T(n)=2T(\frac{n}{3})+\Theta(n^2)$
