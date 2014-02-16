@@ -90,6 +90,25 @@ g=O(f)\\
 \end{enumerate}
 \subsection*{(каноническое) Задача 2}
 \subsection*{(каноническое) Задача 3}
+\begin{enumerate}
+\item $T(n)=9T(\frac{n}{3})+f(n)$, $f(n)=\Theta(n^2\log n)$.
+\begin{enumerate}
+\item Докажем, что теорема неприменима. $a=9,b=3\Rightarrow \log_b a=\log_3 9=2$.
+\begin{enumerate}
+\item Если $\exists \eps>0\colon f(n)=O(n^{2-\eps})$, то $\exists C>0\exists n_0$, для $n\geqslant n_0$ получим $f(n)/n^{2-\varepsilon}\leqslant C>0$, то есть $n^2\log n/n^{2-\eps}\equiv n^\varepsilon\log n\leqslant C$, что неверно (функция неограничена сверху).
+\item Если $f=\Theta(n^2)$, то $\exists n_0\exists C>0\colon f\leqslant Cn^2$ для $n\geqslant n_0$, и $\log n\leqslant C$, что неверно (функция неограничена сверху).
+\item Если $\exists \eps>0\colon f=\Omega(n^{2-\eps})$, то $\exists n_0\colon\forall n\geqslant n_0\hookrightarrow f\geqslant Cn^{2+\eps}$, и $\log n\geqslant Cn^\eps$, откуда $\frac{\log^n}{n^\eps}\geqslant C>0$, что неверно, так как $\forall\eps>0\hookrightarrow\lim\limits_{n\to\infty}\frac{\log n}{n^\eps}=+0$
+\end{enumerate}
+\item Найдем ответ через дерево рекурсии. В корне ($i=0$) выполняется $n^2\log n$ операций, у каждой вершины 9 детей, на уровне $i+1$ $n_{i+1}=n_i/3$. У листьев (по индукции по высоте дерева) $1=n_h=\frac{n}{3^h}$, поэтому высота дерева {\em (не считая корня)} $h=\log_3n$. Найдем суммарное время:
+$$T(n)=\Theta(n^2\log n+9(\frac{n}{3})^2\log\frac{n}{3}+9^2(\frac{n}{3^2})^2\log\frac{n}{3^2}+...+9^{h-1}(\frac{n}{3^{h-1}})^2\log\frac{n}{3^{h-1}})+9^hT(1)$$
+Найдем сумму в аргументе $\Theta$: $\sum\limits_{i=0}^{h-1}9^i(\frac{n}{3^i})^2\log\frac{n}{3^i}=n^2\sum\limits_{i=0}^{h-1}(\log n-i\log 3)=n^2\log n(h-1)-n^2\frac{h-1}{2}\log 3=\newline=n^2\log n(\log_3n-1)-n^2\frac{\log_3n-1}{2}\log 3=n^2\log^2n-n^2\log n-n^2\log n+Cn^2=\Theta(n^2\log^2 n)$.\newline
+Найдем $9^hT(1)=C9^{\log_3 n}=Cn^2$. Имеем $T(n)=\Theta(n^2\log^2n)+Cn^2=\boxed{\Theta(n^2\log^2n)}$
+\end{enumerate}
+\item $T(n)=16T(\frac{n}{4})+f(n)$, $f(n)=\Theta(n^2)$. $a=16,\,b=4$. Применим второй пункт Теоремы: $\Theta(n^{\log_b a})\equiv\Theta(n^2)$, поэтому $f(n)=\Theta(n^{\log_b a})$, и отсюда $T(n)=\boxed{\Theta(n^2\log n)}$.
+\item $T(n)=4T(\frac{n}{2})+\Theta(\frac{n^2\sqrt{n}}{\log^2n})$. $a=4,\,b=2\Rightarrow\log_b a=2$. Возьмем $\eps=\frac{1}{4}$ и применим третий пункт Теоремы: $f(n)\overset{?}{=}\Omega(n^{2+\eps})$. Рассмотрим $\frac{f(n)}{n^{2+\eps}}=\frac{n^2\sqrt{n}}{n^2n^\eps\log^2 n}=\frac{n^{\frac{1}{2}-\eps}}{\log^2 n}=\frac{n^{1/4}}{\log^2 n}=(\frac{n^{1/8}}{\log_n})^2\overset{n\to\infty}{\longrightarrow}+\infty$, поэтому $\exists C>0\exists n_0>0\colon \forall n\geqslant n_0\hookrightarrow f(n)\geqslant C n^{2+\eps}$. Значит, оценка верна, и по теореме получаем $T(n)=\boxed{\Theta(\frac{n^{5/2}}{\log^2n})}$
+\end{enumerate}
+Сравним первую и вторую функции: $\frac{n^2\log^2 n}{n^2\log n}=\log n\overset{n\to\infty}{\longrightarrow}+\infty$, поэтому первый алгоритм хуже. Сравним вторую и третью функции: $\frac{n^2\sqrt{n}}{\log^2n}\frac{1}{n^2\log n}=\frac{n^{1/2}}{\log^3 n}=(\frac{n^{1/6}}{\log n})^3\overset{n\to\infty}{\longrightarrow}+\infty$, поэтому третий алгоритм хуже.
+Ответ: $\boxed{\mbox{второй алгоритм}}$.
 \subsection*{(каноническое) Задача 4}
 \subsection*{(каноническое) Задача 5}
 \subsection*{Задача 1}
