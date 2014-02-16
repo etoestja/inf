@@ -73,7 +73,7 @@ g=O(f)\\
 \exists C_2,n_2\colon\forall n\geqslant n_2\hookrightarrow g(n)\leqslant C_2 f(n) & (2)\\
 \end{cases}$
 \begin{enumerate}
-\item \label{c1_0} Докажем утверждение: пусть $f(n),g(n)\colon \exists n_0,C>0\colon \forall n\geqslant n_0\hookrightarrow \underbrace{f(n+1)-f(n)}_{\Delta_f(n)}\leqslant C_1\underbrace{g(n+1)-g(n)}_{\Delta_g(n)}$. Тогда $f=O(g)$. Действительно, выберем $C_2>0$ таким образом, что $f(n_0)\leqslant C_2g(n_0)$ (всегда можно сделать). Возьмем $C$ из определения $O$ как $C=\max(C_1,C_2)$. Докажем по индукции $\forall n\geqslant n_0\hookrightarrow f(n)\leqslant Cg(n)$:\begin{enumerate}
+\item \label{c1_0} Докажем утверждение: пусть $f(n),g(n)\colon \exists n_0,C_1>0\colon \forall n\geqslant n_0\hookrightarrow \underbrace{f(n+1)-f(n)}_{\Delta_f(n)}\leqslant C_1\underbrace{g(n+1)-g(n)}_{\Delta_g(n)}$. Тогда $f=O(g)$. Действительно, выберем $C_2>0$ таким образом, что $f(n_0)\leqslant C_2g(n_0)$ (всегда можно сделать). Возьмем $C$ для определения $O$ как $C=\max(C_1,C_2)$. Докажем по индукции $\forall n\geqslant n_0\hookrightarrow f(n)\leqslant Cg(n)$:\begin{enumerate}
 \item $f(n_0)\leqslant C_2g(n_0)\leqslant Cg(n_0)\blacksquare$
 \item Пусть $f(n)\leqslant Cg(n)$. Докажем для $n+1$: по условию $\Delta_f(n)=f(n+1)-f(n)\leqslant C_1(g(n+1)-g(n))\leqslant C(g(n+1)-g(n))$. Перегруппируем, получим $f(n+1)-Cg(n+1)\leqslant f(n)-Cg(n)\overset{\mbox{предп.}}{\leqslant} 0$, т.е. $f(n+1)\leqslant Cg(n+1)\blacksquare$
 \end{enumerate}
