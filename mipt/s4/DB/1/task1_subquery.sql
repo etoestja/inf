@@ -1,0 +1,2 @@
+select * from Employee where Department_ID in (select Department_ID from dbo.DEPARTMENT where Location_ID in (select Location_ID from dbo.LOCATION where regional_group='DALLAS'))
+and Job_ID in (select Job_ID from Job where [function] = 'MANAGER')
