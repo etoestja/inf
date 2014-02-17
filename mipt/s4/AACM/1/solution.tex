@@ -113,8 +113,133 @@ $$T(n)=\Theta(n^2\log n+9(\frac{n}{3})^2\log\frac{n}{3}+9^2(\frac{n}{3^2})^2\log
 \subsection*{(каноническое) Задача 5}
 \subsection*{Задача 1}
 \begin{enumerate}
-\item $T(n)=2T(\frac{n}{3})+\Theta(n^2)$
+\item $T(n)=2T(\frac{n}{3})+f(n)$, $f(n)=\Theta(n^2)$. Дерево рекурсии:\newline
+% code from 
+\begin{tabular}{ll}
+\begin{minipage}{0.5\textwidth}
+\begin{tikzpicture}[scale=0.75,transform shape,level/.style={sibling distance = 5cm/#1, level distance = 1.5cm}]
+\node [circle,draw] (z){$n^2$}
+  child {node [circle,draw] (a) {$\frac{n^2}{3^2}$}
+    child {node [circle,draw] (b) {$\frac{n^2}{3^4}$}
+      child {node {$\vdots$}
+        child {node [circle,draw] (d) {$T(1)$}}
+        child {node [circle,draw] (e) {$T(1)$}}
+      } 
+      child {node {$\vdots$}}
+    }
+    child {node [circle,draw] (g) {$\frac{n^2}{3^4}$}
+      child {node {$\vdots$}}
+      child {node {$\vdots$}}
+    }
+  }
+  child {node [circle,draw] (j) {$\frac{n^2}{3^2}$}
+    child {node [circle,draw] (k) {$\frac{n^2}{3^4}$}
+      child {node {$\vdots$}}
+      child {node {$\vdots$}}
+    }
+  child {node [circle,draw] (l) {$\frac{n^2}{3^4}$}
+    child {node {$\vdots$}}
+    child {node (c){$\vdots$}
+      child {node [circle,draw] (o) {$T(1)$}}
+      child {node [circle,draw] (p) {$T(1)$}
+          child [grow=right] {node (q) {$2^hT(1)$} edge from parent[draw=none]
+          child [grow=up, level distance=0.7cm] {node (r) {$\vdots$} edge from parent[draw=none]
+          child [grow=up, level distance=0.7cm] {node (r) {$2^k(\frac{n}{3^k})^2$} edge from parent[draw=none]
+            child [grow=up, level distance=1cm] {node (r) {$\vdots$} edge from parent[draw=none]
+              child [grow=up, level distance=0.6cm] {node (s) {$2^2(\frac{n}{3^2})^2$} edge from parent[draw=none]
+                child [grow=up, level distance=1.5cm] {node (t) {$2(\frac{n}{3})^2$} edge from parent[draw=none]
+                  child [grow=up, level distance=1.5cm] {node (u) {$n^2$} edge from parent[draw=none]}
+                }
+              }
+              }
+              }
+            }
+          }
+        }
+    }
+  }
+};
+\end{tikzpicture}
+\end{minipage}
+&
+\begin{minipage}{0.4\textwidth}
+Рассмотрим рекуррентность. Последовательно подставляя $T(n)$ в правую часть, получим некоторую сумму $T(n)=\sum\limits_{i=0}^{h-1} C_i\cdot f(\frac{n}{3^i})+C_hT(1)$. Она конечна, так как аргумент $T(\cdot)$ в правой части меньше, чем в левой, причем в 3 раза. Прекращаем подставлять, когда аргумент станет равен 1. $C_i$~--- некоторые коэффициенты, найти которые можно при помощи дерева слева. Корень соответствует $i=0$ (база), та, каждый $i$-й уровень соответствует $i$-му слагаемому суммы. {\em ДОПИСАТЬ ФОРМАЛЬНО}
+При последней, $h$-й подстановке $\frac{n}{3^h}=1$, откуда $h=\log_3 n$.
+\end{minipage}\\
+\end{tabular}\newline
+Таким образом, $T(n)=\overbrace{\sum\limits_{k=0}^{h-1}2^kf(\frac{n^2}{3^{2k}})}^{S}+2^hT(1)$.
+\begin{enumerate}
+\item Обозначим $g(n)=n^2$, по условию $f(n)=\Theta(g(n))$. Из определения $\Theta$ получаем $$\exists n_0>0,C_2>C_1>0\colon\forall n\geqslant n_0\hookrightarrow C_1g(n)\leqslant f(n)\leqslant C_2g(n)$$. Рассмотрим первую сумму $S$ при $n\geqslant n_0$:
+\begin{equation}
+n^2C_1\sum\limits_{k=0}^{h-1}\frac{2^k}{3^{2k}}\leqslant\overbrace{\sum\limits_{k=0}^{h-1}2^kf(\frac{n^2}{3^{2k}})}^S\leqslant n^2C_2\sum\limits_{k=0}^{h-1}\frac{2^k}{3^{2k}}
+\end{equation}
+Рассмотрим $S_1(n)\eqdef\sum\limits_{k=0}^{h-1}\frac{2^k}{3^{2k}}\underset{\mbox{\tiny прогр.}}{\overset{\mbox{\tiny геом.}}{=}}\frac{1-\frac{2^{h-1}}{9^{h-1}}}{1-\frac{2}{9}}\overset{n\to\infty}{\longrightarrow}\frac{1}{1-2/9}=\frac{9}{7}\eqdef l$. Здесь использовалось $h=\log_3 n\overset{n\to\infty}{\longrightarrow}+\infty$. Определение предела: $$\forall \eps>0\,\exists n_1(\eps)\colon\forall n\geqslant n_1\hookrightarrow S_1(n)\in U_\eps(l)$$
+Фиксируем $\eps=\eps_0=l/2$, определим $n\eqdef \max{n_2(\eps_0),n_0}$. Тогда $\forall n\geqslant n_2\hookrightarrow 0<l-\eps\leqslant S_1(n)\leqslant l+\eps$.\newline
+Снова рассмотрим (1):при $n\geqslant n_2$:
+$n^2 C_1 (l-\eps)\leqslant n^2C_1\sum\limits_{k=0}^{h-1}\frac{2^k}{3^{2k}}\leqslant\underline{\sum\limits_{k=0}^{h-1}2^kf(\frac{n^2}{3^{2k}})}\leqslant n^2C_2\sum\limits_{k=0}^{h-1}\frac{2^k}{3^{2k}}\leqslant n^2 C_2 (l+\eps)$. Получаем $$S(n)=\Theta(n^2)$$
+\item Рассмотрим $2^hT(1)=2^{\log_3 n}T(1)=n^{\log_3 2}\underbrace{T(1)}_{\mbox{\tiny const}}=\Theta(n^{\log_3 2})$
+\item Получаем $T(n)=\Theta(n^2)+\Theta(n^{\log_3 2})=\Theta(n^2)$. Доказательство последнего равенства в конце работы (\ref{smallg2}) ($2>1>\log_3 2$, поэтому $n^{\log_3 2}=\smallo(n^2)$)
+\end{enumerate}
+Ответ: $\boxed{T(n)=\Theta(n^2)}$
+\item \item $T(n)=4T(\frac{n}{3})+f(n)$, $f(n)=\Omega(n)$. Дерево рекурсии (все ветвления не показаны):\newline
+\begin{tikzpicture}[scale=0.75,transform shape,level/.style={sibling distance = 5cm/#1, level distance = 1.5cm}]
+\node [circle,draw] (z){$n$}
+  child {node [circle,draw] (a) {$\frac{n}{3}$}
+    child {node [circle,draw] (b) {$\frac{n}{3^2}$}
+      child {node {$\vdots$}
+        child {node [circle,draw] (d) {$T(1)$}}
+        child {node [circle,draw] (e) {$T(1)$}}
+      } 
+      child {node {$\vdots$}}
+    }
+    child {node [circle,draw] (g) {$\frac{n}{3^2}$}
+      child {node {$\vdots$}}
+      child {node {$\vdots$}}
+    }
+  }
+  child {node [circle,draw] (j) {$\frac{n}{3}$}
+    child {node [circle,draw] (k) {$\frac{n}{3^2}$}
+      child {node {$\vdots$}}
+      child {node {$\vdots$}}
+    }
+  child {node [circle,draw] (l) {$\frac{n}{3^2}$}
+    child {node {$\vdots$}}
+    child {node (c){$\vdots$}
+      child {node [circle,draw] (o) {$T(1)$}}
+      child {node [circle,draw] (p) {$T(1)$}
+          child [grow=right] {node (q) {$4^hT(1)$} edge from parent[draw=none]
+          child [grow=up, level distance=0.7cm] {node (r) {$\vdots$} edge from parent[draw=none]
+          child [grow=up, level distance=0.7cm] {node (r) {$4^k\frac{n}{3^k}$} edge from parent[draw=none]
+            child [grow=up, level distance=1cm] {node (r) {$\vdots$} edge from parent[draw=none]
+              child [grow=up, level distance=0.6cm] {node (s) {$4^2\frac{n}{3^2}$} edge from parent[draw=none]
+                child [grow=up, level distance=1.5cm] {node (t) {$4\frac{n}{3}$} edge from parent[draw=none]
+                  child [grow=up, level distance=1.5cm] {node (u) {$n$} edge from parent[draw=none]}
+                }
+              }
+              }
+              }
+            }
+          }
+        }
+    }
+  }
+};
+\path (g) -- (b) node (ab) [midway] {$\cdots$};
+\path (l) -- (k) node (ab) [midway] {$\cdots$};
+\end{tikzpicture}\newline
+Высота дерева $h=\log_4 n$, $T(n)=\sum\limits_{k=0}^{h-1}4^kf(\frac{n}{3^k})+4^hT(1)$.
+Из определения $\Omega$ $\exists n_0\,\exists C>0\colon\forall n\geqslant n_0\hookrightarrow \sum\limits_{k=0}^{h-1}4^kf(\frac{n}{3^k})\geqslant Cn\sum\limits_{k=0}^{h-1}\frac{4^k}{3^k}\underset{\mbox{\tiny прогр.}}{\overset{\mbox{\tiny геом.}}{=}}Cn\frac{(4/3)^{h-1}-1}{4/3-1}$
 \end{enumerate}
 \subsection*{Задача 2}
 \subsection*{Задача 3}
+\subsection*{Вспомогательные утверждения}
+\begin{enumerate}
+\item \label{smallg2} Пусть $f_1=\Theta(g_1)$, $f_2=\Theta(g_2)$, $g_2=\smallo(g_1), g_2(n)>0$. Тогда $f_1+f_2=\Theta(g_1)$. Доказательство:\newline
+Из определения $\Theta$ получаем $\exists n_0\,\exists C_i^j>0, (i,j)\in \overline{1,2}^2\colon\forall n\geqslant n_0 \left\{\begin{array}{lllll}
+C_1^1g_1(n) & \leqslant & f_1(n) & \leqslant & C_2^1 g_1(n)\\
+C_1^2g_2(n) & \leqslant & f_2(n) & \leqslant & C_2^2 g_2(n)\\
+\end{array}\right.$ ($n_0$~--- максимальное из двух определений).
+Тогда $$C_1^1\overset{n\to\infty}{\longleftarrow}C_1^1+C_1^2\cancelto{0}{\frac{g_2(n)}{g_1(n)}}=\frac{C_1^1 g_1(n)+C_1^2 g_2(n)}{g_1(n)}\leqslant\underline{\frac{f_1(n)+f_2(n)}{g_1(n)}}\leqslant \frac{C_2^1 g_1(n)+C_2^2 g_2(n)}{g_1(n)}=C_2^1+C_2^2\cancelto{0}{\frac{g_2(n)}{g_1(n)}}\overset{n\to\infty}{\longrightarrow}C_2^1$$
+Здесь использовалось определение $\smallo$. Из определения предела для $\eps=\eps_0=\min(C_1^1,C_2^1)/2$ получаем при $n\geqslant n_0(\eps)$ $(C^1_1-\eps)g_1(n)\leqslant f_1(n)+f_2(n)\leqslant (C_2^1+\eps)g_1(n)$, а из этого следует $f_1+f_1=\smallo(g_1)\blacksquare$
+\end{enumerate}
 \end{document}
