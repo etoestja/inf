@@ -190,7 +190,7 @@ $n^2 C_1 (l-\eps)\leqslant n^2C_1\sum\limits_{k=0}^{h-1}\frac{2^k}{3^{2k}}\leqsl
 \item Получаем $T(n)=\Theta(n^2)+\Theta(n^{\log_3 2})=\Theta(n^2)$. Доказательство последнего равенства в конце работы (\ref{smallg2}) ($2>1>\log_3 2$, поэтому $n^{\log_3 2}=\smallo(n^2)$)
 \end{enumerate}
 Ответ: $\boxed{T(n)=\Theta(n^2)}$
-\item \item $T(n)=4T(\frac{n}{3})+f(n)$, $f(n)=\Omega(n)$. Дерево рекурсии (все ветвления не показаны):\newline
+\item $T(n)=4T(\frac{n}{3})+f(n)$, $f(n)=\Omega(n)$. Дерево рекурсии (все ветвления не показаны):\newline
 \begin{tikzpicture}[scale=0.75,transform shape,level/.style={sibling distance = 5cm/#1, level distance = 1.5cm}]
 \node [circle,draw] (z){$n$}
   child {node [circle,draw] (a) {$\frac{n}{3}$}
