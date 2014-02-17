@@ -91,6 +91,8 @@ g=O(f)\\
 \subsection*{(каноническое) Задача 2}
 $f(n)\eqdef C^{2n}_n\equiv\frac{(2n)!}{n!n!}$. Тогда $\ln f(n)=\ln(2n)!-2\ln n!\boxed{=}$. По формуле Стирлинга $\boxed{=}(2n)\ln(2n)-2n+O(\ln(2n))-n\ln n+n-O(\ln n)$. Поскольку $O(\ln(2n))-O(\ln n)\leqslant O(\ln(2n))=O(\ln 2+\ln n)=O(\ln n)$, получим $\boxed{=}2n(\ln 2+\ln n)-n-n\ln n+O(\ln n)=n\ln n-n(1-2\ln 2)+O(\ln n)$. Тогда $f(n)=e^{\cdots}=e^{n\ln n-n(1-2\ln 2)+O(\ln n)}=O(\frac{n^{n+1}}{e^{n}})$, так как $1-2\ln 2>1$.
 {\bf ДОПИСАТЬ!}
+Либо: $n!=\Theta(\sqrt{2\pi n}(\frac{n}{e})^n)=\Theta(\sqrt{n}(\frac{n}{e})^n)$, поэтому $f(n)\equiv\frac{(2n)!}{(n!)^2}=\Theta(\frac{\sqrt{2n}(\frac{2n}{e})^{2n}}{n(\frac{n}{e})^2n})=\Theta(\frac{4^n}{\sqrt{n}})$\newline
+Ответ: $\boxed{C^{2n}_n=\Theta(\frac{4^n}{\sqrt{n}})}$
 \subsection*{(каноническое) Задача 3}
 \begin{enumerate}
 \item $T(n)=9T(\frac{n}{3})+f(n)$, $f(n)=\Theta(n^2\log n)$.
