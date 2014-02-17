@@ -110,6 +110,15 @@ $$T(n)=\Theta(n^2\log n+9(\frac{n}{3})^2\log\frac{n}{3}+9^2(\frac{n}{3^2})^2\log
 Сравним первую и вторую функции: $\frac{n^2\log^2 n}{n^2\log n}=\log n\overset{n\to\infty}{\longrightarrow}+\infty$, поэтому первый алгоритм хуже. Сравним вторую и третью функции: $\frac{n^2\sqrt{n}}{\log^2n}\frac{1}{n^2\log n}=\frac{n^{1/2}}{\log^3 n}=(\frac{n^{1/6}}{\log n})^3\overset{n\to\infty}{\longrightarrow}+\infty$, поэтому третий алгоритм хуже.\newline
 Ответ: $\boxed{\mbox{второй алгоритм}}$ имеет наименьшую асимптотическую стоимость.
 \subsection*{(каноническое) Задача 4}
+\begin{enumerate}
+\item $T(n)=2T(\frac{n}{2})+\underbrace{n}_{f(n)}$. Воспользуемся пунктом $(2)$ Теоремы: $\log_b a=\log_2 2=1$, поэтому $f(n)\equiv n=\Theta(n^{\log_b a})\equiv\Theta(n)$.\newline
+Ответ: $\boxed{T(n)=\Theta(n\log n)}$.
+\item $T(n)=3T(\frac{n}{3})+\underbrace{n^2}_{f(n)}$. Воспользуемся пунктом $(3)$ Теоремы: $\log_b a=1$, $\lim\limits_{n\to\infty}\frac{f(n)}{n^{\log_b a+\eps}}=\lim\limits_{n\to\infty}n^{1-\eps}=+\infty$ например при $\eps=\frac{1}{2}$. Поэтому из определения предела для $\eps_{\mbox{\tiny lim}}=1\,\exists n_0>0\colon\forall n\geqslant n_0\hookrightarrow f(n)\geqslant \eps_{\mbox{\tiny lim}} n^{1+\eps}$, значит, $f(n)=\Omega(n^{1+\eps})$. Докажем условие регулярности: $af(\frac{n}{b})\equiv 2\frac{n^2}{2^2}=\frac{1}{2}n^2=\frac{1}{2}f(n)\leqslant\frac{1}{2}f(n)$, т.е. условие выполняется с $c=\frac{1}{2}<1$.\newline
+Ответ: $\boxed{T(n)=\Theta(n^2)}$
+\item $T(n)=4T(\frac{n}{2})+\underbrace{\frac{n}{\log n}}_{f(n)}$. Воспользуемся пунктом $(1)$ Теоремы: $\log_b a=\log_2 4=2$.\newline
+Рассмотрим $\lim\limits_{n\to\infty}\frac{f(n)}{n^{\log_b a-\eps}}=\lim\limits_{n\to\infty}\frac{1}{n^{1-\eps}\log n}=0$ например при $\eps=\frac{1}{2}$. Из определения предела для $$\eps_{\mbox{\tiny lim}}=1\,\exists n_0\colon\forall n\geqslant n_0\hookrightarrow f(n)\leqslant \eps_{\mbox{\tiny lim}} n^{2-\eps},$$ откуда следует $f(n)=O(n^{2-\eps})$.\newline
+Ответ: $\boxed{T(n)=\Theta(n^2)}$
+\end{enumerate}
 \subsection*{(каноническое) Задача 5}
 \subsection*{Задача 1}
 \begin{enumerate}
