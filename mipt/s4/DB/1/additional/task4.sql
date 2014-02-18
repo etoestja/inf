@@ -1,6 +1,6 @@
 select T1.description, T1.s, T1.rn from
 (select
-	T.*, dense_rank() over(order by T.s desc) as 
+	T.*, dense_rank() over(order by T.s desc) as rn
 	from
 		(select sum(sales_order.total - price.min_price * item.quantity) as s, product.description
 			from sales_order, item, product, price
