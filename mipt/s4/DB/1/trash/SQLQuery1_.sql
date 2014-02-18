@@ -1,8 +1,4 @@
-select T1.description, T1.s, T1.rn from
-(select
-	T.*, dense_rank() over(order by T.s desc) as rn
-	from
-		(select sum(sales_order.total - price.min_price * item.quantity) as s, product.description
+select sum(sales_order.total - price.min_price * item.quantity) as s, product.description
 			from sales_order, item, product, price
 
 			where sales_order.order_id = item.order_id
@@ -12,8 +8,4 @@ select T1.description, T1.s, T1.rn from
 			and sales_order.ship_date >= price.start_date
 			and sales_order.ship_date <= price.end_date
 			group by product.product_id, product.description
-		) as T
-) as T1
-where T1.rn <= 5
-order by T1.s desc
-/*with ties*/
+order by s desc
