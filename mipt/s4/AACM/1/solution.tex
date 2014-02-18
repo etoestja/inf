@@ -124,17 +124,78 @@ $$T(n)=\Theta(n^2\log n+9(\frac{n}{3})^2\log\frac{n}{3}+9^2(\frac{n}{3^2})^2\log
 Ответ: $\boxed{T(n)=\Theta(n^2)}$
 \end{enumerate}
 \subsection*{(каноническое) Задача 5}
+$M(m)\eqdef Mult(m),\,A(m)\eqdef Add(m)$.\newline
 Элементарная битовая операция~--- конъюнкция, дизъюнкция, сложение, умножение двух бит.\newline
 Описание алгоритма. Пусть даны числа $p=a+bx,\,q=c+dx$. Пусть числа $a,b,c,d$~--- $m$-битные, $x=2^m$. Требуется найти $pq$. Но $pq=(a+bx)(c+dx)=ac+x(ad+bc)+bdx^2$. Рассмотрим $\left\{\begin{array}{lll}
 t_1 & = & ac\\
 t_2 & = & bd\\
 t_3 & = & (a+b)(c+d)\\
-\end{array}\right.$. Тогда $pq=t_1+(t_3-t_1-t_2)x+t_2x^2$. Для получения $t_i$ необходимо $2$ умножения чисел по $m$ бит, одно умножение чисел по $m+1$ бит, два сложения чисел по $m$ бит: $2M(m)+M(m+1)+A(m)$. Для вычисления $pq$ таким образом требуется еще два сложение чисел длиной менее $m+1$ и битовые сдвиги (их не считаем). Получаем $M(2m)=2M(m)+M(m+1)+A(m)+2A(m+1)$.
+\end{array}\right.$. Тогда $pq=t_1+(t_3-t_1-t_2)x+t_2x^2$.
 \begin{enumerate}
+\item Для получения $t_i$ необходимо $2$ умножения чисел по $m$ бит, одно умножение чисел по $m+1$ бит, два сложения чисел по $m$ бит: $2M(m)+M(m+1)+A(m)$. Для вычисления $pq$ таким образом требуется еще два сложение чисел длиной менее $m+1$ и битовые сдвиги (их не считаем). Получаем $M(2m)=2M(m)+M(m+1)+A(m)+2A(m+1)$.
 \item Докажем, что $A(m+1)=A(m)$: пусть нужно сложить числа $p$ и $q$ по $m+1$ бит. Представим их в виде $p=a_1+t_1x,\,a_2+t_2x$, где $x=2^m$, и $t_i$~--- соответствующие старшие биты. Полусим $p+q=(a_1+a_2)+(t_1+t_2)x$. Сумму $a_1+a_2$ вычислим за $A(m)$, сложение $t_1+t_2$~--- за константу (всего 4 возможных случая), далее вычислим $p+q$ за константу. Получаем $A(m+1)=A(m)+O(1)$, откуда $A(m+1)=O(A(m))$
-\item Докажем, что $M(m+1)=M(m)$, где $M$~--- время на умножение алгоритмом Карацубы. $M(m+1)$\newline
-{\bf подставить $(a,b,c,d)=(a_i+t_ix)_{i=1}^4$, доказать по индукции?}
+\item Поскольку $M(m)\leqslant M(m+1)$, получим $M(2m)\leqslant 3M(m+1)+A(m)+2A(m+1)$, и по предыдущему пункту $$M(2m)\leqslant 3M(m+1)+O(A(m))$$.
+\item Поскольку $A(m)=O(m)$, $M(2m)\leqslant 3M(m+1)+O(m)$, т.е. $$M(m)\leqslant 3M(\frac{m}{2}+1)+f(m)\mbox{, где }f(m)=O(m).$$
+\item Из определения $O(m)$ получаем $\exists m_0\,\exists C>0\colon\forall m\geqslant m_0\hookrightarrow f(m)\leqslant Cm$
+\item Дерево рекурсии:\newline
+\begin{tikzpicture}[scale=0.75,transform shape,level/.style={sibling distance = 5cm/#1, level distance = 1.5cm}]
+\node [circle,draw] (z){$m$}
+  child {node [circle,draw] (a) {$\frac{m}{2}+1$}
+    child {node [circle,draw] (b) {$\frac{\frac{m}{2}+1}{2}+1$}
+      child {node {$\vdots$}
+        child {node [circle,draw] (d) {$M(2)$}}
+        child {node [circle,draw] (e) {$M(2)$}}
+      } 
+      child {node {$\vdots$}}
+    }
+    child {node [circle,draw] (g) {$\frac{\frac{m}{2}+1}{2}+1$}
+      child {node {$\vdots$}}
+      child {node {$\vdots$}}
+    }
+  }
+  child {node [circle,draw] (j) {$\frac{m}{2}+1$}
+    child {node [circle,draw] (k) {$\frac{\frac{m}{2}+1}{2}+1$}
+      child {node {$\vdots$}}
+      child {node {$\vdots$}}
+    }
+  child {node [circle,draw] (l) {$\frac{\frac{m}{2}+1}{2}+1$}
+    child {node {$\vdots$}}
+    child {node (c){$\vdots$}
+      child {node [circle,draw] (o) {$M(2)$}}
+      child {node [circle,draw] (p) {$M(2)$}
+          child [grow=right] {node (q) {$3^hM(2)$} edge from parent[draw=none]
+          child [grow=up, level distance=0.7cm] {node (r) {$\vdots$} edge from parent[draw=none]
+          child [grow=up, level distance=0.7cm] {node (r) {$3^k(\frac{...}{2}+1)$} edge from parent[draw=none]
+            child [grow=up, level distance=1cm] {node (r) {$\vdots$} edge from parent[draw=none]
+              child [grow=up, level distance=0.6cm] {node (s) {$3^2(\frac{\frac{m}{2}+1}{2}+1)$} edge from parent[draw=none]
+                child [grow=up, level distance=1.5cm] {node (t) {$3(\frac{m}{2}+1)$} edge from parent[draw=none]
+                  child [grow=up, level distance=1.5cm] {node (u) {$m$} edge from parent[draw=none]}
+                }
+              }
+              }
+              }
+            }
+          }
+        }
+    }
+  }
+};
+\end{tikzpicture}\newline
+Найдем элементы последовательности аргументов $f$:\newline
+$a_{i+1}=\frac{a_i}{2}+1$. $a_0=m$. По индукции докажем $a_i\overset{?}{=}a'_i=\frac{m}{2^i}+\sum\limits_{k=0}^{i-1}\frac{1}{2^k}$.
+\begin{enumerate}
+\item База: $a_0=n$, $a'_0=m\,\blacksquare$
+\item Переход. Пусть $a'_l=a_l$. Тогда $a'_{l+1}-a_{l+1}=\frac{m}{2^{i+1}}+\sum\limits_{k=0}^{l}\frac{1}{2^k}-\frac{a_l}{2}-1\boxed{=}$. Но $a_l=a'_l$, поэтому\newline
+$\boxed{=}\frac{m}{2^{i+1}}+\sum\limits_{k=0}^{l}\frac{1}{2^k}-\frac{m}{2^{i+1}}-\sum\limits_{k=0}^{l-1}\frac{1}{2^{k+1}}-1$. Сумма $\sum\limits_{k=0}^{l-1}\frac{1}{2^{k+1}}=\sum\limits_{k=1}^{l}\frac{1}{2^k}$, поэтому $\boxed{=}\sum\limits_{k=0}^{l}\frac{1}{2^k}-1-\sum\limits_{k=1}^{l}\frac{1}{2^k}=0\,\blacksquare$
 \end{enumerate}
+Высота дерева $h\leqslant C\log_2 m$ {\bf обосновать!}\newline
+Последовательность $a_l=\frac{m}{2^l}+\sum\limits_{i=0}^{l-1}2^{-i}\leqslant\frac{m}{2^l}+2$.
+Получаем $M(m)\leqslant \sum\limits_{k=0}^{h-1}3^kf(\frac{m}{2^k}+2)+3^hM(2)\leqslant Cm\sum\limits_{k=0}^{h-1}(\frac{3}{2})^k+2C\sum\limits_{k=0}^{h-1}3^k+3^hM(2)$.
+Первая сумма $\sum\limits_{k=0}^{h-1}(\frac{3}{2})^k=\frac{1-(3/2)^{h-1}}{1-3/2}\overset{\mbox{\bf !}}{\leqslant}2((3/2)^{\log_2 m})-2=2m^{\log_2 \frac{3}{2}}-2$\newline
+Вторая сумма $\sum\limits_{k=0}^{h-1}3^k=\frac{3^{h-1}-1}{2}\overset{\mbox{\bf !}}{\leqslant}\frac{1}{2}(m^{\log_2 3}-1)$\newline
+Тогда $M(m)\leqslant Cm(2m^{\log_2 \frac{3}{2}}-2)+2C\frac{1}{2}(m^{\log_2 3}-1)+m^{\log_2 3}T(2)=O(m^{\log_2 3})$, так как $m^{1+\log_2(3/2)}=m^{\log_2 3}$
+\end{enumerate}
+Ответ: $\boxed{Mult(m)=O(m^{\log_2 3})}$
 \subsection*{Задача 1}
 \begin{enumerate}
 \item $T(n)=2T(\frac{n}{3})+f(n)$, $f(n)=\Theta(n^2)$. Дерево рекурсии:\newline
