@@ -1,4 +1,5 @@
-SELECT Employee.* from Employee, Job, Department, Location
+SELECT Employee.first_name + ' ' + Employee.middle_initial + ' ' + Employee.last_name
+from Employee, Job, Department, Location
 
 where employee.job_id=job.job_id
 and employee.department_id=department.department_id
