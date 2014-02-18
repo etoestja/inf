@@ -1,6 +1,6 @@
-select location.regional_group as City,
-sum(case when job.[function] = 'MANAGER' then 1 else 0 end) as 'MANAGERs',
-sum(case when job.[function] = 'SALESPERSON' then 1 else 0 end) as 'SALESPERSONs'
+select regional_group,
+count(case when job.[function] = 'SALESPERSON' then 1 else 0 end) as 'SALESPERSONs',
+count(case when job.[function] = 'MANAGER' then 1 else 0 end) as 'MANAGERs'
 from location, employee, department, job
 where
 employee.department_id = department.department_id
