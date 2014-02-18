@@ -1,4 +1,4 @@
-select top 5 sum(sales_order.total), product.product_id, product.description
+select top 5 product.description
 from sales_order, product, item
 where sales_order.order_id = item.order_id
 and item.product_id = product.product_id
