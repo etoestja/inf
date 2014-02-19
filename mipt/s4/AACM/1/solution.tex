@@ -112,8 +112,53 @@ $f(n)\eqdef C^{n}_{2n}\equiv\frac{(2n)!}{n!n!}$.
 \item Если $f=\Theta(n^2)$, то $\exists n_0\exists C>0\colon f\leqslant Cn^2$ для $n\geqslant n_0$, и $\log n\leqslant C$, что неверно (функция неограничена сверху).
 \item Если $\exists \eps>0\colon f=\Omega(n^{2-\eps})$, то $\exists n_0\colon\forall n\geqslant n_0\hookrightarrow f\geqslant Cn^{2+\eps}$, и $\log n\geqslant Cn^\eps$, откуда $\frac{\log^n}{n^\eps}\geqslant C>0$, что неверно, так как $\forall\eps>0\hookrightarrow\lim\limits_{n\to\infty}\frac{\log n}{n^\eps}=+0$
 \end{enumerate}
-\item Найдем ответ через дерево рекурсии. В корне ($i=0$) выполняется $n^2\log n$ операций, у каждой вершины 9 детей, на уровне $i+1$ $n_{i+1}=n_i/3$. У листьев (по индукции по высоте дерева) $1=n_h=\frac{n}{3^h}$, поэтому высота дерева {\em (не считая корня)} $h=\log_3n$. Найдем суммарное время:
-$$T(n)=\Theta(n^2\log n+9(\frac{n}{3})^2\log\frac{n}{3}+9^2(\frac{n}{3^2})^2\log\frac{n}{3^2}+...+9^{h-1}(\frac{n}{3^{h-1}})^2\log\frac{n}{3^{h-1}})+9^hT(1)$$
+\item Найдем ответ через дерево рекурсии.
+\newline
+\begin{tikzpicture}[scale=0.75,transform shape,level/.style={sibling distance = 5cm/#1, level distance = 1.5cm}]
+\node [circle,draw] (z){$n^2\log n$}
+  child {node [circle,draw] (a) {$\frac{n^2}{3^2}\log\frac{n}{3}$}
+    child {node [circle,draw] (b) {$\frac{n^2}{3^4}\log\frac{n}{3^2}$}
+      child {node {$\vdots$}
+        child {node [circle,draw] (d) {$T(1)$}}
+        child {node [circle,draw] (e) {$T(1)$}}
+      } 
+      child {node {$\vdots$}}
+    }
+    child {node [circle,draw] (g) {$\frac{n^2}{3^4}\log\frac{n}{3^2}$}
+      child {node {$\vdots$}}
+      child {node {$\vdots$}}
+    }
+  }
+  child {node [circle,draw] (j) {$\frac{n^2}{3^2}\log\frac{n}{3}$}
+    child {node [circle,draw] (k) {$\frac{n^2}{3^4}\log\frac{n}{3^2}$}
+      child {node {$\vdots$}}
+      child {node {$\vdots$}}
+    }
+  child {node [circle,draw] (l) {$\frac{n^2}{2^4}\log\frac{n}{3^2}$}
+    child {node {$\vdots$}}
+    child {node (c){$\vdots$}
+      child {node [circle,draw] (o) {$T(1)$}}
+      child {node [circle,draw] (p) {$T(1)$}
+          child [grow=right] {node (q) {$9^hT(1)$} edge from parent[draw=none]
+          child [grow=up, level distance=0.7cm] {node (r) {$\vdots$} edge from parent[draw=none]
+          child [grow=up, level distance=0.7cm] {node (r) {$9^k\frac{n^2}{3^{2k}}\log\frac{n}{3^k}$} edge from parent[draw=none]
+            child [grow=up, level distance=1cm] {node (r) {$\vdots$} edge from parent[draw=none]
+              child [grow=up, level distance=0.6cm] {node (s) {$9^2\frac{n^2}{3^4}\log\frac{n}{3^2}$} edge from parent[draw=none]
+                child [grow=up, level distance=1.5cm] {node (t) {$9\frac{n^2}{3^2}\log\frac{n}{3}$} edge from parent[draw=none]
+                  child [grow=up, level distance=1.5cm] {node (u) {$n^2\log n$} edge from parent[draw=none]}
+                }
+              }
+              }
+              }
+            }
+          }
+        }
+    }
+  }
+};
+\end{tikzpicture}\newline
+В корне ($i=0$) выполняется $n^2\log n$ операций, у каждой вершины 9 детей, на уровне $i+1$ $n_{i+1}=n_i/3$. У листьев (по индукции по высоте дерева) $1=n_h=\frac{n}{3^h}$, поэтому высота дерева {\em (не считая корня)} $h=\log_3n$. Найдем суммарное время ($C_1,\,C_2$~--- из определения $\Theta$ для $f$, под записью <<$\in[C_1,C_2]$>> подразумеваются два неравенства):
+$$T(n)=\sum\limits_{i=0}^{h-1}9^kf(\frac{n}{3^k})+9^hT(1)\in[C_1,C_2](n^2\log n+9(\frac{n}{3})^2\log\frac{n}{3}+9^2(\frac{n}{3^2})^2\log\frac{n}{3^2}+...+9^{h-1}(\frac{n}{3^{h-1}})^2\log\frac{n}{3^{h-1}})+9^hT(1)$$
 Найдем сумму в аргументе $\Theta$: $\sum\limits_{i=0}^{h-1}9^i(\frac{n}{3^i})^2\log\frac{n}{3^i}=n^2\sum\limits_{i=0}^{h-1}(\log n-i\log 3)=n^2\log n(h-1)-n^2\frac{h-1}{2}\log 3=\newline=n^2\log n(\log_3n-1)-n^2\frac{\log_3n-1}{2}\log 3=n^2\log^2n-n^2\log n-n^2\log n+Cn^2=\Theta(n^2\log^2 n)$.\newline
 Найдем $9^hT(1)=C9^{\log_3 n}=Cn^2$. Имеем $T(n)=\Theta(n^2\log^2n)+Cn^2=\boxed{\Theta(n^2\log^2n)}$
 \end{enumerate}
