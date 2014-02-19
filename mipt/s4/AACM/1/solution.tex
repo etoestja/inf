@@ -7,7 +7,6 @@
 \usepackage{tikz} %Рисование автоматов
 \usetikzlibrary{automata,positioning,arrows,trees}
 \usepackage{amsmath}
-\usepackage{enumerate}
 \usepackage[makeroom]{cancel} % зачеркивание
 \usepackage{multicol,multirow} %Несколько колонок
 \usepackage{hyperref}
@@ -94,10 +93,15 @@ g=O(f)\\
 \end{enumerate}
 \end{enumerate}
 \subsection*{(каноническое) Задача 2}
-$f(n)\eqdef C^{2n}_n\equiv\frac{(2n)!}{n!n!}$. Тогда $\ln f(n)=\ln(2n)!-2\ln n!\boxed{=}$. По формуле Стирлинга $\boxed{=}(2n)\ln(2n)-2n+O(\ln(2n))-n\ln n+n-O(\ln n)$. Поскольку $O(\ln(2n))-O(\ln n)\leqslant O(\ln(2n))=O(\ln 2+\ln n)=O(\ln n)$, получим $\boxed{=}2n(\ln 2+\ln n)-n-n\ln n+O(\ln n)=n\ln n-n(1-2\ln 2)+O(\ln n)$. Тогда $f(n)=e^{\cdots}=e^{n\ln n-n(1-2\ln 2)+O(\ln n)}=O(\frac{n^{n+1}}{e^{n}})$, так как $1-2\ln 2>1$.
-{\bf ДОПИСАТЬ!}
-Либо: $n!=\Theta(\sqrt{2\pi n}(\frac{n}{e})^n)=\Theta(\sqrt{n}(\frac{n}{e})^n)$, поэтому $f(n)\equiv\frac{(2n)!}{(n!)^2}=\Theta(\frac{\sqrt{2n}(\frac{2n}{e})^{2n}}{n(\frac{n}{e})^2n})=\Theta(\frac{4^n}{\sqrt{n}})$\newline
-Ответ: $\boxed{C^{2n}_n=\Theta(\frac{4^n}{\sqrt{n}})}$
+$f(n)\eqdef C^{n}_{2n}\equiv\frac{(2n)!}{n!n!}$.
+%Тогда $\ln f(n)=\ln(2n)!-2\ln n!\boxed{=}$. По формуле Стирлинга $\boxed{=}(2n)\ln(2n)-2n+O(\ln(2n))-n\ln n+n-O(\ln n)$. Поскольку $O(\ln(2n))-O(\ln n)\leqslant O(\ln(2n))=O(\ln 2+\ln n)=O(\ln n)$, получим $\boxed{=}2n(\ln 2+\ln n)-n-n\ln n+O(\ln n)=n\ln n-n(1-2\ln 2)+O(\ln n)$. Тогда $f(n)=e^{\cdots}=e^{n\ln n-n(1-2\ln 2)+O(\ln n)}=O(\frac{n^{n+1}}{e^{n}})$, так как $1-2\ln 2>1$.
+%{\bf ДОПИСАТЬ!}
+Формула Стирлинга: $n!=\Theta(\sqrt{2\pi n}(\frac{n}{e})^n)=\Theta(\sqrt{n}(\frac{n}{e})^n)$, поэтому $f(n)\equiv\frac{(2n)!}{(n!)^2}=\Theta(\frac{\sqrt{2n}(\frac{2n}{e})^{2n}}{n(\frac{n}{e})^{2n}})=\Theta(\frac{4^n}{\sqrt{n}})$\newline
+Ответ: $\boxed{C^{n}_{2n}=\Theta(\frac{4^n}{\sqrt{n}})}$\newline
+{\em Попытка не через формулу Стирлинга (не дописано)}:
+Рассмотрим $f(n)=\frac{(2n)!}{n!n!}=\frac{(2n)(2n-1)(2n-2)!}{n^2(n-1)!(n-1)!}=(4-\frac{2}{n})f(n-1)$. Таким образом, $\frac{f(n)}{f(n-1)}=4-\frac{2}{n}$
+Определим $g(n)=\frac{4^n}{\sqrt{n}}$, докажем, что $f=\Theta(g)$. Рассмотрим $\frac{g(n)}{g(n-1)}=\frac{4\sqrt{n-1}}{\sqrt{n}}=4\sqrt{1-\frac{1}{n}}\boxed{=}$. По формуле Тейлора $\boxed{=}4(1-\frac{1}{2n}+\smallo(\frac{1}{n}))=4-\frac{2}{n}+\smallo(\frac{1}{n})$\newline
+Получаем, что $\frac{f(n)}{f(n-1)}-\frac{g(n)}{g(n-1)}=\smallo(\frac{1}{n})$
 \subsection*{(каноническое) Задача 3}
 \begin{enumerate}
 \item $T(n)=9T(\frac{n}{3})+f(n)$, $f(n)=\Theta(n^2\log n)$.
@@ -142,14 +146,14 @@ t_3 & = & (a+b)(c+d)\\
 \item Поскольку $M(m)\leqslant M(m+1)$, получим $M(2m)\leqslant 3M(m+1)+A(m)+2A(m+1)$, и по предыдущему пункту $$M(2m)\leqslant 3M(m+1)+O(A(m))$$.
 \item Поскольку $A(m)=O(m)$, $M(2m)\leqslant 3M(m+1)+O(m)$, т.е. $$M(m)\leqslant 3M(\frac{m}{2}+1)+f(m)\mbox{, где }f(m)=O(m).$$
 \item Из определения $O(m)$ получаем $\exists m_0\,\exists C>0\colon\forall m\geqslant m_0\hookrightarrow f(m)\leqslant Cm$
-\item Дерево рекурсии:\newline
+\item Дерево рекурсии (перестаем раскрывать, когда аргумент достигнет 3):\newline
 \begin{tikzpicture}[scale=0.75,transform shape,level/.style={sibling distance = 5cm/#1, level distance = 1.5cm}]
 \node [circle,draw] (z){$m$}
   child {node [circle,draw] (a) {$\frac{m}{2}+1$}
     child {node [circle,draw] (b) {$\frac{\frac{m}{2}+1}{2}+1$}
       child {node {$\vdots$}
-        child {node [circle,draw] (d) {$M(2)$}}
-        child {node [circle,draw] (e) {$M(2)$}}
+        child {node [circle,draw] (d) {$M(3)$}}
+        child {node [circle,draw] (e) {$M(3)$}}
       } 
       child {node {$\vdots$}}
     }
@@ -166,9 +170,9 @@ t_3 & = & (a+b)(c+d)\\
   child {node [circle,draw] (l) {$\frac{\frac{m}{2}+1}{2}+1$}
     child {node {$\vdots$}}
     child {node (c){$\vdots$}
-      child {node [circle,draw] (o) {$M(2)$}}
-      child {node [circle,draw] (p) {$M(2)$}
-          child [grow=right] {node (q) {$3^hM(2)$} edge from parent[draw=none]
+      child {node [circle,draw] (o) {$M(3)$}}
+      child {node [circle,draw] (p) {$M(3)$}
+          child [grow=right] {node (q) {$3^hM(3)$} edge from parent[draw=none]
           child [grow=up, level distance=0.7cm] {node (r) {$\vdots$} edge from parent[draw=none]
           child [grow=up, level distance=0.7cm] {node (r) {$3^k(\frac{...}{2}+1)$} edge from parent[draw=none]
             child [grow=up, level distance=1cm] {node (r) {$\vdots$} edge from parent[draw=none]
@@ -193,11 +197,19 @@ $a_{i+1}=\frac{a_i}{2}+1$. $a_0=m$. По индукции докажем $a_i\ov
 \item Переход. Пусть $a'_l=a_l$. Тогда $a'_{l+1}-a_{l+1}=\frac{m}{2^{i+1}}+\sum\limits_{k=0}^{l}\frac{1}{2^k}-\frac{a_l}{2}-1\boxed{=}$. Но $a_l=a'_l$, поэтому\newline
 $\boxed{=}\frac{m}{2^{i+1}}+\sum\limits_{k=0}^{l}\frac{1}{2^k}-\frac{m}{2^{i+1}}-\sum\limits_{k=0}^{l-1}\frac{1}{2^{k+1}}-1$. Сумма $\sum\limits_{k=0}^{l-1}\frac{1}{2^{k+1}}=\sum\limits_{k=1}^{l}\frac{1}{2^k}$, поэтому $\boxed{=}\sum\limits_{k=0}^{l}\frac{1}{2^k}-1-\sum\limits_{k=1}^{l}\frac{1}{2^k}=0\,\blacksquare$
 \end{enumerate}
-Высота дерева $h\leqslant C\log_2 m$ {\bf обосновать!}\newline
+Высота дерева $h\leqslant \log_2 m$, так как $a_h=3\Leftrightarrow \frac{m}{2^h}=3-\sum\limits_{k=0}^{h-1}\frac{1}{2^k}\geqslant 1\Leftrightarrow 2^h\leqslant m\Rightarrow h\leqslant\log_2 m$
+%{\bf обосновать!}
+\newline
 Последовательность $a_l=\frac{m}{2^l}+\sum\limits_{i=0}^{l-1}2^{-i}\leqslant\frac{m}{2^l}+2$.
 Получаем $M(m)\leqslant \sum\limits_{k=0}^{h-1}3^kf(\frac{m}{2^k}+2)+3^hM(2)\leqslant Cm\sum\limits_{k=0}^{h-1}(\frac{3}{2})^k+2C\sum\limits_{k=0}^{h-1}3^k+3^hM(2)$.
-Первая сумма $\sum\limits_{k=0}^{h-1}(\frac{3}{2})^k=\frac{1-(3/2)^{h-1}}{1-3/2}\overset{\mbox{\bf !}}{\leqslant}2((3/2)^{\log_2 m})-2=2m^{\log_2 \frac{3}{2}}-2$\newline
-Вторая сумма $\sum\limits_{k=0}^{h-1}3^k=\frac{3^{h-1}-1}{2}\overset{\mbox{\bf !}}{\leqslant}\frac{1}{2}(m^{\log_2 3}-1)$\newline
+Первая сумма $\sum\limits_{k=0}^{h-1}(\frac{3}{2})^k=\frac{1-(3/2)^{h-1}}{1-3/2}
+%\overset{\mbox{\bf !}}{\leqslant}
+\leqslant
+2((3/2)^{\log_2 m})-2=2m^{\log_2 \frac{3}{2}}-2$\newline
+Вторая сумма $\sum\limits_{k=0}^{h-1}3^k=\frac{3^{h-1}-1}{2}
+\leqslant
+%\overset{\mbox{\bf !}}{\leqslant}
+\frac{1}{2}(m^{\log_2 3}-1)$\newline
 Тогда $M(m)\leqslant Cm(2m^{\log_2 \frac{3}{2}}-2)+2C\frac{1}{2}(m^{\log_2 3}-1)+m^{\log_2 3}T(2)=O(m^{\log_2 3})$, так как $m^{1+\log_2(3/2)}=m^{\log_2 3}$
 \end{enumerate}
 Ответ: $\boxed{Mult(m)=O(m^{\log_2 3})}$
@@ -253,7 +265,9 @@ $\boxed{=}\frac{m}{2^{i+1}}+\sum\limits_{k=0}^{l}\frac{1}{2^k}-\frac{m}{2^{i+1}}
 \end{minipage}
 &
 \begin{minipage}{0.4\textwidth}
-Рассмотрим рекуррентность. Последовательно подставляя $T(n)$ в правую часть, получим некоторую сумму $T(n)=\sum\limits_{i=0}^{h-1} C_i\cdot f(\frac{n}{3^i})+C_hT(1)$. Она конечна, так как аргумент $T(\cdot)$ в правой части меньше, чем в левой, причем в 3 раза. Прекращаем подставлять, когда аргумент станет равен 1. $C_i$~--- некоторые коэффициенты, найти которые можно при помощи дерева слева. Корень соответствует $i=0$ (база), та, каждый $i$-й уровень соответствует $i$-му слагаемому суммы. {\bf ДОПИСАТЬ ФОРМАЛЬНО}
+Рассмотрим рекуррентность. Последовательно подставляя $T(n)$ в правую часть, получим некоторую сумму $T(n)=\sum\limits_{i=0}^{h-1} C_i\cdot f(\frac{n}{3^i})+C_hT(1)$. Она конечна, так как аргумент $T(\cdot)$ в правой части меньше, чем в левой, причем в 3 раза. Прекращаем подставлять, когда аргумент станет равен 1. $C_i$~--- некоторые коэффициенты, найти которые можно при помощи дерева слева. Корень соответствует $i=0$ (база), та, каждый $i$-й уровень соответствует $i$-му слагаемому суммы
+%{\bf ДОПИСАТЬ ФОРМАЛЬНО}
+{\em (это здесь не доказано)}.
 При последней, $h$-й подстановке $\frac{n}{3^h}=1$, откуда $h=\log_3 n$.
 \end{minipage}\\
 \end{tabular}\newline
@@ -427,6 +441,11 @@ i\mbox{~--- частное от деления }n\mbox{ на }q_1\cdot...\cdot q
 Итоговое время $T(n)=O(n\log\log n)+O(\log n)=O(n\log\log n)$, т.е. совпадает с временем работы Решета.
 \end{enumerate}
 \subsection*{Задача 3}
+{\em Задачу рассказывал Пименов на курсе Алгоритмы: построение и анализ}\newline
+Фиксируем $n$. Рассмотрим внешний цикл. Если число $i$ не простое, совершается $C_1$ операций (эта и следующая константы не зависят от $n$), иначе выполняется внутренний цикл, который совершает не более, чем $C_2\lceil\frac{n}{i}\rceil$ операций (из условия $i*i+i*j\leqslant n$ получаем $j\leqslant \frac{n-i*i}{i}\leqslant\frac{n}{i}$). Пусть $P_n$~--- множество простых чисел, не превосходящих $n$. Тогда $T(n)\leqslant C_2\sum\limits_{i\in P_n}\lceil\frac{n}{i}\rceil+C_1\sum\limits_{x\in\overline{2,n}\setminus P_n} 1$. Мощность $|\overline{2,n}\setminus P_n|\leqslant n$, поэтому второе слагаемое~--- $O(n)$.\newline
+Оценим первую сумму. $\sum\limits_{i\in P_n}\lceil\frac{n}{i}\rceil\leqslant C_3n\sum\limits_{i\in P_n}\frac{1}{i}\boxed{\leqslant}$.\newline
+Используем факт из Википедии \cite{wiki_primes}: $\sum\limits_{p\in P_n}\frac{1}{p}\leqslant C_4\log\log x$, подставим: $\boxed{\leqslant}C_3C_4n\log\log n=O(n\log\log n)$.\newline
+Получаем $T(n)\leqslant O(n)+O(n\log\log n)=O(n\log\log n)\,\blacksquare$
 \subsection*{Вспомогательные утверждения}
 \begin{enumerate}
 \item \label{smallg2} Пусть $f_1=\Theta(g_1)$, $f_2=\Theta(g_2)$, $g_2=\smallo(g_1), g_2(n)>0$. Тогда $f_1+f_2=\Theta(g_1)$. Доказательство:\newline
@@ -438,4 +457,8 @@ C_1^2g_2(n) & \leqslant & f_2(n) & \leqslant & C_2^2 g_2(n)\\
 Здесь использовалось определение $\smallo$. Из определения предела для $\eps=\eps_0=\min(C_1^1,C_2^1)/2$ получаем при $n\geqslant n_0(\eps)$ $(C^1_1-\eps)g_1(n)\leqslant f_1(n)+f_2(n)\leqslant (C_2^1+\eps)g_1(n)$, а из этого следует $f_1+f_1=\smallo(g_1)\blacksquare$
 \item \label{smallg2O} Пусть $f_1=O(g_1)$, $f_2=O(g_2)$, $g_2=\smallo(g_1), g_2(n)>0$. Тогда $f_1+f_2=O(g_1)$. Доказательство выше (нужно взять правую часть большого неравенства).
 \end{enumerate}
+\begin{thebibliography}{9}
+\bibitem{wiki_primes}
+\href{http://goo.gl/ckO9iy}{Википедия: Простое число}. Раздел <<некоторые свойства>>
+\end{thebibliography}
 \end{document}
