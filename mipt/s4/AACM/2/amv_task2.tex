@@ -1,0 +1,244 @@
+ \documentclass[12pt, leqno]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}        % Кодировка входного документа;
+                                    % при необходимости, вместо cp1251
+                                    % можно указать cp866 (Alt-кодировка
+                                    % DOS) или koi8-r.
+
+\usepackage[english,russian]{babel} % Включение русификации, русских и
+                                    % английских стилей и переносов
+%%\usepackage{a4}
+%%\usepackage{moreverb}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,amsbsy,amstext,amscd,amsxtra,multicol}
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{algorithm2e}
+
+\usepackage{tabto} %Табуляция
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,trees}
+\usepackage{multicol} %Несколько колонок
+\usepackage{graphicx}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage[stable]{footmisc}
+\usepackage{indentfirst}  % абзацный отступ после заголовка
+\usepackage{enumitem} %Item tricks
+
+
+%% \voffset-5mm
+%% \def\baselinestretch{1.44}
+\renewcommand{\theequation}{\arabic{equation}}
+\def\hm#1{#1\nobreak\discretionary{}{\hbox{$#1$}}{}}
+\newtheorem{Lemma}{Лемма}
+\theoremstyle{definiton}
+\newtheorem{Remark}{Замечание}
+%%\newtheorem{Def}{Определение}
+\newtheorem{Claim}{Утверждение}
+\newtheorem{Cor}{Следствие}
+\newtheorem{Theorem}{Теорема}
+\newtheorem*{known}{Теорема}
+\def\proofname{Доказательство}
+\theoremstyle{definition}
+\newtheorem{Def}{Определение}
+\theoremstyle{definition}
+\newtheorem{Example}{Пример}
+
+%% \newenvironment{Example} % имя окружения
+%% {\par\noindent{\bf Пример.}} % команды для \begin
+%% {\hfill$\scriptstyle\qed$} % команды для \end
+
+
+
+
+
+
+%\date{22 июня 2011 г.}
+\let\leq\leqslant
+\let\geq\geqslant
+\def\MT{\mathrm{MT}}
+%Обозначения ``ажуром''
+\def\BB{\mathbb B}
+\def\CC{\mathbb C}
+\def\RR{\mathbb R}
+\def\SS{\mathbb S}
+\def\ZZ{\mathbb Z}
+\def\NN{\mathbb N}
+\def\FF{\mathbb F}
+%греческие буквы
+\let\epsilon\varepsilon
+\let\es\varnothing
+\let\eps\varepsilon
+\let\al\alpha
+\let\sg\sigma
+\let\ga\gamma
+\let\ph\varphi
+\let\om\omega
+\let\ld\lambda
+\let\Ld\Lambda
+\let\vk\varkappa
+\let\Om\Omega
+\def\first{\mathrm{ FIRST} }
+\def\follow{\mathrm{ FOLLOW} }
+\let\yield\Rightarrow
+\def\abstractname{}
+
+\def\R{{\cal R}}
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+\def\D{{\cal D}}
+\let\w\omega
+
+%классы сложности
+\def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
+\def\LL{{\mathrm{LL}}}
+\newcounter{problem}
+\newcounter{uproblem}
+\newcounter{subproblem}
+\def\pr{\medskip\noindent\stepcounter{problem}{\bf \theproblem .  }\setcounter{subproblem}{0} }
+\def\prp{\medskip\noindent\stepcounter{problem}{\bf Задача \theproblem .  }\setcounter{subproblem}{0} }
+\def\prstar{\medskip\noindent\stepcounter{problem}{\bf Задача $\bf{\theproblem^*}\negmedspace .$  }\setcounter{subproblem}{0} }
+\def\prdag{\medskip\noindent\stepcounter{problem}{\bf Задача $\theproblem^\dagger$ .  }\setcounter{subproblem}{0} }
+\def\upr{\medskip\noindent\stepcounter{uproblem}{\bf Упражнение \theuproblem .  }\setcounter{subproblem}{0} }
+%\def\prp{\vspace{5pt}\stepcounter{problem}{\bf Задача \theproblem .  } }
+%\def\prs{\vspace{5pt}\stepcounter{problem}{\bf \theproblem .*   }
+\def\prsub{\medskip\noindent\stepcounter{subproblem}{\rm \thesubproblem .  } }
+%прочее
+\def\quotient{\backslash\negthickspace\sim}
+
+\begin{document}
+\centerline{\LARGE Задание 2}
+
+\medskip
+
+\begin{center}
+	{\Large Арифметические операции и линейные рекуррентные последовательности }
+\end{center}
+
+\bigskip
+
+{\bf Литература: }
+\begin{enumerate}
+
+\item Кормен Т., Лейзерсон Ч., Ривест Р., Штайн К. \\ {\it Алгоритмы. Построение и анализ. }\\  2-е изд. М.: Вильямс, 2005. Главы 3-4.
+\item Кнут Д.Э. \\ {\it Искусство программирования (Том 2. Получисленные алгоритмы) }\\  3-е изд. М.: Вильямс, 2001. Подраздел 4.6.3 (с. 503-528).
+
+\end{enumerate}
+
+\section{Быстрое умножение матриц}
+
+В этой части мы рассмотрим алгоритм Штрассена для умножени матриц. Для начала опишем его для матриц размера $2\times 2$
+
+$$ 
+	\begin{pmatrix}
+		c_{11} & c_{12}\\
+		c_{21} & c_{22}
+	\end{pmatrix}
+	= 
+	\begin{pmatrix}
+		a_{11} & a_{12}\\
+		a_{21} & a_{22}
+	\end{pmatrix}
+	\cdot
+	\begin{pmatrix}
+		b_{11} & b_{12}\\
+		b_{21} & b_{22}
+	\end{pmatrix}_.	
+$$
+
+Как и в случае алгоритма Карацубы нам потребуются вспомогательные произведения:
+\begin{align*}
+	m_1 &= (a_{12}-a_{22})(b_{21}+b_{22}),\\
+	m_2 &= (a_{11}+a_{22})(b_{11}+b_{22}),\\
+	m_3 &= (a_{11}-a_{21})(b_{11}+b_{12}),\\
+	m_4 &= (a_{11}+a_{12})b_{22},\\
+	m_5 &= a_{11}(b_{12}-b_{22}),\\
+	m_6 &= a_{22}(b_{21}-b_{11}),\\
+	m_7 &= (a_{21}+a_{22})b_{11}.
+\end{align*}
+
+Элементы матрицы $C$ найдём по формулам:
+\begin{align*}
+	c_{11} &= m_1 + m_2 - m_4 + m6,\\
+	c_{12} &= m_4+m_5,\\
+	c_{21} &= m_6+m_7,\\
+	c_{22} &= m_2-m_3+m_5-m_7.
+\end{align*}
+
+Алгоритм Штрассена определяется рекурсивно для матриц порядка $2^n\times 2^n$:
+$$
+ A\cdot B = 	\begin{pmatrix}
+		A_{11} & A_{12}\\
+		A_{21} & A_{22}
+	\end{pmatrix} 
+	\cdot
+	\begin{pmatrix}
+		B_{11} & B_{12}\\
+		B_{21} & B_{22}
+	\end{pmatrix}
+	= 
+	\begin{pmatrix}
+		C_{11} & C_{12}\\
+		C_{21} & C_{22}
+	\end{pmatrix}
+	=
+	C.
+$$
+
+\upr Доказать, что алгоритмы Карацубы и Штрассена применимы для умножения элементов любого кольца и матриц над любым кольцом соответственно.
+
+%\prp Оценить сложность алгоритма Штрассена в случае умножения чисел наивным методом и в случае умножения чисел методом Карацубы. 
+
+\section{Линейные рекуррентные последовательности}
+Последовательность $\{a_n\}^{\infty}_{n=1}$ называется линейно рекурентной последовательностью порядка $d$, если для всех $n > d $ для неё справедлива формула $$a_n = \sum_{i=1}^d c_ia_{n-i}. $$ 
+
+Коэффициенты $c_i$ не зависят от $n$. Линейные рекурентные последовательности замечательны тем, что их члены можно находить возводя в степень матрицу:
+$$
+A = 
+ \begin{pmatrix}
+ 	c_1 & c_{2} & \dots & c_{d-1} & c_d \\
+	1	& 0		  & \dots & 0 	& 0 \\
+	0 	& 1	  & \dots & 0 	& 0 \\
+	\hdotsfor{5}\\
+	0 	& 0		  & \dots & 1 & 0 \\
+	
+ \end{pmatrix}_{.}
+$$
+
+Взяв вектор $\vec{a} = (a_d, a_{d-1}, \ldots, a_2, a_1)$ и умножив его на матрицу $A^n$ мы получим $A^n\vec{a} = (a_{n+d}, a_{n+d-1}, \ldots, a_{n+2}, a_{n+1})$.
+
+\upr Построить алгоритм, использующий для вычисления $a_n$ возведение в степень матриц и оценить его сложность. В качестве алгоритма умножения матриц использовать алгоритм Штрассена.
+\medskip
+
+Рассмотрим многочлен $p(\lambda) = \lambda^d - c_1\lambda^{d-1} - c_2\lambda^{d-2} - \ldots - c_d $ который назовём \emph{характерестичеким многочленом} последовательности $\{a_n\}_{n=1}^\infty$.
+
+\upr Показать, что характеристический многочлен $p(\lambda)$ последовательности $\{a_n\}_{n=1}^\infty$ совпадает с характеристическим многочленом матрицы $A$.
+\medskip
+
+Пусть $\lambda_1,\lambda_2,\ldots,\lambda_d$ -- различные корни характеристического многочлена $p(\lambda)$.
+
+\prstar Показать, что в этом случае справедлива формула $a_n = k_1\lambda_1^n + k_2\lambda_2^n + \ldots + k_d\lambda_d^n  $, где $k_i$ -- некоторые коэффициенты.
+
+\upr Найти формулу для $a_n$ в случае произвольной кратности корней характеристического многочлена $p(\lambda)$.
+\medskip
+
+Также для вычисления $a_n$ можно использовать её производящую функцию. Напомним, что производящей функцией последовательности $\{a_n\}_{n=1}^\infty$ называется ряд $G(a_n, x) = a_1 + a_2x + a_3x^2+\ldots+ a_mx^{m+1}\ldots$.
+
+\upr Показать, что производящая функция $G(a_n,x)$ линейно рекурентной последовательности $\{a_n\}_{n=1}^\infty$ порядка $d$ имеет вид $$ G(a_n, x) = \frac{a_1+a_2x+\ldots+a_dx^{d-1}}{1-x^d}_. $$
+
+\upr Решите \textbf{задачу 4-5} из Кормена (второе издание).
+\medskip
+
+С линейными рекурентными последовательностями связана интересная открытая проблема -- проблема Сколема. Она состоит в проверке того, встречается ли в линейной рекурентной последовательности $0$. Доказано, что проблема Сколема разрешима только для частных случаев ЛРП, насколько я знаю для $d \leq 5$, возможно есть более свежие результаты.
+
+\prstar Показать, что проблема Сколема разрешима для ЛПР порядка $d = 1,2,3$. 
+
+\section{Домашнее задание}
+
+Задачи из канонического задания \textbf{6, 7, 9}. Бонусные задачи -- задачи со сзвёздочкой из этого текста.
+
+
+
+
+\end{document}
