@@ -1,0 +1,121 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+%\geometry{paperwidth=210mm, paperheight=2000pt, left=5pt, top=5pt}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,arrows,trees}
+\usepackage{amsmath}
+\usepackage[makeroom]{cancel} % зачеркивание
+\usepackage{multicol,multirow} %Несколько колонок
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{wasysym}
+\title{Алгоритмы и модели вычислений.\\Задание 2: Арифметические операции и линейные рекуррентные последовательности}
+\date{задано 2014.02.20}
+\author{Сергей~Володин, 272 гр.}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+% названия автоматов  (rubtsov)
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+
+% алгоритмы (Рубцов)
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{algorithm2e}
+
+%+= и -=, иначе разъезжаются...
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
+% пустое слово  (rubtsov)
+\def\eps{\varepsilon}
+
+% регулярные языки  (rubtsov)
+\def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\newcommand{\niton}{\not\owns}
+
+%FIRST & FOLLOW (rubtsov)
+\def\first{\mathrm{ FIRST} }
+\def\follow{\mathrm{ FOLLOW} }
+
+% LL LR (rubtsov)
+\def\LL{{\mathrm{LL}}}
+\def\LR{{\mathrm{LR}}}
+
+\newcounter{rowItemCount}
+\newcounter{subRowItemCount}
+\newcommand\rowItem{
+    \setcounter{subRowItemCount}{0}
+    \arabic{rowItemCount}.\addtocounter{rowItemCount}{1}}
+\newcommand\subRowItem{
+    \addtocounter{subRowItemCount}{1}
+    \addtocounter{rowItemCount}{-1}
+    \arabic{rowItemCount}.\arabic{subRowItemCount}.\addtocounter{rowItemCount}{1}}
+    
+\newcommand{\smalll}[1]{\overline{\overline{#1}}}
+\newcommand{\smallo}{\bar{\bar{o}}}
+
+\begin{document}
+\maketitle
+\subsection*{(каноническое) Задача 6}
+$T(n)=7T(\frac{n}{2})+f(n)$, $f(n)=O(n^2)$. Дерево рекурсии:
+\newline
+\begin{tikzpicture}[scale=0.75,transform shape,level/.style={sibling distance = 5cm/#1, level distance = 1.5cm}]
+\node [circle,draw] (z){$n^2$}
+  child {node [circle,draw] (a) {$\frac{n^2}{2^2}$}
+    child {node [circle,draw] (b) {$\frac{n^2}{2^4}$}
+      child {node {$\vdots$}
+        child {node [circle,draw] (d) {$T(1)$}}
+        child {node [circle,draw] (e) {$T(1)$}}
+      } 
+      child {node {$\vdots$}}
+    }
+    child {node [circle,draw] (g) {$\frac{n^2}{2^4}$}
+      child {node {$\vdots$}}
+      child {node {$\vdots$}}
+    }
+  }
+  child {node [circle,draw] (j) {$\frac{n^2}{2^2}$}
+    child {node [circle,draw] (k) {$\frac{n^2}{2^4}$}
+      child {node {$\vdots$}}
+      child {node {$\vdots$}}
+    }
+  child {node [circle,draw] (l) {$\frac{n^2}{2^4}$}
+    child {node {$\vdots$}}
+    child {node (c){$\vdots$}
+      child {node [circle,draw] (o) {$T(1)$}}
+      child {node [circle,draw] (p) {$T(1)$}
+          child [grow=right] {node (q) {$7^hT(1)$} edge from parent[draw=none]
+          child [grow=up, level distance=0.7cm] {node (r) {$\vdots$} edge from parent[draw=none]
+          child [grow=up, level distance=0.7cm] {node (r) {$7^k\frac{n^2}{2^{2k}}$} edge from parent[draw=none]
+            child [grow=up, level distance=1cm] {node (r) {$\vdots$} edge from parent[draw=none]
+              child [grow=up, level distance=0.6cm] {node (s) {$7^2\frac{n^2}{2^4}$} edge from parent[draw=none]
+                child [grow=up, level distance=1.5cm] {node (t) {$7\frac{n^2}{2^2}$} edge from parent[draw=none]
+                  child [grow=up, level distance=1.5cm] {node (u) {$n^2$} edge from parent[draw=none]}
+                }
+              }
+              }
+              }
+            }
+          }
+        }
+    }
+  }
+};
+\end{tikzpicture}\newline
+Высота дерева $h=\log_2 n$. $T(n)=\sum\limits_{k=0}^{h-1}7^kf(\frac{n}{2^k})+7^hT(1)\boxed{\leqslant}$. Из определения $O$ $\exists C>0\,\exists n_0\colon\forall n\geqslant n_0\hookrightarrow f(n)\leqslant Cn^2$, откуда первая сумма
+$\sum\limits_{k=0}^{h-1}7^kf(\frac{n^2}{2^{2k}})\leqslant Cn^2\sum\limits_{k=0}^{h-1}(\frac{7}{4})^k=Cn^2\frac{(7/4)^{h-1}-1}{7/4-1}=C_1n^2((7/4)^{\log_2 n}-C_2)=C_1n^2n^{\log_2\frac{7}{4}}-C_3n^2=C_1n^{\log_2 7}-C_3n^2$. Второе слагаемое $7^hT(1)=7^{\log_2 n}T(1)=Cn^{\log_2 7}$\newline
+Поэтому $T(n)\leqslant n^{\log_2 7}-C_5n^2$
+Ответ: $\boxed{T(n)=O(n^{\log_2 7})}$
+\end{document}
