@@ -118,4 +118,8 @@ $T(n)=7T(\frac{n}{2})+f(n)$, $f(n)=O(n^2)$. Дерево рекурсии:
 $\sum\limits_{k=0}^{h-1}7^kf(\frac{n^2}{2^{2k}})\leqslant Cn^2\sum\limits_{k=0}^{h-1}(\frac{7}{4})^k=Cn^2\frac{(7/4)^{h-1}-1}{7/4-1}=C_1n^2((7/4)^{\log_2 n}-C_2)=C_1n^2n^{\log_2\frac{7}{4}}-C_3n^2=C_1n^{\log_2 7}-C_3n^2$. Второе слагаемое $7^hT(1)=7^{\log_2 n}T(1)=Cn^{\log_2 7}$\newline
 Поэтому $T(n)\leqslant n^{\log_2 7}-C_5n^2$
 Ответ: $\boxed{T(n)=O(n^{\log_2 7})}$
+\subsection*{(каноническое) Задача 7}
+Вход: точки $\{x_i,y_i\}_{i=1}^n$.\newline
+Алгоритм: считаем массив расстояний $r_i\eqdef \sqrt{x_i^2+y_i^2}$ {\em (можно $r_i^2$)}. Ищем медиану $r_m$ в массиве за $O(n)$\newline
+Ответ: $r_{m}$ {\em ($r_{m+1}$?)}.
 \end{document}
