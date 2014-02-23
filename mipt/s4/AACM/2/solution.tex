@@ -115,8 +115,9 @@ c_1 & c_2 & ... & c_{d-1} & c_d \\
 -\lambda(-1)^{d-1}(\lambda^{d-1}-c_1\lambda^{d-2}-...-c_{d-2}\lambda-c_{d-1})-(-1)^dc_d=(-1)^d(\lambda^d-c_1\lambda^{d-1}-...-c_{d-1}\lambda-c_d)$. Получаем $\underline{P(d)}\,\blacksquare$
 \end{enumerate}
 \subsection*{(каноническое) Задача 6}
-$T(n)=7T(\frac{n}{2})+f(n)$, $f(n)=O(n^2)$. Дерево рекурсии:
-\newline
+$T(n)=7T(\frac{n}{2})+f(n)$, $f(n)=O(n^2)$. Дерево рекурсии:\newline
+\begin{tabular}{lr}
+\begin{minipage}{0.47\textwidth}
 \begin{tikzpicture}[scale=0.75,transform shape,level/.style={sibling distance = 5cm/#1, level distance = 1.5cm}]
 \node [circle,draw] (z){$n^2$}
   child {node [circle,draw] (a) {$\frac{n^2}{2^2}$}
@@ -159,10 +160,15 @@ $T(n)=7T(\frac{n}{2})+f(n)$, $f(n)=O(n^2)$. Дерево рекурсии:
     }
   }
 };
-\end{tikzpicture}\newline
-Высота дерева $h=\log_2 n$. $T(n)=\sum\limits_{k=0}^{h-1}7^kf(\frac{n}{2^k})+7^hT(1)\boxed{\leqslant}$. Из определения $O$ $\exists C>0\,\exists n_0\colon\forall n\geqslant n_0\hookrightarrow f(n)\leqslant Cn^2$, откуда первая сумма
+\end{tikzpicture}
+\end{minipage} &
+\begin{minipage}{0.46\textwidth}
+Высота дерева $h=\log_2 n$.\newline
+$T(n)=\sum\limits_{k=0}^{h-1}7^kf(\frac{n}{2^k})+7^hT(1)\boxed{\leqslant}$.\newline Из определения $O$ $\exists C>0\,\exists n_0\colon\forall n\geqslant n_0\, f(n)\leqslant Cn^2$, откуда первая сумма
 $\sum\limits_{k=0}^{h-1}7^kf(\frac{n^2}{2^{2k}})\leqslant Cn^2\sum\limits_{k=0}^{h-1}(\frac{7}{4})^k=Cn^2\frac{(7/4)^{h-1}-1}{7/4-1}=C_1n^2((7/4)^{\log_2 n}-C_2)=C_1n^2n^{\log_2\frac{7}{4}}-C_3n^2=C_1n^{\log_2 7}-C_3n^2$. Второе слагаемое $7^hT(1)=7^{\log_2 n}T(1)=Cn^{\log_2 7}$\newline
 Поэтому $T(n)\leqslant n^{\log_2 7}-C_5n^2$
+\end{minipage}\\
+\end{tabular}\newline
 Ответ: $\boxed{T(n)=O(n^{\log_2 7})}$
 \subsection*{(каноническое) Задача 7}
 Вход: точки $\{x_i,y_i\}_{i=1}^n$.\newline
