@@ -68,6 +68,52 @@
 
 \begin{document}
 \maketitle
+\subsection*{Упражнение 3}
+Определим $A_d\eqdef\matrixl
+\begin{array}{ccccc}
+c_1 & c_2 & ... & c_{d-1} & c_d \\
+1   & 0   & ... & 0 & 0\\
+0 & 1 & ... & 0 & 0\\
+\multicolumn{5}{c}{...}\\
+0 & 0 & ... & 1 & 0
+\end{array}
+\matrixr$
+
+Докажем по индукции $P(d)\eqdef \left[\det(A_d-\lambda E)=(-1)^d(\lambda^d-c_1\lambda^{d-1}-c_2\lambda^{d-2}-...-c_{d-1}\lambda-c_d)\right]$
+\begin{enumerate}
+\item База. $d=3\Rightarrow$ $\det(A_3-\lambda E)=\left|
+\begin{array}{ccc}
+(c_1-\lambda) & c_2 & c_3\\
+1 & -\lambda & 0\\
+0 & 1 & -\lambda\\
+\end{array}
+\right|=c_1\lambda^2-\lambda^3+c_3+c_2\lambda=(-1)^3(\lambda^3-c_1\lambda^2-c_2\lambda-c_3)\Rightarrow P(3)\,\blacksquare$
+\item Пусть $\underline{P(d-1)}$. Рассмотрим $\det(A_d-\lambda E)=\left|
+\begin{array}{ccccc}
+(c_1-\lambda) & c_2 & ... & c_{d-1} & c_d \\
+1   & -\lambda   & ... & 0 & 0\\
+0 & 1 & ... & 0 & 0\\
+\multicolumn{5}{c}{...}\\
+0 & 0 & ... & 1 & -\lambda\\
+\end{array}
+\right|\boxed{=}$.\newline
+Разложим по последнему столбцу: $\boxed{=}-\lambda\underbrace{\left|
+\begin{array}{cccc}
+(c_1-\lambda) & c_2 & ... & c_{d-1}\\
+1 & -\lambda & ... & 0\\
+\multicolumn{4}{c}{...}\\
+0 & 0 & ... & -\lambda\\
+\end{array}
+\right|}_{\det(A_{d-1}-\lambda E)}+(-1)^{d+1}c_d\underbrace{\left|
+\begin{array}{ccccc}
+1 & -\lambda & 0 & ... & 0\\
+0 & 1 & -\lambda & ... & 0\\
+\multicolumn{5}{c}{...}\\
+0 & 0 & 0 & ... & 1
+\end{array}
+\right|}_{=1\mbox{\tiny, верхн.-треуг.}}\overset{P(d-1)}{=}\newline\overset{P(d-1)}{=}
+-\lambda(-1)^{d-1}(\lambda^{d-1}-c_1\lambda^{d-2}-...-c_{d-2}\lambda-c_{d-1})-(-1)^dc_d=(-1)^d(\lambda^d-c_1\lambda^{d-1}-...-c_{d-1}\lambda-c_d)$. Получаем $\underline{P(d)}\,\blacksquare$
+\end{enumerate}
 \subsection*{(каноническое) Задача 6}
 $T(n)=7T(\frac{n}{2})+f(n)$, $f(n)=O(n^2)$. Дерево рекурсии:
 \newline
