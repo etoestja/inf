@@ -336,6 +336,14 @@ $, откуда $\vec{h}_3^0=\matrixl
 \matrixr$, поэтому\newline
 $A'^n=\mbox{diag}(\lambda_1^n,\lambda_2^n,\lambda_3^n)$
 \item $A^n=\underbrace{SA'\cancelto{E}{S^T\cdot S}A'S^T\cdot...\cdot SA'\cancelto{E}{S^T\cdot S}A'S^T}_n=SA'^nS^T=S\mbox{diag}(\lambda_1^n,\lambda_2^n,\lambda_3^n)S^T$
-\item Вернемся к $g_n=\vec{\xi}^TA^{n-1}\vec{\xi}=\vec{\xi}^TS\mbox{diag}(\lambda_1^{n-1},\lambda_2^{n-1},\lambda_3^{n-1})S^T\vec{\xi}=\frac{1}{2}\left[(1+\sqrt{2})^{n+1}+(1-\sqrt{2})^{n+1}\right]$
+\item \label{9c_gn} Вернемся к $g_n=\vec{\xi}^TA^{n-1}\vec{\xi}=\vec{\xi}^TS\mbox{diag}(\lambda_1^{n-1},\lambda_2^{n-1},\lambda_3^{n-1})S^T\vec{\xi}=\boxed{\frac{1}{2}\left[(1+\sqrt{2})^{n+1}+(1-\sqrt{2})^{n+1}\right]}$
+\item Попробуем найти рекуррентное соотношение следующим образом. Предположим, что последовательность $\{g_n\}_{n=1}^\infty$~--- ЛРП порядка $d$, причем все корни характеристического многочлена ее матрицы вещественные и различные. Тогда (Задача 1) $\exists k_1,...,k_d\colon g_n=k_1\lambda_1^n+...+k_2\lambda_d^n$. Сравнивая с выражением выше, получаем $d=2$, т.е. ищем рекуррентное соотношение вида $g_n=c_1g_{n-1}+c_2g_{n-2}$. Подставляя выражение $\ref{9c_gn}$ для $g_n$, получаем $(1+\sqrt{2})^{n+1}+(1-\sqrt{2})^{n+1}=c_1(1+\sqrt{2})^{n}+c_1(1-\sqrt{2})^{n}+c_2(1+\sqrt{2})^{n-1}+c_2(1-\sqrt{2})^{n-1}\Leftrightarrow (1+\sqrt{2})^{n-1}(3+2\sqrt{2}-c_1(1+\sqrt{2})-c_2)+(1-\sqrt{2})^{n-1}(3-2\sqrt{2}-c_1(1-\sqrt{2})-c_2)=0$, что будет выполнено при любых $n$ при $\begin{cases}
+(1+\sqrt{2})c_1+c_2=3+2\sqrt{2}\\
+(1-\sqrt{2})c_1+c_2=3-2\sqrt{2}
+\end{cases}\Leftrightarrow
+\begin{cases}
+c_1=2\\
+c_2=1
+\end{cases}$,\newline т.е. $\boxed{g_n=2g_{n-1}+g_{n-2}}$
 \end{enumerate}
 \end{document}
