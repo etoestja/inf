@@ -174,4 +174,168 @@ $\sum\limits_{k=0}^{h-1}7^kf(\frac{n^2}{2^{2k}})\leqslant Cn^2\sum\limits_{k=0}^
 Вход: точки $\{x_i,y_i\}_{i=1}^n$.\newline
 Алгоритм: считаем массив расстояний $r_i\eqdef \sqrt{x_i^2+y_i^2}$ {\em (можно $r_i^2$)}. Ищем медиану $r_m$ в массиве за $O(n)$\newline
 Ответ: $r_{m}$ {\em ($r_{m+1}$?)}.
+\subsection*{(каноническое) Задача 9}
+Пусть $\Sigma=\{\underbrace{0}_{\sigma_0},\underbrace{1}_{\sigma_1},\underbrace{2}_{\sigma_2}\}$, $\Sigma^*\supset G=\{w\big|\exists n\colon w=w_1...w_n,\,\underbrace{\forall i\in\overline{1,n-1}\hookrightarrow |w_i-w_{i+1}|}_{(*)}\leqslant 1\}$. Пусть $g_n=|\{w\in L\big||w|=n\}|$~--- количество слов длины $n$ в языке $G$. Определим $g^i_n=|\{w\in G\big||w|=n,\,w_n=\sigma_i\}|$~--- количество слов длины $n$ из $G$, оканчивающихся на $i$-й символ. Поскольку каждое слово оканчивается на один из символов $\sigma_i$, получаем $g_n=g_n^0+g_n^1+g_n^2$.
+\begin{enumerate}
+\item \label{9c_rec} Найдем рекуррентное соотношение для последовательностей $g_n^i$. Получим слово $w\in G$ длины $n+1$: $w=w_1...w_nw_{n+1}$. Поскольку слово из языка, для него верно $(*)$. Но это условие верно и для подслова $w_1...w_n$. Рассмотрим последний символ слова $w$~--- $w_{n+1}$:\begin{enumerate}
+\item \label{9c_rec0} $w_{n+1}=0$. Но тогда предпоследний символ слова $w$~--- $w_n$ может быть $0$ либо $1$ для выполнения $(*)$. Слово $w_1...w_n$ может быть получено $g_n^0$ и $g_n^1$ способами соответственно. Поэтому количество способов получить $w$ в этом случае $g_{n+1}^0=g_n^0+g_n^1$ $(**)$.
+\item \label{9c_rec1} $w_{n+1}=1$. Тогда $w_n\in\{0,1,2\}$, и $g_{n+1}^1=g_n^0+g_n^1+g_n^2$.
+\item \label{9c_rec2} $w_{n+1}=2$. Тогда $w_n\in\{1,2\}$, и $g_{n+1}^2=g_n^1+g_n^2$.
+\end{enumerate}
+\item Определим вектор ${\mathbb{R}}^3\ni \vec{g_n}=\matrixl
+\begin{array}{c}
+g_n^0\\
+g_n^1\\
+g_n^2
+\end{array}
+\matrixr$. Определим матрицу $A\eqdef\matrixl
+\begin{array}{ccc}
+1 & 1 & 0\\
+1 & 1 & 1\\
+0 & 1 & 1
+\end{array}
+\matrixr$.\newline
+Снова рассмотрим соотношения $
+\begin{cases}
+\ref{9c_rec0}\\
+\ref{9c_rec1}\\
+\ref{9c_rec2}
+\end{cases}\Leftrightarrow
+\begin{cases}
+g_{n+1}^0=g_n^0+g_n^1\\
+g_{n+1}^1=g_n^0+g_n^1+g_n^2\\
+g_{n+1}^2=g_n^1+g_n^2
+\end{cases}.$\newline
+Заметим, что в матричном виде они записываются как $\vec{g_{n+1}}=A\vec{g_n}$ $(***)$
+\item Найдем $g_1^0=g_1^1=g_1^2=1$, так как слово из одного символа удовлетворяет $(*)$. Определим $\vec{\xi}\eqdef\matrixl
+\begin{array}{c}
+1\\
+1\\
+1
+\end{array}
+\matrixr$.\newline
+Тогда, применяя $(***)$ {\em (доказывается тривиально по индукции)} получаем $\vec{g_n}=A^{n-1}\vec{\xi}$
+\item $g_n=g_n^0+g_n^1+g_n^2$. Но это равно $g_n=(\vec{\xi},A^{n-1}\vec{\xi})=\vec{\xi}^TA^{n-1}\vec{\xi}$
+\item Найдем ОНБ, в котором $A$ имеет диагональный вид\begin{enumerate}
+\item Характеристический многочлен $\det(A-\lambda E)=\left|
+\begin{array}{ccc}
+(1-\lambda) & 1 & 0\\
+1 & (1-\lambda) & 1\\
+0 & 1 & (1-\lambda)
+\end{array}
+\right|=(1-\lambda)^3-2(1-\lambda)=(1-\lambda)\cdot(1+\lambda^2-2\lambda-2)=(1-\lambda)\cdot(\lambda^2-2\lambda-1)$. Корни квадратного уравнения $\lambda=1$ и $\lambda\in\frac{2\pm\sqrt{4\cdot 2}}{2}=1\pm\sqrt{2}$. Далее ищем собственные векторы.
+\item ($\lambda=\lambda_1=1$). $A-1\cdot E=\matrixl
+\begin{array}{ccc}
+0 & 1 & 0\\
+1 & 0 & 1\\
+0 & 1 & 0
+\end{array}
+\matrixr\sim
+\matrixl\begin{array}{ccc}
+1 & 0 & 1\\
+0 & 1 & 0\\
+\end{array}
+\matrixr$, откуда $\vec{h}_1^0=\matrixl
+\begin{array}{ccc}
+-1 & 0 & 1
+\end{array}
+\matrixr^T$, $\vec{h}_1=\matrixl
+\begin{array}{c}
+\frac{-1}{\sqrt{2}}\\
+0\\
+\frac{1}{\sqrt{2}}
+\end{array}
+\matrixr$
+\item $(\lambda=\lambda_2=1+\sqrt{2})$. $A-(1+\sqrt{2})\cdot E=\matrixl
+\begin{array}{ccc}
+-\sqrt{2} & 1 & 0\\
+1 & -\sqrt{2} & 1\\
+0 & 1 & -\sqrt{2}
+\end{array}\matrixr\sim
+\matrixl
+\begin{array}{ccc}
+1 & -\sqrt{2} & 1\\
+-\sqrt{2} & 1 & 0\\
+0 & 1 & -\sqrt{2}
+\end{array}\matrixr\sim
+\matrixl
+\begin{array}{ccc}
+1 & -\sqrt{2} & 1\\
+0 & 1 & -\sqrt{2}
+\end{array}\matrixr\sim\newline\sim
+\matrixl
+\begin{array}{ccc}
+1 & -\sqrt{2} & 1\\
+0 & 1 & -\sqrt{2}
+\end{array}\matrixr\sim
+\matrixl
+\begin{array}{ccc}
+1 & 0 & -1\\
+0 & 1 & -\sqrt{2}
+\end{array}\matrixr$, откуда $\vec{h}_2^0=\matrixl
+\begin{array}{ccc}
+1 & \sqrt{2} & 1
+\end{array}
+\matrixr^T$, $\vec{h}_2=\matrixl
+\begin{array}{c}
+1/2\\
+1/\sqrt{2}\\
+1/2
+\end{array}
+\matrixr\perp\vec{h}_1$
+\item $(\lambda=\lambda_3=1-\sqrt{2})$. $A-(1-\sqrt{2})\cdot E=\matrixl
+\begin{array}{ccc}
+\sqrt{2} & 1 & 0\\
+1 & \sqrt{2} & 1\\
+0 & 1 & \sqrt{2}
+\end{array}
+\matrixr\sim\matrixl
+\begin{array}{ccc}
+1 & \sqrt{2} & 1\\
+\sqrt{2} & 1 & 0\\
+0 & 1 & \sqrt{2}
+\end{array}
+\matrixr\sim
+\matrixl
+\begin{array}{ccc}
+1 & \sqrt{2} & 1\\
+0 & 1 & \sqrt{2}
+\end{array}
+\matrixr\sim
+\matrixl
+\begin{array}{ccc}
+1 & 0 & -1\\
+0 & 1 & \sqrt{2}
+\end{array}
+\matrixr
+$, откуда $\vec{h}_3^0=\matrixl
+\begin{array}{ccc}
+1 & -\sqrt{2} & 1
+\end{array}
+\matrixr$, $\vec{h}_3=\matrixl
+\begin{array}{c}
+1/2\\
+-1/\sqrt{2}\\
+1/2
+\end{array}
+\matrixr\perp \vec{h}_1,\,\vec{h}_2$
+\end{enumerate}
+Получаем $S\eqdef\matrixl
+\begin{array}{ccc}
+\frac{-1}{\sqrt{2}} & 1/2 & 1/2\\
+0 & 1/\sqrt{2} & -1/\sqrt{2}\\
+\frac{1}{\sqrt{2}} & 1/2 & 1/2
+\end{array}
+\matrixr$~--- ортогональная матрица перехода к базису из собственных векторов.\newline
+Тогда $A'=S^{-1}AS\Rightarrow A=SA'S^{-1}\equiv SA'S^T$, Но $A'=\mbox{diag}(\lambda_1,\lambda_2,\lambda_3)=\matrixl
+\begin{array}{ccc}
+1 & 0 & 0\\
+0 & (1+\sqrt{2}) & 0\\
+0 & 0 & (1-\sqrt{2})\\
+\end{array}
+\matrixr$, поэтому\newline
+$A'^n=\mbox{diag}(\lambda_1^n,\lambda_2^n,\lambda_3^n)$
+\item $A^n=\underbrace{SA'\cancelto{E}{S^T\cdot S}A'S^T\cdot...\cdot SA'\cancelto{E}{S^T\cdot S}A'S^T}_n=SA'^nS^T=S\mbox{diag}(\lambda_1^n,\lambda_2^n,\lambda_3^n)S^T$
+\item Вернемся к $g_n=\vec{\xi}^TA^{n-1}\vec{\xi}=\vec{\xi}^TS\mbox{diag}(\lambda_1^{n-1},\lambda_2^{n-1},\lambda_3^{n-1})S^T\vec{\xi}=\frac{1}{2}\left[(1+\sqrt{2})^{n+1}+(1-\sqrt{2})^{n+1}\right]$
+\end{enumerate}
 \end{document}
