@@ -130,7 +130,7 @@ a_{n-1}\\
 ...\\
 a_{n-d+1}
 \end{array}
-\matrixr$. Тогда $\vec{a_n}=A^{n-d}\vec{g}_d$. Обозначим $\vec{a}=\vec{g}_d$. По условию существуют $d$ различных корней $\lambda\in\{\lambda_1,...,\lambda_d\}$ многочлена $\det(A-\lambda\cdot E)=0$. Значит, существует матрица $S=\matrixl
+\matrixr$. Тогда $\vec{a_n}=A^{n-d}\vec{a}_d$. Обозначим $\vec{a}=\vec{a}_d$. По условию существуют $d$ различных корней $\lambda\in\{\lambda_1,...,\lambda_d\}$ многочлена $\det(A-\lambda\cdot E)=0$. Значит, существует матрица $S=\matrixl
 \begin{array}{ccc}
 s_{11} & ... & s_{1d}\\
 ... &  & ...\\
@@ -143,7 +143,7 @@ s_{d1} & ... & s_{dd}\\
 ..\\
 0
 \end{array}
-\matrixr\in\mathbb{R}^d$. Заметим, что $\vec{a}_n=\vec{\xi}^T\vec{g}_n$, откуда $a_n=\vec{\xi}^TSA'^{n-d}S^{-1}\vec{a}$. Найдем $\vec{\xi}^TS=\matrixl
+\matrixr\in\mathbb{R}^d$. Заметим, что $a_n=\vec{\xi}^T\vec{a}_n$, откуда $a_n=\vec{\xi}^TSA'^{n-d}S^{-1}\vec{a}$. Найдем $\vec{\xi}^TS=\matrixl
 \begin{array}{cccc}
 1 & 0 & ... & 0
 \end{array}
@@ -177,9 +177,9 @@ s_{11} & s_{12} & ... & s_{1d}
 $i$-й элемент этой строки $(\vec{\xi}^TSA'^{n-d})_i=\lambda_i^{n-d}s_{1i}$\newline
 Найдем $S^{-1}\vec{a}=\matrixl
 \begin{array}{ccc}
-s'_{11} & ... & s'_{d1}\\
+s'_{11} & ... & s'_{1d}\\
 ... &  & ...\\
-s'_{1d} & ... & s'_{dd}\\
+s'_{d1} & ... & s'_{dd}\\
 \end{array}
 \matrixr
 \matrixl
@@ -190,8 +190,9 @@ a_{d-1}\\
 a_1
 \end{array}
 \matrixr$
-($s'_{ij}$~--- элементы матрицы $S^{-1}$), $i$-й элемент в этом столбце равен $(S^{-1}\vec{a})_i=\sum\limits_{j=1}^da_{d-j+1}s'_{ji}$\newline
-Получаем $a_n=\sum\limits_{i=1}^d \lambda_i^{n-d}s_{1i}\sum\limits_{j=1}^da_{d-j+1}s'_{ji}\overset{?}{=}\sum\limits_{i=1}^dk_i\lambda_i^n$. Это равенство верно: в случае $\lambda_i=0$ можно взять любое $k_i$ (например, $k_i=0$), иначе~--- $k_i=\lambda_i^{-d}s_{1i}\sum\limits_{j=1}^da_{d-j+1}s'_{ji}$ $\blacksquare$
+($s'_{ij}$~--- элементы матрицы $S^{-1}$),\newline $i$-й элемент в этом столбце равен $(S^{-1}\vec{a})_i=\sum\limits_{j=1}^da_{d-j+1}s'_{ij}$\newline
+Получаем $a_n=\vec{\xi}^TSA'^{n-d}S^{-1}\vec{a}=\sum\limits_{i=1}^d(\vec{\xi}^TSA'^{n-d})_i(S^{-1}\vec{a})_i=\sum\limits_{i=1}^d \lambda_i^{n-d}s_{1i}\sum\limits_{j=1}^da_{d-j+1}s'_{ij}\overset{?}{=}\sum\limits_{i=1}^dk_i\lambda_i^n$. Последнее равенство верно: в случае $\lambda_i=0$ можно взять любое $k_i$ (например, $k_i=0$), иначе определим $k_i\eqdef\lambda_i^{-d}s_{1i}\sum\limits_{j=1}^da_{d-j+1}s'_{ij}$\newline
+Итак, найдены $\{k_i\}_{i=1}^d\colon a_n=k_1\lambda_1^n+...+k_d\lambda_d^n\,\blacksquare$
 \subsection*{Упражнение 6}
 \begin{enumerate}
 \item $F(z)=\sum\limits_{i=0}^\infty F_iz^i$. Рассмотрим $z+zF(z)+z^2F(z)=z+\sum\limits_{i=0}^\infty F_iz^{i+1}+z^2\sum\limits_{i=0}^\infty F_iz^{i+2}=z+\sum\limits_{i=1}^\infty F_{i-1}z^i+\sum\limits_{i=2}^\infty F_{i-2}z^i=z+\sum\limits_{i=0}^\infty F_{i-1}z^i+\sum\limits_{i=0}^\infty F_{i-2}z^i-z=\sum\limits_{i=0}^\infty \underbrace{(F_{i-1}+F_{i-2})}_{F_i}z^i\equiv F(z)\,\blacksquare$ (ряды сходятся абсолютно)
@@ -251,39 +252,43 @@ $T(n)=7T(\frac{n}{2})+f(n)$, $f(n)=O(n^2)$. Дерево рекурсии:\newli
 \end{minipage} &
 \begin{minipage}{0.46\textwidth}
 Высота дерева $h=\log_2 n$.\newline
-$T(n)=\sum\limits_{k=0}^{h-1}7^kf(\frac{n}{2^k})+7^hT(1)\boxed{\leqslant}$.\newline Из определения $O$ $\exists C>0\,\exists n_0\colon\forall n\geqslant n_0\, f(n)\leqslant Cn^2$, откуда первая сумма
-$\sum\limits_{k=0}^{h-1}7^kf(\frac{n^2}{2^{2k}})\leqslant Cn^2\sum\limits_{k=0}^{h-1}(\frac{7}{4})^k=Cn^2\frac{(7/4)^{h-1}-1}{7/4-1}=C_1n^2((7/4)^{\log_2 n}-C_2)=C_1n^2n^{\log_2\frac{7}{4}}-C_3n^2=C_1n^{\log_2 7}-C_3n^2$. Второе слагаемое $7^hT(1)=7^{\log_2 n}T(1)=Cn^{\log_2 7}$\newline
-Поэтому $T(n)\leqslant n^{\log_2 7}-C_5n^2$
+Из определения $O$ $\exists C>0\,\exists n_0\colon\forall n\geqslant n_0\, f(n)\leqslant Cn^2$\newline
+$T(n)=\sum\limits_{k=0}^{h-1}7^kf(\frac{n}{2^k})+7^hT(1)\leqslant Cn^2\sum\limits_{k=0}^{h-1}(\frac{7}{4})^k+7^hT(1)=Cn^2\frac{(7/4)^{h-1}-1}{7/4-1}+7^hT(1)=C_1n^2((7/4)^{\log_2 n}-C_2)+7^hT(1)=C_1n^2n^{\log_2\frac{7}{4}}-C_3n^2+7^hT(1)=C_1n^{\log_2 7}-C_3n^2+7^hT(1)$. Последнее слагаемое $7^hT(1)=7^{\log_2 n}T(1)=Cn^{\log_2 7}$.\newline
+Поэтому $T(n)\leqslant C_4n^{\log_2 7}-C_3n^2\overset{\log_2 7>2}{=}O(n^{\log_2 7})$
 \end{minipage}\\
 \end{tabular}\newline
 Оценка снизу $T(n)\geqslant 7^hT(1)=O(n^{\log_2 7})$, откуда\newline
 Ответ: $\boxed{T(n)=\Theta(n^{\log_2 7})}$
+\newpage
 \subsection*{(каноническое) Задача 7}
 Вход: точки $\{x_i,y_i\}_{i=1}^n$.\newline
-Алгоритм: считаем массив квадратов расстояний $r_i^2\eqdef x_i^2+y_i^2$ {\em (можно $r_i^2$)}. Ищем медиану $r_m$ в массиве за $O(n)$\newline
-\	\begin{algorithm}[H]
-	 \SetAlgoLined
-	 \For {i := 1 \textbf{\emph{to}} n}{
-		R[i] := X[i] * X[i] + Y[i] * Y[i] $\rightarrow t_1$\\
-	 }
-	Res := Median(R, 1, n) $\rightarrow t_2$\\
-	Res := Sqrt(Res)$\rightarrow t_3$\\
-	\end{algorithm}
-Более формально:
+Алгоритм: считаем массив квадратов расстояний $r_i^2\eqdef x_i^2+y_i^2$. Ищем медиану=ответ $r_m$ в массиве за $O(n)$\newline
+\begin{algorithm}[H]
+ \SetAlgoLined
+ \For {i := 1 \textbf{\emph{to}} n}{
+	R[i] := X[i] * X[i] + Y[i] * Y[i] $\rightarrow t_1$\\
+ }
+Res := Median(R, 1, n) $\rightarrow t_2$\\
+Res := Sqrt(Res)$\rightarrow t_3$\\
+\end{algorithm} $ $
+\\[5pt]
+{\bf Более формально:}
 \begin{enumerate}
-\item Задача найти $r_m=\min\limits_{r\in\mathbb{R}} r\colon |D_r(\vec{0})\cap\{(x_i,y_i)\}_{i=1}^n|\geqslant\frac{n}{2}$ $(*)$
-\item Очевидно, что $r_m=r_i$ (одна из точек лежит на гранце круга).\newline
-Пусть иначе. Поскольку $n>0$, из условия $(*)$ следует, что внутри есть хотя бы одна точка. Выберем из них точку с максимальным $r_i$. Из предположения получаем $r_i<r_m$. Рассмотрим круг меньшего радиуса $D_{r_i}(\vec{0})$, который содержит столько же точек, получаем противоречие с $(*)$ (условие $\min$).\newline
-Таким образом, $\min$ можно искать только среди $r\in\{(x_i,y_i)_{i=1}^n\}$.
-\item Медиана массива $(r_1,...,r_n)$~--- $r_j$, такое что $\frac{n}{2}\leqslant|\{i\big|r_i\leqslant r_j\}|<\frac{n}{2}+1$. Поэтому $r_j=r_m$, т.е. алгоритм корректен.
-\item В алгоритме используется другой массив $(r_1^1,...,r_n^2)$, но это не изменяет ответ, так как $r_i<r_j\Leftrightarrow r_i^2<r_j^2$, $r_i=r_j\Leftrightarrow r_i^2=r_j^2$ для неотрицательных $r_i$
+\item $D_\eps(\vec{r}_0)\eqdef\{\vec{r}\in\mathbb{R}^2\big|||\vec{r}-\vec{r}_0||\leqslant \eps\}$~--- $\eps$-шар. Количество входых точек внутри $\eps$-шара $N(\eps)\eqdef|D_\eps(\vec{0})\cap\{(x_i,y_i)\}_{i=1}^n|$.\newline
+Условие: $P(r)\overset{\mbox{\tiny def}}{\Leftrightarrow} \left[N(r)\geqslant\frac{n}{2}\right]$~--- в шаре с центром в $(0,0)$ не меньше половины входных точек.\newline
+Задача: найти $r_m=\inf\limits_{\substack{r\in\mathbb{R_+}\\P(r)}} r$
+\item Если $r_m$~--- решение задачи, то $\exists i\colon r_m=r_i$ (одна из точек лежит на границе шара).\newline
+Пусть иначе. Поскольку $n>0$, из условия $P(r)$ следует, что внутри шара есть хотя бы одна точка. Выберем из них точку с максимальным $r_i$. Из предположения получаем $r_i<r_m$. Рассмотрим круг меньшего радиуса $D_{r_i}(\vec{0})$, который содержит столько же точек, получаем противоречие с $(*)$ (не $\inf$).\newline
+Таким образом, $\inf$ равен $\min$ по входным точкам: $r_m=\min\limits_{\substack{i=1\\P(r_i)}}^nr_i$.
+\item Медиана массива $(r_1,...,r_n)$~--- минимальное $r_j$ в массиве, такое что $\big|\{i\big|r_i\leqslant r_j\}\big|\geqslant\frac{n}{2}$, что равносильно $P(r_j)$. Поэтому медиана $r_j=r_m$, т.е. она является ответом. Поэтому алгоритм корректен.
+\item В алгоритме используется массив квадратов расстояний до $\vec{0}$: $(r_1^2,...,r_n^2)$, но это не изменяет ответ, так как $r_i<r_j\Leftrightarrow r_i^2<r_j^2$, $r_i=r_j\Leftrightarrow r_i^2=r_j^2$ для неотрицательных $r_i$
 \item Время работы: $T(n)=nt_1+t_2+t_3$. $t_1$~--- константа (модель RAM), $t_2=O(n)$~--- доказано на лекции, $t_3=O(\log n)$~--- бинпоиск корня в модели RAM. Получаем $T(n)=O(n)+O(n)+O(\log n)=O(n)$.
 \end{enumerate}
 \subsection*{(каноническое) Задача 9}
 Пусть $\Sigma=\{\underbrace{0}_{\sigma_0},\underbrace{1}_{\sigma_1},\underbrace{2}_{\sigma_2}\}$, $\Sigma^*\supset G=\{w\big|\exists n\colon w=w_1...w_n,\,\underbrace{\forall i\in\overline{1,n-1}\hookrightarrow |w_i-w_{i+1}|}_{(*)}\leqslant 1\}$. Пусть $g_n=|\{w\in L\big||w|=n\}|$~--- количество слов длины $n$ в языке $G$. Определим $g^i_n=|\{w\in G\big||w|=n,\,w_n=\sigma_i\}|$~--- количество слов длины $n$ из $G$, оканчивающихся на $i$-й символ. Поскольку каждое слово оканчивается на один из символов $\sigma_i$, получаем $g_n=g_n^0+g_n^1+g_n^2$.
 \begin{enumerate}
 \item \label{9c_rec} Найдем рекуррентное соотношение для последовательностей $g_n^i$. Получим слово $w\in G$ длины $n+1$: $w=w_1...w_nw_{n+1}$. Поскольку слово из языка, для него верно $(*)$. Но это условие верно и для подслова $w_1...w_n$. Рассмотрим последний символ слова $w$~--- $w_{n+1}$:\begin{enumerate}
-\item \label{9c_rec0} $w_{n+1}=0$. Но тогда предпоследний символ слова $w$~--- $w_n$ может быть $0$ либо $1$ для выполнения $(*)$. Слово $w_1...w_n$ может быть получено $g_n^0$ и $g_n^1$ способами соответственно. Поэтому количество способов получить $w$ в этом случае $g_{n+1}^0=g_n^0+g_n^1$ $(**)$.
+\item \label{9c_rec0} $w_{n+1}=0$. Но тогда предпоследний символ слова $w$~--- $w_n$ может быть $0$ либо $1$ для выполнения $(*)$. Слово $w_1...w_n$ может быть получено $g_n^0$ и $g_n^1$ способами соответственно. Поэтому количество способов получить $w$ в этом случае $g_{n+1}^0=g_n^0+g_n^1$
 \item \label{9c_rec1} $w_{n+1}=1$. Тогда $w_n\in\{0,1,2\}$, и $g_{n+1}^1=g_n^0+g_n^1+g_n^2$.
 \item \label{9c_rec2} $w_{n+1}=2$. Тогда $w_n\in\{1,2\}$, и $g_{n+1}^2=g_n^1+g_n^2$.
 \end{enumerate}
@@ -311,15 +316,15 @@ g_{n+1}^0=g_n^0+g_n^1\\
 g_{n+1}^1=g_n^0+g_n^1+g_n^2\\
 g_{n+1}^2=g_n^1+g_n^2
 \end{cases}.$\newline
-Заметим, что в матричном виде они записываются как $\vec{g_{n+1}}=A\vec{g_n}$ $(***)$
-\item Найдем $g_1^0=g_1^1=g_1^2=1$, так как слово из одного символа удовлетворяет $(*)$. Определим $\vec{\xi}\eqdef\matrixl
+Заметим, что в матричном виде они записываются как $\vec{g_{n+1}}=A\vec{g_n}$ $(**)$
+\item Найдем $g_1^0=g_1^1=g_1^2=1$, так как слово из одного символа удовлетворяет $(*)$. Определим $\vec{\xi}\eqdef\vec{g}_1=\matrixl
 \begin{array}{c}
 1\\
 1\\
 1
 \end{array}
 \matrixr$.\newline
-Тогда, применяя $(***)$ {\em (доказывается тривиально по индукции)} получаем $\vec{g_n}=A^{n-1}\vec{\xi}$
+Тогда, применяя $(**)$ {\em (доказывается тривиально по индукции)} получаем $\vec{g_n}=A^{n-1}\vec{\xi}$
 \item $g_n=g_n^0+g_n^1+g_n^2$. Но это равно $g_n=(\vec{\xi},A^{n-1}\vec{\xi})=\vec{\xi}^TA^{n-1}\vec{\xi}$
 \item Найдем ОНБ, в котором $A$ имеет диагональный вид\begin{enumerate}
 \item Характеристический многочлен $\det(A-\lambda E)=\left|
