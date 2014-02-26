@@ -1,16 +1,10 @@
 a=1
 b=1
 c=1
-
 i=1
-print i,a+b+c
+N=2014
 
-for i in range(1+1,2014+1):
-    at=a
-    bt=b
-    ct=c
-
-    a=at+bt
-    b=at+bt+ct
-    c=bt+ct
-    print i,a+b+c
+while i <= N:
+ print i, a + b + c
+ (a, b, c) = (a + b, a + b + c, b + c)
+ i += 1
