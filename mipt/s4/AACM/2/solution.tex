@@ -251,8 +251,25 @@ $\sum\limits_{k=0}^{h-1}7^kf(\frac{n^2}{2^{2k}})\leqslant Cn^2\sum\limits_{k=0}^
 Ответ: $\boxed{T(n)=\Theta(n^{\log_2 7})}$
 \subsection*{(каноническое) Задача 7}
 Вход: точки $\{x_i,y_i\}_{i=1}^n$.\newline
-Алгоритм: считаем массив расстояний $r_i\eqdef \sqrt{x_i^2+y_i^2}$ {\em (можно $r_i^2$)}. Ищем медиану $r_m$ в массиве за $O(n)$\newline
-Ответ: $r_{m}$ {\em ($r_{m+1}$?)}.
+Алгоритм: считаем массив квадратов расстояний $r_i^2\eqdef x_i^2+y_i^2$ {\em (можно $r_i^2$)}. Ищем медиану $r_m$ в массиве за $O(n)$\newline
+\	\begin{algorithm}[H]
+	 \SetAlgoLined
+	 \For {i := 1 \textbf{\emph{to}} n}{
+		R[i] := X[i] * X[i] + Y[i] * Y[i] $\rightarrow t_1$\\
+	 }
+	Res := Median(R, 1, n) $\rightarrow t_2$\\
+	Res := Sqrt(Res)$\rightarrow t_3$\\
+	\end{algorithm}
+Более формально:
+\begin{enumerate}
+\item Задача найти $r_m=\min\limits_{r\in\mathbb{R}} r\colon |D_r(\vec{0})\cap\{(x_i,y_i)\}_{i=1}^n|\geqslant\frac{n}{2}$ $(*)$
+\item Очевидно, что $r_m=r_i$ (одна из точек лежит на гранце круга).\newline
+Пусть иначе. Поскольку $n>0$, из условия $(*)$ следует, что внутри есть хотя бы одна точка. Выберем из них точку с максимальным $r_i$. Из предположения получаем $r_i<r_m$. Рассмотрим круг меньшего радиуса $D_{r_i}(\vec{0})$, который содержит столько же точек, получаем противоречие с $(*)$ (условие $\min$).\newline
+Таким образом, $\min$ можно искать только среди $r\in\{(x_i,y_i)_{i=1}^n\}$.
+\item Медиана массива $(r_1,...,r_n)$~--- $r_j$, такое что $\frac{n}{2}\leqslant|\{i\big|r_i\leqslant r_j\}|<\frac{n}{2}+1$. Поэтому $r_j=r_m$, т.е. алгоритм корректен.
+\item В алгоритме используется другой массив $(r_1^1,...,r_n^2)$, но это не изменяет ответ, так как $r_i<r_j\Leftrightarrow r_i^2<r_j^2$, $r_i=r_j\Leftrightarrow r_i^2=r_j^2$ для неотрицательных $r_i$
+\item Время работы: $T(n)=nt_1+t_2+t_3$. $t_1$~--- константа (модель RAM), $t_2=O(n)$~--- доказано на лекции, $t_3=O(\log n)$~--- бинпоиск корня в модели RAM. Получаем $T(n)=O(n)+O(n)+O(\log n)=O(n)$.
+\end{enumerate}
 \subsection*{(каноническое) Задача 9}
 Пусть $\Sigma=\{\underbrace{0}_{\sigma_0},\underbrace{1}_{\sigma_1},\underbrace{2}_{\sigma_2}\}$, $\Sigma^*\supset G=\{w\big|\exists n\colon w=w_1...w_n,\,\underbrace{\forall i\in\overline{1,n-1}\hookrightarrow |w_i-w_{i+1}|}_{(*)}\leqslant 1\}$. Пусть $g_n=|\{w\in L\big||w|=n\}|$~--- количество слов длины $n$ в языке $G$. Определим $g^i_n=|\{w\in G\big||w|=n,\,w_n=\sigma_i\}|$~--- количество слов длины $n$ из $G$, оканчивающихся на $i$-й символ. Поскольку каждое слово оканчивается на один из символов $\sigma_i$, получаем $g_n=g_n^0+g_n^1+g_n^2$.
 \begin{enumerate}
