@@ -114,6 +114,84 @@ c_1 & c_2 & ... & c_{d-1} & c_d \\
 \right|}_{=1\mbox{\tiny, верхн.-треуг.}}\overset{P(d-1)}{=}\newline\overset{P(d-1)}{=}
 -\lambda(-1)^{d-1}(\lambda^{d-1}-c_1\lambda^{d-2}-...-c_{d-2}\lambda-c_{d-1})-(-1)^dc_d=(-1)^d(\lambda^d-c_1\lambda^{d-1}-...-c_{d-1}\lambda-c_d)$. Получаем $\underline{P(d)}\,\blacksquare$
 \end{enumerate}
+\subsection*{Задача 1*}
+Последовательность $\{a_n\}_{n=1}^\infty$~--- ЛРП порядка $d$: $a_n=\sum\limits_{i=1}^dc_ia_{n-i}$. Выпишем матрицу $A=\matrixl
+\begin{array}{ccccc}
+c_1 & c_2 & ... & c_{d-1} & c_d\\
+1 & 0 & ... & 0 & 0\\
+0 & 1 & ... & 0 & 0\\
+\multicolumn{5}{c}{...}\\
+0 & 0 & ... & 1 & 0
+\end{array}
+\matrixr$. Определим $\vec{a_n}=\matrixl
+\begin{array}{c}
+a_n\\
+a_{n-1}\\
+...\\
+a_{n-d+1}
+\end{array}
+\matrixr$. Тогда $\vec{a_n}=A^{n-d}\vec{g}_d$. Обозначим $\vec{a}=\vec{g}_d$. По условию существуют $d$ различных корней $\lambda\in\{\lambda_1,...,\lambda_d\}$ многочлена $\det(A-\lambda\cdot E)=0$. Значит, существует матрица $S=\matrixl
+\begin{array}{ccc}
+s_{11} & ... & s_{1d}\\
+... &  & ...\\
+s_{d1} & ... & s_{dd}\\
+\end{array}
+\matrixr$, такая что ее $i$-й столбец является собственным вектором $\vec{h}_i$ матрицы $A$, соответствующим собственному значению $\lambda_i$, и $A'=S^{-1}AS=\mbox{diag}(\lambda_1,...,\lambda_d)$. $S^{-1}$ существует, так как $\vec{h}_i$~--- линейно независимы. Выразим $A=SA'S^{-1}$,\newline рассмотрим $A^n=\underbrace{SA'\cancelto{0}{S^{-1}\cdot S}A'S^{-1}\cdot ... \cdot SA'\cancelto{0}{S^{-1}\cdot S}A'S^{-1}}_n=SA'^nS^{-1}$. Определим $\vec{\xi}\eqdef \vec{e}_1=\matrixl
+\begin{array}{c}
+1\\
+0\\
+..\\
+0
+\end{array}
+\matrixr\in\mathbb{R}^d$. Заметим, что $\vec{a}_n=\vec{\xi}^T\vec{g}_n$, откуда $a_n=\vec{\xi}^TSA'^{n-d}S^{-1}\vec{a}$. Найдем $\vec{\xi}^TS=\matrixl
+\begin{array}{cccc}
+1 & 0 & ... & 0
+\end{array}
+\matrixr
+\matrixl
+\begin{array}{ccc}
+s_{11} & ... & s_{1d}\\
+... &  & ...\\
+s_{d1} & ... & s_{dd}\\
+\end{array}
+\matrixr=\matrixl
+\begin{array}{cccc}
+s_{11} & s_{12} & ... & s_{1d}
+\end{array}
+\matrixr$, строка $\vec{\xi}^TSA'^{n-d}=\matrixl
+\begin{array}{cccc}
+s_{11} & s_{12} & ... & s_{1d}
+\end{array}
+\matrixr\matrixl
+\begin{array}{cccc}
+\lambda_1^{n-d} & 0 & ... & 0\\
+0 & \lambda_2^{n-d} & ... & 0\\
+\multicolumn{4}{c}{...}\\
+0 & 0 & ... & \lambda_d^{n-d}
+\end{array}
+\matrixr=\matrixl
+\begin{array}{ccc}
+\lambda_1^{n-d}s_{11} & ... & \lambda_d^{n-d}s_{1d}
+\end{array}
+\matrixr$,\newline
+$i$-й элемент этой строки $(\vec{\xi}^TSA'^{n-d})_i=\lambda_i^{n-d}s_{1i}$\newline
+Найдем $S^{-1}\vec{a}=\matrixl
+\begin{array}{ccc}
+s'_{11} & ... & s'_{d1}\\
+... &  & ...\\
+s'_{1d} & ... & s'_{dd}\\
+\end{array}
+\matrixr
+\matrixl
+\begin{array}{c}
+a_d\\
+a_{d-1}\\
+...\\
+a_1
+\end{array}
+\matrixr$
+($s'_{ij}$~--- элементы матрицы $S^{-1}$), $i$-й элемент в этом столбце равен $(S^{-1}\vec{a})_i=\sum\limits_{j=1}^da_{d-j+1}s'_{ji}$\newline
+Получаем $a_n=\sum\limits_{i=1}^d \lambda_i^{n-d}s_{1i}\sum\limits_{j=1}^da_{d-j+1}s'_{ji}\overset{?}{=}\sum\limits_{i=1}^dk_i\lambda_i^n$. Это равенство верно: в случае $\lambda_i=0$ можно взять любое $k_i$ (например, $k_i=0$), иначе~--- $k_i=\lambda_i^{-d}s_{1i}\sum\limits_{j=1}^da_{d-j+1}s'_{ji}$ $\blacksquare$
 \subsection*{(каноническое) Задача 6}
 $T(n)=7T(\frac{n}{2})+f(n)$, $f(n)=O(n^2)$. Дерево рекурсии:\newline
 \begin{tabular}{lr}
@@ -169,7 +247,8 @@ $\sum\limits_{k=0}^{h-1}7^kf(\frac{n^2}{2^{2k}})\leqslant Cn^2\sum\limits_{k=0}^
 Поэтому $T(n)\leqslant n^{\log_2 7}-C_5n^2$
 \end{minipage}\\
 \end{tabular}\newline
-Ответ: $\boxed{T(n)=O(n^{\log_2 7})}$
+Оценка снизу $T(n)\geqslant 7^hT(1)=O(n^{\log_2 7})$, откуда\newline
+Ответ: $\boxed{T(n)=\Theta(n^{\log_2 7})}$
 \subsection*{(каноническое) Задача 7}
 Вход: точки $\{x_i,y_i\}_{i=1}^n$.\newline
 Алгоритм: считаем массив расстояний $r_i\eqdef \sqrt{x_i^2+y_i^2}$ {\em (можно $r_i^2$)}. Ищем медиану $r_m$ в массиве за $O(n)$\newline
@@ -223,7 +302,7 @@ g_{n+1}^2=g_n^1+g_n^2
 1 & (1-\lambda) & 1\\
 0 & 1 & (1-\lambda)
 \end{array}
-\right|=(1-\lambda)^3-2(1-\lambda)=(1-\lambda)\cdot(1+\lambda^2-2\lambda-2)=(1-\lambda)\cdot(\lambda^2-2\lambda-1)$. Корни квадратного уравнения $\lambda=1$ и $\lambda\in\frac{2\pm\sqrt{4\cdot 2}}{2}=1\pm\sqrt{2}$. Далее ищем собственные векторы.
+\right|=(1-\lambda)^3-2(1-\lambda)=(1-\lambda)\cdot(1+\lambda^2-2\lambda-2)=(1-\lambda)\cdot(\lambda^2-2\lambda-1)$. Корни характеристического уравнения $\lambda=1$ и $\lambda\in\frac{2\pm\sqrt{4\cdot 2}}{2}=1\pm\sqrt{2}$. Далее ищем собственные векторы.
 \item ($\lambda=\lambda_1=1$). $A-1\cdot E=\matrixl
 \begin{array}{ccc}
 0 & 1 & 0\\
@@ -345,5 +424,13 @@ $A'^n=\mbox{diag}(\lambda_1^n,\lambda_2^n,\lambda_3^n)$
 c_1=2\\
 c_2=1
 \end{cases}$,\newline т.е. $\boxed{g_n=2g_{n-1}+g_{n-2}}$
+\item Найдем $g_{2014}=9816936009995503230901557247246041662063072822494753312759700362719597435946538528221300925\newline
+671858801599363935274622877500162506956619048900408718181041413222318236818715345484376136537862497272785\newline
+247720491012219807232607980494871964788980842814109033161842422339596260323417836542815901642749689573589\newline
+070088974641306848102517213985023530762354797649521475871449969940200866323482540594978486708923597366885\newline
+750142187523485222503097287926012700695073990739801458896041837993605326294700244522632962855241858966782\newline
+631798710557997423351374248485616450622394012426366144662745043995902048923883147167702198223719419200759\newline
+471729710067440801808039863672079281506822373369234466827616569206575038689737028383771817685667299606446\newline
+92272395910326789357589123767900512319408352202559$
 \end{enumerate}
 \end{document}
