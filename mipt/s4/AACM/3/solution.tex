@@ -1,0 +1,187 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+%\geometry{paperwidth=210mm, paperheight=2000pt, left=5pt, top=5pt}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,arrows,trees}
+\usepackage{amsmath}
+\usepackage[makeroom]{cancel} % зачеркивание
+\usepackage{multicol,multirow} %Несколько колонок
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{listings}
+\usepackage{wasysym}
+\date{задано 2014.02.27}
+\author{Сергей~Володин, 272 гр.}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+% названия автоматов  (rubtsov)
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+
+%классы сложности (rubtsov)
+\def\PP{{\mathsf{P}}}
+\def\NP{{\mathsf{NP}}}
+\def\NPc{{\mathsf{NP}}\text{-}{\rm c}}
+\def\coNP{{\rm co}\text{-}{\mathsf{NP}}}
+\def\DTIME{{\mathsf{DTIME}}}
+\def\NTIME{{\mathsf{NTIME}}}
+\def\HALT{{\rm{HALT}}}
+\def\SAT{{\rm{SAT}}}
+\def\3SAT{{\rm{3\text{-}SAT}}}
+\def\2SAT{{\rm{2\text{-}SAT}}}
+\def\UNSAT{{\rm{UNSAT}}}
+\def\LL{{\mathrm{LL}}}
+\def\poly{{\rm{poly}}}
+
+\title{Алгоритмы и модели вычислений.\\Задание 3: Сложность вычислений, классы $\PP$, $\NP$}
+
+% алгоритмы (Рубцов)
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{algorithm2e}
+
+%+= и -=, иначе разъезжаются...
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
+% пустое слово  (rubtsov)
+\def\eps{\varepsilon}
+
+% регулярные языки  (rubtsov)
+\def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\newcommand{\niton}{\not\owns}
+
+%FIRST & FOLLOW (rubtsov)
+\def\first{\mathrm{ FIRST} }
+\def\follow{\mathrm{ FOLLOW} }
+
+% LL LR (rubtsov)
+\def\LL{{\mathrm{LL}}}
+\def\LR{{\mathrm{LR}}}
+
+\newcounter{rowItemCount}
+\newcounter{subRowItemCount}
+\newcommand\rowItem{
+    \setcounter{subRowItemCount}{0}
+    \arabic{rowItemCount}.\addtocounter{rowItemCount}{1}}
+\newcommand\subRowItem{
+    \addtocounter{subRowItemCount}{1}
+    \addtocounter{rowItemCount}{-1}
+    \arabic{rowItemCount}.\arabic{subRowItemCount}.\addtocounter{rowItemCount}{1}}
+    
+\newcommand{\smalll}[1]{\overline{\overline{#1}}}
+\newcommand{\smallo}{\bar{\bar{o}}}
+
+\begin{document}
+\maketitle
+\subsection*{(каноническое) Задача 11}
+$\mbox{M}^{\mathbb{Z}, S}_{p\times q}$~--- множество матриц $\matrixl a_{ij} \matrixr$ размера $p\times q$ с целыми коэффициентами, такими, что $|a_{ij}|\leqslant S$. $S=10000, m=2014$. Язык $\{0,1\}^*\supset L_{m\times n}=\{\mbox{bin}(m,n,A,b)\big|(A,b)\in\mbox{M}^{\mathbb{Z}, S}_{m\times n}\times \mbox{M}^{\mathbb{Z}, S}_{m\times 1},\,Ax=b\mbox{~--- несовместна}\}$~--- двоичные записи несовместных систем линейных уравнений с целыми коэффициентами.
+% {\em (имеются в виду %$L'\subset(\overline{-L,L}^{m\cdot n\cdot m\cdot 1})^*$) двоичные записи}
+\begin{enumerate}
+\item Рассмотрим $w^i_j=\big(\matrixl\begin{array}{cccc}
+i & 0 & ... & 0\\
+\end{array}\matrixr,\,\matrixl
+\begin{array}{c}
+j\\
+\end{array}\matrixr\big)$. При $i=0,\,j\in\{1,2\}$ система несовместна, поэтому $w^0_1,\,w^0_2\in L_{2014\times 1}$. При $i=1,\,j\in\{1,2\}$ система совместна, поэтому $w^1_1,\,w^1_2\notin L_{2014\times 1}$
+\item Применим метод Гаусса. Для оценки времени работы приведен псевдокод:\newline
+
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+    frame=lines,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    keywordstyle=\color{red}\bfseries,
+    stringstyle=\color{green!50!black},
+    commentstyle=\color{gray}\itshape,
+    numbers=left,
+    captionpos=t,
+    escapeinside={\%*}{*)}
+}
+
+%
+% a11  a1n
+% am1  amn
+%
+
+\begin{lstlisting}
+//M[i][j] - matrix A|b
+for(i = 1; i <= m; i++) // rows i=1...m
+{
+  for(j = 1; j <= n; j++) // find j: aij != 0
+  {
+    if(M[i][j] != 0) // found
+    {
+      C = M[i][j];
+
+      // dividing i-th row by non-zero element
+      for(k = 1; i <= n + 1; i++)
+        M[i][k] /= C;
+
+      for(k = 1; k <= m; k++) // subtracting from row k
+      {
+        if(k != i)
+        {
+          C = M[k][j];
+          for(l = 1; l <= n + 1; l++) // column l
+            M[k][l] -= M[i][l] * C;
+        }
+      }
+      
+      break;
+    }
+  }
+}
+\end{lstlisting}
+Предположение индукции: после $i$ шагов внешнего цикла (обработано $i$ строк) элементы ???\newline
+Храним рациональные числа как числитель и знаменатель.\newline
+Рассмотрим обработку одного столбца в методе Гаусса ($a$~--- ведущий элемент в строке).\newline
+$\matrixl
+\begin{array}{ccccc}
+... & a & ... & b & ...\\
+\multicolumn{5}{c}{...}\\
+... & c & ... & d & ...\\
+\end{array}
+\matrixr\sim
+\matrixl
+\begin{array}{ccccc}
+... & 1 & ... & \frac{b}{a} & ...\\
+\multicolumn{5}{c}{...}\\
+... & c & ... & d & ...\\
+\end{array}
+\matrixr\sim
+\matrixl
+\begin{array}{ccccc}
+... & 1 & ... & \frac{b}{a} & ...\\
+\multicolumn{5}{c}{...}\\
+... & 0 & ... & d-\frac{bc}{a} & ...\\
+\end{array}
+\matrixr
+$
+
+Для вычитания нужно вычислить для каждого элемента строки $d-\frac{bc}{a}=\frac{ad-bc}{a}$.\newline
+\textbf{WTF Тарасов нес какую-то фигню про то, что миноры не меняются после элементарных операций, и поэтому все ок}
+\subsection*{(каноническое) Задача 12}
+\begin{enumerate}
+\item Используем быстрое возведение в степень по модулю $d$. Умножаем числе не более чем $|d|$ бит. Остаток от деления считается за квадрат битовой записи.
+\item Слова, соответсвующие $(1,1,1,2),\,(1,2,1,2)\in L$, $(1,1,2,2),\,(1,2,2,2)\notin L$
+\end{enumerate}
+\end{enumerate}
+\subsection*{(каноническое) Задача 13}
+Бинпоиском ищем корень 2014 степени. $L=1$, $R=$вход. Шагов $\log_{2} R$=$\log_2 2^t=t$, возводим числа $<= 2^t$ в 2014 степень за $\log^{2014} 2^t=t^{2014}$???
+\end{document}
