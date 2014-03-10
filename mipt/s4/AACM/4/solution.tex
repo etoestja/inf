@@ -1,0 +1,144 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+%\geometry{paperwidth=210mm, paperheight=2000pt, left=5pt, top=5pt}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,arrows,trees}
+\usepackage{amsmath}
+\usepackage[makeroom]{cancel} % зачеркивание
+\usepackage{multicol,multirow} %Несколько колонок
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{listings}
+\usepackage{wasysym}
+\date{задано 2014.03.06}
+\author{Сергей~Володин, 272 гр.}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+% названия автоматов  (rubtsov)
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+
+%классы сложности (rubtsov)
+\def\PP{{\mathsf{P}}}
+\def\NP{{\mathsf{NP}}}
+\def\NPc{{\mathsf{NP}}\text{-}{\rm c}}
+\def\coNP{{\rm co}\text{-}{\mathsf{NP}}}
+\def\DTIME{{\mathsf{DTIME}}}
+\def\NTIME{{\mathsf{NTIME}}}
+\def\HALT{{\rm{HALT}}}
+\def\SAT{{\rm{SAT}}}
+\def\3SAT{{\rm{3\text{-}SAT}}}
+\def\2SAT{{\rm{2\text{-}SAT}}}
+\def\UNSAT{{\rm{UNSAT}}}
+\def\LL{{\mathrm{LL}}}
+\def\poly{{\rm{poly}}}
+
+\title{Алгоритмы и модели вычислений.\\Задание 4: Сложность вычислений, классы $\PP$, $\NP$ и $\coNP$}
+
+% алгоритмы (Рубцов)
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{algorithm2e}
+
+%+= и -=, иначе разъезжаются...
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
+% пустое слово  (rubtsov)
+\def\eps{\varepsilon}
+
+% регулярные языки  (rubtsov)
+\def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\newcommand{\niton}{\not\owns}
+
+%FIRST & FOLLOW (rubtsov)
+\def\first{\mathrm{ FIRST} }
+\def\follow{\mathrm{ FOLLOW} }
+
+% LL LR (rubtsov)
+\def\LL{{\mathrm{LL}}}
+\def\LR{{\mathrm{LR}}}
+
+\newcounter{rowItemCount}
+\newcounter{subRowItemCount}
+\newcommand\rowItem{
+    \setcounter{subRowItemCount}{0}
+    \arabic{rowItemCount}.\addtocounter{rowItemCount}{1}}
+\newcommand\subRowItem{
+    \addtocounter{subRowItemCount}{1}
+    \addtocounter{rowItemCount}{-1}
+    \arabic{rowItemCount}.\arabic{subRowItemCount}.\addtocounter{rowItemCount}{1}}
+    
+\newcommand{\smalll}[1]{\overline{\overline{#1}}}
+\newcommand{\smallo}{\bar{\bar{o}}}
+
+\begin{document}
+\maketitle
+\subsection*{Задача 1}
+\begin{enumerate}
+\item \label{sat3sat} Докажем, что $\SAT\leqslant_m^p \3SAT$.
+\item Теорема $\Rightarrow$ $\SAT\in\NPc$, $\ref{sat3sat}\Rightarrow\SAT\leqslant_m^p \3SAT\in \NP$. Поэтому из \ref{abnpc} следует, что $\3SAT\in \NPc$
+\end{enumerate}
+\subsection*{Задача 2}
+\subsection*{(каноническое) Задача 16}
+\begin{enumerate}
+\item $\begin{Vmatrix}
+A & b
+\end{Vmatrix}^\Box=\begin{Vmatrix}
+\underline{1/1} & 0/1 & 0/1 & 4/1\\
+3/1 & 4/1 & 0/1 & 16/1\\
+9/1 & 3/1 & 1/1 & 64/1\\
+\end{Vmatrix}
+\overset{r1 *= \frac{1}{1}}{\sim}
+\begin{Vmatrix}
+1/1 & 0/1 & 0/1 & 4/1\\
+3/1 & 4/1 & 0/1 & 16/1\\
+9/1 & 3/1 & 1/1 & 64/1\\
+\end{Vmatrix}
+\underset{\substack{\frac{16}{1}-\frac{4}{1}\frac{3}{1}=\frac{4}{1}\\\frac{64}{1}-\frac{4}{1}\frac{9}{1}=\frac{28}{1}}}{\overset{s 1 2 \frac{3}{1}, s 1 3 \frac{9}{1}}{\sim}}
+\begin{Vmatrix}
+1/1 & 0/1 & 0/1 & 4/1\\
+0/1 & \underline{4/1} & 0/1 & 4/1\\
+0/1 & 3/1 & 1/1 & 28/1\\
+\end{Vmatrix}
+\overset{r2 *= \frac{1}{4}}{\sim}\newline\sim
+\begin{Vmatrix}
+1/1 & 0/1 & 0/1 & 4/1\\
+0/1 & 1/1 & 0/1 & 1/1\\
+0/1 & 3/1 & 1/1 & 28/1\\
+\end{Vmatrix}
+\underset{\frac{28}{1}-\frac{1}{1}\frac{3}{1}=\frac{25}{1}}{\overset{s 2 3 \frac{3}{1}}{\sim}}
+\begin{Vmatrix}
+1/1 & 0/1 & 0/1 & 4/1\\
+0/1 & 1/1 & 0/1 & 1/1\\
+0/1 & 0/1 & 1/1 & 25/1\\
+\end{Vmatrix}
+$
+\begin{enumerate}
+\item $r_i *= \frac{c_1}{c_2}$~--- умножение строки $i$ на дробь $\frac{c_1}{c_2}$
+\item $s i j \frac{c_1}{c_2}$~--- вычитание $i$-й строки, умноженной на дробь $\frac{c_1}{c_2}$ из $j$-й.
+\end{enumerate}
+\end{enumerate}
+\subsection*{(каноническое) Задача 17}
+\subsection*{(каноническое) Задача 18}
+\subsection*{(каноническое) Задача 19}
+\subsection*{(каноническое) Задача 20}
+\subsection*{Вспомогательные утверждения}
+\begin{enumerate}
+\item \label{trans} $\leqslant_m^p$~--- транзитивно. Действительно, пусть $\Sigma_1^*\supseteq A\leqslant_m^p B\subseteq \Sigma_2^*$, $B\leqslant_m^p C\subseteq\Sigma_3^*$. Тогда существуют полиномиально-вычислимые функции $f_1\colon \Sigma_1^*\to \Sigma_2^*$, $f_2\colon \Sigma_2^*\to \Sigma_3^*$, причем $\forall x\in\Sigma_1^*\left(x\in A\Leftrightarrow f_1(x)\in B\right)$, $\forall y\in \Sigma_2^*\left(y\in B\Leftrightarrow f_2(y)\in C\right)$\newline
+Фиксируем $x\in\Sigma_1^*$, определим $y=f_1(x)$. Тогда $x\in A\Leftrightarrow \underbrace{f_1(x)}_y\in B\Leftrightarrow f_2(f_1(x))\in C$\newline
+Функция $g(x)\colon \Sigma_1^*\to\Sigma_3^*$ $g=f_2\circ f_1$ полиномиально-вычислима (как композиция полиномиально-вычислимых). Получаем, что существует полиномиально-вычислимая $g(x)$, такая что $\forall x\in\Sigma_1^*\left(x\in A\Leftrightarrow g(x)\in C\right)$, откуда $A\leqslant_m^p C\,\blacksquare$
+\item \label{abnpc} Пусть $A\in\NPc$, и $A\leqslant_m^p B\in \NP$. Тогда $B\in \NPc$. Действительно, $A\in\NPc\Rightarrow\forall C\in \NP\hookrightarrow C\leqslant_m^p A$. Фиксируем $C\in\NP$. $A\leqslant_m^p B$, поэтому из \ref{trans} следует, что $C\leqslant_m^p B$. Поэтому $\forall C\in\NP\hookrightarrow C\leqslant_m^p B$. Значит, $B\in\NPc\,\blacksquare$
+\end{enumerate}
+\end{document}
