@@ -152,7 +152,7 @@ SET IDENTITY_INSERT role_staging OFF
 go
 
 SET IDENTITY_INSERT actor_rolestaging ON
---insert into actor_rolestaging(id, [role], staging, 
+insert into actor_rolestaging(id, [role], staging, 
 SET IDENTITY_INSERT actor_rolestaging OFF
 
 go
