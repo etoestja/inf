@@ -27,7 +27,9 @@ go
 create table author
 (
 id int primary key identity(5000,1),
-[name] nvarchar(50) not null,
+name_first nvarchar(50) not null,
+surname nvarchar(50),
+name_middle nvarchar(50),
 birthDate datetime,
 deathDate datetime,
 constraint bdate check (birthDate <= deathDate)
@@ -55,10 +57,21 @@ go
 create table actor
 (
 id int primary key identity(5000,1),
-[name] nvarchar(50) not null,
+name_first nvarchar(50) not null,
+surname nvarchar(50),
+name_middle nvarchar(50),
 birthDate datetime,
-title int foreign key references actorTitle(id) on delete no action,
-gender int foreign key references gender(id) on delete no action
+title int foreign key references actorTitle(id) on delete no action on update cascade,
+gender int foreign key references gender(id) on delete no action on update cascade
+)
+
+go
+
+create table actor_actorTitle
+(
+id int primary key identity(5000,1),
+actor int foreign key references actor(id) on delete cascade on update no action,
+actorTitle int foreign key references actorTitle(id) on delete no action on update cascade
 )
 
 go
@@ -66,8 +79,8 @@ go
 create table actor_line
 (
 id int primary key identity(5000,1),
-actor_id int foreign key references actor(id) on delete cascade,
-line_id int foreign key references line(id) on delete cascade
+actor_id int foreign key references actor(id) on delete cascade on update cascade,
+line_id int foreign key references line(id) on delete cascade on update cascade
 )
 
 go
@@ -77,9 +90,9 @@ create table [role]
 id int primary key identity(5000,1),
 [name] nvarchar(50) not null,
 description nvarchar(500),
-gender int foreign key references gender(id) on delete no action,
-line int foreign key references line(id) on delete no action,
-[type] int foreign key references roleType(id) on delete no action
+gender int foreign key references gender(id) on delete no action on update cascade,
+line int foreign key references line(id) on delete no action on update cascade,
+[type] int foreign key references roleType(id) on delete no action on update cascade
 )
 
 go
@@ -87,7 +100,9 @@ go
 create table director
 (
 id int primary key identity(5000,1),
-[name] nvarchar(50) not null
+name_first nvarchar(50) not null,
+surname nvarchar(50),
+name_middle nvarchar(50)
 )
 
 go
@@ -111,8 +126,8 @@ create table seat
 id int primary key identity(5000,1),
 seat int not null,
 row int not null,
-room int foreign key references room(id) on delete no action,
-[type] int foreign key references seatType(id) on delete no action,
+room int foreign key references room(id) on delete no action on update cascade,
+[type] int foreign key references seatType(id) on delete no action on update cascade,
 constraint seatzero check (seat >= 0),
 constraint rowzero check (row >= 0)
 )
@@ -122,7 +137,9 @@ go
 create table staging
 (
 id int primary key identity(5000,1),
-director int foreign key references director(id) on delete no action
+[name] varchar(50) not null,
+description varchar(500),
+director int foreign key references director(id) on delete no action on update cascade
 )
 
 go
@@ -130,8 +147,8 @@ go
 create table role_staging
 (
 id int primary key identity(5000,1),
-[role] int foreign key references [role](id) on delete cascade,
-staging int foreign key references staging(id) on delete cascade
+[role] int foreign key references [role](id) on delete cascade on update cascade,
+staging int foreign key references staging(id) on delete cascade on update cascade
 )
 
 go
@@ -149,10 +166,10 @@ create table actor_rolestaging
 (
 id int primary key identity(5000,1),
 actor int foreign key references actor(id),
-role_staging int foreign key references role_staging(id) on delete cascade,
+role_staging int foreign key references role_staging(id) on delete cascade on update cascade,
 beginDate datetime not null,
 endDate datetime not null,
-[cast] int foreign key references [cast](id) on delete set null,
+[cast] int foreign key references [cast](id) on delete set null on update cascade,
 constraint dates check (beginDate <= endDate)
 )
 
@@ -199,8 +216,8 @@ go
 create table cast_staging
 (
 id int primary key identity(5000,1),
-[cast] int foreign key references [cast](id) on delete cascade,
-staging int foreign key references staging(id) on delete cascade,
+[cast] int foreign key references [cast](id) on delete cascade on update cascade,
+staging int foreign key references staging(id) on delete cascade on update cascade,
 )
 
 go
@@ -209,8 +226,8 @@ create table performance
 (
 id int primary key identity(5000,1),
 [date] datetime not null,
-staging int foreign key references staging(id) on delete no action,
-cast_staging int foreign key references cast_staging(id) on delete no action,
+staging int foreign key references staging(id) on delete no action on update cascade,
+cast_staging int foreign key references cast_staging(id) on delete no action on update no action,
 )
 
 go
@@ -218,8 +235,8 @@ go
 create table actorrolestaging_performance
 (
 id int primary key identity(5000,1),
-actorrolestaging int foreign key references actor_rolestaging(id) on delete cascade,
-performance int foreign key references performance(id) on delete cascade,
+actorrolestaging int foreign key references actor_rolestaging(id) on delete cascade on update no action,
+performance int foreign key references performance(id) on delete cascade on update no action,
 )
 
 go
@@ -228,7 +245,7 @@ create table seat_performance
 (
 id int primary key identity(5000,1),
 seat int foreign key references seat(id),
-performance int foreign key references performance(id) on delete cascade
+performance int foreign key references performance(id) on delete cascade on update cascade
 )
 
 go
