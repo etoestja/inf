@@ -151,8 +151,17 @@ SET IDENTITY_INSERT role_staging OFF
 
 go
 
+SET IDENTITY_INSERT [cast] ON
+insert into [cast](id, number) values (1, 1)
+insert into [cast](id, number) values (2, 2)
+insert into [cast](id, number) values (3, 300)
+insert into [cast](id, number) values (4, 500)
+SET IDENTITY_INSERT [cast] OFF
+
+go
+
 SET IDENTITY_INSERT actor_rolestaging ON
-insert into actor_rolestaging(id, [role], staging, 
+--insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast])
 SET IDENTITY_INSERT actor_rolestaging OFF
 
 go

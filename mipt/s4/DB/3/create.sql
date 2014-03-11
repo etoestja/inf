@@ -1,5 +1,5 @@
-create database theater;
-go
+--create database theater;
+--go
 use theater;
 go
 
@@ -170,7 +170,7 @@ role_staging int foreign key references role_staging(id) on delete cascade on up
 beginDate datetime not null,
 endDate datetime not null,
 [cast] int foreign key references [cast](id) on delete set null on update cascade,
-constraint dates check (beginDate <= endDate)
+constraint dates check (beginDate < endDate)
 )
 
 go
