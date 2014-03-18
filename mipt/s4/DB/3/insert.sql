@@ -205,11 +205,13 @@ insert into actor(id, name_first, name_middle, surname, birthDate, gender) value
 insert into actor(id, name_first, name_middle, surname, birthDate, gender) values (3, N'Леонардо', NULL, N'Ди Каприо', 1994-01-01, 1);
 insert into actor(id, name_first, name_middle, surname, birthDate, gender) values (4, N'Вася', NULL, N'Васильев', 1994-01-01, 1);
 insert into actor(id, name_first, name_middle, surname, birthDate, gender) values (5, N'Иван', NULL, N'Иванов', 1994-01-01, 1);
-insert into actor(id, name_first, name_middle, surname, birthDate, gender) values (6, N'Эмма', NULL, N'Уотсон', 1994-01-01, 1);
+insert into actor(id, name_first, name_middle, surname, birthDate, gender) values (6, N'Эмма', NULL, N'Уотсон', 1994-01-01, 2);
 insert into actor(id, name_first, name_middle, surname, birthDate, gender) values (7, N'Мэтт', NULL, N'Смитт', 1994-01-01, 1);
-insert into actor(id, name_first, name_middle, surname, birthDate, gender) values (8, N'Лана', NULL, N'Дел Рэй', 1994-01-01, 1);
+insert into actor(id, name_first, name_middle, surname, birthDate, gender) values (8, N'Лана', NULL, N'Дел Рей', 1994-01-01, 2);
 insert into actor(id, name_first, name_middle, surname, birthDate, gender) values (9, N'Максим', NULL, N'Балашов', 1994-01-01, 1);
 insert into actor(id, name_first, name_middle, surname, birthDate, gender) values (10, N'Сергей', NULL, N'Сергеев', 1994-01-01, 1);
+insert into actor(id, name_first, name_middle, surname, birthDate, gender) values (11, N'Элайза', NULL, N'Душку', 1994-01-01, 2);
+insert into actor(id, name_first, name_middle, surname, birthDate, gender) values (12, N'Саммер', NULL, N'Глау', 1994-01-01, 2);
 
 SET IDENTITY_INSERT actor OFF
 
@@ -340,7 +342,11 @@ insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast
 insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (7, 7, 10, 2010-01-01, 2015-02-02, 1)
 insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (8, 8, 5, 2010-01-01, 2015-02-02, 1)
 insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (9, 9, 6, 2010-01-01, 2015-02-02, 1)
-insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (10, 10, 7, 2010-01-01, 2015-02-02, 1)
+insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (10, 12, 1, 2010-01-01, 2015-02-02, 1)
+insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (11, 11, 1, 2010-01-01, 2015-02-02, 1)
+insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (12, 12, 1, 2010-01-01, 2015-02-02, 1)
+insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (13, 8, 1, 2010-01-01, 2015-02-02, 1)
+insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (14, 8, 1, 2010-01-01, 2015-02-02, 1)
 SET IDENTITY_INSERT actor_rolestaging OFF
 
 go
