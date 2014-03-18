@@ -1,0 +1,26 @@
+#!/bin/bash
+
+i=1
+while true
+do
+    read name_first
+
+    if [ "X$name_first" == "X" ]
+    then
+        exit
+    fi
+
+    read name_middle
+    read name_second
+    read birth
+    read death
+
+    if [ "X$name_second" == "X" ]
+    then
+        name_second=$name_middle
+        name_middle=NULL
+    fi
+
+    echo "insert into author(id, name_first, name_middle, surname, birthDate, deathDate) values ($i, N'$name_first', N'$name_middle', N'$name_second', $birth, $death)"
+    let i=i+1
+done
