@@ -497,6 +497,17 @@ insert into seat_performance(id, seat, performance) values (8, 8, 3);
 insert into seat_performance(id, seat, performance) values (9, 9, 2);
 insert into seat_performance(id, seat, performance) values (10, 10, 1);
 
+insert into seat_performance(id, seat, performance) values (11, 1, 10);
+insert into seat_performance(id, seat, performance) values (12, 1, 9);
+insert into seat_performance(id, seat, performance) values (13, 1, 8);
+insert into seat_performance(id, seat, performance) values (14, 1, 7);
+insert into seat_performance(id, seat, performance) values (15, 1, 6);
+insert into seat_performance(id, seat, performance) values (16, 1, 5);
+insert into seat_performance(id, seat, performance) values (17, 1, 4);
+insert into seat_performance(id, seat, performance) values (18, 1, 3);
+insert into seat_performance(id, seat, performance) values (19, 1, 2);
+insert into seat_performance(id, seat, performance) values (20, 1, 1);
+
 SET IDENTITY_INSERT seat_performance OFF
 
 
