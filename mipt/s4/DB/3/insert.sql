@@ -291,15 +291,15 @@ insert into play_staging(play, staging) values(13, 3);
 go
 
 SET IDENTITY_INSERT role_staging ON
-insert into role_staging(id, [role], staging) values (1, 1, 3);
+insert into role_staging(id, [role], staging) values (1, 1, 3);--
 insert into role_staging(id, [role], staging) values (2, 2, 4);
-insert into role_staging(id, [role], staging) values (3, 3, 2);
+insert into role_staging(id, [role], staging) values (3, 3, 2);--
 insert into role_staging(id, [role], staging) values (4, 4, 1);
-insert into role_staging(id, [role], staging) values (5, 5, 5);
+insert into role_staging(id, [role], staging) values (5, 5, 5);--
 insert into role_staging(id, [role], staging) values (6, 6, 6);
 insert into role_staging(id, [role], staging) values (7, 7, 7);
 insert into role_staging(id, [role], staging) values (8, 8, 8);
-insert into role_staging(id, [role], staging) values (9, 9, 9);
+insert into role_staging(id, [role], staging) values (9, 9, 9);--
 insert into role_staging(id, [role], staging) values (10, 10, 10);
 insert into role_staging(id, [role], staging) values (11, 11, 11);
 insert into role_staging(id, [role], staging) values (12, 12, 10);
@@ -333,20 +333,23 @@ SET IDENTITY_INSERT [cast] OFF
 go
 
 SET IDENTITY_INSERT actor_rolestaging ON
-insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (1, 1, 1, 2010-01-01, 2015-02-02, 1)
-insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (2, 2, 1, 2010-01-01, 2015-02-02, 1)
-insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (3, 3, 1, 2010-01-01, 2015-02-02, 1)
-insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (4, 4, 2, 2010-01-01, 2015-02-02, 1)
-insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (5, 5, 3, 2010-01-01, 2015-02-02, 1)
-insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (6, 6, 4, 2010-01-01, 2015-02-02, 1)
-insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (7, 7, 10, 2010-01-01, 2015-02-02, 1)
-insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (8, 8, 5, 2010-01-01, 2015-02-02, 1)
-insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (9, 9, 6, 2010-01-01, 2015-02-02, 1)
-insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (10, 12, 1, 2010-01-01, 2015-02-02, 1)
-insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (11, 11, 1, 2010-01-01, 2015-02-02, 1)
-insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (12, 12, 1, 2010-01-01, 2015-02-02, 1)
-insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (13, 8, 1, 2010-01-01, 2015-02-02, 1)
-insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (14, 8, 1, 2010-01-01, 2015-02-02, 1)
+insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (1, 1, 1,  '2010-01-01', '2015-02-02', 1)
+insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (2, 2, 1,  '2009-01-01', '2015-02-02', 1)
+insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (3, 3, 1,  '2010-01-01', '2015-02-02', 1)
+insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (4, 4, 2,  '2000-01-01', '2015-02-02', 1)
+insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (5, 5, 3,  '2001-01-01', '2015-02-02', 1)
+insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (6, 6, 4,  '2011-01-01', '2015-02-02', 1)
+insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (7, 7, 10, '2011-01-01', '2015-02-02', 1)
+insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (8, 8, 5,  '2013-01-01', '2015-02-02', 1)
+insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (9, 9, 6,  '2011-01-01', '2015-02-02', 1)
+insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (10, 8, 1, '2014-01-01', '2015-02-02', 1)
+insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (11, 11, 1,'2011-01-01', '2015-02-02', 1)
+insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (12, 12, 1,'2012-01-01', '2015-02-02', 1)
+insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (13, 8, 1, '2000-01-01', '2015-02-02', 1)
+insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (14, 8, 9, '1999-01-01', '2000-01-01', 1)
+insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (15, 11, 9,'2012-01-01', '2015-02-02', 1)
+insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (16, 11, 3,'2012-01-01', '2015-02-02', 1)
+insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (17, 11, 5,'2012-01-01', '2015-02-02', 1)
 SET IDENTITY_INSERT actor_rolestaging OFF
 
 go
@@ -367,16 +370,16 @@ SET IDENTITY_INSERT cast_staging OFF
 go
 
 SET IDENTITY_INSERT performance ON
-insert into performance(id, [date], staging, cast_staging) values (1, 2014-01-01, 1, 1);
-insert into performance(id, [date], staging, cast_staging) values (2, 2014-02-01, 1, 2);
-insert into performance(id, [date], staging, cast_staging) values (3, 2014-03-01, 2, 1);
-insert into performance(id, [date], staging, cast_staging) values (4, 2014-04-01, 3, 2);
-insert into performance(id, [date], staging, cast_staging) values (5, 2014-05-01, 2, 3);
-insert into performance(id, [date], staging, cast_staging) values (6, 2014-06-01, 1, 1);
-insert into performance(id, [date], staging, cast_staging) values (7, 2014-07-01, 3, 5);
-insert into performance(id, [date], staging, cast_staging) values (8, 2014-08-01, 4, 7);
-insert into performance(id, [date], staging, cast_staging) values (9, 2014-09-01, 5, 9);
-insert into performance(id, [date], staging, cast_staging) values (10, 2014-10-01, 5, 10);
+insert into performance(id, [date], staging, cast_staging) values (1, '2014-01-01', 1, 1);
+insert into performance(id, [date], staging, cast_staging) values (2, '2014-02-01', 1, 2);
+insert into performance(id, [date], staging, cast_staging) values (3, '2014-03-01', 2, 1);
+insert into performance(id, [date], staging, cast_staging) values (4, '2014-04-01', 3, 2);
+insert into performance(id, [date], staging, cast_staging) values (5, '2014-05-01', 2, 3);
+insert into performance(id, [date], staging, cast_staging) values (6, '2014-06-01', 1, 1);
+insert into performance(id, [date], staging, cast_staging) values (7, '2014-07-01', 3, 5);
+insert into performance(id, [date], staging, cast_staging) values (8, '2014-08-01', 4, 7);
+insert into performance(id, [date], staging, cast_staging) values (9, '2014-09-01', 5, 9);
+insert into performance(id, [date], staging, cast_staging) values (10, '2014-10-01', 5, 10);
 
 SET IDENTITY_INSERT performance OFF
 
