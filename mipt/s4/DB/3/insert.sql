@@ -257,17 +257,17 @@ SET IDENTITY_INSERT director OFF
 go
 
 SET IDENTITY_INSERT staging ON
-insert into staging(id, director, [name], description) values (1, 1, 'Доктор Кто (по сериалу)', NULL);
-insert into staging(id, director, [name], description) values (2, 2, 'На дне (новая версия)', N'Другой сюжет');
-insert into staging(id, director, [name], description) values (3, 3, 'Гамлет', NULL);
-insert into staging(id, director, [name], description) values (4, 4, 'Dollhouse (по сериалу)', NULL);
-insert into staging(id, director, [name], description) values (5, 3, 'Гарри Поттер', NULL);
-insert into staging(id, director, [name], description) values (6, 2, 'Once Upon A Time', NULL);
-insert into staging(id, director, [name], description) values (7, 1, 'Once Upon A Time in Wonderland', NULL);
-insert into staging(id, director, [name], description) values (8, 5, 'Аналитическая Геометрия', NULL);
-insert into staging(id, director, [name], description) values (9, 6, 'FlashForward', NULL);
-insert into staging(id, director, [name], description) values (10, 7, 'Три Сестры', NULL);
-insert into staging(id, director, [name], description) values (11, 1, 'Breaking Bad', NULL);
+insert into staging(id, director, [name], description) values (1, 1, N'Доктор Кто (по сериалу)', NULL);
+insert into staging(id, director, [name], description) values (2, 2, N'На дне (новая версия)', N'Другой сюжет');
+insert into staging(id, director, [name], description) values (3, 3, N'Гамлет', NULL);
+insert into staging(id, director, [name], description) values (4, 4, N'Dollhouse (по сериалу)', NULL);
+insert into staging(id, director, [name], description) values (5, 3, N'Гарри Поттер', NULL);
+insert into staging(id, director, [name], description) values (6, 2, N'Once Upon A Time', NULL);
+insert into staging(id, director, [name], description) values (7, 1, N'Once Upon A Time in Wonderland', NULL);
+insert into staging(id, director, [name], description) values (8, 5, N'Аналитическая Геометрия', NULL);
+insert into staging(id, director, [name], description) values (9, 6, N'FlashForward', NULL);
+insert into staging(id, director, [name], description) values (10, 7, N'Три Сестры', NULL);
+insert into staging(id, director, [name], description) values (11, 1, N'Breaking Bad', NULL);
 SET IDENTITY_INSERT staging OFF
 
 go
