@@ -16,7 +16,7 @@
 \DeclareMathOperator*{\argmin}{arg\,min}
 \usepackage{listings}
 \usepackage{wasysym}
-\date{задано 2014.03.06}
+\date{задано 2014.03.13}
 \author{Сергей~Володин, 272 гр.}
 \newcommand{\matrixl}{\left|\left|}
 \newcommand{\matrixr}{\right|\right|}
@@ -40,7 +40,7 @@
 \def\LL{{\mathrm{LL}}}
 \def\poly{{\rm{poly}}}
 
-\title{Алгоритмы и модели вычислений.\\Задание 5: \em{Рубцов, выложи!}}
+\title{Алгоритмы и модели вычислений.\\Задание 5: сложность вычислений: классы $\PP$, $\NP$, $\coNP$ II}
 
 % алгоритмы (Рубцов)
 \usepackage{verbatim}
@@ -85,6 +85,30 @@
 
 \begin{document}
 \maketitle
+\subsection*{Задача 1}
+\subsection*{Задача 2}
+См. (каноническое) 21
+\subsection*{Задача 3}
+\begin{enumerate}
+\item $\C\supset \NP\cup\coNP$.\begin{enumerate}
+\item Пусть $L\in\NP$. Тогда (семинар) $L\leqslant_m^p\SAT\Leftrightarrow \exists f\colon\Sigma^*\to\Sigma^*\colon\forall x(x\in L\Leftrightarrow f(x)\in\SAT)$, $f$~--- вычислима за полиномиальное время. Определим $M_{\SAT}$: вычисляем за полиномиальное время (определение сводимости) $f(x)$ ($x$~--- вход), спрашиваем оракула $f(x)\overset{?}{\in}\SAT$ за $O(1)$. Ответ~--- ответ оракула (корректно из определения сводимости).  Время работы полиномиально: $T(|x|)=\poly(|x|)+O(1)=\poly(|x|)$.
+\item Пусть $L\in\coNP$. Тогда $\overline{L}\leqslant_m^p\SAT\Leftrightarrow \exists f\colon\Sigma^*\to\Sigma^*\colon\forall x(x\in \overline{L}\Leftrightarrow f(x)\in\SAT)\Leftrightarrow\forall x(x\in L\Leftrightarrow f(x)\notin\SAT)$, $f$~--- вычислима за полиномиальное время. Определим $M_{\SAT}$: вычисляем за полиномиальное время (определение сводимости) $f(x)$ ($x$~--- вход), спрашиваем оракула $f(x)\overset{?}{\in}\SAT$ за $O(1)$. Ответ~--- \underline{противоположный} ответу оракула (корректно из определения сводимости). Время работы полиномиально: $T(|x|)=\poly(|x|)+O(1)=\poly(|x|)$.
+\end{enumerate}
+\item $\C\subset\NP\cup\coNP$
+\end{enumerate}
 \subsection*{(каноническое) Задача 21}
 \subsection*{(каноническое) Задача 23}
+\begin{enumerate}
+\item $\Psi(x_1,x_2)\eqdef (\urcorner x_1\vee x_2)$. Базовое множество ($n=2$) $\{x_1,x_2,\urcorner x_1,\urcorner x_2\}$.\newline
+Семейство подмножеств $A_\Psi=\big\{\{x_1,\urcorner x_1\},\,\{x_2,\urcorner x_2\},\,\{\urcorner x_1,x_2\}\big\}$.\newline
+$\varangle A\eqdef\{x_1,\,x_2\}$. Получаем $A\cap\{x_1,\urcorner x_1\}\ni x_1$, $A\cap \{x_2,\urcorner x_2\}\ni x_2$, $A\cap \{\urcorner x_1, x_2\}\ni x_2$.\newline
+Значит, $A$~--- протыкающее множество для $A_\Psi$, и $|A|=2$.
+\item $\chi(x_1,x_2,x_3)\eqdef (x_1\vee x_2\vee x_3)\wedge(\urcorner x_1\vee \urcorner x_2)\wedge(x_1\vee \urcorner x_2)\wedge (\urcorner x_1\vee x_2\vee x_3)\wedge\urcorner x_3$. Семейство подмножеств ($n=3$) $A_\chi=\big\{\{x_1,\urcorner x_1\},\{x_2,\urcorner x_2\},\{x_3,\urcorner x_3\},\{x_1,x_2,x_3\},\{\urcorner x_1,\urcorner x_2\},\{x_1,\urcorner x_2\},\{\urcorner x_1,x_2,x_3\},\{\urcorner x_3\}\big\}$. Пусть $A$~--- протыкающее множество. Тогда $A\cap \{\urcorner x_3\}\neq \varnothing\Rightarrow A\ni \urcorner x_3$. Также $A\cap\{x_1,\urcorner x_1\}\neq\varnothing$, поэтому $A$ содержит $x_1$ или $\urcorner x_1$. Аналогично $x_2\in A$ или $\urcorner x_2\in A$. Получаем, что $A$ содержит не менее трех элементов. Предположим, что их ровно 3. Рассмотрим все возможные 4 случая (или$\times$или раньше по тексту):\begin{enumerate}
+\item $A=\{x_1,x_2,\urcorner x_3\}$. Тогда $A\cap \{\urcorner x_1,\urcorner x_2\}=\varnothing$~--- противоречие.
+\item $A=\{x_1,\urcorner x_2,\urcorner x_3\}$. Тогда $A\cap \{\urcorner x_1,x_2,x_3\}=\varnothing$~--- противоречие.
+\item $A=\{\urcorner x_1,x_2,\urcorner x_3\}$. Тогда $A\cap \{x_1,\urcorner x_2\}=\varnothing$~--- противоречие.
+\item $A=\{\urcorner x_1,\urcorner x_2,\urcorner x_3\}$. Тогда $A\cap\{x_1,x_2,x_3\}=\varnothing$~--- противоречие.
+\end{enumerate}
+Получаем, что $A$ содержит более трех элементов $\blacksquare$
+\end{enumerate}
 \end{document}
