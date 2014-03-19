@@ -95,34 +95,158 @@
 $\HP=\{(G,s,t)\big|G\mbox{~--- ориентированный граф}, \mbox{в }G\mbox{ существует гамильтонов путь из }s\mbox{ в }t\}$,\newline
 $\UHP=\{(G,s,t)\big|G\mbox{~--- неориентированный граф}, \mbox{в }G\mbox{ существует гамильтонов путь из }s\mbox{ в }t\}$.\newline
 Пусть $G$~--- ориентированный граф, $s$ и $t$~--- его вершины. $x=(G,s,t)$. Определим $f(x)=(G',s',t')$. Для каждой вершины $v\in V(G)$, кроме $s$ и $t$, добавим в $V(G')$ три вершины $v_i,v_m,v_o$. Для $s$ и $t$ добавим $s_o$ и $t_i$. Соединим $v_i\leftrightarrow v_m$ и $v_m\leftrightarrow v_o$ (стрелкой $\leftrightarrow$ обозначено неориентированное ребро). Для каждого $(u,v)\in E(G)$ добавим $(u_o,v_i)\in E(G')$. $G'$~--- получившийся граф, $s'=s_o$, $t'=t_i$.\begin{enumerate}
-\item Пусть $x=(G,s,t)\in\HP$. Тогда существует путь $s\to v_1\to v_2\to...\to v_n\to t$. По построению, тогда существует путь $s_o\leftrightarrow v_{1i}\leftrightarrow v_{1m}\leftrightarrow v_{1o}\leftrightarrow...\leftrightarrow v_{ni}\leftrightarrow v_{nm}\leftrightarrow v_{no}\leftrightarrow t_i$, который является гамильтоновым путем в $G'$ {\em todo}, поэтому $f(x)\in \UHP$
-\item Пусть $f(x)=(G',s_o,t_i)\in\UHP$. Из вершины с индексом $\cdot_o$ по построению есть ребра только в вершины с индексом $\cdot_i$. Из вершины $v_i$ есть ребро только в $v_m$, из вершины $v_m$~--- только в $v_o$. Поэтому гамильтонов путь имеет вид $s_o\leftrightarrow v_{1i}\leftrightarrow v_{1m}\leftrightarrow v_{1o}\leftrightarrow...\leftrightarrow v_{ni}\leftrightarrow v_{nm}\leftrightarrow v_{no}\leftrightarrow t_i$, значит, в исходном графе $G$ есть путь $s\to v_1\to v_2\to...\to v_n\to t$, и он гамильтонов {\em todo}, поэтому $x\in \HP$
+\item Пусть $x=(G,s,t)\in\HP$. Тогда существует путь $s\to v_1\to v_2\to...\to v_n\to t$. По построению, тогда существует путь $s_o\leftrightarrow v_{1i}\leftrightarrow v_{1m}\leftrightarrow v_{1o}\leftrightarrow...\leftrightarrow v_{ni}\leftrightarrow v_{nm}\leftrightarrow v_{no}\leftrightarrow t_i$, который является гамильтоновым путем в $G'$ (все вершины по построению: для каждой вершины исходного графа, кроме $s$ и $t$ добавляются 3 в образе, все они посещены. $s_o$ и $t_i$ также посещены. Если есть повтор $v_{i\cdot}=v_{j\cdot}$, то (структура пути в образе) есть повтор $v_{im}=v_{jm}$. Значит, есть повтор в исходном пути~--- противоречие), поэтому $f(x)\in \UHP$
+\item Пусть $f(x)=(G',s_o,t_i)\in\UHP$. Из вершины с индексом $\cdot_o$ по построению есть ребра только в вершины с индексом $\cdot_i$. Из вершины $v_i$ есть ребро только в $v_m$, из вершины $v_m$~--- только в $v_o$. Поэтому гамильтонов путь имеет вид $s_o\leftrightarrow v_{1i}\leftrightarrow v_{1m}\leftrightarrow v_{1o}\leftrightarrow...\leftrightarrow v_{ni}\leftrightarrow v_{nm}\leftrightarrow v_{no}\leftrightarrow t_i$, значит, в исходном графе $G$ есть путь $s\to v_1\to v_2\to...\to v_n\to t$, и он гамильтонов (аналогично: все вершины по построению, повтор означает повтор в другом пути~--- противоречие), поэтому $x\in \HP$
 \item $f$~--- вычислима за полиномиальное время (линейное по количеству ребер и вершин время)
 \end{enumerate}
 \item Поскольку $\HP\in\NPc$, $\HP\leqslant\UHP$, $\UHP\in\NP$, то (см. решение 4-го задания, вспомогательные утверждения, 2) $\UHP\in\NPc\,\blacksquare$
 \end{enumerate}
 \subsection*{Задача 2}
 См. (каноническое) 21
+\newpage
 \subsection*{Задача 3}
+{\bf Получилось доказать не совсем то, что нужно}
 \begin{enumerate}
+%\item $\C\supset \C_1$. Фиксируем $\C_1\ni L=L_0\cup L_1$.\newline
+%$L_0\in\NP\Leftrightarrow \forall x\hookrightarrow(x\in L_0\Leftrightarrow \exists y_0\colon R_0(x,y_0)=1)$, $R_0$~--- вычислима за полиномиальное время, $|y_0|=\poly(|x|)$.\newline
+%$\overline{L_1}\in\NP\Leftrightarrow \forall x\hookrightarrow(x\in \overline{L_1}\Leftrightarrow \exists y_1\colon R_1(x,y_1)=1)$, $R_1$~--- вычислима за полиномиальное время, $|y_1|=\poly(|x|)$\newline
+%Поскольку $L_0\in\NP$, $L_0\leqslant_m^p\SAT$, $f_0$~--- функция, вычислимая за полиномиальное время, и $\forall x\hookrightarrow (x\in L_0\Leftrightarrow f(x)\in\SAT)$\newline
+%Поскольку $\overline{L_1}\in\NP$, $\overline{L_1}\leqslant_m^p\SAT$, $f_1$~--- функция, вычислимая за полиномиальное время, и $\forall x\hookrightarrow (x\in\overline{L_1}\Leftrightarrow f(x)\in\SAT)$. Последнюю скобку перепишем как $x\in L_1\Leftrightarrow $
 \item $\C\supset \NP\cup\coNP$.\begin{enumerate}
 \item Пусть $L\in\NP$. Тогда (семинар) $L\leqslant_m^p\SAT\Leftrightarrow \exists f\colon\Sigma^*\to\Sigma^*\colon\forall x(x\in L\Leftrightarrow f(x)\in\SAT)$, $f$~--- вычислима за полиномиальное время. Определим $M_{\SAT}$: вычисляем за полиномиальное время (определение сводимости) $f(x)$ ($x$~--- вход), спрашиваем оракула $f(x)\overset{?}{\in}\SAT$ за $O(1)$. Ответ~--- ответ оракула (корректно из определения сводимости).  Время работы полиномиально: $T(|x|)=\poly(|x|)+O(1)=\poly(|x|)$.
 \item Пусть $L\in\coNP$. Тогда $\overline{L}\leqslant_m^p\SAT\Leftrightarrow \exists f\colon\Sigma^*\to\Sigma^*\colon\forall x(x\in \overline{L}\Leftrightarrow f(x)\in\SAT)\Leftrightarrow\forall x(x\in L\Leftrightarrow f(x)\notin\SAT)$, $f$~--- вычислима за полиномиальное время. Определим $M_{\SAT}$: вычисляем за полиномиальное время (определение сводимости) $f(x)$ ($x$~--- вход), спрашиваем оракула $f(x)\overset{?}{\in}\SAT$ за $O(1)$. Ответ~--- \underline{противоположный} ответу оракула (корректно из определения сводимости). Время работы полиномиально: $T(|x|)=\poly(|x|)+O(1)=\poly(|x|)$.
 \end{enumerate}
-\item $\C\subset\NP\cup\coNP$. Пусть $L\in \C$. Тогда существует МТ $M_\SAT$, вычисляющая $x\overset{?}{\in}L$ за полиномиальное время, и делающая не более одного обращения к оракулу $t\overset{?}{\in}\SAT$
+\item {\em (Идея обсуждалась с Дарьей Решетовой)}. Пусть $L\in \C$. Тогда существует МТ $M_\SAT$, вычисляющая $x\overset{?}{\in}L$ за полиномиальное время, и делающая не более одного обращения к оракулу $t\overset{?}{\in}\SAT$. Рассмотрим машину $M_\SAT$. Она может обращаться к оракулу, либо не обращаться. Если она обращается к оракулу на входе $x$, обозначим $n(x)=1$, иначе $n(x)=0$. В первом случае до обращения к оракулу $Or(x)$ она вычисляет вход $f(x)$ для него. После обращения (получения $f(x)\overset{?}{\in}L$, $0$ либо $1$), машина выдает ответ ($0$ либо $1$). Если ответ тот же, обозначим $s(x)=0$, иначе $s(x)=1$. В случае, если $M_\SAT$ не обращается к оракулу, она выдает ответ, вычисляя $a(x)\in\{0, 1\}$. Поэтому ее можно представить следующим псевдокодом:
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+    frame=lines,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    keywordstyle=\color{red}\bfseries,
+    stringstyle=\color{green!50!black},
+    commentstyle=\color{gray}\itshape,
+    numbers=left,
+    captionpos=t,
+    escapeinside={\%*}{*)}
+}
+\begin{lstlisting}
+M(x)
+{
+  if(n(x)) return(Or(f(x)) ^ s(x));
+  else return(a(x));
+}
+\end{lstlisting}
+Поскольку $M_\SAT$ полиномиальна, $n(\cdot)$, $s(\cdot)$, $a(\cdot)$ вычислимы за полиномиальное время.\newline
+Обозначим \begin{enumerate}
+\item  $L_a=\{x\big| n(x)=0\,\wedge\, a(x)=1\}$,
+\item $L_0=\{x\big| n(x)=1\,\wedge\, s(x)=0\,\wedge\, Or(f(x))=1\}$,
+\item $L_1=\{x\big| n(x)=1\,\wedge\, s(x)=1\,\wedge\, Or(f(x))=0\}$.
 \end{enumerate}
+Тогда $L=L_a\cup L_0\cup L_1$ (все случаи в псевдокоде выше).\begin{enumerate}
+\item Получаем, что $L_a\in P$ (так как $a(\cdot)$ и $n(\cdot)$ вычислимы за полиномиальное время).
+\item Докажем, что $L_0\in \NP$. $Or(f(x))=1\Leftrightarrow f(x)\in \SAT$. Поскольку $\SAT\in\NP$, то $\forall t(t\in\SAT\Leftrightarrow\exists y\colon R_\SAT(t,y)=1)$, $R_\SAT$~--- вычислима за полиномиальное время, $|y|=\poly(|x|)$. Определим $R(x,y)=n(x)\,\wedge\,\urcorner s(x)\,\wedge\, R_\SAT(f(x),y)$~--- вычислима за полиномиальное время.\begin{enumerate}
+\item Пусть $x\in L_0$. Тогда $n(x)=1$, $s(x)=0$, и $f(x)\in\SAT\Rightarrow\exists y\colon R_\SAT(f(x),y)=1$. Получаем $x\in L_0\Rightarrow \exists y\colon R(x,y)=1$.
+\item Пусть $x\notin L_0$. Тогда, либо $n(x)=0$, и тогда для всех $y\hookrightarrow R(x,y)=0$, аналогично в случае $s(x)=1$: $\forall y\hookrightarrow R(x,y)=0$. Если $n(x)=1$ и $s(x)=0$, то $f(x)\notin\SAT$, и для всех $y\hookrightarrow R_\SAT(x,y)=0$, откуда $\forall y\hookrightarrow R(x,y)=0$.
+\end{enumerate}
+Итак, $\forall x(x\in L_0\Leftrightarrow\exists y\colon R(x,y)=1)\,\blacksquare$
+\item Докажем, что $L_1\in \coNP$. Определим $R(x,y)=\urcorner n(x)\,\vee\,\urcorner s(x)\,\vee\, R_\SAT(f(x),y)$~--- вычислима за полиномиальное время.\begin{enumerate}
+\item Пусть $x\in L_1\Leftrightarrow x\notin \overline{L_1}$. Тогда $n(x)=1\Rightarrow\,\urcorner n(x)=0$, $s(x)=1\Rightarrow\,\urcorner s(x)=0$, и $f(x)\notin\SAT$, откуда $\forall y\hookrightarrow R_\SAT(f(x),y)=0$. Получаем $x\notin \overline{L_1}\Rightarrow \forall y\hookrightarrow R(x,y)=0\,\vee\,0\,\vee\,0=0$.
+\item Пусть $x\notin L_1\Leftrightarrow x\in \overline{L_1}$. Тогда, либо $n(x)=0$, и тогда для всех $y\hookrightarrow R(x,y)=1$, аналогично в случае $s(x)=0$: $\forall y\hookrightarrow R(x,y)=1$. Если $n(x)=1$ и $s(x)=1$, то $f(x)\in\SAT$, и $\exists y\colon R_\SAT(x,y)=1$, откуда $\exists y\colon R(x,y)=1$
+\end{enumerate}
+Итак, $\forall x(x\in \overline{L_1}\Leftrightarrow\exists y\colon R(x,y)=1)\,\blacksquare$
+\end{enumerate}
+Получаем, что $L=\underbrace{L_a}_{\in \PP}\cup \underbrace{L_0}_{\in \NP}\cup \underbrace{L_1}_{\in\coNP}$.\newline
+Поскольку $L_a\cup L_0\in\NP$ (сертификат для слов из $L_0$ тот же, в предикат добавляется <<или ($y=\eps$ и $x\in L_a$)>>~--- вычислимо за полиномиальное время), для краткости запишем $L=L_0\cup L_1$, где $L_0\in\NP$, $L_1\in\coNP$.
+\end{enumerate}
+Итак, $\NP\cup\coNP\subset \C\subset \{L\big|L=L_0\cup L_1\colon L_0\in\NP,\,L_1\in\coNP\}$
+\newpage
 \subsection*{(каноническое) Задача 21}
 $\GC=\{G\mbox{~--- ориентированный граф}\big|\mbox{в }G\mbox{ существует гамильтонов цикл}\}$.\newline
 $\GP=\{(G,s,t)\mbox{~--- ориентированный граф, две его вершины}\big|\mbox{в }G\mbox{ существует гамильтонов путь из }s\mbox{ в }t\}$.\begin{enumerate}
 \item Докажем, что $\GP\leqslant_m^p\GC$. Пусть $x=(G,s,t)$~--- граф и две его вершины. Определим граф $f(x)$: возьмем $G$, удалим все ребра между $s$ и $t$, все ребра в $s$, все ребра из $t$. Добавим одно $t\to s$.\begin{enumerate}
 \item Пусть $x\in\GP$, то есть, в $G$ есть гамильтонов путь из $s$ в $t$. Тогда в этом пути нет ребер из $t$ в $s$ (иначе через $t$ или $s$ путь пройдет дважды). Значит, путь будет гамильтоновым и в $f(x)$. Но в $f(x)$ есть ребро $t\to s$, получаем гамильтонов цикл, составленный из пути и одного ребра. Значит, $f(x)\in\GC$
 \item Пусть $f(x)\in\GC$, то есть, в $f(x)$ есть гамильтонов цикл. В этот цикл входят вершины $s$ и $t$, так как в него входят все вершины графа. Но из $t$ нет других ребер, кроме как в $s$ (по построению), значит, в цикл входит ребро $t\to s$. Рассмотрим весь путь без этого ребра. Он гамильтонов, так как является гамильтоновым циклом без одного ребра. Этот путь будет также путем в $G$, так как не содержит ребра $t\to s$, а в $G$ ребер больше (кроме $t\to s$). Также этот путь будет гамильтоновым, так как множества вершин $G$ и $f(x)$ совпадают. Значит, $x\in\GP$
-\item Сводимость $f$ в явном виде. $A[i][j]$~--- матрица графа $G$, $B[i][j]$~--- матрица графа $f(x)$. Алгоритм: {\em todo}. Получаем, что $f$~--- вычислима за полиномиальное время.
+\item Сводимость $f$ в явном виде. $A[i][j]$~--- матрица графа $G$, $B[i][j]$~--- матрица графа $f(x)$. $A[i][j]=1\Leftrightarrow $ есть ребро из $i$-й вершины в $j$-ю. $|V(G)|=n$. Считаем, что $s$ и $t$~--- индексы вершин $s$ и $t$. Алгоритм:
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+    frame=lines,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    keywordstyle=\color{red}\bfseries,
+    stringstyle=\color{green!50!black},
+    commentstyle=\color{gray}\itshape,
+    numbers=left,
+    captionpos=t,
+    escapeinside={\%*}{*)}
+}
+\begin{lstlisting}
+for(i = 0; i < n; i++)
+  for(j = 0; j < n; j++)
+    B[i][j] = A[i][j]; // copying graph f(x) := G
+	
+for(i = 0; i < n; i++)
+{
+  B[i][s] = 0; // removing edges to s
+  B[t][i] = 0; // removing edges from t
+}
+
+B[t][s] = 1; // adding edge from t to s
+\end{lstlisting}
+Получаем, что $f$~--- вычислима за полиномиальное время: $T(G)=O(n^2)+O(n)+O(1)=O(n^2)$. Длина записи графа $l(G)=\Omega(n^2)$ (элементы матрицы $n\times n$), поэтому $T(G)=O(l(G))$, т.е. время вычисления $f$ линейно по длине входа.
 \end{enumerate}
-\item {\em (Идея обсужалась с Игорем Силиным)}. Докажем, что $\GC\leqslant_m^p\GP$. Пусть $x=G$~--- граф. Фиксируем некоторую его вершину $v$. <<Разделим>> ее на две вершины $s$ и $t$, из $s$ добавим все ребра из $v$, в $t$ направим все ребра в $v$. Получим граф $G'$. Определим $f(x)=(G',s,t)$.\begin{enumerate}
-\item Пусть $x\in\GC$. Тогда в $x=G$ существует гамильтонов цикл. Он содержит все вершины, в том числе и вершину $v$: $v\to v_1\to...\to v_n\to v$. Тогда в графе $G'$ образа $f(x)$ будет путь $s\to v_1\to...\to v_n\to t$, и он будет гамильтоновым {\em todo}, т.е. $f(x)\in\GP$
-\item Пусть $f(x)\in\GP$. Тогда существует гамильтонов путь $s\to...\to t$. Значит, в $G$ есть цикл $v\to...\to v$, и он гамильтонов {\em todo}. Получаем $x\in\GC$.
-\item Сводимость $f$ в явном виде. $A[i][j]$~--- матрица графа $x=G$, $B[i][j]$~--- матрица графа из $f(x)$. Алгоритм: {\em todo}. Получаем, что $f$~--- вычислима за полиномиальное время.
+\item {\em (Идея обсужалась с Игорем Силиным)}. Докажем, что $\GC\leqslant_m^p\GP$. Пусть $x=G$~--- граф. Фиксируем некоторую его вершину $v$. <<Разделим>> ее на две вершины $s$ и $t$, из $s$ добавим все ребра из $v$, в $t$ направим все ребра в $v$. Удалим ребра между $s$ и $t$. Получим граф $G'$. Определим $f(x)=(G',s,t)$.\begin{enumerate}
+\item Пусть $x\in\GC$. Тогда в $x=G$ существует гамильтонов цикл. Он содержит все вершины, в том числе и вершину $v$: $v\to v_1\to...\to v_n\to v$. Тогда в графе $G'$ образа $f(x)$ будет путь $s\to v_1\to...\to v_n\to t$, и он будет гамильтоновым (все вершины по построению, вершины $v_i$ не повторяются, т.к. исходный цикл гамильтонов, если $t$ или $s$ повторяется, то $v$ встречается более 2-х раз в цикле~--- противоречие), т.е. $f(x)\in\GP$
+\item Пусть $f(x)\in\GP$. Тогда существует гамильтонов путь $s\to...\to t$. Значит, в $G$ есть цикл $v\to...\to v$, и он гамильтонов (в $...$ все вершины, кроме $s$ и $t$ для образа, значит, там все вершины, кроме $v$ для исходного графа). Получаем $x\in\GC$.
+\item Сводимость $f$ в явном виде. $A[i][j]$~--- матрица графа $x=G$, $B[i][j]$~--- матрица графа из $f(x)$. $|V(G)|=n$. Алгоритм:
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+    frame=lines,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    keywordstyle=\color{red}\bfseries,
+    stringstyle=\color{green!50!black},
+    commentstyle=\color{gray}\itshape,
+    numbers=left,
+    captionpos=t,
+    escapeinside={\%*}{*)}
+}
+\begin{lstlisting}
+v = n - 1; // any vertex of G
+s = v;
+t = v + 1; // new vertex
+
+for(i = 0; i < n + 1; i++)
+  for(j = 0; j < n + 1; j++)
+    B[i][j] = 0;
+
+for(i = 0; i < n; i++)
+{
+  if(A[v][i] == 1)
+    B[s][i] = 1; // (v, i) in E <=> (s, i) in E'
+  if(A[i][v] == 1)
+    B[i][t] = 1; // (i, v) in E <=> (i, t) in E'
+}
+
+for(i = 0; i < n - 1; i++)
+  for(j = 0; j < n - 1; j++)
+      B[i][j] = A[i][j]; // copying rest of the graph
+
+B[t][s] = 0; // (t, s) not in E'
+B[s][t] = 0; // (s, t) not in E'
+\end{lstlisting}
+Получаем, что $f$~--- вычислима за полиномиальное время: $T(G)=O(n^2)+O(n)+O(1)=O(n^2)$, аналогично $T(G)=O(l(G))$.
 \end{enumerate}
 \end{enumerate}
 \subsection*{(каноническое) Задача 23}
