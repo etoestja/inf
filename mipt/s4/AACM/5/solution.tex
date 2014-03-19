@@ -37,8 +37,12 @@
 \def\3SAT{{\rm{3\text{-}SAT}}}
 \def\2SAT{{\rm{2\text{-}SAT}}}
 \def\UNSAT{{\rm{UNSAT}}}
+\def\HP{{\rm{HAMPATH}}}
+\def\UHP{{\rm{UHAMPATH}}}
 \def\LL{{\mathrm{LL}}}
 \def\poly{{\rm{poly}}}
+\def\GC{{\mbox{ГЦ}}}
+\def\GP{{\mbox{ГП}}}
 
 \title{Алгоритмы и модели вычислений.\\Задание 5: сложность вычислений: классы $\PP$, $\NP$, $\coNP$ II}
 
@@ -86,6 +90,17 @@
 \begin{document}
 \maketitle
 \subsection*{Задача 1}
+\begin{enumerate}
+\item Докажем, что $\HP\leqslant_m^p\UHP$.\newline
+$\HP=\{(G,s,t)\big|G\mbox{~--- ориентированный граф}, \mbox{в }G\mbox{ существует гамильтонов путь из }s\mbox{ в }t\}$,\newline
+$\UHP=\{(G,s,t)\big|G\mbox{~--- неориентированный граф}, \mbox{в }G\mbox{ существует гамильтонов путь из }s\mbox{ в }t\}$.\newline
+Пусть $G$~--- ориентированный граф, $s$ и $t$~--- его вершины. $x=(G,s,t)$. Определим $f(x)=(G',s',t')$. Для каждой вершины $v\in V(G)$, кроме $s$ и $t$, добавим в $V(G')$ три вершины $v_i,v_m,v_o$. Для $s$ и $t$ добавим $s_o$ и $t_i$. Соединим $v_i\leftrightarrow v_m$ и $v_m\leftrightarrow v_o$ (стрелкой $\leftrightarrow$ обозначено неориентированное ребро). Для каждого $(u,v)\in E(G)$ добавим $(u_o,v_i)\in E(G')$. $G'$~--- получившийся граф, $s'=s_o$, $t'=t_i$.\begin{enumerate}
+\item Пусть $x=(G,s,t)\in\HP$. Тогда существует путь $s\to v_1\to v_2\to...\to v_n\to t$. По построению, тогда существует путь $s_o\leftrightarrow v_{1i}\leftrightarrow v_{1m}\leftrightarrow v_{1o}\leftrightarrow...\leftrightarrow v_{ni}\leftrightarrow v_{nm}\leftrightarrow v_{no}\leftrightarrow t_i$, который является гамильтоновым путем в $G'$ {\em todo}, поэтому $f(x)\in \UHP$
+\item Пусть $f(x)=(G',s_o,t_i)\in\UHP$. Из вершины с индексом $\cdot_o$ по построению есть ребра только в вершины с индексом $\cdot_i$. Из вершины $v_i$ есть ребро только в $v_m$, из вершины $v_m$~--- только в $v_o$. Поэтому гамильтонов путь имеет вид $s_o\leftrightarrow v_{1i}\leftrightarrow v_{1m}\leftrightarrow v_{1o}\leftrightarrow...\leftrightarrow v_{ni}\leftrightarrow v_{nm}\leftrightarrow v_{no}\leftrightarrow t_i$, значит, в исходном графе $G$ есть путь $s\to v_1\to v_2\to...\to v_n\to t$, и он гамильтонов {\em todo}, поэтому $x\in \HP$
+\item $f$~--- вычислима за полиномиальное время (линейное по количеству ребер и вершин время)
+\end{enumerate}
+\item Поскольку $\HP\in\NPc$, $\HP\leqslant\UHP$, $\UHP\in\NP$, то (см. решение 4-го задания, вспомогательные утверждения, 2) $\UHP\in\NPc\,\blacksquare$
+\end{enumerate}
 \subsection*{Задача 2}
 См. (каноническое) 21
 \subsection*{Задача 3}
@@ -94,9 +109,22 @@
 \item Пусть $L\in\NP$. Тогда (семинар) $L\leqslant_m^p\SAT\Leftrightarrow \exists f\colon\Sigma^*\to\Sigma^*\colon\forall x(x\in L\Leftrightarrow f(x)\in\SAT)$, $f$~--- вычислима за полиномиальное время. Определим $M_{\SAT}$: вычисляем за полиномиальное время (определение сводимости) $f(x)$ ($x$~--- вход), спрашиваем оракула $f(x)\overset{?}{\in}\SAT$ за $O(1)$. Ответ~--- ответ оракула (корректно из определения сводимости).  Время работы полиномиально: $T(|x|)=\poly(|x|)+O(1)=\poly(|x|)$.
 \item Пусть $L\in\coNP$. Тогда $\overline{L}\leqslant_m^p\SAT\Leftrightarrow \exists f\colon\Sigma^*\to\Sigma^*\colon\forall x(x\in \overline{L}\Leftrightarrow f(x)\in\SAT)\Leftrightarrow\forall x(x\in L\Leftrightarrow f(x)\notin\SAT)$, $f$~--- вычислима за полиномиальное время. Определим $M_{\SAT}$: вычисляем за полиномиальное время (определение сводимости) $f(x)$ ($x$~--- вход), спрашиваем оракула $f(x)\overset{?}{\in}\SAT$ за $O(1)$. Ответ~--- \underline{противоположный} ответу оракула (корректно из определения сводимости). Время работы полиномиально: $T(|x|)=\poly(|x|)+O(1)=\poly(|x|)$.
 \end{enumerate}
-\item $\C\subset\NP\cup\coNP$
+\item $\C\subset\NP\cup\coNP$. Пусть $L\in \C$. Тогда существует МТ $M_\SAT$, вычисляющая $x\overset{?}{\in}L$ за полиномиальное время, и делающая не более одного обращения к оракулу $t\overset{?}{\in}\SAT$
 \end{enumerate}
 \subsection*{(каноническое) Задача 21}
+$\GC=\{G\mbox{~--- ориентированный граф}\big|\mbox{в }G\mbox{ существует гамильтонов цикл}\}$.\newline
+$\GP=\{(G,s,t)\mbox{~--- ориентированный граф, две его вершины}\big|\mbox{в }G\mbox{ существует гамильтонов путь из }s\mbox{ в }t\}$.\begin{enumerate}
+\item Докажем, что $\GP\leqslant_m^p\GC$. Пусть $x=(G,s,t)$~--- граф и две его вершины. Определим граф $f(x)$: возьмем $G$, удалим все ребра между $s$ и $t$, все ребра в $s$, все ребра из $t$. Добавим одно $t\to s$.\begin{enumerate}
+\item Пусть $x\in\GP$, то есть, в $G$ есть гамильтонов путь из $s$ в $t$. Тогда в этом пути нет ребер из $t$ в $s$ (иначе через $t$ или $s$ путь пройдет дважды). Значит, путь будет гамильтоновым и в $f(x)$. Но в $f(x)$ есть ребро $t\to s$, получаем гамильтонов цикл, составленный из пути и одного ребра. Значит, $f(x)\in\GC$
+\item Пусть $f(x)\in\GC$, то есть, в $f(x)$ есть гамильтонов цикл. В этот цикл входят вершины $s$ и $t$, так как в него входят все вершины графа. Но из $t$ нет других ребер, кроме как в $s$ (по построению), значит, в цикл входит ребро $t\to s$. Рассмотрим весь путь без этого ребра. Он гамильтонов, так как является гамильтоновым циклом без одного ребра. Этот путь будет также путем в $G$, так как не содержит ребра $t\to s$, а в $G$ ребер больше (кроме $t\to s$). Также этот путь будет гамильтоновым, так как множества вершин $G$ и $f(x)$ совпадают. Значит, $x\in\GP$
+\item Сводимость $f$ в явном виде. $A[i][j]$~--- матрица графа $G$, $B[i][j]$~--- матрица графа $f(x)$. Алгоритм: {\em todo}. Получаем, что $f$~--- вычислима за полиномиальное время.
+\end{enumerate}
+\item {\em (Идея обсужалась с Игорем Силиным)}. Докажем, что $\GC\leqslant_m^p\GP$. Пусть $x=G$~--- граф. Фиксируем некоторую его вершину $v$. <<Разделим>> ее на две вершины $s$ и $t$, из $s$ добавим все ребра из $v$, в $t$ направим все ребра в $v$. Получим граф $G'$. Определим $f(x)=(G',s,t)$.\begin{enumerate}
+\item Пусть $x\in\GC$. Тогда в $x=G$ существует гамильтонов цикл. Он содержит все вершины, в том числе и вершину $v$: $v\to v_1\to...\to v_n\to v$. Тогда в графе $G'$ образа $f(x)$ будет путь $s\to v_1\to...\to v_n\to t$, и он будет гамильтоновым {\em todo}, т.е. $f(x)\in\GP$
+\item Пусть $f(x)\in\GP$. Тогда существует гамильтонов путь $s\to...\to t$. Значит, в $G$ есть цикл $v\to...\to v$, и он гамильтонов {\em todo}. Получаем $x\in\GC$.
+\item Сводимость $f$ в явном виде. $A[i][j]$~--- матрица графа $x=G$, $B[i][j]$~--- матрица графа из $f(x)$. Алгоритм: {\em todo}. Получаем, что $f$~--- вычислима за полиномиальное время.
+\end{enumerate}
+\end{enumerate}
 \subsection*{(каноническое) Задача 23}
 \begin{enumerate}
 \item $\Psi(x_1,x_2)\eqdef (\urcorner x_1\vee x_2)$. Базовое множество ($n=2$) $\{x_1,x_2,\urcorner x_1,\urcorner x_2\}$.\newline
