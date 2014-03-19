@@ -262,5 +262,42 @@ $\varangle A\eqdef\{x_1,\,x_2\}$. Получаем $A\cap\{x_1,\urcorner x_1\}\n
 \item $A=\{\urcorner x_1,\urcorner x_2,\urcorner x_3\}$. Тогда $A\cap\{x_1,x_2,x_3\}=\varnothing$~--- противоречие.
 \end{enumerate}
 Получаем, что $A$ содержит более трех элементов $\blacksquare$
+\item Ровно-3-КНФ: $\Psi'=(\overline{x_1}\vee x_2\vee y_1)\wedge(\overline{x_1}\vee x_2\vee \overline{y_1})$. Если $\Psi=\overline{x_1}\vee x_2=1$, то $\Psi'=1$, если $\Psi=0$, то $\Psi'=y_1\wedge\overline{y_1}=0$. Граф:
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt,node distance=1.3cm,on grid,auto,initial text=]
+	  \node[state] (x_1)   {$x_1$};
+	  \node[state] (nx_1) [accepting]  [right = of x_1] {$\overline{x_1}$};
+	  \node[state] (x_2)   [right = of nx_1]{$x_2$};
+	  \node[state] (nx_2)[accepting]   [right = of x_2]{$\overline{x_2}$};
+	  \node[state] (y_1)    [right = of nx_2]{$y_1$};
+	  \node[state] (ny_1) [accepting]   [right = of y_1] {$\overline{y_1}$};
+	  	  \node[state] (nx_11) [below of = nx_1]   {$\overline{x_1}$};
+	  	  \node[state] (x_21) [accepting] [below = of nx_11] {$x_2$};
+	  	  \node[state] (y_11) [accepting] [below = of x_21] {$y_1$};
+	  	  
+	  	  \node[state] (nx_12) [accepting][below of = y_1]   {$\overline{x_1}$};
+	  	  \node[state] (x_22) [accepting] [below = of nx_12] {$x_2$};
+	  	  \node[state] (ny_12)  [below = of x_22] {$\overline{y_1}$};
+  	  \path[-] 
+			(x_1)	edge	(nx_1)
+			(x_2)	edge	(nx_2)
+			(y_1)	edge	(ny_1)
+			(nx_11)	edge	(x_21)
+			(x_21)	edge	(y_11)
+			(y_11)	edge [bend left]	(nx_11)
+			(nx_12)	edge	(x_22)
+			(x_22)	edge	(ny_12)
+			(ny_12)	edge [bend right]	(nx_12)
+			(nx_1)	edge	(nx_11)
+			(nx_1)	edge [bend right]	(nx_12)
+			(x_2)	edge	(x_21)
+			(x_2)	edge	(x_22)
+			(y_1)	edge	(y_11)
+			(ny_1)	edge [bend left]	(ny_12);
+\end{tikzpicture}\end{center}
+
+$n_{\mbox{new}}+2m_{\mbox{new}}=3+2\times 2=7$. Кружками выбрано $7$-вершинное покрытие.
+\item $\varphi'=(x_1\vee x_2\vee x_3)\wedge(\overline{x_1}\vee\overline{x_2}\vee y_1)\wedge (\overline{x_1}\vee\overline{x_2}\vee\overline{y_1})\wedge(x_1\vee\overline{x_2}\vee y_2)\wedge(x_1\vee\overline{x_2}\vee \overline{y_2})\wedge(\overline{x_1}\vee x_2\vee x_3)\wedge(\overline{x_3}\vee y_3\vee y_4)\wedge(\overline{x_3}\vee y_3\vee \overline{y_4})\wedge(\overline{x_3}\vee \overline{y_3}\vee y_4)\wedge(\overline{x_3}\vee \overline{y_3}\vee \overline{y_4})$. $n_{\mbox{new}}=7$, $m_{\mbox{new}}=10\Rightarrow n_{\mbox{new}}+2m_{\mbox{new}}=7+2\times 10=27$ % WTF???
+{\em (не дописано)}.
 \end{enumerate}
 \end{document}
