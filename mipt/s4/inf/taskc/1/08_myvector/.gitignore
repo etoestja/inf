@@ -1,0 +1,4 @@
+*.o
+Makefile
+08_myvector
+*.pro.user
