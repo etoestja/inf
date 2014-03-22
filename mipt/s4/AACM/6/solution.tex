@@ -1,0 +1,129 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+%\geometry{paperwidth=210mm, paperheight=2000pt, left=5pt, top=5pt}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,arrows,trees}
+\usepackage{amsmath}
+\usepackage[makeroom]{cancel} % зачеркивание
+\usepackage{multicol,multirow} %Несколько колонок
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{listings}
+\usepackage{wasysym}
+\date{задано 2014.03.20}
+\author{Сергей~Володин, 272 гр.}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+% названия автоматов  (rubtsov)
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+
+%классы сложности (rubtsov)
+\def\PP{{\mathsf{P}}}
+\def\NP{{\mathsf{NP}}}
+\def\NPc{{\mathsf{NP}}\text{-}{\rm c}}
+\def\coNP{{\rm co}\text{-}{\mathsf{NP}}}
+\def\DTIME{{\mathsf{DTIME}}}
+\def\NTIME{{\mathsf{NTIME}}}
+\def\HALT{{\rm{HALT}}}
+\def\SAT{{\rm{SAT}}}
+\def\3SAT{{\rm{3\text{-}SAT}}}
+\def\2SAT{{\rm{2\text{-}SAT}}}
+\def\UNSAT{{\rm{UNSAT}}}
+\def\HP{{\rm{HAMPATH}}}
+\def\UHP{{\rm{UHAMPATH}}}
+\def\LL{{\mathrm{LL}}}
+\def\poly{{\rm{poly}}}
+\def\GC{{\mbox{ГЦ}}}
+\def\GP{{\mbox{ГП}}}
+
+\title{Алгоритмы и модели вычислений.\\Задание 6: всякая хуйня}
+
+% алгоритмы (Рубцов)
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{algorithm2e}
+
+%+= и -=, иначе разъезжаются...
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
+\newcommand{\todo}{{\em todo}}
+
+% пустое слово  (rubtsov)
+\def\eps{\varepsilon}
+
+% регулярные языки  (rubtsov)
+\def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\newcommand{\niton}{\not\owns}
+
+%FIRST & FOLLOW (rubtsov)
+\def\first{\mathrm{ FIRST} }
+\def\follow{\mathrm{ FOLLOW} }
+
+% LL LR (rubtsov)
+\def\LL{{\mathrm{LL}}}
+\def\LR{{\mathrm{LR}}}
+
+\newcounter{rowItemCount}
+\newcounter{subRowItemCount}
+\newcommand\rowItem{
+    \setcounter{subRowItemCount}{0}
+    \arabic{rowItemCount}.\addtocounter{rowItemCount}{1}}
+\newcommand\subRowItem{
+    \addtocounter{subRowItemCount}{1}
+    \addtocounter{rowItemCount}{-1}
+    \arabic{rowItemCount}.\arabic{subRowItemCount}.\addtocounter{rowItemCount}{1}}
+    
+\newcommand{\smalll}[1]{\overline{\overline{#1}}}
+\newcommand{\smallo}{\bar{\bar{o}}}
+
+\begin{document}
+\maketitle
+\subsection*{(каноническое) Задача 24}
+\subsection*{(каноническое) Задача 25}
+\subsection*{(каноническое) Задача 26}
+\subsection*{(каноническое) Задача 27}
+Пусть $f\colon \GC\subset\Sigma^*\to\{0,1\}$, $f(x)=1\Leftrightarrow x\in\GC$, и $T_f(x)=\poly(|x|)$.
+\begin{enumerate}
+\item Фиксируем граф $G$, его описание $x\in\Sigma^*$. Построим алгоритм поиска гамильтонова пути (если он существует), использующий $f$. Обозначим за $h(G, v)$~--- граф, полученный из $G$ удалением вершины $v$ и направлением $(u,v), (v, w)$ в $(v, w)$. Фиксируем некоторую вершину $v$ графа $G$. Рассмотрим граф $h(G,v)$. Он также гамильтонов \todo. Будем пребирать все вершины $u$ графа $h(G,v)$ и рассматривать $h(h(G,v),u)$. Один из них будет гамильтоновым \todo. Значит, в некотором гамильтоновом пути в $G$ вершины $u$ и $v$ стояли рядом \todo. Продолжим этот процесс, пока не останутся две вершины $v_1$ и $v_2$. Они стоят рядом. Полученная последовательность $(v,u,u',...,u^{(l)},v_1,v_2,v)$~--- искомый гамильтонов цикл.
+\item Псевдокод
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+    frame=lines,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    keywordstyle=\color{red}\bfseries,
+    stringstyle=\color{green!50!black},
+    commentstyle=\color{gray}\itshape,
+    numbers=left,
+    captionpos=t,
+    escapeinside={\%*}{*)}
+}
+\begin{lstlisting}
+path(x)
+{
+    if(!f(x)) return(empty); // no path
+    else
+    {
+    }
+}
+\end{lstlisting}
+\item Время работы. Всего в графе $n$ вершин, для каждой перебираем не более, чем $n$, откуда сложность $T(x)=O(n^2)$. Поскольку $|x|=\Omega(n)$, то $T(x)=O(|x|^2)=\poly(|x|)$. Более точно, используя псевдокод: \todo.
+\end{enumerate}
+\end{document}
