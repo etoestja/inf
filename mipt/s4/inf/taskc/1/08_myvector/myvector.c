@@ -56,7 +56,11 @@ int myvectorResize(myvector* a, unsigned int Nnew)
     void* ptr = realloc((void*) a->ptr, sizeof(MYVECTOR_TYPE) * Nnew);
 
     if(ptr == NULL) return(1);
-    else return(1);
+    else
+    {
+        a->N = Nnew;
+        return(1);
+    }
 }
 
 int myvectorIteratorCmp(myvectorIterator* it1, myvectorIterator *it2)
@@ -112,7 +116,7 @@ int myvectorDestroy(myvector* a)
 
 int myvectorAssign(myvector* a, unsigned int key, MYVECTOR_TYPE value)
 {
-    if(key > a->N) return(1);
+    if(key >= a->N) return(1);
     a->ptr[key] = value;
     return(0);
 }
