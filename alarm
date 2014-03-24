@@ -23,6 +23,16 @@ then
     exit
 fi
 
+if [ "X$1" != "X" ]
+then
+    /usr/bin/mplayer "${path[$1]}"
+    exit
+fi
+
+boinccmd --set_run_mode never
+
+sleep 10
+
 N=$(echo "$RANDOM % $NMAX" | bc)
 
 file=${path[$N]}
