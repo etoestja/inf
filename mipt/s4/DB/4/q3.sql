@@ -10,4 +10,4 @@ actor_rolestaging.actor = actor.id and
 [role].id = role_staging.[role] and
 actor.gender = gender.id
 group by [role].id, [play].id, [play].name
-having count(distinct gender.id) = 2
+having count(distinct gender.id) >= 2
