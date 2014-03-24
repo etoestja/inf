@@ -55,35 +55,42 @@ go
 SET IDENTITY_INSERT [role] ON
 
 insert into [role](id, [name], gender, line, [type]) values (1,  N'техничка-шпионка', 2, 17, 4);
-insert into [role](id, [name], gender, line, [type]) values (2,  N'Гамлет', 1, 3, 1);
-insert into [role](id, [name], gender, line, [type]) values (3,  N'Горацио', 1, 3, 1);
+insert into [role](id, [name], gender, line, [type]) values (2,  N'Гамлет', 1, 15, 3);
+insert into [role](id, [name], gender, line, [type]) values (3,  N'Горацио', 1, 13, 2);
 
-insert into [role](id, [name], gender, line, [type]) values (4,  N'Доктор', 1, 3, 1);
-insert into [role](id, [name], gender, line, [type]) values (5,  N'Клара', 2, 3, 1);
-insert into [role](id, [name], gender, line, [type]) values (6,  N'Эми', 2, 3, 1);
+insert into [role](id, [name], gender, line, [type]) values (4,  N'Доктор', 1, 7, 1);
+insert into [role](id, [name], gender, line, [type]) values (5,  N'Клара', 2, 2, 3);
+insert into [role](id, [name], gender, line, [type]) values (6,  N'Эми', 2, 1, 5);
 insert into [role](id, [name], gender, line, [type]) values (7,  N'Рори', 1, 3, 2);
 
-insert into [role](id, [name], gender, line, [type]) values (8,  N'Марк Бенфорд', 1, 3, 1);
-insert into [role](id, [name], gender, line, [type]) values (9,  N'Оливия', 2, 3, 2);
+insert into [role](id, [name], gender, line, [type]) values (8,  N'Марк Бенфорд', 1, 1, 7);
+insert into [role](id, [name], gender, line, [type]) values (9,  N'Оливия', 2, 4, 2);
 
-insert into [role](id, [name], gender, line, [type]) values (10,  N'Тофер', 1, 3, 1);
-insert into [role](id, [name], gender, line, [type]) values (11,  N'Адель', 2, 3, 2);
-insert into [role](id, [name], gender, line, [type]) values (12,  N'Эко', 2, 3, 1);
+insert into [role](id, [name], gender, line, [type]) values (10,  N'Тофер', 1, 6, 7);
+insert into [role](id, [name], gender, line, [type]) values (11,  N'Адель', 2, 5, 2);
+insert into [role](id, [name], gender, line, [type]) values (12,  N'Эко', 2, 7, 9);
 
-insert into [role](id, [name], gender, line, [type]) values (13,  N'Реждина Миллс (злая королева)', 2, 3, 2);
-insert into [role](id, [name], gender, line, [type]) values (14,  N'Генри', 1, 3, 1);
-insert into [role](id, [name], gender, line, [type]) values (15,  N'Эмма', 2, 3, 1);
+insert into [role](id, [name], gender, line, [type]) values (13,  N'Реждина Миллс (злая королева)', 2, 3, 6);
+insert into [role](id, [name], gender, line, [type]) values (14,  N'Генри', 1, 1, 4);
+insert into [role](id, [name], gender, line, [type]) values (15,  N'Эмма', 2, 2, 3);
 
-insert into [role](id, [name], gender, line, [type]) values (16,  N'Гарри Поттер', 1, 3, 1);
-insert into [role](id, [name], gender, line, [type]) values (17,  N'Северус', 1, 3, 1);
-insert into [role](id, [name], gender, line, [type]) values (18,  N'Дамблдор', 1, 3, 1);
-insert into [role](id, [name], gender, line, [type]) values (19,  N'Малфой', 1, 3, 2);
-insert into [role](id, [name], gender, line, [type]) values (20,  N'Сириус', 1, 3, 1);
+insert into [role](id, [name], gender, line, [type]) values (16,  N'Гарри Поттер', 1, 2, 5);
+insert into [role](id, [name], gender, line, [type]) values (17,  N'Северус', 1, 7, 2);
+insert into [role](id, [name], gender, line, [type]) values (18,  N'Дамблдор', 1, 6, 1);
+insert into [role](id, [name], gender, line, [type]) values (19,  N'Малфой', 1, 4, 2);
+insert into [role](id, [name], gender, line, [type]) values (20,  N'Сириус', 1, 3, 7);
 
-insert into [role](id, [name], gender, line, [type]) values (21,  N'Подпространство', 1, 3, 1);
-insert into [role](id, [name], gender, line, [type]) values (22,  N'Преобразование', 1, 3, 1);
+insert into [role](id, [name], gender, line, [type]) values (21,  N'Подпространство', 1, 7, 2);
+insert into [role](id, [name], gender, line, [type]) values (22,  N'Преобразование', 1, 1, 6);
 
-insert into [role](id, [name], gender, line, [type]) values (23,  N'Джесси Пинкман', 1, 3, 1);
+insert into [role](id, [name], gender, line, [type]) values (23,  N'Джесси Пинкман', 1, 7, 9);
+
+insert into [role](id, [name], gender, line, [type]) values (24,  N'Кира Кэмерон', 2, 5, 10);
+insert into [role](id, [name], gender, line, [type]) values (25,  N'Алек Сатлер', 1, 6, 9);
+insert into [role](id, [name], gender, line, [type]) values (26,  N'Арагорн', 1, 3, 8);
+insert into [role](id, [name], gender, line, [type]) values (27,  N'Дарт Вейдер', 1, 2, 5);
+insert into [role](id, [name], gender, line, [type]) values (28,  N'Иван', 1, 1, 3);
+insert into [role](id, [name], gender, line, [type]) values (29,  N'Джордан', 1, 5, 2);
 
 SET IDENTITY_INSERT [role] OFF
 
@@ -117,12 +124,16 @@ insert into play(id, [name], description) values (4,  N'Егор Булычов 
 insert into play(id, [name], description) values (5,  N'На дне', N'Пьеса Максима Горького, написанная в конце 1901 — начале 1902 года. Первоначальные названия — «Без солнца», «Ночлежка», «Дно», «На дне жизни»[1].')
 insert into play(id, [name], description) values (6,  N'Три сестры', N'Пьеса в четырёх действиях А. П. Чехова, написанная в 1900 году. Впервые была опубликована в журнале «Русская мысль», № 2 за 1901 год; с изменениями и поправками вышла отдельным изданием в том же году в издательстве А. Ф. Маркса[1].')
 insert into play(id, [name], description) values (7,  N'Гамлет', N'трагедия Уильяма Шекспира в пяти актах, одна ')
-insert into play(id, [name], description) values (8,  N'FlashForward', N'тексттекст')
+insert into play(id, [name], description) values (8,  N'FlashForward', N'asdf')
 insert into play(id, [name], description) values (9,  N'Доктор Кто', N'тексттекст')
 insert into play(id, [name], description) values (10,  N'Dollhouse', N'тексттекст')
 insert into play(id, [name], description) values (11,  N'Once Upon a Time', N'тексттекст')
 insert into play(id, [name], description) values (12,  N'Гарри Поттер', N'тексттекст')
 insert into play(id, [name], description) values (13,  N'Breaking Bad', N'тексттекст')
+insert into play(id, [name], description) values (14,  N'Continuum', N'тексттекст')
+insert into play(id, [name], description) values (15,  N'4400', N'тексттекст')
+insert into play(id, [name], description) values (16,  N'Властелин Колец', N'тексттекст')
+insert into play(id, [name], description) values (17,  N'Звездные войны', N'тексттекст')
 
 
 SET IDENTITY_INSERT play OFF
@@ -136,7 +147,7 @@ insert into play_author(play, author) values (4, 4);
 insert into play_author(play, author) values (5, 4);
 insert into play_author(play, author) values (6, 5);
 insert into play_author(play, author) values (7, 2);
-insert into play_author(play, author) values (8, 10);
+insert into play_author(play, author) values (8, 9);
 insert into play_author(play, author) values (9, 8);
 insert into play_author(play, author) values (10, 7);
 insert into play_author(play, author) values (11, 10);
@@ -155,30 +166,36 @@ insert into play_author(play, author) values (11, 5);
 insert into play_author(play, author) values (12, 1);
 go
 
-insert into role_play(role, play) values (1, 8)
+insert into role_play(role, play) values (1, 14)
+insert into role_play(role, play) values (1, 15)
+insert into role_play(role, play) values (1, 10)
+insert into role_play(role, play) values (1, 6)
 insert into role_play(role, play) values (2, 7)
-insert into role_play(role, play) values (3, 6)
-insert into role_play(role, play) values (4, 3)
-insert into role_play(role, play) values (5, 5)
-insert into role_play(role, play) values (6, 4)
-insert into role_play(role, play) values (7, 2)
-insert into role_play(role, play) values (8, 1)
-insert into role_play(role, play) values (9, 12)
-insert into role_play(role, play) values (10, 11)
+insert into role_play(role, play) values (3, 7)
+insert into role_play(role, play) values (4, 9)
+insert into role_play(role, play) values (5, 9)
+insert into role_play(role, play) values (6, 9)
+insert into role_play(role, play) values (7, 9)
+insert into role_play(role, play) values (8, 8)
+insert into role_play(role, play) values (9, 8)
+insert into role_play(role, play) values (10, 10)
 insert into role_play(role, play) values (11, 10)
-insert into role_play(role, play) values (12, 9)
-insert into role_play(role, play) values (13, 8)
-insert into role_play(role, play) values (14, 7)
-insert into role_play(role, play) values (15, 6)
-insert into role_play(role, play) values (16, 5)
-insert into role_play(role, play) values (17, 4)
-insert into role_play(role, play) values (18, 3)
-insert into role_play(role, play) values (19, 2)
-insert into role_play(role, play) values (20, 1)
-insert into role_play(role, play) values (21, 13)
-insert into role_play(role, play) values (22, 13)
+insert into role_play(role, play) values (12, 10)
+insert into role_play(role, play) values (13, 11)
+insert into role_play(role, play) values (14, 11)
+insert into role_play(role, play) values (15, 11)
+insert into role_play(role, play) values (16, 12)
+insert into role_play(role, play) values (17, 12)
+insert into role_play(role, play) values (18, 12)
+insert into role_play(role, play) values (19, 12)
+insert into role_play(role, play) values (20, 12)
 insert into role_play(role, play) values (23, 13)
-
+insert into role_play(role, play) values (24, 14)
+insert into role_play(role, play) values (25, 14)
+insert into role_play(role, play) values (26, 16)
+insert into role_play(role, play) values (27, 17)
+insert into role_play(role, play) values (28, 1)
+insert into role_play(role, play) values (29, 15)
 go
 
 SET IDENTITY_INSERT actorTitle ON
@@ -193,6 +210,7 @@ insert into actorTitle(id, description) values (7, N'Почетный титул
 insert into actorTitle(id, description) values (8, N'Актер Года');
 insert into actorTitle(id, description) values (9, N'Самое скучное выступление');
 insert into actorTitle(id, description) values (10, N'Имеет Оскар');
+insert into actorTitle(id, description) values (11, N'Не имеет Оскар');
 
 SET IDENTITY_INSERT actorTitle OFF
 
@@ -270,49 +288,93 @@ insert into staging(id, director, [name], description) values (8, 5, N'Анал�
 insert into staging(id, director, [name], description) values (9, 6, N'FlashForward', NULL);
 insert into staging(id, director, [name], description) values (10, 7, N'Три Сестры', NULL);
 insert into staging(id, director, [name], description) values (11, 1, N'Breaking Bad', NULL);
+insert into staging(id, director, [name], description) values (12, 1, N'Continuum S3', NULL);
+insert into staging(id, director, [name], description) values (13, 1, N'Иван Васильевич меняет профессию', NULL);
+insert into staging(id, director, [name], description) values (14, 1, N'Адам и Ева', NULL);
+insert into staging(id, director, [name], description) values (15, 1, N'Враги', NULL);
+insert into staging(id, director, [name], description) values (16, 1, N'Егор Булычов и другие', NULL);
+insert into staging(id, director, [name], description) values (17, 1, N'The 4400', NULL);
+insert into staging(id, director, [name], description) values (18, 1, N'Властелин Колец: Возвращение Короля', NULL);
+insert into staging(id, director, [name], description) values (19, 1, N'Звездные войны VI', NULL);
+insert into staging(id, director, [name], description) values (20, 1, N'Звездные войны V', NULL);
+insert into staging(id, director, [name], description) values (21, 1, N'Звездные войны IV', NULL);
+insert into staging(id, director, [name], description) values (22, 1, N'Звездные войны III', NULL);
+insert into staging(id, director, [name], description) values (23, 1, N'FlashForward S2', NULL);
+insert into staging(id, director, [name], description) values (24, 1, N'Враги', N'совершенно новый сюжет');
+insert into staging(id, director, [name], description) values (25, 1, N'На дне', N'инновационное видение');
+insert into staging(id, director, [name], description) values (26, 1, N'Доктор Кто (old)', N'инновационное видение');
 SET IDENTITY_INSERT staging OFF
 
 go
 
-insert into play_staging(play, staging) values(1, 1);
-insert into play_staging(play, staging) values(2, 2);
-insert into play_staging(play, staging) values(3, 3);
-insert into play_staging(play, staging) values(4, 4);
-insert into play_staging(play, staging) values(5, 5);
-insert into play_staging(play, staging) values(6, 6);
-insert into play_staging(play, staging) values(7, 7);
-insert into play_staging(play, staging) values(8, 8);
-insert into play_staging(play, staging) values(9, 9);
-insert into play_staging(play, staging) values(10, 10);
-insert into play_staging(play, staging) values(11, 1);
-insert into play_staging(play, staging) values(12, 2);
-insert into play_staging(play, staging) values(13, 3);
+insert into play_staging(staging, play) values(1, 9);
+insert into play_staging(staging, play) values(2, 5);
+insert into play_staging(staging, play) values(3, 7);
+insert into play_staging(staging, play) values(4, 10);
+insert into play_staging(staging, play) values(5, 12);
+insert into play_staging(staging, play) values(6, 11);
+insert into play_staging(staging, play) values(7, 11);
+insert into play_staging(staging, play) values(9, 8);
+insert into play_staging(staging, play) values(10, 6);
+insert into play_staging(staging, play) values(11, 13);
+insert into play_staging(staging, play) values(12, 14);
+insert into play_staging(staging, play) values(13, 1);
+insert into play_staging(staging, play) values(14, 2);
+insert into play_staging(staging, play) values(15, 3);
+insert into play_staging(staging, play) values(16, 4);
+insert into play_staging(staging, play) values(17, 15);
+insert into play_staging(staging, play) values(18, 16);
+insert into play_staging(staging, play) values(19, 17);
+insert into play_staging(staging, play) values(20, 17);
+insert into play_staging(staging, play) values(21, 17);
+insert into play_staging(staging, play) values(22, 17);
+insert into play_staging(staging, play) values(23, 8);
+insert into play_staging(staging, play) values(24, 3);
+insert into play_staging(staging, play) values(25, 5);
 
 go
 
 SET IDENTITY_INSERT role_staging ON
-insert into role_staging(id, [role], staging) values (1, 1, 3);--
-insert into role_staging(id, [role], staging) values (2, 2, 4);
-insert into role_staging(id, [role], staging) values (3, 3, 2);--
-insert into role_staging(id, [role], staging) values (4, 4, 1);
-insert into role_staging(id, [role], staging) values (5, 5, 5);--
-insert into role_staging(id, [role], staging) values (6, 6, 6);
-insert into role_staging(id, [role], staging) values (7, 7, 7);
-insert into role_staging(id, [role], staging) values (8, 8, 8);
-insert into role_staging(id, [role], staging) values (9, 9, 9);--
-insert into role_staging(id, [role], staging) values (10, 10, 10);
-insert into role_staging(id, [role], staging) values (11, 11, 11);
-insert into role_staging(id, [role], staging) values (12, 12, 10);
-insert into role_staging(id, [role], staging) values (13, 13, 9);
-insert into role_staging(id, [role], staging) values (14, 14, 8);
-insert into role_staging(id, [role], staging) values (15, 15, 7);
-insert into role_staging(id, [role], staging) values (16, 16, 6);
-insert into role_staging(id, [role], staging) values (17, 17, 5);
-insert into role_staging(id, [role], staging) values (18, 18, 4);
-insert into role_staging(id, [role], staging) values (19, 19, 3);
-insert into role_staging(id, [role], staging) values (20, 20, 2);
-insert into role_staging(id, [role], staging) values (21, 21, 1);
-insert into role_staging(id, [role], staging) values (23, 22, 11);
+insert into role_staging(id, [role], staging) values (1, 1, 5);
+insert into role_staging(id, [role], staging) values (2, 1, 8);
+insert into role_staging(id, [role], staging) values (3, 1, 18);
+insert into role_staging(id, [role], staging) values (4, 1, 3);
+insert into role_staging(id, [role], staging) values (5, 2, 3);
+insert into role_staging(id, [role], staging) values (6, 3, 3);
+insert into role_staging(id, [role], staging) values (7, 4, 1);
+insert into role_staging(id, [role], staging) values (8, 5, 1);
+insert into role_staging(id, [role], staging) values (9, 6, 1);
+insert into role_staging(id, [role], staging) values (10, 7, 1);
+insert into role_staging(id, [role], staging) values (11, 8, 9);
+insert into role_staging(id, [role], staging) values (12, 8, 23);
+insert into role_staging(id, [role], staging) values (13, 9, 9);
+insert into role_staging(id, [role], staging) values (14, 9, 23);
+insert into role_staging(id, [role], staging) values (15, 10, 4);
+insert into role_staging(id, [role], staging) values (16, 11, 4);
+insert into role_staging(id, [role], staging) values (17, 12, 4);
+insert into role_staging(id, [role], staging) values (18, 13, 6);
+insert into role_staging(id, [role], staging) values (19, 13, 7);
+insert into role_staging(id, [role], staging) values (20, 14, 6);
+insert into role_staging(id, [role], staging) values (21, 15, 6);
+insert into role_staging(id, [role], staging) values (22, 15, 7);
+insert into role_staging(id, [role], staging) values (23, 16, 5);
+insert into role_staging(id, [role], staging) values (24, 17, 5);
+insert into role_staging(id, [role], staging) values (25, 18, 5);
+insert into role_staging(id, [role], staging) values (26, 19, 5);
+insert into role_staging(id, [role], staging) values (27, 20, 5);
+insert into role_staging(id, [role], staging) values (28, 21, 8);
+insert into role_staging(id, [role], staging) values (29, 22, 8);
+insert into role_staging(id, [role], staging) values (30, 23, 11);
+insert into role_staging(id, [role], staging) values (31, 24, 12);
+insert into role_staging(id, [role], staging) values (32, 25, 12);
+insert into role_staging(id, [role], staging) values (33, 26, 18);
+insert into role_staging(id, [role], staging) values (34, 27, 19);
+insert into role_staging(id, [role], staging) values (35, 27, 20);
+insert into role_staging(id, [role], staging) values (36, 27, 21);
+insert into role_staging(id, [role], staging) values (37, 27, 22);
+insert into role_staging(id, [role], staging) values (38, 28, 13);
+insert into role_staging(id, [role], staging) values (39, 29, 17);
+
 SET IDENTITY_INSERT role_staging OFF
 
 go
