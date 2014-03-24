@@ -1,7 +1,45 @@
 #!/bin/bash
-#/usr/bin/mplayer /home/seriy/Music/Doctor\ Who\ Soundtrack\ -\ Series\ 6/Doctor\ Who\ Series\ 6\ Disc\ 1\ Track\ 01\ -\ I\ am\ The\ Doctor\ in\ Utah.mp3
-#/usr/bin/mplayer /home/seriy/Music/DW\ Soundtrack\ Series\ 5/48\ -\ Words\ Win\ Wars.mp3
-#/usr/bin/mplayer /home/seriy/Music/Doctor\ Who\ Soundtrack\ -\ Series\ 6/Doctor\ Who\ Series\ 6\ Disc\ 2\ Track\ 35\ -\ The\ Majestic\ Tale\ \(of\ a\ Madman\ in\ a\ Box\).mp3
-#/usr/bin/mplayer /home/seriy/Music/Within\ Temptation/2004\ -\ The\ Silent\ Force/See\ Who\ I\ Am.mp3
-#/usr/bin/mplayer /home/seriy/Music/other/gameOfThronesOstM.mp3
-/usr/bin/mplayer /home/seriy/Music/dwUtah.mp3
+
+NMAX=5
+path[0]=/home/seriy/Music/other/gameOfThronesOstM.mp3
+path[1]=/home/seriy/Music/other/gameOfThronesOst.mp3
+path[2]=/home/seriy/Music/nemo.mp3
+path[3]=/home/seriy/Music/dwUtah.mp3
+path[4]=/home/seriy/Music/wt.mp3
+
+if [ "X$1" == "Xcheck" ]
+then
+    i=0
+    while (( $i < $NMAX ))
+    do
+        if [ -f "${path[$i]}" ]
+        then
+            echo "File $i ${path[$i]} exists"
+        else
+            echo "File $i ${path[$i]} DOESNT EXIST"
+        fi
+        let i=i+1
+    done
+    exit
+fi
+
+N=$(echo "$RANDOM % $NMAX" | bc)
+
+file=${path[$N]}
+
+echo $N $file
+
+logger -t Alarm "Using file #$N $file"
+pacmd set-sink-port 0 analog-output-speaker
+pacmd set-sink-mute 0 0
+pacmd set-sink-volume 0 0x20000
+
+/usr/bin/mplayer "$file"&
+
+sleep 5
+
+for sink in $(pacmd list-sink-inputs|grep -aEo "index: [0-9]+"|grep -aEo "[0-9]+")
+do
+    pacmd set-sink-input-mute $sink 0
+    pacmd set-sink-input-volume $sink 0x15000
+done
