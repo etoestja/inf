@@ -78,9 +78,10 @@ go
 
 create table actor_line
 (
-id int primary key identity(5000,1),
-actor_id int foreign key references actor(id) on delete cascade on update cascade,
-line_id int foreign key references line(id) on delete cascade on update cascade
+--id int primary key identity(5000,1),
+actor int foreign key references actor(id) on delete cascade on update cascade,
+line int foreign key references line(id) on delete cascade on update cascade,
+constraint id primary key (actor, line)
 )
 
 go

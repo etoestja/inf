@@ -480,14 +480,14 @@ insert into performance(id, [date], staging, cast_staging) values (7, '2014-07-0
 insert into performance(id, [date], staging, cast_staging) values (8, '2014-08-08', 4, 10);
 insert into performance(id, [date], staging, cast_staging) values (9, '2014-09-09', 5, NULL);
 insert into performance(id, [date], staging, cast_staging) values (10, '2014-03-10', 6, 5);
-insert into performance(id, [date], staging, cast_staging) values (11, '2013-10-11', 7, NULL);
+insert into performance(id, [date], staging, cast_staging) values (11, '2013-10-11', 6, NULL);
 insert into performance(id, [date], staging, cast_staging) values (12, '2013-07-12', 8, 2);
 insert into performance(id, [date], staging, cast_staging) values (13, '2013-10-15', 9, 3);
 insert into performance(id, [date], staging, cast_staging) values (14, '2013-10-14', 10, NULL);
 insert into performance(id, [date], staging, cast_staging) values (15, '2013-10-13', 11, 9);
 insert into performance(id, [date], staging, cast_staging) values (16, '2013-09-16', 12, NULL);
 insert into performance(id, [date], staging, cast_staging) values (17, '2013-09-17', 13, 9);
-insert into performance(id, [date], staging, cast_staging) values (18, '2013-12-18', 14, NULL);
+insert into performance(id, [date], staging, cast_staging) values (18, '2013-12-18', 13, NULL);
 insert into performance(id, [date], staging, cast_staging) values (19, '2013-10-19', 1, 10);
 insert into performance(id, [date], staging, cast_staging) values (20, '2013-11-20', 16, 9);
 insert into performance(id, [date], staging, cast_staging) values (21, '2012-05-21', 17, NULL);
@@ -677,5 +677,44 @@ SET IDENTITY_INSERT seat_performance OFF
 
 go
 
+
+--SET IDENTITY_INSERT actor_line OFF
+
+insert into actor_line(actor, line) values(1, 16);
+insert into actor_line(actor, line) values(2, 16);
+insert into actor_line(actor, line) values(3, 15);
+insert into actor_line(actor, line) values(4, 14);
+insert into actor_line(actor, line) values(5, 13);
+insert into actor_line(actor, line) values(6, 12);
+insert into actor_line(actor, line) values(7, 11);
+insert into actor_line(actor, line) values(8, 10);
+insert into actor_line(actor, line) values(9, 9);
+insert into actor_line(actor, line) values(10, 8);
+insert into actor_line(actor, line) values(11, 7);
+insert into actor_line(actor, line) values(12, 6);
+insert into actor_line(actor, line) values(13, 1);
+insert into actor_line(actor, line) values(14, 2);
+insert into actor_line(actor, line) values(15, 3);
+insert into actor_line(actor, line) values(16, 6);
+insert into actor_line(actor, line) values(17, 7);
+insert into actor_line(actor, line) values(18, 4);
+insert into actor_line(actor, line) values(19, 5);
+insert into actor_line(actor, line) values(20, 7);
+insert into actor_line(actor, line) values(21, 8);
+insert into actor_line(actor, line) values(22, 9);
+insert into actor_line(actor, line) values(1, 10);
+insert into actor_line(actor, line) values(10, 11);
+insert into actor_line(actor, line) values(22, 12);
+insert into actor_line(actor, line) values(5, 12);
+insert into actor_line(actor, line) values(7, 14);
+insert into actor_line(actor, line) values(3, 16);
+insert into actor_line(actor, line) values(7, 16);
+insert into actor_line(actor, line) values(2, 10);
+insert into actor_line(actor, line) values(5, 7);
+insert into actor_line(actor, line) values(6, 2);
+insert into actor_line(actor, line) values(8, 6);
+insert into actor_line(actor, line) values(9, 3);
+
+--SET IDENTITY_INSERT actor_line OFF
 
 use master
