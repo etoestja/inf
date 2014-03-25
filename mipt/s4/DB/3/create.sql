@@ -168,10 +168,11 @@ create table actor_rolestaging
 id int primary key identity(5000,1),
 actor int foreign key references actor(id),
 role_staging int foreign key references role_staging(id) on delete cascade on update cascade,
-beginDate datetime,
+beginDate datetime not null,
 endDate datetime,
 [cast] int foreign key references [cast](id) on delete set null on update cascade,
-constraint checkdates check (beginDate <= endDate)
+constraint checkdates check (beginDate <= endDate),
+constraint actor_rolestaging_check unique (actor, role_staging, beginDate)
 )
 
 go
