@@ -5,7 +5,7 @@
 \usepackage[english,russian]{babel}
 \usepackage{indentfirst}
 \usepackage{tikz} %Рисование автоматов
-\usetikzlibrary{automata,positioning,arrows,trees}
+\usetikzlibrary{automata,positioning,arrows,trees,calc}
 \usepackage{amsmath}
 \usepackage[makeroom]{cancel} % зачеркивание
 \usepackage{multicol,multirow} %Несколько колонок
@@ -92,6 +92,70 @@
 \begin{document}
 \maketitle
 \subsection*{(каноническое) Задача 24}
+$\psi=\overline{x_1}\vee x_2$. $\psi'=(\overline{x_1}\vee x_2\vee y)\wedge(\overline{x_1}\vee x_2\vee \overline{y})$. Граф $W_{\psi'}$ с раскраской:
+
+\begin{tikzpicture}[shorten >=1pt,node distance=1.3cm,on grid,auto,initial text=]
+	  \node[state, fill=gray] (x_1) {$x_1$};
+	  \node[state, fill=green] (nx_1)  [right = of x_1] {$\overline{x_1}$};
+	  \node[state, fill=green] (x_2) [right = of nx_1]  {$x_2$};
+	  \node[state, fill=gray] (nx_2)  [right = of x_2] {$\overline{x_2}$};
+	  \node[state, fill=green] (y)  [right = of nx_2] {$y$};
+	  \node[state, fill=gray] (ny)  [right = of y] {$\overline{y}$};
+	  \node[state, fill=gray] (F) [above of = x_2] {$F$};
+	  \node[state, fill=red] (R) [right = of F] {$R$};
+	  \node[state, fill=red] (t2) [below = 1.7cm of nx_1] {};
+	  \node[state, fill=gray] (t1) [left = of t2] {};
+	  \node[state, fill=red] (t5) [below = 1.7cm of x_2] {};
+	  \node[state, fill=gray] (t6) [right = of t5] {};
+	  \node (t1b) [below of = t1] {};
+	  \node (t2b) [below of = t2] {};
+	  \node[state, fill=green] at ($(t1b)!0.5!(t2b)$) (t3) {};
+	  \node (t5b) [below of = t5] {};
+	  \node (t6b) [below of = t6] {};
+	  \node[state, fill=green] at ($(t5b)!0.5!(t6b)$) (t7) {};
+	  \node[state, fill=gray] (t4) [below = of t3] {};
+	  \node[state, fill=gray] (t10) [below = of t7] {};
+	  \node[state, fill=red] (t8) [below = 4.3cm of y] {};
+	  \node[state, fill=red] (t9) [below = 4.3cm of ny] {};
+	  \node (Fb) [below = 8cm of F] {};
+	  \node (Rb) [below = 8cm of R] {};
+	  \node[state, fill=green] at ($(Fb)!0.5!(Rb)$) (T) {$T$};
+  	  \path[-] 
+			(x_1)	edge	(nx_1)
+			(x_2)	edge	(nx_2)
+			(y)	edge	(ny)
+			(F) edge (R)
+			(nx_1) edge (t1)
+			(x_2) edge [bend left = 10] (t2)
+			(t1) edge (t2)
+			(t1) edge (t3)
+			(t2) edge (t3)
+			(t3) edge (t4)
+			(nx_1) edge [bend left = 10] (t5)
+			(x_2) edge (t6)
+			(t5) edge (t6)
+			(t5) edge (t7)
+			(t6) edge (t7)
+			(t7) edge (t10)
+			(y) edge (t8)
+			(ny) edge (t9)
+			(t4) edge [bend left = 20] (t8)
+			(t10) edge [bend left = 30] (t9)
+			(t4) edge (T)
+			(t10) edge (T)
+			(t8) edge (T)
+			(t9) edge (T)
+			(F) edge [in = 100, out = 240] (T)
+			(R) edge [in = 70, out = 300] (T)
+			(R) edge [in=30, out=216] (x_1)
+			(R) edge (nx_1)
+			(R) edge (x_2)
+			(R) edge (nx_2)
+			(R) edge (y)
+			(R) edge (ny)
+			;
+\end{tikzpicture}
+
 \subsection*{(каноническое) Задача 25}
 \subsection*{(каноническое) Задача 26}
 \subsection*{(каноническое) Задача 27}
