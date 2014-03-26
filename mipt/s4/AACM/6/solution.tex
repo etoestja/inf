@@ -183,10 +183,43 @@ $\psi=\overline{x_1}\vee x_2$. $\psi'=(\overline{x_1}\vee x_2\vee y)\wedge(\over
 \item {\em (доказано на семинаре)} $\3SAT \leqslant_m^p\CLIQUE$. Формула $\chi=(x_1\vee x_2\vee x_3)\wedge(\overline{x_1}\vee\overline{x_2})\wedge(x_1\vee\overline{x_2})\wedge(\overline{x_1}\vee x_2\vee x_3)\wedge\overline{x_3}$,\newline $\chi'=(x_1\vee x_2\vee x_3)\wedge(\overline{x_1}\vee\overline{x_2}\vee y_1)\wedge(\overline{x_1}\vee\overline{x_2}\vee \overline{y_1})\wedge(x_1\vee\overline{x_2}\vee y_2)\wedge (x_1\vee\overline{x_2}\vee \overline{y_2})\wedge(\overline{x_1}\vee x_2\vee x_3)\wedge (\overline{x_3}\vee y_3\vee y_4)\wedge(\overline{x_3}\vee y_3\vee \overline{y_4})\wedge(\overline{x_3}\vee \overline{y_3}\vee y_4)\wedge(\overline{x_3}\vee \overline{y_3}\vee \overline{y_4})$. $n=7$, $t=m=10$. $f(x)=(G,t)$~--- граф, построенный по $\chi'$ (и число $10$~--- мощность искомой клики), $f$~--- функция из сводимости. Пусть в $G$ существует клика мощности $\geqslant t$. Тогда существует клика мощности $t$ (любой подграф из $t$ вершин исходной клики). Тогда $f(x)\in\CLIQUE\overset{\mbox{\tiny сводимость}}{\Longrightarrow}$ $\chi'\in\3SAT$ $\Rightarrow$ $\chi'$~--- выполнима $\overset{\mbox{\tiny эквив. формул}}{\Longrightarrow}$ $\chi$~--- выполнима~--- противоречие. Значит, в графе образа $\chi'$ нет клики мощности $\geqslant t\equiv 10\,\blacksquare$
 \end{enumerate}
 \subsection*{(каноническое) Задача 26}
-\subsection*{(каноническое) Задача 27}
-Пусть $f\colon \GC\subset\Sigma^*\to\{0,1\}$, $f(x)=1\Leftrightarrow x\in\GC$, и $T_f(x)=\poly(|x|)$.
 \begin{enumerate}
-\item Фиксируем граф $G$, его описание $x\in\Sigma^*$. Построим алгоритм поиска гамильтонова пути (если он существует), использующий $f$. Обозначим за $h(G, v)$~--- граф, полученный из $G$ удалением вершины $v$ и направлением $(u,v), (v, w)$ в $(v, w)$. Фиксируем некоторую вершину $v$ графа $G$. Рассмотрим граф $h(G,v)$. Он также гамильтонов \todo. Будем пребирать все вершины $u$ графа $h(G,v)$ и рассматривать $h(h(G,v),u)$. Один из них будет гамильтоновым \todo. Значит, в некотором гамильтоновом пути в $G$ вершины $u$ и $v$ стояли рядом \todo. Продолжим этот процесс, пока не останутся две вершины $v_1$ и $v_2$. Они стоят рядом. Полученная последовательность $(v,u,u',...,u^{(l)},v_1,v_2,v)$~--- искомый гамильтонов цикл.
+\item [0. ] Исходный дизъюнкт $w=(a_i\vee b_i\vee c_i)$. Не будем писать индексы (рассматриваем один дизъюнкт).\newline Рассмотрим $L\eqdef\{a,b,c,d,\overline{a}\vee\overline{b},\overline{a}\vee\overline{c},\overline{b}\vee\overline{c},a\vee\overline{d},b\vee\overline{d},c\vee\overline{d}\}$.
+\begin{enumerate}
+\item Пусть $w$~--- не выполнена. Тогда $a=b=c=0$. Найдем $q\colon$ $\forall d\in\{0,1\}$ в $L$ менее $q$ формулы выполнены. Случаи:\begin{enumerate}
+\item $d=0$. Рассмотрим $L$, $\boxed{\mbox{выделим}}$ выполненные дизъюнкции: $\{\cancel{a},\cancel{b},\cancel{c},\cancel{d},\boxed{\overline{a}\vee\overline{b}},\boxed{\overline{a}\vee\overline{c}},\boxed{\overline{b}\vee\overline{c}},\boxed{a\vee\overline{d}},\boxed{b\vee\overline{d}},\boxed{c\vee\overline{d}}\}$. Выполнены 6 дизъюнкции.
+\item $d=1$. $\{\cancel{a},\cancel{b},\cancel{c},\boxed{d},\boxed{\overline{a}\vee\overline{b}},\boxed{\overline{a}\vee\overline{c}},\boxed{\overline{b}\vee\overline{c}},\cancel{a\vee\overline{d}},\cancel{b\vee\overline{d}},\cancel{c\vee\overline{d}}\}$. Выполнено 4 дизъюнкции.
+\end{enumerate}
+Значит, $q>\max(4,6)$. Возьмем $q=7$ и докажем вторую часть.
+\item Пусть $w$~--- выполнена. Тогда $\left[\begin{array}{ccc}
+a & = & 1\\
+b & = & 1\\
+c & = & 1\\
+\end{array}\right.$. Рассмотрим различные случаи, и подберем $d$ так, чтобы было выполнено $\geqslant q\equiv 7$ дизъюнкций. Поскольку $w$ и $L$ симметричны относительно замены переменных (например, $a\leftrightarrow b$), разделим случаи по количеству $a+b+c$ (количество единиц в наборе).\begin{enumerate}
+\item $(a,b,c)=(1,0,0)$. Возьмем $d=0$, получим $\{\boxed{a},\cancel{b},\cancel{c},\cancel{d},\boxed{\overline{a}\vee\overline{b}},\boxed{\overline{a}\vee\overline{c}},\boxed{\overline{b}\vee\overline{c}},\boxed{a\vee\overline{d}},\boxed{b\vee\overline{d}},\boxed{c\vee\overline{d}}\}$~--- выполнено $7\geqslant 7\equiv q$ дизъюнкций.
+\item $(a,b,c)=(1,1,0)$. Возьмем $d=0$, получим $\{\boxed{a},\boxed{b},\cancel{c},\cancel{d},\cancel{\overline{a}\vee\overline{b}},\boxed{\overline{a}\vee\overline{c}},\boxed{\overline{b}\vee\overline{c}},\boxed{a\vee\overline{d}},\boxed{b\vee\overline{d}},\boxed{c\vee\overline{d}}\}$~--- выполнено $7\geqslant 7\equiv q$ дизъюнкций.
+\item $(a,b,c)=(1,1,1)$. Возьмем $d=1$, получим $\{\boxed{a},\boxed{b},\boxed{c},\boxed{d},\cancel{\overline{a}\vee\overline{b}},\cancel{\overline{a}\vee\overline{c}},\cancel{\overline{b}\vee\overline{c}},\boxed{a\vee\overline{d}},\boxed{b\vee\overline{d}},\boxed{c\vee\overline{d}}\}$~--- выполнено $7\geqslant 7\equiv q$ дизъюнкций.
+\end{enumerate} 
+\end{enumerate}
+\item $\psi'=(\overline{x_1}\vee x_2\vee y)\wedge(\overline{x_1}\vee x_2\vee \overline{y})$.\newline $L_1=\{\overline{x_1},x_2,y,d_1,x_1\vee\overline{x_2},x_1\vee\overline{y},\overline{x_2}\vee\overline{y},\overline{x_1}\vee\overline{d_1},x_2\vee\overline{d_1},y\vee\overline{d_1}\}$\newline
+$L_2=\{\overline{x_1},x_2,\overline{y},d_2,x_1\vee\overline{x_2},x_1\vee y,\overline{x_2}\vee y,\overline{x_1}\vee\overline{d_2},x_2\vee\overline{d_2},\overline{y}\vee\overline{d_2}\}$. Образ $\widetilde{\psi'}=L_1\cup L_2$. $k=2$ (количество дизъюнктов), Пороговое значение $kq=2\times 7=14$.
+\item Возьмем набор $(x_1,x_2,y,d_1,d_2)=(0,1,1,1,0)$.\newline
+Рассмотрим $L_1=\{\boxed{\overline{x_1}},\boxed{x_2},\boxed{y},\boxed{d_1},\cancel{x_1\vee\overline{x_2}},\cancel{x_1\vee\overline{y}},\cancel{\overline{x_2}\vee\overline{y}},\boxed{\overline{x_1}\vee\overline{d_1}},\boxed{x_2\vee\overline{d_1}},\boxed{y\vee\overline{d_1}}\}$~--- выполнено $7$ дизъюнкций\newline
+Рассмотрим $L_2=\{\boxed{\overline{x_1}},\boxed{x_2},\cancel{\overline{y}},\cancel{d_2},\cancel{x_1\vee\overline{x_2}},\boxed{x_1\vee y},\boxed{\overline{x_2}\vee y},\boxed{\overline{x_1}\vee\overline{d_2}},\boxed{x_2\vee\overline{d_2}},\boxed{\overline{y}\vee\overline{d_2}}\}$~--- выполнено $7$ дизъюнкций\newline
+Получаем, что в $\widetilde{\psi'}$ выполнено $2\times 7=14\geqslant 14\equiv kq$ дизъюнкций $\blacksquare$.
+\end{enumerate}
+\subsection*{(каноническое) Задача 27}
+Пусть $f\colon \GC\subset\Sigma^*\to\{0,1\}$, $f(x)=1\Leftrightarrow x\in\GC$, и $T_f(x)=\poly(|x|)$ ($f$ вычислима за полиномиальное по $|x|$ время).
+\begin{enumerate}
+\item Построим алгоритм поиска гамильтонова цикла (если он существует), использующий $f$. Фиксируем граф $G$, его описание $x\in\Sigma^*$. Обозначим за $h(G, v)$ граф, полученный из $G$ удалением вершины $v$ и перенаправлением ребер, инцидентных $v$: Если в $G$ есть ребра $(u,v), (v, w)$, в $h(G,v)$ есть ребро $(v, w)$.\begin{enumerate}
+\item Если в $G$ нет гамильтонова цикла, за один вызов $f(x)$ выдадим ответ. Время $T_f(x)$~--- полиномиально по $|x|$.
+\item Пусть первый вызов вернул $1$, т.е. в графе есть гамильтонов цикл. Найдем его. Фиксируем произвольную вершину $v$ графа $G$. Рассмотрим граф $h(G,v)$. Он также гамильтонов: пусть в $G$ есть цикл $s\leftrightarrow...\leftrightarrow u\leftrightarrow v\leftrightarrow w\leftrightarrow...\leftrightarrow s$ Тогда (по построению) в $h(G,v)$ есть цикл $s\leftrightarrow...\leftrightarrow u\leftrightarrow w\leftrightarrow...\leftrightarrow s$. Он гамильтонов, так как содержит все вершины (все вершины $G$ кроме $v$~--- это вершины $h(G,v)$).\newline
+Будем пребирать все вершины $v'$ графа $h(G,v)$, смежные с $v$ в $G$ и рассматривать $h(h(G,v),v')$.\begin{enumerate}
+\item Хотя бы один из них будет гамильтоновым. Действительно, в гамильтоновом цикле в $G$ содержится $v$. Значит, содержится некоторая инцидентная ей вершина $v'$ (они стоят рядом). Удалением $v$ и $v'$ получаем гамильтонов путь в $h(h(G,v),v')$.
+\item Докажем обратное. Пусть при некоторой $v'$ граф $h(h(G,v),v')$~--- гамильтонов. Тогда в $G$ в некотором гамильтоновом цикле $v$ и $v'$ стояли рядом. Предположим противное, (в $h(G,v)$ нет гамильтонова цикла с ребром $(v,v')$). Фиксируем Рассмотрим ГЦ в $G$: $s\leftrightarrow...\leftrightarrow$
+\end{enumerate}
+Значит, в некотором гамильтоновом пути в $G$ вершины $u$ и $v$ стояли рядом \todo. Продолжим этот процесс, пока не останутся две вершины $v_1$ и $v_2$. Они стоят рядом. Полученная последовательность $(v,u,u',...,u^{(l)},v_1,v_2,v)$~--- искомый гамильтонов цикл.
+\end{enumerate}
 \item Псевдокод
 \lstset{
     language=C,
