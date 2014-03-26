@@ -32,6 +32,7 @@
 \def\coNP{{\rm co}\text{-}{\mathsf{NP}}}
 \def\DTIME{{\mathsf{DTIME}}}
 \def\NTIME{{\mathsf{NTIME}}}
+\def\CLIQUE{{\mathsf{CLIQUE}}}
 \def\HALT{{\rm{HALT}}}
 \def\SAT{{\rm{SAT}}}
 \def\3SAT{{\rm{3\text{-}SAT}}}
@@ -157,6 +158,30 @@ $\psi=\overline{x_1}\vee x_2$. $\psi'=(\overline{x_1}\vee x_2\vee y)\wedge(\over
 \end{tikzpicture}
 
 \subsection*{(каноническое) Задача 25}
+\begin{enumerate}
+\item $\psi=\overline{x_1}\vee x_2$, $\psi'=(\overline{x_1}\vee x_2\vee y)\wedge (\overline{x_1}\vee x_2\vee \overline{y})$. $n=3$, $m=2$. Граф $Q_{\psi'}$. Клика мощности $s=m=2$ выделена красным цветом.\newline
+\begin{tikzpicture}[shorten >=1pt,node distance=1.3cm,on grid,auto,initial text=]
+	  \node[state, fill=gray] (nx11) {$\overline{x_1}$};
+	  \node[state, fill=red] (x21) [right = of nx11] {$x_2$};
+	  \node[state, fill=gray] (y1) [right = of x21] {$y$};
+	  
+	  \node[state, fill=red] (nx12) [below = of nx11] {$\overline{x_1}$};
+	  \node[state, fill=gray] (x22) [right = of nx12] {$x_2$};
+	  \node[state, fill=gray] (ny2) [right = of x22] {$\overline{y}$};
+
+  	  \path[-] 
+			(nx11)	edge	(nx12)
+			(x21)	edge	(x22)
+			(nx11)	edge	(x22)
+			(x21)	edge	(nx12)
+			(x21)	edge	(ny2)
+			(nx11)	edge	(ny2)
+			(y1)	edge	(nx12)
+			(y1)	edge	(x22)
+			;
+\end{tikzpicture}
+\item {\em (доказано на семинаре)} $\3SAT \leqslant_m^p\CLIQUE$. Формула $\chi=(x_1\vee x_2\vee x_3)\wedge(\overline{x_1}\vee\overline{x_2})\wedge(x_1\vee\overline{x_2})\wedge(\overline{x_1}\vee x_2\vee x_3)\wedge\overline{x_3}$,\newline $\chi'=(x_1\vee x_2\vee x_3)\wedge(\overline{x_1}\vee\overline{x_2}\vee y_1)\wedge(\overline{x_1}\vee\overline{x_2}\vee \overline{y_1})\wedge(x_1\vee\overline{x_2}\vee y_2)\wedge (x_1\vee\overline{x_2}\vee \overline{y_2})\wedge(\overline{x_1}\vee x_2\vee x_3)\wedge (\overline{x_3}\vee y_3\vee y_4)\wedge(\overline{x_3}\vee y_3\vee \overline{y_4})\wedge(\overline{x_3}\vee \overline{y_3}\vee y_4)\wedge(\overline{x_3}\vee \overline{y_3}\vee \overline{y_4})$. $n=7$, $t=m=10$. $f(x)=(G,t)$~--- граф, построенный по $\chi'$ (и число $10$~--- мощность искомой клики), $f$~--- функция из сводимости. Пусть в $G$ существует клика мощности $\geqslant t$. Тогда существует клика мощности $t$ (любой подграф из $t$ вершин исходной клики). Тогда $f(x)\in\CLIQUE\overset{\mbox{\tiny сводимость}}{\Longrightarrow}$ $\chi'\in\3SAT$ $\Rightarrow$ $\chi'$~--- выполнима $\overset{\mbox{\tiny эквив. формул}}{\Longrightarrow}$ $\chi$~--- выполнима~--- противоречие. Значит, в графе образа $\chi'$ нет клики мощности $\geqslant t\equiv 10\,\blacksquare$
+\end{enumerate}
 \subsection*{(каноническое) Задача 26}
 \subsection*{(каноническое) Задача 27}
 Пусть $f\colon \GC\subset\Sigma^*\to\{0,1\}$, $f(x)=1\Leftrightarrow x\in\GC$, и $T_f(x)=\poly(|x|)$.
