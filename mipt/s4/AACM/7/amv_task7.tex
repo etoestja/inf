@@ -1,0 +1,180 @@
+ \documentclass[12pt, leqno]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}        % Кодировка входного документа;
+                                    % при необходимости, вместо cp1251
+                                    % можно указать cp866 (Alt-кодировка
+                                    % DOS) или koi8-r.
+
+\usepackage[english,russian]{babel} % Включение русификации, русских и
+                                    % английских стилей и переносов
+%%\usepackage{a4}
+%%\usepackage{moreverb}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,amsbsy,amstext,amscd,amsxtra,multicol}
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{algorithm2e}
+
+\usepackage{tabto} %Табуляция
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,trees}
+\usepackage{multicol} %Несколько колонок
+\usepackage{graphicx}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage[stable]{footmisc}
+\usepackage{indentfirst}  % абзацный отступ после заголовка
+\usepackage{enumitem} %Item tricks
+
+
+%% \voffset-5mm
+%% \def\baselinestretch{1.44}
+\renewcommand{\theequation}{\arabic{equation}}
+\def\hm#1{#1\nobreak\discretionary{}{\hbox{$#1$}}{}}
+\newtheorem{Lemma}{Лемма}
+\theoremstyle{definiton}
+\newtheorem{Remark}{Замечание}
+%%\newtheorem{Def}{Определение}
+\newtheorem{Claim}{Утверждение}
+\newtheorem{Cor}{Следствие}
+\newtheorem{Theorem}{Теорема}
+\newtheorem*{known}{Теорема}
+\def\proofname{Доказательство}
+\theoremstyle{definition}
+\newtheorem{Def}{Определение}
+\theoremstyle{definition}
+\newtheorem{Example}{Пример}
+
+%% \newenvironment{Example} % имя окружения
+%% {\par\noindent{\bf Пример.}} % команды для \begin
+%% {\hfill$\scriptstyle\qed$} % команды для \end
+
+
+
+
+
+
+%\date{22 июня 2011 г.}
+\let\leq\leqslant
+\let\geq\geqslant
+\def\MT{\mathrm{MT}}
+%Обозначения ``ажуром''
+\def\BB{\mathbb B}
+\def\CC{\mathbb C}
+\def\RR{\mathbb R}
+\def\SS{\mathbb S}
+\def\ZZ{\mathbb Z}
+\def\NN{\mathbb N}
+\def\FF{\mathbb F}
+%греческие буквы
+\let\epsilon\varepsilon
+\let\es\varnothing
+\let\eps\varepsilon
+\let\al\alpha
+\let\sg\sigma
+\let\ga\gamma
+\let\ph\varphi
+\let\om\omega
+\let\ld\lambda
+\let\Ld\Lambda
+\let\vk\varkappa
+\let\Om\Omega
+\def\first{\mathrm{ FIRST} }
+\def\follow{\mathrm{ FOLLOW} }
+\let\yield\Rightarrow
+\def\abstractname{}
+
+\def\R{{\cal R}}
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+\def\D{{\cal D}}
+\let\w\omega
+
+%классы сложности
+\def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
+\def\LL{{\mathrm{LL}}}
+\newcounter{problem}
+\newcounter{uproblem}
+\newcounter{subproblem}
+\def\pr{\medskip\noindent\stepcounter{problem}{\bf \theproblem .  }\setcounter{subproblem}{0} }
+\def\prp{\medskip\noindent\stepcounter{problem}{\bf Задача \theproblem .  }\setcounter{subproblem}{0} }
+\def\prstar{\medskip\noindent\stepcounter{problem}{\bf Задача $\bf{\theproblem^*}\negmedspace .$  }\setcounter{subproblem}{0} }
+\def\prdag{\medskip\noindent\stepcounter{problem}{\bf Задача $\theproblem^\dagger$ .  }\setcounter{subproblem}{0} }
+\def\upr{\medskip\noindent\stepcounter{uproblem}{\bf Упражнение \theuproblem .  }\setcounter{subproblem}{0} }
+%\def\prp{\vspace{5pt}\stepcounter{problem}{\bf Задача \theproblem .  } }
+%\def\prs{\vspace{5pt}\stepcounter{problem}{\bf \theproblem .*   }
+\def\prsub{\medskip\noindent\stepcounter{subproblem}{\rm \thesubproblem .  } }
+%прочее
+\def\quotient{\backslash\negthickspace\sim}
+
+\begin{document}
+\centerline{\LARGE Задание 3}
+
+\medskip
+
+\begin{center}
+	{\Large Потоки }
+\end{center}
+
+\bigskip
+
+{\bf Литература: }
+\begin{enumerate}
+
+\item Кормен Т., Лейзерсон Ч., Ривест Р., Штайн К. \\ {\it Алгоритмы. Построение и анализ. }\\  2-е изд. М.: Вильямс, 2005. Глава 26.
+
+\end{enumerate}
+
+\section{Предисловие}
+
+В тексте задания фактически собраны определения. Я бы рекомендовал сначала прочитать задание и постараться сделать упражнения самостоятельно, после чего переходит к Кормену -- в нём дано решение многих упражнений. Я считаю, что самостоятельно поломать голову перед тем, как переходить к чтению Кормена будет полезно.
+
+\section{Работа с определениями}
+
+Транспортная сеть -- это ориентированный граф $G = (V,E)$ , на вершинах которого определена функция пропускной способности $c(u,v)$. Основное свойство функции пропускной способности: $c(u,v) > 0$ тогда и только тогда, когда $(u,v) \in E$, в противном случае, $c(u,v) = 0$. Будем считать, что если ребро $(u,v)$ лежит в $E$, то ребро $(v,u)$ не лежит в $E$.  Зафиксируем две вершины: источник $s$ и сток $t$. Функция $f$ называется \emph{потоком} в сети $G$, если выполняются следующие условия:
+\begin{itemize}
+	\item $ f(u,v) \leq c(u,v) $ -- ограничение пропускной способности;
+	\item $ f(u,v) = -f(v,u) $ -- антисимметричность;
+	\item $\forall u \in V\setminus\{s,t\}: \sum_{v\in V} f(u,v)=0$ -- сохранение потока.
+\end{itemize}
+
+\upr Покажите, что закон сохранения потока -- аналог закона Кирхгофа, то есть сумма значений $f$ на рёбрах входящих в вершину, не равную $s$ или $t$, равна сумме значений $f$ на рёбрах исходящих из вершины.
+
+Назовём величиной потока $f$ число
+$$
+	|f| = \sum_{v\in V} f(s,v).
+$$
+\upr По определению, величина потока есть величина потока, выходящего из $s$. Покажите, что $|f|$ есть также величина потока, входящего в $t$.
+
+Доопределим функцию $f$ на множествах вершин. 
+$$f(X,Y) = \sum_{x\in X}\sum_{y \in Y}f(x,y) $$
+\prp Доказать следующие соотношения (Лемма 26.1 из Кормена):
+\begin{align*}
+		1.&\quad \forall X \subseteq V : f(X,X) = 0.\\
+		2.&\quad \forall X,Y \subseteq V : f(X,Y) = -f(Y,X).\\
+		3.&a.\ \forall X,Y,Z \subseteq V, X\cap Y = \es : f(X\cup Y,Z) = f(X,Z) + f(Y,Z).\\		
+		3.&b.\ \forall X,Y,Z \subseteq V, X\cap Y = \es : f(Z, X\cup Y) = f(Z,X) + f(Z,Y).\\		
+\end{align*}
+\prp Верно ли, что $f(X,Y) = -f(V-X,Y)$?
+\bigskip
+
+Определим сумму потоков $f_1$ и  $f_2$ как $(f_1+f_2)(u,v) = f_1(u,v) + f_2(u,v)$.
+
+\upr Найти необходимые и достаточные условия того, что сумма потоков является потоком.
+
+\upr Пусть в транспортной сети был задан поток $f_1$. Для потока $f_1$ методом Форда-Фалкерсона найден увеличивающий путь. Покажите, что увеличивающему пути можно поставить в соответствие поток $f_2$ и после увеличения потока $f_1$ итоговый поток будет равен сумме потоков $f_1+f_2$.
+\medskip
+
+Остаточным графом транспортной сети с потоком $f$ называется ориентированный граф, вершины которого совпадают с $V$, а на ребре $(u,v)$ стоит число $c(u,v) - f(u,v)$. Если разность равна нулю, то ребра в остаточной сети нет.
+
+
+
+
+\section{Домашнее задание}
+
+Задачи из задания № 28-31. Все задачи, кроме помеченных звёздочкой, из этого текста.
+
+
+
+
+\end{document}
