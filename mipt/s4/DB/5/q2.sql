@@ -39,3 +39,11 @@ go
 */
 
 select distinct line from view2 where otherLineNumber >= 1 and actorsPercentStaging > 50
+
+go
+
+/*
+всё представление
+*/
+
+select * from view2
