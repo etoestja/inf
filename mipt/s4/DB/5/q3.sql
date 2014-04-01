@@ -9,7 +9,7 @@ go
 
 create view view3
 as
-select play.name, count(distinct role.id) as roles, count(distinct performance.id) as performances, max(performance.date) as latestPerformanceDate from play
+select play.name as play, count(distinct role.id) as roles, count(distinct performance.id) as performances, max(performance.date) as latestPerformanceDate from play
 left outer join role_play on role_play.play = play.id
 left outer join [role] on [role].id = role_play.role
 left outer join play_staging on play_staging.play = play.id
@@ -26,3 +26,9 @@ go
 */
 
 select * from view3 where latestPerformanceDate <= dateadd(year, -1, CURRENT_TIMESTAMP)
+
+/*
+всё представление
+*/
+
+select * from view3
