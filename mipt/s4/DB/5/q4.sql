@@ -13,7 +13,7 @@ go
 
 create view view4
 as
-select [role].[name], count(distinct performance.id) as performances, actor.name_first + ' ' + actor.surname as top_actor from [role]
+select [role].[name] as role, count(distinct performance.id) as performances, actor.name_first + ' ' + actor.surname as top_actor from [role]
 left outer join role_staging on role_staging.[role] = [role].id
 left outer join staging on role_staging.staging = staging.id
 left outer join performance on performance.staging = staging.id
