@@ -7,6 +7,10 @@ DROP VIEW view1;
 
 go
 
+/*
+неизменяемое (distinct)
+*/
+
 create view view1
 as
 select distinct play.[name] as play, director.name_first + ' ' + director.surname as director, actor.name_first + ' ' + actor.surname as actor_cast1 from play
@@ -34,3 +38,7 @@ go
 */
 
 select * from view1 where play = N'Враги'
+
+go
+
+--update view1 set play = N'Тест' where director = N'Враги'

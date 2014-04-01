@@ -7,6 +7,10 @@ DROP VIEW view3;
 
 go
 
+/*
+неизменяемое (агрегатная функция)
+*/
+
 create view view3
 as
 select play.name as play, count(distinct role.id) as roles, count(distinct performance.id) as performances, max(performance.date) as latestPerformanceDate from play
@@ -27,8 +31,14 @@ go
 
 select * from view3 where latestPerformanceDate <= dateadd(year, -1, CURRENT_TIMESTAMP)
 
+go
+
 /*
 всё представление
 */
 
 select * from view3
+
+go
+
+--update view3 set play = N'4400x' where play = N'4400' 

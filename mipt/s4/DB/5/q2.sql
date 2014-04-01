@@ -5,6 +5,10 @@ go
 IF OBJECT_ID ('view2', 'V') IS NOT NULL
 DROP VIEW view2;
 
+/*
+неизменяемое (агрегатная функция)
+*/
+
 go
 --ine.description, count(actor.id)
 --line.description as line, actor.name_first + ' ' + actor.surname as actor, staging.id as staging, [role].name as role
@@ -47,3 +51,7 @@ go
 */
 
 select * from view2
+
+go
+
+--update view2 set line = N'героиня1' where line = N'героиня'

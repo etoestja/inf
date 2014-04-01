@@ -7,6 +7,10 @@ DROP VIEW view4;
 
 go
 
+/*
+неизменяемое (агрегатная функция)
+*/
+
 create view view4
 as
 select [role].[name], count(distinct performance.id) as performances, actor.name_first + ' ' + actor.surname as top_actor from [role]
@@ -40,3 +44,7 @@ select * from view4
 go
 
 select * from view4 where top_actor = N'Эмма Уотсон'
+
+go
+
+--update view4 set name = N'Адель1' where name = N'Адель'
