@@ -34,7 +34,7 @@ select * from view1
 go
 
 /*
-пьесы, режиссеры постановок пьес, актеры первого состава в постановках
+пьеса Враги, режиссеры постановок пьесы, актеры первого состава в постановках
 */
 
 select * from view1 where play = N'Враги'
@@ -42,3 +42,9 @@ select * from view1 where play = N'Враги'
 go
 
 --update view1 set play = N'Тест' where director = N'Враги'
+
+/*
+актеры первого состава в пьесе На дне
+*/
+
+select actor_cast1 from view1 where play = N'На дне'
