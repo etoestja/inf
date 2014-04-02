@@ -1412,16 +1412,16 @@ M, & \exists i\colon (u,v)=(v_i,v_{i+1}) & (1)\\
 %			(v1)edge[bend left=10] node {$0$}	(t)
 			(t)	edge[bend left=10] node {$3$}	(v1)
 			
-			(v2)edge [color=red,bend left=15] node {$1$}	(t)
+			(v2)edge [bend left=15] node {$1$}	(t)
 			(t)	edge [bend left=15] node {$2$}	(v2)
 			
-			(v3)edge[bend left=10] node {$1$}	(t)
+			(v3)edge[color=red,bend left=10] node {$1$}	(t)
 %			(t)	edge[bend left=10] node {$0$}	(v3)
 			
 %			(v1)	edge[color=red,bend left=10] node {$0$}	(v2)
 			(v2)	edge[bend left=10] node {$5$}	(v1)
 			
-			(v1)	edge[bend left=30] node {$4$}	(v3)
+			(v1)	edge[color=red,bend left=30] node {$4$}	(v3)
 			(v3)	edge[bend left=30] node {$\infty$}	(v1)
 			
 			(v3)	edge[bend left=10] node {$1$}	(v2)
@@ -1436,5 +1436,159 @@ M, & \exists i\colon (u,v)=(v_i,v_{i+1}) & (1)\\
 
 
 
+\item $5$-я итерация алгоритма. $M$~--- величина увеличивающего пути:\newline
+\begin{tabular}{lcll}
+Сеть и поток&  & Остаточная сеть & $M$\\
+\begin{minipage}{0.35\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+ \tikzstyle{every node}=[font=\small]
+	  \node[state] (s) {$s$};
+	  \node[state] (v2) [right = 3cm of s] {$v_2$};
+	  \node[state] (v1) [above = of v2] {$v_1$};
+	  \node[state] (v3) [below = of v2] {$v_3$};
+	  \node[state] (t) [right = 3cm of v2] {$t$};
+	  \begin{scope}[every node/.style={scale=.5}]
+  	  \path[->] 
+			(s)	edge node {$2/\infty$}	(v1)
+			(s)	edge [bend left=15] node {$1/1$}	(v2)
+			(s)	edge node[swap] {$3/3$}	(v3)
+			
+			(v1)	edge node {$3/3$}	(t)
+			(v2)	edge [bend left=15] node {$2/3$}	(t)
+			(v3)	edge node {$1/1$}	(t)
+			
+			(v1)	edge[bend left=10] node {$1/1$}	(v2)
+			(v2)	edge[bend left=10] node {$0/4$}	(v1)
+			
+			(v1)	edge[bend left=30] node {$1/1$}	(v3)
+			(v3)	edge[bend left=30] node {$3/\infty$}	(v1)
+			
+			(v3)	edge node {$0/1$}	(v2)
+			
+			;
+			\end{scope}
+\end{tikzpicture}
+\end{minipage}&$\to$&
+\begin{minipage}{0.35\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+ \tikzstyle{every node}=[font=\small]
+	  \node[state] (s) {$s$};
+	  \node[state] (v2) [right = 3cm of s] {$v_2$};
+	  \node[state] (v1) [above = of v2] {$v_1$};
+	  \node[state] (v3) [below = of v2] {$v_3$};
+	  \node[state] (t) [right = 3cm of v2] {$t$};
+	  \begin{scope}[every node/.style={scale=.5}]
+  	  \path[->] 
+			(s)	edge[color=red,bend left=10] node {$\infty$}	(v1)
+%			(v1)edge[bend left=10] node {$0$}	(s)
+			
+%			(s)	edge [color=red,bend left=15] node {$0$}	(v2)
+			(v2)edge [bend left=15] node {$1$}	(s)
+			
+%			(s)	edge[bend right=10] node[swap] {$0$}	(v3)
+			(v3)edge[bend right=10] node[swap] {$3$}	(s)
+			
+%			(v1)edge[bend left=10] node {$0$}	(t)
+			(t)	edge[bend left=10] node {$3$}	(v1)
+			
+			(v2)edge [color=red,bend left=15] node {$1$}	(t)
+			(t)	edge [bend left=15] node {$2$}	(v2)
+			
+%			(v3)edge[color=red,bend left=10] node {$0$}	(t)
+			(t)	edge[bend left=10] node {$1$}	(v3)
+			
+%			(v1)	edge[color=red,bend left=10] node {$0$}	(v2)
+			(v2)	edge[bend left=10] node {$5$}	(v1)
+			
+			(v1)	edge[color=red,bend left=30] node {$3$}	(v3)
+			(v3)	edge[bend left=30] node {$\infty$}	(v1)
+			
+			(v3)	edge[color=red,bend left=10] node {$1$}	(v2)
+%			(v2)	edge[bend left=10] node {$0$}	(v3)
+			
+			;
+			\end{scope}
+\end{tikzpicture}
+\end{minipage}& 1\\
+\end{tabular}
+
+
+\item $6$-я итерация алгоритма. $M$~--- величина увеличивающего пути:\newline
+\begin{tabular}{lcll}
+Сеть и поток&  & Остаточная сеть & $M$\\
+\begin{minipage}{0.35\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+ \tikzstyle{every node}=[font=\small]
+	  \node[state] (s) {$s$};
+	  \node[state] (v2) [right = 3cm of s] {$v_2$};
+	  \node[state] (v1) [above = of v2] {$v_1$};
+	  \node[state] (v3) [below = of v2] {$v_3$};
+	  \node[state] (t) [right = 3cm of v2] {$t$};
+	  \begin{scope}[every node/.style={scale=.5}]
+  	  \path[->] 
+			(s)	edge node {$3/\infty$}	(v1)
+			(s)	edge [bend left=15] node {$1/1$}	(v2)
+			(s)	edge node[swap] {$3/3$}	(v3)
+			
+			(v1)	edge node {$3/3$}	(t)
+			(v2)	edge [bend left=15] node {$3/3$}	(t)
+			(v3)	edge node {$1/1$}	(t)
+			
+			(v1)	edge[bend left=10] node {$1/1$}	(v2)
+			(v2)	edge[bend left=10] node {$0/4$}	(v1)
+			
+			(v1)	edge[bend left=30] node {$1/1$}	(v3)
+			(v3)	edge[bend left=30] node {$2/\infty$}	(v1)
+			
+			(v3)	edge node {$1/1$}	(v2)
+			
+			;
+			\end{scope}
+\end{tikzpicture}
+\end{minipage}&$\to$&
+\begin{minipage}{0.35\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+ \tikzstyle{every node}=[font=\small]
+	  \node[state,color=green] (s) {$s$};
+	  \node[state] (v2) [right = 3cm of s] {$v_2$};
+	  \node[state,color=green] (v1) [above = of v2] {$v_1$};
+	  \node[state,color=green] (v3) [below = of v2] {$v_3$};
+	  \node[state] (t) [right = 3cm of v2] {$t$};
+	  \begin{scope}[every node/.style={scale=.5}]
+  	  \path[->] 
+			(s)	edge[bend left=10] node {$\infty$}	(v1)
+			(v1)edge[bend left=10] node {$1$}	(s)
+			
+%			(s)	edge [color=red,bend left=15] node {$0$}	(v2)
+			(v2)edge [bend left=15] node {$1$}	(s)
+			
+%			(s)	edge[bend right=10] node[swap] {$0$}	(v3)
+			(v3)edge[bend right=10] node[swap] {$3$}	(s)
+			
+%			(v1)edge[bend left=10] node {$0$}	(t)
+			(t)	edge[bend left=10] node {$3$}	(v1)
+			
+%			(v2)edge [color=red,bend left=15] node {$0$}	(t)
+			(t)	edge [bend left=15] node {$3$}	(v2)
+			
+%			(v3)edge[color=red,bend left=10] node {$0$}	(t)
+			(t)	edge[bend left=10] node {$1$}	(v3)
+			
+%			(v1)	edge[color=red,bend left=10] node {$0$}	(v2)
+			(v2)	edge[bend left=10] node {$5$}	(v1)
+			
+			(v1)	edge[bend left=30] node {$2$}	(v3)
+			(v3)	edge[bend left=30] node {$\infty$}	(v1)
+			
+%			(v3)	edge[bend left=10] node {$0$}	(v2)
+			(v2)	edge[bend left=10] node {$1$}	(v3)
+			
+			;
+			\end{scope}
+\end{tikzpicture}
+\end{minipage}& 1\\
+\end{tabular}
+Зеленые~--- достижимые из $s$. $t$ недостижима, поэтому алгоритм останавливается.
+\item Получаем минимальный разрез $S=\{s,v_1,v_3\}$, $T=\{t,v_2\}$, откуда $A=\{1,3\}$, $B=\{2\}$~--- на $I$ и $II$ процессорах соответственно. Значение функции равно минимальному разрезу $=$ максимальному потоку, равно $c(S,T)=|f|=7$. Проверим: $\alpha_1+\alpha_3+\beta_2+\gamma_{12}+\gamma{32}=3+1+1+1+1=7\,\blacksquare$
 \end{enumerate}
 \end{document}
