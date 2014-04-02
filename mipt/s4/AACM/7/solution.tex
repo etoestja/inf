@@ -212,10 +212,10 @@ M, & \exists i\colon (u,v)=(v_i,v_{i+1}) & (1)\\
 \begin{enumerate}
 \item $|f|=2+2+3=7$.
 \item Нет (см. далее).
-\item $k$-я итерация алгоритма:\newline
-\begin{tabular}{ll}
-Сеть & Остаточная сеть\\
-\begin{minipage}{0.5\textwidth}
+\item $k$-я итерация алгоритма. $M$~--- величина увеличивающего пути:\newline
+\begin{tabular}{lcll}
+Сеть и поток&  & Остаточная сеть & $M$\\
+\begin{minipage}{0.35\textwidth}
 \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
  \tikzstyle{every node}=[font=\small]
 	  \node[state] (s) {$s$};
@@ -251,8 +251,8 @@ M, & \exists i\colon (u,v)=(v_i,v_{i+1}) & (1)\\
 			;
 			\end{scope}
 \end{tikzpicture}
-\end{minipage}&
-\begin{minipage}{0.5\textwidth}
+\end{minipage}&$\to$&
+\begin{minipage}{0.35\textwidth}
 \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
  \tikzstyle{every node}=[font=\small]
 	  \node[state] (s) {$s$};
@@ -267,64 +267,65 @@ M, & \exists i\colon (u,v)=(v_i,v_{i+1}) & (1)\\
 	  \node[state] (v8) [below = of t] {$v_8$};
 	  \begin{scope}[every node/.style={scale=.5}]
   	  \path[->] 
-			(s)	edge [bend left=10] node {$0$}	(v1)
-			(v1)edge [bend left=10] node {$1$}	(s)
+			(s)	edge [bend left=10] node {$3$}	(v1)
+			(v1)edge [bend left=10] node {$2$}	(s)
 			
-			(s)	edge [bend left=10]node {$2$}	(v2)
-			(v2)edge [bend left=10]node {$3$}	(s)
+			(s)	edge [bend left=10]node {$3$}	(v2)
+			(v2)edge [bend left=10]node {$2$}	(s)
 			
-			(s)	edge [bend right=10]node[swap] {$4$}	(v3)
-			(v3)edge [bend right=10]node[swap] {$5$}	(s)
+			(s)	edge [color=red,bend right=10]node[swap] {$5$}	(v3)
+			(v3)edge [bend right=10]node[swap] {$3$}	(s)
 			
-			(v1)edge [bend right=10]node[swap] {$6$}	(v2)
-			(v2)edge [bend right=10]node[swap] {$7$}	(v1)
+			(v1)edge [bend right=10]node[swap] {$3$}	(v2)
+			(v2)edge [bend right=10]node[swap] {$1$}	(v1)
 			
-			(v1)edge [bend left=10]node {$8$}	(v4)
-			(v4)edge [bend left=10]node {$9$}	(v1)
+			(v1)edge [bend left=10]node {$2$}	(v4)
+			(v4)edge [bend left=10]node {$1$}	(v1)
 			
-			(v2)edge [bend left=10]node {$10$}	(v4)
-			(v4)edge [bend left=10]node {$11$}	(v2)
+			(v2)edge [bend left=10]node {$1$}	(v4)
+			(v4)edge [bend left=10]node {$2$}	(v2)
 			
-			(v2)edge [bend left=10]node {$12$}	(v5)
-			(v5)edge [bend left=10]node {$13$}	(v2)
+			(v2)edge [bend left=10]node {$2$}	(v5)
+			(v5)edge [bend left=10]node {$1$}	(v2)
 			
-			(v3)edge [bend left=10]node {$14$}	(v2)
-			(v2)edge [bend left=10]node {$15$}	(v3)
+			(v3)edge [bend left=10]node {$4$}	(v2)
+%			(v2)edge [bend left=10]node {$0$}	(v3)
 			
-			(v3)edge [bend right=10]node[swap] {$16$}	(v6)
-			(v6)edge [bend right=10]node[swap] {$17$}	(v3)
+			(v3)edge [color=red,bend right=10]node[swap] {$2$}	(v6)
+			(v6)edge [bend right=10]node[swap] {$3$}	(v3)
 			
-			(v4)edge [bend left=10]node {$18$}	(v7)
-			(v7)edge [bend left=10]node {$19$}	(v4)
+			(v4)edge [bend left=10]node {$1$}	(v7)
+			(v7)edge [bend left=10]node {$2$}	(v4)
 			
-			(v4)edge [bend right=10]node[swap] {$20$}	(v5)
-			(v5)edge [bend right=10]node[swap] {$21$}	(v4)
+			(v4)edge [bend right=10]node[swap] {$2$}	(v5)
+			(v5)edge [bend right=10]node[swap] {$1$}	(v4)
 			
-			(v5)edge [bend left=10]node {$22$}	(v7)
-			(v7)edge [bend left=10]node {$23$}	(v5)
+			(v5)edge [bend left=10]node {$2$}	(v7)
+			(v7)edge [bend left=10]node {$1$}	(v5)
 			
-			(v5)edge [bend left=10]node {$24$}	(t)
-			(t)edge [bend left=10]node {$25$}	(v5)
+			(v5)edge [bend left=10]node {$1$}	(t)
+			(t)edge [bend left=10]node {$2$}	(v5)
 			
-			(v6)edge [bend left=10] node {$26$}	(t)
-			(t)edge [bend left=10]node {$27$}	(v6)
+			(v6)edge [bend left=10] node {$1$}	(t)
+			(t)edge [bend left=10]node {$1$}	(v6)
 			
-			(v6)edge [bend right=10]node[swap] {$28$}	(v8)
-			(v8)edge[bend right=10] node[swap] {$29$}	(v6)
+			(v6)edge [color=red,bend right=10]node[swap] {$4$}	(v8)
+			(v8)edge[bend right=10] node[swap] {$1$}	(v6)
 			
-			(v6)edge [bend left=10]node {$30$}	(v5)
-			(v5)edge [bend left=10]node {$31$}	(v6)
+			(v6)edge [bend left=10]node {$2$}	(v5)
+			(v5)edge [bend left=10]node {$1$}	(v6)
 			
-			(v7)edge[bend left=10] node {$32$}	(t)
-			(t)edge[bend left=10] node {$33$}	(v7)
+			(v7)edge[bend left=10] node {$3$}	(t)
+			(t)edge[bend left=10] node {$3$}	(v7)
 			
-			(v8)edge[bend right=10] node[swap] {$34$}	(t)
-			(t)edge [bend right=10]node[swap] {$35$}	(v8)
+			(v8)edge[color=red,bend right=10] node[swap] {$2$}	(t)
+			(t)edge [bend right=10]node[swap] {$1$}	(v8)
 			;
 			\end{scope}
 \end{tikzpicture}
-\end{minipage}\\
+\end{minipage}& 2\\
 \end{tabular}
+
 \end{enumerate}
 \newpage
 \subsection*{(каноническое) Задача 29}
