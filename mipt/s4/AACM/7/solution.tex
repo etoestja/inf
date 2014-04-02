@@ -438,8 +438,356 @@ M, & \exists i\colon (u,v)=(v_i,v_{i+1}) & (1)\\
 \end{tikzpicture}
 \end{minipage}& 2\\
 \end{tabular}
+\item $k+2$-я итерация алгоритма. $M$~--- величина увеличивающего пути:\newline
+\begin{tabular}{lcll}
+Сеть и поток&  & Остаточная сеть & $M$\\
+\begin{minipage}{0.35\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+ \tikzstyle{every node}=[font=\small]
+	  \node[state] (s) {$s$};
+	  \node[state] (v2) [right = of s] {$v_2$};
+	  \node[state] (v1) [above = of v2] {$v_1$};
+	  \node[state] (v3) [below = of v2] {$v_3$};
+	  \node[state] (v4) [right = of v1] {$v_4$};
+	  \node[state] (v5) [below = of v4] {$v_5$};
+	  \node[state] (v6) [below = of v5] {$v_6$};
+	  \node[state] (t)  [right = of v5] {$t$};
+	  \node[state] (v7) [above = of t] {$v_7$};
+	  \node[state] (v8) [below = of t] {$v_8$};
+	  \begin{scope}[every node/.style={scale=.5}]
+  	  \path[->] 
+			(s)	edge node {$4/5$}	(v1)
+			(s)	edge node {$2/5$}	(v2)
+			(s)	edge node[swap] {$5/8$}	(v3)
+			(v1)edge node[swap] {$1/4$}	(v2)
+			(v1)edge node {$3/3$}	(v4)
+			(v2)edge node {$2/3$}	(v4)
+			(v2)edge node {$1/3$}	(v5)
+			(v3)edge node {$0/4$}	(v2)
+			(v3)edge node[swap] {$5/5$}	(v6)
+			(v4)edge node {$2/3$}	(v7)
+			(v4)edge node[swap] {$3/3$}	(v5)
+			(v5)edge node {$3/3$}	(v7)
+			(v5)edge node {$2/3$}	(t)
+			(v6)edge node {$1/2$}	(t)
+			(v6)edge node[swap] {$3/5$}	(v8)
+			(v6)edge node {$1/3$}	(v5)
+			(v7)edge node {$5/6$}	(t)
+			(v8)edge node[swap] {$3/3$}	(t)
+			;
+			\end{scope}
+\end{tikzpicture}
+\end{minipage}&$\to$&
+\begin{minipage}{0.35\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+ \tikzstyle{every node}=[font=\small]
+	  \node[state] (s) {$s$};
+	  \node[state] (v2) [right = of s] {$v_2$};
+	  \node[state] (v1) [above = of v2] {$v_1$};
+	  \node[state] (v3) [below = of v2] {$v_3$};
+	  \node[state] (v4) [right = of v1] {$v_4$};
+	  \node[state] (v5) [below = of v4] {$v_5$};
+	  \node[state] (v6) [below = of v5] {$v_6$};
+	  \node[state] (t)  [right = of v5] {$t$};
+	  \node[state] (v7) [above = of t] {$v_7$};
+	  \node[state] (v8) [below = of t] {$v_8$};
+	  \begin{scope}[every node/.style={scale=.5}]
+  	  \path[->] 
+			(s)	edge [bend left=10] node {$1$}	(v1)
+			(v1)edge [bend left=10] node {$4$}	(s)
+			
+			(s)	edge [color=red,bend left=10]node {$3$}	(v2)
+			(v2)edge [bend left=10]node {$2$}	(s)
+			
+			(s)	edge [bend right=10]node[swap] {$3$}	(v3)
+			(v3)edge [bend right=10]node[swap] {$5$}	(s)
+			
+			(v1)edge [bend right=10]node[swap] {$3$}	(v2)
+			(v2)edge [bend right=10]node[swap] {$1$}	(v1)
+			
+%			(v1)edge [color=red,bend left=10]node {$2$}	(v4)
+			(v4)edge [bend left=10]node {$3$}	(v1)
+			
+			(v2)edge [bend left=10]node {$1$}	(v4)
+			(v4)edge [bend left=10]node {$2$}	(v2)
+			
+			(v2)edge [color=red,bend left=10]node {$2$}	(v5)
+			(v5)edge [bend left=10]node {$1$}	(v2)
+			
+			(v3)edge [bend left=10]node {$4$}	(v2)
+%			(v2)edge [bend left=10]node {$0$}	(v3)
+			
+%			(v3)edge [color=red,bend right=10]node[swap] {$2$}	(v6)
+			(v6)edge [bend right=10]node[swap] {$5$}	(v3)
+			
+			(v4)edge [bend left=10]node {$1$}	(v7)
+			(v7)edge [bend left=10]node {$2$}	(v4)
+			
+%			(v4)edge [color=red,bend right=10]node[swap] {$2$}	(v5)
+			(v5)edge [bend right=10]node[swap] {$3$}	(v4)
+			
+%			(v5)edge [color=red,bend left=10]node {$2$}	(v7)
+			(v7)edge [bend left=10]node {$3$}	(v5)
+			
+			(v5)edge [color=red,bend left=10]node {$1$}	(t)
+			(t)edge [bend left=10]node {$2$}	(v5)
+			
+			(v6)edge [bend left=10] node {$1$}	(t)
+			(t)edge [bend left=10]node {$1$}	(v6)
+			
+			(v6)edge [bend right=10]node[swap] {$2$}	(v8)
+			(v8)edge[bend right=10] node[swap] {$3$}	(v6)
+			
+			(v6)edge [bend left=10]node {$2$}	(v5)
+			(v5)edge [bend left=10]node {$1$}	(v6)
+			
+			(v7)edge[bend left=10] node {$1$}	(t)
+			(t)edge[bend left=10] node {$5$}	(v7)
+			
+%			(v8)edge[color=red,bend right=10] node[swap] {$2$}	(t)
+			(t)edge [bend right=10]node[swap] {$3$}	(v8)
+			;
+			\end{scope}
+\end{tikzpicture}
+\end{minipage}& 1\\
+\end{tabular}
+
+\item $k+3$-я итерация алгоритма. $M$~--- величина увеличивающего пути:\newline
+\begin{tabular}{lcll}
+Сеть и поток&  & Остаточная сеть & $M$\\
+\begin{minipage}{0.35\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+ \tikzstyle{every node}=[font=\small]
+	  \node[state] (s) {$s$};
+	  \node[state] (v2) [right = of s] {$v_2$};
+	  \node[state] (v1) [above = of v2] {$v_1$};
+	  \node[state] (v3) [below = of v2] {$v_3$};
+	  \node[state] (v4) [right = of v1] {$v_4$};
+	  \node[state] (v5) [below = of v4] {$v_5$};
+	  \node[state] (v6) [below = of v5] {$v_6$};
+	  \node[state] (t)  [right = of v5] {$t$};
+	  \node[state] (v7) [above = of t] {$v_7$};
+	  \node[state] (v8) [below = of t] {$v_8$};
+	  \begin{scope}[every node/.style={scale=.5}]
+  	  \path[->] 
+			(s)	edge node {$4/5$}	(v1)
+			(s)	edge node {$3/5$}	(v2)
+			(s)	edge node[swap] {$5/8$}	(v3)
+			(v1)edge node[swap] {$1/4$}	(v2)
+			(v1)edge node {$3/3$}	(v4)
+			(v2)edge node {$2/3$}	(v4)
+			(v2)edge node {$2/3$}	(v5)
+			(v3)edge node {$0/4$}	(v2)
+			(v3)edge node[swap] {$5/5$}	(v6)
+			(v4)edge node {$2/3$}	(v7)
+			(v4)edge node[swap] {$3/3$}	(v5)
+			(v5)edge node {$3/3$}	(v7)
+			(v5)edge node {$3/3$}	(t)
+			(v6)edge node {$1/2$}	(t)
+			(v6)edge node[swap] {$3/5$}	(v8)
+			(v6)edge node {$1/3$}	(v5)
+			(v7)edge node {$5/6$}	(t)
+			(v8)edge node[swap] {$3/3$}	(t)
+			;
+			\end{scope}
+\end{tikzpicture}
+\end{minipage}&$\to$&
+\begin{minipage}{0.35\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+ \tikzstyle{every node}=[font=\small]
+	  \node[state] (s) {$s$};
+	  \node[state] (v2) [right = of s] {$v_2$};
+	  \node[state] (v1) [above = of v2] {$v_1$};
+	  \node[state] (v3) [below = of v2] {$v_3$};
+	  \node[state] (v4) [right = of v1] {$v_4$};
+	  \node[state] (v5) [below = of v4] {$v_5$};
+	  \node[state] (v6) [below = of v5] {$v_6$};
+	  \node[state] (t)  [right = of v5] {$t$};
+	  \node[state] (v7) [above = of t] {$v_7$};
+	  \node[state] (v8) [below = of t] {$v_8$};
+	  \begin{scope}[every node/.style={scale=.5}]
+  	  \path[->] 
+			(s)	edge [bend left=10] node {$1$}	(v1)
+			(v1)edge [bend left=10] node {$4$}	(s)
+			
+			(s)	edge [color=red,bend left=10]node {$2$}	(v2)
+			(v2)edge [bend left=10]node {$3$}	(s)
+			
+			(s)	edge [bend right=10]node[swap] {$3$}	(v3)
+			(v3)edge [bend right=10]node[swap] {$5$}	(s)
+			
+			(v1)edge [bend right=10]node[swap] {$3$}	(v2)
+			(v2)edge [bend right=10]node[swap] {$1$}	(v1)
+			
+%			(v1)edge [color=red,bend left=10]node {$2$}	(v4)
+			(v4)edge [bend left=10]node {$3$}	(v1)
+			
+			(v2)edge [color=red,bend left=10]node {$1$}	(v4)
+			(v4)edge [bend left=10]node {$2$}	(v2)
+			
+			(v2)edge [bend left=10]node {$1$}	(v5)
+			(v5)edge [bend left=10]node {$2$}	(v2)
+			
+			(v3)edge [bend left=10]node {$4$}	(v2)
+%			(v2)edge [bend left=10]node {$0$}	(v3)
+			
+%			(v3)edge [color=red,bend right=10]node[swap] {$2$}	(v6)
+			(v6)edge [bend right=10]node[swap] {$5$}	(v3)
+			
+			(v4)edge [color=red,bend left=10]node {$1$}	(v7)
+			(v7)edge [bend left=10]node {$2$}	(v4)
+			
+%			(v4)edge [color=red,bend right=10]node[swap] {$2$}	(v5)
+			(v5)edge [bend right=10]node[swap] {$3$}	(v4)
+			
+%			(v5)edge [color=red,bend left=10]node {$2$}	(v7)
+			(v7)edge [bend left=10]node {$3$}	(v5)
+			
+%			(v5)edge [color=red,bend left=10]node {$1$}	(t)
+			(t)edge [bend left=10]node {$3$}	(v5)
+			
+			(v6)edge [bend left=10] node {$1$}	(t)
+			(t)edge [bend left=10]node {$1$}	(v6)
+			
+			(v6)edge [bend right=10]node[swap] {$2$}	(v8)
+			(v8)edge[bend right=10] node[swap] {$3$}	(v6)
+			
+			(v6)edge [bend left=10]node {$2$}	(v5)
+			(v5)edge [bend left=10]node {$1$}	(v6)
+			
+			(v7)edge[color=red,bend left=10] node {$1$}	(t)
+			(t)edge[bend left=10] node {$5$}	(v7)
+			
+%			(v8)edge[color=red,bend right=10] node[swap] {$2$}	(t)
+			(t)edge [bend right=10]node[swap] {$3$}	(v8)
+			;
+			\end{scope}
+\end{tikzpicture}
+\end{minipage}& 1\\
+\end{tabular}
+
+
+\item $k+4$-я итерация алгоритма. $M$~--- величина увеличивающего пути:\newline
+\begin{tabular}{lcll}
+Сеть и поток&  & Остаточная сеть & $M$\\
+\begin{minipage}{0.35\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+ \tikzstyle{every node}=[font=\small]
+	  \node[state] (s) {$s$};
+	  \node[state] (v2) [right = of s] {$v_2$};
+	  \node[state] (v1) [above = of v2] {$v_1$};
+	  \node[state] (v3) [below = of v2] {$v_3$};
+	  \node[state] (v4) [right = of v1] {$v_4$};
+	  \node[state] (v5) [below = of v4] {$v_5$};
+	  \node[state] (v6) [below = of v5] {$v_6$};
+	  \node[state] (t)  [right = of v5] {$t$};
+	  \node[state] (v7) [above = of t] {$v_7$};
+	  \node[state] (v8) [below = of t] {$v_8$};
+	  \begin{scope}[every node/.style={scale=.5}]
+  	  \path[->] 
+			(s)	edge node {$4/5$}	(v1)
+			(s)	edge node {$4/5$}	(v2)
+			(s)	edge node[swap] {$5/8$}	(v3)
+			(v1)edge node[swap] {$1/4$}	(v2)
+			(v1)edge node {$3/3$}	(v4)
+			(v2)edge node {$3/3$}	(v4)
+			(v2)edge node {$2/3$}	(v5)
+			(v3)edge node {$0/4$}	(v2)
+			(v3)edge node[swap] {$5/5$}	(v6)
+			(v4)edge node {$3/3$}	(v7)
+			(v4)edge node[swap] {$3/3$}	(v5)
+			(v5)edge node {$3/3$}	(v7)
+			(v5)edge node {$3/3$}	(t)
+			(v6)edge node {$1/2$}	(t)
+			(v6)edge node[swap] {$3/5$}	(v8)
+			(v6)edge node {$1/3$}	(v5)
+			(v7)edge node {$6/6$}	(t)
+			(v8)edge node[swap] {$3/3$}	(t)
+			;
+			\end{scope}
+\end{tikzpicture}
+\end{minipage}&$\to$&
+\begin{minipage}{0.35\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+ \tikzstyle{every node}=[font=\small]
+	  \node[state] (s) {$s$};
+	  \node[state] (v2) [right = of s] {$v_2$};
+	  \node[state] (v1) [above = of v2] {$v_1$};
+	  \node[state] (v3) [below = of v2] {$v_3$};
+	  \node[state] (v4) [right = of v1] {$v_4$};
+	  \node[state] (v5) [below = of v4] {$v_5$};
+	  \node[state] (v6) [below = of v5] {$v_6$};
+	  \node[state] (t)  [right = of v5] {$t$};
+	  \node[state] (v7) [above = of t] {$v_7$};
+	  \node[state] (v8) [below = of t] {$v_8$};
+	  \begin{scope}[every node/.style={scale=.5}]
+  	  \path[->] 
+			(s)	edge [bend left=10] node {$1$}	(v1)
+			(v1)edge [bend left=10] node {$4$}	(s)
+			
+			(s)	edge [color=red,bend left=10]node {$1$}	(v2)
+			(v2)edge [bend left=10]node {$4$}	(s)
+			
+			(s)	edge [bend right=10]node[swap] {$3$}	(v3)
+			(v3)edge [bend right=10]node[swap] {$5$}	(s)
+			
+			(v1)edge [bend right=10]node[swap] {$3$}	(v2)
+			(v2)edge [bend right=10]node[swap] {$1$}	(v1)
+			
+%			(v1)edge [color=red,bend left=10]node {$2$}	(v4)
+			(v4)edge [bend left=10]node {$3$}	(v1)
+			
+%			(v2)edge [color=red,bend left=10]node {$1$}	(v4)
+			(v4)edge [bend left=10]node {$3$}	(v2)
+			
+			(v2)edge [bend left=10]node {$1$}	(v5)
+			(v5)edge [bend left=10]node {$2$}	(v2)
+			
+			(v3)edge [bend left=10]node {$4$}	(v2)
+%			(v2)edge [bend left=10]node {$0$}	(v3)
+			
+%			(v3)edge [color=red,bend right=10]node[swap] {$2$}	(v6)
+			(v6)edge [bend right=10]node[swap] {$5$}	(v3)
+			
+%			(v4)edge [color=red,bend left=10]node {$1$}	(v7)
+			(v7)edge [bend left=10]node {$3$}	(v4)
+			
+%			(v4)edge [color=red,bend right=10]node[swap] {$2$}	(v5)
+			(v5)edge [bend right=10]node[swap] {$3$}	(v4)
+			
+%			(v5)edge [color=red,bend left=10]node {$2$}	(v7)
+			(v7)edge [bend left=10]node {$3$}	(v5)
+			
+%			(v5)edge [color=red,bend left=10]node {$1$}	(t)
+			(t)edge [bend left=10]node {$3$}	(v5)
+			
+			(v6)edge [bend left=10] node {$1$}	(t)
+			(t)edge [bend left=10]node {$1$}	(v6)
+			
+			(v6)edge [bend right=10]node[swap] {$2$}	(v8)
+			(v8)edge[bend right=10] node[swap] {$3$}	(v6)
+			
+			(v6)edge [bend left=10]node {$2$}	(v5)
+			(v5)edge [bend left=10]node {$1$}	(v6)
+			
+%			(v7)edge[color=red,bend left=10] node {$1$}	(t)
+			(t)edge[bend left=10] node {$6$}	(v7)
+			
+%			(v8)edge[color=red,bend right=10] node[swap] {$2$}	(t)
+			(t)edge [bend right=10]node[swap] {$3$}	(v8)
+			;
+			\end{scope}
+\end{tikzpicture}
+\end{minipage}& 1\\
+\end{tabular}
+
+
 \end{enumerate}
 \newpage
+
+
+
+
 \subsection*{(каноническое) Задача 29}
 {\em (Кормен)}\newline
 Рассмотрим транспортную сеть:\newline
