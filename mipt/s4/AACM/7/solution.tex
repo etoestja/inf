@@ -158,10 +158,53 @@ $S_1=0$, так как $u\in X\,\wedge\,u\in Y\Leftrightarrow u\in X\cap Y\Leftr
 Рассмотрим $B=-f(V-X,Y)\equiv f(\{t\},\{s\})=-\sum\limits_{\substack{u\in\{t\}\\v\in\{s\}}}f(u,v)\equiv -f(t,s)\overset{\ref{defFs}}{=}f(s,t)=1$\newline
 Получаем $A=0\neq 1=B\,\blacksquare$
 \subsection*{Упражнение 3}
-Пусть $(G(V,E)$, $c\colon V^2\to\Nz, s, t)$~--- транспортная сеть. $f_1$ и $f_2$~--- потоки в ней. Определим функцию $f\colon V^2\to \mathbb{R}$ как $f(u,v)\eqdef f_1(u,v)+f_2(u,v)$. По определению, $f$~--- поток в данной транспортной сети $\Leftrightarrow$ \begin{enumerate}
+\label{Fsum} Пусть $(G(V,E)$, $c\colon V^2\to\Nz, s, t)$~--- транспортная сеть. $f_1$ и $f_2$~--- потоки, для которых выполнено $\ref{defFc}$, $\ref{defFs}$ (заметим, что функция $c$ не участвует в этой части определения).\newline
+Определим функцию $f\colon V^2\to \mathbb{R}$ как $f(u,v)\eqdef f_1(u,v)+f_2(u,v)$. По определению, $f$~--- поток в данной транспортной сети $\Leftrightarrow$ \begin{enumerate}
 \item [3.] \ref{defFc}. Фиксируем $u\in V$. Рассмотрим $f(u,V)=\sum\limits_{\substack{v\in V}}f(u,v)=\sum\limits_{\substack{v\in V}}\big[f_1(u,v)+f_2(u,v)\big]\equiv\sum\limits_{\substack{v\in V}}f_1(u,v)+\sum\limits_{\substack{v\in V}}f_2(u,v)\equiv \cancelto{0}{f_1(u,V)}+\cancelto{0}{f_2(u,V)}=0$~--- выполнено всегда (зачеркнуто по свойству $\ref{defFc}$).
 \item [2.] \ref{defFs}. Фиксируем $(u,v)\in V^2$. Рассмотрим $f(u,v)\equiv f_1(u,v)+f_2(u,v)\overset{\ref{defFs}}{=}-f_1(v,u)-f_2(v,u)\equiv -(f_1(v,u)+f_2(v,u))=-f(v,u)$~--- выполнено всегда.
 \item [1.] \ref{defFl}. Нужно: $\forall (u,v)\in V^2\hookrightarrow f(u,v)\leqslant c(u,v)$. Поэтому третье свойство выполнено для $f$ $\Leftrightarrow$ $\forall (u,v)\in V^2\hookrightarrow f_1(u,v)+f_2(u,v)\leqslant c(u,v)$.
 \end{enumerate}
 Поэтому сумма потоков $f_1+f_2$~--- поток $\Leftrightarrow$ $\boxed{\forall (u,v)\in V^2\hookrightarrow f_1(u,v)+f_2(u,v)\leqslant c(u,v)}$.
+\subsection*{Упражнение 4}
+Пусть $N=(G(V,E)$, $c\colon V^2\to\Nz, s, t)$~--- транспортная сеть. Пусть $f_1$~--- поток в ней. Пусть $N'=(G'(u,v), c',s,t)$~--- остаточная сеть для $N$ и $f_1$. Пусть найден увеличивающий путь в остаточной сети, т.е. последовательность вершин $s\equiv v_0\to v_1\to ...\to v_{k-1}\to v_k\equiv t$, такая, что
+$M\eqdef \min\limits_{i\in\overline{0,k-1}}c'(v_i,v_{i+1})>0$. Считаем путь простым (если путь не простой, выкенем цикл, получится простой путь). Определим функцию $f_2(u,v)=\sum\limits_{i=0}^{k-1}\left\{\begin{array}{rc}
+ M, & (v_i,v_{i+1})=(u,v)\\
+-M, & (v_i,v_{i+1})=(v,u)\\
+\end{array}\right.$. Поскольку путь простой, то каждое (неориентированное) ребро встречается в нем только один раз. Значит, в сумме максимум один элемент ненулевой, и получаем $f_2(u,v)=\left\{\begin{array}{rl}
+M, & \exists i\colon (u,v)=(v_i,v_{i+1})\\
+-M, & \exists i\colon (v,u)=(v_i,v_{i+1})\\
+0, & \mbox{иначе}
+\end{array}\right.$
+:\begin{enumerate}
+\item $f_2(u,v)=\left\{\begin{array}{rl}
+M, & \exists i\colon (u,v)=(v_i,v_{i+1})\\
+-M, & \exists i\colon (v,u)=(v_i,v_{i+1})\\
+0, & \mbox{иначе}
+\end{array}\right.=\left\{\begin{array}{rl}
+-M, & \exists i\colon (v,u)=(v_i,v_{i+1})\\
+M, & \exists i\colon (u,v)=(v_i,v_{i+1})\\
+0, & \mbox{иначе}
+\end{array}\right.=-\left\{\begin{array}{rl}
+M, & \exists i\colon (v,u)=(v_i,v_{i+1})\\
+-M, & \exists i\colon (u,v)=(v_i,v_{i+1})\\
+0, & \mbox{иначе}
+\end{array}\right.=\\=-f_2(v,u)$, поэтому для $f_2$ и $N$ выполнено свойство \ref{defFs}
+\item Фиксируем $u\in V\setminus\{t,s\}$. \begin{enumerate}
+\item Пусть $u$ не входит в увеличивающий путь. Тогда $\forall v\in V\,\forall i\in\overline{0,k-1}\hookrightarrow (u,v)\neq(v_i,v_{i+1})$, значит, $f_2(u,v)=0$, и $\sum\limits_{v\in V}f_2(u,v)=0$.
+\item Пусть $u$ входит в увеличивающий путь. $u\neq s\,\wedge u\neq t$, поэтому $u$~--- не первая, и не последняя вершина в пути. Значит, $\exists v_1,v_2\colon (v_1,u),\, (u,v_2)$~--- смежные ребра из пути, и других ребер из пути, инцидентных $u$ нет (путь простой). Тогда $\sum\limits_{v\in V}f_2(u,v)=0+...+0+f_2(u,v_1)+f_2(u,v_2)+0+...+0=(-M)+M=0\,\blacksquare$
+\end{enumerate}
+Получаем для $f_2$ свойство \ref{defFc}
+\item $f_2(u,v)=\left\{\begin{array}{rlc}
+M, & \exists i\colon (u,v)=(v_i,v_{i+1}) & (1)\\
+-M, & \exists i\colon (v,u)=(v_i,v_{i+1}) & (2)\\
+0, & \mbox{иначе} & (3)
+\end{array}\right.$\begin{enumerate}
+\item [(1).] $\exists i\colon (u,v)=(v_i,v_{i+1})$. $f_2(u,v)=M=\min\limits_{j\in\overline{0,k-1}}c'(v_j,v_{j+1})\leqslant c'(v_i,v_{i+1})$ (минимум меньше каждого)
+\item [(2).] $\exists i\colon (v,u)=(v_i,v_{i+1})$. $f_2(u,v)=-M<0\leqslant c'(u,v)$ (пропускная способность $c'=c-f_1$ неотрицательна, так как $f_1$~--- поток в $N$, откуда $f_1\leqslant c$).
+\item [(3).] $f_2(u,v)=0\leqslant c'(u,v)$ (пропускная способность неотрицательна)
+\end{enumerate}
+Получаем, что для $f_2$ выполнено свойство $\ref{defFl}$ для сети $N'$
+\end{enumerate}
+Получаем, что $f_2$~--- поток в $N'$. Докажем, что $f_1+f_2$~--- поток в $N$. По \ref{Fsum} это выполнено, если $\forall (u,v)\in V^2\hookrightarrow f_1(u,v)+f_2(u,v)\leqslant c(u,v)$. Фиксируем $(u,v)\in V^2$. $f_2$~--- поток в $N'$, поэтому $f_2(u,v)\leqslant c'(u,v)\equiv c(u,v)-f_1(u,v)$, поэтому $f_1(u,v)+f_2(u,v)\leqslant f_1(u,v)+c(u,v)-f_1(u,v)\equiv c(u,v)\,\blacksquare$\newline
+Докажем, что $f_1+f_2$~--- поток в исходной сети $N$ после этой итерации ФФ: алгоритм добавляет к $f_1(v_i,v_{i+1})$ величину $M$, вычитает из $f_1(v_{i+1},v_i)$ $M$. Рассмотрим разность $(f_1+f_2)-f_1=f_2$, которая как равна этой величине ($M$ в случае $(v_i,v_{i+1})$ в пути, $-M$ в случае $(v_{i+1},v_i)$ в пути, $0$ иначе) $\blacksquare$
 \end{document}
