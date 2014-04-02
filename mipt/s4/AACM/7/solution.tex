@@ -157,4 +157,11 @@ $S_1=0$, так как $u\in X\,\wedge\,u\in Y\Leftrightarrow u\in X\cap Y\Leftr
 Определим $V\supseteq X\eqdef\{s\}$, $Y\eqdef X$. Тогда $A=f(X,Y)\overset{X=Y}{\equiv} f(X,X)\overset{\ref{FAXX}}{=}0$.\newline
 Рассмотрим $B=-f(V-X,Y)\equiv f(\{t\},\{s\})=-\sum\limits_{\substack{u\in\{t\}\\v\in\{s\}}}f(u,v)\equiv -f(t,s)\overset{\ref{defFs}}{=}f(s,t)=1$\newline
 Получаем $A=0\neq 1=B\,\blacksquare$
+\subsection*{Упражнение 3}
+Пусть $(G(V,E)$, $c\colon V^2\to\Nz, s, t)$~--- транспортная сеть. $f_1$ и $f_2$~--- потоки в ней. Определим функцию $f\colon V^2\to \mathbb{R}$ как $f(u,v)\eqdef f_1(u,v)+f_2(u,v)$. По определению, $f$~--- поток в данной транспортной сети $\Leftrightarrow$ \begin{enumerate}
+\item [3.] \ref{defFc}. Фиксируем $u\in V$. Рассмотрим $f(u,V)=\sum\limits_{\substack{v\in V}}f(u,v)=\sum\limits_{\substack{v\in V}}\big[f_1(u,v)+f_2(u,v)\big]\equiv\sum\limits_{\substack{v\in V}}f_1(u,v)+\sum\limits_{\substack{v\in V}}f_2(u,v)\equiv \cancelto{0}{f_1(u,V)}+\cancelto{0}{f_2(u,V)}=0$~--- выполнено всегда (зачеркнуто по свойству $\ref{defFc}$).
+\item [2.] \ref{defFs}. Фиксируем $(u,v)\in V^2$. Рассмотрим $f(u,v)\equiv f_1(u,v)+f_2(u,v)\overset{\ref{defFs}}{=}-f_1(v,u)-f_2(v,u)\equiv -(f_1(v,u)+f_2(v,u))=-f(v,u)$~--- выполнено всегда.
+\item [1.] \ref{defFl}. Нужно: $\forall (u,v)\in V^2\hookrightarrow f(u,v)\leqslant c(u,v)$. Поэтому третье свойство выполнено для $f$ $\Leftrightarrow$ $\forall (u,v)\in V^2\hookrightarrow f_1(u,v)+f_2(u,v)\leqslant c(u,v)$.
+\end{enumerate}
+Поэтому сумма потоков $f_1+f_2$~--- поток $\Leftrightarrow$ $\boxed{\forall (u,v)\in V^2\hookrightarrow f_1(u,v)+f_2(u,v)\leqslant c(u,v)}$.
 \end{document}
