@@ -782,6 +782,125 @@ M, & \exists i\colon (u,v)=(v_i,v_{i+1}) & (1)\\
 \end{tabular}
 
 
+
+
+\item $k+5$-я итерация алгоритма. $M$~--- величина увеличивающего пути:\newline
+\begin{tabular}{lcll}
+Сеть и поток&  & Остаточная сеть & $M$\\
+\begin{minipage}{0.35\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+ \tikzstyle{every node}=[font=\small]
+	  \node[state] (s) {$s$};
+	  \node[state] (v2) [right = of s] {$v_2$};
+	  \node[state] (v1) [above = of v2] {$v_1$};
+	  \node[state] (v3) [below = of v2] {$v_3$};
+	  \node[state] (v4) [right = of v1] {$v_4$};
+	  \node[state] (v5) [below = of v4] {$v_5$};
+	  \node[state] (v6) [below = of v5] {$v_6$};
+	  \node[state] (t)  [right = of v5] {$t$};
+	  \node[state] (v7) [above = of t] {$v_7$};
+	  \node[state] (v8) [below = of t] {$v_8$};
+	  \begin{scope}[every node/.style={scale=.5}]
+  	  \path[->] 
+			(s)	edge node {$4/5$}	(v1)
+			(s)	edge node {$5/5$}	(v2)
+			(s)	edge node[swap] {$5/8$}	(v3)
+			(v1)edge node[swap] {$1/4$}	(v2)
+			(v1)edge node {$3/3$}	(v4)
+			(v2)edge node {$3/3$}	(v4)
+			(v2)edge node {$3/3$}	(v5)
+			(v3)edge node {$0/4$}	(v2)
+			(v3)edge node[swap] {$5/5$}	(v6)
+			(v4)edge node {$3/3$}	(v7)
+			(v4)edge node[swap] {$3/3$}	(v5)
+			(v5)edge node {$3/3$}	(v7)
+			(v5)edge node {$3/3$}	(t)
+			(v6)edge node {$2/2$}	(t)
+			(v6)edge node[swap] {$3/5$}	(v8)
+			(v6)edge node {$0/3$}	(v5)
+			(v7)edge node {$6/6$}	(t)
+			(v8)edge node[swap] {$3/3$}	(t)
+			;
+			\end{scope}
+\end{tikzpicture}
+\end{minipage}&$\to$&
+\begin{minipage}{0.35\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+ \tikzstyle{every node}=[font=\small]
+	  \node[state,color=green] (s) {$s$};
+	  \node[state,color=green] (v2) [right = of s] {$v_2$};
+	  \node[state,color=green] (v1) [above = of v2] {$v_1$};
+	  \node[state,color=green] (v3) [below = of v2] {$v_3$};
+	  \node[state] (v4) [right = of v1] {$v_4$};
+	  \node[state] (v5) [below = of v4] {$v_5$};
+	  \node[state] (v6) [below = of v5] {$v_6$};
+	  \node[state] (t)  [right = of v5] {$t$};
+	  \node[state] (v7) [above = of t] {$v_7$};
+	  \node[state] (v8) [below = of t] {$v_8$};
+	  \begin{scope}[every node/.style={scale=.5}]
+  	  \path[->] 
+			(s)	edge [bend left=10] node {$1$}	(v1)
+			(v1)edge [bend left=10] node {$4$}	(s)
+			
+%			(s)	edge [color=red,bend left=10]node {$0$}	(v2)
+			(v2)edge [bend left=10]node {$5$}	(s)
+			
+			(s)	edge [bend right=10]node[swap] {$3$}	(v3)
+			(v3)edge [bend right=10]node[swap] {$5$}	(s)
+			
+			(v1)edge [bend right=10]node[swap] {$3$}	(v2)
+			(v2)edge [bend right=10]node[swap] {$1$}	(v1)
+			
+%			(v1)edge [color=red,bend left=10]node {$2$}	(v4)
+			(v4)edge [bend left=10]node {$3$}	(v1)
+			
+%			(v2)edge [color=red,bend left=10]node {$1$}	(v4)
+			(v4)edge [bend left=10]node {$3$}	(v2)
+			
+%			(v2)edge [color=red,bend left=10]node {$1$}	(v5)
+			(v5)edge [bend left=10]node {$3$}	(v2)
+			
+			(v3)edge [bend left=10]node {$4$}	(v2)
+%			(v2)edge [bend left=10]node {$0$}	(v3)
+			
+%			(v3)edge [color=red,bend right=10]node[swap] {$2$}	(v6)
+			(v6)edge [bend right=10]node[swap] {$5$}	(v3)
+			
+%			(v4)edge [color=red,bend left=10]node {$1$}	(v7)
+			(v7)edge [bend left=10]node {$3$}	(v4)
+			
+%			(v4)edge [color=red,bend right=10]node[swap] {$2$}	(v5)
+			(v5)edge [bend right=10]node[swap] {$3$}	(v4)
+			
+%			(v5)edge [color=red,bend left=10]node {$2$}	(v7)
+			(v7)edge [bend left=10]node {$3$}	(v5)
+			
+%			(v5)edge [color=red,bend left=10]node {$1$}	(t)
+			(t)edge [bend left=10]node {$3$}	(v5)
+			
+%			(v6)edge [color=red,bend left=10] node {$1$}	(t)
+			(t)edge [bend left=10]node {$2$}	(v6)
+			
+			(v6)edge [bend right=10]node[swap] {$2$}	(v8)
+			(v8)edge[bend right=10] node[swap] {$3$}	(v6)
+			
+			(v6)edge [bend left=10]node {$3$}	(v5)
+%			(v5)edge [color=red,bend left=10]node {$1$}	(v6)
+			
+%			(v7)edge[color=red,bend left=10] node {$1$}	(t)
+			(t)edge[bend left=10] node {$6$}	(v7)
+			
+%			(v8)edge[color=red,bend right=10] node[swap] {$2$}	(t)
+			(t)edge [bend right=10]node[swap] {$3$}	(v8)
+			;
+			\end{scope}
+\end{tikzpicture}
+\end{minipage}& 0\\
+\end{tabular}\newline
+Зеленым выделены достижимые из $s$ вершины, $t$ не зеленая, алгоритм останавливается.
+\item Максимальный поток равен $|f|=14$
+\item (Теорема, семинар, Кормен) максимальный поток равен минимальному разрезу, который строится следующим образом: $S$~--- достижимые из $s$, $T=V\setminus S$. Алгоритм: ищем максимальный поток (ФФ), на последнем шаге (нет увеличивающего пути) строим $S$ и $T$.
+\item Для данного случая $S=\{s,v_1,v_2,v_3\}$, $T=\{v_4,v_5,v_6,v_7,t,v_8\}$, $c(S,T)=3+3+3+5=14$
 \end{enumerate}
 \newpage
 
@@ -999,4 +1118,36 @@ M, & \exists i\colon (u,v)=(v_i,v_{i+1}) & (1)\\
 \item Фиксируем $A,\,B\colon A\cap B=\varnothing, A\cup B=\overline{1,n}$~--- распределение программ. Заметим, что тогда $S=\{s\}\cup V_A$, $T=\{t\}\cup V_B$~--- разрез. Тогда (предыдущее рассуждение) для него верно равенство $c(S,T)=g(A,B)$.
 \item Алгоритм: строим сеть по входу $(n,\alpha_i,\beta_i,\gamma_{ij})$, ищем минимальный разрез, по нему строим ответ. Пусть найденный ответ не минимальный. Тогда существует лучшее распределение, значит, существует меньший разрез~--- противоречие.
 \end{enumerate}
+\subsection*{(каноническое) Задача 31.2}
+\item $1$-я итерация алгоритма. $M$~--- величина увеличивающего пути:\newline
+\begin{tabular}{lcll}
+Сеть и поток&  & Остаточная сеть & $M$\\
+\begin{minipage}{0.35\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+ \tikzstyle{every node}=[font=\small]
+	  \node[state] (s) {$s$};
+	  \node[state] (v2) [right = of s] {$v_2$};
+	  \node[state] (v1) [above = of v2] {$v_1$};
+	  \node[state] (v3) [below = of v2] {$v_3$};
+	  \node[state] (t) [right = of s] {$t$};
+	  \begin{scope}[every node/.style={scale=.5}]
+  	  \path[->] 
+			(s)	edge node {$4/5$}	(v1)
+			;
+			\end{scope}
+\end{tikzpicture}
+\end{minipage}&$\to$&
+\begin{minipage}{0.35\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+ \tikzstyle{every node}=[font=\small]
+	  \node[state,color=green] (s) {$s$};
+	  \node[state,color=green] (v2) [right = of s] {$v_2$};
+	  \begin{scope}[every node/.style={scale=.5}]
+  	  \path[->] 
+			(s)	edge [bend left=10] node {$1$}	(v1)
+			;
+			\end{scope}
+\end{tikzpicture}
+\end{minipage}& 0\\
+\end{tabular}\newline
 \end{document}
