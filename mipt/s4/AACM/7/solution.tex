@@ -134,8 +134,8 @@ $(u,v)\notin E$, $(v,u)\notin E$ $\overset{\ref{uvvu0}}{\Rightarrow}$ $f(u,v)=0$
 \begin{enumerate}
 \item Пусть $X\subseteq V$. Рассмотрим $A\eqdef f(X,X)\equiv \sum\limits_{\substack{u\in X\\v\in X}}f(u,v)$. Переобозначим, получим $$A=\sum\limits_{\substack{v\in X\\u\in X}}f(v,u)\overset{\ref{defFs}}{=}-\sum\limits_{\substack{v\in X\\u\in X}}f(u,v)=-A,$$
 откуда $A=0\,\blacksquare$
-\item Пусть $X,\,Y\subseteq V$. Рассмотрим $f(X, Y)\equiv\sum\limits_{\substack{x\in X\\y\in Y}}f(x,y)\overset{\ref{defFs}}{=}-\sum\limits_{\substack{x\in X\\y\in Y}}f(y,x)\equiv -f(Y,X)\,\blacksquare$
-\item Пусть $X,\,Y,\,Z\subseteq V$, $X\cap Y=\varnothing$. Рассмотрим $f(X\cup Y, Z)\overset{(*)}{\equiv}\sum\limits_{\substack{u\in X\cup Y\\ v\in Z}}f(u,v)=
+\item \label{FAs} Пусть $X,\,Y\subseteq V$. Рассмотрим $f(X, Y)\equiv\sum\limits_{\substack{x\in X\\y\in Y}}f(x,y)\overset{\ref{defFs}}{=}-\sum\limits_{\substack{x\in X\\y\in Y}}f(y,x)\equiv -f(Y,X)\,\blacksquare$
+\item \label{FAu} Пусть $X,\,Y,\,Z\subseteq V$, $X\cap Y=\varnothing$. Рассмотрим $f(X\cup Y, Z)\overset{(*)}{\equiv}\sum\limits_{\substack{u\in X\cup Y\\ v\in Z}}f(u,v)=
 \underbrace{\sum\limits_{\substack{u\in X\\u\in Y\\ v\in Z}}f(u,v)}_{S_1}+
 \underbrace{\sum\limits_{\substack{u\in X\\u\notin Y\\ v\in Z}}f(u,v)}_{S_2}+
 \underbrace{\sum\limits_{\substack{u\notin X\\u\in Y\\ v\in Z}}f(u,v)}_{S_3}$.\newline
@@ -143,5 +143,6 @@ $S_1=0$, так как $u\in X\,\wedge\,u\in Y\Leftrightarrow u\in X\cap Y\Leftr
 По определению, $f(X,Z)=\sum\limits_{\substack{u\in X\\u\in Y\\v\in Z}}f(u,v)+\sum\limits_{\substack{u\in X\\u\notin Y\\v\in Z}}f(u,v)\equiv S_1+S_2\overset{S_1=0}{=}S_2$\newline
 По определению, $f(Y,Z)=\sum\limits_{\substack{u\in Y\\u\in X\\v\in Z}}f(u,v)+\sum\limits_{\substack{u\in Y\\u\notin X\\v\in Z}}f(u,v)\equiv S_1+S_3\overset{S_1=0}{=}S_3$\newline
 Тогда из $(*)$ получаем $f(X\cup Y,Z)=S_2+S_3=f(X,Z)+f(Y,Z)$.
+\item Пусть $X,\,Y,\,Z\subseteq V$, $X\cap Y=\varnothing$. Тогда $f(Z,X\cup Y)\overset{\ref{FAs}}{=}-f(X\cup Y,Z)\overset{\ref{FAu}}{=}-(f(X,Z)+f(Y,Z)\equiv -f(X,Z)-f(Y,Z)\overset{\ref{FAs}}{=}f(Z,X)+f(Z,Y)$
 \end{enumerate}
 \end{document}
