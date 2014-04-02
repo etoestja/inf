@@ -208,7 +208,132 @@ M, & \exists i\colon (u,v)=(v_i,v_{i+1}) & (1)\\
 Получаем, что $f_2$~--- поток в $N'$. Докажем, что $f_1+f_2$~--- поток в $N$. По \ref{Fsum} это выполнено, если $\forall (u,v)\in V^2\hookrightarrow f_1(u,v)+f_2(u,v)\leqslant c(u,v)$. Фиксируем $(u,v)\in V^2$. $f_2$~--- поток в $N'$, поэтому $f_2(u,v)\leqslant c'(u,v)\equiv c(u,v)-f_1(u,v)$, поэтому $f_1(u,v)+f_2(u,v)\leqslant f_1(u,v)+c(u,v)-f_1(u,v)\equiv c(u,v)\,\blacksquare$\newline
 Докажем, что $f_1+f_2$~--- поток в исходной сети $N$ после этой итерации ФФ: алгоритм добавляет к $f_1(v_i,v_{i+1})$ величину $M$, вычитает из $f_1(v_{i+1},v_i)$ $M$. Рассмотрим разность $(f_1+f_2)-f_1=f_2$, которая как равна этой величине ($M$ в случае $(v_i,v_{i+1})$ в пути, $-M$ в случае $(v_{i+1},v_i)$ в пути, $0$ иначе) $\blacksquare$
 \subsection*{(каноническое) Задача 28}
+\newpage
 \subsection*{(каноническое) Задача 29}
+{\em (Кормен)}\newline
+Рассмотрим транспортную сеть:\newline
+\begin{tabular}{ll}
+Сеть & Остаточная сеть\\
+\begin{minipage}{0.35\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=1.5cm,on grid,auto,initial text=]
+	  \node[state] (s) {$s$};
+	  \node (c) [right = 3cm of s] {$$};
+	  \node[state] (u) [above = of c] {$u$};
+	  \node[state] (v) [below = of c] {$v$};
+	  \node[state] (t) [right = 3cm of c] {$t$};
+  	  \path[->] 
+			(s)	edge node {$0/H$}	(u)
+			(s)	edge node[swap] {$0/H$}	(v)
+			(u)	edge node {$0/H$}	(t)
+			(v)	edge node[swap] {$0/H$}	(t)
+			(u)	edge node {$0/1$}	(v)
+			;
+\end{tikzpicture}
+\end{minipage}
+&
+\begin{minipage}{0.4\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=1.5cm,on grid,auto,initial text=]
+	  \node[state] (s) {$s$};
+	  \node (c) [right = 3cm of s] {$$};
+	  \node[state] (u) [above = of c] {$u$};
+	  \node[state] (v) [below = of c] {$v$};
+	  \node[state] (t) [right = 3cm of c] {$t$};
+  	  \path[->] 
+			(s)	edge node {$H$}	(u)
+			(s)	edge node[swap] {$H$}	(v)
+			(u)	edge node {$H$}	(t)
+			(v)	edge node[swap] {$H$}	(t)
+			(u)	edge node {$1$}	(v)
+			;
+\end{tikzpicture}
+\end{minipage}\\
+\end{tabular}
+\begin{enumerate}
+\item На каждом шаге алгоритм выбирает увеличивающий путь.
+\item Пусть на первом шаге выбран увеличивающий путь $s\to u\to v\to t$ величины 1. После первой итерации исходная сеть и остаточная сеть:\newline
+\begin{tabular}{ll}
+Сеть & Остаточная сеть\\
+\begin{minipage}{0.35\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=1.5cm,on grid,auto,initial text=]
+	  \node[state] (s) {$s$};
+	  \node (c) [right = 3cm of s] {$$};
+	  \node[state] (u) [above = of c] {$u$};
+	  \node[state] (v) [below = of c] {$v$};
+	  \node[state] (t) [right = 3cm of c] {$t$};
+  	  \path[->] 
+			(s)	edge node {$1/H$}	(u)
+			(s)	edge node[swap] {$0/H$}	(v)
+			(u)	edge node {$0/H$}	(t)
+			(v)	edge node[swap] {$1/H$}	(t)
+			(u)	edge node {$1/1$}	(v)
+			;
+\end{tikzpicture}
+\end{minipage}
+&
+\begin{minipage}{0.4\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=1.5cm,on grid,auto,initial text=]
+	  \node[state] (s) {$s$};
+	  \node (c) [right = 3cm of s] {$$};
+	  \node[state] (u) [above = of c] {$u$};
+	  \node[state] (v) [below = of c] {$v$};
+	  \node[state] (t) [right = 3cm of c] {$t$};
+  	  \path[->] 
+			(s)	edge [bend left=10] node {$H-1$}	(u)
+			(u)	edge [bend left=10] node {$1$}	(s)
+			(s)	edge node[swap] {$H$}	(v)
+			(u)	edge node {$H$}	(t)
+			(v)	edge [bend right=10] node[swap] {$H-1$}	(t)
+			(t)	edge [bend right=10] node[swap] {$1$}	(v)
+			(v)	edge node {$1$}	(u)
+			;
+\end{tikzpicture}
+\end{minipage}\\
+\end{tabular}
+\item Пусть на втором шаге выбран увеличивающий путь $s\to v\to u\to t$ величины 1. После второй итерации исходная сеть и остаточная сеть:\newline
+\begin{tabular}{ll}
+Сеть & Остаточная сеть\\
+\begin{minipage}{0.35\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=1.5cm,on grid,auto,initial text=]
+	  \node[state] (s) {$s$};
+	  \node (c) [right = 3cm of s] {$$};
+	  \node[state] (u) [above = of c] {$u$};
+	  \node[state] (v) [below = of c] {$v$};
+	  \node[state] (t) [right = 3cm of c] {$t$};
+  	  \path[->] 
+			(s)	edge node {$1/H$}	(u)
+			(s)	edge node[swap] {$1/H$}	(v)
+			(u)	edge node {$1/H$}	(t)
+			(v)	edge node[swap] {$1/H$}	(t)
+			(u)	edge node {$0/1$}	(v)
+			;
+\end{tikzpicture}
+\end{minipage}
+&
+\begin{minipage}{0.4\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=1.5cm,on grid,auto,initial text=]
+	  \node[state] (s) {$s$};
+	  \node (c) [right = 3cm of s] {$$};
+	  \node[state] (u) [above = of c] {$u$};
+	  \node[state] (v) [below = of c] {$v$};
+	  \node[state] (t) [right = 3cm of c] {$t$};
+  	  \path[->] 
+			(s)	edge [bend left=10] node {$H-1$}	(u)
+			(u)	edge [bend left=10] node {$1$}	(s)
+			(s)	edge [bend left=10] node {$H-1$}	(v)
+			(v)	edge [bend left=10] node {$1$}	(s)
+			(u)	edge [bend left=10] node {$H-1$}	(t)
+			(t)	edge [bend left=10] node {$1$}	(u)
+			(v)	edge [bend right=10] node[swap] {$H-1$}	(t)
+			(t)	edge [bend right=10] node[swap] {$1$}	(v)
+			(u)	edge node {$1$}	(v)
+			;
+\end{tikzpicture}
+\end{minipage}\\
+\end{tabular}
+\item Остаточная сеть после второй итерации содержит остаточную сеть для входной сети при $H-1$, поэтому при таком выборе путей будет совершено $2H$ итераций (максимальный поток равен $2H$).
+\item Размер входа $f(H)=\Theta(\log H)$ (описание сети~--- константа), время $T(H)=\Omega(H)$ (по количеству итераций), откуда $$\forall c\geqslant \hookrightarrow\lim\limits_{H\to\infty} \frac{T(H)}{f^c(H)}\geqslant \lim\limits_{H\to\infty}\frac{C_1\cdot H}{C_2^c\log^c H} =\lim\limits_{H\to\infty}c_3\frac{H}{\log^c H}=+\infty\Rightarrow T(H)\neq\poly(f(H)).$$
+То есть, время работы неполиномиально по длине битовой записи входа.
+\end{enumerate}
 \newpage
 \subsection*{(каноническое) Задача 30}
 Пусть $G(V,E)$~--- двудольный граф с долями $L$ и $R$. Считаем, что $E\subseteq L\times R$ (только слева направо). Задача: найти максимальное по мощности $E_0\subseteq E$, такое что любые два ребра из $E_0$ не смежны, то есть, каждая вершина $v\in V$ инцидентна не более, чем одному ребру из $E'$. Определим $G'(V',E')$: $$V'=V\cup\{s,t\}.\,E'=(\bigcup\limits_{l\in L}\{(s,l)\})\cup E\cup (\bigcup\limits_{r\in R}\{(r,t)\}).$$
