@@ -99,7 +99,7 @@ $(G(V,E)$, $c\colon V^2\to\Nz, s, t)$~--- транспортная сеть $\Le
 \item \label{defNCg0}$c(u,v)\geqslant 0$
 \item \label{defNCE} $\forall (u,v)\in V^2\hookrightarrow \big((u,v)\in E\Leftrightarrow c(u,v)>0\big)$
 \end{enumerate}
-$c\colon V^2\to\Nz$~--- поток в этой сети $\Leftrightarrow$\begin{enumerate}
+$f\colon V^2\to\ZZ$~--- поток в этой сети $\Leftrightarrow$\begin{enumerate}
 \item \label{defFl} $\forall(u,v)\in V^2\hookrightarrow \big(f(u,v)\leqslant c(u,v)\big)$
 \item \label{defFs} $\forall(u,v)\in V^2\hookrightarrow \big(f(u,v)=-f(v,u)\big)$
 \item \label{defFc} $\forall u\in V^2\setminus\{s,t\}\hookrightarrow f(u,V)=0$
@@ -132,7 +132,7 @@ $(u,v)\notin E$, $(v,u)\notin E$ $\overset{\ref{uvvu0}}{\Rightarrow}$ $f(u,v)=0$
 \subsection*{Задача 1}
 Пусть $(G(V,E)$, $c\colon V^2\to\Nz, s, t)$~--- транспортная сеть. $f$~--- поток в ней.
 \begin{enumerate}
-\item Пусть $X\subseteq V$. Рассмотрим $A\eqdef f(X,X)\equiv \sum\limits_{\substack{u\in X\\v\in X}}f(u,v)$. Переобозначим, получим $$A=\sum\limits_{\substack{v\in X\\u\in X}}f(v,u)\overset{\ref{defFs}}{=}-\sum\limits_{\substack{v\in X\\u\in X}}f(u,v)=-A,$$
+\item \label{FAXX} Пусть $X\subseteq V$. Рассмотрим $A\eqdef f(X,X)\equiv \sum\limits_{\substack{u\in X\\v\in X}}f(u,v)$. Переобозначим, получим $$A=\sum\limits_{\substack{v\in X\\u\in X}}f(v,u)\overset{\ref{defFs}}{=}-\sum\limits_{\substack{v\in X\\u\in X}}f(u,v)=-A,$$
 откуда $A=0\,\blacksquare$
 \item \label{FAs} Пусть $X,\,Y\subseteq V$. Рассмотрим $f(X, Y)\equiv\sum\limits_{\substack{x\in X\\y\in Y}}f(x,y)\overset{\ref{defFs}}{=}-\sum\limits_{\substack{x\in X\\y\in Y}}f(y,x)\equiv -f(Y,X)\,\blacksquare$
 \item \label{FAu} Пусть $X,\,Y,\,Z\subseteq V$, $X\cap Y=\varnothing$. Рассмотрим $f(X\cup Y, Z)\overset{(*)}{\equiv}\sum\limits_{\substack{u\in X\cup Y\\ v\in Z}}f(u,v)=
@@ -145,4 +145,16 @@ $S_1=0$, так как $u\in X\,\wedge\,u\in Y\Leftrightarrow u\in X\cap Y\Leftr
 Тогда из $(*)$ получаем $f(X\cup Y,Z)=S_2+S_3=f(X,Z)+f(Y,Z)$.
 \item Пусть $X,\,Y,\,Z\subseteq V$, $X\cap Y=\varnothing$. Тогда $f(Z,X\cup Y)\overset{\ref{FAs}}{=}-f(X\cup Y,Z)\overset{\ref{FAu}}{=}-(f(X,Z)+f(Y,Z)\equiv -f(X,Z)-f(Y,Z)\overset{\ref{FAs}}{=}f(Z,X)+f(Z,Y)$
 \end{enumerate}
+\subsection*{Задача 2}
+Нет, не обязательно. Пример. Рассмотрим $(G(V,E)$, $c\colon V^2\to\Nz, s, t)$~--- транспортная сеть. $f$~--- поток в ней:\newline
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	  \node[state] (s) {$s$};
+	  \node[state] (t)  [right = of s] {$t$};
+  	  \path[->] 
+			(s)	edge node {$1/1$}	(t)
+			;
+\end{tikzpicture}\newline
+Определим $V\supseteq X\eqdef\{s\}$, $Y\eqdef X$. Тогда $A=f(X,Y)\overset{X=Y}{\equiv} f(X,X)\overset{\ref{FAXX}}{=}0$.\newline
+Рассмотрим $B=-f(V-X,Y)\equiv f(\{t\},\{s\})=-\sum\limits_{\substack{u\in\{t\}\\v\in\{s\}}}f(u,v)\equiv -f(t,s)\overset{\ref{defFs}}{=}f(s,t)=1$\newline
+Получаем $A=0\neq 1=B\,\blacksquare$
 \end{document}
