@@ -122,7 +122,7 @@ $(u,v)\notin E$, $(v,u)\notin E$ $\overset{\ref{uvvu0}}{\Rightarrow}$ $f(u,v)=0$
 Из $(*)$ получаем $0\overset{S_1=0}{\underset{S_4=0}{=}}S_2+S_3$, откуда $S_2=-S_3$, и $f(L,u)=f(u,R)\,\blacksquare$
 \newpage
 \subsection*{Упражнение 2}
-Пусть $(G(V,E)$, $c\colon V^2\to\Nz, s, t)$~--- транспортная сеть. $f$~--- поток в ней.\newline
+\label{fst} Пусть $(G(V,E)$, $c\colon V^2\to\Nz, s, t)$~--- транспортная сеть. $f$~--- поток в ней.\newline
 Рассмотрим $A\eqdef\sum\limits_{\substack{u\in V\\v\in V}} f(u,v)$. Переобозначим, получим $A=\sum\limits_{\substack{v\in V\\u\in V}}f(v,u)\overset{\ref{defFs}}{=}-\sum\limits_{\substack{v\in V\\u\in V}}f(u,v)=-A$, откуда $A=0$\newline
 Но $A=\underbrace{\sum\limits_{\substack{u=s\\v\in V}}f(u,v)}_{S_1}+\underbrace{\sum\limits_{\substack{u=t\\v\in V}}f(u,v)}_{S_2}+\underbrace{\sum\limits_{\substack{u\in V\setminus \{s,t\}\\v\in V}}f(u,v)}_{S_3}$.\newline
 Рассмотрим $S_3=\sum\limits_{u\in V\setminus\{s,t\}}\underline{\sum\limits_{v\in V}f(u,v)}$. По свойству $\ref{defFc}$ каждая подчеркнутая часть равна $0$, и $S_3=0$\newline
@@ -207,4 +207,55 @@ M, & \exists i\colon (u,v)=(v_i,v_{i+1}) & (1)\\
 \end{enumerate}
 Получаем, что $f_2$~--- поток в $N'$. Докажем, что $f_1+f_2$~--- поток в $N$. По \ref{Fsum} это выполнено, если $\forall (u,v)\in V^2\hookrightarrow f_1(u,v)+f_2(u,v)\leqslant c(u,v)$. Фиксируем $(u,v)\in V^2$. $f_2$~--- поток в $N'$, поэтому $f_2(u,v)\leqslant c'(u,v)\equiv c(u,v)-f_1(u,v)$, поэтому $f_1(u,v)+f_2(u,v)\leqslant f_1(u,v)+c(u,v)-f_1(u,v)\equiv c(u,v)\,\blacksquare$\newline
 Докажем, что $f_1+f_2$~--- поток в исходной сети $N$ после этой итерации ФФ: алгоритм добавляет к $f_1(v_i,v_{i+1})$ величину $M$, вычитает из $f_1(v_{i+1},v_i)$ $M$. Рассмотрим разность $(f_1+f_2)-f_1=f_2$, которая как равна этой величине ($M$ в случае $(v_i,v_{i+1})$ в пути, $-M$ в случае $(v_{i+1},v_i)$ в пути, $0$ иначе) $\blacksquare$
+\subsection*{(каноническое) Задача 28}
+\subsection*{(каноническое) Задача 29}
+\newpage
+\subsection*{(каноническое) Задача 30}
+Пусть $G(V,E)$~--- двудольный граф с долями $L$ и $R$. Считаем, что $E\subseteq L\times R$ (только слева направо). Задача: найти максимальное по мощности $E_0\subseteq E$, такое что любые два ребра из $E_0$ не смежны, то есть, каждая вершина $v\in V$ инцидентна не более, чем одному ребру из $E'$. Определим $G'(V',E')$: $$V'=V\cup\{s,t\}.\,E'=(\bigcup\limits_{l\in L}\{(s,l)\})\cup E\cup (\bigcup\limits_{r\in R}\{(r,t)\}).$$
+Задададим все пропускные способности $c(u,v)=\begin{cases}
+1, & (u,v)\in E'\\
+0, & (u,v)\notin E'\\
+\end{cases}$. Тогда $N\eqdef (G',c,s,t)$~--- транспортная сеть.\newline
+Обозначим $a=|L|,\,b=|R|$. Хуёвая картинка, которая ни о чем не говорит:\newline
+\begin{tikzpicture}[shorten >=1pt,node distance=1.3cm,on grid,auto,initial text=]
+	  \node[state] (l1) {$l_1$};
+	  \node[state] (l2) [below = of l1] {$l_2$};
+	  \node (ld) [below = of l2] {$...$};
+	  \node[state] (lm1) [below = of ld] {$l_{a-1}$};
+	  \node[state] (l) [below = of lm1] {$l_{a}$};
+	  \node[state] (s) [left = 3cm of ld] {$s$};
+	  \node[state] (r1) [right = 3cm of l1] {$r_1$};
+	  \node[state] (r2) [below = of r1] {$r_2$};
+	  \node (rd) [below = of r2] {$...$};
+	  \node[state] (rm1) [below = of rd] {$r_{b-1}$};
+	  \node[state] (r) [below = of rm1] {$r_{b}$};
+	  \node[state] (t) [right = 3cm of rd] {$t$};
+  	  \path[->] 
+			(s)	edge node {$1$}	(l1)
+			(s)	edge node[swap] {$1$}	(l2)
+			(s)	edge node {$1$}	(lm1)
+			(s)	edge node {$1$}	(l)
+			(r1)	edge node {$1$}	(t)
+			(r2)	edge node[swap] {$1$}	(t)
+			(rm1)	edge node {$1$}	(t)
+			(r)	edge node {$1$}	(t)
+			(l1)	edge node {$1$}	(r2)
+			(l)	edge [out=50,in=200] node {$1$}	(r1)
+			(l2)	edge [out=-40,in=190] node {$1$}	(rm1)
+			;
+\end{tikzpicture}\newline
+Пусть $f$~--- поток в $N$. Тогда $|f|$ задает некоторое паросочетание $E_0$, причем $|f|=|E_0|$\begin{enumerate}
+\item Вершина $s$ соединена только с вершинами из $L$. Фиксируем одну $l\in L$. Предположим, что $f(s,l)<0$. Тогда (\ref{defFs}) $f(l,s)>0$. Но $c(l,s)=0$, так как так как $(l,s)\notin E'$. Получаем противоречие (\ref{defFl}): $f(l,s)>0=c(l,s)$. Значит, $f(s,l)\geqslant 0$, т.е. $f(s,l)\in \{0,1\}$.
+\item \label{tl5} Обозначим $L_0=\{l\in L\big| f(s,l)=1\}$. Тогда $f(s,L)=|L_0|$, так как $c(\cdot,\cdot)\in\{0,1\}$. $s$ инцидентна только вершинам из $L$, поэтому для остальных вершин $v\notin L$ по \ref{uvvu0} имеем $f(s,v)=0$. Значит, $f(s,V)=|L_0|$. Аналогично получаем $f(r,t)\geqslant 0$, обозначим $R_0=\{r\in R\big| f(r,t)=1\}$, и $f(R,t)\equiv f(V,t)=|R_0|$. Но по \ref{fst} $f(s,V)=f(V,t)$, откуда $|L_0|=|R_0|$.
+\item \label{tl2} Фиксируем $l\in L$. Пусть $l\in L_0$. Тогда $\exists!r\in R\colon f(l,r)=1$:\begin{enumerate}
+\item \label{tl1} Фиксируем $r\in R$. Пусть $f(l,r)<0$. Тогда $f(r,l)>0$. Но $(r,l)\notin E\subseteq L\times R$, откуда $c(r,l)=0<f(r,l)$~--- противоречие (\ref{defFl})
+\item ($\exists$) Пусть иначе. Тогда $\forall r\in R\hookrightarrow f(l,r)\leqslant 0$. Из \ref{tl1} получаем, что $f(l,r)=0$. Тогда $f(l,R)=0$. Но $l$ и $t$ не смежны, поэтому (свойство \ref{uvvu0}) $f(l,V\setminus\{s\})=0$. Получим $0\overset{\ref{defFc}}{=}f(l,V)\overset{\ref{FAu}}{=}f(l,s)+f(l,V\setminus\{s\})$. Первое слагаемое равно $-1$, так как $f(s,l)=1$ ($l\in L_0$), второе равно нулю, получаем $0=-1$~--- противоречие $\,\blacksquare$
+\item ($!$) Пусть иначе. Поскольку $\forall r\in R\hookrightarrow f(l,r)\geqslant 0$ (\ref{tl1}), найдем $0\overset{\ref{defFc}}{=}f(l,V)\overset{\ref{FAu}}{=}\underbrace{f(l,s)}_{=-1}+\cancelto{0}{f(l,t)}+\cancelto{0}{f(l,L)}+\underbrace{f(l,R)}_{\geqslant 2}\geqslant 1$~--- противоречие.
+\end{enumerate}
+\item \label{tl3} Пусть $l\in L_0$, $r\in R$: $f(l,r)>0$. Тогда $r\in R_0$. Пусть иначе. Тогда $f(r,t)=0$ (ребра $(t,r)$ нет в $E'$). Получаем $f(r,V)=f(r,l)+f(r,t)=-1\neq 0$~--- противоречие с $\ref{defFc}$.
+\item \label{tl4} Пусть $r\in R_0$. Тогда $\exists l\in L\colon f(l,r)=1$. Пусть иначе. $r$ смежна (возможно) только с вершинами из $L$, поэтому $f(r,V)=\underbrace{f(r,t)}_{=1}+\cancelto{0}{f(r,L)}=1$~--- противоречие. По \ref{tl3} эта существующая $l\in L_0$.
+\item Построена функция $E_0\colon L_0\to R_0$. Действительно, для каждой $l\in L$ найдена единственная (\ref{tl2}) вершина $r\in R_0$ (\ref{tl3}). По \ref{tl4} эта функция сюръективная (все значения достигаются), и по \ref{tl5} она~--- биекция ($|R_0|=|L_0|$). Значит, $E_0$~--- паросочетание $\blacksquare$
+\item Было доказано (\ref{tl5}), что $|L_0|=|R_0|=f(s,V)\equiv |f|$, откуда мощность паросочетания равна величине потока $\blacksquare$
+\end{enumerate}
+\subsection*{(каноническое) Задача 31}
 \end{document}
