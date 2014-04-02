@@ -208,8 +208,16 @@ M, & \exists i\colon (u,v)=(v_i,v_{i+1}) & (1)\\
 Получаем, что $f_2$~--- поток в $N'$. Докажем, что $f_1+f_2$~--- поток в $N$. По \ref{Fsum} это выполнено, если $\forall (u,v)\in V^2\hookrightarrow f_1(u,v)+f_2(u,v)\leqslant c(u,v)$. Фиксируем $(u,v)\in V^2$. $f_2$~--- поток в $N'$, поэтому $f_2(u,v)\leqslant c'(u,v)\equiv c(u,v)-f_1(u,v)$, поэтому $f_1(u,v)+f_2(u,v)\leqslant f_1(u,v)+c(u,v)-f_1(u,v)\equiv c(u,v)\,\blacksquare$\newline
 Докажем, что $f_1+f_2$~--- поток в исходной сети $N$ после этой итерации ФФ: алгоритм добавляет к $f_1(v_i,v_{i+1})$ величину $M$, вычитает из $f_1(v_{i+1},v_i)$ $M$. Рассмотрим разность $(f_1+f_2)-f_1=f_2$, которая как равна этой величине ($M$ в случае $(v_i,v_{i+1})$ в пути, $-M$ в случае $(v_{i+1},v_i)$ в пути, $0$ иначе) $\blacksquare$
 \subsection*{(каноническое) Задача 28}
-Транспортная сеть $N(G(V,E),c,s,t)$ и поток $f$ в ней:\newline
-\begin{tikzpicture}[shorten >=1pt,node distance=2.5cm,on grid,auto,initial text=]
+Транспортная сеть $N(G(V,E),c,s,t)$ и поток $f$ в ней (см. картинку ниже)\newline
+\begin{enumerate}
+\item $|f|=2+2+3=7$.
+\item Нет (см. далее).
+\item $k$-я итерация алгоритма:\newline
+\begin{tabular}{ll}
+Сеть & Остаточная сеть\\
+\begin{minipage}{0.5\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+ \tikzstyle{every node}=[font=\small]
 	  \node[state] (s) {$s$};
 	  \node[state] (v2) [right = of s] {$v_2$};
 	  \node[state] (v1) [above = of v2] {$v_1$};
@@ -220,6 +228,7 @@ M, & \exists i\colon (u,v)=(v_i,v_{i+1}) & (1)\\
 	  \node[state] (t)  [right = of v5] {$t$};
 	  \node[state] (v7) [above = of t] {$v_7$};
 	  \node[state] (v8) [below = of t] {$v_8$};
+	  \begin{scope}[every node/.style={scale=.5}]
   	  \path[->] 
 			(s)	edge node {$2/5$}	(v1)
 			(s)	edge node {$2/5$}	(v2)
@@ -240,11 +249,82 @@ M, & \exists i\colon (u,v)=(v_i,v_{i+1}) & (1)\\
 			(v7)edge node {$3/6$}	(t)
 			(v8)edge node[swap] {$1/3$}	(t)
 			;
+			\end{scope}
 \end{tikzpicture}
-\begin{enumerate}
-\item $|f|=2+2+3=7$.
-\item Нет (см. далее).
-\item Остаточная сеть и 
+\end{minipage}&
+\begin{minipage}{0.5\textwidth}
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+ \tikzstyle{every node}=[font=\small]
+	  \node[state] (s) {$s$};
+	  \node[state] (v2) [right = of s] {$v_2$};
+	  \node[state] (v1) [above = of v2] {$v_1$};
+	  \node[state] (v3) [below = of v2] {$v_3$};
+	  \node[state] (v4) [right = of v1] {$v_4$};
+	  \node[state] (v5) [below = of v4] {$v_5$};
+	  \node[state] (v6) [below = of v5] {$v_6$};
+	  \node[state] (t)  [right = of v5] {$t$};
+	  \node[state] (v7) [above = of t] {$v_7$};
+	  \node[state] (v8) [below = of t] {$v_8$};
+	  \begin{scope}[every node/.style={scale=.5}]
+  	  \path[->] 
+			(s)	edge [bend left=10] node {$0$}	(v1)
+			(v1)edge [bend left=10] node {$1$}	(s)
+			
+			(s)	edge [bend left=10]node {$2$}	(v2)
+			(v2)edge [bend left=10]node {$3$}	(s)
+			
+			(s)	edge [bend right=10]node[swap] {$4$}	(v3)
+			(v3)edge [bend right=10]node[swap] {$5$}	(s)
+			
+			(v1)edge [bend right=10]node[swap] {$6$}	(v2)
+			(v2)edge [bend right=10]node[swap] {$7$}	(v1)
+			
+			(v1)edge [bend left=10]node {$8$}	(v4)
+			(v4)edge [bend left=10]node {$9$}	(v1)
+			
+			(v2)edge [bend left=10]node {$10$}	(v4)
+			(v4)edge [bend left=10]node {$11$}	(v2)
+			
+			(v2)edge [bend left=10]node {$12$}	(v5)
+			(v5)edge [bend left=10]node {$13$}	(v2)
+			
+			(v3)edge [bend left=10]node {$14$}	(v2)
+			(v2)edge [bend left=10]node {$15$}	(v3)
+			
+			(v3)edge [bend right=10]node[swap] {$16$}	(v6)
+			(v6)edge [bend right=10]node[swap] {$17$}	(v3)
+			
+			(v4)edge [bend left=10]node {$18$}	(v7)
+			(v7)edge [bend left=10]node {$19$}	(v4)
+			
+			(v4)edge [bend right=10]node[swap] {$20$}	(v5)
+			(v5)edge [bend right=10]node[swap] {$21$}	(v4)
+			
+			(v5)edge [bend left=10]node {$22$}	(v7)
+			(v7)edge [bend left=10]node {$23$}	(v5)
+			
+			(v5)edge [bend left=10]node {$24$}	(t)
+			(t)edge [bend left=10]node {$25$}	(v5)
+			
+			(v6)edge [bend left=10] node {$26$}	(t)
+			(t)edge [bend left=10]node {$27$}	(v6)
+			
+			(v6)edge [bend right=10]node[swap] {$28$}	(v8)
+			(v8)edge[bend right=10] node[swap] {$29$}	(v6)
+			
+			(v6)edge [bend left=10]node {$30$}	(v5)
+			(v5)edge [bend left=10]node {$31$}	(v6)
+			
+			(v7)edge[bend left=10] node {$32$}	(t)
+			(t)edge[bend left=10] node {$33$}	(v7)
+			
+			(v8)edge[bend right=10] node[swap] {$34$}	(t)
+			(t)edge [bend right=10]node[swap] {$35$}	(v8)
+			;
+			\end{scope}
+\end{tikzpicture}
+\end{minipage}\\
+\end{tabular}
 \end{enumerate}
 \newpage
 \subsection*{(каноническое) Задача 29}
