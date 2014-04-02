@@ -1119,6 +1119,7 @@ M, & \exists i\colon (u,v)=(v_i,v_{i+1}) & (1)\\
 \item Алгоритм: строим сеть по входу $(n,\alpha_i,\beta_i,\gamma_{ij})$, ищем минимальный разрез, по нему строим ответ. Пусть найденный ответ не минимальный. Тогда существует лучшее распределение, значит, существует меньший разрез~--- противоречие.
 \end{enumerate}
 \subsection*{(каноническое) Задача 31.2}
+\begin{enumerate}
 \item $1$-я итерация алгоритма. $M$~--- величина увеличивающего пути:\newline
 \begin{tabular}{lcll}
 Сеть и поток&  & Остаточная сеть & $M$\\
@@ -1126,13 +1127,28 @@ M, & \exists i\colon (u,v)=(v_i,v_{i+1}) & (1)\\
 \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
  \tikzstyle{every node}=[font=\small]
 	  \node[state] (s) {$s$};
-	  \node[state] (v2) [right = of s] {$v_2$};
+	  \node[state] (v2) [right = 3cm of s] {$v_2$};
 	  \node[state] (v1) [above = of v2] {$v_1$};
 	  \node[state] (v3) [below = of v2] {$v_3$};
-	  \node[state] (t) [right = of s] {$t$};
+	  \node[state] (t) [right = 3cm of v2] {$t$};
 	  \begin{scope}[every node/.style={scale=.5}]
   	  \path[->] 
-			(s)	edge node {$4/5$}	(v1)
+			(s)	edge node {$0/\infty$}	(v1)
+			(s)	edge node {$0/1$}	(v2)
+			(s)	edge node[swap] {$0/3$}	(v3)
+			
+			(v1)	edge node {$0/3$}	(t)
+			(v2)	edge node {$0/3$}	(t)
+			(v3)	edge node {$0/1$}	(t)
+			
+			(v1)	edge[bend left=10] node {$0/1$}	(v2)
+			(v2)	edge[bend left=10] node {$0/4$}	(v1)
+			
+			(v1)	edge[bend left=10] node {$0/1$}	(v3)
+			(v3)	edge[bend left=10] node {$0/\infty$}	(v1)
+			
+			(v3)	edge node {$0/1$}	(v2)
+			
 			;
 			\end{scope}
 \end{tikzpicture}
@@ -1149,5 +1165,6 @@ M, & \exists i\colon (u,v)=(v_i,v_{i+1}) & (1)\\
 			\end{scope}
 \end{tikzpicture}
 \end{minipage}& 0\\
-\end{tabular}\newline
+\end{tabular}
+\end{enumerate}
 \end{document}
