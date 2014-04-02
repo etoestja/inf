@@ -1,0 +1,147 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+%\geometry{paperwidth=210mm, paperheight=2000pt, left=5pt, top=5pt}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,arrows,trees,calc}
+\usepackage{amsmath}
+\usepackage[makeroom]{cancel} % зачеркивание
+\usepackage{multicol,multirow} %Несколько колонок
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{listings}
+\usepackage{wasysym}
+\date{задано 2014.03.27}
+\author{Сергей~Володин, 272 гр.}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+% названия автоматов  (rubtsov)
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+
+%классы сложности (rubtsov)
+\def\PP{{\mathsf{P}}}
+\def\NP{{\mathsf{NP}}}
+\def\NPc{{\mathsf{NP}}\text{-}{\rm c}}
+\def\coNP{{\rm co}\text{-}{\mathsf{NP}}}
+\def\DTIME{{\mathsf{DTIME}}}
+\def\NTIME{{\mathsf{NTIME}}}
+\def\CLIQUE{{\mathsf{CLIQUE}}}
+\def\HALT{{\rm{HALT}}}
+\def\SAT{{\rm{SAT}}}
+\def\3SAT{{\rm{3\text{-}SAT}}}
+\def\2SAT{{\rm{2\text{-}SAT}}}
+\def\UNSAT{{\rm{UNSAT}}}
+\def\HP{{\rm{HAMPATH}}}
+\def\UHP{{\rm{UHAMPATH}}}
+\def\LL{{\mathrm{LL}}}
+\def\poly{{\rm{poly}}}
+\def\GC{{\mbox{ГЦ}}}
+\def\GP{{\mbox{ГП}}}
+
+\title{Алгоритмы и модели вычислений.\\Задание 7: потоки}
+
+% алгоритмы (Рубцов)
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{algorithm2e}
+
+%+= и -=, иначе разъезжаются...
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
+\newcommand{\todo}{{\em todo}}
+
+% пустое слово  (rubtsov)
+\def\eps{\varepsilon}
+
+% регулярные языки  (rubtsov)
+\def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\newcommand{\niton}{\not\owns}
+
+%FIRST & FOLLOW (rubtsov)
+\def\first{\mathrm{ FIRST} }
+\def\follow{\mathrm{ FOLLOW} }
+
+% LL LR (rubtsov)
+\def\LL{{\mathrm{LL}}}
+\def\LR{{\mathrm{LR}}}
+
+\newcounter{rowItemCount}
+\newcounter{subRowItemCount}
+\newcommand\rowItem{
+    \setcounter{subRowItemCount}{0}
+    \arabic{rowItemCount}.\addtocounter{rowItemCount}{1}}
+\newcommand\subRowItem{
+    \addtocounter{subRowItemCount}{1}
+    \addtocounter{rowItemCount}{-1}
+    \arabic{rowItemCount}.\arabic{subRowItemCount}.\addtocounter{rowItemCount}{1}}
+    
+\newcommand{\smalll}[1]{\overline{\overline{#1}}}
+\newcommand{\smallo}{\bar{\bar{o}}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\Nz}{\mathbb{N}\cup\{0\}}
+\begin{document}
+\maketitle
+\subsection*{Определения}
+{\em (сюда будут ссылки)}\newline
+$(G(V,E)$, $c\colon V^2\to\Nz, s, t)$~--- транспортная сеть $\Leftrightarrow$ \begin{enumerate}
+\item \label{defNCg0}$c(u,v)\geqslant 0$
+\item \label{defNCE} $\forall (u,v)\in V^2\hookrightarrow \big((u,v)\in E\Leftrightarrow c(u,v)>0\big)$
+\end{enumerate}
+$c\colon V^2\to\Nz$~--- поток в этой сети $\Leftrightarrow$\begin{enumerate}
+\item \label{defFl} $\forall(u,v)\in V^2\hookrightarrow \big(f(u,v)\leqslant c(u,v)\big)$
+\item \label{defFs} $\forall(u,v)\in V^2\hookrightarrow \big(f(u,v)=-f(v,u)\big)$
+\item \label{defFc} $\forall u\in V^2\setminus\{s,t\}\hookrightarrow f(u,V)=0$
+\end{enumerate}
+\subsection*{Упражнение 0}
+\begin{enumerate}
+\item \label{uvvu0} Пусть $(G(V,E)$, $c\colon V^2\to\Nz, s, t)$~--- транспортная сеть. Пусть $(u,v)\notin E$, $(v,u)\notin E$. Тогда $f(u,v)=f(v,u)=0$.\newline
+$(u,v)\notin E\overset{\ref{defNCE}}{\Rightarrow} c(u,v)=0$. $(v,u)\notin E\overset{\ref{defNCE}}{\Rightarrow} c(v,u)=0$. Но $-0=-c(v,u)\overset{\ref{defFl}}{\leqslant} -f(v,u)\overset{\ref{defFs}}{=}\underline{f(u,v)}\overset{\ref{defFl}}{\leqslant} c(u,v)=0$, откуда $f(u,v)=f(v,u)=0\,\blacksquare$
+\end{enumerate}
+\subsection*{Упражнение 1}
+Пусть $(G(V,E)$, $c\colon V^2\to\Nz, s, t)$~--- транспортная сеть. Фиксируем $u\notin\{s,t\}$. Пусть $L=\{v\in V\big| (v,u)\in E\}$, $R=\{v\in V\big|(u,v)\in E\}$~--- вершины, из которых (в которые, соответственно) есть ребра в фиксированную. Тогда $f(L,u)=f(u,R)$.\newline
+Найдем $$0\overset{\ref{defFc}}{=}f(u,V)\equiv\sum\limits_{v\in V}f(u,v)=
+\underbrace{\sum\limits_{\substack{v\in V\\ (u,v)\in E\\ (v,u)\in E}}f(u,v)}_{S_1}+
+\underbrace{\sum\limits_{\substack{v\in V\\ (u,v)\in E\\ (v,u)\notin E}}f(u,v)}_{S_2}+
+\underbrace{\sum\limits_{\substack{v\in V\\ (u,v)\notin E\\ (v,u)\in E}}f(u,v)}_{S_3}+
+\underbrace{\sum\limits_{\substack{v\in V\\ (u,v)\notin E\\ (v,u)\notin E}}f(u,v)}_{S_4}$$
+$(u,v)\notin E$, $(v,u)\notin E$ $\overset{\ref{uvvu0}}{\Rightarrow}$ $f(u,v)=0$, поэтому $S_4=0$. Рассмотрим $S_1=\sum\limits_{\substack{v\in V\\ (u,v)\in E\\ (v,u)\in E}}f(u,v)\overset{\ref{defFs}}{=}\sum\limits_{\substack{v\in V\\ (u,v)\in E\\ (v,u)\in E}}(-f(v,u))=-\sum\limits_{\substack{v\in V\\ (u,v)\in E\\ (v,u)\in E}}f(v,u)\boxed{=}$. Переобозначим вершины, получим $\boxed{=}-\sum\limits_{\substack{u\in V\\ (v,u)\in E\\ (u,v)\in E}}f(u,v)=-S_1$, откуда $S_1=0$.\newline
+Рассмотрим $f(L,u)=\sum\limits_{(v,u)\in E}f(v,u)=-\sum\limits_{(v,u)\in E}f(u,v)=-(S_1+S_3)\overset{S_1=0}{\equiv} -S_3$\newline
+Рассмотрим $f(u,R)=\sum\limits_{(u,v)\in E}f(u,v)=S_1+S_2\overset{S_1=0}{\equiv}S_2$.\newline
+Из $(*)$ получаем $0\overset{S_1=0}{\underset{S_4=0}{=}}S_2+S_3$, откуда $S_2=-S_3$, и $f(L,u)=f(u,R)\,\blacksquare$
+\newpage
+\subsection*{Упражнение 2}
+Пусть $(G(V,E)$, $c\colon V^2\to\Nz, s, t)$~--- транспортная сеть. $f$~--- поток в ней.\newline
+Рассмотрим $A\eqdef\sum\limits_{\substack{u\in V\\v\in V}} f(u,v)$. Переобозначим, получим $A=\sum\limits_{\substack{v\in V\\u\in V}}f(v,u)\overset{\ref{defFs}}{=}-\sum\limits_{\substack{v\in V\\u\in V}}f(u,v)=-A$, откуда $A=0$\newline
+Но $A=\underbrace{\sum\limits_{\substack{u=s\\v\in V}}f(u,v)}_{S_1}+\underbrace{\sum\limits_{\substack{u=t\\v\in V}}f(u,v)}_{S_2}+\underbrace{\sum\limits_{\substack{u\in V\setminus \{s,t\}\\v\in V}}f(u,v)}_{S_3}$.\newline
+Рассмотрим $S_3=\sum\limits_{u\in V\setminus\{s,t\}}\underline{\sum\limits_{v\in V}f(u,v)}$. По свойству $\ref{defFc}$ каждая подчеркнутая часть равна $0$, и $S_3=0$\newline
+Рассмотрим $S_1=\sum\limits_{v\in V}f(s,v)\equiv |f|$\newline
+Рассмотрим $S_2=\sum\limits_{v\in V}f(t,v)\overset{\ref{defFs}}{=} -\sum\limits_{v\in V}f(v,t)=-f(V,t)$.\newline
+Поскольку $0=A=S_1+S_2$, получаем $|f|=f(V,t)\,\blacksquare$
+\subsection*{Задача 1}
+Пусть $(G(V,E)$, $c\colon V^2\to\Nz, s, t)$~--- транспортная сеть. $f$~--- поток в ней.
+\begin{enumerate}
+\item Пусть $X\subseteq V$. Рассмотрим $A\eqdef f(X,X)\equiv \sum\limits_{\substack{u\in X\\v\in X}}f(u,v)$. Переобозначим, получим $$A=\sum\limits_{\substack{v\in X\\u\in X}}f(v,u)\overset{\ref{defFs}}{=}-\sum\limits_{\substack{v\in X\\u\in X}}f(u,v)=-A,$$
+откуда $A=0\,\blacksquare$
+\item Пусть $X,\,Y\subseteq V$. Рассмотрим $f(X, Y)\equiv\sum\limits_{\substack{x\in X\\y\in Y}}f(x,y)\overset{\ref{defFs}}{=}-\sum\limits_{\substack{x\in X\\y\in Y}}f(y,x)\equiv -f(Y,X)\,\blacksquare$
+\item Пусть $X,\,Y,\,Z\subseteq V$, $X\cap Y=\varnothing$. Рассмотрим $f(X\cup Y, Z)\overset{(*)}{\equiv}\sum\limits_{\substack{u\in X\cup Y\\ v\in Z}}f(u,v)=
+\underbrace{\sum\limits_{\substack{u\in X\\u\in Y\\ v\in Z}}f(u,v)}_{S_1}+
+\underbrace{\sum\limits_{\substack{u\in X\\u\notin Y\\ v\in Z}}f(u,v)}_{S_2}+
+\underbrace{\sum\limits_{\substack{u\notin X\\u\in Y\\ v\in Z}}f(u,v)}_{S_3}$.\newline
+$S_1=0$, так как $u\in X\,\wedge\,u\in Y\Leftrightarrow u\in X\cap Y\Leftrightarrow u\in\varnothing$\newline
+По определению, $f(X,Z)=\sum\limits_{\substack{u\in X\\u\in Y\\v\in Z}}f(u,v)+\sum\limits_{\substack{u\in X\\u\notin Y\\v\in Z}}f(u,v)\equiv S_1+S_2\overset{S_1=0}{=}S_2$\newline
+По определению, $f(Y,Z)=\sum\limits_{\substack{u\in Y\\u\in X\\v\in Z}}f(u,v)+\sum\limits_{\substack{u\in Y\\u\notin X\\v\in Z}}f(u,v)\equiv S_1+S_3\overset{S_1=0}{=}S_3$\newline
+Тогда из $(*)$ получаем $f(X\cup Y,Z)=S_2+S_3=f(X,Z)+f(Y,Z)$.
+\end{enumerate}
+\end{document}
