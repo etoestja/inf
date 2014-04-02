@@ -243,8 +243,9 @@ M, & \exists i\colon (u,v)=(v_i,v_{i+1}) & (1)\\
 			(l)	edge [out=50,in=200] node {$1$}	(r1)
 			(l2)	edge [out=-40,in=190] node {$1$}	(rm1)
 			;
-\end{tikzpicture}\newline
-Пусть $f$~--- поток в $N$. Тогда $|f|$ задает некоторое паросочетание $E_0$, причем $|f|=|E_0|$\begin{enumerate}
+\end{tikzpicture}
+\begin{enumerate}
+\item \label{l1} Пусть $f$~--- поток в $N$. Тогда $|f|$ задает некоторое паросочетание $E_0$, причем $|f|=|E_0|$\begin{enumerate}
 \item Вершина $s$ соединена только с вершинами из $L$. Фиксируем одну $l\in L$. Предположим, что $f(s,l)<0$. Тогда (\ref{defFs}) $f(l,s)>0$. Но $c(l,s)=0$, так как так как $(l,s)\notin E'$. Получаем противоречие (\ref{defFl}): $f(l,s)>0=c(l,s)$. Значит, $f(s,l)\geqslant 0$, т.е. $f(s,l)\in \{0,1\}$.
 \item \label{tl5} Обозначим $L_0=\{l\in L\big| f(s,l)=1\}$. Тогда $f(s,L)=|L_0|$, так как $c(\cdot,\cdot)\in\{0,1\}$. $s$ инцидентна только вершинам из $L$, поэтому для остальных вершин $v\notin L$ по \ref{uvvu0} имеем $f(s,v)=0$. Значит, $f(s,V)=|L_0|$. Аналогично получаем $f(r,t)\geqslant 0$, обозначим $R_0=\{r\in R\big| f(r,t)=1\}$, и $f(R,t)\equiv f(V,t)=|R_0|$. Но по \ref{fst} $f(s,V)=f(V,t)$, откуда $|L_0|=|R_0|$.
 \item \label{tl2} Фиксируем $l\in L$. Пусть $l\in L_0$. Тогда $\exists!r\in R\colon f(l,r)=1$:\begin{enumerate}
@@ -257,5 +258,28 @@ M, & \exists i\colon (u,v)=(v_i,v_{i+1}) & (1)\\
 \item Построена функция $E_0\colon L_0\to R_0$. Действительно, для каждой $l\in L$ найдена единственная (\ref{tl2}) вершина $r\in R_0$ (\ref{tl3}). По \ref{tl4} эта функция сюръективная (все значения достигаются), и по \ref{tl5} она~--- биекция ($|R_0|=|L_0|$). Значит, $E_0$~--- паросочетание $\blacksquare$
 \item Было доказано (\ref{tl5}), что $|L_0|=|R_0|=f(s,V)\equiv |f|$, откуда мощность паросочетания равна величине потока $\blacksquare$
 \end{enumerate}
+\item \label{l2} Пусть $E_0\subseteq E\subseteq L\times R$~--- паросочетание. Тогда существует поток $f$ в $N$, причем $|f|=|E_0|$\begin{enumerate}
+\item Определим\begin{itemize}
+\item $f(E_0)=1$ (для каждой пары)
+\item $f(s,L_0)=1$, где $L_0=\{l\in L\big|\exists r\in R\colon (l,r)\in E_0\}$
+\item $f(R_0,t)=1$, где $R_0=\{r\in R\big|\exists l\in L\colon (l,r)\in E_0\}$
+\item $f(E_0^T)=-1$ ($E_0^T=\{(r,l)\big|(l,r)\in E_0\}$)
+\item $f(L_0,s)=-1$
+\item $f(t,R_0)=-1$
+\item $f(u,v)=0$ в остальных случаях
+\end{itemize}
+\item Тогда $\forall (u,v)\in E'\hookrightarrow f(u,v)=-f(v,u)$
+\item Единицы добавлены только на существующих ребрах, поэтому $f(u,v)\leqslant c(u,v)$
+\item $E_0$~--- паросочетание, поэтому функция $E_0\colon L_0\to R_0$~--- биекция.
+\item Рассмотрим $l\in L\setminus L_0$. Получаем, что (рассматриваем только существующие ребра) $f(l,V)=\cancelto{0}{f(l,s)}+\cancelto{0}{f(l,R)}=0$
+\item Рассмотрим $l\in L$. Получаем, что (рассматриваем только существующие ребра) $f(l,V)=\underbrace{f(l,s)}_{=-1}+\underbrace{f(l,R)}_{=1}=0$. $f(l,R)=1$, так как $E_0$~--- биекция.
+\item Аналогично для $r\in R$: $\forall r\in R\hookrightarrow f(r,V)=0$
+\item Получаем свойство $\ref{defFc}$
+\item Получаем, что $f$~--- поток в $N\,\blacksquare$
+\item Найдем $|f|=f(s,V)=f(s,L)=f(s,L_0)=|L_0|=|E_0|\,\blacksquare$
+\end{enumerate}
+\end{enumerate}
+Алгоритм: По $G(V,E)$ строим сеть $N$ (конструкция выше), ищем максимальный поток $f$, по нему построим паросочетание $E_0$ (см. \ref{l1}).\newline
+Оно будет максимально. Пусть иначе. Тогда по большему паросочетанию $E_0'\colon |E_0'|>|E_0|$ найдем поток $f'$, такой что $f'=|E_0'|$ (см. \ref{l2}). Получим $|f'|\overset{\ref{l2}}{=}|E_0'|>|E_0|\overset{\ref{l1}}{=}|f|$, т.е. $f$~--- не максимальный поток~--- противоречие.
 \subsection*{(каноническое) Задача 31}
 \end{document}
