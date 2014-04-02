@@ -406,5 +406,18 @@ M, & \exists i\colon (u,v)=(v_i,v_{i+1}) & (1)\\
 \end{enumerate}
 Алгоритм: По $G(V,E)$ строим сеть $N$ (конструкция выше), ищем максимальный поток $f$, по нему построим паросочетание $E_0$ (см. \ref{l1}).\newline
 Оно будет максимально. Пусть иначе. Тогда по большему паросочетанию $E_0'\colon |E_0'|>|E_0|$ найдем поток $f'$, такой что $f'=|E_0'|$ (см. \ref{l2}). Получим $|f'|\overset{\ref{l2}}{=}|E_0'|>|E_0|\overset{\ref{l1}}{=}|f|$, т.е. $f$~--- не максимальный поток~--- противоречие.
-\subsection*{(каноническое) Задача 31}
+\subsection*{(каноническое) Задача 31.1}
+\begin{enumerate}
+\item Пусть заданы $n\in\mathbb{N}$, $\{\alpha_i\}_{i=1}^n$, $\{\beta_i\}_{i=1}^n$, $\{\gamma_{ij}\}_{i,j=1}^{n}$, $\forall i\in\overline{1,n}\hookrightarrow\gamma_{ii}=0$. Построим сеть $(G(V,E),c,s,t)$:\begin{enumerate}
+\item $V\eqdef\{V_i\}_{i=1}^n\cup\{s,t\}$
+\item $c(s,V_i)\eqdef \beta_i$
+\item $c(V_i,t)\eqdef \alpha_i$
+\item $c(V_i,V_j)\eqdef \gamma_{ij}$
+\item $c(u,v)=0$ в остальных случаях
+\end{enumerate}
+Определим $E=\{(u,v)\in E\big|c(u,v)>0\}$.
+\item Рассмотрим некоторый разрез $S$, $T=V\setminus S$. $s\in S$, $t\in T$. Пусть $X=S\cap\{V_i\}_{i=1}^n$, $Y\eqdef\{V_i\}_{i=1}^n\setminus X$. Тогда величина разреза $c(S,T)=\sum\limits_{\substack{u\in S\\v\in T}}c(u,v)=\sum\limits_{y\in Y}c(s,y)+\sum\limits_{x\in X}c(x,t)+\sum\limits_{\substack{x\in X\\y\in Y}}c(x,y)=\sum\limits_{V_i\in X}\alpha_i+\sum\limits_{V_i\in Y}\beta_i+\sum\limits_{\substack{V_i\in X\\V_j\in Y}}\gamma_{ij}$. Обозначим $A\eqdef\{i\big|V_i\in X\}$, $B\eqdef\{j\big|V_j\in Y\}$. Тогда $c(S,T)=\sum\limits_{i\in A}\alpha_i+\sum\limits_{j\in B}\beta_j+\sum\limits_{\substack{i\in A\\j\in B}}\gamma_{ij}=g(A,B)$, где $g(A,B)$~--- функция из условия, которую нужно минимизировать.
+\item Фиксируем $A,\,B\colon A\cap B=\varnothing, A\cup B=\overline{1,n}$~--- распределение программ. Заметим, что тогда $S=\{s\}\cup V_A$, $T=\{t\}\cup V_B$~--- разрез. Тогда (предыдущее рассуждение) для него верно равенство $c(S,T)=g(A,B)$.
+\item Алгоритм: строим сеть по входу $(n,\alpha_i,\beta_i,\gamma_{ij})$, ищем минимальный разрез, по нему строим ответ. Пусть найденный ответ не минимальный. Тогда существует лучшее распределение, значит, существует меньший разрез~--- противоречие.
+\end{enumerate}
 \end{document}
