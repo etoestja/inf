@@ -1,5 +1,7 @@
 ﻿use theater;
 
+--impossible
+
 set transaction isolation level read uncommitted;
 
 begin transaction;

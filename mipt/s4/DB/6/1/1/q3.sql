@@ -1,5 +1,7 @@
 ﻿use theater;
 
+--possible
+
 set transaction isolation level read uncommitted;
 
 drop table actor1

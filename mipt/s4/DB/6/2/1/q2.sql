@@ -1,8 +1,8 @@
 use theater;
 
---possible
+--impossible
 
-set transaction isolation level read uncommitted;
+set transaction isolation level read committed;
 
 begin transaction
 
