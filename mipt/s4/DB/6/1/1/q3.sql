@@ -4,6 +4,8 @@
 
 set transaction isolation level read uncommitted;
 
+--update actor set name_middle = N'Петров' where id = 2
+
 drop table actor1
 
 create table actor1(name_middle nvarchar(50));

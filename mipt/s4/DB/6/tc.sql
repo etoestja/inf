@@ -1,0 +1,3 @@
+use theater;
+
+select @@TRANCOUNT
