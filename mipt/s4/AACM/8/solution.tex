@@ -1,0 +1,119 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+%\geometry{paperwidth=210mm, paperheight=2000pt, left=5pt, top=5pt}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,arrows,trees,calc}
+\usepackage{amsmath}
+\usepackage[makeroom]{cancel} % зачеркивание
+\usepackage{multicol,multirow} %Несколько колонок
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{listings}
+\usepackage{wasysym}
+\date{задано 2014.03.27}
+\author{Сергей~Володин, 272 гр.}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+% названия автоматов  (rubtsov)
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+
+%классы сложности (rubtsov)
+\def\PP{{\mathsf{P}}}
+\def\NP{{\mathsf{NP}}}
+\def\NPc{{\mathsf{NP}}\text{-}{\rm c}}
+\def\coNP{{\rm co}\text{-}{\mathsf{NP}}}
+\def\DTIME{{\mathsf{DTIME}}}
+\def\NTIME{{\mathsf{NTIME}}}
+\def\CLIQUE{{\mathsf{CLIQUE}}}
+\def\HALT{{\rm{HALT}}}
+\def\SAT{{\rm{SAT}}}
+\def\3SAT{{\rm{3\text{-}SAT}}}
+\def\2SAT{{\rm{2\text{-}SAT}}}
+\def\UNSAT{{\rm{UNSAT}}}
+\def\HP{{\rm{HAMPATH}}}
+\def\UHP{{\rm{UHAMPATH}}}
+\def\LL{{\mathrm{LL}}}
+\def\poly{{\rm{poly}}}
+\def\GC{{\mbox{ГЦ}}}
+\def\GP{{\mbox{ГП}}}
+\def\conv{{\mbox{conv}}}
+
+\title{Алгоритмы и модели вычислений.\\Задание 8: линейное программирование}
+
+% алгоритмы (Рубцов)
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{algorithm2e}
+
+%+= и -=, иначе разъезжаются...
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
+\newcommand{\todo}{{\em todo}}
+
+% пустое слово  (rubtsov)
+\def\eps{\varepsilon}
+
+% регулярные языки  (rubtsov)
+\def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\newcommand{\niton}{\not\owns}
+
+%FIRST & FOLLOW (rubtsov)
+\def\first{\mathrm{ FIRST} }
+\def\follow{\mathrm{ FOLLOW} }
+
+% LL LR (rubtsov)
+\def\LL{{\mathrm{LL}}}
+\def\LR{{\mathrm{LR}}}
+
+\newcounter{rowItemCount}
+\newcounter{subRowItemCount}
+\newcommand\rowItem{
+    \setcounter{subRowItemCount}{0}
+    \arabic{rowItemCount}.\addtocounter{rowItemCount}{1}}
+\newcommand\subRowItem{
+    \addtocounter{subRowItemCount}{1}
+    \addtocounter{rowItemCount}{-1}
+    \arabic{rowItemCount}.\arabic{subRowItemCount}.\addtocounter{rowItemCount}{1}}
+    
+\newcommand{\smalll}[1]{\overline{\overline{#1}}}
+\newcommand{\smallo}{\bar{\bar{o}}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\Nz}{\mathbb{N}\cup\{0\}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\RR}{\mathbb{R}}
+\begin{document}
+\maketitle
+\subsection*{(каноническое) Задача 32}
+\subsection*{(каноническое) Задача 33}
+\subsection*{(каноническое) Задача 34}
+\subsection*{(каноническое) Задача 35}
+\subsection*{(каноническое) Задача 36}
+{\em (Тарасов, лекция 2014.04.01)}\newline
+Фиксируем $k\in\NN$, $\{t_i\}_{i=1}^k\subset\RR$. Определим $\vec{r}\colon \RR\to \RR^4: \vec{r}(t)\eqdef \begin{Vmatrix}
+t^4 & t^3 & t^2 & t
+\end{Vmatrix}^T
+$. Рассмотрим точки $\vec{x}_i=\vec{r}(t_i)$. Рассмотрим $G\eqdef\conv(\{\vec{x}_i\}_{i=1}^k)$~--- выпуклую оболочку этих точек. Фиксируем $i_1\neq i_2\in\overline{1,k}$. Докажем, что $\vec{x}_{i_1},\vec{x}_{i_2}$~--- вершины $G$, соединенные ребром $\overset{\mbox{def}}{\Leftrightarrow}$ $\exists$ гиперплоскость $\pi\colon$ ($\vec{x}_{i_1}$, $\vec{x}_{i_2}\in\pi$) и (многогранник $G$ лежит по одну сторону от $\pi$).\begin{enumerate}
+\item Определим многочлен $P(t)\eqdef (t-t_{i_1})^2\cdot(t-t_{i_2})^2\equiv t^4+a_3t^3+a_2t^2+a_1t+a_0$
+\item Определим гиперплоскость $\pi$. $\RR^4\ni\vec{x}\equiv \begin{Vmatrix}
+x_1 & x_2 & x_3 & x_4\end{Vmatrix}^T\in\pi\Leftrightarrow F(\vec{x})\equiv x_1+a_3x_2+a_2x_3+a_1x_4+a_0=0$.
+\item Тогда $F(\vec{r}(t))=P(t)$: $F(\vec{r}(t))=F(t^4,t^3,t^2,t)=t^4+a_3t^3+a_2t^2+a_1t+a_0$
+\item $t_{i_1}$ и $t_{i_2}$~--- корни $P(t)$, откуда $P(t_{i_1})=P(t_{i_2})=0$, значит, $F(\vec{x}_{i_1})=F(\vec{x}_{i_2})=0$, значит, $\vec{x}_{i_1},\vec{x}_{i_2}\in\pi$
+\item Фиксируем $t\in\RR$. Тогда $F(\vec{r}(t))=P(t)\geqslant 0$. Значит, все точки $\{\vec{x}_i\}_{i=1}^k$ лежат по одну сторону от $\pi$. Значит, $G$ лежит по одну сторону 
+\item Пусть $t\colon \vec{r}(t)\in\pi\Leftrightarrow F(\vec{r}(t))=0\Leftrightarrow P(t)=0\Leftrightarrow$ $t\in\{t_{i_1},t_{i_2}\}$
+\end{enumerate}
+Найдена плоскость
+\subsection*{(каноническое) Задача 37}
+\end{document}
