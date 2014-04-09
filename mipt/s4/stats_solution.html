@@ -1,0 +1,82 @@
+<html>
+<head>
+<meta http-equiv='content-type' content='text/html; charset=utf8'>
+<style>
+<!--
+body {width:auto;padding:5;margin:5;}
+.error {font-weight:bold;color:#f00;font-style:italic;}
+.word1,.word2,.word3 {color: #009; border-left: 1px solid #CDF; border-bottom: 1px solid #CDF;}
+.word2 {font-weight: 700;}
+.word3 {font-style: italic;}
+.command {color: #c00;}
+.exclcommand {color: #f99;}
+.option {color: #cc0;}
+.grouping, .document {color: #900; font-weight:bold;}
+.mathgroup {color: #090;}
+.exclmath {color: #6c6;}
+.ignore {color: #999;}
+.exclgroup {color:#c66;}
+.tc {color: #999; font-weight:bold;}
+.comment {color: #999; font-style: italic;}
+.state {color: #990; font-size: 70%;}
+.cumsum {color: #999; font-size: 80%;}
+.fileinclude {color: #696; font-weight:bold;}
+.warning {color: #c00; font-weight: 700;}
+
+div.filegroup, div.parse, div.stylehelp, div.count, div.sumcount, div.error {
+   border: solid 1px #999; margin: 4pt 0pt; padding: 4pt;
+}
+div.stylehelp {font-size: 80%; background: #fffff0; margin-bottom: 16pt;}
+div.filegroup {background: #dfd; margin-bottom: 16pt;}
+div.count {background: #ffe;}
+div.sumcount {background: #cec;}
+div.error {background: #fcc;}
+.parse {font-size: 80%; background: #f8fff8; border-bottom:none;}
+
+ul.count {list-style-type: none; margin: 4pt 0pt; padding: 0pt;}
+.count li.header {font-weight: bold; font-style: italic;}
+.subcount li.header {font-weight: normal; font-style: italic;}
+.subcount li {margin-left: 16pt; font-size: 80%;}
+.fielddesc {font-style: italic;}
+.nb {color: #900;}
+
+table.stat {border:2px solid #339; background:#666; border-collapse:collapse;}
+table.stat tr {border:1px solid #CCC;}
+table.stat th, table.stat td {padding:1pt 4pt;}
+table.stat col {padding:4pt;}
+table.stat thead {background: #CCF;}
+table.stat tbody {border:1px solid #333;}
+table.stat tbody.sumstat {background:#FFC;}
+table.stat tbody.langstat {background:#FEE;}
+table.stat tbody.wordstat {background:#EEF;}
+table.stat .sum {font-weight:bold; font-style:italic;}
+-->
+</style>
+</head>
+
+<body>
+
+<h1>LaTeX word count</h1>
+
+<div class='filegroup'>
+<br>
+<span class='error'>!!!&nbsp; File not found or not readable: solution.tex&nbsp; !!!</span><br>
+</div>
+
+<div class='error'><p>
+There were 1 error(s) reported!
+</p></div>
+<table class='stat'>
+<thead>
+<tr><th>Word</th><th>Freq</th></tr>
+</thead>
+<tbody class='sumstat'>
+<tr class='sum'><td>All words</td><td>0</td></tr>
+</tbody>
+<tbody class='wordstat'>
+<tr class='sum'><td>Sum of subset</td><td>0</td></tr>
+</tbody>
+</table>
+</body>
+
+</html>

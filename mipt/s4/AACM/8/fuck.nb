@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       145,          7]
-NotebookDataLength[    141728,       2394]
+NotebookDataLength[    141730,       2394]
 NotebookOptionsPosition[    141236,       2374]
-NotebookOutlinePosition[    141571,       2389]
-CellTagsIndexPosition[    141528,       2386]
+NotebookOutlinePosition[    141573,       2389]
+CellTagsIndexPosition[    141530,       2386]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -2372,8 +2372,8 @@ Cell[BoxData[
   RowBox[{"\:0440\:0443\:043a\:0430\:043c\:0438", "?"}]}]], "Input",
  CellChangeTimes->{{3.606052601309828*^9, 3.606052601541847*^9}}]
 },
-WindowSize->{1366, 727},
-WindowMargins->{{0, Automatic}, {0, Automatic}},
+WindowSize->{640, 623},
+WindowMargins->{{Automatic, 209}, {-8, Automatic}},
 FrontEndVersion->"7.0 for Linux x86 (64-bit) (October 28, 2009)",
 StyleDefinitions->"Default.nb"
 ]
@@ -2389,7 +2389,7 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[567, 22, 2870, 87, 112, "Input"],
+Cell[567, 22, 2870, 87, 152, "Input"],
 Cell[3440, 111, 220, 4, 31, "Output"],
 Cell[3663, 117, 136705, 2230, 677, 121963, 1986, "CachedBoxData", "BoxData", \
 "Output"],
@@ -2401,4 +2401,3 @@ Cell[140882, 2367, 350, 5, 31, "Input"]
 *)
 
 (* End of internal cache information *)
-
