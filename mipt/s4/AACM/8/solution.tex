@@ -98,6 +98,67 @@
 \maketitle
 \subsection*{(каноническое) Задача 32}
 \subsection*{(каноническое) Задача 33}
+$P_\eps\eqdef\left\{(x_1,x_2,x_3)\in\RR^3\left| \left\{\begin{array}{lclllc}
+(*_1) & 0        & \leqslant & x_1 & \leqslant & 1\\
+(*_2) & \eps x_1 & \leqslant & x_2 & \leqslant & 1-\eps x_1\\
+(*_3) & \eps x_2 & \leqslant & x_3 & \leqslant & 1-\eps x_2
+\end{array}
+\right.\right.\right\}$. Путь:\begin{enumerate}
+\item $\vec{x}_1=(0,0,0)\in P_\eps$:\begin{enumerate}
+\item[$(*_1)$] $0\leqslant 0\leqslant 1$
+\item[$(*_2)$] $0\leqslant 0\leqslant 1-0$
+\item[$(*_3)$] $0\leqslant 0\leqslant 1-0$
+\end{enumerate}
+\item $\vec{x}_2=(1,\eps,\eps^2)\in P_\eps$:\begin{enumerate}
+\item[$(*_1)$] $0\leqslant 1\leqslant 1$
+\item[$(*_2)$] $\eps\leqslant \eps\leqslant 1-\eps$ ($\eps<\frac{1}{2}$)
+\item[$(*_3)$] $\eps^2\leqslant \eps^2\leqslant 1-\eps^2$ ($\eps^2<\frac{1}{4}<\frac{1}{2}$)
+\end{enumerate}
+$\eps^2>0$
+
+\item $\vec{x}_3=(1,1-\eps,\eps-\eps^2)\in P_\eps$:\begin{enumerate}
+\item[$(*_1)$] $0\leqslant 1\leqslant 1$
+\item[$(*_2)$] $\eps\leqslant 1-\eps\leqslant 1-\eps$ ($\eps<\frac{1}{2}$)
+\item[$(*_3)$] $\eps-\eps^2\leqslant \eps-\eps^2\leqslant 1-\eps+\eps^2$ ($2\eps^2-2\eps+1>0,\,D=4-8<0$)
+\end{enumerate}
+$\eps-\eps^2>\eps^2$ ($\eps<\frac{1}{2}$)
+
+\item $\vec{x}_4=(0,1,\eps)\in P_\eps$:\begin{enumerate}
+\item[$(*_1)$] $0 \leqslant 0 \leqslant 1$
+\item[$(*_2)$] $0 \leqslant 1 \leqslant 1$
+\item[$(*_3)$] $\eps \leqslant \eps \leqslant 1-\eps$ ($\eps<\frac{1}{2}$)
+\end{enumerate}
+$\eps>\eps-\eps^2$ ($\eps>0$)
+
+\item $\vec{x}_5=(0,1,1-\eps)\in P_\eps$:\begin{enumerate}
+\item[$(*_1)$] $0\leqslant 0 \leqslant 1$
+\item[$(*_2)$] $0 \leqslant 1 \leqslant 1$
+\item[$(*_3)$] $\eps \leqslant 1-\eps \leqslant 1-\eps$ ($\eps<\frac{1}{2}$)
+\end{enumerate}
+$1-\eps>\eps$ ($\eps<\frac{1}{2}$)
+
+\item $\vec{x}_6=(1,1-\eps,1-\eps+\eps^2)\in P_\eps$:\begin{enumerate}
+\item[$(*_1)$] $0\leqslant 1 \leqslant 1$
+\item[$(*_2)$] $\eps \leqslant 1-\eps \leqslant 1-\eps$ ($\eps<\frac{1}{2} $)
+\item[$(*_3)$] $\eps-\eps^2 \leqslant 1-\eps+\eps^2 \leqslant 1-\eps+\eps^2$ ($2\eps^2-2\eps+1>0,\,D=4-8<0$)
+\end{enumerate}
+$1-\eps+\eps^2>1-\eps$ ($\eps>0$)
+
+\item $\vec{x}_7=(1,\eps,1-\eps^2)\in P_\eps$:\begin{enumerate}
+\item[$(*_1)$] $0\leqslant 1 \leqslant 1$ ($ $)
+\item[$(*_2)$] $\eps \leqslant \eps \leqslant 1-\eps$ ($\eps>\frac{1}{2} $)
+\item[$(*_3)$] $\eps^2 \leqslant 1-\eps^2 \leqslant 1-\eps^2$ ($\eps^2<\frac{1}{4}<\frac{1}{2} $)
+\end{enumerate}
+$1-\eps^2>1-\eps+\eps^2$ ($\eps<\frac{1}{2}$)
+
+\item $\vec{x}_=(0,0,1)\in P_\eps$:\begin{enumerate}
+\item[$(*_1)$] $0\leqslant 0 \leqslant 1$
+\item[$(*_2)$] $0\leqslant 0 \leqslant 1$
+\item[$(*_3)$] $0\leqslant 1 \leqslant 1$
+\end{enumerate}
+$1>1-\eps^2$ ($\eps>0$)
+
+\end{enumerate}
 \subsection*{(каноническое) Задача 34}
 $A=\begin{Vmatrix}
 a_{ij}
