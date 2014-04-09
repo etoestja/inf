@@ -99,6 +99,53 @@
 \subsection*{(каноническое) Задача 32}
 \subsection*{(каноническое) Задача 33}
 \subsection*{(каноническое) Задача 34}
+$A=\begin{Vmatrix}
+a_{ij}
+\end{Vmatrix}_{i,j=1}^{m,n}$. $P_1\eqdef\big[\exists p\in\RR^m\colon A^Tp<0\big]$. $P_2\eqdef\big[\exists y\in\RR^n\colon y\geqslant 0,\,y\neq 0,\,Ay=0\big]$. Доказать: $\urcorner P_1\Leftrightarrow P_2$\begin{enumerate}
+\item $e_i\eqdef \begin{Vmatrix}
+0 & ... & \underbrace{1}_{i} & ... & 0
+\end{Vmatrix}\in\RR^n$ $\Rightarrow$ $e\eqdef(e_1,...,e_n)$~--- стандартный базис в $\RR^n$. Скалярное произведение $(\cdot,\cdot)$~--- тоже стандартное, т.е. матрица Грама в $e$ единичная, т.е. $(\begin{Vmatrix}
+x_1\\
+...\\
+x_n
+\end{Vmatrix},
+\begin{Vmatrix}
+y_1\\
+...\\
+y_n
+\end{Vmatrix})=x_1y_1+...+x_ny_n$
+\item Пусть $P_2$. \begin{enumerate}
+\item Тогда $\exists y\colon Ay=0$, $y\geqslant 0$, $y\neq 0$. Обозначим столбцы матрицы $A=\begin{Vmatrix}
+\underline{b_1} & ... & \underline{b_n}
+\end{Vmatrix}$. $y\in\RR^n\Rightarrow y=\begin{Vmatrix}
+y_1 & ... & y_n
+\end{Vmatrix}^T$ Тогда $Ay=0\Leftrightarrow\begin{Vmatrix}
+\underline{b_1} & ... & \underline{b_n}
+\end{Vmatrix}\cdot
+\begin{Vmatrix}
+y_1\\
+...\\
+y_n
+\end{Vmatrix}
+=0\Leftrightarrow \sum\limits_{i=1}^n \underline{b_i}y_i\overset{(*)}{=}0$. Условие $y\neq 0\Rightarrow\exists i\in\overline{1,n}\colon y_i\neq 0$. Без ограничения общности это $y_1$. Тогда в $(*)$ перенесем всё, кроме $y_1\underline{b_1}$ в правую часть, и поделим на $y_1\neq 0$: $\underline{b_1}=-\frac{y_2}{y_1}\underline{b_2}-...-\frac{y_n}{y_1}\underline{b_n}$
+\item Рассмотрим $A^Tp=\begin{Vmatrix}
+\underline{b_1}^T\\
+...\\
+\underline{b_n}^T\\
+\end{Vmatrix}\cdot\begin{Vmatrix}
+p_1\\
+...\\
+p_m
+\end{Vmatrix}=\begin{Vmatrix}
+(\underline{b_1},p)\\
+...\\
+(\underline{b_n},p)\\
+\end{Vmatrix}$
+\item Предположим, что $P_1$, т.е. $\exists p\colon\forall i\in\overline{1,n}\hookrightarrow (\underline{b_i},p)<0$.\newline
+Рассмотрим $(\underline{b_1},p)=(-\frac{y_2}{y_1}\underline{b_2}-...-\frac{y_n}{y_1}\underline{b_n},p)=-\frac{y_2}{y_1}(\underline{b_2},p)-...-\frac{y_n}{y_1}(\underline{b_n},p)$. Поскольку $(\underline{b_i},p)<0$, $\frac{y_i}{y_1}\geqslant 0$, то $(b_1,p)\geqslant 0$~--- противоречие.
+\item Значит, $\urcorner P_1$.
+\end{enumerate}
+\end{enumerate}
 \subsection*{(каноническое) Задача 35}
 \subsection*{(каноническое) Задача 36}
 {\em (Тарасов, лекция 2014.04.01)}\newline
@@ -114,6 +161,6 @@ x_1 & x_2 & x_3 & x_4\end{Vmatrix}^T\in\pi\Leftrightarrow F(\vec{x})\equiv x_1+a
 \item Фиксируем $t\in\RR$. Тогда $F(\vec{r}(t))=P(t)\geqslant 0$. Значит, все точки $\{\vec{x}_i\}_{i=1}^k$ лежат по одну сторону от $\pi$. Значит, $G$ лежит по одну сторону 
 \item Пусть $t\colon \vec{r}(t)\in\pi\Leftrightarrow F(\vec{r}(t))=0\Leftrightarrow P(t)=0\Leftrightarrow$ $t\in\{t_{i_1},t_{i_2}\}$
 \end{enumerate}
-Найдена плоскость
+$\blacksquare$
 \subsection*{(каноническое) Задача 37}
 \end{document}
