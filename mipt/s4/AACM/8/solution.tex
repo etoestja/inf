@@ -106,72 +106,48 @@ ax_i+y_i+c&\geqslant &-M\\
 $M\to\min$,
 $\left\{\begin{array}{lcr}
 a+3+c & \leqslant & M\\
--a-3-c & \leqslant & M\\
+a+3+c & \geqslant & -M\\
 
 2a+5+c & \leqslant & M\\
--2a-5-c & \leqslant & M\\
+2a+5+c & \geqslant & -M\\
 
 3a+7+c & \leqslant & M\\
--3a-7-c & \leqslant & M\\
+3a+7+c & \geqslant & -M\\
 
 5a+11+c & \leqslant & M\\
--5a-11-c & \leqslant & M\\
+5a+11+c & \geqslant & -M\\
 
 7a+14+c & \leqslant & M\\
--7a-14-c & \leqslant & M\\
+7a+14+c & \geqslant & -M\\
 
 8a+15+c & \leqslant & M\\
--8a-15-c & \leqslant & M\\
+8a+15+c & \geqslant & -M\\
 
 10a+19+c & \leqslant & M\\
--10a-19-c & \leqslant & M\\
-\end{array}\right.
-$. Преобразуем: $T\eqdef -M$, $a=a_+-a_-$, $c=c_+-c_-$, новые переменные $t_1,...,t_{14}$:\newline
+10a+19+c & \geqslant & -M\\
+\end{array}\right.\newline
+$\newline
+Преобразуем $a=a_+-a_-$, $c=c_+-c_-$, новые переменные $t_1,...,t_{14}$. Неканоническая форма ($b_1=-3<0$):\newline
 $\left\{\begin{array}{lll}
-z=T\\
-1a_+-1a_-+3+c_+-c_-+T+t_{1}=0\\
--1a_++1a_--3-c_++c_-+T+t_{2}=0\\
-
-2a_+-2a_-+5+c_+-c_-+T+t_{3}=0\\
--2a_++2a_--5-c_++c_-+T+t_{4}=0\\
-
-3a_+-3a_-+7+c_+-c_-+T+t_{5}=0\\
--3a_++3a_--7-c_++c_-+T+t_{6}=0\\
-
-5a_+-5a_-+11+c_+-c_-+T+t_{7}=0\\
--5a_++5a_--11-c_++c_-+T+t_{8}=0\\
-
-7a_+-7a_-+14+c_+-c_-+T+t_{9}=0\\
--7a_++7a_--14-c_++c_-+T+t_{10}=0\\
-
-8a_+-8a_-+15+c_+-c_-+T+t_{11}=0\\
--8a_++8a_--15-c_++c_-+T+t_{12}=0\\
-
-10a_+-10a_-+19+c_+-c_-+T+t_{13}=0\\
--10a_++10a_--19-c_++c_-+T+t_{14}=0\\
-
-a_+,a_-,c_+,c_-,T,t_1,...,t_{14}\geqslant 0
+z=-M\\
+t_{1}=-3-1a_++1a_--c_++c_-+M\\
+t_{2}=3+1a_+-1a_-+c_+-c_-+M\\
+t_{3}=-5-2a_++2a_--c_++c_-+M\\
+t_{4}=5+2a_+-2a_-+c_+-c_-+M\\
+t_{5}=-7-3a_++3a_--c_++c_-+M\\
+t_{6}=7+3a_+-3a_-+c_+-c_-+M\\
+t_{7}=-11-5a_++5a_--c_++c_-+M\\
+t_{8}=11+5a_+-5a_-+c_+-c_-+M\\
+t_{9}=-14-7a_++7a_--c_++c_-+M\\
+t_{10}=14+7a_+-7a_-+c_+-c_-+M\\
+t_{11}=-15-8a_++8a_--c_++c_-+M\\
+t_{12}=15+8a_+-8a_-+c_+-c_-+M\\
+t_{13}=-19-10a_++10a_--c_++c_-+M\\
+t_{14}=19+10a_+-10a_-+c_+-c_-+M\\
+a_+,a_-,c_+,c_-,M,t_1,...,t_{14}\geqslant 0
 \end{array}\right.$\newline
-Каноническая форма:
-$\left\{\begin{array}{lll}
-z=T\\
-t_{1}=-3-1a_++1a_--c_++c_--T\\
-t_{2}=3+1a_+-1a_-+c_+-c_--T\\
-t_{3}=-5-2a_++2a_--c_++c_--T\\
-t_{4}=5+2a_+-2a_-+c_+-c_--T\\
-t_{5}=-7-3a_++3a_--c_++c_--T\\
-t_{6}=7+3a_+-3a_-+c_+-c_--T\\
-t_{7}=-11-5a_++5a_--c_++c_--T\\
-t_{8}=11+5a_+-5a_-+c_+-c_--T\\
-t_{9}=-14-7a_++7a_--c_++c_--T\\
-t_{10}=14+7a_+-7a_-+c_+-c_--T\\
-t_{11}=-15-8a_++8a_--c_++c_--T\\
-t_{12}=15+8a_+-8a_-+c_+-c_--T\\
-t_{13}=-19-10a_++10a_--c_++c_--T\\
-t_{14}=19+10a_+-10a_-+c_+-c_--T\\
-a_+,a_-,c_+,c_-,T,t_1,...,t_{14}\geqslant 0
-\end{array}\right.$\newline
-Берем $(t_1,...,t_14)=(-3,3,-5,5,-7,7,-11,11,-14,14,-15,15,-19,19)$, остальные~--- нули. $z=0$.
+%Берем $(t_1,...,t_14)=(-3,3,-5,5,-7,7,-11,11,-14,14,-15,15,-19,19)$, остальные~--- нули. $z=0$.
+Ответ: $M=\frac{4}{7}$ при $(a_0,c_0)=(-\frac{12}{7},-\frac{13}{7})$
 \newpage
 \subsection*{(каноническое) Задача 33}
 $P_\eps\eqdef\left\{(x_1,x_2,x_3)\in\RR^3\left| \left\{\begin{array}{lclllc}
@@ -237,6 +213,7 @@ $P_\eps\eqdef\left\{(x_1,x_2,x_3)\in\RR^3\left| \left\{\begin{array}{lclllc}
 
 \end{enumerate}
 \subsection*{(каноническое) Задача 34}
+{\em (доказано в одну сторону)}\newline
 $A=\begin{Vmatrix}
 a_{ij}
 \end{Vmatrix}_{i,j=1}^{m,n}$. $P_1\eqdef\big[\exists p\in\RR^m\colon A^Tp<0\big]$. $P_2\eqdef\big[\exists y\in\RR^n\colon y\geqslant 0,\,y\neq 0,\,Ay=0\big]$. Доказать: $\urcorner P_1\Leftrightarrow P_2$\begin{enumerate}
@@ -282,6 +259,41 @@ p_m
 \item Предположим, что $P_1$, т.е. $\exists p\colon\forall i\in\overline{1,n}\hookrightarrow (\underline{b_i},p)<0$.\newline
 Рассмотрим $(\underline{b_1},p)=(-\frac{y_2}{y_1}\underline{b_2}-...-\frac{y_n}{y_1}\underline{b_n},p)=-\frac{y_2}{y_1}(\underline{b_2},p)-...-\frac{y_n}{y_1}(\underline{b_n},p)$. Поскольку $(\underline{b_i},p)<0$, $\frac{y_i}{y_1}\geqslant 0$, то $(b_1,p)\geqslant 0$~--- противоречие.
 \item Значит, $\urcorner P_1$.
+\end{enumerate}
+\item Пусть $\urcorner P_2$. Предположим, что $\urcorner P_1$\begin{enumerate}
+\item Выпишем $A=\begin{Vmatrix}
+a_1\\
+...\\
+a_m
+\end{Vmatrix}$~--- по строкам.
+\item Рассмотрим $Q=\{A^Tp\big|p\in\RR^m\}$. $A^Tp=\begin{Vmatrix}
+a_1^T & ... & a_m^T
+\end{Vmatrix}\cdot\begin{Vmatrix}
+p_1\\
+...\\
+p_m
+\end{Vmatrix}=a_1^Tp_1+...+a_m^Tp_m\Rightarrow$\newline $Q\equiv <a_1^T,...,a_m^T>\subseteq\RR^n$ (линейная оболочка транспонированных строк $A$).
+\item $\urcorner P_1\Rightarrow \forall p\in\RR^m\hookrightarrow \urcorner(A^Tp<0)\Leftrightarrow \forall x\in Q\hookrightarrow \urcorner(Q<0)$. Определим $\RR^n_{-}=\{x\in\RR^n\big|x<0\}$. Тогда $Q\cap \RR^n_-=\varnothing$
+\item $\urcorner P_2\Rightarrow \forall y\in\RR^n\colon y\geqslant 0,\,y\neq 0\hookrightarrow Ay\neq 0$. Рассмотрим $Ay=\begin{Vmatrix}
+a_1\\
+...\\
+a_m
+\end{Vmatrix}\cdot\begin{Vmatrix}
+y_1\\
+...\\
+y_n
+\end{Vmatrix}=\begin{Vmatrix}
+(a_1^T,y)\\
+...\\
+(a_m^T,y)
+\end{Vmatrix}$.\newline
+$Ay\neq 0\Leftrightarrow \exists i\in\overline{1,m}\colon (a_i^T,y)\neq 0\Leftrightarrow y\notin <a_1^T,...,a_m^T>^\perp$. Определим $\RR^\geqslant_{\neq 0}=\{x\in\RR^n\big|x\geqslant 0\wedge x\neq 0\}$.\newline
+Тогда $Q^\perp\cap\RR^\geqslant_{\neq 0}=\varnothing$
+\item Тогда $\exists Q=<a_1^T,...,a_m^T>\colon\begin{cases}
+Q\cap \RR^n_-=\varnothing\\
+Q^\perp\cap\RR^\geqslant_{\neq 0}=\varnothing
+\end{cases}$ $\overset{?}{\Rightarrow}$ противоречие ??? %Поскольку $\RR^n_+\eqdef\{x\in\RR^n\}$
+% ну, блять, охуеть теперь
 \end{enumerate}
 \end{enumerate}
 \subsection*{(каноническое) Задача 35}
