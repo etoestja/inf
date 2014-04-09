@@ -97,6 +97,61 @@
 \begin{document}
 \maketitle
 \subsection*{(каноническое) Задача 32}
+$n\in\NN$, $\{(x_i,y_i)\}_{i=1}^n\subset\RR^2$. Задача: найти $(a_0,c_0)=\argmin\limits_{(a,c)\in\RR^2}\max\limits_{i\in\overline{1,n}}|ax_i+y_i+c|$.\newline
+Сведем к задаче ЛП: переменные $(a,c,M)$, неравенства: $\left\{\begin{array}{lcr}
+ax_i+y_i+c& \leqslant &M\\
+ax_i+y_i+c&\geqslant &-M\\
+\end{array}\right.,\,i\in\overline{1,n}$, $M\to\min$\newline
+Выпишем конкретную задачу ($n=7$, точки даны):\newline
+$M\to\min$,
+$\left\{\begin{array}{lcr}
+a+3+c & \leqslant & M\\
+-a-3-c & \leqslant & M\\
+
+2a+5+c & \leqslant & M\\
+-2a-5-c & \leqslant & M\\
+
+3a+7+c & \leqslant & M\\
+-3a-7-c & \leqslant & M\\
+
+5a+11+c & \leqslant & M\\
+-5a-11-c & \leqslant & M\\
+
+7a+14+c & \leqslant & M\\
+-7a-14-c & \leqslant & M\\
+
+8a+15+c & \leqslant & M\\
+-8a-15-c & \leqslant & M\\
+
+10a+19+c & \leqslant & M\\
+-10a-19-c & \leqslant & M\\
+\end{array}\right.
+$. Каноническая форма: $T\eqdef -M$, $a=a_+-a_-$, $c=c_+-c_-$, новые переменные $t_1,...,t_{14}$:\newline
+$\left\{\begin{array}{lll}
+z=T\\
+1a_+-1a_-+3+c_+-c_-+T+t_{1}=0\\
+-1a_++1a_--3-c_++c_-+T+t_{2}=0\\
+
+2a_+-2a_-+5+c_+-c_-+T+t_{3}=0\\
+-2a_++2a_--5-c_++c_-+T+t_{4}=0\\
+
+3a_+-3a_-+7+c_+-c_-+T+t_{5}=0\\
+-3a_++3a_--7-c_++c_-+T+t_{6}=0\\
+
+5a_+-5a_-+11+c_+-c_-+T+t_{7}=0\\
+-5a_++5a_--11-c_++c_-+T+t_{8}=0\\
+
+7a_+-7a_-+14+c_+-c_-+T+t_{9}=0\\
+-7a_++7a_--14-c_++c_-+T+t_{10}=0\\
+
+8a_+-8a_-+15+c_+-c_-+T+t_{11}=0\\
+-8a_++8a_--15-c_++c_-+T+t_{12}=0\\
+
+10a_+-10a_-+19+c_+-c_-+T+t_{13}=0\\
+-10a_++10a_--19-c_++c_-+T+t_{14}=0\\
+
+a_+,a_-,c_+,c_-,T,t_1,...,t_{14}\geqslant 0
+\end{array}\right.$
 \newpage
 \subsection*{(каноническое) Задача 33}
 $P_\eps\eqdef\left\{(x_1,x_2,x_3)\in\RR^3\left| \left\{\begin{array}{lclllc}
