@@ -150,7 +150,8 @@
 					config: 'TeX-AMS_HTML-full'
 				},
 
-				transition: 'default', // default/cube/page/concave/zoom/linear/fade/none
+				transition: 'linear', // default/cube/page/concave/zoom/linear/fade/none
+                backgroundTransition: 'slide',
 
 				// Parallax scrolling
 				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
@@ -165,7 +166,9 @@
 					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
 					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
 					{ src: 'plugin/math/math.js', async: true },
-					{ src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+                    // Remote control your reveal.js presentation using a touch device
+                    { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } },
+                    
 				]
 			});
 
