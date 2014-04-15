@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>GPS</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/technoworks.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h2>Global Positioning System</h2>
+					<p></p>
+				</section>
+				
+				<section>
+					<h2>Problem</h2>
+					<p>Get precise position of an object on Earth</p>
+					<img style="border: 0px;" src="./images/coord.png" />
+				</section>
+				
+				<section>
+					<h2>Previous solutions</h2>
+					<p>Sailors used sextants.</p>
+					<center>
+					<table border="0">
+					<tr>
+					<td><img style="border: 0px; width: 500px;" src="./images/ship.jpg" /></td>
+					<td><img style="border: 0px; width: 500px;" src="./images/sextant.jpg" /></td>
+					</tr>
+					</table></center>
+					<ul>
+					<li>Accuracy only ~500 meters</li>
+					<li>Depends on weather</li>
+					<li>Complex</li>
+					</ul>
+				</section>
+				
+				<section>
+					<h2>Solution</h2>
+					<ul>
+					<li>Ground-based systems (1940s, World War II, GB)</li>
+					<li>Sputnik (USSR, 1957), Doppler effect, Americans<center>\(\frac{f}{f_0}=\sqrt{\frac{c+v}{c-v}}\)</center> &rArr; location &rArr; inverse problem
+					</li>
+					<li>First satellite system im 1960s</li>
+					</ul>
+				</section>
+				
+				<section>
+					<h2>GPS</h2>
+					<table style="height:100%" border="1">
+					<tr>
+						<td><img style="width: 500px;" src="./images/sat.jpg" /></td>
+					<td><ul>
+						<li>Implemented in 1990s</li>
+						<li>Military at first</li>
+						<li>Accuracy ~10 meters<br /> (\(\times\,50\uparrow\)!)</li>
+						<li>32 satellites in space<br />(24 originally)</li>
+						<li>Control station</li>
+						<li>Four ground antennas for sync</li>
+					</ul></td>
+					
+					</tr>
+					</table>
+				</section>
+				
+				<section>
+					<h2>Satellites (space segment)</h2>
+					<table style="height:100%" border="1">
+					<tr valign="middle">
+					<td><img style="border: 0px;" src="./images/gpssat.gif" /></td>
+					<td><ul>
+						<li>24 satellites</li>
+						<li>6 planes</li>
+						<li>circular orbits</li>
+						<li>\(\geqslant\) 6 visible from anywhere</li>
+					</ul>
+					</td>
+					
+					
+					</tr>
+					</table>
+				</section>
+				
+				<section>
+					<h2>How?</h2>
+					<h4>basic principle</h4>
+					<ul>
+					<li>Satellite transmits time and its position</li>
+					<li>\(\begin{cases}|\vec{x}-\vec{x_0}|=c(t-t^i_0)\\\end{cases}\) to get coordinates<img style="width: 300px;" src="./images/how.jpg" /></li>
+					<li>Doppler effect to measure velocity more accurately<center>\(\frac{f}{f_0}=\sqrt{\frac{c+v}{c-v}}\)</center></li>
+					</ul>
+				</section>
+				
+				<section>
+					<h2>Applications</h2>
+					<ul>
+					<p>Military (missiles), planes, ships, car navigators, robots, games</p>
+					<img style="border: 0px; width: 200px" src="./images/missile.jpg" />
+					<img style="border: 0px; width: 200px" src="./images/plane.jpg" />
+					<img style="border: 0px; width: 200px" src="./images/navigator.jpg" />
+					<img style="border: 0px; width: 200px" src="./images/copter.jpg" />
+					<img style="border: 0px; width: 200px" src="./images/robomobo.jpg" />
+				</section>
+				
+				<section>
+					<p style="font-size: 400%;">Thank you!<br />Questions?</p>
+					<i style="font-size: 60%;">images from Wikipedia, Google images</i>
+				</section>
+				
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: false,
+				progress: true,
+				history: true,
+				center: true,
+				slideNumber: true,
+
+				math: {
+					// mathjax: 'http://cdn.mathjax.org/mathjax/latest/MathJax.js',
+					config: 'TeX-AMS_HTML-full'
+				},
+
+				transition: 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/math/math.js', async: true },
+					{ src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
