@@ -27,4 +27,9 @@ exec sp_addrole role1
 
 go
 
-grant update(play) on view2 to role1
+grant update (line) on view2 to role1
+
+go
+
+exec sp_addrolemember role1, test
+--exec sp_droprolemember

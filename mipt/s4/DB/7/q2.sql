@@ -16,7 +16,7 @@ select description from gender;
 
 go
 
-update play set description = 'f'
+update gender set description = 'f'
 
 go
 
