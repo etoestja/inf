@@ -1,0 +1,146 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+%\geometry{paperwidth=210mm, paperheight=2000pt, left=5pt, top=5pt}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,arrows,trees,calc}
+\usepackage{amsmath}
+\usepackage[makeroom]{cancel} % зачеркивание
+\usepackage{multicol,multirow} %Несколько колонок
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{listings}
+\usepackage{wasysym}
+\date{задано 2014.04.10}
+\author{Сергей~Володин, 272 гр.}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+% названия автоматов  (rubtsov)
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+
+%классы сложности (rubtsov)
+\def\PP{{\mathsf{P}}}
+\def\NP{{\mathsf{NP}}}
+\def\NPc{{\mathsf{NP}}\text{-}{\rm c}}
+\def\coNP{{\rm co}\text{-}{\mathsf{NP}}}
+\def\DTIME{{\mathsf{DTIME}}}
+\def\NTIME{{\mathsf{NTIME}}}
+\def\CLIQUE{{\mathsf{CLIQUE}}}
+\def\HALT{{\rm{HALT}}}
+\def\SAT{{\rm{SAT}}}
+\def\3SAT{{\rm{3\text{-}SAT}}}
+\def\2SAT{{\rm{2\text{-}SAT}}}
+\def\UNSAT{{\rm{UNSAT}}}
+\def\HP{{\rm{HAMPATH}}}
+\def\UHP{{\rm{UHAMPATH}}}
+\def\LL{{\mathrm{LL}}}
+\def\poly{{\rm{poly}}}
+\def\GC{{\mbox{ГЦ}}}
+\def\GP{{\mbox{ГП}}}
+\def\conv{{\mbox{conv}}}
+
+\title{Алгоритмы и модели вычислений.\\Задание 9: сортировки}
+
+% алгоритмы (Рубцов)
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{algorithm2e}
+
+%+= и -=, иначе разъезжаются...
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
+\newcommand{\todo}{{\em todo}}
+
+% пустое слово  (rubtsov)
+\def\eps{\varepsilon}
+
+% регулярные языки  (rubtsov)
+\def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\newcommand{\niton}{\not\owns}
+
+%FIRST & FOLLOW (rubtsov)
+\def\first{\mathrm{ FIRST} }
+\def\follow{\mathrm{ FOLLOW} }
+
+% LL LR (rubtsov)
+\def\LL{{\mathrm{LL}}}
+\def\LR{{\mathrm{LR}}}
+
+\newcounter{rowItemCount}
+\newcounter{subRowItemCount}
+\newcommand\rowItem{
+    \setcounter{subRowItemCount}{0}
+    \arabic{rowItemCount}.\addtocounter{rowItemCount}{1}}
+\newcommand\subRowItem{
+    \addtocounter{subRowItemCount}{1}
+    \addtocounter{rowItemCount}{-1}
+    \arabic{rowItemCount}.\arabic{subRowItemCount}.\addtocounter{rowItemCount}{1}}
+
+\newcommand{\smalll}[1]{\overline{\overline{#1}}}
+\newcommand{\smallo}{\bar{\bar{o}}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\Nz}{\mathbb{N}\cup\{0\}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\RR}{\mathbb{R}}
+\begin{document}
+\maketitle
+\subsection*{(каноническое) Задача 38}
+{\em (Идея обсуждалась с Дашей Решетовой)}
+\begin{enumerate}
+\item Фиксируем алгоритм $A$, $n\in\NN$
+%, элементы $\{a_i\}_{i=1}^n$.
+$D_A$~--- разрешающее дерево. $P=\{(k_i,l_i)\}_{i=1}^m$~--- путь. $G_A^P(V,E)$~--- граф, $E=\overline{1,m}$. $(i,j)\in E\Leftrightarrow \exists t\in\overline{1,m}\colon (i,j)=(k_t,l_t)$
+\begin{enumerate}
+\item Обозначим $\A$~--- множество корректных алгоритмов нахождения минимума
+\item $A\eqdef\big[\forall A\in\A\,\forall P\mbox{~--- путь от корня к листу в }D_A\hookrightarrow |P|\geqslant n-1\big]$
+\item $B\eqdef\big[\forall A\in\A\,\forall P\mbox{~--- путь от корня к листу в }D_A\hookrightarrow G_A^P\mbox{~--- связен}\big]$
+\item Фиксируем $A\in\A,\, P\mbox{~--- путь от корня к листу в }D_A$. Пусть $B$. Тогда $G_A^P=(V,E)$~--- связен. Докажем, что $|P|\geqslant n-1$. Действительно, $|V|=n$, $G_A^P$~--- связен $\Rightarrow$ $|E|\geqslant n-1$. Но $|E|=|\{(i,j)\big|\exists t\in\overline{1,m}\colon (i,j)=(k_t,l_t)\}|\leqslant m$ ($\leqslant$, т.к. сравнение может происходить дважды). Получаем, что $|P|=m\geqslant |E|\geqslant n-1\,\blacksquare$
+\item Пусть $\urcorner B\Rightarrow \exists A\in\A\,\exists P\mbox{~--- путь от корня к листу в }D_A\colon G_A^P\mbox{~--- не связен}$. Фиксируем вход ${a_i}_{i=1}^n\subset\RR$, на котором достигается путь $P$. Пусть $V=V_1\cup...\cup V_f$~--- компоненты связности $G_A^P$. Пусть на этом пути минимум достигается на элементе с идексом $b$: $b=\argmin\{a_i\}_{i=1}^n$. Без ограничения общности, $b\in V_1$ (в первой компоненте связности). Рассмотрим другую компоненту связности $V_2$ (существует, по предположению граф не связен). Пусть $c$~--- индекс в этой компоненте, элемент с этим индексом $a_c$ минимален. Рассмотрим другой вход $\{a'_i\}_{i=1}^n$, совпадающий с исходным кроме $a'_c=a'_b-1$. Тогда результаты всех сравнений не изменятся: $a_c$ сравнивается только с элементами $x$ с индексами из $V_2$, и: было $x\geqslant a_c$, теперь $x\geqslant a_c\geqslant a_b> a_b-1$. Поэтому в разрешающем дереве этому входу соответствует также путь $P$, значит, $A$ на новом входе вернет ответ $a'_b$, что неверно, так как $a'_c=a'_b-1<a'_b$. Значит, $A\notin\A$~--- противоречие. Значит, $B\,\blacksquare$
+\end{enumerate}
+\item \begin{enumerate}
+%\item %Фиксируем $n\in\NN$. Фиксируем вход $\{a_i\}_{i=1}^n$. Пусть на $k$-м шаге 
+\item Утверждение может быть неверно, если в массиве есть повторяющиеся элементы. Пусть это $a_i=a_j$, до текущего шага они не участововали в сравнениях, а на текущем шаге они сравниваются между собой. Тогда $\Delta a=-2$, $\Delta c=0$ (ни один из них не меньше другого), и $\Delta f=\Delta a+\Delta c=-2$
+\item Считаем, что элементы не повторяются (иначе 
+% охуеть задача вообще
+утверждение неверно, см. выше). Пусть $\Delta f< -1\Leftrightarrow \Delta f\leqslant -2\Leftrightarrow \Delta a+\Delta c\leqslant -2$. $c$~--- количество элементов, меньших во всех сравнениях. Значит, $\Delta c\geqslant 0$. Значит, $\Delta a + \Delta c\geqslant \Delta a$. Получаем $\Delta a\leqslant -2$. Очевидно-хуевидно, $\Delta a\geqslant -2$, т.к. за один раз сравниваются два элемента, поэтому количество еще не сравнивающихся элементов не может уменьшиться больше, чем на 2. Получаем $\Delta a=-2$, откуда оба сравнивающихся элемента не сравнивались до этого. Значит, $-2+\Delta c\leqslant -2$, откуда $\Delta c\leqslant 0$, откуда $\Delta c=0$. Получаем, что было произведено сравнение элементов, и ни один из них не меньше другого, значит, они равны~--- противоречие.
+\end{enumerate}
+\end{enumerate}
+\subsection*{(каноническое) Задача 39}
+% я был на ИАД
+$\varnothing$
+%\begin{enumerate}
+%\item 
+%\end{enumerate}
+\subsection*{(каноническое) Задача 40}
+(Модифицируем алгоритм merge sort. Задачу давал Пименов)
+\begin{enumerate}
+\item $n$~--- размер массива $(a_1,...,a_n)$.
+\item Если $n\leqslant 1$, то нет ни одной пары элементов, и количество инверсий равно $0$.
+\item Разобьем массив $X$ на две части: $A=\overline{1,l},\,B=\overline{l+1,n}$. Пусть посчитаны количества инверсий для элементов с индексами из $L$ и из $R$, и элементы в $L$ и $R$ отсортированы.
+Тогда осталось посчитать количество инверсий для пар $(i,j)\colon i\in A,\, j\in B$, или наоборот. Очевидно, что сортировка частей не изменила количество инверсий для таких пар, т.к. порядок элементов такой пары в массиве не изменился после сортировки: если изначально $A\ni i_0<j_0\in B$, то $i< l+1\leqslant j$. Обозначим $L$ и $R$~--- подмассивы с индексами $A$ и $B$ соответственно\newline
+Выполним модифицированный алгоритм слияния двух упорядоченных подмассивов $L$ и $R$. На каждой итерации цикла считаем количество инверсий текущего элемента с последующими из другого множества (так обойдем все возможные пары). Результаты суммируем (каждая пара рассматривается только один раз).\newline
+Пусть получены $k - 1$ элементов итогового массива, выбраны первые $i$ элементов из $L$, j из $R$. Инверсии для $k - 1$ также посчитаны.\newline
+k-й равен $L_{i + 1}$, если $L_{i + 1} < R_{j + 1}$ или $R_{j +1}$ иначе.\newline
+Найдем число инверсий для каждого случая:
+\begin{itemize}
+\item Если добавляем $L_{i + 1}$, то последующими элементами из другого множества (из другой части) могут быть $R_{j + 1} < R_{j + 2} < \ldots$. Но (условие случая) $L_{i + 1} < R_{j + 1} < \ldots \Rightarrow$ инверсий с последующими нет (т.к. ``более левый'' в исходном массиве элемент меньше правых из другого множества).
+
+\item Если добавляем $R_{j + 1}$, то последующими элементами из другого множества будут $L_{i + 1} < L_{i + 2} < \ldots$. Но (условие случая) $R_{j + 1} < L_{i + 1} < \ldots$. Получаем, что число инверсий равно количеству оставшихся элементов из левой части, т.е. $|L| - i$ (т.к. ``более правый'' в исходном массиве элемент меньше такого количества ``более левых'' из другого множества).
+\end{itemize}
+Таким образом, найдено количество инверсий в $X$, и $X$ отсортирован.
+\item Значит, сортировку частей и поиск количеств инверсий в них можно делать рекурсивно, $l\eqdef \lfloor \frac{n}{2}\rfloor$
+\item Очевидно, что время работы такого алгоритма равно времени работы merge sort, т.е. $T(n)=O \left( n \log n \right)$
+\end{enumerate}
+\end{document}
