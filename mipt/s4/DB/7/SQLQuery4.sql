@@ -1,6 +1,6 @@
 SELECT  
     princ.[name], 
-    [PermissionType] = perm.[pesrmission_name],       
+    [PermissionType] = perm.[permission_name],       
     [PermissionState] = perm.[state_desc],       
     [ObjectType] = obj.type_desc,
     [ObjectName] = OBJECT_NAME(perm.major_id),

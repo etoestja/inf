@@ -1,1 +1,1 @@
-exec sp_helprotect NULL, 'test' 
+exec sp_helprotect NULL, 'test'
