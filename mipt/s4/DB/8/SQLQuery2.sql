@@ -25,3 +25,20 @@ select t.name as [table], tr.name as [trigger] from theater.sys.sysobjects tr, t
 where tr.xtype = 'TR'
 and tr.parent_obj = t.id
 and tr.uid = 1
+
+select * from sys.roles
+
+SELECT SCHEMA_NAME(schema_id) AS schema_name
+    ,o.name AS object_name
+    ,o.type_desc
+    ,p.parameter_id
+    ,p.name AS parameter_name
+    ,TYPE_NAME(p.user_type_id) AS parameter_type
+    ,p.max_length
+    ,p.precision
+    ,p.scale
+    ,p.is_output
+FROM sys.objects AS o
+INNER JOIN sys.parameters AS p ON o.object_id = p.object_id
+--WHERE o.object_id = OBJECT_ID('<schema_name.object_name>')
+ORDER BY schema_name, o.name, p.parameter_id;
