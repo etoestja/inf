@@ -173,6 +173,63 @@ g_{i+t}=g_{j+t}\mod p\\
 \item Для $p=19$: $|i-j|\leqslant 19^2=361$.
 \item Алгоритм: вычисляем период: храним $f(1)$, сравниваем $f(i)$ с $f(1)$. Вычисляем $g_i$ через рекуррентность (см. выше). Ищем место от начала периода для $n$ и выдаем ответ. Сложность $O(p^2)$ (величина периода). Для $A$: $p^2=361$, откуда $C\leqslant 2\times(\underbrace{5+8(361-1)}_{\mbox{\tiny период}})=5770$ ($2$~--- т.к. в два прохода, сначала поиск периода, потом вычисление $A$).
 \end{enumerate}
-\item $p=23$. $x=5$: $x^2=25\equiv 2\mod p$. Используем $\ref{41Gn2}$: $g_n\mod p=\frac{(1+\sqrt{2})^{n+1}+(1-\sqrt{2})^{n+1}}{2}\mod p=2^{-1}((1+x)^{n+1}+(1-x)^{n+1})$
+\item $p=23$. $x=5$: $x^2=25\equiv 2\mod p$. $\ref{41Gn2}\Rightarrow g_n=|t\eqdef\sqrt{2}|=\frac{1}{2}\left[(1+t)^{n+1}+(1-t)^{n+1}\right]=\frac{1}{2}\left[\sum\limits_{k=0}^{n+1}\binom{n+1}{k}t^k-\sum\limits_{k=0}^{n+1}\binom{n+1}{k}(-t)^k\right]=\sum\limits_{k=0}^{n+1}\binom{n+1}{k}\frac{1+(-1)^k}{2}t^k\boxed{=}$. $1+(-1)^k=\begin{cases}
+2,&k=2l\\
+0,&k=2l+1
+\end{cases}$, поэтому $\boxed{=}\sum\limits_{l=0}^{\lfloor\frac{n+1}{2}\rfloor}\binom{n+1}{2l}t^{2l}\equiv\sum\limits_{l=0}^{\lfloor\frac{n+1}{2}\rfloor}\binom{n+1}{2l}2^l$. Поэтому $g_n\mod p=\left[\sum\limits_{l=0}^{\lfloor\frac{n+1}{2}\rfloor}\binom{n+1}{2l}2^l\right]\mod p=|x^2\equiv 2\mod p|=\sum\limits_{l=0}^{\lfloor\frac{n+1}{2}\rfloor}\left[\binom{n+1}{2l}x^{2l}\right]\mod p$. Раскрывая обратно по той же формуле, получаем $$g_n\mod p=\frac{(1+x)^{n+1}+(1-x)^{n+1}}{2}\mod p.$$
+Для конкретной задачи $$g_n\mod 23=\frac{6^{n+1}+19^{n+1}}{2}\mod 23$$
+Возводим в степень Быстрым возведением в степень. Количество операций $O(\log n)$.
+Алгоритм:
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+    frame=lines,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    keywordstyle=\color{red}\bfseries,
+    stringstyle=\color{green!50!black},
+    commentstyle=\color{gray}\itshape,
+    numbers=left,
+    captionpos=t,
+    escapeinside={\%*}{*)}
+}
+\begin{lstlisting}
+number n = 10000;
+number p = 23;
+number x = 5;
+number pow1(number a, number n)
+{
+  if(n == 0) return(1 % p);
+  else if(n % 2 == 0)
+  {
+    number m = pow1(a, n / 2);
+    return((m * m) % p);
+  }
+  else return((a * pow1(a, n - 1)) % p);
+}
+
+number g(n)
+{
+  return((pow1(6, n + 1) + pow1(19, n + 1)) / 2);
+}
+
+print(g(n));
+\end{lstlisting}
+Ответ: $g_{10000}\mod 23=10$.
+\item Вернемся к формуле $g_n\mod p=\left[\sum\limits_{l=0}^{\lfloor\frac{n+1}{2}\rfloor}\binom{n+1}{2l}2^l\right]\mod p$, посчитаем по ней {\bf ???}
+\subsection*{(каноническое) Задача 42}
+{\em (Кормен)}
+\begin{enumerate}
+\item $N\in\NN,a\colon (a,N)=1, a^{N-1}\neq 1\mod N$. $\ZZ_N^*=\{a\big|(a,N)=1\}$. Рассмотрим множество $G=\{x\big|x^{N-1}=1\}$. Пусть $x\in G$. Тогда $x\cdot x^{N-2}=1\mod N$, то есть, существует обратный элемент к $x$, откуда $x\in \ZZ_N^*$. Значит, $G\subseteq \ZZ_N^*$. Пусть $x_1,\,x_2\in G\Rightarrow x_1^{N-1}=1\mod p$, $x_2^{N-1}=1\mod p$. Тогда $x_1x_2=1\mod p$, и $x_1x_2\in G$. Получаем, что $G$~--- замкнута, значит, $G$~--- подгруппа $\ZZ_N^*$. Теорема Лагранжа $\Rightarrow$ $|\ZZ_N^*|=k|G|$. По условию, $a\in\ZZ_N^*\setminus G$, откуда $|G|<|\ZZ_N^*|$. Значит, $k\geqslant 2$, и $|G|\leqslant \frac{|\ZZ_N^*|}{2}$. Но $|\ZZ_N^*|=\varphi(N)\leqslant N-1$, откуда $|G|\leqslant\frac{N-1}{2}$. Рассмотрим $\overline{G}=\overline{1,N-1}\setminus G$. Очевидно, $1\notin \overline{G}$, так как $1^{N-1}=1\mod p$. Тогда $\overline{G}\subseteq\overline{2,N-1}$, причем $|\overline{G}|=|\overline{1,N-1}|-|G|\geqslant N-1-\frac{N-1}{2}=\frac{N-1}{2}\,\blacksquare$
+\item $\mbox{НОД}(a,b)$~--- полиномиален по $|a|,\,|b|$ (лекции), вычисление $a^{N-1}\mod N$~--- также (быстрое возведение в степень, см. мое решение задачи 12).
+\item $P(a=i\in\overline{2,N-1})=\frac{1}{N-1}=p$. Пусть $N$~--- составное. Тогда $\exists a<N\colon (a,N)=1$.\begin{enumerate}
+\item С вероятностью $\frac{1}{N-1}$ алгоритм выдаст правильный ответ (угадан делитель)
+\item В противном случае с вероятностью $\geqslant \frac{1}{2}$ (см. первый пункт. По условию, хотя бы одно такое $a$ существует, значит, таких $a$ не меньше половины) будет выбрано $a\colon a^{N-1}\neq 1\mod p$, и будет выдан правильный ответ.
+\end{enumerate}
+Поэтому $P\geqslant \frac{1}{N-1}+(1-\frac{1}{N-1})\frac{1}{2}=1-\frac{1}{2(N-1)}$. $N\geqslant 2\Rightarrow N-1\geqslant 1\Rightarrow P\geqslant\frac{1}{2}\,\blacksquare$
+\end{enumerate}
 \end{enumerate}
 \end{document}
