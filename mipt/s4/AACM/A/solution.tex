@@ -237,10 +237,10 @@ print(g(n));
 Открытый ключ $(e,n)=(11, 899)$. $M\in\ZZ_n$~--- сообщение.\newline
 Чтобы вычислить цифровую подпись сообщения $M$, необходимо вычислить $S(M)=M^d\mod n$,\newline
 где $d\colon ed=1\mod \varphi(n)$. $n=\underbrace{29}_p\cdot \underbrace{31}_q$, $p,\,q$~--- простые, поэтому $\varphi(n)=(p-1)(q-1)=28\cdot 30=840$.\newline
-Подбором найдем $d=611$, проверим: $ed=6721\equiv 1\mod 840$ $\Rightarrow$ Ответ: в степень $d=611$.
+\href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s4/AACM/A/43.py}{Подбором} найдем $d=611$, проверим: $ed=6721\equiv 1\mod 840$ $\Rightarrow$ Ответ: в степень $d=611$.
 \subsection*{(каноническое) Задача 44}
 \begin{enumerate}
-\item $8\varphi(n)\geqslant\sqrt{n}$ при $n\notin\{2,6\}$. Получим, что $n\leqslant 8^2=64$. Перебором найдем $n\in\{15,16,20,24,30\}$.
+\item $8=\varphi(n)\geqslant\sqrt{n}$ при $n\notin\{2,6\}$. Получим, что $n\leqslant 8^2=64$. \href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s4/AACM/A/441.c}{Перебором} найдем $n\in\{15,16,20,24,30\}$.
 \item Перебором найдем\newline
 $\begin{array}{|c|l|}
 \hline
@@ -262,9 +262,9 @@ ak+b\equiv 5\mod 8\\
 ak+b\equiv 0\mod 8
 \end{array}
 \right.$ {\bf ???}
-\item Перебором найдем $|H|=45$ (количество различных хеш-функций).
+\item \href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s4/AACM/A/451.cpp}{Перебором} найдем $|H|=45$ (количество различных хеш-функций).
 \item $n_1=8$ ($k=k_0+8l\Rightarrow h_{a,b}(k)=h_{a,b}(k_0)$)
-\item Нет, $H$~--- не универсальное (например, для $k=0$, $l=2$ количество функций $h\in H\colon h(k)=h(l)$ равно $13>\frac{|H|}{n_2}=\frac{45}{5}=9$).
+\item Нет, $H$~--- не универсальное (например, для $k=0$, $l=2$ количество функций $h\in H\colon h(k)=h(l)$ равно $13>\frac{|H|}{n_2}=\frac{45}{5}=9$). См. \href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s4/AACM/A/452.cpp}{код}.
 \end{enumerate}
 
 \end{document}
