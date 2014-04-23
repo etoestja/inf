@@ -97,7 +97,7 @@
 \begin{document}
 \maketitle
 \subsection*{(каноническое) Задача 41}
-{\bf Модель вычислений: RAM, трудоемкость $C$~--- суммарное количество арифметических операций, присваиваний, сравнений.}\newline
+{\em Модель вычислений: RAM, трудоемкость $C$~--- суммарное количество арифметических операций, присваиваний, сравнений.}\newline
 Мое решение задания 2 $\Rightarrow$ \begin{enumerate}
 \item \label{41GnRec} $g_n = 2g_{n-1} + g_{n-2}$, $g_0=1,\,g_1=3$
 \item \label{41Gn2} $g_n=\frac{1}{2}\left[(1+\sqrt{2})^{n+1}+(1-\sqrt{2})^{n+1}\right]$
@@ -241,7 +241,7 @@ print(g(n));
 \subsection*{(каноническое) Задача 44}
 \begin{enumerate}
 \item $8=\varphi(n)\geqslant\sqrt{n}$ при $n\notin\{2,6\}$. Получим, что $n\leqslant 8^2=64$. \href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s4/AACM/A/441.c}{Перебором} найдем $n\in\{15,16,20,24,30\}$.
-\item Перебором найдем\newline
+\item \href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s4/AACM/A/442.c}{Перебором} найдем\newline
 $\begin{array}{|c|l|}
 \hline
 \mbox{Порядок} & \mbox{Элементы}\\\hline
@@ -249,7 +249,7 @@ $\begin{array}{|c|l|}
 11 & 2,3,4,6,8,9,12,13,16,18\\\hline
 22 & 5,7,10,11,14,15,17,19,20,21\\\hline
 \end{array}$
-\item Перебором найдем множество первообразных корней $\{5,\,7,\,10,\,11,\,14,\,15,\,17,\,19,\,20,\,21\}$
+\item \href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s4/AACM/A/443.cpp}{Перебором} найдем множество первообразных корней $\{5,\,7,\,10,\,11,\,14,\,15,\,17,\,19,\,20,\,21\}$
 \end{enumerate}
 \subsection*{(каноническое) Задача 45}
 $\ZZ_9=\{0,1,2,3,4,5,6,7,8\}$, $\ZZ_9^*=\{x\big|x<9,\,(x,9)=1\}=\{1,2,4,5,7,8\}$. $h_{a,b}(k)\eqdef\left[(ak+b)\mod 8\right]\mod 5$.\newline $H\eqdef\{h_{a,b}\big|a\in\ZZ_9^*,\,b\in\ZZ_9\}$.\begin{enumerate}
