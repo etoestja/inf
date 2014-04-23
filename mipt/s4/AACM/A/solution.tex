@@ -223,13 +223,30 @@ print(g(n));
 \subsection*{(каноническое) Задача 42}
 {\em (Кормен)}
 \begin{enumerate}
-\item $N\in\NN,a\colon (a,N)=1, a^{N-1}\neq 1\mod N$. $\ZZ_N^*=\{a\big|(a,N)=1\}$. Рассмотрим множество $G=\{x\big|x^{N-1}=1\}$. Пусть $x\in G$. Тогда $x\cdot x^{N-2}=1\mod N$, то есть, существует обратный элемент к $x$, откуда $x\in \ZZ_N^*$. Значит, $G\subseteq \ZZ_N^*$. Пусть $x_1,\,x_2\in G\Rightarrow x_1^{N-1}=1\mod p$, $x_2^{N-1}=1\mod p$. Тогда $x_1x_2=1\mod p$, и $x_1x_2\in G$. Получаем, что $G$~--- замкнута, значит, $G$~--- подгруппа $\ZZ_N^*$. Теорема Лагранжа $\Rightarrow$ $|\ZZ_N^*|=k|G|$. По условию, $a\in\ZZ_N^*\setminus G$, откуда $|G|<|\ZZ_N^*|$. Значит, $k\geqslant 2$, и $|G|\leqslant \frac{|\ZZ_N^*|}{2}$. Но $|\ZZ_N^*|=\varphi(N)\leqslant N-1$, откуда $|G|\leqslant\frac{N-1}{2}$. Рассмотрим $\overline{G}=\overline{1,N-1}\setminus G$. Очевидно, $1\notin \overline{G}$, так как $1^{N-1}=1\mod p$. Тогда $\overline{G}\subseteq\overline{2,N-1}$, причем $|\overline{G}|=|\overline{1,N-1}|-|G|\geqslant N-1-\frac{N-1}{2}=\frac{N-1}{2}\,\blacksquare$
+\item $N\in\NN,a\colon (a,N)=1, a^{N-1}\neq 1\mod N$. $\ZZ_N^*=\{a\big|a<N,\,(a,N)=1\}$. Рассмотрим множество $G=\{x\big|x^{N-1}=1\}$. Пусть $x\in G$. Тогда $x\cdot x^{N-2}=1\mod N$, то есть, существует обратный элемент к $x$, откуда $x\in \ZZ_N^*$. Значит, $G\subseteq \ZZ_N^*$. Пусть $x_1,\,x_2\in G\Rightarrow x_1^{N-1}=1\mod p$, $x_2^{N-1}=1\mod p$. Тогда $x_1x_2=1\mod p$, и $x_1x_2\in G$. Получаем, что $G$~--- замкнута, значит, $G$~--- подгруппа $\ZZ_N^*$. Теорема Лагранжа $\Rightarrow$ $|\ZZ_N^*|=k|G|$. По условию, $a\in\ZZ_N^*\setminus G$, откуда $|G|<|\ZZ_N^*|$. Значит, $k\geqslant 2$, и $|G|\leqslant \frac{|\ZZ_N^*|}{2}$. Но $|\ZZ_N^*|=\varphi(N)\leqslant N-1$, откуда $|G|\leqslant\frac{N-1}{2}$. Рассмотрим $\overline{G}=\overline{1,N-1}\setminus G$. Очевидно, $1\notin \overline{G}$, так как $1^{N-1}=1\mod p$. Тогда $\overline{G}\subseteq\overline{2,N-1}$, причем $|\overline{G}|=|\overline{1,N-1}|-|G|\geqslant N-1-\frac{N-1}{2}=\frac{N-1}{2}\,\blacksquare$
 \item $\mbox{НОД}(a,b)$~--- полиномиален по $|a|,\,|b|$ (лекции), вычисление $a^{N-1}\mod N$~--- также (быстрое возведение в степень, см. мое решение задачи 12).
 \item $P(a=i\in\overline{2,N-1})=\frac{1}{N-1}=p$. Пусть $N$~--- составное. Тогда $\exists a<N\colon (a,N)=1$.\begin{enumerate}
 \item С вероятностью $\frac{1}{N-1}$ алгоритм выдаст правильный ответ (угадан делитель)
 \item В противном случае с вероятностью $\geqslant \frac{1}{2}$ (см. первый пункт. По условию, хотя бы одно такое $a$ существует, значит, таких $a$ не меньше половины) будет выбрано $a\colon a^{N-1}\neq 1\mod p$, и будет выдан правильный ответ.
 \end{enumerate}
 Поэтому $P\geqslant \frac{1}{N-1}+(1-\frac{1}{N-1})\frac{1}{2}=1-\frac{1}{2(N-1)}$. $N\geqslant 2\Rightarrow N-1\geqslant 1\Rightarrow P\geqslant\frac{1}{2}\,\blacksquare$
+\subsection*{(каноническое) Задача 43}
+Открытый ключ $(e,n)=(11, 899)$. $M\in\ZZ_n$~--- сообщение.\newline
+Чтобы вычислить цифровую подпись сообщения $M$, необходимо вычислить $S(M)=M^d\mod n$,\newline
+где $d\colon ed=1\mod \varphi(n)$. $n=\underbrace{29}_p\cdot \underbrace{31}_q$, $p,\,q$~--- простые, поэтому $\varphi(n)=(p-1)(q-1)=28\cdot 30=840$.\newline
+Подбором найдем $d=611$, проверим: $ed=6721\equiv 1\mod 840$ $\Rightarrow$ Ответ: в степень $d=611$.
+\subsection*{(каноническое) Задача 45}
+$\ZZ_9=\{0,1,2,3,4,5,6,7,8\}$, $\ZZ_9^*=\{x\big|x<9,\,(x,9)=1\}=\{1,2,4,5,7,8\}$. $h_{a,b}(k)\eqdef\left[(ak+b)\mod 8\right]\mod 5$.\newline $H\eqdef\{h_{a,b}\big|a\in\ZZ_9^*,\,b\in\ZZ_9\}$.\begin{enumerate}
+\item $n_2=5$, так как $\forall a,b,k\hookrightarrow h_{a,b}(k)\in\overline{0,4}$.
+\item $|H|\leqslant|\ZZ_9\times\ZZ_9^*|=9\cdot 6=54$.
+\item $h_{a_1,b_1}(k)=h_{a_2,b_2}(k)\Leftrightarrow ((a_1k+b_2)\mod 8)\mod 5=((a_2k+b_2)\mod 8)\mod 5\Leftrightarrow(\left[(a_1-a_2)k+(b_1-b_2)\right]\mod 8)\mod 5=0$.
+\item Функции $h_{a_1,b_1}$, $h_{a_2,b_2}$ совпадают $\Leftrightarrow$ $\forall k\in U\hookrightarrow h_{a_1,b_1}(k)=h_{a_2,b_2}(k)$.
+\item $((ak+b)\mod 8)\mod 5=0\Leftrightarrow\exists l_1\colon 5\big| (ak+b)\mod 8\Leftrightarrow \left[\begin{array}{l}
+ak+b\equiv 5\mod 8\\
+ak+b\equiv 0\mod 8
+\end{array}
+\right.$
+\end{enumerate}
 \end{enumerate}
 \end{enumerate}
 \end{document}
