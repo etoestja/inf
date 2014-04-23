@@ -46,7 +46,7 @@
 \def\GP{{\mbox{ГП}}}
 \def\conv{{\mbox{conv}}}
 
-\title{Алгоритмы и модели вычислений.\\Задание 10: сортировки}
+\title{Алгоритмы и модели вычислений.\\Задание 10: теория чисел}
 
 % алгоритмы (Рубцов)
 \usepackage{verbatim}
@@ -220,6 +220,8 @@ print(g(n));
 \end{lstlisting}
 Ответ: $g_{10000}\mod 23=10$.
 \item Вернемся к формуле $g_n\mod p=\left[\sum\limits_{l=0}^{\lfloor\frac{n+1}{2}\rfloor}\binom{n+1}{2l}2^l\right]\mod p$, посчитаем по ней {\bf ???}
+\end{enumerate}
+
 \subsection*{(каноническое) Задача 42}
 {\em (Кормен)}
 \begin{enumerate}
@@ -230,11 +232,25 @@ print(g(n));
 \item В противном случае с вероятностью $\geqslant \frac{1}{2}$ (см. первый пункт. По условию, хотя бы одно такое $a$ существует, значит, таких $a$ не меньше половины) будет выбрано $a\colon a^{N-1}\neq 1\mod p$, и будет выдан правильный ответ.
 \end{enumerate}
 Поэтому $P\geqslant \frac{1}{N-1}+(1-\frac{1}{N-1})\frac{1}{2}=1-\frac{1}{2(N-1)}$. $N\geqslant 2\Rightarrow N-1\geqslant 1\Rightarrow P\geqslant\frac{1}{2}\,\blacksquare$
+\end{enumerate}
 \subsection*{(каноническое) Задача 43}
 Открытый ключ $(e,n)=(11, 899)$. $M\in\ZZ_n$~--- сообщение.\newline
 Чтобы вычислить цифровую подпись сообщения $M$, необходимо вычислить $S(M)=M^d\mod n$,\newline
 где $d\colon ed=1\mod \varphi(n)$. $n=\underbrace{29}_p\cdot \underbrace{31}_q$, $p,\,q$~--- простые, поэтому $\varphi(n)=(p-1)(q-1)=28\cdot 30=840$.\newline
 Подбором найдем $d=611$, проверим: $ed=6721\equiv 1\mod 840$ $\Rightarrow$ Ответ: в степень $d=611$.
+\subsection*{(каноническое) Задача 44}
+\begin{enumerate}
+\item $8\varphi(n)\geqslant\sqrt{n}$ при $n\notin\{2,6\}$. Получим, что $n\leqslant 8^2=64$. Перебором найдем $n\in\{15,16,20,24,30\}$.
+\item Перебором найдем\newline
+$\begin{array}{|c|l|}
+\hline
+\mbox{Порядок} & \mbox{Элементы}\\\hline
+1 & 1\\\hline
+11 & 2,3,4,6,8,9,12,13,16,18\\\hline
+22 & 5,7,10,11,14,15,17,19,20,21\\\hline
+\end{array}$
+\item Перебором найдем множество первообразных корней $\{5,\,7,\,10,\,11,\,14,\,15,\,17,\,19,\,20,\,21\}$
+\end{enumerate}
 \subsection*{(каноническое) Задача 45}
 $\ZZ_9=\{0,1,2,3,4,5,6,7,8\}$, $\ZZ_9^*=\{x\big|x<9,\,(x,9)=1\}=\{1,2,4,5,7,8\}$. $h_{a,b}(k)\eqdef\left[(ak+b)\mod 8\right]\mod 5$.\newline $H\eqdef\{h_{a,b}\big|a\in\ZZ_9^*,\,b\in\ZZ_9\}$.\begin{enumerate}
 \item $n_2=5$, так как $\forall a,b,k\hookrightarrow h_{a,b}(k)\in\overline{0,4}$.
@@ -245,8 +261,10 @@ $\ZZ_9=\{0,1,2,3,4,5,6,7,8\}$, $\ZZ_9^*=\{x\big|x<9,\,(x,9)=1\}=\{1,2,4,5,7,8\}$
 ak+b\equiv 5\mod 8\\
 ak+b\equiv 0\mod 8
 \end{array}
-\right.$
+\right.$ {\bf ???}
+\item Перебором найдем $|H|=45$ (количество различных хеш-функций).
+\item $n_1=8$ ($k=k_0+8l\Rightarrow h_{a,b}(k)=h_{a,b}(k_0)$)
+\item 
 \end{enumerate}
-\end{enumerate}
-\end{enumerate}
+
 \end{document}
