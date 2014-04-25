@@ -1,6 +1,7 @@
 #include "tree.h"
 #include "randomTree.h"
 #include "treeStupidCounter.h"
+#include "treeThreadCounter.h"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -17,4 +18,5 @@ int main()
     cout << b.printTree();
 
     cout << "num=" << treeStupidCounter::count(&b) << endl;
+    cout << "num1=" << treeThreadCounter::count(&b, 100) << endl;
 }

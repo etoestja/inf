@@ -7,8 +7,8 @@ class treeThreadCounter
 {
 public:
     treeThreadCounter();
-    static unsigned count(Tree* t, int threads, int currentChild = 0);
-    static void countStupid(Tree *, int* result);
+    static unsigned count(Tree* t, int threads, unsigned currentChild = 0);
+    static void countStupid(Tree *, unsigned* result);
 };
 
 #endif // TREECOUNTER_H
