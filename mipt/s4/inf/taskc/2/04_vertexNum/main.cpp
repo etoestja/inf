@@ -12,11 +12,13 @@ using std::endl;
 int main()
 {
     srand(time(NULL));
-    randomTree b(100);
+    randomTree b(10000);
 
-    cout << "generated:" << endl;
-    cout << b.printTree();
+    //cout << "generated:" << endl;
+    //cout << b.printTree();
 
     cout << "num=" << treeStupidCounter::count(&b) << endl;
-    cout << "num1=" << treeThreadCounter::count(&b, 100) << endl;
+
+    treeThreadCounter tHC;
+    cout << "num1=" << tHC.count(&b, 1) << endl;
 }
