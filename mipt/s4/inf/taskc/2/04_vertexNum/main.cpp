@@ -20,5 +20,5 @@ int main()
     cout << "num=" << treeStupidCounter::count(&b) << endl;
 
     treeThreadCounter tHC;
-    cout << "num1=" << tHC.count(&b, 1) << endl;
+    cout << "num1=" << tHC.count(&b, 2) << endl;
 }

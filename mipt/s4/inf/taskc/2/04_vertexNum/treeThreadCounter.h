@@ -4,24 +4,19 @@
 #include "tree.h"
 #include <string>
 #include <thread>
+#include <atomic>
 
 using std::string;
 using std::thread;
+using std::atomic;
 
 class treeThreadCounter
 {
 private:
-    int semid;
-    string pathname;
-    static const int nsems = 2;
-    enum sems{MUTEX_SUM = 0, MUTEX_AVAILABLE};
-    vector<thread> threads;
-
-    unsigned availableCounters, maxCounters;
-    unsigned sum;
-    void initSems();
-    void initValues(int threads);
-    void countOne(Tree* root);
+    std::atomic<unsigned> availableCounters, sum;
+    unsigned maxCounters;
+    void initValues(unsigned tN);
+    void countOne(Tree *root);
 public:
     treeThreadCounter();
     unsigned count(Tree *root, unsigned nTh);
