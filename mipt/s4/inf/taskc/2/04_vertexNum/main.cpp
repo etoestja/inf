@@ -12,7 +12,7 @@ using std::endl;
 int main()
 {
     srand(time(NULL));
-    randomTree b(10000);
+    randomTree b(10000000);
 
     //cout << "generated:" << endl;
     //cout << b.printTree();
@@ -20,5 +20,5 @@ int main()
     cout << "num=" << treeStupidCounter::count(&b) << endl;
 
     treeThreadCounter tHC;
-    cout << "num1=" << tHC.count(&b, 2) << endl;
+    cout << "num1=" << tHC.count(&b, 1) << endl;
 }

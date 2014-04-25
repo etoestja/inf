@@ -66,5 +66,5 @@ void treeThreadCounter::countOne(Tree *root)
         (*it1).join();
     }
 
-    availableCounters++;
+    //availableCounters++;
 }
