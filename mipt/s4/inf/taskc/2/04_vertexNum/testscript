@@ -1,11 +1,11 @@
 #!/bin/bash
 tc=1
-tMax=4
+tMax=10
 
 i=0
 rM=0
 
-N=80000
+N=1000000
 
 name=04_vertexNum
 
