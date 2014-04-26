@@ -31,7 +31,7 @@ int mainRand()
 
 void printHelpExit(char* name)
 {
-    cout << "Usage: " << name << " random vertN | test threadsN | both vertN threadsN" << endl;
+    cout << "Usage: " << name << " random vertN | test threadsN | both vertN threadsN | x vertN" << endl;
     exit(1);
 }
 
@@ -47,6 +47,11 @@ int main(int argc, char** argv)
         srand(time(NULL));
         randomTree b(N);
         cout << b.printTree() << endl;
+    }
+    if(argv[1][0] == 'x')
+    {
+        srand(time(NULL));
+        randomTree b(N);
     }
     else if(argv[1][0] == 't')
     {

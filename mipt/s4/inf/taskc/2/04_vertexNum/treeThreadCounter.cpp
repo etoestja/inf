@@ -14,6 +14,8 @@ using std::cerr;
 using std::endl;
 using std::thread;
 
+using std::pair;
+
 void treeThreadCounter::initValues(unsigned threads)
 {
     sum = 0;
@@ -30,22 +32,22 @@ unsigned treeThreadCounter::count(Tree *root, unsigned nTh)
     initValues(nTh);
     availableCounters--;
 
-    countOne(root, 0);
+    countOne(root, 0, &sum);
 
     return(sum);
 }
 
-void treeThreadCounter::countOne(Tree *root, bool threaded)
+typedef pair<thread, unsigned*> threadWithRes;
+
+void treeThreadCounter::countOne(Tree *root, bool threaded, unsigned* result)
 {
     // current vertex
-    mutexSum.lock();
-    sum++;
-    mutexSum.unlock();
+    unsigned tr = 1;
 
     vector<Tree*>::iterator it;
     bool useThread;
 
-    vector<thread> vT;
+    vector<threadWithRes> vT;
 
     // children of current vertex
     for(it = root->children.begin(); it != root->children.end(); it++)
@@ -63,16 +65,26 @@ void treeThreadCounter::countOne(Tree *root, bool threaded)
         if(useThread)
         {
             cerr << "using thread" << endl;
-            vT.push_back(thread(&treeThreadCounter::countOne, this, (*it), 1));
+            unsigned* t_int = new unsigned;
+            vT.push_back(threadWithRes(thread(&treeThreadCounter::countOne, this, (*it), 1, t_int), t_int));
         }
         else
-            countOne(*it, 0);
+        {
+            unsigned* t_int = new unsigned;
+            countOne(*it, 0, t_int);
+            tr += *t_int;
+            delete t_int;
+        }
     }
 
-    for(vector<thread>::iterator it1 = vT.begin(); it1 != vT.end(); it1++)
+    for(vector<threadWithRes>::iterator it1 = vT.begin(); it1 != vT.end(); it1++)
     {
-        (*it1).join();
+        (*it1).first.join();
+        tr += *((*it1).second);
+        delete (*it1).second;
     }
+
+    *result = tr;
 
     // slow if used
     if(threaded)

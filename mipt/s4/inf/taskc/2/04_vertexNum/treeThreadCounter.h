@@ -21,7 +21,7 @@ private:
     unsigned maxCounters; // max threads number
 
     void initValues(unsigned tN); // init local variables
-    void countOne(Tree *root, bool threaded); // count number of vertexes with/wo threads
+    void countOne(Tree *root, bool threaded, unsigned *result); // count number of vertexes with/wo threads
 public:
     treeThreadCounter();
     unsigned count(Tree *root, unsigned nTh); // count number of vertexts with <= nTh threads
