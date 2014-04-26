@@ -1,3 +1,7 @@
+/*
+ * Tree class
+ */
+
 #ifndef TREE_H
 #define TREE_H
 
@@ -20,13 +24,15 @@ friend class treeThreadCounter;
 friend class randomTree;
 
 private:
-    static const int maxChildren = 10;
-    tNode node;
-    vector<Tree*> children;
+    tNode node; // value in current vertex
+    vector<Tree*> children; // children of current vertex
 public:
     Tree();
-    Tree(tNode);
-    string printTree(unsigned level = 0);
+    Tree(tNode); // set current value
+    string printTree(unsigned level = 0); // prints tree (values & ptrs)
+    ~Tree();
+    void addChild(Tree* x);
+    Tree* readCin();
 };
 
 #endif // TREE_H

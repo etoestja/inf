@@ -36,6 +36,7 @@ unsigned treeThreadCounter::count(Tree *root, unsigned nTh)
 
 void treeThreadCounter::countOne(Tree *root)
 {
+    // current vertex
     sum++;
 
     vector<Tree*>::iterator it;
@@ -43,6 +44,7 @@ void treeThreadCounter::countOne(Tree *root)
 
     vector<thread> vT;
 
+    // children of current vertex
     for(it = root->children.begin(); it != root->children.end(); it++)
     {
         useThread = 0;
@@ -66,5 +68,6 @@ void treeThreadCounter::countOne(Tree *root)
         (*it1).join();
     }
 
+    // slow if used
     //availableCounters++;
 }

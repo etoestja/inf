@@ -13,13 +13,16 @@ using std::atomic;
 class treeThreadCounter
 {
 private:
-    std::atomic<unsigned> availableCounters, sum;
-    unsigned maxCounters;
-    void initValues(unsigned tN);
-    void countOne(Tree *root);
+    std::atomic<unsigned> availableCounters; // counters left
+    std::atomic<unsigned> sum; // result
+
+    unsigned maxCounters; // max threads number
+
+    void initValues(unsigned tN); // init local variables
+    void countOne(Tree *root); // count number of vertexes with/wo threads
 public:
     treeThreadCounter();
-    unsigned count(Tree *root, unsigned nTh);
+    unsigned count(Tree *root, unsigned nTh); // count number of vertexts with <= nTh threads
 };
 
 #endif // TREECOUNTER_H

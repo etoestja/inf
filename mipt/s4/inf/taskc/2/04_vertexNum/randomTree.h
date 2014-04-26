@@ -5,6 +5,8 @@
 
 class randomTree : public Tree
 {
+private:
+    static const int maxChildren = 10;
 public:
     randomTree(int nodes);
 };

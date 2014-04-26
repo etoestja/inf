@@ -4,6 +4,7 @@
 
 using std::stringstream;
 using std::endl;
+using std::cin;
 
 Tree::Tree()
 {
@@ -19,10 +20,42 @@ string Tree::printTree(unsigned level)
     stringstream ss;
     for(unsigned i = 0; i < level; i++)
         ss << " ";
-    ss << "ptr=" << this << " value=" << node << " children (" << children.size() << "):" << endl;
+    //ss << "ptr=" << this << " value=" << node << " children (" << children.size() << "):" << endl;
+    ss << node << " " << children.size() << endl;
 
     vector<Tree*>::iterator it;
     for(it = children.begin(); it != children.end(); it++)
         ss << (*it)->printTree(level + 1);
     return(ss.str());
+}
+
+Tree::~Tree()
+{
+    vector<Tree*>::iterator it;
+    for(it = children.begin(); it != children.end(); it++)
+    {
+        (*it)->~Tree();
+        delete (*it);
+    }
+}
+
+void Tree::addChild(Tree *x)
+{
+    children.push_back(x);
+}
+
+Tree* Tree::readCin()
+{
+    unsigned N;
+    cin >> N;
+
+    cin >> node;
+
+    for(unsigned i = 0; i < N; i++)
+    {
+        Tree* t = new Tree;
+        t->readCin();
+        addChild(t);
+    }
+    return(this);
 }
