@@ -11,12 +11,17 @@ randomTree::randomTree(int nodes)
 
     if(nodesleft == 0) return;
 
-    int childrenN = (rand() % nodesleft) + 1;
+    int m = maxChildren;
+    if(m > nodesleft) m = nodesleft;
+
+    int childrenN = m;//(rand() % m) + 1;
+    int y = nodesleft / childrenN;
 
     for(int i = 0; i < childrenN; i++)
     {
         //nodesleft - here >= childrenN - i - 1
-        int here = ((rand() % (nodesleft + i + 1 - childrenN)) + 1);
+        //int here = ((rand() % (nodesleft + i + 1 - childrenN)) + 1);
+        int here = y;
         randomTree *x = new randomTree(here);
         children.push_back(x);
         nodesleft -= here;

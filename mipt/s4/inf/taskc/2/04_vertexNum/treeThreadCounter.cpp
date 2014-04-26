@@ -28,16 +28,19 @@ treeThreadCounter::treeThreadCounter()
 unsigned treeThreadCounter::count(Tree *root, unsigned nTh)
 {
     initValues(nTh);
+    availableCounters--;
 
-    countOne(root);
+    countOne(root, 0);
 
     return(sum);
 }
 
-void treeThreadCounter::countOne(Tree *root)
+void treeThreadCounter::countOne(Tree *root, bool threaded)
 {
     // current vertex
+    mutexSum.lock();
     sum++;
+    mutexSum.unlock();
 
     vector<Tree*>::iterator it;
     bool useThread;
@@ -49,18 +52,21 @@ void treeThreadCounter::countOne(Tree *root)
     {
         useThread = 0;
 
+        mutexAC.lock();
         if(availableCounters > 0)
         {
             availableCounters--;
             useThread = 1;
         }
+        mutexAC.unlock();
 
         if(useThread)
         {
-            vT.push_back(thread(&treeThreadCounter::countOne, this, (*it)));
+            cerr << "using thread" << endl;
+            vT.push_back(thread(&treeThreadCounter::countOne, this, (*it), 1));
         }
         else
-            countOne(*it);
+            countOne(*it, 0);
     }
 
     for(vector<thread>::iterator it1 = vT.begin(); it1 != vT.end(); it1++)
@@ -69,5 +75,11 @@ void treeThreadCounter::countOne(Tree *root)
     }
 
     // slow if used
-    //availableCounters++;
+    if(threaded)
+    {
+        mutexAC.lock();
+        availableCounters++;
+        mutexAC.unlock();
+        cerr << "thread finished" << endl;
+    }
 }

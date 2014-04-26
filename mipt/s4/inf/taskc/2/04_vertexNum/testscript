@@ -3,19 +3,21 @@ tc=1
 tMax=4
 
 i=0
-rM=3
+rM=0
 
-N=50000
+N=80000
 
 name=04_vertexNum
+
+./$name random $N > in1
 
 while (( $tc <= $tMax ))
 do
     i=0
     while (( $i <= $rM ))
     do
-        ./$name random $N | /usr/bin/time -o f1 -f "%e" ./$name test $tc > /dev/null
-        echo "$i $(cat f1)"
+        cat in1 | /usr/bin/time -o f1 -f "%e" ./$name test $tc > /dev/null
+        echo "$tc $i $(cat f1)"
         let i=i+1
     done
     let tc=tc+1
