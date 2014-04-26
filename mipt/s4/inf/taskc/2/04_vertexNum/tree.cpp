@@ -35,7 +35,6 @@ Tree::~Tree()
     vector<Tree*>::iterator it;
     for(it = children.begin(); it != children.end(); it++)
     {
-        cerr << "p=" << (*it) << endl;
         if((*it) != NULL)
         {
             //(*it)->~Tree();
@@ -51,10 +50,10 @@ void Tree::addChild(Tree *x)
 
 Tree* Tree::readCin()
 {
+    cin >> node;
+
     unsigned N;
     cin >> N;
-
-    cin >> node;
 
     for(unsigned i = 0; i < N; i++)
     {

@@ -36,14 +36,6 @@ void printHelpExit(char* name)
 
 int main(int argc, char** argv)
 {
-    randomTree* x;
-    while(1)
-    {
-        x = new randomTree(10000);
-        delete x;
-    }
-
-
     if(argc <= 2)
         printHelpExit(argv[0]);
 
@@ -61,7 +53,7 @@ int main(int argc, char** argv)
         T->readCin();
 
         treeThreadCounter tHC;
-        cout << tHC.count(T, N);
+        cout << tHC.count(T, N) << endl;
     }
     else
         printHelpExit(argv[0]);
