@@ -5,6 +5,7 @@
 using std::stringstream;
 using std::endl;
 using std::cin;
+using std::cerr;
 
 Tree::Tree()
 {
@@ -34,8 +35,12 @@ Tree::~Tree()
     vector<Tree*>::iterator it;
     for(it = children.begin(); it != children.end(); it++)
     {
-        (*it)->~Tree();
-        delete (*it);
+        cerr << "p=" << (*it) << endl;
+        if((*it) != NULL)
+        {
+            //(*it)->~Tree();
+            delete (*it);
+        }
     }
 }
 

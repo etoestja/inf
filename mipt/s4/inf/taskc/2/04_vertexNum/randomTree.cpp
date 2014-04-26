@@ -22,5 +22,6 @@ randomTree::randomTree(int nodes)
         nodesleft -= here;
     }
 
-    random_shuffle(children.begin(), children.end());
+    if(children.size() > 0)
+        random_shuffle(children.begin(), children.end());
 }

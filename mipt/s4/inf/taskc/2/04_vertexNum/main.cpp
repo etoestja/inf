@@ -36,13 +36,22 @@ void printHelpExit(char* name)
 
 int main(int argc, char** argv)
 {
-    if(argc <= 3)
+    randomTree* x;
+    while(1)
+    {
+        x = new randomTree(10000);
+        delete x;
+    }
+
+
+    if(argc <= 2)
         printHelpExit(argv[0]);
 
     unsigned N = atoi(argv[2]);
 
     if(argv[1][0] == 'r')
     {
+        srand(time(NULL));
         randomTree b(N);
         cout << b.printTree() << endl;
     }
