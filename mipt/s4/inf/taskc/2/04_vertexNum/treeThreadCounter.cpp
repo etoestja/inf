@@ -54,13 +54,16 @@ void treeThreadCounter::countOne(Tree *root, bool threaded, unsigned* result)
     {
         useThread = 0;
 
-        mutexAC.lock();
-        if(availableCounters > 0)
+        //if(!threaded)
         {
-            availableCounters--;
-            useThread = 1;
+            mutexAC.lock();
+            if(availableCounters > 0)
+            {
+                availableCounters--;
+                useThread = 1;
+            }
+            mutexAC.unlock();
         }
-        mutexAC.unlock();
 
         if(useThread)
         {
@@ -89,9 +92,9 @@ void treeThreadCounter::countOne(Tree *root, bool threaded, unsigned* result)
     // slow if used
     if(threaded)
     {
-        mutexAC.lock();
-        availableCounters++;
-        mutexAC.unlock();
+        //mutexAC.lock();
+        //availableCounters++;
+        //mutexAC.unlock();
         cerr << "thread finished" << endl;
     }
 }

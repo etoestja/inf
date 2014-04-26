@@ -13,22 +13,6 @@ using std::cerr;
 
 Tree* T;
 
-int mainRand()
-{
-    srand(time(NULL));
-    randomTree b(10000000);
-
-    //cout << "generated:" << endl;
-    //cout << b.printTree();
-
-    cout << "num=" << treeStupidCounter::count(&b) << endl;
-
-    treeThreadCounter tHC;
-    cout << "num1=" << tHC.count(&b, 1) << endl;
-
-    return(0);
-}
-
 void printHelpExit(char* name)
 {
     cout << "Usage: " << name << " random vertN | test threadsN | both vertN threadsN | x vertN" << endl;
@@ -69,6 +53,7 @@ int main(int argc, char** argv)
         srand(time(NULL));
         randomTree b(N);
         treeThreadCounter tHC;
+        clock_t c = clock();
         cout << tHC.count(&b, N1) << endl;
     }
     else
