@@ -54,7 +54,7 @@ void treeThreadCounter::countOne(Tree *root, bool threaded, unsigned* result)
     {
         useThread = 0;
 
-        //if(!threaded)
+        if(!threaded)
         {
             mutexAC.lock();
             if(availableCounters > 0)
