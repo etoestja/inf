@@ -1,0 +1,24 @@
+#!/bin/bash
+tc=1
+tMax=10
+
+i=0
+rM=0
+
+N=1000000
+
+name=04_vertexNum
+
+./$name random $N > in1
+
+while (( $tc <= $tMax ))
+do
+    i=0
+    while (( $i <= $rM ))
+    do
+        cat in1 | /usr/bin/time -o f1 -f "%e" ./$name test $tc > /dev/null
+        echo "$tc $i $(cat f1)"
+        let i=i+1
+    done
+    let tc=tc+1
+done

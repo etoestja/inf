@@ -1,0 +1,157 @@
+ \documentclass[12pt, leqno]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}        % Кодировка входного документа;
+                                    % при необходимости, вместо cp1251
+                                    % можно указать cp866 (Alt-кодировка
+                                    % DOS) или koi8-r.
+
+\usepackage[english,russian]{babel} % Включение русификации, русских и
+                                    % английских стилей и переносов
+%%\usepackage{a4}
+%%\usepackage{moreverb}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,amsbsy,amstext,amscd,amsxtra,multicol}
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{algorithm2e}
+
+\usepackage{tabto} %Табуляция
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,trees}
+\usepackage{multicol} %Несколько колонок
+\usepackage{graphicx}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage[stable]{footmisc}
+\usepackage{indentfirst}  % абзацный отступ после заголовка
+\usepackage{enumitem} %Item tricks
+
+
+%% \voffset-5mm
+%% \def\baselinestretch{1.44}
+\renewcommand{\theequation}{\arabic{equation}}
+\def\hm#1{#1\nobreak\discretionary{}{\hbox{$#1$}}{}}
+\newtheorem{Lemma}{Лемма}
+\theoremstyle{definiton}
+\newtheorem{Remark}{Замечание}
+%%\newtheorem{Def}{Определение}
+\newtheorem{Claim}{Утверждение}
+\newtheorem{Cor}{Следствие}
+\newtheorem{Theorem}{Теорема}
+\newtheorem*{known}{Теорема}
+\def\proofname{Доказательство}
+\theoremstyle{definition}
+\newtheorem{Def}{Определение}
+\theoremstyle{definition}
+\newtheorem{Example}{Пример}
+
+%% \newenvironment{Example} % имя окружения
+%% {\par\noindent{\bf Пример.}} % команды для \begin
+%% {\hfill$\scriptstyle\qed$} % команды для \end
+
+
+
+
+
+
+%\date{22 июня 2011 г.}
+\let\leq\leqslant
+\let\geq\geqslant
+\def\MT{\mathrm{MT}}
+%Обозначения ``ажуром''
+\def\BB{\mathbb B}
+\def\CC{\mathbb C}
+\def\RR{\mathbb R}
+\def\SS{\mathbb S}
+\def\ZZ{\mathbb Z}
+\def\NN{\mathbb N}
+\def\FF{\mathbb F}
+%греческие буквы
+\let\epsilon\varepsilon
+\let\es\varnothing
+\let\eps\varepsilon
+\let\al\alpha
+\let\sg\sigma
+\let\ga\gamma
+\let\ph\varphi
+\let\om\omega
+\let\ld\lambda
+\let\Ld\Lambda
+\let\vk\varkappa
+\let\Om\Omega
+\def\first{\mathrm{ FIRST} }
+\def\follow{\mathrm{ FOLLOW} }
+\let\yield\Rightarrow
+\def\abstractname{}
+
+\def\R{{\cal R}}
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+\def\D{{\cal D}}
+\let\w\omega
+
+%классы сложности
+\def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
+\def\LL{{\mathrm{LL}}}
+\newcounter{problem}
+\newcounter{uproblem}
+\newcounter{subproblem}
+\def\pr{\medskip\noindent\stepcounter{problem}{\bf \theproblem .  }\setcounter{subproblem}{0} }
+\def\prp{\medskip\noindent\stepcounter{problem}{\bf Задача \theproblem .  }\setcounter{subproblem}{0} }
+\def\prstar{\medskip\noindent\stepcounter{problem}{\bf Задача $\bf{\theproblem^*}\negmedspace .$  }\setcounter{subproblem}{0} }
+\def\prdag{\medskip\noindent\stepcounter{problem}{\bf Задача $\theproblem^\dagger$ .  }\setcounter{subproblem}{0} }
+\def\upr{\medskip\noindent\stepcounter{uproblem}{\bf Упражнение \theuproblem .  }\setcounter{subproblem}{0} }
+%\def\prp{\vspace{5pt}\stepcounter{problem}{\bf Задача \theproblem .  } }
+%\def\prs{\vspace{5pt}\stepcounter{problem}{\bf \theproblem .*   }
+\def\prsub{\medskip\noindent\stepcounter{subproblem}{\rm \thesubproblem .  } }
+%прочее
+\def\quotient{\backslash\negthickspace\sim}
+
+\begin{document}
+\centerline{\LARGE Задание 5}
+
+\medskip
+
+\begin{center}
+	{\Large Теория чисел }
+\end{center}
+
+\bigskip
+
+
+\section{Что стоит вспомнить}
+	Не смотря на то, что вы изучали теорию чисел в рамках курса алгебры, скорее всего вам стоит освежить эти знания. Для этого вполне подойдёт Кормен. В этом разделе я напишу на что стоит обратить особое внимание, но это не означает, что остальной материал по теории чисел из Кормена читать не надо.
+	\begin{itemize}
+		\item Аддитивная группа $\ZZ_n$ и мультипликативная группа $\ZZ^*_{n}$
+		\item Функция Эйлера $\phi(n)$ (число взаимнопростых чисел с $n$).
+		\item Формула Эйлера $$a^{\phi(n)} = 1 \mod n$$
+		\item Первообразный корень (генератор).
+		\item Дискретный логарифм.
+		\item Алгоритм Евклида, \textbf{обобщённый алгоритм Евклида}.
+		\item Разрешимость уравнений вида $$ax = b \mod n$$.
+		\item Китайская теорема об остатках.
+		
+	\end{itemize}
+	
+Аддитивной группой $\ZZ_n$ называется группа с элементами $\{0, 1, \ldots, n\}$ с операцией сложения по модулю $n$. Вообще говоря, можно считать, что элементы $\ZZ_n$ есть классы эквивалентности вида $[a]_n = \{ a+kn\,|\, k \in \ZZ \}$.
+
+Мультипликативной группой $\ZZ_n^*$ называется группа элементами которой являются числа, взаимнопростые с $n$. Операция определена как умножение по модулю $n$. Мощность группы выражается через формулу Эйлера: $|\ZZ_n| = \phi(n) $.
+
+$$ \phi(n) = n\prod_{p | n}(1 - \frac1p) $$
+где $p$ -- простые числа.
+
+Первообразным корнем или генератором группы $\ZZ_n^*$ называется такой её элемент $g$, что любой другой элемент $a \in \ZZ_n^*$ является степенью $g$. Число $x$ называется индексом числа $a$ по основанию $g$. Решение уравнения $g^x = a$ называется дискретным логарифмом элемента $a$ по основанию $g$.
+
+Алгоритм Евклида позволяет вычислить наибольший общий делитель ${\rm gcd}(a,b)$ чисел $a$ и $b$. Пусть ${\rm gcd}(a,b) = d$. Тогда найдутся такие целые числа $x$ и $y$, что $d = ax + by$. Их позволяет вычилить обобщённый алгоритм Евклида. Также с его помощью можно решать уравнения вида $ax  = b \mod n$.
+
+
+
+
+\section{Домашнее задание}
+
+Задачи из задания №41-45.
+
+
+
+
+\end{document}

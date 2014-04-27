@@ -1,0 +1,270 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+%\geometry{paperwidth=210mm, paperheight=2000pt, left=5pt, top=5pt}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,arrows,trees,calc}
+\usepackage{amsmath}
+\usepackage[makeroom]{cancel} % зачеркивание
+\usepackage{multicol,multirow} %Несколько колонок
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{listings}
+\usepackage{wasysym}
+\date{задано 2014.04.17}
+\author{Сергей~Володин, 272 гр.}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+% названия автоматов  (rubtsov)
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+
+%классы сложности (rubtsov)
+\def\PP{{\mathsf{P}}}
+\def\NP{{\mathsf{NP}}}
+\def\NPc{{\mathsf{NP}}\text{-}{\rm c}}
+\def\coNP{{\rm co}\text{-}{\mathsf{NP}}}
+\def\DTIME{{\mathsf{DTIME}}}
+\def\NTIME{{\mathsf{NTIME}}}
+\def\CLIQUE{{\mathsf{CLIQUE}}}
+\def\HALT{{\rm{HALT}}}
+\def\SAT{{\rm{SAT}}}
+\def\3SAT{{\rm{3\text{-}SAT}}}
+\def\2SAT{{\rm{2\text{-}SAT}}}
+\def\UNSAT{{\rm{UNSAT}}}
+\def\HP{{\rm{HAMPATH}}}
+\def\UHP{{\rm{UHAMPATH}}}
+\def\LL{{\mathrm{LL}}}
+\def\poly{{\rm{poly}}}
+\def\GC{{\mbox{ГЦ}}}
+\def\GP{{\mbox{ГП}}}
+\def\conv{{\mbox{conv}}}
+
+\title{Алгоритмы и модели вычислений.\\Задание 10: теория чисел}
+
+% алгоритмы (Рубцов)
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{algorithm2e}
+
+%+= и -=, иначе разъезжаются...
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
+\newcommand{\todo}{{\em todo}}
+
+% пустое слово  (rubtsov)
+\def\eps{\varepsilon}
+
+% регулярные языки  (rubtsov)
+\def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\newcommand{\niton}{\not\owns}
+
+%FIRST & FOLLOW (rubtsov)
+\def\first{\mathrm{ FIRST} }
+\def\follow{\mathrm{ FOLLOW} }
+
+% LL LR (rubtsov)
+\def\LL{{\mathrm{LL}}}
+\def\LR{{\mathrm{LR}}}
+
+\newcounter{rowItemCount}
+\newcounter{subRowItemCount}
+\newcommand\rowItem{
+    \setcounter{subRowItemCount}{0}
+    \arabic{rowItemCount}.\addtocounter{rowItemCount}{1}}
+\newcommand\subRowItem{
+    \addtocounter{subRowItemCount}{1}
+    \addtocounter{rowItemCount}{-1}
+    \arabic{rowItemCount}.\arabic{subRowItemCount}.\addtocounter{rowItemCount}{1}}
+
+\newcommand{\smalll}[1]{\overline{\overline{#1}}}
+\newcommand{\smallo}{\bar{\bar{o}}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\Nz}{\mathbb{N}\cup\{0\}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\RR}{\mathbb{R}}
+\begin{document}
+\maketitle
+\subsection*{(каноническое) Задача 41}
+{\em Модель вычислений: RAM, трудоемкость $C$~--- суммарное количество арифметических операций, присваиваний, сравнений.}\newline
+Мое решение задания 2 $\Rightarrow$ \begin{enumerate}
+\item \label{41GnRec} $g_n = 2g_{n-1} + g_{n-2}$, $g_0=1,\,g_1=3$
+\item \label{41Gn2} $g_n=\frac{1}{2}\left[(1+\sqrt{2})^{n+1}+(1-\sqrt{2})^{n+1}\right]$
+\end{enumerate}
+\begin{enumerate}
+\item \begin{enumerate}
+\item Алгоритм:
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+    frame=lines,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    keywordstyle=\color{red}\bfseries,
+    stringstyle=\color{green!50!black},
+    commentstyle=\color{gray}\itshape,
+    numbers=left,
+    captionpos=t,
+    escapeinside={\%*}{*)}
+}
+\begin{lstlisting}
+number g(number n, number p)
+{
+  number a = 1;
+  number b = 3;
+
+  if(n == 0) return(a);
+  if(n == 1) return(b);
+
+  number i, bt;
+  for(i = 2; i <= n; i++)
+  {
+    bt = 2 * b + a;
+    a = b;
+    b = bt;
+  }
+
+  return(b);
+}
+\end{lstlisting}
+\item Корректность\begin{enumerate}
+\item $g_0=1=g(0)$ (строка 6)
+\item $g_1=3=g(1)$ (строка 7)
+\item $n\geqslant 2$:\begin{enumerate}
+\item $P_i=\left[\mbox{после }i\mbox{-й итерации цикла }a=g_{i-1},\,b=g_i\right]$. $i$-я итерация цикла~--- при таком значении переменной $i$.
+\item $P_1$ (до цикла) верно: (строки 3, 4): $a=g_{1-1}=1$, $b=g_1=3$.
+\item Пусть $P_k$. Тогда $a\equiv a_{\mbox{\tiny old}}=g_{k-1}$, $b\equiv b_{\mbox{\tiny old}}=g_k$ после $k$-й итерации. После следующей ($k+1$) итерации $a=b_{\mbox{\tiny old}}=g_k$, $b=2b_{\mbox{\tiny old}}+a_{\mbox{\tiny old}}=2g_k+g_{k-1}\overset{\ref{41GnRec}}{=}g_{k+1}$ $\blacksquare\,\forall k\geqslant 2\hookrightarrow P(k)$
+\item В конце (после $n$-й итерации) $P(n)\Rightarrow b=g_n$ $\blacksquare\,\forall n\geqslant 2\hookrightarrow g(n)=g_n$ (строка 17)
+\end{enumerate}
+\end{enumerate}
+\item Время работы. При $n\in\{0,1\}$ $C(0)=3,\,C(1)=4$. На каждой итерации цикла трудоемкость константная $c=8$, поэтому общее количество арифметических операций $$C(n)=\begin{cases}
+3, & n=0\\
+4, & n=1\\
+5+8(n-1), & n\geqslant 2\\
+\end{cases}$$
+\item Вычисление по модулю: вычислим $g(n)$, вычислим $g(n) \mod p$. Добавляется одна единица трудоемкости.
+\item Асимптотика $C(n)=O(n)$
+\item Трудоемкость вычисления $A=g_{10000}\mod 19$: $C(10000)=5+8(9999)=79997$
+\end{enumerate}
+\item \begin{enumerate}
+\item Фиксируем $p\in\NN$. Рассмотрим функцию $f\colon \NN\to \overline{0,p-1}^2$: $f(k)=(g_{k-1}\mod p,g_k\mod p)$. Область определения $|D_f|=\infty$, множество значений $|E_f|=p^2$, откуда $|E_f|<|D_f|$, получаем, что $f$~--- не инъективна, то есть, $\exists \NN\ni i\neq j\in\NN \colon f(i)=f(j)\Leftrightarrow (g_{i-1}\mod p,g_i\mod p)=(g_{j-1}\mod p,g_j\mod p)$
+\item Фиксируем эти $i\neq j\colon f(i)=f(j)$. $P(t)\eqdef\left[f(i+t)=f(j+t)\right]$. $P(0)$ выполнено. Пусть $P(t)$. Тогда $f(i+t)=f(j+t)\Leftrightarrow \begin{cases}
+g_{i+t-1}=g_{j+t-1}\mod p\\
+g_{i+t}=g_{j+t}\mod p\\
+\end{cases}$. Тогда $g_{i+t+1}\overset{\ref{41GnRec}}{=}2g_{i+t}+g_{i+t-1}\overset{P(t)}=2g_{j+t}+g_{j+t-1}\overset{\ref{41GnRec}}{=}g_{j+t+1}$, откуда $f(i+t+1)=f(j+t+1)$ (второе условие из $P(t)$). Значит, $P(t+1)$. По индукции $\forall t\in\NN\cup\{0\}\hookrightarrow P(t)\Rightarrow\forall t\in\NN\cup\{-1,0\}\hookrightarrow g_{i+t}=g_{j+t}$
+\item То есть, последовательности $\{g_n\}_{n=i-1}^\infty=\{g_n\}_{n=j-1}^\infty$, откуда следует, что $\{g_n\mod p\}_{n=0}^\infty$~--- периодическая с периодом $|i-j|$, начиная с $\min(i-1,j-1)$.
+% махание руками
+Используя рекуррентность <<в обратную сторону>> получаем, что она периодическая с начала (с $n=0$).
+\item Оценим период $|i-j|$. $|E_f|=p^2$, откуда $|i-j|\leqslant p^2$. Пусть иначе: $|i-j|\geqslant p^2+1$. Без ограничения общности, $i<j$. Тогда $f(i),f(i+1),...,f(j-1)$~--- все различны. Их количество $j-i\geqslant p^2+1$, и они из $E_f$~--- противоречие, $|E_f|=p^2$.
+\item Для $p=19$: $|i-j|\leqslant 19^2=361$.
+\item Алгоритм: вычисляем период: храним $f(1)$, сравниваем $f(i)$ с $f(1)$. Вычисляем $g_i$ через рекуррентность (см. выше). Ищем место от начала периода для $n$ и выдаем ответ. Сложность $O(p^2)$ (величина периода). Для $A$: $p^2=361$, откуда $C\leqslant 2\times(\underbrace{5+8(361-1)}_{\mbox{\tiny период}})=5770$ ($2$~--- т.к. в два прохода, сначала поиск периода, потом вычисление $A$).
+\end{enumerate}
+\item $p=23$. $x=5$: $x^2=25\equiv 2\mod p$. $\ref{41Gn2}\Rightarrow g_n=|t\eqdef\sqrt{2}|=\frac{1}{2}\left[(1+t)^{n+1}+(1-t)^{n+1}\right]=\frac{1}{2}\left[\sum\limits_{k=0}^{n+1}\binom{n+1}{k}t^k-\sum\limits_{k=0}^{n+1}\binom{n+1}{k}(-t)^k\right]=\sum\limits_{k=0}^{n+1}\binom{n+1}{k}\frac{1+(-1)^k}{2}t^k\boxed{=}$. $1+(-1)^k=\begin{cases}
+2,&k=2l\\
+0,&k=2l+1
+\end{cases}$, поэтому $\boxed{=}\sum\limits_{l=0}^{\lfloor\frac{n+1}{2}\rfloor}\binom{n+1}{2l}t^{2l}\equiv\sum\limits_{l=0}^{\lfloor\frac{n+1}{2}\rfloor}\binom{n+1}{2l}2^l$. Поэтому $g_n\mod p=\left[\sum\limits_{l=0}^{\lfloor\frac{n+1}{2}\rfloor}\binom{n+1}{2l}2^l\right]\mod p=|x^2\equiv 2\mod p|=\sum\limits_{l=0}^{\lfloor\frac{n+1}{2}\rfloor}\left[\binom{n+1}{2l}x^{2l}\right]\mod p$. Раскрывая обратно по той же формуле, получаем $$g_n\mod p=\frac{(1+x)^{n+1}+(1-x)^{n+1}}{2}\mod p.$$
+Для конкретной задачи $$g_n\mod 23=\frac{6^{n+1}+19^{n+1}}{2}\mod 23$$
+Возводим в степень Быстрым возведением в степень. Количество операций $O(\log n)$.
+Алгоритм:
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+    frame=lines,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    keywordstyle=\color{red}\bfseries,
+    stringstyle=\color{green!50!black},
+    commentstyle=\color{gray}\itshape,
+    numbers=left,
+    captionpos=t,
+    escapeinside={\%*}{*)}
+}
+\begin{lstlisting}
+number n = 10000;
+number p = 23;
+number x = 5;
+number pow1(number a, number n)
+{
+  if(n == 0) return(1 % p);
+  else if(n % 2 == 0)
+  {
+    number m = pow1(a, n / 2);
+    return((m * m) % p);
+  }
+  else return((a * pow1(a, n - 1)) % p);
+}
+
+number g(n)
+{
+  return((pow1(6, n + 1) + pow1(19, n + 1)) / 2);
+}
+
+print(g(n));
+\end{lstlisting}
+Ответ: $g_{10000}\mod 23=10$.
+\item Вернемся к формуле $g_n\mod p=\left[\sum\limits_{l=0}^{\lfloor\frac{n+1}{2}\rfloor}\binom{n+1}{2l}2^l\right]\mod p$, посчитаем по ней {\bf ???}
+\end{enumerate}
+
+\subsection*{(каноническое) Задача 42}
+{\em (Кормен)}
+\begin{enumerate}
+\item $N\in\NN,a\colon (a,N)=1, a^{N-1}\neq 1\mod N$. $\ZZ_N^*=\{a\big|a<N,\,(a,N)=1\}$. Рассмотрим множество $G=\{x\big|x^{N-1}=1\}$. Пусть $x\in G$. Тогда $x\cdot x^{N-2}=1\mod N$, то есть, существует обратный элемент к $x$, откуда $x\in \ZZ_N^*$. Значит, $G\subseteq \ZZ_N^*$. Пусть $x_1,\,x_2\in G\Rightarrow x_1^{N-1}=1\mod p$, $x_2^{N-1}=1\mod p$. Тогда $x_1x_2=1\mod p$, и $x_1x_2\in G$. Получаем, что $G$~--- замкнута, значит, $G$~--- подгруппа $\ZZ_N^*$. Теорема Лагранжа $\Rightarrow$ $|\ZZ_N^*|=k|G|$. По условию, $a\in\ZZ_N^*\setminus G$, откуда $|G|<|\ZZ_N^*|$. Значит, $k\geqslant 2$, и $|G|\leqslant \frac{|\ZZ_N^*|}{2}$. Но $|\ZZ_N^*|=\varphi(N)\leqslant N-1$, откуда $|G|\leqslant\frac{N-1}{2}$. Рассмотрим $\overline{G}=\overline{1,N-1}\setminus G$. Очевидно, $1\notin \overline{G}$, так как $1^{N-1}=1\mod p$. Тогда $\overline{G}\subseteq\overline{2,N-1}$, причем $|\overline{G}|=|\overline{1,N-1}|-|G|\geqslant N-1-\frac{N-1}{2}=\frac{N-1}{2}\,\blacksquare$
+\item $\mbox{НОД}(a,b)$~--- полиномиален по $|a|,\,|b|$ (лекции), вычисление $a^{N-1}\mod N$~--- также (быстрое возведение в степень, см. мое решение задачи 12).
+\item $P(a=i\in\overline{2,N-1})=\frac{1}{N-1}=p$. Пусть $N$~--- составное. Тогда $\exists a<N\colon (a,N)=1$.\begin{enumerate}
+\item С вероятностью $\frac{1}{N-1}$ алгоритм выдаст правильный ответ (угадан делитель)
+\item В противном случае с вероятностью $\geqslant \frac{1}{2}$ (см. первый пункт. По условию, хотя бы одно такое $a$ существует, значит, таких $a$ не меньше половины) будет выбрано $a\colon a^{N-1}\neq 1\mod p$, и будет выдан правильный ответ.
+\end{enumerate}
+Поэтому $P\geqslant \frac{1}{N-1}+(1-\frac{1}{N-1})\frac{1}{2}=1-\frac{1}{2(N-1)}$. $N\geqslant 2\Rightarrow N-1\geqslant 1\Rightarrow P\geqslant\frac{1}{2}\,\blacksquare$
+\end{enumerate}
+\subsection*{(каноническое) Задача 43}
+Открытый ключ $(e,n)=(11, 899)$. $M\in\ZZ_n$~--- сообщение.\newline
+Чтобы вычислить цифровую подпись сообщения $M$, необходимо вычислить $S(M)=M^d\mod n$,\newline
+где $d\colon ed=1\mod \varphi(n)$. $n=\underbrace{29}_p\cdot \underbrace{31}_q$, $p,\,q$~--- простые, поэтому $\varphi(n)=(p-1)(q-1)=28\cdot 30=840$.\newline
+\href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s4/AACM/A/43.py}{Подбором} найдем $d=611$, проверим: $ed=6721\equiv 1\mod 840$ $\Rightarrow$ Ответ: в степень $d=611$.
+\subsection*{(каноническое) Задача 44}
+\begin{enumerate}
+\item $8=\varphi(n)\geqslant\sqrt{n}$ при $n\notin\{2,6\}$. Получим, что $n\leqslant 8^2=64$. \href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s4/AACM/A/441.c}{Перебором} найдем $n\in\{15,16,20,24,30\}$.
+\item \href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s4/AACM/A/442.c}{Перебором} найдем\newline
+$\begin{array}{|c|l|}
+\hline
+\mbox{Порядок} & \mbox{Элементы}\\\hline
+1 & 1\\\hline
+11 & 2,3,4,6,8,9,12,13,16,18\\\hline
+22 & 5,7,10,11,14,15,17,19,20,21\\\hline
+\end{array}$
+\item \href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s4/AACM/A/443.cpp}{Перебором} найдем множество первообразных корней $\{5,\,7,\,10,\,11,\,14,\,15,\,17,\,19,\,20,\,21\}$
+\end{enumerate}
+\subsection*{(каноническое) Задача 45}
+$\ZZ_9=\{0,1,2,3,4,5,6,7,8\}$, $\ZZ_9^*=\{x\big|x<9,\,(x,9)=1\}=\{1,2,4,5,7,8\}$. $h_{a,b}(k)\eqdef\left[(ak+b)\mod 8\right]\mod 5$.\newline $H\eqdef\{h_{a,b}\big|a\in\ZZ_9^*,\,b\in\ZZ_9\}$.\begin{enumerate}
+\item $n_2=5$, так как $\forall a,b,k\hookrightarrow h_{a,b}(k)\in\overline{0,4}$.
+\item $|H|\leqslant|\ZZ_9\times\ZZ_9^*|=9\cdot 6=54$.
+\item $h_{a_1,b_1}(k)=h_{a_2,b_2}(k)\Leftrightarrow ((a_1k+b_2)\mod 8)\mod 5=((a_2k+b_2)\mod 8)\mod 5\Leftrightarrow(\left[(a_1-a_2)k+(b_1-b_2)\right]\mod 8)\mod 5=0$.
+\item Функции $h_{a_1,b_1}$, $h_{a_2,b_2}$ совпадают $\Leftrightarrow$ $\forall k\in U\hookrightarrow h_{a_1,b_1}(k)=h_{a_2,b_2}(k)$.
+\item $((ak+b)\mod 8)\mod 5=0\Leftrightarrow\exists l_1\colon 5\big| (ak+b)\mod 8\Leftrightarrow \left[\begin{array}{l}
+ak+b\equiv 5\mod 8\\
+ak+b\equiv 0\mod 8
+\end{array}
+\right.$ {\bf ???}
+\item \href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s4/AACM/A/451.cpp}{Перебором} найдем $|H|=45$ (количество различных хеш-функций).
+\item $n_1=8$ ($k=k_0+8l\Rightarrow h_{a,b}(k)=h_{a,b}(k_0)$)
+\item Нет, $H$~--- не универсальное (например, для $k=0$, $l=2$ количество функций $h\in H\colon h(k)=h(l)$ равно $13>\frac{|H|}{n_2}=\frac{45}{5}=9$). См. \href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s4/AACM/A/452.cpp}{код}.
+\end{enumerate}
+
+\end{document}
