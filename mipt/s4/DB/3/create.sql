@@ -138,7 +138,7 @@ go
 create table staging
 (
 id int primary key identity(5000,1),
-[name] nvarchar(50) not null,
+[name] nvarchar(500) not null,
 description nvarchar(500),
 director int foreign key references director(id) on delete no action on update cascade
 )

@@ -385,6 +385,7 @@ insert into role_staging(id, [role], staging) values (37, 27, 22);
 insert into role_staging(id, [role], staging) values (38, 28, 13);
 insert into role_staging(id, [role], staging) values (39, 29, 17);
 insert into role_staging(id, [role], staging) values (40, 1, 5);
+insert into role_staging(id, [role], staging) values (41, 9, 1);
 
 SET IDENTITY_INSERT role_staging OFF
 
@@ -451,6 +452,7 @@ insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast
 insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (26, 7, 3,  '2010-01-01', '2015-02-02', 4)
 insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (27, 13, 2,  '2010-01-01', '2015-02-02', 8)
 insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (52, 6, 40,  '2010-01-01', '2015-02-02', 8)
+insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (55, 1, 41,  '2010-01-01', '2015-02-02', 8)
 
 SET IDENTITY_INSERT actor_rolestaging OFF
 
@@ -513,6 +515,7 @@ insert into performance(id, [date], staging, cast_staging) values (38, '2010-01-
 insert into performance(id, [date], staging, cast_staging) values (39, '2011-08-13', 1, NULL);
 insert into performance(id, [date], staging, cast_staging) values (40, '2012-09-14', 9, 2);
 insert into performance(id, [date], staging, cast_staging) values (41, '2013-10-15', 3, 1);
+insert into performance(id, [date], staging, cast_staging) values (42, '2014-10-15', 3, 1);
 
 SET IDENTITY_INSERT performance OFF
 
