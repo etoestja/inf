@@ -53,23 +53,40 @@ DROP TRIGGER shakespeare;
 
 go
 
---select staging_id from staging_suffix where suffixPresent = 1
-
---go
-
--- удаляем все суффиксы
--- добавляем тем постановкам, для которых нужен
-
 create trigger shakespeare on actorrolestaging_performance
 after delete, insert, update
 as
 declare @suffix nvarchar(1000);
 select @suffix = N' (в традициях времен Шекспира)'
 --select * from t5 where substring(t, len(t) - len(@suffix) + 1, len(@suffix)) = @suffix
-update staging set name = substring(name, 1, len(name) - len(@suffix)) where substring(name, len(name) - len(@suffix) + 1, len(@suffix)) = @suffix
+
+-- переменная типа table...
+declare @shakespeareTmp table (id int)
+
+-- ...в которой лежат id постановок, для которых существует спектакль, для которого назначение актера на роль было изменено
+insert into @shakespeareTmp
+select distinct s.id from
+(select * from inserted
+union
+select * from deleted)
+arsp
+join performance p on p.id = arsp.performance
+join staging s on s.id = p.staging
+
+-- удаляем все суффиксы
+-- для постановок, затронутых запросом
+update staging
+set name = substring(name, 1, len(name) - len(@suffix))
+where
+substring(name, len(name) - len(@suffix) + 1, len(@suffix)) = @suffix
+and id in (select * from @shakespeareTmp)
+
+-- добавляем тем постановкам, для которых нужен суффикс, и которые
+-- затронуты запросом
 update staging
 set staging.name = staging.name + @suffix
 from staging inner join staging_suffix ss on ss.staging_id = staging.id
 where ss.suffixPresent = 1
+and id in (select * from @shakespeareTmp)
 
 go

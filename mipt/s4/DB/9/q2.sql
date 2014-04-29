@@ -8,6 +8,8 @@ go
 -- актер больше не играет в спектакле
 delete from actorrolestaging_performance where performance = 2
 
+--update actorrolestaging_performance set performance = 2
+
 go
 
 -- условие не выполняется, поэтому суффикс удаляется
