@@ -1,0 +1,165 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+%\geometry{paperwidth=210mm, paperheight=2000pt, left=5pt, top=5pt}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,arrows,trees,calc}
+\usepackage{amsmath}
+\usepackage[makeroom]{cancel} % зачеркивание
+\usepackage{multicol,multirow} %Несколько колонок
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{listings}
+\usepackage{wasysym}
+\date{задано 2014.04.17}
+\author{Сергей~Володин, 272 гр.}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+% названия автоматов  (rubtsov)
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+
+%классы сложности (rubtsov)
+\def\PP{{\mathsf{P}}}
+\def\NP{{\mathsf{NP}}}
+\def\NPc{{\mathsf{NP}}\text{-}{\rm c}}
+\def\coNP{{\rm co}\text{-}{\mathsf{NP}}}
+\def\DTIME{{\mathsf{DTIME}}}
+\def\NTIME{{\mathsf{NTIME}}}
+\def\CLIQUE{{\mathsf{CLIQUE}}}
+\def\HALT{{\rm{HALT}}}
+\def\SAT{{\rm{SAT}}}
+\def\3SAT{{\rm{3\text{-}SAT}}}
+\def\2SAT{{\rm{2\text{-}SAT}}}
+\def\UNSAT{{\rm{UNSAT}}}
+\def\HP{{\rm{HAMPATH}}}
+\def\UHP{{\rm{UHAMPATH}}}
+\def\LL{{\mathrm{LL}}}
+\def\poly{{\rm{poly}}}
+\def\GC{{\mbox{ГЦ}}}
+\def\GP{{\mbox{ГП}}}
+\def\conv{{\mbox{conv}}}
+
+\title{Алгоритмы и модели вычислений.\\Задание 11: DFT}
+
+% алгоритмы (Рубцов)
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{algorithm2e}
+
+%+= и -=, иначе разъезжаются...
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
+\newcommand{\todo}{{\em todo}}
+
+% пустое слово  (rubtsov)
+\def\eps{\varepsilon}
+
+% регулярные языки  (rubtsov)
+\def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\newcommand{\niton}{\not\owns}
+
+%FIRST & FOLLOW (rubtsov)
+\def\first{\mathrm{ FIRST} }
+\def\follow{\mathrm{ FOLLOW} }
+
+% LL LR (rubtsov)
+\def\LL{{\mathrm{LL}}}
+\def\LR{{\mathrm{LR}}}
+
+\newcounter{rowItemCount}
+\newcounter{subRowItemCount}
+\newcommand\rowItem{
+    \setcounter{subRowItemCount}{0}
+    \arabic{rowItemCount}.\addtocounter{rowItemCount}{1}}
+\newcommand\subRowItem{
+    \addtocounter{subRowItemCount}{1}
+    \addtocounter{rowItemCount}{-1}
+    \arabic{rowItemCount}.\arabic{subRowItemCount}.\addtocounter{rowItemCount}{1}}
+
+\newcommand{\smalll}[1]{\overline{\overline{#1}}}
+\newcommand{\smallo}{\bar{\bar{o}}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\Nz}{\mathbb{N}\cup\{0\}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\RR}{\mathbb{R}}
+\begin{document}
+\maketitle
+\subsection*{Теория}
+{\em(сюда будут ссылки)}
+\begin{enumerate}
+\item Многочлен $P_n(x)=a_0+a_1x+...+a_{n-1}x^{n-1}\longleftrightarrow (a_0,...,a_n)=P_n$ {\em (порядок коэффициентов как на семинаре, а не как в задании)}. Считаем $\exists l\in\NN\cup\{0\}\colon n=2^l$.
+\item $\omega_n^k\eqdef e^{\frac{2\pi k}{n}i}$
+\item $\varphi(P)\eqdef \big(P_n(\omega_n^0),...,P_n(\omega_n^{n-1})\big)$~--- дискретное преобразование Фурье
+\item $P_n^0\eqdef (a_0,a_2,a_4,...)$, $P_n^1\eqdef (a_1,a_3,a_5,...)$ $\Rightarrow$ свойство: $P_n(x)=P^0_n(x^2)+x\cdot P^1_n(x^2)$. Следствия \label{rec1}:\begin{enumerate}
+\item $P_n(\omega_n^j)=P_n^0(\omega_{n/2}^j)+\omega_n^j P_n^1(\omega_{n/2}^j)$, $0\leqslant j<\frac{n}{2}$
+\item $P_n(\omega_n^{\frac{n}{2}+j})=P_n^0(\omega_{n/2}^j)- \omega_n^jP_n^1(\omega_{n/2}^j)$, $0\leqslant j < \frac{n}{2}$
+\end{enumerate}
+\item \label{n1} $n=1\Rightarrow \varphi(P_n)=\varphi((a_0))=(a_0)$ 
+\item Обозначаем $\varphi(A)=\alpha$, элементы кортежей как $(a_0,...,a_{n-1})[i]=a_i$.
+\item Тогда $\ref{rec1}\Rightarrow\begin{cases}
+\alpha[j]&=\alpha^0[j]+\omega_n^j\alpha^1[j]\\
+\alpha[n/2+j]&=\alpha^0[j]-\omega_n^j\alpha^1[j]
+\end{cases}$
+\end{enumerate}
+\subsection*{(каноническое) Задача 46}
+\begin{enumerate}
+\item $A=(1,3,0,2,0,0,0,0)$, $B=(1,0,1,3,0,0,0,0)$. Дерево вызовов:\newline
+\begin{tikzpicture}[
+level 1/.style={sibling distance=8cm},
+level 2/.style={sibling distance=4cm},
+level 3/.style={sibling distance=2cm},
+]
+	\node {$A=(1,3,0,2,0,0,0,0)$} %root
+		child{ node{$A^0=(1,0,0,0)$}
+			child{node{$A^{00}=(1,0)$}
+				child{node{$A^{000}=(1)$}}
+				child{node{$A^{001}=(0)$}}
+			}
+			child{node{$A^{01}=(0,0)$}
+				child{node{$A^{010}=(0)$}}
+				child{node{$A^{011}=(0)$}}
+			}
+		}
+		child{ node{$A^1=(3,2,0,0)$}
+			child{node{$A^{10}=(3,0)$}
+				child{node{$A^{100}=(3)$}}
+				child{node{$A^{101}=(0)$}}	
+			}
+			child{node{$A^{11}=(2,0)$}
+				child{node{$A^{110}=(2)$}}
+				child{node{$A^{111}=(0)$}}
+			}
+	};
+\end{tikzpicture}
+\begin{enumerate}
+\item Для $A^{000}, A^{001}, ..., A^{111}$ результат преобразования $\alpha^{ijk}=A^{ijk}$ (см. $\ref{n1}$)
+\item $\alpha^{00}=(\alpha^{000}[0]+\omega_2^0\cdot \alpha^{001}[0],\alpha^{000}[0]-\omega_2^0\alpha^{001}[0])=|\omega_2^0=1|=(1,1)$
+\item $\alpha^{01}=(\alpha^{010}[0]+\omega_2^0\cdot \alpha^{011}[0],\alpha^{010}[0]-\omega_2^0\alpha^{011}[0])=|\omega_2^0=1|=(0,0)$
+\item $\alpha^{10}=(\alpha^{100}[0]+\omega_2^0\cdot \alpha^{101}[0],\alpha^{100}[0]-\omega_2^0\alpha^{101}[0])=|\omega_2^0=1|=(3,3)$
+\item $\alpha^{11}=(\alpha^{110}[0]+\omega_2^0\cdot \alpha^{111}[0],\alpha^{110}[0]-\omega_2^0\alpha^{111}[0])=|\omega_2^0=1|=(2,2)$
+
+\item $\alpha^0[0]=\alpha^{00}[0]+\underbrace{\omega_4^0}_{=1}\alpha^{01}[0]=1$
+\item $\alpha^0[1]=\alpha^{00}[1]+\underbrace{\omega_4^1}_{=i}\alpha^{01}[1]=1$
+\item $\alpha^0[2+0]=\alpha^{00}[0]-\underbrace{\omega_4^0}_{=1}\alpha^{01}[0]=1$
+\item $\alpha^0[2+1]=\alpha^{00}[1]-\underbrace{\omega_4^1}_{=i}\alpha^{01}[1]=1$
+\newpage
+\item $\alpha^1[0]=\alpha^{10}[0]+\underbrace{\omega_4^0}_{=1}\alpha^{11}[0]=$
+\item $\alpha^1[1]=\alpha^{10}[1]+\underbrace{\omega_4^1}_{=i}\alpha^{11}[1]=$
+\item $\alpha^1[2+0]=\alpha^{10}[0]-\underbrace{\omega_4^0}_{=1}\alpha^{11}[0]=$
+\item $\alpha^1[2+1]=\alpha^{10}[1]-\underbrace{\omega_4^1}_{=i}\alpha^{11}[1]=$
+\end{enumerate}
+\end{enumerate}
+\subsection*{(каноническое) Задача 47}
+\end{document}
