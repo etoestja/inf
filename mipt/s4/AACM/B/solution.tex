@@ -145,7 +145,8 @@ level 3/.style={sibling distance=2cm},
 \end{tikzpicture}
 \begin{enumerate}
 \item Для $A^{000}, A^{001}, ..., A^{111}$ результат преобразования $\alpha^{ijk}=A^{ijk}$ (см. $\ref{n1}$)
-\item $\alpha^{00}=(\alpha^{000}[0]+\omega_2^0\cdot \alpha^{001}[0],\alpha^{000}[0]-\omega_2^0\alpha^{001}[0])=|\omega_2^0=1|=(1,1)$
+\item $\omega\eqdef e^{\frac{2\pi}{8}i}=\frac{1+i}{\sqrt{2}}$
+\item $\alpha^{00}=(\alpha^{000}[0]+\omega_2^0\cdot \alpha^{001}[0],\alpha^{000}[0]-\omega_2^0\alpha^{001}[0])=|\omega_2^0=1=\omega^0|=(1,1)$
 \item $\alpha^{01}=(\alpha^{010}[0]+\omega_2^0\cdot \alpha^{011}[0],\alpha^{010}[0]-\omega_2^0\alpha^{011}[0])=|\omega_2^0=1|=(0,0)$
 \item $\alpha^{10}=(\alpha^{100}[0]+\omega_2^0\cdot \alpha^{101}[0],\alpha^{100}[0]-\omega_2^0\alpha^{101}[0])=|\omega_2^0=1|=(3,3)$
 \item $\alpha^{11}=(\alpha^{110}[0]+\omega_2^0\cdot \alpha^{111}[0],\alpha^{110}[0]-\omega_2^0\alpha^{111}[0])=|\omega_2^0=1|=(2,2)$
@@ -156,21 +157,22 @@ level 3/.style={sibling distance=2cm},
 \item $\alpha^0[2+1]=\alpha^{00}[1]-\underbrace{\omega_4^1}_{=i}\alpha^{01}[1]=1$
 \newpage
 \item $\alpha^1[0]=\alpha^{10}[0]+\underbrace{\omega_4^0}_{=1}\alpha^{11}[0]=5$
-\item $\alpha^1[1]=\alpha^{10}[1]+\underbrace{\omega_4^1}_{=i}\alpha^{11}[1]=3+2i$
+\item $\alpha^1[1]=\alpha^{10}[1]+\underbrace{\omega_4^1}_{=i}\alpha^{11}[1]=3+2i=3+2\omega^2$
 \item $\alpha^1[2+0]=\alpha^{10}[0]-\underbrace{\omega_4^0}_{=1}\alpha^{11}[0]=1$
-\item $\alpha^1[2+1]=\alpha^{10}[1]-\underbrace{\omega_4^1}_{=i}\alpha^{11}[1]=3-2i$
-\item Получаем $\alpha^0=(1,1,1,1)$, $\alpha^1=(5,3+2i,1,3-2i)$
+\item $\alpha^1[2+1]=\alpha^{10}[1]-\underbrace{\omega_4^1}_{=i}\alpha^{11}[1]=3-2i=3-2\omega^2$
+\item Получаем $\alpha^0=(1,1,1,1)$, $\alpha^1=(5,3+2i,1,3-2i)=(5,3+2\omega^2,1,3-2\omega^2)$
 %2pi
 \item $\alpha[0]=\alpha^0[0]+\underbrace{\omega_8^0}_{=1}\alpha^1[0]=6$
-\item $\alpha[1]=\alpha^0[1]+\underbrace{\omega_8^1}_{=\frac{1+i}{\sqrt{2}}}\alpha^1[1]=1+\frac{1+i}{\sqrt{2}}(3+2i)=1+\frac{1}{\sqrt{2}}+\frac{5}{\sqrt{2}}i$
-\item $\alpha[2]=\alpha^0[2]+\underbrace{\omega_8^2}_{=i}\alpha^1[2]=1+i$
-\item $\alpha[3]=\alpha^0[3]+\underbrace{\omega_8^3}_{=\frac{-1+i}{\sqrt{2}}}\alpha^1[3]=1+\frac{-1+i}{\sqrt{2}}(3-2i)=1-\frac{1}{\sqrt{2}}+\frac{5}{\sqrt{2}}i$
+\item $\alpha[1]=\alpha^0[1]+\underbrace{\omega_8^1}_{=\frac{1+i}{\sqrt{2}}}\alpha^1[1]=1+\frac{1+i}{\sqrt{2}}(3+2i)=1+\frac{1}{\sqrt{2}}+\frac{5}{\sqrt{2}}i=1+\omega\cdot(3+2\omega^2)=2\omega^3+3\omega+1$
+\item $\alpha[2]=\alpha^0[2]+\underbrace{\omega_8^2}_{=i}\alpha^1[2]=1+i=1+\omega^2$
+\item $\alpha[3]=\alpha^0[3]+\underbrace{\omega_8^3}_{=\frac{-1+i}{\sqrt{2}}}\alpha^1[3]=1+\frac{-1+i}{\sqrt{2}}(3-2i)=1-\frac{1}{\sqrt{2}}+\frac{5}{\sqrt{2}}i=1+\omega^3\cdot(3-2\omega^2)=-2\omega^5+3\omega^3+1$
 
 \item $\alpha[4+0]=\alpha^0[0]-\underbrace{\omega_8^0}_{=1}\alpha^1[0]=-4$
-\item $\alpha[4+1]=\alpha^0[1]-\underbrace{\omega_8^1}_{=\frac{1+i}{\sqrt{2}}}\alpha^1[1]=1-\frac{1+i}{\sqrt{2}}(3+2i)=1-\frac{1}{\sqrt{2}}-\frac{5}{\sqrt{2}}i$
-\item $\alpha[4+2]=\alpha^0[2]-\underbrace{\omega_8^2}_{=i}\alpha^1[2]=1-i$
-\item $\alpha[4+3]=\alpha^0[3]-\underbrace{\omega_8^3}_{=\frac{-1+i}{\sqrt{2}}}\alpha^1[3]=1-\frac{-1+i}{\sqrt{2}}(3-2i)=1+\frac{1}{\sqrt{2}}-\frac{5}{\sqrt{2}}i$
+\item $\alpha[4+1]=\alpha^0[1]-\underbrace{\omega_8^1}_{=\frac{1+i}{\sqrt{2}}}\alpha^1[1]=1-\frac{1+i}{\sqrt{2}}(3+2i)=1-\frac{1}{\sqrt{2}}-\frac{5}{\sqrt{2}}i=1-\omega\cdot(3+2\omega^2)=-2\omega^3-3\omega+1$
+\item $\alpha[4+2]=\alpha^0[2]-\underbrace{\omega_8^2}_{=i}\alpha^1[2]=1-i=1-\omega^2$
+\item $\alpha[4+3]=\alpha^0[3]-\underbrace{\omega_8^3}_{=\frac{-1+i}{\sqrt{2}}}\alpha^1[3]=1-\frac{-1+i}{\sqrt{2}}(3-2i)=1+\frac{1}{\sqrt{2}}-\frac{5}{\sqrt{2}}i=1-\omega^3\cdot(3-2\omega^2)=2\omega^5-3\omega^3+1$
 \item Получаем $\alpha=(6,1+\frac{1}{\sqrt{2}}+\frac{5}{\sqrt{2}}i,1+i,1-\frac{1}{\sqrt{2}}+\frac{5}{\sqrt{2}}i,-4,1-\frac{1}{\sqrt{2}}-\frac{5}{\sqrt{2}}i,1-i,1+\frac{1}{\sqrt{2}}-\frac{5}{\sqrt{2}}i)$
+\item Или $\alpha=(6,2\omega^3+3\omega+1,1+\omega^2,-2\omega^5+3\omega^3+1,-4,-2\omega^3-3\omega+1,1-\omega^2,2\omega^5-3\omega^3+1)$
 \end{enumerate}
 
 
@@ -204,21 +206,21 @@ level 3/.style={sibling distance=2cm},
 \end{tikzpicture}
 \begin{enumerate}
 \item Для $B^{000}, B^{001}, ..., B^{111}$ результат преобразования $\beta^{ijk}=B^{ijk}$ (см. $\ref{n1}$)
-\item $\beta^{00}=(\beta^{000}[0]+\omega_2^0\cdot \beta^{001}[0],\beta^{000}[0]-\omega_2^0\beta^{001}[0])=|\omega_2^0=1|=(1,1)$
+\item $\beta^{00}=(\beta^{000}[0]+\omega_2^0\cdot \beta^{001}[0],\beta^{000}[0]-\omega_2^0\beta^{001}[0])=|\omega_2^0=1=\omega^0|=(1,1)$
 \item $\beta^{01}=(\beta^{010}[0]+\omega_2^0\cdot \beta^{011}[0],\beta^{010}[0]-\omega_2^0\beta^{011}[0])=|\omega_2^0=1|=(1,1)$
 \item $\beta^{10}=(\beta^{100}[0]+\omega_2^0\cdot \beta^{101}[0],\beta^{100}[0]-\omega_2^0\beta^{101}[0])=|\omega_2^0=1|=(0,0)$
 \item $\beta^{11}=(\beta^{110}[0]+\omega_2^0\cdot \beta^{111}[0],\beta^{110}[0]-\omega_2^0\beta^{111}[0])=|\omega_2^0=1|=(3,3)$
 
 \item $\beta^0[0]=\beta^{00}[0]+\underbrace{\omega_4^0}_{=1}\beta^{01}[0]=2$
-\item $\beta^0[1]=\beta^{00}[1]+\underbrace{\omega_4^1}_{=i}\beta^{01}[1]=1+i$
+\item $\beta^0[1]=\beta^{00}[1]+\underbrace{\omega_4^1}_{=i}\beta^{01}[1]=1+i=1+\omega^2$
 \item $\beta^0[2+0]=\beta^{00}[0]-\underbrace{\omega_4^0}_{=1}\beta^{01}[0]=0$
-\item $\beta^0[2+1]=\beta^{00}[1]-\underbrace{\omega_4^1}_{=i}\beta^{01}[1]=1-i$
+\item $\beta^0[2+1]=\beta^{00}[1]-\underbrace{\omega_4^1}_{=i}\beta^{01}[1]=1-i=1-\omega^2$
 \newpage
 \item $\beta^1[0]=\beta^{10}[0]+\underbrace{\omega_4^0}_{=1}\beta^{11}[0]=3$
-\item $\beta^1[1]=\beta^{10}[1]+\underbrace{\omega_4^1}_{=i}\beta^{11}[1]=3i$
+\item $\beta^1[1]=\beta^{10}[1]+\underbrace{\omega_4^1}_{=i}\beta^{11}[1]=3i=3\omega^2$
 \item $\beta^1[2+0]=\beta^{10}[0]-\underbrace{\omega_4^0}_{=1}\beta^{11}[0]=-3$
-\item $\beta^1[2+1]=\beta^{10}[1]-\underbrace{\omega_4^1}_{=i}\beta^{11}[1]=-3i$
-\item Получаем $\beta^0=(2,1+i,0,1-i)$, $\beta^1=(3,3i,-3,-3i)$
+\item $\beta^1[2+1]=\beta^{10}[1]-\underbrace{\omega_4^1}_{=i}\beta^{11}[1]=-3i=-3\omega^2$
+\item Получаем $\beta^0=(2,1+i,0,1-i)=(2,1+\omega^2,0,1-\omega^2)$, $\beta^1=(3,3i,-3,-3i)=(3,3\omega^2,-3,-3\omega^2)$
 %2pi
 \item $\beta[0]=\beta^0[0]+\underbrace{\omega_8^0}_{=1}\beta^1[0]=5$
 \item $\beta[1]=\beta^0[1]+\underbrace{\omega_8^1}_{=\frac{1+i}{\sqrt{2}}}\beta^1[1]=1+i+3i\frac{1+i}{\sqrt{2}}=1-\frac{3}{\sqrt{2}}+(1+\frac{3}{\sqrt{2}})i$
