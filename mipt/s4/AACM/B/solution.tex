@@ -115,7 +115,7 @@
 \end{enumerate}
 \subsection*{(каноническое) Задача 46}
 \begin{enumerate}
-\item $A=(1,3,0,2,0,0,0,0)$, $B=(1,0,1,3,0,0,0,0)$. Дерево вызовов:\newline
+\item $A=(1,3,0,2,0,0,0,0)$. Дерево вызовов:\newline
 \begin{tikzpicture}[
 level 1/.style={sibling distance=8cm},
 level 2/.style={sibling distance=4cm},
@@ -166,15 +166,71 @@ level 3/.style={sibling distance=2cm},
 \item $\alpha[2]=\alpha^0[2]+\underbrace{\omega_8^2}_{=i}\alpha^1[2]=1+i$
 \item $\alpha[3]=\alpha^0[3]+\underbrace{\omega_8^3}_{=\frac{-1+i}{\sqrt{2}}}\alpha^1[3]=1+\frac{-1+i}{\sqrt{2}}(3-2i)=1-\frac{1}{\sqrt{2}}+\frac{5}{\sqrt{2}}i$
 
-\item $\alpha[4]=\alpha^0[0]-\underbrace{\omega_8^0}_{=1}\alpha^1[0]=-4$
-\item $\alpha[5]=\alpha^0[1]-\underbrace{\omega_8^1}_{=\frac{1+i}{\sqrt{2}}}\alpha^1[1]=1-\frac{1+i}{\sqrt{2}}(3+2i)=1-\frac{1}{\sqrt{2}}-\frac{5}{\sqrt{2}}i$
-\item $\alpha[6]=\alpha^0[2]-\underbrace{\omega_8^2}_{=i}\alpha^1[2]=1-i$
-\item $\alpha[7]=\alpha^0[3]-\underbrace{\omega_8^3}_{=\frac{-1+i}{\sqrt{2}}}\alpha^1[3]=1-\frac{-1+i}{\sqrt{2}}(3-2i)=1+\frac{1}{\sqrt{2}}-\frac{5}{\sqrt{2}}i$
+\item $\alpha[4+0]=\alpha^0[0]-\underbrace{\omega_8^0}_{=1}\alpha^1[0]=-4$
+\item $\alpha[4+1]=\alpha^0[1]-\underbrace{\omega_8^1}_{=\frac{1+i}{\sqrt{2}}}\alpha^1[1]=1-\frac{1+i}{\sqrt{2}}(3+2i)=1-\frac{1}{\sqrt{2}}-\frac{5}{\sqrt{2}}i$
+\item $\alpha[4+2]=\alpha^0[2]-\underbrace{\omega_8^2}_{=i}\alpha^1[2]=1-i$
+\item $\alpha[4+3]=\alpha^0[3]-\underbrace{\omega_8^3}_{=\frac{-1+i}{\sqrt{2}}}\alpha^1[3]=1-\frac{-1+i}{\sqrt{2}}(3-2i)=1+\frac{1}{\sqrt{2}}-\frac{5}{\sqrt{2}}i$
 \item Получаем $\alpha=(6,1+\frac{1}{\sqrt{2}}+\frac{5}{\sqrt{2}}i,1+i,1-\frac{1}{\sqrt{2}}+\frac{5}{\sqrt{2}}i,-4,1-\frac{1}{\sqrt{2}}-\frac{5}{\sqrt{2}}i,1-i,1+\frac{1}{\sqrt{2}}-\frac{5}{\sqrt{2}}i)$
 \end{enumerate}
 
 
+\item $B=(1,0,1,3,0,0,0,0)$. Дерево вызовов:\newline
+\begin{tikzpicture}[
+level 1/.style={sibling distance=8cm},
+level 2/.style={sibling distance=4cm},
+level 3/.style={sibling distance=2cm},
+]
+	\node {$B=(1,0,1,3,0,0,0,0)$} %root
+		child{ node{$B^0=(1,1,0,0)$}
+			child{node{$B^{00}=(1,0)$}
+				child{node{$B^{000}=(1)$}}
+				child{node{$B^{001}=(0)$}}
+			}
+			child{node{$B^{01}=(1,0)$}
+				child{node{$B^{010}=(1)$}}
+				child{node{$B^{011}=(0)$}}
+			}
+		}
+		child{ node{$B^1=(0,3,0,0)$}
+			child{node{$B^{10}=(0,0)$}
+				child{node{$B^{100}=(0)$}}
+				child{node{$B^{101}=(0)$}}	
+			}
+			child{node{$B^{11}=(3,0)$}
+				child{node{$B^{110}=(3)$}}
+				child{node{$B^{111}=(0)$}}
+			}
+	};
+\end{tikzpicture}
+\begin{enumerate}
+\item Для $B^{000}, B^{001}, ..., B^{111}$ результат преобразования $\beta^{ijk}=B^{ijk}$ (см. $\ref{n1}$)
+\item $\beta^{00}=(\beta^{000}[0]+\omega_2^0\cdot \beta^{001}[0],\beta^{000}[0]-\omega_2^0\beta^{001}[0])=|\omega_2^0=1|=(1,1)$
+\item $\beta^{01}=(\beta^{010}[0]+\omega_2^0\cdot \beta^{011}[0],\beta^{010}[0]-\omega_2^0\beta^{011}[0])=|\omega_2^0=1|=(1,1)$
+\item $\beta^{10}=(\beta^{100}[0]+\omega_2^0\cdot \beta^{101}[0],\beta^{100}[0]-\omega_2^0\beta^{101}[0])=|\omega_2^0=1|=(0,0)$
+\item $\beta^{11}=(\beta^{110}[0]+\omega_2^0\cdot \beta^{111}[0],\beta^{110}[0]-\omega_2^0\beta^{111}[0])=|\omega_2^0=1|=(3,3)$
 
+\item $\beta^0[0]=\beta^{00}[0]+\underbrace{\omega_4^0}_{=1}\beta^{01}[0]=1$
+\item $\beta^0[1]=\beta^{00}[1]+\underbrace{\omega_4^1}_{=i}\beta^{01}[1]=1+i$
+\item $\beta^0[2+0]=\beta^{00}[0]-\underbrace{\omega_4^0}_{=1}\beta^{01}[0]=0$
+\item $\beta^0[2+1]=\beta^{00}[1]-\underbrace{\omega_4^1}_{=i}\beta^{01}[1]=1-i$
+\newpage
+\item $\beta^1[0]=\beta^{10}[0]+\underbrace{\omega_4^0}_{=1}\beta^{11}[0]=3$
+\item $\beta^1[1]=\beta^{10}[1]+\underbrace{\omega_4^1}_{=i}\beta^{11}[1]=3i$
+\item $\beta^1[2+0]=\beta^{10}[0]-\underbrace{\omega_4^0}_{=1}\beta^{11}[0]=-3$
+\item $\beta^1[2+1]=\beta^{10}[1]-\underbrace{\omega_4^1}_{=i}\beta^{11}[1]=-3i$
+\item Получаем $\beta^0=(1,1+i,0,1-i)$, $\beta^1=(3,3i,-3,-3i)$
+%2pi
+\item $\beta[0]=\beta^0[0]+\underbrace{\omega_8^0}_{=1}\beta^1[0]=4$
+\item $\beta[1]=\beta^0[1]+\underbrace{\omega_8^1}_{=\frac{1+i}{\sqrt{2}}}\beta^1[1]=1+i+3i\frac{1+i}{\sqrt{2}}=3-\frac{3}{\sqrt{2}}+(1+\frac{3}{\sqrt{2}})i$
+\item $\beta[2]=\beta^0[2]+\underbrace{\omega_8^2}_{=i}\beta^1[2]=1+i$
+\item $\beta[3]=\beta^0[3]+\underbrace{\omega_8^3}_{=\frac{-1+i}{\sqrt{2}}}\beta^1[3]=1+\frac{-1+i}{\sqrt{2}}(3-2i)=1-\frac{1}{\sqrt{2}}+\frac{5}{\sqrt{2}}i$
+
+\item $\beta[4]=\beta^0[0]-\underbrace{\omega_8^0}_{=1}\beta^1[0]=-4$
+\item $\beta[5]=\beta^0[1]-\underbrace{\omega_8^1}_{=\frac{1+i}{\sqrt{2}}}\beta^1[1]=1-\frac{1+i}{\sqrt{2}}(3+2i)=1-\frac{1}{\sqrt{2}}-\frac{5}{\sqrt{2}}i$
+\item $\beta[6]=\beta^0[2]-\underbrace{\omega_8^2}_{=i}\beta^1[2]=1-i$
+\item $\beta[7]=\beta^0[3]-\underbrace{\omega_8^3}_{=\frac{-1+i}{\sqrt{2}}}\beta^1[3]=1-\frac{-1+i}{\sqrt{2}}(3-2i)=1+\frac{1}{\sqrt{2}}-\frac{5}{\sqrt{2}}i$
+\item Получаем $\beta=(6,1+\frac{1}{\sqrt{2}}+\frac{5}{\sqrt{2}}i,1+i,1-\frac{1}{\sqrt{2}}+\frac{5}{\sqrt{2}}i,-4,1-\frac{1}{\sqrt{2}}-\frac{5}{\sqrt{2}}i,1-i,1+\frac{1}{\sqrt{2}}-\frac{5}{\sqrt{2}}i)$
+\end{enumerate}
 
 \end{enumerate}
 \subsection*{(каноническое) Задача 47}
