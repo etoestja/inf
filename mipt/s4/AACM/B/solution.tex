@@ -172,7 +172,7 @@ level 3/.style={sibling distance=2cm},
 \item $\alpha[4+2]=\alpha^0[2]-\underbrace{\omega_8^2}_{=i}\alpha^1[2]=1-i=1-\omega^2$
 \item $\alpha[4+3]=\alpha^0[3]-\underbrace{\omega_8^3}_{=\frac{-1+i}{\sqrt{2}}}\alpha^1[3]=1-\frac{-1+i}{\sqrt{2}}(3-2i)=1+\frac{1}{\sqrt{2}}-\frac{5}{\sqrt{2}}i=1-\omega^3\cdot(3-2\omega^2)=2\omega^5-3\omega^3+1$
 \item Получаем $\alpha=(6,1+\frac{1}{\sqrt{2}}+\frac{5}{\sqrt{2}}i,1+i,1-\frac{1}{\sqrt{2}}+\frac{5}{\sqrt{2}}i,-4,1-\frac{1}{\sqrt{2}}-\frac{5}{\sqrt{2}}i,1-i,1+\frac{1}{\sqrt{2}}-\frac{5}{\sqrt{2}}i)$
-\item Или $\alpha=(6,2\omega^3+3\omega+1,1+\omega^2,-2\omega^5+3\omega^3+1,-4,-2\omega^3-3\omega+1,1-\omega^2,2\omega^5-3\omega^3+1)$
+\item Как многочлен от $\omega$: $\alpha=(6,2\omega^3+3\omega+1,1+\omega^2,-2\omega^5+3\omega^3+1,-4,-2\omega^3-3\omega+1,1-\omega^2,2\omega^5-3\omega^3+1)$
 \end{enumerate}
 
 
@@ -223,15 +223,16 @@ level 3/.style={sibling distance=2cm},
 \item Получаем $\beta^0=(2,1+i,0,1-i)=(2,1+\omega^2,0,1-\omega^2)$, $\beta^1=(3,3i,-3,-3i)=(3,3\omega^2,-3,-3\omega^2)$
 %2pi
 \item $\beta[0]=\beta^0[0]+\underbrace{\omega_8^0}_{=1}\beta^1[0]=5$
-\item $\beta[1]=\beta^0[1]+\underbrace{\omega_8^1}_{=\frac{1+i}{\sqrt{2}}}\beta^1[1]=1+i+3i\frac{1+i}{\sqrt{2}}=1-\frac{3}{\sqrt{2}}+(1+\frac{3}{\sqrt{2}})i$
-\item $\beta[2]=\beta^0[2]+\underbrace{\omega_8^2}_{=i}\beta^1[2]=-3i$
-\item $\beta[3]=\beta^0[3]+\underbrace{\omega_8^3}_{=\frac{-1+i}{\sqrt{2}}}\beta^1[3]=1-i-3i\frac{-1+i}{\sqrt{2}}=1+\frac{3}{\sqrt{2}}-(1-\frac{3}{\sqrt{2}})i$
+\item $\beta[1]=\beta^0[1]+\underbrace{\omega_8^1}_{=\frac{1+i}{\sqrt{2}}}\beta^1[1]=1+i+3i\frac{1+i}{\sqrt{2}}=1-\frac{3}{\sqrt{2}}+(1+\frac{3}{\sqrt{2}})i=1+\omega^2+\omega\cdot 3\omega^2=3\omega^3+\omega^2+1$
+\item $\beta[2]=\beta^0[2]+\underbrace{\omega_8^2}_{=i}\beta^1[2]=-3i=-3\omega^2$
+\item $\beta[3]=\beta^0[3]+\underbrace{\omega_8^3}_{=\frac{-1+i}{\sqrt{2}}}\beta^1[3]=1-i-3i\frac{-1+i}{\sqrt{2}}=1+\frac{3}{\sqrt{2}}-(1-\frac{3}{\sqrt{2}})i=1-\omega^2-\omega^3\cdot 3\omega^2=-3\omega^5-\omega^2+1$
 
 \item $\beta[4]=\beta^0[0]-\underbrace{\omega_8^0}_{=1}\beta^1[0]=-1$
-\item $\beta[5]=\beta^0[1]-\underbrace{\omega_8^1}_{=\frac{1+i}{\sqrt{2}}}\beta^1[1]=1+i-3i\frac{1+i}{\sqrt{2}}=1+\frac{3}{\sqrt{2}}+(1-\frac{3}{\sqrt{2}})i$
-\item $\beta[6]=\beta^0[2]-\underbrace{\omega_8^2}_{=i}\beta^1[2]=3i$
-\item $\beta[7]=\beta^0[3]-\underbrace{\omega_8^3}_{=\frac{-1+i}{\sqrt{2}}}\beta^1[3]=1-i+3i\frac{-1+i}{\sqrt{2}}=1-\frac{3}{\sqrt{2}}-(1+\frac{3}{\sqrt{2}})i$
+\item $\beta[5]=\beta^0[1]-\underbrace{\omega_8^1}_{=\frac{1+i}{\sqrt{2}}}\beta^1[1]=1+i-3i\frac{1+i}{\sqrt{2}}=1+\frac{3}{\sqrt{2}}+(1-\frac{3}{\sqrt{2}})i=1+\omega^2-\omega\cdot 3\omega^2=-3\omega^3+\omega^2+1$
+\item $\beta[6]=\beta^0[2]-\underbrace{\omega_8^2}_{=i}\beta^1[2]=3i=3\omega^2$
+\item $\beta[7]=\beta^0[3]-\underbrace{\omega_8^3}_{=\frac{-1+i}{\sqrt{2}}}\beta^1[3]=1-i+3i\frac{-1+i}{\sqrt{2}}=1-\frac{3}{\sqrt{2}}-(1+\frac{3}{\sqrt{2}})i=1-\omega^2+\omega^3\cdot 3\omega^2=3\omega^5-\omega^2+1$
 \item Получаем $\beta=(5,1-\frac{3}{\sqrt{2}}+(1+\frac{3}{\sqrt{2}})i,-3i,1+\frac{3}{\sqrt{2}}-(1-\frac{3}{\sqrt{2}})i,-1,1+\frac{3}{\sqrt{2}}+(1-\frac{3}{\sqrt{2}})i,3i,1-\frac{3}{\sqrt{2}}-(1+\frac{3}{\sqrt{2}})i)$
+\item Как многочлен от $\omega$: $\beta=(5,3\omega^3+\omega^2+1,-3\omega^2,-3\omega^5-\omega^2+1,-1,-3\omega^3+\omega^2+1,3\omega^2,3\omega^5-\omega^2+1)$
 \end{enumerate}
 
 \end{enumerate}
