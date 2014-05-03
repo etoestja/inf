@@ -156,7 +156,7 @@ level 3/.style={sibling distance=2cm},
 \item $\alpha^0[1]=\alpha^{00}[1]+\underbrace{\omega_4^1}_{=i}\alpha^{01}[1]=1$
 \item $\alpha^0[2+0]=\alpha^{00}[0]-\underbrace{\omega_4^0}_{=1}\alpha^{01}[0]=1$
 \item $\alpha^0[2+1]=\alpha^{00}[1]-\underbrace{\omega_4^1}_{=i}\alpha^{01}[1]=1$
-\newpage
+%\newpage
 \item $\alpha^1[0]=\alpha^{10}[0]+\underbrace{\omega_4^0}_{=1}\alpha^{11}[0]=5$
 \item $\alpha^1[1]=\alpha^{10}[1]+\underbrace{\omega_4^1}_{=i}\alpha^{11}[1]=3+2i=3+2\omega^2$
 \item $\alpha^1[2+0]=\alpha^{10}[0]-\underbrace{\omega_4^0}_{=1}\alpha^{11}[0]=1$
@@ -216,7 +216,7 @@ level 3/.style={sibling distance=2cm},
 \item $\beta^0[1]=\beta^{00}[1]+\underbrace{\omega_4^1}_{=i}\beta^{01}[1]=1+i=1+\omega^2$
 \item $\beta^0[2+0]=\beta^{00}[0]-\underbrace{\omega_4^0}_{=1}\beta^{01}[0]=0$
 \item $\beta^0[2+1]=\beta^{00}[1]-\underbrace{\omega_4^1}_{=i}\beta^{01}[1]=1-i=1-\omega^2$
-\newpage
+%\newpage
 \item $\beta^1[0]=\beta^{10}[0]+\underbrace{\omega_4^0}_{=1}\beta^{11}[0]=3$
 \item $\beta^1[1]=\beta^{10}[1]+\underbrace{\omega_4^1}_{=i}\beta^{11}[1]=3i=3\omega^2$
 \item $\beta^1[2+0]=\beta^{10}[0]-\underbrace{\omega_4^0}_{=1}\beta^{11}[0]=-3$
@@ -242,6 +242,7 @@ $$
 \beta&= &(5, &3\omega^3+\omega^2+1,&-3\omega^2, &-3\omega^5-\omega^2+1,  &-1, &-3\omega^3+\omega^2+1, &3\omega^2,  &3\omega^5-\omega^2+1),
 \end{array}$$
 и по $\ref{mult}$ получаем, что $\varphi(C)\equiv \gamma=\alpha\times\beta=(30,6\omega^6+2\omega^5+9\omega^4+8\omega^3+\omega^2+3\omega+1,-3\omega^4-3\omega^2,6\omega^{10}-9\omega^8+2\omega^7-8\omega^5+3\omega^3-\omega^2+1,4,6\omega^6-2\omega^5+9\omega^4-8\omega^3+\omega^2-3\omega+1,-3\omega^4+3\omega^2,6\omega^{10}-9\omega^8-2\omega^7+8\omega^5-3\omega^3-\omega^2+1)$. Но $\omega^8=1$, поэтому
+% результат проверен в 11.nb
 $$\gamma=\begin{Vmatrix}
 30\\
 6\omega^6+2\omega^5+9\omega^4+8\omega^3+\omega^2+3\omega+1\\
@@ -253,6 +254,64 @@ $$\gamma=\begin{Vmatrix}
 -2\omega^7+8\omega^5-3\omega^3+5\omega^2-8
 \end{Vmatrix}
 $$
+\item Выполним БПФ для $\gamma=(\gamma_0,\gamma_1,\gamma_2,\gamma_3,\gamma_4,\gamma_5,\gamma_6,\gamma_7)$ (за $\gamma_0,...,\gamma_7$ обозначены коэффициенты выше) Дерево вызовов:\newline
+\begin{tikzpicture}[
+level 1/.style={sibling distance=8cm},
+level 2/.style={sibling distance=4cm},
+level 3/.style={sibling distance=2cm},
+]
+	\node {$\gamma=(\gamma_0,\gamma_1,\gamma_2,\gamma_3,\gamma_4,\gamma_5,\gamma_6,\gamma_7)$} %root
+		child{ node{$\gamma^0=(\gamma_0,\gamma_2,\gamma_4,\gamma_6)$}
+			child{node{$\gamma^{00}=(\gamma_0,\gamma_4)$}
+				child{node{$\gamma^{000}=(\gamma_0)$}}
+				child{node{$\gamma^{001}=(\gamma_4)$}}
+			}
+			child{node{$\gamma^{01}=(\gamma_2,\gamma_6)$}
+				child{node{$\gamma^{010}=(\gamma_2)$}}
+				child{node{$\gamma^{011}=(\gamma_6)$}}
+			}
+		}
+		child{ node{$\gamma^1=(\gamma_1,\gamma_3,\gamma_5,\gamma_7)$}
+			child{node{$\gamma^{10}=(\gamma_1,\gamma_5)$}
+				child{node{$\gamma^{100}=(\gamma_1)$}}
+				child{node{$\gamma^{101}=(\gamma_5)$}}	
+			}
+			child{node{$\gamma^{11}=(\gamma_3,\gamma_7)$}
+				child{node{$\gamma^{110}=(\gamma_3)$}}
+				child{node{$\gamma^{111}=(\gamma_7)$}}
+			}
+	};
+\end{tikzpicture}
+% ЕБАААААТЬ
+\begin{enumerate}
+\item $\Gamma\eqdef\varphi(\gamma)$
+\item Для $\gamma^{000}, \gamma^{001}, ..., \gamma^{111}$ результат преобразования $\Gamma^{ijk}=\gamma^{ijk}$ (см. $\ref{n1}$)
+\item $\Gamma^{00}=(\Gamma^{000}[0]+\omega_2^0\cdot \Gamma^{001}[0],\Gamma^{000}[0]-\omega_2^0\Gamma^{001}[0])=(\gamma_0+\gamma_4,\gamma_0-\gamma_4)=(34,26)$
+\item $\Gamma^{01}=(\Gamma^{010}[0]+\omega_2^0\cdot \Gamma^{011}[0],\Gamma^{010}[0]-\omega_2^0\Gamma^{011}[0])=(\gamma_2+\gamma_6,\gamma_2-\gamma_6)=(-6\omega^4,-6\omega^2)$
+\item $\Gamma^{10}=(\Gamma^{100}[0]+\omega_2^0\cdot \Gamma^{101}[0],\Gamma^{100}[0]-\omega_2^0\Gamma^{101}[0])=(\gamma_1+\gamma_5,\gamma_1-\gamma_5)=(12\omega^6+18\omega^4+2\omega^2+2,4\omega^5+16\omega^3+6\omega)$
+\item $\Gamma^{11}=(\Gamma^{110}[0]+\omega_2^0\cdot \Gamma^{111}[0],\Gamma^{110}[0]-\omega_2^0\Gamma^{111}[0])=(\gamma_3+\gamma_7,\gamma_3-\gamma_7)=(10\omega^2-16,4\omega^7-16\omega^5+6\omega^3)$
+
+\item $\Gamma^0[0]=\Gamma^{00}[0]+\underbrace{\omega_4^0}_{=1}\Gamma^{01}[0]=34-6\omega^4$
+\item $\Gamma^0[1]=\Gamma^{00}[1]+\underbrace{\omega_4^1}_{=i}\Gamma^{01}[1]=26-6\omega^4$ ($i=\omega^2$)
+\item $\Gamma^0[2+0]=\Gamma^{00}[0]-\underbrace{\omega_4^0}_{=1}\Gamma^{01}[0]=34+6\omega^4$
+\item $\Gamma^0[2+1]=\Gamma^{00}[1]-\underbrace{\omega_4^1}_{=i}\Gamma^{01}[1]=26+6\omega^4$
+%\newpage
+\item $\Gamma^1[0]=\Gamma^{10}[0]+\underbrace{\omega_4^0}_{=1}\Gamma^{11}[0]=12\omega^6+18\omega^4+12\omega^2-14$
+\item $\Gamma^1[1]=\Gamma^{10}[1]+\underbrace{\omega_4^1}_{=i}\Gamma^{11}[1]=4\omega^9-16\omega^7+10\omega^5+16\omega^3+6\omega=|\omega^8=1|=-16\omega^7+10\omega^5+16\omega^3+10\omega$
+\item $\Gamma^1[2+0]=\Gamma^{10}[0]-\underbrace{\omega_4^0}_{=1}\Gamma^{11}[0]=12\omega^6+18\omega^4-8\omega^2+18$
+\item $\Gamma^1[2+1]=\Gamma^{10}[1]-\underbrace{\omega_4^1}_{=i}\Gamma^{11}[1]=-4\omega^9+16\omega^7-2\omega^5+16\omega^3+6\omega=|\omega^8=1|=16\omega^7-2\omega^5+16\omega^3+2\omega$
+\item Получаем $\Gamma^0=()$, $\Gamma^1=()$
+%2pi
+\item $\Gamma[0]=\Gamma^0[0]+\underbrace{\omega_8^0}_{=1}\Gamma^1[0]=12\omega^6+12\omega^4+12\omega^2+20$
+\item $\Gamma[1]=\Gamma^0[1]+\underbrace{\omega_8^1}_{=\omega}\Gamma^1[1]=$
+\item $\Gamma[2]=\Gamma^0[2]+\underbrace{\omega_8^2}_{=\omega^2}\Gamma^1[2]$
+\item $\Gamma[3]=\Gamma^0[3]+\underbrace{\omega_8^3}_{=\omega^3}\Gamma^1[3]$
+
+\item $\Gamma[4]=\Gamma^0[0]-\underbrace{\omega_8^0}_{=1}\Gamma^1[0]$
+\item $\Gamma[5]=\Gamma^0[1]-\underbrace{\omega_8^1}_{=\omega}\Gamma^1[1]$
+\item $\Gamma[6]=\Gamma^0[2]-\underbrace{\omega_8^2}_{=\omega^2}\Gamma^1[2]$
+\item $\Gamma[7]=\Gamma^0[3]-\underbrace{\omega_8^3}_{=\omega^3}\Gamma^1[3]$
+\end{enumerate}
 \end{enumerate}
 \subsection*{(каноническое) Задача 47}
 \end{document}
