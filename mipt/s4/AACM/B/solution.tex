@@ -113,7 +113,7 @@
 \alpha[n/2+j]&=\alpha^0[j]-\omega_n^j\alpha^1[j]
 \end{cases}$
 \item \label{mult} Пусть $A,B\in\RR^{2n}$~--- многочлены степени $n-1$ (остальные коэффициенты~--- нули). Пусть $C\in\RR^{2n}$~--- их произведение. Тогда $\varphi(C)=\varphi(A)\times\varphi(B)$, где $\times$~--- покомпонентное умножение кортежей. Действительно, $\varphi(A)[i]=A(\omega_{2n}^i)$, $\varphi(B)[i]=B(\omega_{2n}^i)$, откуда $\varphi(C)[i]=C(\omega_{2n}^i)=A(\omega_{2n}^i)\cdot B(\omega_{2n}^i)=\varphi(A)[i]\cdot\varphi(B)[i]$
-\item \label{inverse}
+\item \label{inverse} Пусть $\varphi^{-1}$~--- обратное преобразование. Тогда, если $\varphi^{-1}(A)=(\alpha_0,...,\alpha_{n-1})$, $\varphi(A)=n\cdot(\alpha_0,\alpha_{n-1},\alpha_{n-2},...,\alpha_1)=(\theta_0,...,\theta_{n-1})$, то есть, $\varphi^{-1}(A)=\frac{1}{n}(\theta_0,\theta_{n-1},\theta_{n-2},...,\theta_1)$
 \end{enumerate}
 \subsection*{(каноническое) Задача 46}
 \begin{enumerate}
@@ -312,7 +312,8 @@ level 3/.style={sibling distance=2cm},
 \item $\Gamma[6]=\Gamma^0[2]-\underbrace{\omega_8^2}_{=\omega^2}\Gamma^1[2]=-12\omega^8-18\omega^6+14\omega^4-18\omega^2+34=-18\omega^6+14\omega^4-18\omega^2+22=8$
 \item $\Gamma[7]=\Gamma^0[3]-\underbrace{\omega_8^3}_{=\omega^3}\Gamma^1[3]=-16\omega^{10}+2\omega^8-16\omega^6+4\omega^4+26=-16\omega^6+4\omega^4-16\omega^2+28=24$
 \item Получаем $\Gamma=(8,0,48,16,72,64,8,24)$
-\item $C=AB=\varphi^{-1}(\varphi(AB))=\varphi^{-1}(\gamma)\overset{\ref{inverse}}{=}\frac{1}{8}\varphi(\gamma)=\frac{\Gamma}{8}=(1,0,6,2,9,8,1,3)$
+\item $C=AB=\varphi^{-1}(\varphi(AB))=\varphi^{-1}(\gamma)\overset{\ref{inverse}}{=}\frac{1}{8}(\Gamma_0,\Gamma_7,...,\Gamma_1)=(1,3,1,8,9,2,6,0)$
+\item Посчитаем произведение напрямую: $A(x)B(x)=(2 x^3 + 3 x + 1)\cdot(3 x^3 + x^2 + 1)=1 + 3 x + x^2 + 8 x^3 + 9 x^4 + 2 x^5 + 6 x^6\longleftrightarrow(1,3,1,8,9,2,6)\,\blacksquare$
 \end{enumerate}
 \end{enumerate}
 \subsection*{(каноническое) Задача 47}
