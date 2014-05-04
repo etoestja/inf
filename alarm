@@ -29,7 +29,9 @@ then
     exit
 fi
 
+killall -9 mplayer
 boinccmd --set_run_mode never
+killall -9 mplayer
 
 sleep 10
 
