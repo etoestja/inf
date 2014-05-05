@@ -1,8 +1,12 @@
 use NWC;
 
-create nonclustered index customerIDIndex on customers (customerID)
-create nonclustered index cityIndex on customers (city)
+drop index customers.index1
+drop index customers.index2
+create clustered index index1 on customers (customerID)
+create nonclustered index index2 on customers (customerID, city)
+--create nonclustered index cityIndex on customers (city)
 
-select * from customers
-where customerID > N'L'
-and city < N'G'
+select customerID, city from customers
+where customerID >= N'G'
+and customerID <= N'H'
+and city < N'C'

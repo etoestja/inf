@@ -1,21 +1,22 @@
 use NWC;
 
-create clustered index orderID on orders (orderID)
-create nonclustered index customerID on orders (customerID)
-create nonclustered index employeeID on orders (employeeID)
-create nonclustered index shipVia on orders (shipVia)
+create clustered index i1 on orders (orderID)
+create nonclustered index i2 on orders (orderID, customerID)
+create nonclustered index i3 on orders (customerID)
 
-create clustered index orderID on orderDetails (orderID)
-create nonclustered index productID on orderDetails (productID)
+create clustered index i4 on orderDetails (orderID)
+create nonclustered index i5 on orderDetails (orderID, productID)
+create nonclustered index i6 on orderDetails (productID)
 
-create clustered index productID on products (productID)
+create clustered index i7 on products (productID)
+create nonclustered index i8 on products (productID, unitPrice)
+create nonclustered index i9 on products (unitPrice)
 
-create clustered index customerID on customers (customerID)
+create nonclustered index i10 on customers (customerID)
 
-select * from orders, products, customers, orderDetails
+select orders.customerID from orders, products, customers, orderDetails
 where orders.customerID = customers.customerID
 and orders.orderID = orderDetails.orderID
 and orderDetails.productID = products.productID
-and customers.customerID > N'N'
-and employeeID = 9
-and shipVia = 2
+and customers.customerID = N'WELLI'
+and products.unitPrice = 13
