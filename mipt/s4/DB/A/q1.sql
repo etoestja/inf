@@ -1,5 +1,8 @@
 use NWC;
 
+create nonclustered index customerIDIndex on customers (customerID)
+create nonclustered index cityIndex on customers (city)
+
 select * from customers
-where substring(customerID, 1, 1) = N'L'
-and city = N'Versailles'
+where customerID > N'L'
+and city < N'G'
