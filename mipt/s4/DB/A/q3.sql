@@ -15,22 +15,20 @@ drop index i9 on products
 drop index i10 on customers
 
 create clustered index i1 on orders (orderID)
-create nonclustered index i2 on orders (orderID, customerID)
+--create nonclustered index i2 on orders (orderID, customerID)
 create nonclustered index i3 on orders (customerID)
-
-create clustered index i4 on orderDetails (orderID)
+--create clustered index i4 on orderDetails (productID)
 create nonclustered index i5 on orderDetails (orderID, productID)
-create nonclustered index i6 on orderDetails (productID)
-
-create clustered index i7 on products (productID)
+--create nonclustered index i6 on orderDetails (orderID)
+--create clustered index i7 on products (productID)
 create nonclustered index i8 on products (productID, unitPrice)
-create nonclustered index i9 on products (unitPrice)
+--create nonclustered index i9 on products (unitPrice)
+create clustered index i10 on customers (customerID)
 
-create nonclustered index i10 on customers (customerID)
-
-select customers.customerID from orders, products, customers, orderDetails
-where orders.customerID = customers.customerID
-and orders.orderID = orderDetails.orderID
+select customers.customerID from customers, orders, orderDetails, products
+where
 and orderDetails.productID = products.productID
+and orders.customerID = customers.customerID
+and orders.orderID = orderDetails.orderID
 and customers.customerID = N'WELLI'
 and products.unitPrice = 13
