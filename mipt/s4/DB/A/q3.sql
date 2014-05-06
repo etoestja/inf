@@ -1,5 +1,19 @@
 use NWC;
 
+drop index i1 on orders
+drop index i2 on orders
+drop index i3 on orders
+
+drop index i4 on orderdetails
+drop index i5 on orderdetails
+drop index i6 on orderdetails
+
+drop index i7 on products
+drop index i8 on products
+drop index i9 on products
+
+drop index i10 on customers
+
 create clustered index i1 on orders (orderID)
 create nonclustered index i2 on orders (orderID, customerID)
 create nonclustered index i3 on orders (customerID)
@@ -14,7 +28,7 @@ create nonclustered index i9 on products (unitPrice)
 
 create nonclustered index i10 on customers (customerID)
 
-select orders.customerID from orders, products, customers, orderDetails
+select customers.customerID from orders, products, customers, orderDetails
 where orders.customerID = customers.customerID
 and orders.orderID = orderDetails.orderID
 and orderDetails.productID = products.productID
