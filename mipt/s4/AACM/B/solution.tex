@@ -326,19 +326,19 @@ level 3/.style={sibling distance=2cm},
 \item [$\Leftarrow$:] Пусть $A_i=0\Rightarrow\sum\limits_{j=0}^{m-1}(p_j-t_{i+j})^2=0$. Но это сумма квадратов, поэтому каждое слагаемое нулевое: $\forall j\in\overline{0,m-1}\hookrightarrow p_j-t_{i+j}=0\overset{\ref{occdef}}{\Rightarrow}$ $p$ входит в $t$ с позиции $i$ $\blacksquare$
 \end{enumerate}
 \item Покажем, как вычислить $A_i$ за время $O(n\log n)$ в модели RAM:\begin{enumerate}
-\item Считаем, что $p$ и $t$~--- строки длины $n=2^l$ (длина текста увеличивается не более, чем вдвое, семинар).
-\item Обозначим$$\begin{array}{cclcl}
-A&=&t0^n&=&t_0...t_{n-1}\underbrace{0...0}_n\\
-B&=&p^R0^n&=&p_{n-1}...p_0\underbrace{0...0}_n
-\end{array}$$
-\item Рассмотрим $AB$ (как произведение многочленов): $(AB)_k=\sum\limits_{j=0}^kA_jB_{k-j}$. Графически это можно представить так (изображено одно и то же умножение, просто строка B развернута во втором случае):
-\begin{figure}[hr]
-	\includegraphics[width=5cm]{1.jpg}
-	\includegraphics[width=5cm]{2.jpg}
-\end{figure}\newline
-\begin{figure}[hr]
-	\includegraphics[width=5cm]{3.jpg}
-\end{figure}\newline
+\item $A_i=\sum\limits_{j=0}^{m-1}p_j^2+t_{i+j}^2-2p_jt_{i+j}=\underbrace{\sum\limits_{j=0}^{m-1}p_j^2}_{A_i^1}+\underbrace{\sum\limits_{j=0}^{m-1}t_{i+j}^2}_{A_i^2}-\underbrace{\sum\limits_{j=0}^{m-1}2p_jt_{i+j}}_{A_i^3}$
+\item $A_i^1$ считается за $O(m)$ один раз (сумма квадратов $p_j^2$).
+\item $A_i^2$. Один раз посчитаем частичные суммы $S_i=\sum\limits_{j=0}^{i}t_j^2$ за $O(n)$ (прибавляем по одному), сумму квадратов на отрезке индексов $\overline{i,i+m-1}$ вычисляем как разность $S_{i+m-1}-S_{i-1}$ за $O(1)$
+\item $A_i^3$. Рассмотрим строки $u\eqdef t$ и $v\eqdef p^R0^{n-m}$ (при $n<m$ задача не имеет решения: образец длиннее текста). Рассмотрим их как коэффициенты многочленов (порядок: начиная от свободного члена). Рассмотрим $u* v$~--- коэффициенты произведения этих многочленов. $(u* v)_k=\sum\limits_{j=0}^{k}v_ju_{k-j}=\sum\limits_{j=0}^k\left[\begin{cases}
+p_{m-1-j}, & j \leqslant m-1\\
+0, & j>m-1
+\end{cases}\right] t_{k-j}$. Пусть $k\geqslant m-1$. Слагаемые при $j>m-1$ равны нулю (первый множитель равен нулю), поэтому $(u* v)_k=_{|k\geqslant m-1}=\sum\limits_{j=0}^{m-1}p_{m-1-j}t_{k-j}=\left|
+\begin{array}{lcl}
+j'&=&m-1-j\\
+j&=&m-1-j'
+\end{array}
+\right|=\sum\limits_{j'=m-1}^0p_j't_{k-m+1+j'}=\sum\limits_{j'=0}^{m-1}p_j't_{k-m+1+j'}$. Поэтому $(u* v)_{k+m-1}=\sum\limits_{j'=0}^{m-1}p_j't_{k+j'}$.\newline
+Итак, $A_i^3=-2(t* p^R0^{n-m})_{i+m-1}$
 \end{enumerate}
 \end{enumerate}
 \end{document}
