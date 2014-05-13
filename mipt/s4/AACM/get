@@ -19,6 +19,11 @@ then
     dn=A
 fi
 
+if (( $N == 12 ))
+then
+    dn=C
+fi
+
 mkdir $dn
 cd $dn
 wget -N $(link $N).pdf

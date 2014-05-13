@@ -16,7 +16,7 @@
 \DeclareMathOperator*{\argmin}{arg\,min}
 \usepackage{listings}
 \usepackage{wasysym}
-\date{задано 2014.04.17}
+\date{задано 2014.04.24}
 \author{Сергей~Володин, 272 гр.}
 \newcommand{\matrixl}{\left|\left|}
 \newcommand{\matrixr}{\right|\right|}
@@ -254,7 +254,7 @@ $$\gamma=\begin{Vmatrix}
 -3\omega^4+3\omega^2\\
 -2\omega^7+8\omega^5-3\omega^3+5\omega^2-8
 \end{Vmatrix}
-$$
+$$\newpage
 \item Выполним БПФ для $\gamma=(\gamma_0,\gamma_1,\gamma_2,\gamma_3,\gamma_4,\gamma_5,\gamma_6,\gamma_7)$ (за $\gamma_0,...,\gamma_7$ обозначены коэффициенты выше) Дерево вызовов:\newline
 \begin{tikzpicture}[
 level 1/.style={sibling distance=8cm},
@@ -326,19 +326,158 @@ level 3/.style={sibling distance=2cm},
 \item [$\Leftarrow$:] Пусть $A_i=0\Rightarrow\sum\limits_{j=0}^{m-1}(p_j-t_{i+j})^2=0$. Но это сумма квадратов, поэтому каждое слагаемое нулевое: $\forall j\in\overline{0,m-1}\hookrightarrow p_j-t_{i+j}=0\overset{\ref{occdef}}{\Rightarrow}$ $p$ входит в $t$ с позиции $i$ $\blacksquare$
 \end{enumerate}
 \item Покажем, как вычислить $A_i$ за время $O(n\log n)$ в модели RAM:\begin{enumerate}
-\item Считаем, что $p$ и $t$~--- строки длины $n=2^l$ (длина текста увеличивается не более, чем вдвое, семинар).
-\item Обозначим$$\begin{array}{cclcl}
-A&=&t0^n&=&t_0...t_{n-1}\underbrace{0...0}_n\\
-B&=&p^R0^n&=&p_{n-1}...p_0\underbrace{0...0}_n
-\end{array}$$
-\item Рассмотрим $AB$ (как произведение многочленов): $(AB)_k=\sum\limits_{j=0}^kA_jB_{k-j}$. Графически это можно представить так (изображено одно и то же умножение, просто строка B развернута во втором случае):
-\begin{figure}[hr]
-	\includegraphics[width=5cm]{1.jpg}
-	\includegraphics[width=5cm]{2.jpg}
-\end{figure}\newline
-\begin{figure}[hr]
-	\includegraphics[width=5cm]{3.jpg}
-\end{figure}\newline
+\item $A_i=\sum\limits_{j=0}^{m-1}p_j^2+t_{i+j}^2-2p_jt_{i+j}=\underbrace{\sum\limits_{j=0}^{m-1}p_j^2}_{A_i^1}+\underbrace{\sum\limits_{j=0}^{m-1}t_{i+j}^2}_{A_i^2}-\underbrace{\sum\limits_{j=0}^{m-1}2p_jt_{i+j}}_{A_i^3}$
+\item $A_i^1$ считается за $O(m)$ один раз (сумма квадратов $p_j^2$).
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+    frame=lines,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    keywordstyle=\color{red}\bfseries,
+    stringstyle=\color{green!50!black},
+    commentstyle=\color{gray}\itshape,
+    numbers=left,
+    captionpos=t,
+    escapeinside={\%*}{*)}
+}
+\begin{lstlisting}
+number A1 = 0;
+for(number i = 0; i < m; i++)
+{
+  A1 += p[i] * p[i];
+}
+\end{lstlisting}
+\item $A_i^2$. Один раз посчитаем частичные суммы $S_i=\sum\limits_{j=0}^{i}t_j^2$ за $O(n)$ (прибавляем по одному), сумму квадратов на отрезке индексов $\overline{i,i+m-1}$ вычисляем как разность $S_{i+m-1}-S_{i-1}$ за $O(1)$
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+    frame=lines,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    keywordstyle=\color{red}\bfseries,
+    stringstyle=\color{green!50!black},
+    commentstyle=\color{gray}\itshape,
+    numbers=left,
+    captionpos=t,
+    escapeinside={\%*}{*)}
+}
+\begin{lstlisting}
+number A2temp[n];
+A2temp[0] = t[0] * t[0];
+for(number i = 1; i < n; i++)
+{
+  A2temp[i] = A2temp[i - 1] + t[i] * t[i];
+}
+
+number A2[n];
+A2[0] = A2temp[0];
+for(number i = 1; i + m - 1 < n; i++)
+{
+  A2[i] = A2temp[i + m - 1] - A2[i - 1];
+}
+\end{lstlisting}
+\item \label{fmult} $A_i^3$. Рассмотрим строки $u\eqdef t$ и $v\eqdef p^R0^{n-m}$ (при $n<m$ задача не имеет решения: образец длиннее текста). Рассмотрим их как коэффициенты многочленов (порядок: начиная от свободного члена). Рассмотрим $u* v$~--- коэффициенты произведения этих многочленов. $(u* v)_k=\sum\limits_{j=0}^{k}v_ju_{k-j}=\sum\limits_{j=0}^k\left[\begin{cases}
+p_{m-1-j}, & j \leqslant m-1\\
+0, & j>m-1
+\end{cases}\right] t_{k-j}$. Пусть $k\geqslant m-1$. Слагаемые при $j>m-1$ равны нулю (первый множитель равен нулю), поэтому $(u* v)_k=_{|k\geqslant m-1}=\sum\limits_{j=0}^{m-1}p_{m-1-j}t_{k-j}=\left|
+\begin{array}{lcl}
+j'&=&m-1-j\\
+j&=&m-1-j'
+\end{array}
+\right|=\sum\limits_{j'=m-1}^0p_j't_{k-m+1+j'}=\sum\limits_{j'=0}^{m-1}p_j't_{k-m+1+j'}$. Поэтому $(u* v)_{k+m-1}=\sum\limits_{j'=0}^{m-1}p_j't_{k+j'}$.\newline
+Итак, $A_i^3=-2(t* p^R0^{n-m})_{i+m-1}$.\newpage
+Алгоритм (upperDeg2~--- ближайшая степень двойки сверху, fillZeros заполняет нулями справа до указанного размера, fourier~--- FFT, fourierInverse~--- обратное FFT):
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+    frame=lines,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    keywordstyle=\color{red}\bfseries,
+    stringstyle=\color{green!50!black},
+    commentstyle=\color{gray}\itshape,
+    numbers=left,
+    captionpos=t,
+    escapeinside={\%*}{*)}
+}
+\begin{lstlisting}
+number A[n];
+for(number i = 0; i < n; i++)
+{
+  A[i] = t[i];
+}
+
+number B[n];
+for(number i = 0; i < m; i++)
+{
+  B[i] = p[i + m - 1];
+}
+
+for(number i = m; i < n; i++)
+{
+  B[i] = 0;
+}
+
+number N = upperDeg2(n);
+
+number A1[n] = fillZeros(A, 2 * N);
+number A2[n] = fillZeros(B, 2 * N);
+
+complexNumber fA1[2 * N] = fourier(A1);
+complexNumber fA2[2 * N] = fourier(A2);
+
+complexNumber fC[2 * N];
+for(number i = 0; i < 2 * N; i++)
+{
+  fC[i] = fA1[i] * fA2[i];
+}
+
+number C[2 * N] = fourierInverse(fC);
+
+number S3[n];
+for(number i = 0; i < n - 1; i++)
+{
+  S3[i] = C[i + m - 1];
+}
+\end{lstlisting}
+Время: $O(n) + O(2n\log 2n)=O(n\log n)$
 \end{enumerate}
+\end{enumerate}
+\begin{enumerate}
+\item Пусть $m,n\in\NN$, $\{t_i\}_{i=0}^{n-1},\,\{p_i\}_{i=0}^{m-1}\subset \NN\cup\{0\}$~--- текст и образец (закодированы положительными целыми числами), $0$ обозначает любой символ. Рассмотрим $B_i\eqdef\sum\limits_{j=0}^{m-1}p_jt_{i+j}(p_j-t_{i+j})^2$.
+\item $p$ входит в $t$ с позиции $i$ $\Leftrightarrow$ $\forall j\in\overline{0,m-1}\hookrightarrow \left[
+\begin{array}{l}
+p_j=0\\
+t_{i+j}=0\\
+p_j=t_{i+j}
+\end{array}
+\right.$. Очевидно, это условие эквивалентно $B_i=0$:\begin{enumerate}
+\item $p$ входит в $t$ с позиции $i$ $\Rightarrow$ (по определению вхождения) все слагаемые в $B_i$ нулевые (один из множителей нулевой), значит, $B_i=0$.
+\item Все слагаемые неотрицательные, поэтому $B_i=0$ $\Rightarrow$ все слагаемые нулевые, значит, один из множителей в каждом слагаемом нулевой $\Rightarrow$ (по определению) $p$ входит в $t$ с позиции $i$.
+\end{enumerate}
+\item $B_i=\underbrace{\sum\limits_{j=0}^{m-1}p_j^3t_{i+j}}_{S_1}+\underbrace{\sum\limits_{j=0}^{m-1}p_jt^3_{i+j}}_{S_2}-\underbrace{2\sum\limits_{j=0}^{m-1}p_j^2t_{i+j}^2}_{S_3}$. В пункте \ref{fmult} было показано, как за $O(n\log n)$ вычислить все $i\in\overline{0,n-m}$ суммы $\sum\limits_{j=0}^{m-1}p_jt_{i+j}$. Поэтому суммы $S_1$, $S_2$, $S_3$ можно вычислить за те же времена, заменив вход. Для $S_3$ вход $p[i]$ и $t[i]$ заменить на $p[i] * p[i]$ и $t[i] * t[i]$ (возвести в квадрат поэлементно), для остальных аналогично (поэлементное возведение в степень). Суммарное время $O(n)+3O(n\log n)=O(n\log n)$ (поэлементное возведение в степень за $O(n)$).
+\end{enumerate}
+\newpage
+\begin{enumerate}
+\item Уменьшим время до $O(n\log m)$. Пусть $w_i=t[im,im+2m]$~--- подстроки $t$ длины $2m$. Их количество равно $\lceil\frac{n}{m}\rceil$.
+\item Докажем утверждение: $p$ входит в $t$ с позиции $i$ $\Leftrightarrow$ $p$ входит в $w_{\lfloor\frac{i}{m}\rfloor}$ с позиции $i-\lfloor\frac{i}{m}\rfloor\cdot m$\begin{enumerate}
+\item $p$ входит в $t$ с позиции $i$ $\Leftrightarrow$ $\sum\limits_{j=0}^{m-1}f(p[j],t[i+j])=0$, где $f(a,b)=a\cdot b\cdot(a-b)^2$.
+\item $p$ входит в $w_{\lfloor\frac{i}{m}\rfloor}$ с позиции $i-\lfloor\frac{i}{m}\rfloor\cdot m$ $\Leftrightarrow$ $\sum\limits_{j=0}^{m-1}f(p[j],w_{\lfloor\frac{i}{m}\rfloor}[i-\lfloor\frac{i}{m}\rfloor\cdot m+j])$
+\item Поэтому докажем, что $w_{\lfloor\frac{i}{m}\rfloor}[i-\lfloor\frac{i}{m}\rfloor\cdot m+j]=t[i+j]$, $j\in\overline{0,m-1}$. Действительно, обозначим $k=\lfloor\frac{i}{m}\rfloor$. $w_k=t[mk]t[mk+1]...t[mk+2m]$, поэтому $w_k[l]=t[mk+l]$, $l\in\overline{0,2m}$. Значит, $w_k[i-mk+j]=t[mk+i-mk+j]=t[i+j]$ при $0\leqslant i-mk+j\leqslant 2m$. Но последнее условие выполняется:\begin{enumerate}
+\item $k=\lfloor\frac{i}{m}\rfloor\leqslant\frac{i}{m}$, поэтому $km\leqslant i$, значит, $i-mk+j\geqslant 0$, т.к. $j\geqslant 0$
+\item $i-mk=i-\lfloor\frac{i}{m}\rfloor m\leqslant i-(\frac{i}{m}-1)m=m$, $j\leqslant m-1$, поэтому $i-mk+j\leqslant 2m-1\leqslant 2m$
+\end{enumerate}
+\end{enumerate}
+\item Алгоритм: выполним предыдущую версию алгоритма на всех $\lceil\frac{n}{m}\rceil$ парах текстов и образцов $(w_i,p)$. Ответ вычисляется по предыдущему утверждению. По предыдущему утверждению, этот алгоритм корректен. Время работы: $\lceil\frac{n}{m}\rceil O(m\log m)=O(n\log m)$
 \end{enumerate}
 \end{document}
