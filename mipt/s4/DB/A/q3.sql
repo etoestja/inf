@@ -27,7 +27,7 @@ create clustered index i10 on customers (customerID)
 
 select customers.customerID from customers, orders, orderDetails, products
 where
-and orderDetails.productID = products.productID
+orderDetails.productID = products.productID
 and orders.customerID = customers.customerID
 and orders.orderID = orderDetails.orderID
 and customers.customerID = N'WELLI'

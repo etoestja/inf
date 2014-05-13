@@ -92,6 +92,9 @@ insert into [role](id, [name], gender, line, [type]) values (27,  N'Дарт В�
 insert into [role](id, [name], gender, line, [type]) values (28,  N'Иван', 1, 1, 3);
 insert into [role](id, [name], gender, line, [type]) values (29,  N'Джордан', 1, 5, 2);
 
+insert into [role](id, [name], gender, line, [type]) values (101,  N'Man', 1, 5, 2);
+insert into [role](id, [name], gender, line, [type]) values (102,  N'Woman', 2, 5, 2);
+
 SET IDENTITY_INSERT [role] OFF
 
 go
@@ -134,6 +137,8 @@ insert into play(id, [name], description) values (14,  N'Continuum', N'текс�
 insert into play(id, [name], description) values (15,  N'4400', N'тексттекст')
 insert into play(id, [name], description) values (16,  N'Властелин Колец', N'тексттекст')
 insert into play(id, [name], description) values (17,  N'Звездные войны', N'тексттекст')
+insert into play(id, [name], description) values (101,  N'Play 1', N'тексттекст')
+insert into play(id, [name], description) values (102,  N'Play 2', N'тексттекст')
 
 
 SET IDENTITY_INSERT play OFF
@@ -196,6 +201,11 @@ insert into role_play(role, play) values (26, 16)
 insert into role_play(role, play) values (27, 17)
 insert into role_play(role, play) values (28, 1)
 insert into role_play(role, play) values (29, 15)
+
+insert into role_play(role, play) values(101, 101)
+insert into role_play(role, play) values(101, 102)
+insert into role_play(role, play) values(102, 101)
+insert into role_play(role, play) values(102, 102)
 go
 
 SET IDENTITY_INSERT actorTitle ON
@@ -240,6 +250,9 @@ insert into actor(id, name_first, name_middle, surname, birthDate, gender) value
 insert into actor(id, name_first, name_middle, surname, birthDate, gender) values (20, N'Алексей', NULL, N'Суханов', '1964-06-14', 1);
 insert into actor(id, name_first, name_middle, surname, birthDate, gender) values (21, N'Lana', NULL, N'Parilla', '1964-06-14', 2);
 insert into actor(id, name_first, name_middle, surname, birthDate, gender) values (22, N'Nothing', NULL, N'Nothing', '1964-06-14', 2);
+
+insert into actor(id, name_first, name_middle, surname, birthDate, gender) values(101, N'Man', NULL, N' ', '1999-01-01', 1)
+insert into actor(id, name_first, name_middle, surname, birthDate, gender) values(102, N'Women', NULL, N' ', '1999-01-01', 1)
 
 SET IDENTITY_INSERT actor OFF
 
@@ -313,6 +326,9 @@ insert into staging(id, director, [name], description) values (23, 7, N'FlashFor
 insert into staging(id, director, [name], description) values (24, 1, N'Враги', N'совершенно новый сюжет');
 insert into staging(id, director, [name], description) values (25, 2, N'На дне', N'инновационное видение');
 insert into staging(id, director, [name], description) values (26, 1, N'Доктор Кто (old)', N'инновационное видение');
+
+insert into staging(id, director, [name], description) values (101, 1, N'S1', N'sf');
+insert into staging(id, director, [name], description) values (102, 1, N'S1', N'sdf');
 SET IDENTITY_INSERT staging OFF
 
 go
@@ -341,6 +357,9 @@ insert into play_staging(staging, play) values(22, 17);
 insert into play_staging(staging, play) values(23, 8);
 insert into play_staging(staging, play) values(24, 3);
 insert into play_staging(staging, play) values(25, 5);
+
+insert into play_staging(staging, play) values(101, 101);
+insert into play_staging(staging, play) values(102, 102);
 
 go
 
@@ -386,6 +405,11 @@ insert into role_staging(id, [role], staging) values (38, 28, 13);
 insert into role_staging(id, [role], staging) values (39, 29, 17);
 insert into role_staging(id, [role], staging) values (40, 1, 5);
 insert into role_staging(id, [role], staging) values (41, 9, 1);
+
+--insert into role_staging(id, [role], staging) values (101, 101, 101);
+--insert into role_staging(id, [role], staging) values (102, 101, 102);
+insert into role_staging(id, [role], staging) values (101, 102, 101);
+insert into role_staging(id, [role], staging) values (102, 102, 102);
 
 SET IDENTITY_INSERT role_staging OFF
 
@@ -454,6 +478,9 @@ insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast
 insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (52, 6, 40,  '2010-01-01', '2015-02-02', 8)
 insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values (55, 1, 41,  '2010-01-01', '2015-02-02', 8)
 
+insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values(101, 101, 101, '2010-01-01', '2015-02-02', 8)
+insert into actor_rolestaging(id, actor, role_staging, beginDate, endDate, [cast]) values(102, 101, 102, '2010-01-01', '2015-02-02', 8)
+
 SET IDENTITY_INSERT actor_rolestaging OFF
 
 go
@@ -516,6 +543,11 @@ insert into performance(id, [date], staging, cast_staging) values (39, '2011-08-
 insert into performance(id, [date], staging, cast_staging) values (40, '2012-09-14', 9, 2);
 insert into performance(id, [date], staging, cast_staging) values (41, '2013-10-15', 3, 1);
 insert into performance(id, [date], staging, cast_staging) values (42, '2014-10-15', 3, 1);
+
+use theater
+
+insert into performance(id, [date], staging, cast_staging) values (101, '2014-10-15', 101, 1);
+insert into performance(id, [date], staging, cast_staging) values (102, '2014-10-15', 102, 1);
 
 SET IDENTITY_INSERT performance OFF
 
