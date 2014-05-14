@@ -32,14 +32,8 @@ int dfs(int v, int startColor)
     return(0);
 }
 
-int main()
+int check()
 {
-    cin >> N;
-
-    for(int i = 0; i < N; i++)
-        for(int j = 0; j < N; j++)
-            cin >> arr[i][j];
-
     for(int i = 0; i < N; i++)
         visited[i] = 0;
 
@@ -52,7 +46,19 @@ int main()
             break;
         }
 
-    cout << (ans ? "YES" : "NO") << endl;
+    return(ans);
+}
+
+int main()
+{
+    cin >> N;
+
+    for(int i = 0; i < N; i++)
+        for(int j = 0; j < N; j++)
+            cin >> arr[i][j];
+
+
+    cout << (check() ? "YES" : "NO") << endl;
 
     return(0);
 }

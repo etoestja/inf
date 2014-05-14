@@ -97,19 +97,170 @@
 \begin{document}
 \maketitle
 \subsection*{Задача 1}
-Вход: матрица $A\colon n\times n$ смежности неориентированного графа $G=(V,E)$.
+Вход: матрица $A\colon N\times N$ смежности неориентированного графа $G=(V,E)$.
 \begin{enumerate}
-\item Идея: выполняем обход из каждой непосещенной вершины, их всех в одну долю. Если $u$~--- в доле $V_i$, и $(u,v)$ рассматривается сейчас при обходе, то $v$ в доле $V_{-i}$. Если противоречие, то не двудольный, иначе найдены доли.
+\item Алгоритм:
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+    frame=lines,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    keywordstyle=\color{red}\bfseries,
+    stringstyle=\color{green!50!black},
+    commentstyle=\color{gray}\itshape,
+    numbers=left,
+    captionpos=t,
+    escapeinside={\%*}{*)}
+}
+\begin{lstlisting}
+int A[NMAX][NMAX];
+int color[NMAX];
+int visited[NMAX];
+
+#define nextColor(x) ((x + 1) % 2)
+
+int N;
+
+int dfs(int v, int startColor)
+{
+  if(visited[v])
+    return(startColor != color[v]);
+
+  visited[v] = 1;
+  color[v] = startColor;
+
+  for(int i = 0; i < N; i++)
+    if(i != v && A[i][v])
+    {
+      if(dfs(i, nextColor(startColor)))
+        return(1);
+    }
+
+  return(0);
+}
+
+int check()
+{
+  for(int i = 0; i < N; i++)
+    visited[i] = 0;
+
+  bool ans = true;
+
+  for(int i = 0; i < N; i++)
+    if(!visited[i])
+    {
+      if(dfs(i, 0)) ans = false;
+      break;
+    }
+
+  return(ans);
+}
+\end{lstlisting}
+\item Время работы. В функции \verb check()  выполняется не более $N=|V|$ поисков в глубину. Каждый выполняется за $O(|V|+|E|)$, поэтому $T(G)=O(|V|^2+|V||E|)=O(|V|^2+|V|^3)$. Описание графа $I(G)=c|V|^2$, поэтому $T(I)=O(I^{\frac{3}{2}})$, поэтому алгоритм эффективный.
+%\item Отношение $\sim\subseteq V^2$: $u\sim v\Leftrightarrow $ существует путь $u\to v$. Очевидно, оно рефлексивно, транзитивно, симметрично (неориентированный граф). Обозначим $\{C_i\}_{i=1}^k=V/\sim$~--- компоненты связности.
+\item Идея: выполняем обход из каждой непосещенной вершины, для них определяем долю как 0. Если $u$~--- в доле $m$, и ребро $(u,v)\in E$ рассматривается сейчас при обходе, то $v$ в доле $(1+i)\mod 2$ (в другой). Если возникает противоречие, то не граф двудольный, иначе двудольный, причем найдены доли.
+\item Докажем корректность. $P_1(G)=[\mbox{граф }G\mbox{~--- двудольный}]$, $P_2(G)=[\mbox{check}()\,|_{G\mbox{ на входе}} = 1]$. $\urcorner P_2\Rightarrow \mbox{check}()=0$, так как алгоритм всегда останавливается и выдает $0$ либо $1$. Поэтому нужно доказать $P_1(G)\Leftrightarrow P_2(G)$\begin{enumerate}
+\item Пусть $P_1(G)$, т.е. граф двудольный. Пусть $\urcorner P_2(G)$. Тогда один из вызовов $\mbox{dfs}(i,0)$ вернул $1$. Значит, для некоторой вершины $j$ $\mbox{visited}[j]=1$, и $\mbox{startColor} \neq \mbox{color}[i]$. Цвет вершины (доля) меняется на противоположный при переходе по ребру, значит, существуют два пути $i\to j$ четной и нечетной длины. Значит, существует простой цикл $j\to k\to j$ нечетной длины. Действительно, пусть $T\subseteq G$~--- дерево поиска в глубину (пунктирного ребра в нем нет, но оно из $E$). Длина цикла $i\to k\to j\to k\to i$ нечетна, если убрать часть $i\to k\to i$ (четной длины), получится простой цикл $j\to k\to j$ нечетной длины. Значит, граф не двудольный (цикл нечетной длины, доли вершин чередуются, получаем ребро между двумя вершинами из одной компоненты связности~--- противоречие)\newline
+\begin{tikzpicture}[shorten >=1pt,node distance=1cm,on grid,auto,initial text=]
+	  \node (i) {$i$};
+	  \node (dots1) [below = of i] {$...$};
+	  \node (vt) [below = of dots1] {$k$};
+	  \node (dots2) [below left = of vt] {$...$};
+	  \node (dots3) [below right = of vt] {$...$};
+	  \node (vt1) [below = of dots2] {$$};
+	  \node (vt2) [below = of dots3] {$$};
+	  \node (j) [below right = of vt1] {$j$};
+  	  \path[->] 
+			(i)	edge node {$$}	(dots1)
+			(dots1)	edge node {$$}	(vt)
+			(vt)	edge node {$$}	(dots2)
+			(vt)	edge node {$$}	(dots3)
+			(dots2)	edge node {$$}	(vt1)
+			(dots3)	edge node {$$}	(vt2)
+			(vt1)	edge node {$$}	(j)
+			(vt2)	edge [dashed] node {$$}	(j)
+			;
+\end{tikzpicture}\newline
+Значит, $P_2(G)\,\blacksquare$
+\item Пусть $P_2(G)$. Найдены множества $V\supseteq L=\{v\in V\big| \mbox{color}(v)=0\}$, $R=\{v\in V\big| \mbox{color}(v)=1\}$. Пусть $(L^2\cup R^2)\cap E\neq\varnothing$. Без ограничения общности, $L^2\cap E\neq\varnothing$. Пусть $(l_1,l_2)\in E$. У $l_1$ и $l_2$ одинаковые цвета $0$. Без ограничени общности $l_2$ была найдена первой при поиске. Тогда при поиске в ширину из $l_1$ был вызов $\mbox{dfs}(l_2,1)$, который привел бы к конфликту~--- противоречие. Значит, это пересечение пусто, и найдены доли графа $\Rightarrow$ $P_1(G)\,\blacksquare$
+\end{enumerate}
 \end{enumerate}
 \subsection*{Задача 2}
 Вход: матрица $A\colon n\times n$ смежности неориентированного графа $G=(V,E)$.
 \begin{enumerate}
 \item Идея: выполним обход из каждой вершины, запоминаем посещенные. Те, которые посещены только при текущем обходе~--- в новой компоненте связности.
+\item Алгоритм (каждая компонента связности печатается на отдельной строке)
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+    frame=lines,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    keywordstyle=\color{red}\bfseries,
+    stringstyle=\color{green!50!black},
+    commentstyle=\color{gray}\itshape,
+    numbers=left,
+    captionpos=t,
+    escapeinside={\%*}{*)}
+}
+\begin{lstlisting}
+void dfs(int v)
+{
+  if(visited[v])
+    return;
+
+  visited[v] = 1;
+  cout << v << " ";
+
+  for(int i = 0; i < N; i++)
+    if(i != v && arr[i][v])
+      dfs(i);
+}
+
+void find()
+{
+  for(int i = 0; i < N; i++)
+    visited[i] = 0;
+
+  for(int i = 0; i < N; i++)
+    if(!visited[i])
+    {
+      dfs(i);
+      cout << endl;
+    }
+}
+\end{lstlisting}
+\item Время работы (аналогично задаче 1) $T(I)=O(I^{3/2})$.
+\item Корректность. Поиск в ширину находит все вершины, достижимые из $v$, и только их, т.е. $C(v)$~--- класс эквивалентности $C\in V/\sim\colon C\ni v$ (доказано на семинаре). Последующие вызовы $\mbox{dfs}$ производятся только для непосещенных вершин, т.е. для вершин из других компонент связности.
 \end{enumerate}
 \subsection*{Задача 3}
 \begin{enumerate}
-\item
-\item
+\item Пример:\newline\begin{tikzpicture}[shorten >=1pt,node distance=1cm,on grid,auto,initial text=]
+	  \node (s) {$s$};
+	  \node (u) [right = of s] {$u$};
+	  \node (v) [right = of u] {$v$};
+  	  \path[->] 
+			(u)	edge node {$-1$}	(v)
+			;
+\end{tikzpicture}\newline
+Из $s$ нет путей, поэтому все $\mbox{d}[i]=\infty$~--- правильный ответ.
+\item Пример:\newline
+\begin{tikzpicture}[shorten >=1pt,node distance=1cm,on grid,auto,initial text=]
+	  \node (s) {$s$};
+	  \node (u) [right = of s] {$u$};
+  	  \path[->] 
+			(s)	edge [bend left] node {$1$}	(u)
+			(u)	edge [bend left] node {$-2$}	(s)
+			;
+\end{tikzpicture}
+На первой итерации будет найдено $\mbox{d}[s]=0$, $\mbox{d}[u]=\infty$. На второй (непомеченная вершина с минимальным d~--- $s$) $\mbox{d}[s]=0$, $\mbox{d}[u]=1$, на третьей (непомеченная вершина с минимальным d~--- $u$) $\mbox{d}[s]=-1$, $\mbox{d}[u]=1$, и алгоритм остановится (все вершины помечены). Для $s$ ответ неверный: $0\neq 1$
 \end{enumerate}
 \subsection*{(каноническое) Задача 51}
 Идея: модифицируем алгоритм *тот, с тремя циклами* (релаксации). $d(v)$~--- максимальная надежность по всем путям $s\to v$.
