@@ -99,7 +99,7 @@
 \subsection*{Задача 1}
 Вход: матрица $A\colon N\times N$ смежности неориентированного графа $G=(V,E)$.
 \begin{enumerate}
-\item Алгоритм:
+\item \href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s4/AACM/C/R1/main.cpp}{Алгоритм}:
 \lstset{
     language=C,
     basicstyle=\ttfamily\small,
@@ -193,7 +193,7 @@ int check()
 Вход: матрица $A\colon n\times n$ смежности неориентированного графа $G=(V,E)$.
 \begin{enumerate}
 \item Идея: выполним обход из каждой вершины, запоминаем посещенные. Те, которые посещены только при текущем обходе~--- в новой компоненте связности.
-\item Алгоритм (каждая компонента связности печатается на отдельной строке)
+\item \href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s4/AACM/C/R2/main.cpp}{Алгоритм}: (каждая компонента связности печатается на отдельной строке)
 \lstset{
     language=C,
     basicstyle=\ttfamily\small,
@@ -262,6 +262,126 @@ void find()
 \end{tikzpicture}
 На первой итерации будет найдено $\mbox{d}[s]=0$, $\mbox{d}[u]=\infty$. На второй (непомеченная вершина с минимальным d~--- $s$) $\mbox{d}[s]=0$, $\mbox{d}[u]=1$, на третьей (непомеченная вершина с минимальным d~--- $u$) $\mbox{d}[s]=-1$, $\mbox{d}[u]=1$, и алгоритм остановится (все вершины помечены). Для $s$ ответ неверный: $0\neq 1$
 \end{enumerate}
-\subsection*{(каноническое) Задача 51}
-Идея: модифицируем алгоритм *тот, с тремя циклами* (релаксации). $d(v)$~--- максимальная надежность по всем путям $s\to v$.
+\subsection*{(каноническое) Задача 51.1, 51.2}
+\begin{enumerate}
+\item Идея: модифицируем алгоритм Беллмана-Форда (релаксации).
+\item Надежность пути $u\to v_1\to...\to v_k\to v$ по определению $r(u,v_1,v_2,...,v_k,v)\eqdef r(u,v_1)\cdot r(v_1,v_2)\cdot...\cdot r(v_k,v)$
+\item \href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s4/AACM/C/R2/main.cpp}{Алгоритм} (печатается путь в обратном порядке и максимальные надежности $s\to v_i$):
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+    frame=lines,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    keywordstyle=\color{red}\bfseries,
+    stringstyle=\color{green!50!black},
+    commentstyle=\color{gray}\itshape,
+    numbers=left,
+    captionpos=t,
+    escapeinside={\%*}{*)}
+}
+\begin{lstlisting}
+void init(int s)
+{
+  for(int i = 0; i < N; i++)
+  {
+    p[i] = -1;
+    r[i] = 0;
+  }
+
+  r[s] = 1;
+}
+
+void solve(int s, int t)
+{
+  init(s);
+
+  for(int i = 0; i < N; i++)
+    for(int u = 0; u < N; u++)
+      for(int v = 0; v < N; v++)
+      {
+        double *r0 = &(r[v]);
+        double r1 = r[u] * arr[u][v];
+        if(*r0 < r1)
+        {
+          *r0 = r1;
+          p[v] = u;
+        }
+      }
+
+  for(int k = t; k != -1; k = p[k])
+    cout << k << " ";
+  cout << endl;
+}
+\end{lstlisting}
+\item Это алгоритм Беллмана-Форда с восстановлением пути (массив предков) с другой релаксацией $$(u,v)\in E\Rightarrow r(v)=\max (r_{k-1}(v),r_{k-1}(u)\cdot r(u,v))$$
+\item Время работы равно времени работы алгоритма Беллмана-Форда. Рассмотрим одну релаксацию. Пусть числа по $m$ бит. Надежность сети имеет $nm$ бит, поэтому перемножение двух таких чисел займет $cn^2m^2$ тактов. Всего $O(|V|^4m^2)$ операций~--- полином от входа (эффективен на всех сетях?).
+\item Корректность. Рассмотрим сеть $(G,r')$, $r'(u,v)=-\ln r(u,v)$. Тогда (индукция по $k$) релаксация запишется как $r_k(v)=\max (r_{k-1}(v),r_{k-1}(u)\cdot r(u,v))=\max (e^{-r'_{k-1}(v)},e^{-r'_{k-1}(u)}e^{-r'(u,v)})=e^{-\min(r'_{k-1}(v),r'_{k-1}(u)\cdot r'(u,v))}$, т.е. $r'_k(v)=-\ln r_k(v)=\min(r'_{k-1}(v),r'_{k-1}(v)\cdot r'(u,v))$, т.е. выполняется обычный алгоритм Беллмана-Форда в сети $(G,r')$. Он найдет путь $s\to v$ с минимальным значением $r'$, т.е. (монотонность $\ln$) максимальным $r$.
+\item Выполним \href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s4/AACM/C/51/main.cpp}{алгоритм} на графе из условия. Файл test1, запускать: \begin{verbatim}
+$ g++ main.cpp && cat test1 | ./a.out \end{verbatim}
+Ответ: путь $0 3 1 4 2 5 7 8$ (нумерация вершин слева направо и сверху вниз).
+\end{enumerate}
+\subsection*{(каноническое) Задача 51.3}
+\begin{enumerate}
+\item Заметим, что задача сводится к поиску минимального остовного дерева в ориентированном графе с вершиной $s$. Будут найдены ребра, такие что граф $T\subseteq G$ связен, и имеет минимальный вес. Сеть $(G,r')\colon r'(u,v)=-\ln r(u,v)$. Будет найдено дерево, причем $r'(T)=-\ln r(u_1,u_2)- \ln r(u_2,u_3)...=-\ln(r(T))\to\min\Rightarrow r(T)\to\max$.
+\item Для данного случая: минимальное количество ребер $n-1=9-1=8$. Рассмотрим ребра с наибольшими надежностями $(0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.12)$. Произведение монотонно по каждому из сомножителей, поэтому большей надежности получить нельзя. Подграф $(V,E')$ с выделенными ребрами\newline
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	  \node (v1) {$s$};
+	  \node (v2) [right = of v1] {$v2$};
+	  \node (v3) [right = of v2] {$v3$};
+	  
+	  \node (v4) [below = of v1] {$v4$};
+	  \node (v5) [right = of v4] {$v5$};
+	  \node (v6) [right = of v5] {$v6$};
+	  
+	  \node (v7) [below = of v4] {$v7$};
+	  \node (v8) [right = of v7] {$v8$};
+	  \node (v9) [right = of v8] {$t$};
+  	  \path[->] 
+			(s)		edge node {$0.03$}	(v2)
+			(s)		edge [color=red] node [swap] {$0.12$}	(v4)
+			(v2)	edge node {$0.12$}	(v3)
+			(v2)	edge [color=red] node [swap] {$0.5$}	(v5)
+			(v3)	edge [color=red] node {$0.5$}	(v6)
+			(v4)	edge node {$0.06$}	(v5)
+			(v4)	edge [color=red] node {$0.5$}	(v2)
+			(v4)	edge [color=red] node {$0.5$}	(v7)
+			(v5)	edge node [swap] {$0.06$}	(v8)
+			(v5)	edge [color=red] node {$0.5$}	(v3)
+			(v5)	edge node {$0.12$}	(v6)
+			(v6)	edge [color=red] node [swap] {$0.5$}	(v8)
+			(v6)	edge node {$0.11$}	(v9)
+			(v7)	edge node {$0.03$}	(v8)
+			(v8)	edge [color=red] node {$0.5$}	(v9)
+			;
+\end{tikzpicture}\newline
+связен: $s,v_4,v_2,v_5,v_3,v_6,v_8,t$ достижимы, так как существует такой путь, $(v_4,v_7)\in E'$, поэтому $v_7$ достижима.
+\item Ответ:\newline
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	  \node (v1) {$s$};
+	  \node (v2) [right = of v1] {$v2$};
+	  \node (v3) [right = of v2] {$v3$};
+	  
+	  \node (v4) [below = of v1] {$v4$};
+	  \node (v5) [right = of v4] {$v5$};
+	  \node (v6) [right = of v5] {$v6$};
+	  
+	  \node (v7) [below = of v4] {$v7$};
+	  \node (v8) [right = of v7] {$v8$};
+	  \node (v9) [right = of v8] {$t$};
+  	  \path[->] 
+			(s)		edge node [swap] {$0.12$}	(v4)
+			(v2)	edge node [swap] {$0.5$}	(v5)
+			(v3)	edge node {$0.5$}	(v6)
+			(v4)	edge node {$0.5$}	(v2)
+			(v4)	edge node {$0.5$}	(v7)
+			(v5)	edge node {$0.5$}	(v3)
+			(v6)	edge node [swap] {$0.5$}	(v8)
+			(v8)	edge node {$0.5$}	(v9)
+			;
+\end{tikzpicture}\newline
+\end{enumerate}
 \end{document}
