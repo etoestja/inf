@@ -1,0 +1,15 @@
+==== TESTS @ Wed May 14 17:48:53 MSK 2014 ====
+
+test1 NO 3
+0 1 1
+1 0 1
+1 1 0
+test2 YES 1
+0
+test3 YES 2
+0 1
+1 0
+test4 YES 3
+0 1 0
+1 0 1
+0 1 0
