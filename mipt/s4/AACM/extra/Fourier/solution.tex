@@ -1,0 +1,128 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+%\geometry{paperwidth=210mm, paperheight=2000pt, left=5pt, top=5pt}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,arrows,trees,calc}
+\usepackage{amsmath}
+\usepackage[makeroom]{cancel} % зачеркивание
+\usepackage{multicol,multirow} %Несколько колонок
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{listings}
+\usepackage{wasysym}
+\date{\today}
+\author{Сергей~Володин, 272 гр.}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+% названия автоматов  (rubtsov)
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+
+%классы сложности (rubtsov)
+\def\PP{{\mathsf{P}}}
+\def\NP{{\mathsf{NP}}}
+\def\NPc{{\mathsf{NP}}\text{-}{\rm c}}
+\def\coNP{{\rm co}\text{-}{\mathsf{NP}}}
+\def\DTIME{{\mathsf{DTIME}}}
+\def\NTIME{{\mathsf{NTIME}}}
+\def\CLIQUE{{\mathsf{CLIQUE}}}
+\def\HALT{{\rm{HALT}}}
+\def\SAT{{\rm{SAT}}}
+\def\3SAT{{\rm{3\text{-}SAT}}}
+\def\2SAT{{\rm{2\text{-}SAT}}}
+\def\UNSAT{{\rm{UNSAT}}}
+\def\HP{{\rm{HAMPATH}}}
+\def\UHP{{\rm{UHAMPATH}}}
+\def\LL{{\mathrm{LL}}}
+\def\poly{{\rm{poly}}}
+\def\GC{{\mbox{ГЦ}}}
+\def\GP{{\mbox{ГП}}}
+\def\conv{{\mbox{conv}}}
+
+\title{Алгоритмы и модели вычислений.\\Поиск подматрицы}
+
+% алгоритмы (Рубцов)
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{algorithm2e}
+
+%+= и -=, иначе разъезжаются...
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
+\newcommand{\todo}{{\em todo}}
+
+% пустое слово  (rubtsov)
+\def\eps{\varepsilon}
+
+% регулярные языки  (rubtsov)
+\def\REG{{\mathsf{REG}}}
+\def\CFL{{\mathsf{CFL}}}
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\newcommand{\niton}{\not\owns}
+
+%FIRST & FOLLOW (rubtsov)
+\def\first{\mathrm{ FIRST} }
+\def\follow{\mathrm{ FOLLOW} }
+
+% LL LR (rubtsov)
+\def\LL{{\mathrm{LL}}}
+\def\LR{{\mathrm{LR}}}
+
+\newcounter{rowItemCount}
+\newcounter{subRowItemCount}
+\newcommand\rowItem{
+    \setcounter{subRowItemCount}{0}
+    \arabic{rowItemCount}.\addtocounter{rowItemCount}{1}}
+\newcommand\subRowItem{
+    \addtocounter{subRowItemCount}{1}
+    \addtocounter{rowItemCount}{-1}
+    \arabic{rowItemCount}.\arabic{subRowItemCount}.\addtocounter{rowItemCount}{1}}
+
+\newcommand{\smalll}[1]{\overline{\overline{#1}}}
+\newcommand{\smallo}{\bar{\bar{o}}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\Nz}{\mathbb{N}\cup\{0\}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\RR}{\mathbb{R}}
+\begin{document}
+\maketitle
+\section{Определения}
+\begin{enumerate}
+\item Даны матрицы $P\colon m\times n$, $T\colon M\times N$, состоящие из $1$ и $2$. $M>m$, $N>n$.
+\item Нумеруем строки и столбцы с нуля.
+\item Определение: $P$ входит в $T$ с позиции $(i,j)$ $\Leftrightarrow \forall (a,b)\in\overline{0,m-1}\times\overline{0,n-1}\hookrightarrow p^a_b=t^{i+a}_{j+b}$
+\item Задача: найти пары $(i,j)$, такие что $P$ входит в $T$ с $(i,j)$.
+\end{enumerate}
+\section{Сведение к поиску подстроки}
+\begin{enumerate}
+\item Определим $r(i)=\lfloor\frac{i}{N}\rfloor$~--- номер строки, $c(i)=i\mod N$~--- номер столбца (см. далее).
+\item Запишем матрицу $T$ в видем массива (строки $A$) $t_i=t^{r(i)}_{c(i)}$. $|t|=MN$.
+\item Пусть $p^0,...,p^{m-1}$~--- строки матрицы $P$, записанные как массив чисел (строки). Обозначим $p=p^00^{N-n}p^10^{N-n}...p^{m-1}$. $|p|=Nm+n$. Тогда $p_i=p^{r(i)}_{c(i)}$
+\item Пусть $p$ входит в $t$ с позиции $i$, причем $c(i)\leqslant N-n$, $r(i)\leqslant M-m$. Докажем, что это равносильно $P$ входит в $T$ с позиции $(r(i),c(i))$:\begin{enumerate}
+\item $p$ входит в $t$ с позиции $i$ $\boxed{\Leftrightarrow}$ $\forall k\in\overline{0,Nm+n-1}\hookrightarrow \left[\begin{array}{lcl}
+p_k&=&t_{k+i}\\
+p_k&=&0\\
+t_{k+i}&=&0
+\end{array}\right.$. В $t$ нет символов $0$, поэтому $\boxed{\Leftrightarrow}\forall k\in\overline{0,Nm+n-1}\hookrightarrow\left[\begin{array}{lclr}
+p_k&=&t_{k+i}&(1)\\
+p_k&=&0&(2)\\
+\end{array}\right.$. При $c(k)\in\overline{0,n-1}$ $p_k\neq 0$, поэтому должно выполняться $(1)$, для остальных должно выполняться $(2)$, так как $t$ не содержит $0$. Поэтому $\boxed{\Leftrightarrow}\forall k\in\overline{0,Nm+n-1}\colon c(k)\in\overline{0,n-1}\hookrightarrow p_k=t_{k+i}\Leftrightarrow \forall k\in\overline{0,Nm+n-1}\colon c(k)\in\overline{0,n-1}\hookrightarrow p^{r(k)}_{c(k)}=t^{r(k+i)}_{c(k+i)}$
+%$p_k=0\Leftrightarrow k\mod N\in\overline{n,N-1}\Leftrightarrow c(k)\in\overline{n,N-1}$, поэтому для таких $k$ условие выпол
+\end{enumerate}
+\end{enumerate}
+\section{Время работы}
+\begin{enumerate}
+\item $|t|=MN$, $|p|=Nm+n$, поэтому алгоритм поиска подстроки работает за $O(MN\log MN)$ (доказано в решении задания).
+\item Заметим, что <<очевидная>> версия (перебор) работает за $O(MNmn)$~--- $O(MN)$ позиций и $O(mn)$ на проверку вхождения.
+\end{enumerate}
+\end{document}

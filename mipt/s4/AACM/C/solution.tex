@@ -97,20 +97,321 @@
 \begin{document}
 \maketitle
 \subsection*{Задача 1}
-Вход: матрица $A\colon n\times n$ смежности неориентированного графа $G=(V,E)$.
+Вход: матрица $A\colon N\times N$ смежности неориентированного графа $G=(V,E)$.
 \begin{enumerate}
-\item Идея: выполняем обход из каждой непосещенной вершины, их всех в одну долю. Если $u$~--- в доле $V_i$, и $(u,v)$ рассматривается сейчас при обходе, то $v$ в доле $V_{-i}$. Если противоречие, то не двудольный, иначе найдены доли.
+\item \href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s4/AACM/C/R1/main.cpp}{Алгоритм}:
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+    frame=lines,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    keywordstyle=\color{red}\bfseries,
+    stringstyle=\color{green!50!black},
+    commentstyle=\color{gray}\itshape,
+    numbers=left,
+    captionpos=t,
+    escapeinside={\%*}{*)}
+}
+\begin{lstlisting}
+int A[NMAX][NMAX];
+int color[NMAX];
+int visited[NMAX];
+
+#define nextColor(x) ((x + 1) % 2)
+
+int N;
+
+int dfs(int v, int startColor)
+{
+  if(visited[v])
+    return(startColor != color[v]);
+
+  visited[v] = 1;
+  color[v] = startColor;
+
+  for(int i = 0; i < N; i++)
+    if(i != v && A[i][v])
+    {
+      if(dfs(i, nextColor(startColor)))
+        return(1);
+    }
+
+  return(0);
+}
+
+int check()
+{
+  for(int i = 0; i < N; i++)
+    visited[i] = 0;
+
+  bool ans = true;
+
+  for(int i = 0; i < N; i++)
+    if(!visited[i])
+    {
+      if(dfs(i, 0)) ans = false;
+      break;
+    }
+
+  return(ans);
+}
+\end{lstlisting}
+\item Время работы. В функции \verb check()  выполняется не более $N=|V|$ поисков в глубину. Каждый выполняется за $O(|V|+|E|)$, поэтому $T(G)=O(|V|^2+|V||E|)=O(|V|^2+|V|^3)$. Описание графа $I(G)=c|V|^2$, поэтому $T(I)=O(I^{\frac{3}{2}})$, поэтому алгоритм эффективный.
+\item Идея: выполняем обход из каждой непосещенной вершины, для них определяем долю как 0. Если $u$~--- в доле $m$, и ребро $(u,v)\in E$ рассматривается сейчас при обходе, то $v$ в доле $(1+i)\mod 2$ (в другой). Если возникает противоречие, то не граф двудольный, иначе двудольный, причем найдены доли.
+\item Докажем корректность. $P_1(G)=[\mbox{граф }G\mbox{~--- двудольный}]$, $P_2(G)=[\mbox{check}()\,|_{G\mbox{ на входе}} = 1]$. $\urcorner P_2\Rightarrow \mbox{check}()=0$, так как алгоритм всегда останавливается и выдает $0$ либо $1$. Поэтому нужно доказать $P_1(G)\Leftrightarrow P_2(G)$\begin{enumerate}
+\item Пусть $P_1(G)$, т.е. граф двудольный. Пусть $\urcorner P_2(G)$. Тогда один из вызовов $\mbox{dfs}(i,0)$ вернул $1$. Значит, для некоторой вершины $j$ $\mbox{visited}[j]=1$, и $\mbox{startColor} \neq \mbox{color}[i]$. Цвет вершины (доля) меняется на противоположный при переходе по ребру, значит, существуют два пути $i\to j$ четной и нечетной длины. Значит, существует простой цикл $j\to k\to j$ нечетной длины. Действительно, пусть $T\subseteq G$~--- дерево поиска в глубину (пунктирного ребра в нем нет, но оно из $E$). Длина цикла $i\to k\to j\to k\to i$ нечетна, если убрать часть $i\to k\to i$ (четной длины), получится простой цикл $j\to k\to j$ нечетной длины. Значит, граф не двудольный (цикл нечетной длины, доли вершин чередуются, получаем ребро между двумя вершинами из одной доли~--- противоречие)\newline
+\begin{tikzpicture}[shorten >=1pt,node distance=1cm,on grid,auto,initial text=]
+	  \node (i) {$i$};
+	  \node (dots1) [below = of i] {$...$};
+	  \node (vt) [below = of dots1] {$k$};
+	  \node (dots2) [below left = of vt] {$...$};
+	  \node (dots3) [below right = of vt] {$...$};
+	  \node (vt1) [below = of dots2] {$$};
+	  \node (vt2) [below = of dots3] {$$};
+	  \node (j) [below right = of vt1] {$j$};
+  	  \path[->] 
+			(i)	edge node {$$}	(dots1)
+			(dots1)	edge node {$$}	(vt)
+			(vt)	edge node {$$}	(dots2)
+			(vt)	edge node {$$}	(dots3)
+			(dots2)	edge node {$$}	(vt1)
+			(dots3)	edge node {$$}	(vt2)
+			(vt1)	edge node {$$}	(j)
+			(vt2)	edge [dashed] node {$$}	(j)
+			;
+\end{tikzpicture}\newline
+Значит, $P_2(G)\,\blacksquare$
+\item Пусть $P_2(G)$. Найдены множества $V\supseteq L=\{v\in V\big| \mbox{color}(v)=0\}$, $R=\{v\in V\big| \mbox{color}(v)=1\}$. Пусть $(L^2\cup R^2)\cap E\neq\varnothing$. Без ограничения общности, $L^2\cap E\neq\varnothing$. Пусть $(l_1,l_2)\in E$. У $l_1$ и $l_2$ одинаковые цвета $0$. Без ограничения общности $l_2$ была найдена первой при поиске. Тогда при поиске в ширину из $l_1$ был вызов $\mbox{dfs}(l_2,1)$, который привел бы к конфликту~--- противоречие. Значит, это пересечение пусто, и найдены доли графа $\Rightarrow$ $P_1(G)\,\blacksquare$
+\end{enumerate}
 \end{enumerate}
 \subsection*{Задача 2}
-Вход: матрица $A\colon n\times n$ смежности неориентированного графа $G=(V,E)$.
+Вход: матрица $A\colon N\times N$ смежности неориентированного графа $G=(V,E)$.
 \begin{enumerate}
 \item Идея: выполним обход из каждой вершины, запоминаем посещенные. Те, которые посещены только при текущем обходе~--- в новой компоненте связности.
+\item \href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s4/AACM/C/R2/main.cpp}{Алгоритм}: (каждая компонента связности печатается на отдельной строке)
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+    frame=lines,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    keywordstyle=\color{red}\bfseries,
+    stringstyle=\color{green!50!black},
+    commentstyle=\color{gray}\itshape,
+    numbers=left,
+    captionpos=t,
+    escapeinside={\%*}{*)}
+}
+\begin{lstlisting}
+void dfs(int v)
+{
+  if(visited[v])
+    return;
+
+  visited[v] = 1;
+  cout << v << " ";
+
+  for(int i = 0; i < N; i++)
+    if(i != v && arr[i][v])
+      dfs(i);
+}
+
+void find()
+{
+  for(int i = 0; i < N; i++)
+    visited[i] = 0;
+
+  for(int i = 0; i < N; i++)
+    if(!visited[i])
+    {
+      dfs(i);
+      cout << endl;
+    }
+}
+\end{lstlisting}
+\item Время работы (аналогично задаче 1) $T(I)=O(I^{3/2})$.
+\item Отношение $\sim\subseteq V^2$: $u\sim v\Leftrightarrow $ существует путь $u\to v$. Очевидно, оно рефлексивно, транзитивно, симметрично (неориентированный граф). Обозначим $\{C_i\}_{i=1}^k=V/\sim$~--- компоненты связности.
+\item Корректность. Поиск в ширину находит все вершины, достижимые из $v$, и только их, т.е. $C(v)$~--- класс эквивалентности $C\in V/\sim\colon C\ni v$ (доказано на семинаре). Последующие вызовы $\mbox{dfs}$ производятся только для непосещенных вершин, т.е. для вершин из других компонент связности.
 \end{enumerate}
 \subsection*{Задача 3}
 \begin{enumerate}
-\item
-\item
+\item Пример:\newline\begin{tikzpicture}[shorten >=1pt,node distance=1cm,on grid,auto,initial text=]
+	  \node (s) {$s$};
+	  \node (u) [right = of s] {$u$};
+	  \node (v) [right = of u] {$v$};
+  	  \path[->] 
+			(u)	edge node {$-1$}	(v)
+			;
+\end{tikzpicture}\newline
+Из $s$ нет путей, поэтому все $\mbox{d}[i]=\infty$~--- правильный ответ.
+\item Пример:\newline
+\begin{tikzpicture}[shorten >=1pt,node distance=1cm,on grid,auto,initial text=]
+	  \node (s) {$s$};
+	  \node (u) [right = of s] {$u$};
+  	  \path[->] 
+			(s)	edge [bend left] node {$1$}	(u)
+			(u)	edge [bend left] node {$-2$}	(s)
+			;
+\end{tikzpicture}\newline
+На первой итерации будет найдено $\mbox{d}[s]=0$, $\mbox{d}[u]=\infty$. На второй (непомеченная вершина с минимальным d~--- $s$) $\mbox{d}[s]=0$, $\mbox{d}[u]=1$, на третьей (непомеченная вершина с минимальным d~--- $u$) $\mbox{d}[s]=-1$, $\mbox{d}[u]=1$, и алгоритм остановится (все вершины помечены). Для $s$ ответ неверный: $0\neq 1$
 \end{enumerate}
-\subsection*{(каноническое) Задача 51}
-Идея: модифицируем алгоритм *тот, с тремя циклами* (релаксации). $d(v)$~--- максимальная надежность по всем путям $s\to v$.
+\subsection*{(каноническое) Задача 51.1, 51.2}
+\begin{enumerate}
+\item Идея: модифицируем алгоритм Беллмана-Форда (релаксации).
+\item Надежность пути $u\to v_1\to...\to v_k\to v$ по определению $r(u,v_1,v_2,...,v_k,v)\eqdef r(u,v_1)\cdot r(v_1,v_2)\cdot...\cdot r(v_k,v)$
+\item \href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s4/AACM/C/R2/main.cpp}{Алгоритм} (печатается путь в обратном порядке и максимальные надежности $s\to v_i$):
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+    frame=lines,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    keywordstyle=\color{red}\bfseries,
+    stringstyle=\color{green!50!black},
+    commentstyle=\color{gray}\itshape,
+    numbers=left,
+    captionpos=t,
+    escapeinside={\%*}{*)}
+}
+\begin{lstlisting}
+void init(int s)
+{
+  for(int i = 0; i < N; i++)
+  {
+    p[i] = -1;
+    r[i] = 0;
+  }
+
+  r[s] = 1;
+}
+
+void solve(int s, int t)
+{
+  init(s);
+
+  for(int i = 0; i < N; i++)
+    for(int u = 0; u < N; u++)
+      for(int v = 0; v < N; v++)
+      {
+        double *r0 = &(r[v]);
+        double r1 = r[u] * arr[u][v];
+        if(*r0 < r1)
+        {
+          *r0 = r1;
+          p[v] = u;
+        }
+      }
+
+  for(int k = t; k != -1; k = p[k])
+    cout << k << " ";
+  cout << endl;
+}
+\end{lstlisting}
+\item Это алгоритм Беллмана-Форда с восстановлением пути (массив предков) с другой релаксацией $$(u,v)\in E\Rightarrow r(v)=\max (r_{k-1}(v),r_{k-1}(u)\cdot r(u,v))$$
+\item Время работы равно времени работы алгоритма Беллмана-Форда. Рассмотрим одну релаксацию. Пусть числа по $m$ бит. Надежность сети имеет $nm$ бит, поэтому перемножение двух таких чисел займет $cn^2m^2$ тактов. Всего $O(|V|^4m^2)$ операций~--- полином от входа (эффективен на всех сетях?).
+\item Корректность. Рассмотрим сеть $(G,r')$, $r'(u,v)=-\ln r(u,v)$. Тогда (индукция по $k$) релаксация запишется как $r_k(v)=\max (r_{k-1}(v),r_{k-1}(u)\cdot r(u,v))=\max (e^{-r'_{k-1}(v)},e^{-r'_{k-1}(u)}e^{-r'(u,v)})=e^{-\min(r'_{k-1}(v),r'_{k-1}(u)\cdot r'(u,v))}$, т.е. $r'_k(v)=-\ln r_k(v)=\min(r'_{k-1}(v),r'_{k-1}(v)+ r'(u,v))$, т.е. выполняется обычный алгоритм Беллмана-Форда в сети $(G,r')$. Он найдет путь $s\to v$ с минимальным значением $r'$, т.е. (монотонность $\ln$) максимальным $r$.
+\item Выполним \href{https://bitbucket.org/etoestja/inf/raw/HEAD/mipt/s4/AACM/C/51/main.cpp}{алгоритм} на графе из условия. Файл test1, запускать: \begin{verbatim}
+$ g++ main.cpp && cat test1 | ./a.out \end{verbatim}
+Ответ: путь $0 3 1 4 2 5 7 8$ (нумерация вершин слева направо и сверху вниз).\newline
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	  \node (v1) {$s$};
+	  \node (v2) [right = of v1] {$1$};
+	  \node (v3) [right = of v2] {$2$};
+	  
+	  \node (v4) [below = of v1] {$3$};
+	  \node (v5) [right = of v4] {$4$};
+	  \node (v6) [right = of v5] {$5$};
+	  
+	  \node (v7) [below = of v4] {$6$};
+	  \node (v8) [right = of v7] {$7$};
+	  \node (v9) [right = of v8] {$8=t$};
+  	  \path[->] 
+			(s)		edge node {$0.03$}	(v2)
+			(s)		edge [color=red] node [swap] {$0.12$}	(v4)
+			(v2)	edge node {$0.12$}	(v3)
+			(v2)	edge [color=red] node [swap] {$0.5$}	(v5)
+			(v3)	edge [color=red] node {$0.5$}	(v6)
+			(v4)	edge node {$0.06$}	(v5)
+			(v4)	edge [color=red] node {$0.5$}	(v2)
+			(v4)	edge node {$0.5$}	(v7)
+			(v5)	edge node [swap] {$0.06$}	(v8)
+			(v5)	edge [color=red] node {$0.5$}	(v3)
+			(v5)	edge node {$0.12$}	(v6)
+			(v6)	edge [color=red] node [swap] {$0.5$}	(v8)
+			(v6)	edge node {$0.11$}	(v9)
+			(v7)	edge node {$0.03$}	(v8)
+			(v8)	edge [color=red] node {$0.5$}	(v9)
+			;
+\end{tikzpicture}
+\end{enumerate}
+\subsection*{(каноническое) Задача 51.3}
+\begin{enumerate}
+\item Заметим, что задача сводится к поиску минимального остовного дерева в ориентированном графе с вершиной $s$. Будут найдены ребра, такие что граф $T\subseteq G$ связен, и имеет минимальный вес. Сеть $(G,r')\colon r'(u,v)=-\ln r(u,v)$. Будет найдено дерево, причем $r'(T)=-\ln r(u_1,u_2)- \ln r(u_2,u_3)...=-\ln(r(T))\to\min\Rightarrow r(T)\to\max$.
+\item Для данного случая: минимальное количество ребер $n-1=9-1=8$. Рассмотрим $8$ ребер с наибольшими надежностями $(0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.12)$. Подграф $(V,E')$ с выделенными ребрами с этими надежностями\newline
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	  \node (v1) {$s$};
+	  \node (v2) [right = of v1] {$v2$};
+	  \node (v3) [right = of v2] {$v3$};
+	  
+	  \node (v4) [below = of v1] {$v4$};
+	  \node (v5) [right = of v4] {$v5$};
+	  \node (v6) [right = of v5] {$v6$};
+	  
+	  \node (v7) [below = of v4] {$v7$};
+	  \node (v8) [right = of v7] {$v8$};
+	  \node (v9) [right = of v8] {$t$};
+  	  \path[->] 
+			(s)		edge node {$0.03$}	(v2)
+			(s)		edge [color=red] node [swap] {$0.12$}	(v4)
+			(v2)	edge node {$0.12$}	(v3)
+			(v2)	edge [color=red] node [swap] {$0.5$}	(v5)
+			(v3)	edge [color=red] node {$0.5$}	(v6)
+			(v4)	edge node {$0.06$}	(v5)
+			(v4)	edge [color=red] node {$0.5$}	(v2)
+			(v4)	edge [color=red] node {$0.5$}	(v7)
+			(v5)	edge node [swap] {$0.06$}	(v8)
+			(v5)	edge [color=red] node {$0.5$}	(v3)
+			(v5)	edge node {$0.12$}	(v6)
+			(v6)	edge [color=red] node [swap] {$0.5$}	(v8)
+			(v6)	edge node {$0.11$}	(v9)
+			(v7)	edge node {$0.03$}	(v8)
+			(v8)	edge [color=red] node {$0.5$}	(v9)
+			;
+\end{tikzpicture}\newline
+связен: $s,v_4,v_2,v_5,v_3,v_6,v_8,t$ достижимы, так как существует такой путь, $(v_4,v_7)\in E'$, поэтому $v_7$ достижима. Произведение монотонно по каждому из сомножителей, поэтому большей надежности получить нельзя.
+\item Ответ:\newline
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	  \node (v1) {$s$};
+	  \node (v2) [right = of v1] {$v2$};
+	  \node (v3) [right = of v2] {$v3$};
+	  
+	  \node (v4) [below = of v1] {$v4$};
+	  \node (v5) [right = of v4] {$v5$};
+	  \node (v6) [right = of v5] {$v6$};
+	  
+	  \node (v7) [below = of v4] {$v7$};
+	  \node (v8) [right = of v7] {$v8$};
+	  \node (v9) [right = of v8] {$t$};
+  	  \path[->] 
+			(s)		edge node [swap] {$0.12$}	(v4)
+			(v2)	edge node [swap] {$0.5$}	(v5)
+			(v3)	edge node {$0.5$}	(v6)
+			(v4)	edge node {$0.5$}	(v2)
+			(v4)	edge node {$0.5$}	(v7)
+			(v5)	edge node {$0.5$}	(v3)
+			(v6)	edge node [swap] {$0.5$}	(v8)
+			(v8)	edge node {$0.5$}	(v9)
+			;
+\end{tikzpicture}\newline
+\end{enumerate}
 \end{document}
