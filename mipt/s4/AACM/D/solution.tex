@@ -113,23 +113,29 @@
 	  \node (v8) [right = of v7] {$H^{8/11}$};
 	  \node (v9) [right = of v8] {$I^{9/10}$};
   	  \path[->]
-			(v1)		edge node {}	(v4)
-			(v1)		edge node {}	(v5)
-			(v2)		edge node {}	(v1)
-			(v2)		edge node {}	(v5)
-			(v2)		edge node {}	(v6)
-			(v2)		edge node {}	(v3)
-			(v3)		edge node {}	(v2)
-			(v3)		edge node {}	(v6)
-			(v4)		edge node {}	(v7)
-			(v5)		edge node {}	(v4)
-			(v5)		edge node {}	(v8)
-			(v5)		edge node {}	(v6)
-			(v6)		edge node {}	(v8)
-			(v6)		edge node {}	(v9)
-			(v8)		edge node {}	(v4)
-			(v8)		edge node {}	(v7)
-			(v8)		edge node {}	(v9)
+			(v1)		edge node {$T$}	(v4)
+			(v1)		edge node {$T$}	(v5)
+			
+			(v2)		edge node {$C$}	(v1)
+			(v2)		edge[bend left] node {$T$}	(v3)
+			(v2)		edge node {$C$}	(v5)
+			(v2)		edge node[swap] {$C$}	(v6)
+			
+			(v3)		edge[bend left] node {$B$}	(v2)
+			(v3)		edge node {$C$}	(v6)
+			
+			(v4)		edge node {$T$}	(v7)
+			
+			(v5)		edge node {$C$}	(v4)
+			(v5)		edge node {$T$}	(v6)
+			(v5)		edge node {$F$}	(v8)
+			
+			(v6)		edge node {$T$}	(v8)
+			(v6)		edge node {$F$}	(v9)
+			
+			(v8)		edge node {$C$}	(v4)
+			(v8)		edge node {$C$}	(v7)
+			(v8)		edge node {$T$}	(v9)
 			;
 \end{tikzpicture}
 \end{enumerate}
