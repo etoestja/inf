@@ -9,6 +9,8 @@ using std::endl;
 using std::cin;
 using std::cout;
 
+using std::cerr;
+
 set<string> s;
 
 int main()
@@ -18,7 +20,7 @@ int main()
     {
         cin >> x;
         if(s.find(x) == s.end())
-            cout << x << endl;
+            cerr << x << endl;
         s.insert(x);
     }
     return(0);
