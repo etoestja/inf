@@ -140,6 +140,67 @@
 \end{tikzpicture}
 \end{enumerate}
 \subsection*{(каноническое) Задача 48}
-\subsection*{(каноническое) Задача 49}
-\subsection*{(каноническое) Задача 50}
+\subsection*{(каноническое) Задача 49.1}
+Зеленые~--- мосты, красные~--- точки раздела.\newline
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	  \node (A) {$A$};
+	  \node (B) [right = of A] {$B$};
+	  \node (O) [below = of A] {$O$};
+	  \node (N) [right = of O] {$N$};
+	  \node (D) [right = of B, color=red] {$D$};
+	  \node (E) [right = of D] {$E$};
+	  \node (M) [below = of D] {$M$};
+	  \node (L) [right = of M, color=red] {$L$};
+	  \node (K) [below = of L] {$K$};
+	  \node (J) [right = of K] {$J$};
+	  \node (C) [above = of D] {$C$};
+	  \node (I) [right = of E, color=red] {$I$};
+	  \node (F) [above = of I] {$F$};
+	  \node (H) [right = of I, color=red] {$H$};
+	  \node (G) [above = of H] {$G$};
+  	  \path[-]
+				(A)		edge node {}	(B)
+				(A)		edge node {}	(O)
+				(B)		edge node {}	(D)
+				(B)		edge node {}	(N)
+				(C)		edge node {}	(D)
+				(C)		edge node {}	(N)
+				(D)		edge node {}	(M)
+				(D)		edge node {}	(E)
+				(D)		edge node {}	(L)
+				(E)		edge node {}	(M)
+				(E)		edge node {}	(L)
+				(F)		edge node {}	(K)
+				(F)		edge node {}	(I)
+				(G)		edge [color=green] node {}	(H)
+				(H)		edge [color=green] node {}	(I)
+				(I)		edge node {}	(J)
+				(J)		edge node {}	(L)
+				(J)		edge node {}	(K)
+				(K)		edge node {}	(L)
+				(N)		edge node {}	(O)
+			;
+\end{tikzpicture}
+\subsection*{(каноническое) Задача 50.1}
+Пусть $r$~--- корень дерева поиска в глубину. Пусть $v_1,...,v_n$~--- его потомки, в порядке обхода.\begin{enumerate}
+\item $n\geqslant 1$, так как если $n=0$, граф не связный (из $r$ нет ребер)
+\item Пусть $r$~--- точка раздела. Пусть $n=1$. Тогда получаем $\forall v\in V\hookrightarrow$ существует путь $r\to v_1\rightsquigarrow v$, причем $r$ встречается в пути ровно один раз (путь в дереве), так как поиск в глубину находит достижимые из $r$ вершины, и только их. Значит, после удаления $r$ граф останется связным: для любой вершины $v\in V\setminus \{r\}$ существует путь $v_1\rightsquigarrow v$, не проходящий через $r$, откуда $\forall u,v\in V\setminus\{v\}\hookrightarrow u\rightsquigarrow v_1\rightsquigarrow v$. Противоречие. Значит, $n\geqslant 1$
+\item Пусть $n>2$. Пусть вершины $u,v\colon r\to v_1\rightsquigarrow u$, $r\to v_2\rightsquigarrow v$ (из разных поддеревьев). Пусть $u\rightsquigarrow v$, путь не содержит $r$. Тогда $v$ была бы в первом поддереве (с корнем $v_1$)~--- противоречие. Значит, единственный путь $u\rightsquigarrow v$ проходит через $r$. Значит, $r$~--- точка раздела.
+\end{enumerate}
+\subsection*{(каноническое) Задача 50.2}
+Граф $G$, совпадающий с $T$~--- деревом поиска в глубину:\newline
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto,initial text=]
+	  \node (A) {$A$};
+	  \node (B) [below = of A] {$B$};
+	  \node (C) [below = of B] {$C$};
+  	  \path[-]
+				(A)		edge node {}	(B)
+				(B)		edge node {}	(C)
+			;
+\end{tikzpicture}
+\begin{enumerate}
+\item $B$ является точкой раздела
+\item Но существует ребро $(B,A)$, которое является обратным ($A$ является предком $B$).
+\end{enumerate}
+% бляяяя
 \end{document}
