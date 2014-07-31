@@ -29,9 +29,9 @@ then
     exit
 fi
 
-killall -9 mplayer
+#killall -9 mplayer
 boinccmd --set_run_mode never
-killall -9 mplayer
+#killall -9 mplayer
 
 sleep 10
 
@@ -41,12 +41,13 @@ file=${path[$N]}
 
 echo $N $file
 
+card=1
 logger -t Alarm "Using file #$N $file"
-pacmd set-sink-port 0 analog-output-speaker
-pacmd set-sink-mute 0 0
-pacmd set-sink-volume 0 0x20000
+pacmd set-sink-port $card analog-output-speaker
+pacmd set-sink-mute $card 0
+pacmd set-sink-volume $card 0x20000
 
-/usr/bin/mplayer "$file"&
+/usr/bin/vlc -I dummy --ignore-config --volume 512 "$file"&
 
 sleep 5
 
