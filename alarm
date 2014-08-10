@@ -25,13 +25,13 @@ fi
 
 if [ "X$1" != "X" ]
 then
-    /usr/bin/mplayer "${path[$1]}"
+    /usr/bin/vlc "${path[$1]}"
     exit
 fi
 
-#killall -9 mplayer
+killall -9 vlc
 boinccmd --set_run_mode never
-#killall -9 mplayer
+killall -9 vlc
 
 sleep 10
 
@@ -43,16 +43,18 @@ echo $N $file
 
 card=1
 logger -t Alarm "Using file #$N $file"
-pacmd set-sink-port $card analog-output-speaker
-pacmd set-sink-mute $card 0
-pacmd set-sink-volume $card 0x20000
+PACMD="pacmd"
+export PULSE_RUNTIME_PATH=/run/user/1000/pulse
+$PACMD set-sink-port $card analog-output-speaker
+$PACMD set-sink-mute $card 0
+$PACMD set-sink-volume $card 0x20000
 
-/usr/bin/vlc -I dummy --ignore-config --volume 512 "$file"&
+/usr/bin/vlc -I dummy --aout pulse --ignore-config --volume 512 "$file"&
 
 sleep 5
 
 for sink in $(pacmd list-sink-inputs|grep -aEo "index: [0-9]+"|grep -aEo "[0-9]+")
 do
-    pacmd set-sink-input-mute $sink 0
-    pacmd set-sink-input-volume $sink 0x15000
+    $PACMD set-sink-input-mute $sink 0
+    $PACMD set-sink-input-volume $sink 0x15000
 done
