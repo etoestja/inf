@@ -13,6 +13,8 @@ then
     INF_PATH=~/Documents/p/git/inf
 fi
 
+export INF_PATH=$INF_PATH
+
 alias armsync="rsync -avz -e ssh s27505@192.168.1.48:~ /home/seriy/Documents/p/inf/mipt/s2/12"
 alias sshlk="ssh -l s27505 lk3.mipt.ru"
 alias sshk7="ssh -l st27203 192.168.0.1"
