@@ -1,0 +1,22 @@
+#! /usr/bin/gnuplot -persist
+set terminal postscript 'NimbusSanL-Regu' eps enhanced
+set output "./plot/2.ps"
+set encoding utf8
+set xlabel "P, Pa" font "NimbusSanL-Regu,18"
+set nokey
+#set bmargin 4
+
+set title "Lab 4.1: II. Detected @_2^4He over pressure"
+
+set ylabel "N/{/Symbol D}t, Hz" font "NimbusSanL-Regu,18"
+#set logscale x
+set grid
+set xrange [0: 60000]
+set yrange [-50: 350]
+set mxtics 10
+#set style line 1 lt 1 pt 7 ps 0.5
+
+f(x)=a*x+b
+fit f(x) "<(sed -n '1,6p' part2.csv)" using 1:2 via a,b
+
+plot "part2.csv" using 1:2:3:4 with xyerrorbars, 'part2.csv' u 1:(f($1)) with lines

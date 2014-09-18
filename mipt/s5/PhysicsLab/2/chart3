@@ -1,0 +1,26 @@
+#! /usr/bin/gnuplot -persist
+set terminal postscript 'NimbusSanL-Regu' eps enhanced
+set output "./plot/3.ps"
+set encoding utf8
+set xlabel "P, Pa" font "NimbusSanL-Regu,18"
+set nokey
+#set bmargin 4
+set ylabel "I, pA" font "NimbusSanL-Regu,18"
+#set logscale x
+set grid
+#set xrange [0: 60000]
+#set yrange [-50: 350]
+set mxtics 10
+#set style line 1 lt 1 pt 7 ps 0.5
+
+set title "Lab 4.1: III. Ion current over pressure"
+
+f(x)=a*x+b
+fit f(x) "<(sed -n '1,21p' part3.csv)" using 1:2 via a,b
+
+g(x)=c
+fit g(x) "<(sed -n '23,26p' part3.csv)" using 1:2 via c
+
+set label sprintf("P_{ext.}=%1.0f Pa", (c-b)/a) at ((c-b)/a) * 0.80, (f((c-b)/a)) * 1.07
+
+plot "part3.csv" using 1:2:3:4 with xyerrorbars, 'part3.csv' u 1:(g($1)) with lines, 'part3.csv' u 1:(f($1)) with lines, '+' using ((c-b)/a):(f((c-b)/a)) lt rgb "red" pt 8 ps 3   #, "./part3.csv" using 1:2 smooth bezier with lines
