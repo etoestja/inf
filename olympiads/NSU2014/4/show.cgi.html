@@ -1,0 +1,50 @@
+
+<!-- saved from url=(0055)https://olympic.nsu.ru/nsuts-new/show.cgi?source=173562 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body><pre>Просмотр исходного кода
+Задача: 4
+Время: 14:03:10 5-10-14
+Язык: Visual C/C++ 2010
+
+#include &lt;iostream&gt;
+using namespace std;
+
+int n, k, s;
+
+bool Possible (int i, int j)
+{
+	if (n==2)
+		return (s==i+j);
+	int k1 = (s-i-j)/(n-2);
+	int k2 = 0;
+	if ((s-i-j)%(n-2) == 0)
+		k2 = k1;
+	else
+		k2 = k1+1;
+	return ((s-i-j) &lt;= (n-2)*k) &amp;&amp; (i &lt;= k1) &amp;&amp; (j &gt;= k1) &amp;&amp; (i &lt;= k2) &amp;&amp; (j &gt;= k2);
+}
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	cin &gt;&gt; n &gt;&gt; k &gt;&gt; s;
+	if (n == 1)
+	{
+		cout &lt;&lt; s &lt;&lt; ' ' &lt;&lt; s &lt;&lt; ' ' &lt;&lt; s &lt;&lt; ' ' &lt;&lt; s &lt;&lt; endl;
+		return 0;
+	}
+	int a1=k+1, a2=0, a3=k+1, a4=0;
+	for (int i = 1; i &lt;= k; i++)
+		for (int j = k; j &gt;= i; j--)
+			if (Possible(i, j))
+			{
+				//cout &lt;&lt; i &lt;&lt; ' ' &lt;&lt; j &lt;&lt; endl;
+				a1 = min(a1, i);
+				a2 = max(a2, i);
+				a3 = min(a3, j);
+				a4 = max(a4, j);
+			}
+	cout &lt;&lt; endl;
+	cout &lt;&lt; a1 &lt;&lt; ' ' &lt;&lt; a2 &lt;&lt; ' ' &lt;&lt; a3 &lt;&lt; ' ' &lt;&lt; a4 &lt;&lt; endl;
+	return 0;
+}</pre></body><style type="text/css">embed[type*="application/x-shockwave-flash"],embed[src*=".swf"],object[type*="application/x-shockwave-flash"],object[codetype*="application/x-shockwave-flash"],object[src*=".swf"],object[codebase*="swflash.cab"],object[classid*="D27CDB6E-AE6D-11cf-96B8-444553540000"],object[classid*="d27cdb6e-ae6d-11cf-96b8-444553540000"],object[classid*="D27CDB6E-AE6D-11cf-96B8-444553540000"]{	display: none !important;}</style></html>

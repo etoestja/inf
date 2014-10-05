@@ -1,0 +1,90 @@
+
+<!-- saved from url=(0055)https://olympic.nsu.ru/nsuts-new/show.cgi?source=176924 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body><pre>Просмотр исходного кода
+Задача: 3
+Время: 18:00:44 5-10-14
+Язык: Free Pascal 2.6.0
+
+var
+ f:text;
+ i, size, numvect, numdo, a, b, cost_one, time, time_max, point_1, point_2, hod:longint;
+ koef, power:double;
+ data_koef, sum_damage:array[1..100004] of double;
+ way, cost:array[1..100000] of longint;
+begin
+ assign(f, 'input.txt');
+ reset(f);
+ readln(f, size, numvect, numdo);
+
+ readln(f, koef);
+ data_koef[1] := 1;
+ for i:=2 to 100000 do begin
+  data_koef[i] := data_koef[i-1]*koef;
+ end;
+
+ for i:=1 to size do begin
+  way[i] := -1;
+  cost[i] := -1;
+  sum_damage[i] := 0;
+ end;
+
+ for i:=1 to numvect do begin
+  readln(f, a, b, cost_one);
+  if (way[a] = -1) then begin
+   way[a] := b;
+   cost[a] := cost_one;
+  end else if (cost_one &lt; cost[a]) then begin
+   way[a] := b;
+   cost[a] := cost_one;
+  end;
+  if (way[b] = -1) then begin
+   way[b] := a;
+   cost[b] := cost_one;
+  end else if (cost_one &lt; cost[b]) then begin
+   way[b] := a;
+   cost[b] := cost_one;
+  end;
+ end;
+
+ point_1 := 1;
+ for i:=2 to size do begin
+  if (cost[i] &lt; cost[point_1]) then begin
+   point_1:=i;
+  end;
+ end;
+ point_2:=way[point_1];
+
+ for i:=1 to numdo do begin
+  readln(f, a, power, time_max);
+  time:=time_max;
+  hod:=1;
+  while (time&gt;0){ and (a&lt;&gt;point_1) and (a&lt;&gt;point_2)} do begin
+   sum_damage[a]:=sum_damage[a] + power * data_koef[hod];
+   a:=way[a];
+   inc(hod);
+   dec(time);
+  end;
+  {if (time&gt;0) then begin
+   if (a = point_1) then b := point_2
+   else b := point_1;
+   if ( (time_max-hod) mod 2 = 0) then begin
+    sum_damage[a] := sum_damage[a] + power*(data_koef[hod]-data_koef[time_max+2]) / (1-data_koef[3]);
+    sum_damage[b] := sum_damage[b] + power*(data_koef[hod+1]-data_koef[time_max+1]) / (1-data_koef[3]);
+   end else begin
+    sum_damage[a] := sum_damage[a] + power*(data_koef[hod]-data_koef[time_max+1]) / (1-data_koef[3]);
+    sum_damage[b] := sum_damage[b] + power*(data_koef[hod+1]-data_koef[time_max+2]) / (1-data_koef[3]);
+   end;
+  end; }
+ end;
+
+ close(f);
+ assign(f, 'output.txt');
+ rewrite(f);
+ for i := 1 to size do begin
+  writeln(f, sum_damage[i]:13:13, ' ');
+ end;
+ close(f);
+
+
+end.
+</pre></body><style type="text/css">embed[type*="application/x-shockwave-flash"],embed[src*=".swf"],object[type*="application/x-shockwave-flash"],object[codetype*="application/x-shockwave-flash"],object[src*=".swf"],object[codebase*="swflash.cab"],object[classid*="D27CDB6E-AE6D-11cf-96B8-444553540000"],object[classid*="d27cdb6e-ae6d-11cf-96b8-444553540000"],object[classid*="D27CDB6E-AE6D-11cf-96B8-444553540000"]{	display: none !important;}</style></html>

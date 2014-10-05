@@ -1,0 +1,385 @@
+
+<!-- saved from url=(0055)https://olympic.nsu.ru/nsuts-new/show.cgi?source=177191 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body><pre>Просмотр исходного кода
+Задача: 5
+Время: 18:09:04 5-10-14
+Язык: Borland Delphi 2006
+
+program Project1;
+
+{$APPTYPE CONSOLE}
+{$R-,Q-,O+}
+uses
+  SysUtils, Math;
+
+const
+  MantLen = 7;
+  eps = 1e-8;
+
+type
+  Real = Extended;
+  TPoint = record
+    x, y: Real;
+  end;
+  TVector = TPoint;
+  TPoint3 = record
+    x, y, z: Real;
+  end;
+  TVector3 = TPoint3;
+  TOtr = record
+    a, b: TPoint;
+  end;
+  Tmatrix = record
+    v1, v2, v3: TVector3;
+  end;
+
+function RealEq(a, b: real): boolean;
+begin
+  Result := abs(a - b) &lt; eps;
+end;
+
+function Divide(a, b: real): real;
+begin
+  if RealEq(b, 0) then begin
+    WriteLn(0);
+    Halt(0);
+  end else
+    Result := a/b;
+end;
+
+function MultVector(v: TVector; k: Real): TVector;
+begin
+  Result.x := v.x * k;
+  Result.y := v.y * k;
+end;
+
+function MultVector3(v: TVector3; k: Real): TVector3;
+begin
+  Result.x := v.x * k;
+  Result.y := v.y * k;
+  Result.z := v.z * k;
+end;
+
+function VectMul(const v1, v2: TVector): Real;
+begin
+  Result := v1.x * v2.y - v1.y * v2.x;
+end;
+
+function VectMul3(const v1, v2: TVector3): TVector3;
+begin
+  Result.x := v1.y*v2.z-v1.z*v2.y;
+  Result.y := v1.x*v2.z-v1.z*v2.x;
+  Result.z := v1.x*v2.y-v1.y*v2.x;
+end;
+
+function InitMatrix(v1, v2, v3: TVector3): TMatrix;
+begin
+  Result.v1 := v1;
+  Result.v2 := v2;
+  Result.v3 := v3;
+end;
+
+function VMMul(M: Tmatrix; v: TVector3): TVector3;
+begin
+  Result.x := M.v1.x*v.x + M.v2.x*v.y + M.v3.x*v.z;
+  Result.y := M.v1.y*v.x + M.v2.y*v.y + M.v3.y*v.z;
+  Result.z := M.v1.z*v.x + M.v2.z*v.y + M.v3.z*v.z;
+end;
+
+function Det(m: Tmatrix): real;
+begin
+    Result := m.v1.x*m.v2.y*m.v3.z - m.v1.x*m.v2.z*m.v3.y
+            - m.v1.y*m.v2.x*m.v3.z + m.v1.y*m.v2.z*m.v3.x
+            + m.v1.z*m.v2.x*m.v3.y - m.v1.z*m.v2.y*m.v3.x;
+end;
+
+function MatrixMul(S: TMatrix; k: real): TMatrix;
+begin
+  Result.v1 := MultVector3(S.v1, k);
+  Result.v2 := MultVector3(S.v2, k);
+  Result.v3 := MultVector3(S.v3, k);
+end;
+
+function ReverseMatrix(S: TMatrix): Tmatrix;
+begin
+  Result.v1.x := S.v2.y*S.v3.z - S.v3.y*S.v2.z;
+  Result.v1.y := -(S.v1.y*S.v3.z - S.v1.z*S.v3.y);
+  Result.v1.z := S.v1.y*S.v2.z - S.v2.y*S.v1.z;
+
+  Result.v2.x := -(S.v2.x*S.v3.z - S.v2.z*S.v3.x);
+  Result.v2.y := S.v1.x*S.v3.z - S.v3.x*S.v1.z;
+  Result.v2.z := -(S.v1.x*S.v2.z - S.v2.x*S.v1.z);
+
+  Result.v3.x := S.v2.x*S.v3.y - S.v3.x*S.v2.y;
+  Result.v3.y := -(S.v1.x*S.v3.y - S.v3.x*S.v1.y);
+  Result.v3.z := S.v1.x*S.v2.y - S.v2.x*S.v1.y;
+
+  Result := MatrixMul(Result, Divide(1,Det(S)));
+end;
+
+function InitPoint(x, y: real): TPoint;
+begin
+  Result.x := x;
+  Result.y := y;
+end;
+
+function InitPoint3(x, y, z: real): TPoint3;
+begin
+  Result.x := x;
+  Result.y := y;
+  Result.z := z;
+end;
+
+function InitVector(P1, P2: TPoint): TVector;
+begin
+  Result.x := P2.x - P1.x;
+  Result.y := P2.y - P1.y;
+end;
+
+function InitVector3(P1, P2: TPoint3): TVector3;
+begin
+  Result.x := P2.x - P1.x;
+  Result.y := P2.y - P1.y;
+  Result.z := P2.z - P1.z;
+end;
+
+function InitOtr(a, b: TPoint): TOtr;
+begin
+  Result.a := a;
+  Result.b := b;
+end;
+
+
+function VectorLength(v: TVector): real;
+begin
+  Result := sqrt(sqr(v.x) + sqr(v.y));
+end;
+
+function Vector3Length(v: TVector3): real;
+begin
+  Result := sqrt(sqr(v.x) + sqr(v.y) + sqr(v.z));
+end;
+
+function ScalMul(const v1, v2: TVector): Real;
+begin
+  Result := v1.x * v2.x + v1.y * v2.y;
+end;
+
+function ScalMul3(const v1, v2: TVector3): Real;
+begin
+  Result := v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+end;
+
+function RealMore(a, b: real): boolean;
+begin
+  Result := a - b &gt; eps;
+end;
+
+function RealLess(a, b: real): boolean;
+begin
+  Result := b - a &gt; eps;
+end;
+
+function NormVector(v: TVector): TVector;
+begin
+  Result := MultVector(v, Divide(1, VectorLength(v)));
+end;
+
+function NormVector3(v: TVector3): TVector3;
+begin
+  Result := MultVector3(v, Divide(1, Vector3Length(v)));
+end;
+
+function RotateLeft(v: TVector): TVector;
+begin
+  Result.x := -v.y;
+  Result.y := v.x;
+end;
+
+function RotateRight(v: TVector): TVector;
+begin
+  Result.x := v.y;
+  Result.y := -v.x;
+end;
+
+function Sum3(v1, v2: TVector3): TVector3;
+begin
+  Result.x := v1.x + v2.x;
+  Result.y := v1.y + v2.y;
+  Result.z := v1.z + v2.z;
+end;
+
+function Sum(v1, v2: TVector): TVector;
+begin
+  Result.x := v1.x + v2.x;
+  Result.y := v1.y + v2.y;
+end;
+
+function PointPlusVector(p: TPoint; v:TVector): TPoint;
+begin
+  Result.x := p.x + v.x;
+  Result.y := p.y + v.y;
+end;
+
+procedure WriteLnVector(const v: TVector);
+begin
+  WriteLn(v.x:0:MantLen, ' ', v.y :0:MantLen);
+end;
+
+procedure WriteLnPoint(const p: TPoint);
+begin
+  WriteLn(p.x :0:MantLen, ' ', p.y :0:MantLen);
+end;
+
+function ToTheFlat(const p: TPoint3; const S:Tmatrix): TPoint;
+var
+  t: TPoint3;
+  a: real;
+begin
+  t := VMMul(S, p);
+  Result.x := t.x;
+  Result.y := t.y;
+  if (not RealEq(t.z, 0)) then begin
+    a := sqrt(-1);
+  end;
+end;
+
+function GetAngle(v1, v2: TVector): real;
+var
+  t : real;
+begin
+  t :=Divide(ScalMul(v1, v2), (VectorLength(v1)*VectorLength(v2)));
+  if t &gt; 1 then
+    Result := Pi
+  else if t &lt; -1 then
+    Result := -Pi
+  else
+    Result := ArcCos(t);
+end;
+
+function Rotate(v: TVector; a: real): TVector;
+begin
+  Result.x := Cos(a)*v.x - Sin(a)*v.y;
+  Result.y := Sin(a)*v.x + Cos(a)*v.y;
+end;
+
+var
+  p0, p1, p2, p3, C1, C2, C, n, P: TPoint;
+  q0, q1, q2: TPoint3;
+  S, S_1: TMatrix;
+  a1, a2, E1, E2, E3: TVector3;
+  P1P0, P1P3, P3P2, n1, n2: TVector;
+  x, y, z, r, ModP1P3, ModP2P3, a, ri, le, m, alpha, beta: real;
+
+function DIFF(ang: real): real; //b-a
+var
+  p: TPoint;
+  a, b: real;
+begin
+  p := PointPlusVector(P0, Rotate(n, ang));
+  a := GetAngle(InitVector(P0, P), InitVector(P, P1));
+  b := GetAngle(InitVector(P0, P), InitVector(P, P2));
+  Result := b - a;
+//  WriteLn(Result:0:18);
+end;
+
+begin
+  Assign(input, 'input.txt');
+  Assign(output, 'output.txt');
+  Read(x, y, z);
+  ReadLn(r);
+  q0 := InitPoint3(x, y, z);
+  ReadLn(x, y, z);
+  q1 := InitPoint3(x, y, z);
+  ReadLn(x, y, z);
+  q2 := InitPoint3(x, y, z);
+
+  a1 := InitVector3(q0, q1);
+  a2 := InitVector3(q0, q2);
+
+  if RealEq(Vector3Length(VectMul3(NormVector3(a1), NormVector3(a2))), 0) then begin
+    WriteLn(0);
+    Halt(0);
+  end;
+
+  E1 := NormVector3(a1);
+  E2 := NormVector3(Sum3(a2, MultVector3(a1, Divide(-ScalMul3(a1, a2), Sqr(Vector3Length(a1))))));
+  E3 := VectMul3(E1, E2);
+  S_1 := InitMatrix(E1, E2, E3);
+  S := ReverseMatrix(S_1);
+
+  P0 := ToTheFlat(q0, S);
+  P1 := ToTheFlat(q1, S);
+
+(*  ReadLn(x, y);
+  P0:=InitPoint(x, y);
+  ReadLn(r);
+  ReadLn(x, y);
+
+  P1:=InitPoint(x, y);*)
+  P1P0 := InitVector(P1, P0);
+  ModP1P3 := Divide((sqr(VectorLength(P1P0)) - sqr(r)), VectorLength(P1P0));
+  P1P3 := MultVector(NormVector(P1P0), ModP1P3);
+  P3:=PointPlusVector(P1, P1P3);
+//  WriteLnPoint(P3);
+  ModP2P3 := Divide((sqrt(sqr(VectorLength(P1P0)) - sqr(r)) * r), VectorLength(P1P0));
+//  WriteLn(VectorLength(P1P3) :0:MantLen, ' ', ModP2P3 :0:MantLen);
+  n1 := RotateLeft(P1P0);
+  n2 := RotateRight(P1P0);
+  P3P2 := MultVector(NormVector(n1), ModP2P3);
+  P2 := PointPlusVector(P3, P3P2);
+  C1 := P2;
+  P3P2 := MultVector(NormVector(n2), ModP2P3);
+  P2 := PointPlusVector(P3, P3P2);
+  C2 := P2;
+
+
+  P0 := ToTheFlat(q0, S);
+  P1 := ToTheFlat(q1, S);
+  P2 := ToTheFlat(q2, S);
+
+  if (RealEq(VectMul(InitVector(P1, C1), InitVector(P1, P0)) * VectMul(InitVector(P1, P2), InitVector(P1, P0)), 0)) then begin
+    WriteLn(0);
+    Halt(0);
+  end else if (RealLess(VectMul(InitVector(P1, C1), InitVector(P1, P0)) * VectMul(InitVector(P1, P2), InitVector(P1, P0)), 0)) then
+    C := C1
+  else
+    C := C2;
+
+(*  WriteLnPoint(P0);
+  WriteLnPoint(P1);
+  WriteLnPoint(P2);
+  WriteLnPoint(C1);
+  WriteLnPoint(C2);
+  WriteLnPoint(C);*)
+
+  a := GetAngle(InitVector(P1, P0), InitVector(P2, P0));
+  if (RealMore(VectMul(InitVector(P1, P0), InitVector(P0, P2)), 0)) then
+    a := -a;
+
+
+  n := InitVector(P0, P1);
+  n := MultVector(n, Divide(r,VectorLength(n))); //!!!!!
+
+  //WriteLn;
+  ri := 1;
+  le := 0;
+  while ((ri-le) &gt; eps) (*and (abs((ri-le)/a) &gt; eps)*) do begin
+    m := (ri+le)/2;
+    //WriteLn(DIFF(a*m):0:8);
+    if DIFF(a*m) &lt; 0 then
+      ri := m
+    else
+      le := m;
+  end;
+  P := PointPlusVector(P0, Rotate(n, le*a));
+//  WriteLn;
+//  WriteLn(le*a :0:8);
+//  WriteLn;
+
+  alpha := GetAngle(InitVector(P, P1), InitVector(P0, P1));
+  beta := GetAngle(InitVector(C, P1), InitVector(P0, P1));
+  WriteLn(Divide(alpha , beta) :0:18);
+  Halt(0);
+end.
+</pre></body><style type="text/css">embed[type*="application/x-shockwave-flash"],embed[src*=".swf"],object[type*="application/x-shockwave-flash"],object[codetype*="application/x-shockwave-flash"],object[src*=".swf"],object[codebase*="swflash.cab"],object[classid*="D27CDB6E-AE6D-11cf-96B8-444553540000"],object[classid*="d27cdb6e-ae6d-11cf-96b8-444553540000"],object[classid*="D27CDB6E-AE6D-11cf-96B8-444553540000"]{	display: none !important;}</style></html>
