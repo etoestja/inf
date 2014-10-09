@@ -1,0 +1,5 @@
+#!/bin/bash
+for a in chart*
+do
+    ./$a
+done

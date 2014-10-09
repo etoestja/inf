@@ -1,0 +1,21 @@
+#! /usr/bin/gnuplot -persist
+set terminal postscript eps enhanced
+set output "./plot/Pb.ps"
+set encoding utf8
+set xlabel "l, mm" font "NimbusSanL-Regu,18"
+set nokey
+#set bmargin 4
+set ylabel "log(N/{/Symbol D}t)" font "NimbusSanL-Regu,18"
+#set logscale x
+set grid
+#set xrange [150: 1200]
+#set yrange [100: 1100]
+set mxtics 10
+
+set title "Lab 5.1: 1. Gamma rays in Pb"
+#set style line 1 lt 1 pt 7 ps 0.5
+
+f(x)=a*x+b
+fit f(x) "dataPb.txt" using 1:2 via a,b
+
+plot "dataPb.txt" using 1:2:3:4 with xyerrorbars, 'dataPb.txt' u 1:(f($1)) with lines
