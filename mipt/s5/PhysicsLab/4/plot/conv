@@ -1,0 +1,5 @@
+#!/bin/bash
+for a in *.ps
+do
+    convert -background white -flatten -density 150 -geometry 100% $a ${a}.png
+done

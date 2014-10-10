@@ -1,0 +1,9 @@
+#!/bin/bash
+rm fit.log
+./chart$1
+a=$(cat fit.log |grep +/-|grep a|cut -d = -f 2|cut -d + -f 1)
+b=$(cat fit.log |grep +/-|grep b|cut -d = -f 2|cut -d + -f 1)
+N=$(cat data${1}.txt|wc -l)
+echo "$N $a $b" > data${1}Chi.txt
+cat data${1}.txt >> data${1}Chi.txt
+cat data${1}Chi.txt | ./chi2
