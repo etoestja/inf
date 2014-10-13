@@ -154,7 +154,7 @@ int main()
         cout << calcMaxAbs(L, x0) << endl;
     }
 
-    cout << (x0 - x[2]) * (x0 - x[3]) << endl;
+    //cout << (x0 - x[2]) * (x0 - x[3]) << endl;
 
     return 0;
 }
