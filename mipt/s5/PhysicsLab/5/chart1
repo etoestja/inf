@@ -1,0 +1,21 @@
+#! /usr/bin/gnuplot -persist
+set terminal postscript eps enhanced
+set output "./plot/1.ps"
+set encoding utf8
+set xlabel "1-cos{/Symbol q}" font "NimbusSanL-Regu,18"
+set nokey
+#set bmargin 4
+set ylabel "1/N, channel^{-1}" font "NimbusSanL-Regu,18"
+#set logscale x
+set grid
+#set xrange [150: 1200]
+#set yrange [100: 1100]
+set mxtics 10
+
+set title "Lab 1.2."
+#set style line 1 lt 1 pt 7 ps 0.5
+
+f(x)=a*x+b
+fit f(x) "calc.csv" using 1:2 via a,b
+
+plot "calc.csv" using 1:2:3:4 with xyerrorbars, 'calc.csv' u 1:(f($1)) with lines
