@@ -5,10 +5,10 @@ using std::cout;
 using std::cin;
 using std::endl;
 
-#define N 4
+#define N 2
 
-const long double c[N + 1] = {4382.79, -1.61777, 0.00224345, -9.55523e-07, 1.63633e-10};
-const long double s[N + 1] = {76.32, 0.2127, 0.0001969, 7.422e-08, 9.842e-12};
+const long double c[N + 1] = {9680.72, -5.07733, 0.00141121};
+const long double s[N + 1] = {316.6, 0.2396, 4.525e-05};
 
 const long double c_v_light = 299792458.;
 
@@ -30,7 +30,7 @@ long double sla(long double B, long double sB)
 
 //        cout << "r" << i << "=" << a << endl;
 
-        //res += a;
+//        res += a;
     }
 
     long double dladB = 0;
@@ -78,8 +78,8 @@ void in()
 
 int main()
 {
-    //console();
-    in();
+    console();
+    //in();
 
     return(0);
 }

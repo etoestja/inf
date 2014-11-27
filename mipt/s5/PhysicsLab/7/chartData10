@@ -1,0 +1,21 @@
+#! /usr/bin/gnuplot -persist
+set terminal postscript eps enhanced
+set output "./plot/10.ps"
+set encoding utf8
+set xlabel "I^{1/2}, cu" font "NimbusSanL-Regu,18"
+set nokey
+#set bmargin 4
+set ylabel "V_1, V" font "NimbusSanL-Regu,18"
+#set logscale x
+set grid
+#set xrange [2200:3000]
+#set yrange [5200:7200]
+set mxtics 10
+
+set title "Lab 1.1: Line 10, {/Symbol l} = 6334.42 Å"
+#set style line 1 lt 1 pt 7 ps 0.5
+
+f(x)=a + (b * x)
+fit f(x) "data10.csv" using 1:2 via a, b
+
+plot "data10.csv" using 1:2:3:4 with xyerrorbars, f(x)

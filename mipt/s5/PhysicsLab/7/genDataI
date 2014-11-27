@@ -1,0 +1,19 @@
+#!/bin/bash
+
+exit 0
+
+if [ "X$1" == "X" ]
+then
+    echo "Usage: $0 N"
+    exit 1
+fi
+
+leading=$1
+
+if (( $1 < 10 ))
+then
+    leading="0$leading"
+fi
+
+unoconv -e FilterOptions=32,34,0,1,1/5/2/1/3/1/4/1 -f csv data.ods
+mv data.csv data$leading.csv
