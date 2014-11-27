@@ -1,0 +1,27 @@
+#! /usr/bin/gnuplot -persist
+set terminal postscript eps enhanced
+set output "./plot/4.ps"
+set encoding utf8
+set xlabel "Velocity, 10^{-3} m/s" font "NimbusSanL-Regu,18"
+set nokey
+#set bmargin 4
+set ylabel "Intensity, s^{-1}" font "NimbusSanL-Regu,18"
+#set logscale x
+set grid
+#set xrange [0.0005: 0.003]
+set yrange [10000:24000]
+set mxtics 10
+
+set title "Lab 6.1: sample 4"
+#set style line 1 lt 1 pt 7 ps 0.5
+
+g(x)=m
+fit g(x) "<(sed -n '24,28p' data4.csv)" using 1:2 via m
+
+#f(x)=a + (b * x) + (c * x * x) + (d * x * x * x)
+f(x)=a + (b * x) + (c * x * x) + (d * x * x * x)
+#f(x) = m - a * exp(b * x * x + c * x + d)
+fit f(x) "<(sed -n '10,16p' data4.csv)" using 1:2 via a,b,c,d
+
+
+plot "data4.csv" using 1:2:3:4 with xyerrorbars, f(x), g(x)

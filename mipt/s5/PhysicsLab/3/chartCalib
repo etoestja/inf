@@ -1,0 +1,24 @@
+#! /usr/bin/gnuplot -persist
+set terminal postscript eps enhanced
+set output "./plot/calib.ps"
+set encoding utf8
+set xlabel "low thresold, V" font "NimbusSanL-Regu,18"
+set nokey
+#set bmargin 4
+set ylabel "Intensity, s^{-1}" font "NimbusSanL-Regu,18"
+#set logscale x
+set grid
+#set xrange [0.0005: 0.003]
+#set yrange [0.003: 0.014]
+set mxtics 10
+
+set title "Lab 6.1: Source spectrum"
+#set style line 1 lt 1 pt 7 ps 0.5
+
+#f(x)=a + (b * x) + (c * x * x) + (d * x * x * x) + (e * x * x * x * x)
+#fit f(x) "dataCalib.csv" using 1:2 via a, b, c, d, e
+
+#plot "calib.csv" using 1:2, "resolution.csv" using 1:2:3 with labels offset 0,-1.5 notitle, 'resolution.csv' u 1:(f($1)) with lines
+
+
+plot "dataCalib.csv" using 1:2:3:4 with xyerrorbars
