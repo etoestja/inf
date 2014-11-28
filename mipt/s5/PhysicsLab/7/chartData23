@@ -9,13 +9,13 @@ set ylabel "V_1, V" font "NimbusSanL-Regu,18"
 #set logscale x
 set grid
 #set xrange [2200:3000]
-#set yrange [5200:7200]
+set yrange [-3:5]
 set mxtics 10
 
 set title "Lab 1.1: Line 23, {/Symbol l} = 5400.56 Å"
 #set style line 1 lt 1 pt 7 ps 0.5
 
 f(x)=a + (b * x)
-fit f(x) "data23.csv" using 1:2 via a, b
+fit f(x) "<(sed -n '1,3p' data23.csv)" using 1:2 via a,b
 
 plot "data23.csv" using 1:2:3:4 with xyerrorbars, f(x)
