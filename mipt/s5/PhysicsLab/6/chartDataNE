@@ -1,0 +1,21 @@
+#! /usr/bin/gnuplot -persist
+set terminal postscript eps enhanced
+set output "./plot/data_ne.ps"
+set encoding utf8
+set xlabel "log(T/1 K)" font "NimbusSanL-Regu,18"
+set nokey
+#set bmargin 4
+set ylabel "log(W/1 W)" font "NimbusSanL-Regu,18"
+#set logscale x
+set grid
+#set xrange [0.0005: 0.003]
+#set yrange [0.003: 0.014]
+set mxtics 10
+
+set title "Lab 8.1: Stefan-Boltzmann law"
+#set style line 1 lt 1 pt 7 ps 0.5
+
+f(x)=a + (b * x)
+fit f(x) "data_ne.csv" using 1:2 via a, b
+
+plot "data_ne.csv" using 1:2:3:4 with xyerrorbars, f(x)

@@ -8,8 +8,8 @@ set nokey
 set ylabel "V_1, V" font "NimbusSanL-Regu,18"
 #set logscale x
 set grid
-#set xrange [2200:3000]
-set yrange [-3:5]
+set xrange [0:0.65]
+set yrange [-10:5]
 set mxtics 10
 
 set title "Lab 1.1: Line 1, {/Symbol l} = 7032.41 Å"

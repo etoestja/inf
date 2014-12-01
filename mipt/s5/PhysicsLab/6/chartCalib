@@ -1,0 +1,21 @@
+#! /usr/bin/gnuplot -persist
+set terminal postscript eps enhanced
+set output "./plot/calib.ps"
+set encoding utf8
+set xlabel "T_{br.}, K" font "NimbusSanL-Regu,18"
+set nokey
+#set bmargin 4
+set ylabel "T, K" font "NimbusSanL-Regu,18"
+#set logscale x
+set grid
+set xrange [700:2100]
+#set yrange [0.003: 0.014]
+set mxtics 10
+
+set title "Lab 8.1: T_{th.}(T_{br.}), wolfram"
+#set style line 1 lt 1 pt 7 ps 0.5
+
+f(x)=a + (b * x)
+fit f(x) "calib.csv" using 1:2 via a, b
+
+plot "calib.csv" using 1:2:3:4 with xyerrorbars, f(x)

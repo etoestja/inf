@@ -1,0 +1,7 @@
+#!/bin/bash
+
+exit 0
+
+unoconv -e FilterOptions=32,34,0,1,1/5/2/1/3/1/4/1 -f csv data.ods
+mv data.csv data0.csv
+./chartData0
