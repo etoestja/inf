@@ -61,10 +61,10 @@
 				<section>
 					<h2>Old solutions</h2>
 					<ul>
-					<li>Electromechanical control. <i>ex. Power button which is a switch</i></li>
+					<!--<li>Electromechanical control. <i>ex. Power button which is a switch</i></li>-->
 					<li>Complex electrical schemes. <i>ex. Channels on an old tv</i></li>
-					<li>Drawbacks: really complex, only basic functions</li>
 					<li>No “brain” at all</li>
+					<li>Drawbacks: really complex, only basic functions</li>
 					<img style="border: 0px;" src="./images/mcu_tv.jpg" />
 					<img style="border: 0px; width: 200px;" src="./images/mcu_tv_complex_channels.jpg" />
 					</ul>
@@ -78,6 +78,7 @@
 					<li>Easy low-level I/O</li>
 					<li>Many different kinds. Typical Atmel AVR: 2K RAM, 20MHz CPU, 32K flash</li>
 					<li>Allow to easily control even complex devices</li>
+                    <li>Low-cost (~5$)</li>
 					</ul><br />
 					<img style="max-width: 200px; border: 0px;" src="./images/mcu_mega168.jpg" />
 					<img style="max-width: 200px; border: 0px;" src="./images/mcu_stm32.jpg	" />
@@ -133,8 +134,10 @@ if(PINB & (1 << 0)) // reading from PB0, zero or one
 				<section>
 					<h2>Summary</h2>
 					<ul>
-					<li>Tiny computers</li>
+					<li>“the brain” of a modern device</li>
 					<li>Manage parts of electronics</li>
+                    <li>Tiny computer on a single chip</li>
+                    <li>Low-cost</li>
 					<li>Easy to program</li>
 					<li>Widely used</li>
 					</ul>

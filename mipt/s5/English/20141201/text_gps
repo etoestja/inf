@@ -1,19 +1,48 @@
 = Slide 0 =
 
 // Who
-Hello. My name is Sergey Volodin and I am third year undergraduate at the MIPT.
+Hello. My name is Sergey Volodin and I am third year undergraduate student at the MIPT.
 
 // Why
-Today I am going to speak about Global Positioning System or GPS. This presentation will introduce you to basic information of its history and working principle. You will learn how i works and why it is made the way it is.
+Today I am going to speak about Global Positioning System or GPS. This presentation will introduce you to basic information about its history and working principle. You will learn how it works and why it is made the way it is.
 
 = Slide 1 =
 
-= What (switch to plan) =
-Firstly, I will tell you what problem must be solved. Secondly, how it was solved before. Thirdly, I will tell you the history of GPS. Then I will explain how it works. Next I will tell you about qualities GPS has. And, at the end i will tell you about its applications.
+// What
+Firstly, I will tell you what problem must be solved. Secondly, how it was solved before. Thirdly, I will tell you the history of GPS. Then I will explain how it works. And, finally, I will tell you about qualities GPS has.
 
-= How =
-The presentation will last for about 5 minutes. Feel free to ask me questions at any time.
+// HOW
+The presentation will last for about 5 minutes. Feel free to ask me questions at any time. Let's start!
 
 
-= Conclusion =
-So, now you are aware of how GPS works and why. You can ask me questions, if you like.
+= Slide 2 =
+So, the problem is old and simple to understand: how to get precise location of and object on Earth?
+
+= Slide 3 =
+Mankind has developed many solutions to that problem. For example, sailors long time ago used sextants, which are optical devices helping to measure angle between a star and the ocean. Knowing parameters of star's movement, they could say where they are. But measurements were inaccurate (0.5km) and required complex knowledge. Another example are ground-based systems developed during World War II. They build transmitters on the ground and by measuring amplitude of the signal they could determine where they are. But this way is expensive, because it works only where the transmitters are, so, to make it worldwide we would have to build transmitters everywhere.
+Therefore, something new was required.
+
+= Slide 4 =
+In 1957 Russians launched the first manmade satellite into space. And we used Doppler effect to determine it's speed, which is change of the wavelength caused by relative movement of transmitter and receiver. We used it to determine movement of something in space, but Americans thought about inverse problem: how to get position of something on Earth knowing position of something in space? As you may guess, they started developing GPS. And by 1990s is was fully established. Purposes and permissions were at first only military, but they allowed civilians to use it after a while.
+
+= Slide 5 =
+Moving to the next point, how does GPS work? As you may be aware of, it uses satellites in space. There are 24 satellites in 6 circular orbits. These numbers allow to see not less than six sattelites from every point on Earth at any time.
+
+= Slide 6 =
+Another thing that you should know is that satellites know exact time and their positions at this time. They constantly transmit that data and, for example, our phones recieve it. Then is being applied algoritm called trilateration. We know speed of light, we know when message was sent and when it was recieved. Therefore, we know the distance between satellite and out phone. Geometrically, these are two points and a circle (x - phone, x1_0 - satellite). When the number of satellites increases, number of circles does so, and they intersect by smaller quantity of points. After certain number of satellites (3 for 2 dimensions and 4 for 3 dimensions), intersection shrinks to only one point, which is our location. Mathematically, we should solve system of equations like that. In addition, to get velocity more accurate, they use Doppler effect.
+
+= Slide 7 =
+As I said before, satellites must know exact time and location. To monitor and fix this, there are ground control stations on Earth, which communicate with satellites and fix mistakes if something goes wrong.
+
+= Slide 8 =
+Let's speak about what qualities it has. Well, GPS is cheap and precise tool to measure location. The accuracy is roughly 10 meters, which is 50 times better than a sextant! And for missiles and bombs accuracy is even better. GPS is widely used in transport, especially on planes and ships. Another sphere is robots. And, moreover, there are games which require GPS.
+
+We are at the end of my presentation, so, let's summarize what we have learned
+
+= Slide 9 =
+GPS is cheap and effective way of determining location, and it's idea is based on measurement of Sputnik position. It was military at first and was fully established in 1990s. It consists of satellites and ground stations for sync. And it's widely used.
+
+So, we have learned what it does, how it works and why.
+
+= Slide 10 =
+Thank you for your attention. You can ask me questions now, if you like.

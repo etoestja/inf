@@ -1,19 +1,47 @@
 = Slide 0 =
 
 // Who
-Hello. My name is Sergey Volodin and I am third year undergraduate at the MIPT.
+Hello again. My name is Sergey Volodin and I am third year undergraduate student at the MIPT.
 
 // Why
-Today I am going to speak about Global Positioning System or GPS. This presentation will introduce you to basic information of its history and working principle. You will learn how i works and why it is made the way it is.
+Today I am going to speak about Microcontrollers. This presentation will explain to you basic principle of how most of modern electronical devices you see every day work.
 
 = Slide 1 =
 
-= What (switch to plan) =
-Firstly, I will tell you what problem must be solved. Secondly, how it was solved before. Thirdly, I will tell you the history of GPS. Then I will explain how it works. Next I will tell you about qualities GPS has. And, at the end i will tell you about its applications.
+// What
+Firstly, I will tell you about the problem developers of our and past time face. Next, I will tell you how was that problem solved before. After that I will introduce you to microcontrollers. Then I will tell you how to use it. After that I will tell you about applications they have, and, finally, I will give a short demonstration (if we are lucky).
 
-= How =
-The presentation will last for about 5 minutes. Feel free to ask me questions at any time.
+// HOW
+The presentation will last for about 7 minutes. Feel free to ask me questions at any time. Let's start!
 
 
-= Conclusion =
-So, now you are aware of how GPS works and why. You can ask me questions, if you like.
+= Slide 2 =
+To understand the problem all developers face, imagine some device, for example, a washing machine. It has some controls, an engine, and, of course, it is connected to water supply and mains supply. But what is the missing part in the middle? How do you tell all that parts what to do in exact moment they must to? It's like we have arms and eyes, but as you may know it's not enough to create a human. So, the missing part is brain. We somehow need to manage all these components to do their job.
+
+= Slide 3 =
+Let's move on to our next point. How was that solved before? You probably remember old TV sets. Let's see how it is controlled, and, especially, how to tune and select channels? There is a really complex electromechanical thing that allows doing that! It is hard to develop, because it is complicated, it is limited by only 6 channels, because of size limitations. And, if you think about it, there is no brain all! This TV doesn't have a brain! Because these controls are not just buttons! They are variable resistors which are elements of an actual electrical scheme. And they choose frequency of a channel directly! It's like an eye connected directly to the arm, so that arm moves when it's dark! And this principle has many drawbacks: as I said, it's expensive to develop, and, secondly, you can only get basic functions. For example, it would be hard to make automatic channels tuning on a uch TV set.
+
+= Slide 4 =
+Now, let's speak about microcontrollers. First of all, they are similar to out desktop or laptop computer. They have random access memory, CPU, Flash memory instead of a hard drive to store the program. But usually they a much more simple: they don't have an operating system or multitasking we are used to, and thir resources are very limitd. Frequency is just 20 MHz and sizes of memory are measured in kilobytes! But they have really simple low-level input-output, which is, you can set the voltage on any of the pins from inside your program! And by doing that you can control even complex devices with such a thing! Moreover, it's low-cost. Typical microcontroller costs only 5$.
+
+= Slide 5 =
+Let's talk about how to use it. To program it, you write code on you regular PC and then you upload it to the microcontroller. You can write on any languages, such as assembler, C or Pascal. Now, let's speak about how to use low-level i/o. Microcontroller has several metal pins. And each of them can be used in two ways: as input or output. Input can read the voltage applied to the pin as a regular voltmeter. Except it can determine only whether is voltage zero or is it maximum (5 volts usually). An output can set voltage to zero or to 5V on a specific pin. And you can access pins very easily. For example, this little C program sets PB5 to 5V if there are 5V on PB0
+
+= Slide 6 =
+Another thing that you should know is that satellites know exact time and their positions at this time. They constantly transmit that data and, for example, our phones recieve it. Then is being applied algoritm called trilateration. We know speed of light, we know when message was sent and when it was recieved. Therefore, we know the distance between satellite and out phone. Geometrically, these are two points and a circle (x - phone, x1_0 - satellite). When the number of satellites increases, number of circles does so, and they intersect by smaller quantity of points. After certain number of satellites (3 for 2 dimensions and 4 for 3 dimensions), intersection shrinks to only one point, which is our location. Mathematically, we should solve system of equations like that. In addition, to get velocity more accurate, they use Doppler effect.
+
+= Slide 7 =
+
+
+= Slide 8 =
+Let's speak about what qualities it has. Well, GPS is cheap and precise tool to measure location. The accuracy is roughly 10 meters, which is 50 times better than a sextant! And for missiles and bombs accuracy is even better. GPS is widely used in transport, especially on planes and ships. Another sphere is robots. And, moreover, there are games which require GPS.
+
+We are at the end of my presentation, so, let's summarize what we have learned
+
+= Slide 9 =
+GPS is cheap and effective way of determining location, and it's idea is based on measurement of Sputnik position. It was military at first and was fully established in 1990s. It consists of satellites and ground stations for sync. And it's widely used.
+
+So, we have learned what it does, how it works and why.
+
+= Slide 10 =
+Thank you for your attention. You can ask me questions now, if you like.
