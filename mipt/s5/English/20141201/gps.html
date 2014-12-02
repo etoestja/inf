@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Sergey Volodin, 274. Presentation. GPS</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/technoworks.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h2>Global Positioning System</h2>
+					<img style="border: 0px;" src="./images/coord.png" />
+				</section>
+				
+				<section>
+					<h2>Plan</h2>
+					<span class="h3">
+					<ol type="1">
+						<li>The problem</li>
+						<li>Previous solutions</li>
+						<li>History of GPS</li>
+						<li>How does it work?</li>
+						<li>Qualities</li>
+						<li>Applications</li>
+					</ol>
+					</span>
+				</section>
+				
+				<section>
+					<h2>Problem</h2>
+					<p>Get precise position of an object on Earth</p>
+					<img style="border: 0px;" src="./images/globe-point.jpg" />
+				</section>
+				
+				<section>
+					<h2>Previous solutions</h2>
+					<ul type="li">
+					<li>Sailors used sextants</li>
+					<li>Ground-based systems (1940s, World War II, GB)</li>
+					</ul>
+					<center>
+					<table border="0">
+					<tr>
+					<td><img style="border: 0px; width: 500px;" src="./images/sextant.jpg" /></td>
+					<td><img style="border: 0px; width: 500px;" src="./images/groundbased.jpg" /></td>
+					</tr>
+					</table></center>
+					<p>Drawbacks: inaccurate or complex</p>
+				</section>
+				
+				<section>
+					<h2>History of GPS</h2>
+					<ul>
+					<li>Sputnik (USSR, 1957), Doppler effect to measure its velocity (inverse problem)<center>\(\frac{f}{f_0}=\sqrt{\frac{c+v}{c-v}}\)</center> &rArr; velocity&nbsp;<br />
+					<img style="border: 0px; width: 500px;" src="./images/doppler.jpg" />
+					</li>
+					<li>GPS Fully implemented in 1990s</li>
+					<li>Military at first</li>
+					</ul>
+				</section>
+				
+				<section>
+					<h2>How?</h2>
+					<h4>basic principle</h4>
+					<ul>
+					<li>Satellite transmits time and its position</li>
+					<li>Trilateration: device solves \(\begin{cases}|\vec{x}-\vec{x}^i_0|=c(t-t^i_0),\,i\in\overline{1,N}\\\end{cases};\vec{x}\in R^3\)<br />
+					to get
+					coordinates<br />
+					<img style="max-height: 200px;" src="./images/trilateration.png" />
+					<img style="max-height: 200px;" src="./images/trilateration.jpg" /></li>
+					<li>Doppler effect to measure velocity more precise</li>
+					<li>need \(\geqslant 4\) satellites to determine position</li>
+					</ul>
+				</section>
+				
+				<section>
+					<h2>How?</h2>
+					<h4>Satellites</h4>
+					<table style="height:100%" border="1">
+					<tr valign="middle">
+					<td><img style="border: 0px;" src="./images/gpssat.gif" /></td>
+					<td><ul>
+						<li>24 satellites</li>
+						<li>6 planes</li>
+						<li>circular orbits</li>
+						<li>\(\geqslant\) 6 visible from anywhere</li>
+					</ul>
+					</td>
+					</tr>
+					</table>
+				</section>
+				
+				<section>
+					<h2>How?</h2>
+					<h4>Sync</h4>
+					<ul>
+					<li>Satellites must be synced with each other</li>
+					<li>GPS has ground stations for that</li>
+					</ul>
+					<img style="border: 0px; width: 500px;" src="./images/structure.jpg" />
+				</section>
+				
+				<section>
+					<h2>Qualities</h2>
+					<ul>
+						<li>Precise location by simple and cheap methods</li>
+						<li>Accuracy ~10 meters (\(\times\,50\uparrow\)!)</li>
+						<li>Better accuracy for military purposes</li>
+					</ul><br />
+					<img style="border: 0px; width: 300px;" src="./images/gps.jpg" />
+				</section>
+				
+				<section>
+					<h2>Applications</h2>
+					<ul>
+					<p>Military (missiles), planes, ships, car navigators, robots, games</p>
+					<img style="border: 0px; width: 200px" src="./images/missile.jpg" />
+					<img style="border: 0px; width: 200px" src="./images/plane.jpg" />
+					<img style="border: 0px; width: 200px" src="./images/navigator.jpg" />
+					<img style="border: 0px; width: 200px" src="./images/copter.jpg" />
+					<img style="border: 0px; width: 200px" src="./images/robomobo.jpg" />
+				</section>
+				
+				<section>
+					<h2>Summary</h2>
+					<ul>
+						<li>Other ways are inaccurate or complicated</li>
+						<li>Idea: USSR, Sputnik, Doppler effect</li>
+						<li>Military purposes at first, established in 1990s</li>
+						<li>Ground stations and satellites</li>
+						<li>Widely used nowadays</li>
+					</ul><br />
+					<table>
+						<tr>
+							<td><img style="border: 0px; max-height: 200px;" src="./images/globe-point.jpg" /></td>
+							<td><img style="border: 0px; max-height: 200px;" src="./images/groundbased.jpg" /></td>
+							<td><img style="border: 0px; max-height: 200px;" src="./images/doppler.jpg" /></td>
+							<td><img style="border: 0px; max-height: 200px;" src="./images/gpssat.gif" /></td>
+						</tr>
+					</table>
+				</section>
+				
+				<section>
+					<p style="font-size: 400%;">Thank you!<br />Questions?</p>
+					<i style="font-size: 60%;">images from Wikipedia, Google images</i>
+				</section>
+				
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: false,
+				progress: true,
+				history: true,
+				center: true,
+				slideNumber: true,
+
+				math: {
+					// mathjax: 'http://cdn.mathjax.org/mathjax/latest/MathJax.js',
+					config: 'TeX-AMS_HTML-full'
+				},
+
+				transition: 'linear', // default/cube/page/concave/zoom/linear/fade/none
+                backgroundTransition: 'slide',
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/math/math.js', async: true },
+                    // Remote control your reveal.js presentation using a touch device
+                    { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } },
+                    
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

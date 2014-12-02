@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Sergey Volodin, 274. Presentation. Microcontrollers</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/technoworks.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h2>Microcontrollers</h2>
+					<img style="border: 0px;" src="./images/mcu_atmel.jpg	" />
+				</section>
+				
+				<section>
+					<h2>Plan</h2>
+					<span class="h3">
+					<ol type="1">
+						<li>The problem</li>
+						<li>Old solutions</li>
+						<li>Microcontrollers</li>
+						<li>How to use it?</li>
+						<li>Applications</li>
+						<li>An example</li>
+					</ol>
+					</span>
+				</section>
+				
+				<section>
+					<h2>The problem</h2>
+					<ul>
+					<li>Do you know how does a washing machine work? Which part is missing?<br />
+					Answer: <span class="fragment"><i>“the brain”</i>. How to manage all the electronical stuff to make a device?<br />
+					</span>
+					<img style="border: 0px;" src="./images/mcu_wm.png" />
+					</li>
+					<li>More complex than you think</li>
+					</ul>
+				</section>
+				
+				<section>
+					<h2>Old solutions</h2>
+					<ul>
+					<li>Electromechanical control. <i>ex. Power button which is a switch</i></li>
+					<li>Complex electrical schemes. <i>ex. Channels on an old tv</i></li>
+					<li>Drawbacks: really complex, only basic functions</li>
+					<li>No “brain” at all</li>
+					<img style="border: 0px;" src="./images/mcu_tv.jpg" />
+					<img style="border: 0px; width: 200px;" src="./images/mcu_tv_complex_channels.jpg" />
+					</ul>
+				</section>
+				
+				<section>
+					<h2>Microcontrollers</h2>
+					<ul>
+					<li>Lightweigh computer on a single chip: RAM, CPU, Flash</li>
+					<li>Usually no OS, just one program</li>
+					<li>Easy low-level I/O</li>
+					<li>Many different kinds. Typical Atmel AVR: 2K RAM, 20MHz CPU, 32K flash</li>
+					<li>Allow to easily control even complex devices</li>
+					</ul><br />
+					<img style="max-width: 200px; border: 0px;" src="./images/mcu_mega168.jpg" />
+					<img style="max-width: 200px; border: 0px;" src="./images/mcu_stm32.jpg	" />
+					<img style="max-width: 200px; border: 0px;" src="./images/mcu_avr_inside.jpg" />
+				</section>
+				
+				<section>
+					<h2>How to use it?</h2>
+					<ul>
+					<li>Write & compile on a PC, then upload to MCU.</li>
+					<li>Many languages: Assembler, C, C++, Pascal, ...</li>
+					<li>Pins are inputs (“voltmeter”, 0 or 1) or outputs (0 or 5V)</li>
+					<li>Easy to code:
+					
+					<pre><code class="cpp" data-trim contenteditable style="font-size: 18px;">
+if(PINB & (1 << 0)) // reading from PB0, zero or one
+{
+	PORTB |= (1 << 5); // setting voltage on PB5, 0V or 5V
+}
+					</code></pre>
+					</li>
+					</ul><br />
+					<img style="max-width: 200px; border: 0px;" src="./images/mcu_attiny13.png" />
+				</section>
+				
+				<section>
+					<h2>Applications</h2>
+					<ul>
+					<li>Consumer electronics (TV sets, washing machines, refrigerators, ...)</li>
+					<li>Industrial electronics (CNC)</li>
+					<li>Robots</li>
+					<li>Subsystems in big devices (ex. power management in a laptop)</li>
+					<li>...</li>
+					</ul>
+				</section>
+				
+				<section>
+					<h2>Example</h2>
+					<ul>
+						
+					</ul>
+					
+					<OBJECT classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921"
+     codebase="http://downloads.videolan.org/pub/videolan/vlc/latest/win32/axvlc.cab"
+     width="640" height="480" id="vlc" events="True">
+   <param name="Src" value="rtsp://k.phobia.ru:30065/live/ch00_0" />
+   <param name="ShowDisplay" value="True" />
+   <param name="AutoLoop" value="False" />
+   <param name="AutoPlay" value="False" />
+   <embed id="vlcEmb"  type="application/x-google-vlc-plugin" version="VideoLAN.VLCPlugin.2" autoplay="no" loop="no" width="640" height="480"
+     target="rtsp://k.phobia.ru:30065/live/ch00_0" ></embed>
+</OBJECT>
+				</section>
+				
+				<section>
+					<p style="font-size: 400%;">Thank you!<br />Questions?</p>
+					<i style="font-size: 60%;">images from Wikipedia, Google images</i>
+				</section>
+				
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: false,
+				progress: true,
+				history: true,
+				center: true,
+				slideNumber: true,
+
+				math: {
+					// mathjax: 'http://cdn.mathjax.org/mathjax/latest/MathJax.js',
+					config: 'TeX-AMS_HTML-full'
+				},
+
+				transition: 'linear', // default/cube/page/concave/zoom/linear/fade/none
+                backgroundTransition: 'slide',
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/math/math.js', async: true },
+                    // Remote control your reveal.js presentation using a touch device
+                    { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } },
+                    
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
