@@ -1,0 +1,59 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+%\geometry{paperwidth=210mm, paperheight=2000pt, left=5pt, top=5pt}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,arrows,trees,calc}
+\usepackage{amsmath}
+\usepackage[makeroom]{cancel} % зачеркивание
+\usepackage{multicol,multirow} %Несколько колонок
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{listings}
+\usepackage{wasysym}
+\date{2014.12.25}
+\author{Сергей~Володин, 274 гр.}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+% названия автоматов  (rubtsov)
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+
+\title{Функциональный анализ. Задание 3}
+
+%+= и -=, иначе разъезжаются...
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
+% пустое слово  (rubtsov)
+\def\eps{\varepsilon}
+
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\newcommand{\niton}{\not\owns}
+
+
+\newcommand{\smalll}[1]{\overline{\overline{#1}}}
+\newcommand{\smallo}{\bar{\bar{o}}}
+\begin{document}
+\maketitle
+\section*{Задача 23}
+{\em (Константинов)}\\
+$X$~--- банахово. $A\in L(X)\colon ||A|| < 1$. $X$~--- банахово $\Rightarrow$ $L(X)$~--- полное. Обозначим $S_n\eqdef\sum\limits_{k=0}^n A^k$
+\begin{enumerate}
+\item $||S_n||\leqslant\sum\limits_{k=0}^n ||A^k||\leqslant\sum\limits_{k=0}^n||A||^k\overset{n\to\infty}{\to}$ (сходится как числовая). % \frac{1}{1-||A||}
+\item Значит, $S_n$~--- фундаментальна: $||\sum\limits_{k=n+1}^{n+p}A^k||<\eps$.
+\item Значит ($L(X)$~--- полное), $\exists S\in L(X)\colon S_n\overset{n\to\infty}{\to}S$.
+\item Рассмотрим $(I-A)S_n=(I-A)\sum\limits_{k=0}^n A^k=\sum\limits_{k=0}^n A_k-\sum\limits_{k=0}^n A^{k+1}=I-A^{n+1}$, аналогично $S_n(I-A)=I-A^{n+1}$. Величина $I-A^{n+1}\overset{n\to\infty}{\to}I$, т.к. $||A||^{n+1}\to 0$
+\item Но $S_n\to S$, значит, $(I-A)S_n=S_n(I-A)\to S(I-A)=I$. Значит, $\exists (I-A)^{-1}$, и $(I-A)^{-1}=\sum\limits_{k=0}^\infty A^k$
+\end{enumerate}	
+\section*{Задача 24}
+$||A^{-1}\Delta A||<1$ (по условию). По утверждению задачи 23, $\exists (I+A^{-1}\Delta A)^{-1}$. Рассмотрим $A+\Delta A=A(I+A^{-1}\Delta A)$, рассмотрим $B=(I+A^{-1}\Delta A)^{-1}A^{-1}$. Тогда $(A+\Delta A)B=B(A+\Delta A)=I$, т.е. $B$~--- обратный к $A+\Delta A$, и $(A+\Delta A)^{-1}=(I+A^{-1}\Delta A)^{-1}A^{-1}=\sum\limits_{k=0}^\infty (-1)^k(A^{-1}\Delta A)^k A^{-1}$. Первый член ряда ($k=0$)~--- $A^{-1}$. Поэтому $(A+\Delta A)^{-1}-A^{-1}=\sum\limits_{k=1}^\infty (A^{-1}\Delta A)^kA^{-1}$, $||(A+\Delta A)^{-1}-A^{-1}||\leqslant\sum\limits_{k=1}^\infty ||A^{-1}||^{k+1}||\Delta A||^k=\frac{||A^{-1}||^2||\Delta A||}{1-||A^{-1}||||\Delta A||}$ (геометрическая прогрессия) $\blacksquare$
+\end{document}

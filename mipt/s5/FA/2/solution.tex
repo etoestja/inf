@@ -1,0 +1,72 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+%\geometry{paperwidth=210mm, paperheight=2000pt, left=5pt, top=5pt}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,arrows,trees,calc}
+\usepackage{amsmath}
+\usepackage[makeroom]{cancel} % зачеркивание
+\usepackage{multicol,multirow} %Несколько колонок
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{listings}
+\usepackage{wasysym}
+\date{2014.12.25}
+\author{Сергей~Володин, 274 гр.}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+% названия автоматов  (rubtsov)
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+
+\title{Функциональный анализ. Задание 2}
+
+%+= и -=, иначе разъезжаются...
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
+% пустое слово  (rubtsov)
+\def\eps{\varepsilon}
+
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\newcommand{\niton}{\not\owns}
+
+
+\newcommand{\smalll}[1]{\overline{\overline{#1}}}
+\newcommand{\smallo}{\bar{\bar{o}}}
+\begin{document}
+\maketitle
+\section*{Задача 17}
+{\em (Google, Константинов)}\\
+$L\subset l_p$, $1<p<+\infty$. $L$~--- ЛП. $x\in l_p$. Предположим, что проекция не единственна, т.е. $\exists y,z\in L\colon R\eqdef||x-y||_p=||x-z||_p=\inf\limits_{t\in L}||x-t||_p$. Далее два варианта доказательства:\begin{enumerate}
+\item Воспользуемся неравенством Кларксона ($p\neq 2$. В статье доказано и для $l_p$) для $\begin{cases}
+f \eqdef y-x\\
+g \eqdef z-x\\
+\end{cases}$:\begin{enumerate}														\item $2\leqslant p<+\infty$. $||\frac{f+g}{2}||_p^p+||\frac{f-g}{2}||_p^p\leqslant\frac{1}{2}(||f||_p^p+||g||_p^p)$ $\Leftrightarrow$ $||\frac{y+z}{2}-x||_p^p+||\frac{y-z}{2}||_p^p\leqslant \frac{1}{2}(R^p+R^p)$. $L$~--- ЛП, поэтому $\frac{x+y}{2}\in L$. Поскольку $R=\inf\limits_{t\in L}||t-x||_p$, $R^p\leqslant ||\frac{x+y}{2}-x||^p_p$, откуда $||\frac{y-z}{2}||_p^p\leqslant R^p-||\frac{y+z}{2}-x||\leqslant 0$. Получаем $y=z$~--- противоречие.
+\item $p\in (1,2)$. $q=\frac{p}{p-1}$. $||\frac{f+g}{2}||_p^q+||\frac{f-g}{2}||_p^q\leqslant \left(\frac{1}{2}||f||_p^p+\frac{1}{2}||g||_p^p\right)^{\frac{q}{p}}$ $\Leftrightarrow$ $||\frac{y-z}{2}||_p^q\leqslant R^q-||\frac{z+y}{2}-x||_p^q\leqslant 0$. Получаем $y=z$~--- противоречие
+\end{enumerate}
+\item Рассмотрим $w(t)\eqdef t\cdot y+(1-t)\cdot z$. $L$~--- ЛП, откуда $\forall t\in[0,1]\hookrightarrow w(t)\in L$. Рассмотрим $||w(t)-x||_p=||ty+(1-t)z-tx-(1-t)x||_p\leqslant t||y-x||+(1-t)||z-x||=R=\inf\limits_{l\in L}||x-l||_p$. Откуда $\forall t\in[0,1]\hookrightarrow||w(t)-x||_p=R$. Получаем, что отрезок $\Gamma\eqdef\{w(t)|t\in[0,1]\}$ лежит на сфере $\partial B_R(x)$~--- противоречие с выпуклостью $O_R(x)$.
+\end{enumerate}
+\section*{Задача 23}
+Определим $A\colon CL_2[-1,1]\to CL_2[-1,1]$: $Ax(t)=\frac{d}{dt}((t^2-1)\frac{d}{dt}x(t))$.
+\begin{enumerate}
+	\item  Докажем, что $(Ax_1,x_2)\equiv (x_1, Ax_2)$: $(Ax_1,x_2)=\int\limits_{-1}^1 \frac{d}{dt}((t^2-1)x_1'(t))x_2(t)dt$
+	$=\int\limits_{t=-1}^{t=1}x_2(t)d((t^2-1)x_1'(t))=\\=\cancelto{0}{(t^2-1)x_2(t)x_1'(t)\Big|_{t=-1}^{t=1}}-\int\limits_{t=-1}^{t=1}x_2'(t)x_1'(t)(t^2-1)dt\equiv (x_1,Ax_2)$.
+	\item Пусть $n\neq m$. Тогда $(AP_n,P_m)=\lambda_n (P_n,P_m)$. С другой стороны, $(AP_n,P_m)=(P_n,AP_m)=\lambda_m (P_n, P_m)$. Поскольку $\lambda_n\equiv n(n+1)\neq m(m+1)\equiv \lambda_m$, $(P_n,P_m)=0$ (ортогональность)
+	\item Система степеней $CL_2''\supset \{t^k\}_{k=0}^{\infty}$~--- полна в $C[-1,1]$ (Th. Вейерштрасса). Значит, она полна и в $CL_2''\subset C[-1,1]$. $P_n$~--- многочлен степени $n$. Значит, можно степень $t^n$ представить как линейную комбинацию $\{P_k\}_{k=0}^n$: $t^k=\sum\limits_{j=0}^{m(k)} \alpha^k_j P_j$. Пусть $||x-\sum\limits_{k=0}^n \alpha_k t^k||<\eps$~--- приближение степенями. Подставим $t^k$ через $P_j$ $\Rightarrow$ получим приближение многочленами Лежандра (полнота системы $\{P_n\}_{n=0}^\infty$)
+	\item Пусть $\exists \lambda\colon \forall n\geqslant 0 \hookrightarrow\lambda\neq n(n+1)$, $\exists x\in CL_2''[-1,1]\colon Ax=\lambda x$ Тогда $\forall n\geqslant 0$ $(AP_n,x)=\lambda_n (P_n,x)$. С другой стороны, $(AP_n,x)=(P_n,Ax)=\lambda(P_n,x)$. Но $\lambda\neq \lambda_n$, откуда $\forall n\geqslant 0$ $(x, P_n)=0\Leftrightarrow x\bot P_n$. Но $P_n$~--- полная, откуда $x\equiv 0$.
+	\item Рассмотрим уравнение $Ax=\lambda_nx \Leftrightarrow  (t^2-1)\frac{d^2}{dt^2}x(t)+2t\frac{d}{dt}x(t)=\lambda_n x(t)$ на $(-1,1)$. Пусть $P_n$ и некоторая функция $y(t)$ его два ЛНЗ решения. Формула Лиувилля-Остроградского (диффуры): $W(t)\equiv \begin{vmatrix}
+	P_n(t) & y(t)\\
+	P_n'(t) & y'(t)
+  	\end{vmatrix}
+  	=W(0)e^{-\int\limits_0^{t}\frac{2tdt}{t^2-1}}=W(0)\frac{1}{1-t^2}\overset{t\to \pm 1}{\rightarrow}+\infty$. $P_n$ и $P_n'$~--- ограниченные на $[-1,1]$ (многочлен), значит, $y(t)$ или $y'(t)$~--- неограниченные. Значит, $y\notin CL_2''$.
+\end{enumerate}
+\end{document}
