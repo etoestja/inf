@@ -7,3 +7,6 @@
 [submodule "mipt/s5/English/20141201/presentation"]
 	path = mipt/s5/English/20141201/presentation
 	url = git@github.com:it-workshop/QuadrocopterPresentation.git
+[submodule "mipt/s6/English/20150213/presentation"]
+	path = mipt/s6/English/20150213/presentation
+	url = git@github.com:it-workshop/QuadrocopterPresentation.git
