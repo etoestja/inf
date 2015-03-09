@@ -1,7 +1,21 @@
 #!/bin/bash
 
-NMAX=1
-path[0]=/home/seriy/Music/other/the_clap.mp3
+NMAX=15
+path[0]=/home/seriy/Music/alarm/city1.mp3
+path[1]=/home/seriy/Music/alarm/city2.mp3
+path[2]=/home/seriy/Music/alarm/going_up1.mp3
+path[3]=/home/seriy/Music/alarm/going_up2.mp3
+path[4]=/home/seriy/Music/alarm/going_up3.mp3
+path[5]=/home/seriy/Music/alarm/ss1.mp3
+path[6]=/home/seriy/Music/alarm/ss2.mp3
+path[7]=/home/seriy/Music/alarm/ss3.mp3
+path[8]=/home/seriy/Music/alarm/ss4.mp3
+path[9]=/home/seriy/Music/alarm/ss5.mp3
+path[10]=/home/seriy/Music/alarm/star_wars1.mp3
+path[11]=/home/seriy/Music/alarm/star_wars2.mp3
+path[12]=/home/seriy/Music/alarm/star_wars3.mp3
+path[13]=/home/seriy/Music/alarm/the_clap1.mp3
+path[14]=/home/seriy/Music/alarm/the_clap2.mp3
 
 if [ "X$1" == "Xcheck" ]
 then
