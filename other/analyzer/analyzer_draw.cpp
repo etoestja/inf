@@ -20,23 +20,36 @@ void Analyzer::draw()
 
     unsigned k = 0;
 
+    QPoint prev_green, prev_red;
+    QPoint curr_green, curr_red;
+
     for(unsigned i = 3 - 1; i <= 5 - 1; i++)
     {
         for(unsigned j = 0; j < MONTHS[i]; j++)
         {
             cout << j << "/" << i << " out: " << year[i][j].msg_out << " in: " << year[i][j].msg_in << endl;
 
+            curr_red =   QPoint(k * 10, imgY - year[i][j].msg_out / scale - 5);
+            curr_green = QPoint(k * 10,  imgY - year[i][j].msg_in / scale - 5);
+
             painter.setPen(Red);
-            painter.drawRect(k * 10, imgY - year[i][j].msg_out / 100. - 5, 2, 2);
+            painter.drawRect(curr_red.x(), curr_red.y(), 2, 2);
+            painter.drawLine(curr_red, prev_red);
 
             painter.setPen(Green);
-            painter.drawRect(k * 10, imgY - year[i][j].msg_in / 100. - 5, 2, 2);
+            painter.drawRect(curr_green.x(), curr_green.y(), 2, 2);
+            painter.drawLine(curr_green, prev_green);
+
+            prev_green = curr_green;
+            prev_red = curr_red;
 
             k++;
         }
     }
 
     painter.end();
-    ui->label->setGeometry(QRect(0, 0, imgX, imgY));
+    ui->label->setGeometry(QRect(0, 100, imgX, imgY));
     ui->label->setPixmap(pixmap);
+
+    pixmap.detach();
 }

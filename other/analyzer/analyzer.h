@@ -31,11 +31,17 @@ public:
     ~Analyzer();
     string filename;
 
+private slots:
+    void on_pushButton_clicked();
+
+    void on_horizontalSlider_valueChanged(int value);
+
 private:
     day year[NMONTHS][NDAYS];
 
     static const unsigned imgX = 1000;
     static const unsigned imgY = 100;
+    double scale = 100.;
 
     void initArray();
     void draw();

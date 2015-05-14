@@ -42,20 +42,29 @@ int readDescr(string s, descr& d)
     return(0);
 }
 
+std::istream &getlineSafe(std::istream &is, std::string &s) {
+    char ch;
+
+    s.clear();
+
+    while (is.get(ch) && ch != '\n' && ch != '\r')
+        s += ch;
+    return is;
+}
+
 void Analyzer::readFile()
 {
     ifstream f;
     f.imbue(std::locale("en_US.UTF8"));
-    //f.open(filename.c_str());
-    f.open("../n.txt");
+    f.open(filename.c_str());
     string sLine;
     descr d;
 
     int *p_ptr = NULL;
 
-    while(!f.eof())
+    while(!f.eof() && f.is_open())
     {
-        std::getline(f, sLine);
+        getlineSafe(f, sLine);
 
         cout << "[" << sLine << "]" << endl;
 
@@ -73,4 +82,6 @@ void Analyzer::readFile()
         else if(p_ptr != NULL && sLine[0] != '\t')
             *p_ptr += sLine.length();
     }
+
+    f.close();
 }
