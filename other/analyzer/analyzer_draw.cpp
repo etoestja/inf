@@ -23,7 +23,7 @@ void Analyzer::draw()
     QPoint prev_green, prev_red;
     QPoint curr_green, curr_red;
 
-    for(unsigned i = 3 - 1; i <= 5 - 1; i++)
+    for(unsigned i = 10 - 1; i <= 12 - 1; i++)
     {
         for(unsigned j = 0; j < MONTHS[i]; j++)
         {

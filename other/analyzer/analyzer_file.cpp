@@ -35,6 +35,7 @@ int readDescr(string s, descr& d)
     char *n1 = (char*) malloc(s.length());
     char *n2 = (char*) malloc(s.length());
     sscanf(s.c_str(), "%s %s (%d:%d:%d %d/%d/%d):", n1, n2, &d.h, &d.m, &d.s, &d.d, &d.M, &d.y);
+    fprintf(stderr, "n1=%s n2=%s (%d:%d:%d %d/%d/%d)\n", n1, n2, d.h, d.m, d.s, d.d, d.M, d.y);
     d.n1 = n1;
     d.n2 = n2;
     delete n1;
