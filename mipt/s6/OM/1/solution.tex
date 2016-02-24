@@ -1,0 +1,35 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{graphicx}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning}
+\usepackage{amsmath}
+\usepackage{floatflt}
+\usepackage{enumerate}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\title{Методы оптимизации.\\Задание 1: Субградиентный спуск}
+\date{задано 2016.02.09}
+\author{Сергей~Володин, 374 гр.}
+
+\begin{document}
+\maketitle
+\section*{Задача 1}
+Делаем проекцию на итерациях с номерами из $K$. Пусть $z_{k+1}\eqdef x_k-\alpha_kg^k, x_{k+1}\eqdef\begin{cases}
+\pi_Q(z_{k+1}), k\in K\\
+z_{k+1}, else
+\end{cases}$.
+
+Заметим, что $||x_k-x^*||\leqslant||z_k-x^*||$, $x^*\in Q$. В одном случае неравенство очевидно ($z_k\equiv x_k$), в другом $||x_k-x^*||\equiv||\pi_Q(z_k)-x^*||\leqslant ||z_k-x^*||$
+Рассмотрим последовательность неравенств $$\begin{cases}
+||z_{k+1}-x^*||_2^2\leqslant||z_k-x^*||_2^2-2\alpha_k(f(z_k)-f^*)+\alpha_k^2||g^k||_2^2, k\in\overline{0,N} \\
+\end{cases}$$
+Эти неравенства верны как базовые неравенства для метода субградиентного спуска.
+Получим аналогичные неравенства для $x_{k+1}$ (для $k\in\{0,1,2,...\}$). При $k=0$ это очевидно ($x_0\equiv z_0$, $||x_1-x^*||\leqslant||z_1-x^*||$):
+
+$$||x_1-x^*||_2^2\leqslant||x_0-x^*||_2^2-2\alpha_0(f(x_0)-f^*)+\alpha_k^2||g^k||^2$$. Пусть верно для $k$
+\end{document}
