@@ -1,10 +1,6 @@
 #include "integrate.h"
+#include "function.h"
 #include <stdio.h>
-
-double f(double x)
-{
-    return(4. / (1 + x * x));
-}
 
 int main(int argc, char** argv)
 {
