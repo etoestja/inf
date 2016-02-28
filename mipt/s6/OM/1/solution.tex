@@ -11,6 +11,8 @@
 \usepackage{enumerate}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\newcommand{\matrixr}{\right|\right|}
+\newcommand{\matrixl}{\left|\left|}
 \def\eqdef{\overset{\mbox{\tiny def}}{=}}
 \title{Методы оптимизации.\\Задание 1: Субградиентный спуск}
 \date{задано 2016.02.09}
@@ -32,4 +34,29 @@ z_{k+1}, else
 Получим аналогичные неравенства для $x_{k+1}$ (для $k\in\{0,1,2,...\}$). При $k=0$ это очевидно ($x_0\equiv z_0$, $||x_1-x^*||\leqslant||z_1-x^*||$):
 
 $$||x_1-x^*||_2^2\leqslant||x_0-x^*||_2^2-2\alpha_0(f(x_0)-f^*)+\alpha_k^2||g^k||^2$$. Пусть верно для $k$
+\section*{Задача 2}
+Ответ: да, верно, да, может. Приведем пример $f\colon \mathbb{R}^n\to\mathbb{R}$~--- выпуклая, $x_0\in\mathbb{R}^n, a\in\partial f(x_0)$, $x_0$~--- не точка минимума $f$, $-a$~--- не направление убывания $f$.
+
+$f(\matrixl
+\begin{array}{c}
+x_1\\
+x_2
+\end{array}
+\matrixr)\eqdef |x_1|+|x_2|\colon \mathbb{R}^2\to\mathbb{R}$. Точка $x_0\eqdef \matrixl
+\begin{array}{cc}
+1 & 0
+\end{array}
+\matrixr^T$ Тогда\begin{enumerate}
+\item $f$~--- выпуклая: пусть $t_1,t_2\in\mathbb{R}_+$, $x,y\in\mathbb{R}^2$. $f(t_1x+t_2y)=|t_1x_1+t_2y_1|+|t_1x_2+t_2y_2|\leqslant t_1|x_1|+t_2|y_1|+t_1|x_2|+t_2|y_2|=t_1(|x_1|+|x_2|)+t_2(|y_1|+|y_2|)=t_1f(x)+t_2f(y)$. Возьмем $t_1\in[0,1]$, $t_2=1-t_1$, получим определение выпуклой функции.
+\item Пусть $a=\matrixl
+\begin{array}{cc}
+1 & 1
+\end{array}
+\matrixr^T$. Докажем, что $a\in\partial f(x_0)$. Фиксируем $x\in\mathbb{R}^2$. $f(x)-f(x_0)=|x_1|+|x_2|-1=1\cdot(|x_1|-1)+1\cdot(|x_2|)\equiv(a, x-x_0)$. То есть, верно:
+$$\forall x\in\mathbb{R}^2\hookrightarrow f(x)-f(x_0)\geqslant (a,x-x_0)$$
+То есть, $a$~--- субградиент.
+\item $-a$~--- не направление убывания в $x_0$. Пусть $t\in(0,1)$. Рассмотрим $f(x_0-ta)=|1-t|+|-t|=1-t+t=1$. Получаем $\forall t\in(0,1)\hookrightarrow f(x_0-ta)=f(x_0)$. Получаем, $$\forall t_0>0\,\exists t\eqdef\min\{1/2,t_0/2\}<t_0\colon f(x_0-ta)\geqslant f(x_0)$$
+Это отрицания определения направления убывания.
+\item $x_0$~--- не точка минимума $f$: $f(x_0)=|1|+|0|=1$, $f(0)=0<1=f(x_0)$.
+\end{enumerate}
 \end{document}
