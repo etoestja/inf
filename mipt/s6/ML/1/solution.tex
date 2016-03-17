@@ -1,0 +1,66 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{graphicx}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning}
+\usepackage{amsmath}
+\usepackage{floatflt}
+\usepackage{enumerate}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\newcommand{\matrixr}{\right|\right|}
+\newcommand{\matrixl}{\left|\left|}
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\title{Машинное обучение. Задание 1}
+\newcommand{\x}{\mathbf{x}}
+\newcommand{\w}{\mathbf{w}}
+\newcommand{\W}{\mathbf{W}}
+\newcommand{\y}{\mathbf{y}}
+\newcommand{\X}{\mathbf{X}}
+\newcommand{\Y}{\mathbf{Y}}
+\newcommand{\fx}{\mathbf{f}}
+\newcommand{\fs}{\mbox{f}}
+\newcommand\argmax{\operatornamewithlimits{argmax}\limits}
+%\date{задано 2016.02.09}
+\author{Сергей~Володин, 374 гр.}
+
+\begin{document}
+\maketitle
+\section*{Задача 1}
+Пусть $x\in\mathbb{R}^2$. Для этой точки упорядочим объекты выборки $x_i$ по увеличению $\rho(x,x_i)$: $x^{(1)}, ..., x^{(6)}$. $+1$~--- синий класс. $y_1=+1$ Алгоритм 
+классификации: $a(x,X^l)=\argmax_{y\in\{-1,+1\}}\sum\limits_{i=1}^l[y^{(i)}=y][i\leqslant k]$. Точка $x$ на границе классов $\Leftrightarrow$ $\sum\limits_{i=1}^k[y^{(i)}=-1]=\sum\limits_{i=1}^k[y^{(i)}=+1]$.
+\begin{enumerate}
+\item Пусть $k>1$. Расмотрим последовательность $y^{(1)},...,y^{(k)}$.
+Поскольку $k\geqslant 2$, в ней должно быть не менее $2$ элементов класса $+1$, что невозможно (их всего $1$). Значит, границе не принадлежит ни одна точка, т.е. всё $\mathbb{R}^2$ классифицируется как $-1$.
+\item Пусть $k=1$. Точка лежит на границе $\Leftrightarrow$ $\min\limits_{i\in\overline{2,6}}||x-x_i||=||x-x_1||$. Получаем ломаную на плоскости (дописать)
+\end{enumerate}
+\section*{Задача 2}
+\begin{tabular}{rccc}
+ &  $Q_E$ & $Q_G$ & $Q_H$\\
+Правило 1 & x &  $89500$ & $0.1709$ \\
+Правило 2 & x & $109500$ & $0.3219$ \\
+best & x & Правило 2 & Правило 2 \\
+\end{tabular}
+\begin{enumerate}
+\item Индекс Джини $Q_G(x)=\#\{(x_i,x_j)\colon i\neq j, x(x_i)=x(x_j), y(x_i)=y(x_j)\}$. Для первого правила $Q_G(x^1)=200\cdot 199\cdot 2+100\cdot 99=89500$, для второго $Q_G(x^2)=100\cdot 99\cdot 2+300\cdot 299=109500$
+\item Энтропийный (для класса $c$ и правила $x$ и выборки длины $l$). $h(q)\eqdef -q\log_2 q-(1-q)\log_2 (1-q)$. $P=\#\{x_i=c\}$. $p=\#\{x_i\colon x(x_i)=1, y_i=c\}$, $n=\#\{x_i\colon x(x_i)=1, y_i\neq c\}$. $Q_H(x)=h(\frac{P}{l})-\frac{p+n}{l}h(\frac{p}{p+n})-\frac{l-p-n}{l}h(\frac{P-p}{l-p-n})$. В нашем случае $P=200$, $l=500$. Для первого правила (считаем, что оно предсказвыет первый класс) $p=200$, $n=200$. $Q_H(x^1)\approx 0.1709$, Для второго правила $p=100,\,n=0$, $Q_H(x^2)\approx 0.3219$ $\Rightarrow$ берем второе.
+\item Что такое $Q_E$???
+\end{enumerate}
+\section*{Задача 4а}
+Рассмотрим $K(x,y)-K(y,x)=(y+x,2y+x)-(x+y,2x+y)=(x+y,y-x)\neq0$ в случае $x=0$, $y\neq 0$. Получаем, что функция $K$ не симметрична $\Rightarrow$ не ядро.
+\section*{Задача 4а}
+$K(x,y)\eqdef \underbrace{\ch{(x,y)}}_{K_1(x,y)}+3\underbrace{\sh(x,y)}_{K_2(x,y)}$
+\begin{enumerate}
+\item. Докажем, что $K_1$, $K_2$~--- ядра. Функции $\ch t$ и $\sh t$ разлагаются в сходящийся на $\mathbb{R}$ ряд с неотрицательными коэффициентами, $(x,y)$~--- ядро $\Rightarrow$ $K_1=\ch (x,y)$ и $K_2=\sh (x,y)$~--- ядра.
+\item $K(x,y)$~--- ядро как сумма $K_1$ и $K_2$ с положительными коэффициентами $1$ и $3$.
+\end{enumerate}
+\section*{Задача 5}
+\begin{enumerate}
+\item Нет. Cклонность к переобучению уменьшается, т.к. увеличивается <<усреднение>> по объектам (меньше чувствительность к выбросам). %При $k$, сравнимых с мощностью классов, склонность к переобучению увеличивается: алгоритм дает ответ, соответствующий классу с наибольшим количеством объектов. Получаем рост $LOO$.
+\item Нет. При увеличении количества элементов в листе наоборот получается <<огрубление>> модели.
+\item Да. $C\to+\infty$ $\Rightarrow$ вес регуляризатора $\to 0$. В предельном случае регуляризатор отсутствует, т.е. величина весов может быть сколь угодно большой, что как раз приводит к переобучению на мультиколлинеарной обучающей выборке.
+\end{enumerate}	
+\end{document}
