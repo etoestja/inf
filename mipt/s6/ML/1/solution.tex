@@ -35,7 +35,7 @@
 \begin{enumerate}
 \item Пусть $k>1$. Расмотрим последовательность $y^{(1)},...,y^{(k)}$.
 Поскольку $k\geqslant 2$, в ней должно быть не менее $2$ элементов класса $+1$, что невозможно (их всего $1$). Значит, границе не принадлежит ни одна точка, т.е. всё $\mathbb{R}^2$ классифицируется как $-1$.
-\item Пусть $k=1$. Точка лежит на границе $\Leftrightarrow$ $\min\limits_{i\in\overline{2,6}}||x-x_i||=||x-x_1||$. Получаем ломаную на плоскости (дописать)
+\item Пусть $k=1$. Точка лежит на границе $\Leftrightarrow$ $\min\limits_{i\in\overline{2,6}}||x-x_i||=||x-x_1||$. Получаем ломаную на плоскости {\em (дописать)}
 \end{enumerate}
 \section*{Задача 2}
 \begin{tabular}{rccc}
@@ -48,6 +48,11 @@ best & x & Правило 2 & Правило 2 \\
 \item Индекс Джини $Q_G(x)=\#\{(x_i,x_j)\colon i\neq j, x(x_i)=x(x_j), y(x_i)=y(x_j)\}$. Для первого правила $Q_G(x^1)=200\cdot 199\cdot 2+100\cdot 99=89500$, для второго $Q_G(x^2)=100\cdot 99\cdot 2+300\cdot 299=109500$
 \item Энтропийный (для класса $c$ и правила $x$ и выборки длины $l$). $h(q)\eqdef -q\log_2 q-(1-q)\log_2 (1-q)$. $P=\#\{x_i=c\}$. $p=\#\{x_i\colon x(x_i)=1, y_i=c\}$, $n=\#\{x_i\colon x(x_i)=1, y_i\neq c\}$. $Q_H(x)=h(\frac{P}{l})-\frac{p+n}{l}h(\frac{p}{p+n})-\frac{l-p-n}{l}h(\frac{P-p}{l-p-n})$. В нашем случае $P=200$, $l=500$. Для первого правила (считаем, что оно предсказвыет первый класс) $p=200$, $n=200$. $Q_H(x^1)\approx 0.1709$, Для второго правила $p=100,\,n=0$, $Q_H(x^2)\approx 0.3219$ $\Rightarrow$ берем второе.
 \item Что такое $Q_E$???
+\end{enumerate}
+\section*{Задача 3}
+\begin{enumerate}
+\item Выборка разделима при всех $h$: гиперплоскость $(x,w)-w_0$ при $w=(0,1)-\frac{1}{2}$.
+\item Картинка не соответствует условию. Какое правильное условие???
 \end{enumerate}
 \section*{Задача 4а}
 Рассмотрим $K(x,y)-K(y,x)=(y+x,2y+x)-(x+y,2x+y)=(x+y,y-x)\neq0$ в случае $x=0$, $y\neq 0$. Получаем, что функция $K$ не симметрична $\Rightarrow$ не ядро.
@@ -63,4 +68,14 @@ $K(x,y)\eqdef \underbrace{\ch{(x,y)}}_{K_1(x,y)}+3\underbrace{\sh(x,y)}_{K_2(x,y
 \item Нет. При увеличении количества элементов в листе наоборот получается <<огрубление>> модели.
 \item Да. $C\to+\infty$ $\Rightarrow$ вес регуляризатора $\to 0$. В предельном случае регуляризатор отсутствует, т.е. величина весов может быть сколь угодно большой, что как раз приводит к переобучению на мультиколлинеарной обучающей выборке.
 \end{enumerate}	
+\section*{Задача 6}
+Обозначим $n\eqdef |R_m|$. $p_k\eqdef\frac{n_k}{n}$, где $n_k\equiv\sum_{x_i\in R_m}[y_i=k]$~--- количество объектов класса $k$ в $R_m$. $k\in\overline{1,l}$~--- всего $l$ классов. По условию, $$P\{a(x)=k\}=p_k$$.
+
+Частота ошибок~--- случайная величина $\xi=\frac{1}{n}\sum\limits_{i=1}^n[a(x_i)\neq y_i]=\frac{1}{n}\sum\limits_{i=1}^n\xi_i$, где $\xi_i=[a(x_i)\neq y_i]$~--- также случайная величина. Эта величина принимает только значения $0$ и $1$, откуда находим $M\xi_i=1\cdot P\{\xi_i=1\}+0\cdot P\{\xi_i=0\}=P\{\xi_i=1\}=P\{a(x_i)\neq y_i\}=1-P\{a(x_i)=y_i\}=1-p_{y_i}$
+
+Найдем $M\xi=\frac{1}{n}\sum\limits_{i=1}^nM\xi_i=\frac{1}{n}\sum\limits_{i=1}^n(1-p_{y_i})=1-\sum\limits_{i=1}^n \frac{p_{y_i}}{n}=\boxed{=}$. Запишем $1=\sum\limits_{k=1}^l[y_i=k]$, подставим это выражение в сумму: $\boxed{=}1-\frac{1}{n}\sum\limits_{i=1}^n\sum\limits_{k=1}^l[y_i=k]p_{y_i}$. Переставим суммы местами и воспользуемся тем, что при $y_i\neq k$ слагаемое равно $0$: $\boxed{=}1-\frac{1}{n}\sum\limits_{k=1}^lp_{k}\sum\limits_{i=1}^n[y_i=k]=1-\frac{1}{n}\sum\limits_{k=1}^lp_kn_k=\boxed{1-\sum\limits_{i=1}^lp_k^2}$.
+
+Поскольку решающее правило как функция $a\colon \overline{1,n}\to \overline{1,l}$ определено неоднозначно, индекс Джини правила $a(x)$~--- также случайная величина $\eta=\#\{(x_i,x_j)\in R_m^2| y_i=y_j, a(x_i)=a(x_j) \}=\sum\limits_{i,j\in\overline{1,n}^2, y_i= y_j}\underbrace{[a(x_i)=a(x_j)]}_{\xi_{ij}}$. $\xi_{ij}$ принимает значения только $0$ и $1$, откуда выразим $M\xi_{ij}=P\{\xi_{ij}=1\}=P\{a(x_i)=a(x_j)\}=\sum\limits_{k=1}^lP\{a(x_i)=a(x_j)| a(x_i)=k\}P\{a(x_i)=k\}\boxed{=}$. Случайные величины $a(x_i)$ и $a(x_j)$ независимы при $i\neq j$, поэтому $\boxed{=}\sum\limits_{k=1}^lp_k^2$. При $i=j$ $M\xi_{ij}=1$. Вернемся к $M\eta=\sum\limits_{i,j\in\overline{1,n}^2}[y_i= y_j]\cdot [i=j]\cdot 1+\sum\limits_{i,j\in\overline{1,n}^2}\sum\limits_{k=1}^l[i\neq j][y_i=y_j]p_k^2=n+\sum\limits_{k=1}^lp_k^2\sum\limits_{i,j\in\overline{1,n}^2}[y_i=y_j][i\neq j]$. Рассмотрим последнюю сумму: $\sum\limits_{i=1}^n\sum\limits_{j=1}^n[i\neq j][y_i=y_j]=\sum\limits_{k=1}^ln_k(n_k-1)=\sum\limits_{k=1}^lp_k^2n^2-n$~--- количество пар различных объектов, принадлежащих одному классу. Получаем $M\eta=n+(\sum\limits_{k=1}^lp_k^2)(n^2\sum\limits_{k=1}^lp_k^2-n)\neq M\xi$.
+
+??? проверил для $k=2$, тоже не равно.
 \end{document}
