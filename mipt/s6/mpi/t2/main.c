@@ -1,5 +1,6 @@
 #include <mpi.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "exact.h"
 #include "config.h"
 
@@ -23,6 +24,7 @@ void processExchange(int rank, int size, double* arr, int n)
     }
     else
     {
+        MPI_Status status;
         if(rank != 0)
             MPI_Sendrecv(arr + 1, 1, MPI_DOUBLE,
                 rank - 1, 2,
@@ -38,83 +40,84 @@ void processExchange(int rank, int size, double* arr, int n)
     }
 }
 
-int getActivePoints(int rank, int size, int N)
-{
-    
-}
+int N;
+double tau;
+double h;
 
 int main(int argc, char** argv)
 {
+    N = 10;
+    tau = 0.001;
+    h = l / N;
     // MPI process parameters
     int rank, size;
 
-    // MPI initialization
+/*    // MPI initialization
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
     // print my status
     fprintf(stderr, "SIZE=%d RANK=%d\n", size, rank);
+*/
 
-    double tau = 0.001;
-    double h = 0.001;
-    int N = l / h;
-    int n = N / size;
+    printDifferentialSingle();
+    printExact();
 
-    if(n * size != N)
-        n++;
+    return(0);
+}
 
-    if(rank == size - 1)
-        n = N - (size - 1) * n;
+inline void applyPattern(double* arrOld, double* arrNew, int index, double K)
+{
+    arrNew[index] = arrOld[index] + K * (arrOld[index - 1] - 2 * arrOld[index] + arrOld[index + 1]);
+}
 
-    n += 1;
+inline void swap(double** a, double** b)
+{
+    double* t = *a;
+    *a = *b;
+    *b = t;
+}
 
-    // points for i: 0...n
-    // overall points: 0...N
-    double* arr1 = malloc(sizeof(double) * (n + 1));
-    double* arr2 = malloc(sizeof(double) * (n + 1));
+int printDifferentialSingle()
+{
+    double* arrOld = malloc(sizeof(int) * (N + 1));
+    double* arrNew = malloc(sizeof(int) * (N + 1));
+    int i, j;
+    for(i = 0; i <= N; i++)
+        arrOld[i] = u_0;
 
-    double t = 0;
-    double* arr_old = arr1;
-    double* arr_new = arr2;
+    arrOld[0] = 0;
+    arrOld[N] = 0;
 
-    arr_old[0] = 0;
-    arr_old[n - 1] = 0;
-    int i;
-    for(i = 1; i < n; i++)
-        arr_old[i] = u_0;
+    double S = 1. / tau;
 
-    while(t <= T)
+    for(i = 0; i < S; i++)
     {
-        for(i = 1; i <= n - 1; i++)
-            arr_new[i] = arr_old[i] + k * tau / h / h * (arr_old[i - 1] - 2 * arr_old[i] + arr_old[i + 1]);
+        for(j = 1; j <= N - 1; j++)
+            applyPattern(arrOld, arrNew, j, k * tau / h / h);
 
-        processExchange(rank, size, arr_new, n);
+        arrNew[0] = 0;
+        arrNew[N] = 0;
 
-        double* tmp = arr_old;
-        arr_old = arr_new;
-        arr_new = tmp;
+        printf("%0.2f\t", tau * i);
+        for(j = 0; j <= N; j++)
+            printf("%0.2lf\t", arrNew[j]);
+        printf("\n");
 
-        t += tau;
+        swap(&arrNew, &arrOld);
     }
 
-    double* arr = malloc(sizeof(double) * (N + 1));
-    if(rank == 0)
-    {
-        memcpy(arr, arr_old, sizeof(double) * n);
-        for(i = 1; i < size; i++)
-        {
-            MPI_Recv(arr + i * n, i == size - 1 ? (N - (size - 1) * n))
-        }
-    }
+    return(0);
 }
 
 int printExact()
 {
     double t, x;
-    for(t = 0; t <= T; t += 0.001)
+    for(t = 0; t <= T; t += tau)
     {
-        for(x = 0; x <= l; x += 0.05)
+        printf("%0.2f\t", t);
+        for(x = 0; x <= l; x += h)
             printf("%0.2lf\t", getExactSolution(x, t));
         printf("\n");
     }
