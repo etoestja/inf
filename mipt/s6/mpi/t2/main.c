@@ -4,7 +4,7 @@
 #include "exact.h"
 #include "config.h"
 
-#define NOCOUT
+//#define NOCOUT
 
 int N, S;
 double tau;
@@ -26,7 +26,7 @@ inline void swap(double** a, double** b)
 void printPoint(int i, double val)
 {
 //    printf("T=%0.2f x=%0.2f i=%d u=%0.2f\n", T, i * h, i, val);
-    printf("%0.2f\t", val);
+    printf("%lf\t", val);
 }
 
 void processExchange(int rank, int size, double* arr, int n)
@@ -71,8 +71,8 @@ int main(int argc, char** argv)
     T = 0.1;
     k = 1;
     u_0 = 1;
-    N = 100000;
-    S = 1000;
+    N = 10;
+    S = 100;
     tau = T / S;
     h = l / N;
 
@@ -118,17 +118,23 @@ int main(int argc, char** argv)
     double* arrOld = malloc(sizeof(double) * (n + 1));
     double* arrNew = malloc(sizeof(double) * (n + 1));
 
-    arrOld[0] = 0;
-    arrNew[0] = 0;
-    arrOld[n] = 0;
-    arrNew[n] = 0;
-
     int i, j;
     // i for length
     // j for time
 
-    for(i = 1; i <= n - 1; i++)
+    for(i = 0; i <= n; i++)
         arrOld[i] = u_0;
+
+    if(rank == 0)
+    {
+        arrOld[0] = 0;
+        arrNew[0] = 0;
+    }
+    if(rank == size - 1)
+    {
+        arrOld[n] = 0;
+        arrNew[n] = 0;
+    }
 
     for(j = 1; j <= S; j++)
     {
@@ -235,7 +241,7 @@ int printExactEnd()
     double t, x;
     printf("EXACT:\n");
     for(x = 0; x <= l; x += h)
-        printf("%0.2f\t", getExactSolution(x, T));
+        printf("%lf\t", getExactSolution(x, T));
     printf("\n");
     return(0);
 }
