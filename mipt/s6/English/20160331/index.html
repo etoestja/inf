@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Sergey Volodin, 374. Presentation. CPUs</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/simple.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				
+				<section>
+					<h2>Central processing unit</h2>
+					<img style="border: 0px;" src="./images/cpus.jpg" />
+				</section>
+				
+				<section>
+					<h2>Plan</h2>
+					<span class="h3">
+					<ol type="1">
+						<li>What problem is being solved?</li>
+						<li>What is a CPU?</li>
+						<li>History</li>
+						<li>How does it work?</li>
+					</ol>
+					</span>
+				</section>
+				
+				<section>
+					<h2>Problem</h2>
+					<p>Solve all tasks with a single device</p>
+					<p><img style="width: 50%; border: 0px" src="./images/ruler.jpg" />
+					<img style="width: 50%; border: 0px" src="./images/calc.jpg" /></p>
+				</section>
+				
+				<section>
+					<h2>What is a CPU</h2>
+					<ol type="1">
+						<li>Simple operations: $+ - * /$ ...</li>
+						<li><b>A program</b> (instructions)</li>
+						<img style="width: 150%; border: 0;" src="./images/diagram.png" />
+					</ol>
+				</section>
+				
+				<section>
+					<h2>History</h2>
+					<h4>Mechanical devices, vacuum tube devices</h4>
+					<table border="0" style="width: 100%">
+						<tr><td>
+					<img style="border: 0px; width: 50%;" src="./images/mech.jpg" />
+					<p style="font-size: 70%">1850s, &laquo;Analytical Engine&raquo;, Henry Babbage</p>
+					</td><td>
+					<img style="border: 0px; width: 120%;" src="./images/tube.jpg" />
+					<p style="font-size: 70%">1940s, Colossus computer</p>
+					</td>
+					</tr>
+					</table>
+				</section>
+				
+				<section>
+					<h2>History</h2>
+					<h4>Silicon chips</h4>
+					<img style="border: 0px; width: 50%;" src="./images/8086.jpg" />
+					<p style="font-size: 70%">1970s, Intel 8086</p>
+				</section>
+				
+				<section>
+					<h2>How does it work?</h2>
+					<ol type="1">
+					<li>Lots of logic gates</li>
+					<li>One gate made of transistors</li>
+					<li>Transistors made physically in silicon</li>
+					</ol>
+				</section>
+				
+				<section>
+					<h2>How does it work?</h2>
+					<p>Logic gate</p>
+					<img style="width: 40%; border: 0px;" src="./images/gate.png" />
+				</section>
+				
+				<section>
+					<h2>How does it work?</h2>
+					<p>...Implemented by transistors</p>
+					<img style="width: 40%; border: 0px;" src="./images/nand.gif" />
+					
+					<img style="width: 40%; border: 0px;" src="./images/trans.gif" />
+				</section>
+				
+				<section>
+					<h2>How does it work?</h2>
+					<p>Lots of them!</p>
+					<img style="width: 40%; border: 0px;" src="./images/inside.jpg" />
+				</section>
+				
+				<section>
+					<h2>Summary</h2>
+					<ul>
+						<li>One device for all tasks</li>
+						<li>Does very simple operations</li>
+						<li>Made of silicon</li>
+					</ul><br />
+				</section>
+				
+				<section>
+					<p style="font-size: 200%;">Thank you!<br />Questions?</p>
+					<img style="border: 0px;" src="./images/intro.png" /><br />
+				</section>
+				
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: false,
+				progress: true,
+				history: true,
+				center: true,
+				slideNumber: true,
+
+				math: {
+					// mathjax: 'http://cdn.mathjax.org/mathjax/latest/MathJax.js',
+					config: 'TeX-AMS_HTML-full'
+				},
+
+				transition: 'linear', // default/cube/page/concave/zoom/linear/fade/none
+                backgroundTransition: 'slide',
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/math/math.js', async: true },
+                    // Remote control your reveal.js presentation using a touch device
+                    { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } },
+                    
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

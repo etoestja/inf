@@ -1,0 +1,34 @@
+Hello everyone.	My name is Sergey Volodin. Today I'm going to tell you about central processing units. It's quite an interesting toic because we all use them but doesn't quite understand how does it all work.
+
+First, i will tell you what roblem is being solved
+Next I will answer the question what is a cu
+Then I will tell you some history
+And finally, I will tell you how it works.
+
+My resentation will last for about  7 minutes. Feel free to ask questions if you like.
+
+The resentation begins.
+
+First of all, the roblem. There are a lot of tasks in this world and it's 	quite hard to develo a single device for each task. For examle, there were slide rules which could add, multily subtract and even do logarithms. There also were mechanical calculators which could do addition and multilication etc. All of these devices have a roblem: for each task you must do manually all of these oerations.
+
+So, what is a CU? How do we solve all of the tasks at once? Well, a CU is a device which can also do addition, multilication, division and subtraction, but it also can accet instructins. So, you can write a rogram and it will run it.
+
+Moving to the next oint, let's talk about history. Many eole tried to imlement this idea a lot of years ago. For examle tere were vacuum tube comuters and even mechanical ones. But they their roblem was that they worked very slowly.
+
+In 1970s silicon chis aeared. It allowed to make CUs smaller and more efficient.
+
+Let's now talk about how does the CU work? It's made of logic gates. Each logic gate is made of transistors. And transistors are hysically made of silicon.
+
+A logic gate is just a binary function. For examle, and or xor etc.
+
+Each logic gate is imlemented in transistors. For examle, NAND gate is imlemented this way. You need 4 transistors for this gate. 
+
+Transistors are made of silicon. One CU consists of billions of transistors. You see there only a small art.
+
+So, that brings me to the end of my resentatioon.
+
+Let's recall what we've discussed.
+First, we want to solve all of the tasks with a single device.
+Second, the cu does very simle oerations
+And it's made of silicon.
+
