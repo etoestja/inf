@@ -1,0 +1,31 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{graphicx}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning}
+\usepackage{amsmath}
+\usepackage{floatflt}
+\usepackage{enumerate}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\newcommand{\matrixr}{\right|\right|}
+\newcommand{\matrixl}{\left|\left|}
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\title{Методы оптимизации. Задание 2}
+\date{задано 2016.03.29}
+\author{Сергей~Володин, 374 гр.}
+
+\begin{document}
+\maketitle
+\section*{Задача 1}
+Доказать: Пусть $f$~--- $\beta$-гладкая. Тогда $\forall x,y \hookrightarrow f(x)\leqslant f(y)+\nabla^Tf(y)(x-y)+\frac{\beta}{2}||x-y||^2$.
+\section*{Задача 2}
+Определим $\delta_t\eqdef f(x_t)-f(x^*)$, где $x_t$~--- $t$-я точка в алгоритме Frank-Wolfe. Получена оценка $\delta_{t+1}\leqslant \frac{\beta R^2}{2}(\prod\limits_{k=1}^t(1-\gamma_k)+\sum\limits_{k-1}^n\gamma^2_{t-k}\prod\limits_{j=t-k}^t(1-\gamma_j)$. Оценить выражение как функцию $\gamma_t$ и выбрать $\gamma_t$ как минимум этой функции.
+\section*{Задача 3}
+$E=(\mathbb{R}^n,||\cdot||)$. Определим $f^*(p)\eqdef\sup\limits_{x\in\mathbb{R}^n}(p^Tx-f(x))$, $p\in E^*$. Найти субдифференциал $\partial f^*(p)$.
+\section*{Задача 4}
+Задача про метод проекции субградиента из задания 1 (какая скорость сходимости, если делать проекцию каждые $k$ шагов)
+\end{document}
