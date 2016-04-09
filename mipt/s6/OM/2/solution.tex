@@ -22,6 +22,18 @@
 \maketitle
 \section*{Задача 1}
 Доказать: Пусть $f$~--- $\beta$-гладкая. Тогда $\forall x,y \hookrightarrow f(x)\leqslant f(y)+\nabla^Tf(y)(x-y)+\frac{\beta}{2}||x-y||^2$.
+
+\begin{enumerate}
+	\item Имеем $||\nabla f(x)-\nabla f(y)||_*\leqslant \beta ||x-y||$. Тогда 
+	\item Обозначим $\mu(t)=f(y+t(x-y))\colon [0,1]\to\mathbb{R}$. Поскольку $f$ дифференцируема, $\mu$ также дифференцируема как композиция дифференцируемых функций. Тогда $\mu(1)=\mu(0)+\int\limits_0^1\mu'(t)dt$. Подставим определение $\mu$, получим формулу Ньютона-Лейбница для $f$ на отрезке $[y,x]\in\mathbb{R}^n$: $f(x)=f(y)+\int\limits_0^1 dt \nabla^Tf(y+t(x-y))(x-y)$.
+	\item Рассмотрим величину $\alpha\eqdef f(x)-f(y)-\nabla^Tf(y)(x-y)$ и докажем, что $\alpha\leqslant 0$:
+	\item $\alpha=\int\limits_0^1 dt \nabla^Tf(y+t(x-y))(x-y)-\nabla^Tf(y)$. Внесем второе слагаемое под интеграл, получим
+	$$\alpha=\int\limits_0^1 dt \left(\nabla^T f(y+t(x-y))-\nabla^T f(y)\right)(x-y)$$
+	\item $|\alpha|\leqslant\int\limits_0^1 dt |\underbrace{\left(\nabla^T f(y+t(x-y))-\nabla^T f(y)\right)}_{A}(x-y)|$.
+	\item $A$--- оператор, действующий на $x-y$. Поскольку $f$~--- $\beta$-гладкая, т.е. $$\forall x,y\hookrightarrow ||\nabla f(x) - \nabla f(y)||_*\leqslant \beta ||x-y||,$$
+	Получаем $||A||_*=\sup\limits_{x\in\mathbb{R}}\frac{|Ax|}{||x||}\leqslant \beta ||y-t(x-y)-y||=\beta t ||x-y||$, откуда $|A(x-y)|\leqslant ||A||_*||x-y||\leqslant \beta t||x-y||^2$
+	\item Получаем $|\alpha|\leqslant \int\limits_0^1 \beta t ||x-y||^2 dt = \frac{\beta}{2}||x-y||^2$ $\blacksquare$
+\end{enumerate}
 \section*{Задача 2}
 Определим $\delta_t\eqdef f(x_t)-f(x^*)$, где $x_t$~--- $t$-я точка в алгоритме Frank-Wolfe. Получена оценка $\delta_{t+1}\leqslant \frac{\beta R^2}{2}(\prod\limits_{k=1}^t(1-\gamma_k)+\sum\limits_{k-1}^n\gamma^2_{t-k}\prod\limits_{j=t-k}^t(1-\gamma_j)$. Оценить выражение как функцию $\gamma_t$ и выбрать $\gamma_t$ как минимум этой функции.
 \section*{Задача 3}
