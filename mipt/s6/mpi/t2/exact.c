@@ -4,7 +4,7 @@
 
 double getExactSolutionTerm(double x, double t, unsigned m)
 {
-    return(exp(-k * M_PI * M_PI * (2 * m + 1) * t / l / l) * sin(M_PI * (2 * m + 1) * x / l) / (2 * m + 1));
+    return(exp(-k * M_PI * M_PI * (2 * m + 1) * (2 * m + 1) * t / l / l) * sin(M_PI * (2 * m + 1) * x / l) / (2 * m + 1));
 }
 
 double getExactSolution(double x, double t)
