@@ -72,7 +72,7 @@ int main(int argc, char** argv)
     k = 1;
     u_0 = 1;
     N = 10;
-    S = 100;
+    S = 1000;
     tau = T / S;
     h = l / N;
 
@@ -93,10 +93,21 @@ int main(int argc, char** argv)
 #endif
 
         runBegin = MPI_Wtime();
+
+        printf("K = %lf\n", k * tau / h / h);
     }
 
 //    printDifferentialSingle();
 //    printExact();
+
+    // TOTAL: N - 1 active points
+    if(size >= N)
+    {
+        if(rank == 0)
+            printf("Error: size = %d >= %d = N. Can't continue\n", size, N);
+        MPI_Finalize();
+        return(0);
+    }
 
     int p = size;
     int M = N - 1;
