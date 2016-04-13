@@ -204,6 +204,8 @@ int main(int argc, char** argv)
     }
 #endif
 
+    MPI_Barrier(MPI_COMM_WORLD);
+
     if(rank == 0)
     {
         runEnd = MPI_Wtime();
