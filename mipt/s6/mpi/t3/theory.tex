@@ -1,0 +1,65 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=15mm, right=15mm, top=15mm, bottom=15mm]{geometry}
+%\geometry{paperwidth=210mm, paperheight=2000pt, left=5pt, top=5pt}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,arrows,trees,calc}
+\usepackage{amsmath}
+\usepackage[makeroom]{cancel} % зачеркивание
+\usepackage{multicol,multirow} %Несколько колонок
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{listings}
+\usepackage{wasysym}
+\author{Сергей~Володин, 374 гр.}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+
+\title{Задача 3}
+
+% алгоритмы (Рубцов)
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{algorithm2e}
+
+%+= и -=, иначе разъезжаются...
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
+% пустое слово  (rubtsov)
+\def\eps{\varepsilon}
+
+% регулярные языки  (rubtsov)
+
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\newcommand{\niton}{\not\owns}
+
+\begin{document}
+\maketitle
+Пусть $G\subseteq \mathbb{R}^2$, $$G=\{(x,y)|x\in[0,\pi],\,y\in[0,\sin x]\}\subset \Pi=[a,b]\times[c,d]$$
+
+Найти: $$I\eqdef \int\limits_G f(x,y)dxdy$$
+
+Пусть $$\xi\sim u[a,b],\,\eta\sim u[c,d]$$
+
+$\xi,\,\eta$~--- независимы.
+
+$$g(x,y)\eqdef f(x,y)[(x,y)\in G]$$
+
+Тогда $$\mathbb{E} g(\xi,\eta)=\int\limits_\Pi g(x,y)f_{\xi\eta}(x,y)dxdy=\int\limits_\Pi f(x,y)[(x,y\in G)]\frac{1}{b-a}\frac{1}{c-d}dxdy=\frac{1}{\mu \Pi}\int\limits_G f(x,y) dxdy$$, то есть,
+
+$$I=\mu \Pi\cdot \mathbb{E}g(x,y)$$
+
+Имеем выборку $\{(x_k,y_k)\}_{k=1}^n\sim (\xi,\eta)$.
+
+Тогда $$I\approx \mu\Pi\frac{1}{N}\sum\limits_{i=1}^Nf(x_k,y_k)[(x_k,y_k)\in G]$$
+
+Для конкретной задачи $\xi\sim u[0,\pi]$, $\eta\sim u[0,1]$ $$I\approx\frac{\pi}{N}\sum\limits_{k=1}^Nx_ky_k[y_k\leqslant\sin x_k]$$
+\end{document}
