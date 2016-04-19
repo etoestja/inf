@@ -13,7 +13,7 @@ do
     echo -n "[$p, "
     while (( $k < $kn ))
     do
-        res1=$(./main $p 100000 2>&1|grep -aEo "[0-9.]+")
+        res1=$(./main $p 1000000 2>&1|grep -aEo "[0-9.]+")
         echo -n "$res1, "
         let k=k+1
     done

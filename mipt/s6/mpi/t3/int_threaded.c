@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-double integrate_threaded(int P, int n, int mode)
+double integrate_threaded(int P, int n, int d, int mode)
 {
     pthread_t* threads = malloc(sizeof(pthread_t) * P);
     integrate_params* params = malloc(sizeof(integrate_params) * P);
@@ -22,7 +22,7 @@ double integrate_threaded(int P, int n, int mode)
         params[i].seed_y = P + i;
         params[i].x1 = 0;
         params[i].x2 = M_PI;
-        params[i].N = n;
+        params[i].N = n + (i < d ? 1 : 0);
 
         if(mode == MODE_SHARED)
         {

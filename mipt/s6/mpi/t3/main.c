@@ -33,8 +33,7 @@ int main(int argc, char** argv)
     if(argc == 4 && !strcmp(argv[3], modes[MODE_RET]))
         mode = MODE_RET;
 
-    if(n * P != N)
-        StdErr("[main]\t\tWarning: N = %d not divisable by %d = P. Skipped %d points", N, P, N - n * P);
+    int d = N - n * P;
 
     if(N < P)
     {
@@ -44,15 +43,15 @@ int main(int argc, char** argv)
 
     print_exact();
 
-    StdErr("[main]\t\tN = %d P = %d n = %d mode = %s", N, P, n, mode == MODE_RET ? "ret" : "shared");
+    StdErr("[main]\t\tN = %d P = %d n = %d d = %d mode = %s", N, P, n, d, mode == MODE_RET ? "ret" : "shared");
 
 
     gettimeofday(&t1, NULL);
-    double res = integrate_threaded(P, n, mode);
+    double res = integrate_threaded(P, n, d, mode);
     gettimeofday(&t2, NULL);
 
     StdErr("[main]\t\tres = %lf", res);
-    fprintf(stderr, "TIME = %llf", time_dist(&t1, &t2));
+    fprintf(stderr, "TIME = %llf\n", time_dist(&t1, &t2));
 
     return(0);
 }

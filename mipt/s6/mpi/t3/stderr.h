@@ -4,7 +4,7 @@
 void StdErr(const char* s, ...);
 void StdErr_f(const char* s, ...);
 
-//#define INT_CERR
+#define INT_CERR
 
 #ifdef INT_CERR
 #define StdErr StdErr_f

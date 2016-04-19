@@ -14,7 +14,7 @@ void* integrate_thread(void* a)
     integrate_params params_local;
     memcpy((void*) &params_local, a, sizeof(integrate_params));
 
-    StdErr("[int_thread]\tseed %d %d", params_local.seed_x, params_local.seed_y);
+    StdErr("[int_thread]\tN %d seed %d %d", params_local.N, params_local.seed_x, params_local.seed_y);
 
     double res = integrate(&params_local);
 
