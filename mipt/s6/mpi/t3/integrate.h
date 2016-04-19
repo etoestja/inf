@@ -1,11 +1,6 @@
 #ifndef INTEGRATE_H
 #define INTEGRATE_H
 
-struct IntegrateParameters
-{
-    double xmin, xmax;
-    double ymin, ymax;
-    int NPoints
-};
+double integrate(int seed_x, int seed_y, double x1, double x2, unsigned N);
 
 #endif
