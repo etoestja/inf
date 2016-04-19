@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "timedist.h"
 
 const char* modes[] = {"shared", "ret"};
 
@@ -14,6 +15,8 @@ void print_exact()
 
 int main(int argc, char** argv)
 {
+    struct timeval t1, t2;
+
     if(argc < 3)
     {
         printf("Usage: %s n_threads N_points [mode]\n", argv[0]);
@@ -43,9 +46,13 @@ int main(int argc, char** argv)
 
     StdErr("[main]\t\tN = %d P = %d n = %d mode = %s", N, P, n, mode == MODE_RET ? "ret" : "shared");
 
-    double res = integrate_threaded(P, n, mode);
 
-    StdErr_f("[main]\t\tres = %lf", res);
+    gettimeofday(&t1, NULL);
+    double res = integrate_threaded(P, n, mode);
+    gettimeofday(&t2, NULL);
+
+    StdErr("[main]\t\tres = %lf", res);
+    StdErr_f("TIME = %llf", time_dist(&t1, &t2));
 
     return(0);
 }
