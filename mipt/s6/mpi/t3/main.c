@@ -34,7 +34,7 @@ int main(int argc, char** argv)
         mode = MODE_RET;
 
     if(n * P != N)
-        StdErr_f("[main]\t\tWarning: N = %d not divisable by %d = P. Skipped %d points", N, P, N - n * P);
+        StdErr("[main]\t\tWarning: N = %d not divisable by %d = P. Skipped %d points", N, P, N - n * P);
 
     if(N < P)
     {
@@ -52,7 +52,7 @@ int main(int argc, char** argv)
     gettimeofday(&t2, NULL);
 
     StdErr("[main]\t\tres = %lf", res);
-    StdErr_f("TIME = %llf", time_dist(&t1, &t2));
+    fprintf(stderr, "TIME = %llf", time_dist(&t1, &t2));
 
     return(0);
 }
