@@ -16,4 +16,6 @@ fi
 export INF_PATH=$INF_PATH
 
 alias cdinf="cd $INF_PATH"
+alias cds6="cd $INF_PATH/mipt/s6"
+alias cdmpi="cd $INF_PATH/mipt/s6/mpi"
 export PATH="$PATH:$INF_PATH/mf"
