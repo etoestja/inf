@@ -21,6 +21,7 @@
 \begin{document}
 \maketitle
 \section*{Задача 1}
+(2016.03.29)
 Доказать: Пусть $f$~--- $\beta$-гладкая. Тогда $\forall x,y \hookrightarrow f(x)\leqslant f(y)+\nabla^Tf(y)(x-y)+\frac{\beta}{2}||x-y||^2$.
 
 \begin{enumerate}
@@ -39,5 +40,31 @@
 \section*{Задача 3}
 $E=(\mathbb{R}^n,||\cdot||)$. Определим $f^*(p)\eqdef\sup\limits_{x\in\mathbb{R}^n}(p^Tx-f(x))$, $p\in E^*$. Найти субдифференциал $\partial f^*(p)$.
 \section*{Задача 4}
-Задача про метод проекции субградиента из задания 1 (какая скорость сходимости, если делать проекцию каждые $k$ шагов)
+(2016.04.05)
+Доказать, что метод возможных направлений с $S\eqdef \{s| ||s||^2\leqslant r\}$ эквивалентен задаче квадратичного программирования
+$$\begin{cases}
+\sigma+\gamma ||s||^2\to\min\\
+\sigma\geqslant(\nabla f,s)\\
+\sigma \geqslant (\nabla g_i,s)
+\end{cases}$$
+при некотором $\gamma$
+\section*{Задача 5}
+(2016.04.12)
+Пусть $\varphi$~--- дифференцируемая. Доказать или опровергнуть:
+$\nabla\varphi$~--- липшицев с константой $L$ $\Leftrightarrow$ $\varphi^*$~--- выпуклая/сильно выпуклая
+\section*{Задача 6}
+(2016.04.12)
+$\varphi(x)\eqdef f(y)-\nabla^Tf(x)\cdot y$~--- выпуклая (?), если $f$~--- выпуклая
+\section*{Задача 7}
+Доказать\begin{enumerate}
+\item $\frac{1}{\epsilon_{k+1}}-\frac{1}{\epsilon_{k}}\geqslant \omega_k$
+\item $\forall k \omega_k\geqslant \omega_1$.
+\end{enumerate}
+Обозначения~--- метод быстрых градиентов
+\section*{Задача 8}
+Пусть $x_{k+1}\eqdef \mbox{prox}_{D_\varPhi}(C,y_{k+1})$. Доказать $\forall x$ $(\nabla\varPhi(x_{k+1})-\nabla\varPhi(y_{k+1}))^T(x_{k+1}-x)\leqslant 0$
+\section*{Задача 9}
+Исследовать, выполняется ли неравенство треугольника (с обратным знаком) для $D_{\varPhi}$ для произвольных трех точек
+\section*{Задача 10}
+Выбрать наилучшее $\gamma$ для полученной на семинаре оценки $\sum (f(x_j)-f(x))$. Оценить $D_{\varPhi}(x,x_1)$ через $$R^2\eqdef \sup_{x\in C}|\varPhi(x)-\varPhi(x_1)|$$
 \end{document}
