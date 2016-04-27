@@ -11,7 +11,8 @@ double integrate_threaded(int P, int n, int d, int mode)
     integrate_params* params = malloc(sizeof(integrate_params) * P);
 
     sem_t sem;
-    double res = 0;
+    volatile double* res = malloc(sizeof(double));
+    *res = 0;
 
     sem_init(&sem, 0, 1);
 
@@ -27,7 +28,7 @@ double integrate_threaded(int P, int n, int d, int mode)
         if(mode == MODE_SHARED)
         {
             params[i].sem = &sem;
-            params[i].res = &res;
+            params[i].res = res;
         }
         else if(mode == MODE_RET)
         {
@@ -44,17 +45,20 @@ double integrate_threaded(int P, int n, int d, int mode)
         {
             double* res1;
             pthread_join(threads[i], &res1);
-            res += *res1;
+            *res += *res1;
             free(res1);
         }
         else if(mode == MODE_SHARED)
             pthread_join(threads[i], NULL);
     }
 
-    res /= P;
+    *res /= P;
 
     free(threads);
     free(params);
 
-    return(res);
+    double res_ = *res;
+    free((void*) res);
+
+    return(res_);
 }
