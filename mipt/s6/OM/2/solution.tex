@@ -36,35 +36,64 @@
 	\item Получаем $|\alpha|\leqslant \int\limits_0^1 \beta t ||x-y||^2 dt = \frac{\beta}{2}||x-y||^2$ $\blacksquare$
 \end{enumerate}
 \section*{Задача 2}
-Определим $\delta_t\eqdef f(x_t)-f(x^*)$, где $x_t$~--- $t$-я точка в алгоритме Frank-Wolfe. Получена оценка $\delta_{t+1}\leqslant \frac{\beta R^2}{2}(\prod\limits_{k=1}^t(1-\gamma_k)+\sum\limits_{k-1}^n\gamma^2_{t-k}\prod\limits_{j=t-k}^t(1-\gamma_j)$. Оценить выражение как функцию $\gamma_t$ и выбрать $\gamma_t$ как минимум этой функции.
+Определим $\delta_t\eqdef f(x_t)-f(x^*)$, где $x_t$~--- $t$-я точка в алгоритме Frank-Wolfe. Получена оценка
+$$\delta_{t+1}\leqslant \frac{\beta R^2}{2}\left(\prod\limits_{k=1}^t(1-\gamma_k)+\sum\limits_{k=1}^t\gamma^2_{t-k}\prod\limits_{j=t-k+1}^t(1-\gamma_j)\right)\boxed{=}$$
+
+Оценить выражение как функцию $\gamma_t$ и выбрать $\gamma_t$ как минимум этой функции.
+
+Переобозначим $k\to t-k$ во втором слагаемом: $\boxed{=}\left((1-\gamma_0)\cdot...\cdot(1-\gamma_t)+\sum\limits_{k=1}^t\gamma_k^2\prod\limits_{j=k+1}^t(1-\gamma_j)\right)\cdot \mu\eqdef \hat{\delta}_{t+1}$, где $\mu=\frac{\beta R^2}{2}$.
+
+Обозначим
+$$\Psi_{t+1}\eqdef \frac{\hat{\delta}_{t+1}}{\mu}=(1-\gamma_1)...(1-\gamma_t)+\sum\limits_{k=1}^t\gamma_k^2\prod\limits_{j=k+1}^{t}(1-\gamma_j)$$
+
+Тогда $$\Psi_{t+1}=(1-\gamma_t)\Psi_t+\gamma_t^2$$
+причем $\Psi_2=1$ (так как $\delta_2\leqslant \frac{\beta R^2}{2}$, поскольку $f$~--- $\beta$-гладкая) и $\Psi_{t+1}=\Psi_{t+1}(\gamma_1,...,\gamma_t)$
+
+Найдем минимум функции $\Psi_{t+1}(\gamma_1,...,\gamma_t)$.
+
+Поскольку $\Psi_t$ не зависит от $\gamma_t$, получаем:
+$$\frac{\partial \Psi_{t+1}}{\partial \gamma_t}=-\Psi_t+2\gamma_t=0$$
+
+Откуда $$\gamma_t=\frac{\Psi_t}{2}$$
+
+Пусть $l<t$. Найдем $$\frac{\partial \Psi_{t+1}}{\partial \gamma_l}=(1-\gamma_t)\frac{\partial \Psi_{t}}{\partial \gamma_l}=...=(1-\gamma_t)\cdot...\cdot(1-\gamma_{l+1})\frac{\partial \Psi_{l+1}}{\partial \gamma_l}=0$$
+
+Считаем, что $\gamma_t\neq 1,...,\gamma_2\neq 1$, откуда
+
+$$\frac{\partial \Psi_{l+1}}{\partial \gamma_l}=0\Rightarrow \gamma_l=\frac{\Psi_l}{2}$$
+
+Пусть $l\in \overline{2,t}$. Подставим $\gamma_l$ в $\Psi_{l+1}$:
+
+$$\Psi_{l+1}=(1-\gamma_l)\Psi_{l}+\gamma_l^2=\Psi_l-\frac{\Psi_l^2}{4}$$
+
+Найдем $$\gamma_{l+1}=\frac{1}{2}\Psi_{l+1}=\frac{1}{2}(\Psi_l-\frac{\Psi_l^2}{4})=\frac{1}{2}(2\gamma_l-\gamma_l^2)=\gamma_l-\frac{\gamma_l}{2}$$
+
+Получаем рекуррентную последовательность:
+$$
+\begin{cases}
+\gamma_1 = 1\\
+\gamma_{l+1}=\gamma_l-\frac{\gamma_l^2}{2}\\
+\end{cases}
+$$
+
+{\em ??? Сюда не подходит $\gamma_t=\frac{2}{t+1}$}
 \section*{Задача 3}
 $E=(\mathbb{R}^n,||\cdot||)$. Определим $f^*(p)\eqdef\sup\limits_{x\in\mathbb{R}^n}(p^Tx-f(x))$, $p\in E^*$. Найти субдифференциал $\partial f^*(p)$.
-\section*{Задача 4}
-(2016.04.05)
-Доказать, что метод возможных направлений с $S\eqdef \{s| ||s||^2\leqslant r\}$ эквивалентен задаче квадратичного программирования
-$$\begin{cases}
-\sigma+\gamma ||s||^2\to\min\\
-\sigma\geqslant(\nabla f,s)\\
-\sigma \geqslant (\nabla g_i,s)
-\end{cases}$$
-при некотором $\gamma$
-\section*{Задача 5}
-(2016.04.12)
-Пусть $\varphi$~--- дифференцируемая. Доказать или опровергнуть:
-$\nabla\varphi$~--- липшицев с константой $L$ $\Leftrightarrow$ $\varphi^*$~--- выпуклая/сильно выпуклая
-\section*{Задача 6}
-(2016.04.12)
-$\varphi(x)\eqdef f(y)-\nabla^Tf(x)\cdot y$~--- выпуклая (?), если $f$~--- выпуклая
-\section*{Задача 7}
-Доказать\begin{enumerate}
-\item $\frac{1}{\epsilon_{k+1}}-\frac{1}{\epsilon_{k}}\geqslant \omega_k$
-\item $\forall k \omega_k\geqslant \omega_1$.
-\end{enumerate}
-Обозначения~--- метод быстрых градиентов
-\section*{Задача 8}
-Пусть $x_{k+1}\eqdef \mbox{prox}_{D_\varPhi}(C,y_{k+1})$. Доказать $\forall x$ $(\nabla\varPhi(x_{k+1})-\nabla\varPhi(y_{k+1}))^T(x_{k+1}-x)\leqslant 0$
-\section*{Задача 9}
-Исследовать, выполняется ли неравенство треугольника (с обратным знаком) для $D_{\varPhi}$ для произвольных трех точек
-\section*{Задача 10}
-Выбрать наилучшее $\gamma$ для полученной на семинаре оценки $\sum (f(x_j)-f(x))$. Оценить $D_{\varPhi}(x,x_1)$ через $$R^2\eqdef \sup_{x\in C}|\varPhi(x)-\varPhi(x_1)|$$
+
+Пусть $f\in C(\mathbb{R}^n)$, $f$~--- выпуклая. Тогда $f^{**}(x)=f(x)$.
+
+Пусть $x\in\mathbb{R}^n$. Рассмотрим $p\in\partial f(x)\Leftrightarrow \forall\,x'\in\mathbb{R}^n\hookrightarrow f(x')\geqslant f(x)+p^T(x'-x)\Leftrightarrow \forall\,x'\in\mathbb{R}^n\hookrightarrow f(x')-p^Tx'\geqslant f(x)-p^Tx\Leftrightarrow \forall x'\in\mathbb{R}^n\hookrightarrow p^Tx'-f(x')\leqslant p^Tx-f(x')$.
+
+По определению, $f^*(p)=\sup_{x\in\mathbb{R}^n}(p^Tx-f(x))$
+
+Тогда получаем, что $f^*(p)=p^Tx-f(x)\Leftrightarrow p\in\partial f(x)$. То есть, $$p\in \partial f(x)\Leftrightarrow p^Tx=f(x)+f^*(p)$$
+
+Аналогично, $$x\in\partial f^*(p)\Leftrightarrow x^Tp=f^*(p)+f^{**}(x)$$
+
+Поскольку $f^{**}(x)=f(x)$, получаем
+
+$$x\in\partial f^*(p)\Leftrightarrow p^Tx=f(x)+f^*(p)\Leftrightarrow p\in\partial f(x)\Leftrightarrow x\in (\partial f)^{-1}(p) $$
+
+То есть, $$\partial f^*=(\partial f)^{-1}$$
+
 \end{document}

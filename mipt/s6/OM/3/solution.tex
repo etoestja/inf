@@ -1,0 +1,51 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{graphicx}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning}
+\usepackage{amsmath}
+\usepackage{floatflt}
+\usepackage{enumerate}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\newcommand{\matrixr}{\right|\right|}
+\newcommand{\matrixl}{\left|\left|}
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\title{Методы оптимизации. Задание 3}
+\date{задано 2016.04.12}
+\author{Сергей~Володин, 374 гр.}
+
+\begin{document}
+\maketitle
+\section*{Задача 1}
+(2016.04.05)
+Доказать, что метод возможных направлений с $S\eqdef \{s| ||s||^2\leqslant r\}$ эквивалентен задаче квадратичного программирования
+$$\begin{cases}
+\sigma+\gamma ||s||^2\to\min\\
+\sigma\geqslant(\nabla f,s)\\
+\sigma \geqslant (\nabla g_i,s)
+\end{cases}$$
+при некотором $\gamma$
+\section*{Задача 2}
+(2016.04.12)
+Пусть $\varphi$~--- дифференцируемая. Доказать или опровергнуть:
+$\nabla\varphi$~--- липшицев с константой $L$ $\Leftrightarrow$ $\varphi^*$~--- выпуклая/сильно выпуклая
+\section*{Задача 3}
+(2016.04.12)
+$\varphi(x)\eqdef f(y)-\nabla^Tf(x)\cdot y$~--- выпуклая (?), если $f$~--- выпуклая
+\section*{Задача 4}
+Доказать\begin{enumerate}
+\item $\frac{1}{\epsilon_{k+1}}-\frac{1}{\epsilon_{k}}\geqslant \omega_k$
+\item $\forall k \omega_k\geqslant \omega_1$.
+\end{enumerate}
+Обозначения~--- метод быстрых градиентов
+\section*{Задача 5}
+Пусть $x_{k+1}\eqdef \mbox{prox}_{D_\varPhi}(C,y_{k+1})$. Доказать $\forall x$ $(\nabla\varPhi(x_{k+1})-\nabla\varPhi(y_{k+1}))^T(x_{k+1}-x)\leqslant 0$
+\section*{Задача 6}
+Исследовать, выполняется ли неравенство треугольника (с обратным знаком) для $D_{\varPhi}$ для произвольных трех точек
+\section*{Задача 7}
+Выбрать наилучшее $\gamma$ для полученной на семинаре оценки $\sum (f(x_j)-f(x))$. Оценить $D_{\varPhi}(x,x_1)$ через $$R^2\eqdef \sup_{x\in C}|\varPhi(x)-\varPhi(x_1)|$$
+\end{document}
