@@ -1,0 +1,184 @@
+Tasks length: 30 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 
+send_time=1 recv_time=1
+TIME 0 task 0 is now SENDING transmission stops at 1
+TIME 1 task 0 is now RUNNING finishing at 31
+TIME 1 task 1 is now SENDING transmission stops at 2
+TIME 2 task 1 is now RUNNING finishing at 12
+TIME 2 task 2 is now SENDING transmission stops at 3
+TIME 3 task 2 is now RUNNING finishing at 13
+TIME 3 task 3 is now SENDING transmission stops at 4
+TIME 4 task 3 is now RUNNING finishing at 14
+TIME 4 task 4 is now SENDING transmission stops at 5
+TIME 5 task 4 is now RUNNING finishing at 15
+TIME 5 task 5 is now SENDING transmission stops at 6
+TIME 6 task 5 is now RUNNING finishing at 16
+TIME 6 task 6 is now SENDING transmission stops at 7
+TIME 7 task 6 is now RUNNING finishing at 17
+TIME 7 task 7 is now SENDING transmission stops at 8
+TIME 8 task 7 is now RUNNING finishing at 18
+TIME 8 task 8 is now SENDING transmission stops at 9
+TIME 9 task 8 is now RUNNING finishing at 19
+TIME 9 task 9 is now SENDING transmission stops at 10
+TIME 10 task 9 is now RUNNING finishing at 20
+TIME 10 task 10 is now SENDING transmission stops at 11
+TIME 11 task 10 is now RUNNING finishing at 21
+TIME 11 task 11 is now SENDING transmission stops at 12
+TIME 12 task 1 is WAITING_RECEIVE
+TIME 12 task 11 is now RUNNING finishing at 22
+TIME 12 task 12 is now SENDING transmission stops at 13
+TIME 13 task 2 is WAITING_RECEIVE
+TIME 13 task 12 is now RUNNING finishing at 23
+TIME 13 task 13 is now SENDING transmission stops at 14
+TIME 14 task 3 is WAITING_RECEIVE
+TIME 14 task 13 is now RUNNING finishing at 24
+TIME 14 task 14 is now SENDING transmission stops at 15
+TIME 15 task 4 is WAITING_RECEIVE
+TIME 15 task 14 is now RUNNING finishing at 25
+TIME 15 task 15 is now SENDING transmission stops at 16
+TIME 16 task 5 is WAITING_RECEIVE
+TIME 16 task 15 is now RUNNING finishing at 26
+TIME 16 task 16 is now SENDING transmission stops at 17
+TIME 17 task 6 is WAITING_RECEIVE
+TIME 17 task 16 is now RUNNING finishing at 27
+TIME 17 task 17 is now SENDING transmission stops at 18
+TIME 18 task 7 is WAITING_RECEIVE
+TIME 18 task 17 is now RUNNING finishing at 28
+TIME 18 task 18 is now SENDING transmission stops at 19
+TIME 19 task 8 is WAITING_RECEIVE
+TIME 19 task 18 is now RUNNING finishing at 29
+TIME 19 task 19 is now SENDING transmission stops at 20
+TIME 20 task 9 is WAITING_RECEIVE
+TIME 20 task 19 is now RUNNING finishing at 30
+TIME 20 task 20 is now SENDING transmission stops at 21
+TIME 21 task 10 is WAITING_RECEIVE
+TIME 21 task 20 is now RUNNING finishing at 31
+TIME 21 task 21 is now SENDING transmission stops at 22
+TIME 22 task 11 is WAITING_RECEIVE
+TIME 22 task 21 is now RUNNING finishing at 32
+TIME 22 task 22 is now SENDING transmission stops at 23
+TIME 23 task 12 is WAITING_RECEIVE
+TIME 23 task 22 is now RUNNING finishing at 33
+TIME 23 task 23 is now SENDING transmission stops at 24
+TIME 24 task 13 is WAITING_RECEIVE
+TIME 24 task 23 is now RUNNING finishing at 34
+TIME 24 task 24 is now SENDING transmission stops at 25
+TIME 25 task 14 is WAITING_RECEIVE
+TIME 25 task 24 is now RUNNING finishing at 35
+TIME 25 task 25 is now SENDING transmission stops at 26
+TIME 26 task 15 is WAITING_RECEIVE
+TIME 26 task 25 is now RUNNING finishing at 36
+TIME 26 task 26 is now SENDING transmission stops at 27
+TIME 27 task 16 is WAITING_RECEIVE
+TIME 27 task 26 is now RUNNING finishing at 37
+TIME 27 task 27 is now SENDING transmission stops at 28
+TIME 28 task 17 is WAITING_RECEIVE
+TIME 28 task 27 is now RUNNING finishing at 38
+TIME 28 task 28 is now SENDING transmission stops at 29
+TIME 29 task 18 is WAITING_RECEIVE
+TIME 29 task 28 is now RUNNING finishing at 39
+TIME 29 task 29 is now SENDING transmission stops at 30
+TIME 30 task 1 is now RECEIVING transmission stops at 31
+TIME 30 task 19 is WAITING_RECEIVE
+TIME 30 task 29 is now RUNNING finishing at 40
+TIME 31 task 0 is WAITING_RECEIVE
+TIME 31 task 0 is now RECEIVING transmission stops at 32
+TIME 31 task 1 is DONE
+TIME 31 task 20 is WAITING_RECEIVE
+TIME 32 task 0 is DONE
+TIME 32 task 2 is now RECEIVING transmission stops at 33
+TIME 32 task 21 is WAITING_RECEIVE
+TIME 33 task 2 is DONE
+TIME 33 task 3 is now RECEIVING transmission stops at 34
+TIME 33 task 22 is WAITING_RECEIVE
+TIME 34 task 3 is DONE
+TIME 34 task 4 is now RECEIVING transmission stops at 35
+TIME 34 task 23 is WAITING_RECEIVE
+TIME 35 task 4 is DONE
+TIME 35 task 5 is now RECEIVING transmission stops at 36
+TIME 35 task 24 is WAITING_RECEIVE
+TIME 36 task 5 is DONE
+TIME 36 task 6 is now RECEIVING transmission stops at 37
+TIME 36 task 25 is WAITING_RECEIVE
+TIME 37 task 6 is DONE
+TIME 37 task 7 is now RECEIVING transmission stops at 38
+TIME 37 task 26 is WAITING_RECEIVE
+TIME 38 task 7 is DONE
+TIME 38 task 8 is now RECEIVING transmission stops at 39
+TIME 38 task 27 is WAITING_RECEIVE
+TIME 39 task 8 is DONE
+TIME 39 task 9 is now RECEIVING transmission stops at 40
+TIME 39 task 28 is WAITING_RECEIVE
+TIME 40 task 9 is DONE
+TIME 40 task 10 is now RECEIVING transmission stops at 41
+TIME 40 task 29 is WAITING_RECEIVE
+TIME 41 task 10 is DONE
+TIME 41 task 11 is now RECEIVING transmission stops at 42
+TIME 42 task 11 is DONE
+TIME 42 task 12 is now RECEIVING transmission stops at 43
+TIME 43 task 12 is DONE
+TIME 43 task 13 is now RECEIVING transmission stops at 44
+TIME 44 task 13 is DONE
+TIME 44 task 14 is now RECEIVING transmission stops at 45
+TIME 45 task 14 is DONE
+TIME 45 task 15 is now RECEIVING transmission stops at 46
+TIME 46 task 15 is DONE
+TIME 46 task 16 is now RECEIVING transmission stops at 47
+TIME 47 task 16 is DONE
+TIME 47 task 17 is now RECEIVING transmission stops at 48
+TIME 48 task 17 is DONE
+TIME 48 task 18 is now RECEIVING transmission stops at 49
+TIME 49 task 18 is DONE
+TIME 49 task 19 is now RECEIVING transmission stops at 50
+TIME 50 task 19 is DONE
+TIME 50 task 20 is now RECEIVING transmission stops at 51
+TIME 51 task 20 is DONE
+TIME 51 task 21 is now RECEIVING transmission stops at 52
+TIME 52 task 21 is DONE
+TIME 52 task 22 is now RECEIVING transmission stops at 53
+TIME 53 task 22 is DONE
+TIME 53 task 23 is now RECEIVING transmission stops at 54
+TIME 54 task 23 is DONE
+TIME 54 task 24 is now RECEIVING transmission stops at 55
+TIME 55 task 24 is DONE
+TIME 55 task 25 is now RECEIVING transmission stops at 56
+TIME 56 task 25 is DONE
+TIME 56 task 26 is now RECEIVING transmission stops at 57
+TIME 57 task 26 is DONE
+TIME 57 task 27 is now RECEIVING transmission stops at 58
+TIME 58 task 27 is DONE
+TIME 58 task 28 is now RECEIVING transmission stops at 59
+TIME 59 task 28 is DONE
+TIME 59 task 29 is now RECEIVING transmission stops at 60
+TIME 60 task 29 is DONE
+SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX....................
+SRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRX................................................
+.SRRRRRRRRRRxxxxxxxxxxxxxxxxxxX.................................................
+..SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX...............................................
+...SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX..............................................
+....SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX.............................................
+.....SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX............................................
+......SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX...........................................
+.......SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX..........................................
+........SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX.........................................
+.........SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX........................................
+..........SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX.......................................
+...........SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX......................................
+............SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX.....................................
+.............SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX....................................
+..............SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX...................................
+...............SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX..................................
+................SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX.................................
+.................SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX................................
+..................SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX...............................
+...................SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX..............................
+....................SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX.............................
+.....................SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX............................
+......................SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX...........................
+.......................SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX..........................
+........................SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX.........................
+.........................SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX........................
+..........................SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX.......................
+...........................SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX......................
+............................SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX.....................
+.............................SRRRRRRRRRRxxxxxxxxxxxxxxxxxxxX....................
+T1 = 320, Tp = 60, Sp = 5.333333, Ep=0.177778

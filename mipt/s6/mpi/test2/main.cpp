@@ -196,7 +196,7 @@ int main(int argc, char** argv)
     for(int j = 0; j < TMAX; j++)
     {
         table_cell c = arr[0][j];
-        printf("%02d", c.peer);
+        printf("%s", state_names[c.state]);
     }
     printf("\n");
 
@@ -205,7 +205,7 @@ int main(int argc, char** argv)
         for(int j = 0; j < TMAX; j++)
         {
             table_cell c = arr[i][j];
-            printf("%s ", state_names[c.state]);
+            printf("%s", state_names[c.state]);
         }
         printf("\n");
     }
