@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <math.h>
 
+// Equation
+// y'' - P2(x) y = f(x)
 double P2(double x)
 {
     return(10 + sin(2 * M_PI * x));
@@ -12,8 +14,12 @@ double f(double x)
     return(cos(2 * M_PI * x));
 }
 
+// /Equation
+
+// step
 #define h 0.005
 
+// Matrix coefficients
 #define A(n) (1 / h / h)
 #define C(n) (1 / h / h)
 #define D(n) (f(n * h))
@@ -21,8 +27,11 @@ double f(double x)
 
 #define N 200 // 1 / h
 
+// alpha, beta, gamma
+// see text solution
 double a[N], b[N], c[N];
 
+// getting coefficients
 void calcABC()
 {
     a[1] = - A(0) / B(0);
@@ -58,9 +67,9 @@ void calcKsiEta()
 }
 
 double y[N];
-
 double delta[N];
 
+// does the solution fit equations?
 void checkSolution()
 {
     delta[0] = D(0) - A(0) * y[1] - B(0) * y[0] - C(0) * y[N - 1];
