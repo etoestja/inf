@@ -1,0 +1,71 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{graphicx}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning}
+\usepackage{amsmath}
+\usepackage{floatflt}
+\usepackage{enumerate}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\newcommand{\matrixr}{\right|\right|}
+\newcommand{\matrixl}{\left|\left|}
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\title{Методы оптимизации. Сдача, задача 3}
+%\date{задано 2016.04.12}
+\author{Сергей~Володин, 374 гр.}
+
+\begin{document}
+\maketitle
+\section*{Задача 3}
+Пусть $\{a_i\}_{i=1}^m\subset \mathbb{R}^n$. $\rho > 0$. Функция $f\colon \mathbb{R}^n\to\mathbb{R}$:
+$$f(y)=\left(\sum\limits|(a_i,y)|^\rho\right)^{\frac{1}{\rho}}$$
+
+Задача (1):
+$$\sup\limits_{||y||_2\leqslant 1} f(y)$$
+
+Требуется построить двойственную задачу.
+
+Перепишем (1):
+$$\min\limits_{||y||\leqslant 1} -f(y)$$
+
+Функция Лагранжа:
+$$L(y,\lambda)=-f(y)+\lambda(||y||-1)$$
+
+Двойственная задача:
+
+$$\inf\limits_{y\in\mathbb{R}^n} L(y,\lambda)\to\max\limits_{\lambda \geqslant 0}$$
+
+Перепишем и получим двойственную задачу:
+
+$$-\inf\limits_{y\in\mathbb{R}^n} L(y,\lambda)=\sup\limits_{y\in\mathbb{R}^n}-L(y,\lambda)=\sup\limits_{y\in\mathbb{R}^n}(f(y)-\lambda ||y||+\lambda)=\underbrace{\sup\limits_{y\in\mathbb{R}^n}(f(y)-\lambda||y||_2)+\lambda}_{g(\lambda)}\to\min\limits_{\lambda\geqslant 0}$$
+
+Осталось найти $g(\lambda)$. Обозначим $$v(\lambda)=\sup\limits_{y\in\mathbb{R}^n}\underbrace{f(y)-\lambda||y||_2}_{M(y,\lambda)}.$$
+Тогда $g(\lambda)=\lambda+v(\lambda)$. Найдем $v$.
+
+Пусть $\alpha\in\mathbb{R}$. Заметим, что $f(\alpha y)=\left(\sum\limits_{i=1}^m|(a_i,\alpha y)|^\rho\right)^{\frac{1}{\rho}}=\left(|\alpha|^\rho\sum\limits_{i=1}^m|(a_i,y)|^\rho\right)^{\frac{1}{\rho}}=|\alpha|f(y)$. Также $||\alpha y||_2=|\alpha|\cdot||y||_2$, откуда
+$M(\alpha y,\lambda)=|\alpha|(f(y)-\lambda ||y||_2)$.
+
+Фиксируем $\lambda\geqslant 0$. Пусть $\exists y\in\mathbb{R}^n\colon\, f(y)-\lambda ||y||_2>0$. Тогда возьмем $0<\alpha_k\to\infty$ и получим $M(\alpha_k y,\lambda)=\alpha_k \underbrace{M(y,\lambda)}_{>0}\to+\infty$. То есть, $v(\lambda)=+\infty$
+
+Пусть верно обратное, то есть, $\forall y\in\mathbb{R}^n\hookrightarrow f(y)-\lambda||y||_2\leqslant 0$. Но это значит, что $v(\lambda)\leqslant 0$. Но $v(\lambda)\geqslant M(0,\lambda)=0$, значит, $v(\lambda)=0$.
+
+Перепишем условие $\forall y\in\mathbb{R}^n f(y)-\lambda ||y||_2\leqslant 0\Leftrightarrow \lambda\geqslant \sup\limits_{y\in\mathbb{R}^n}\frac{f(y)}{||y||_2}=\lambda^*$.
+
+Получаем, что $g(\lambda)=\begin{cases}
+\lambda & \lambda\geqslant \lambda^*\\
++\infty & \lambda\in[0,\lambda^*]
+\end{cases}$
+
+Заметим, что решением двойственной задачи $\inf\limits_{\lambda\geqslant 0}g(\lambda)$ является число $\lambda^*$, так как $\inf g(\mathbb{R}_+)=\inf[\lambda^*,+\infty]=\lambda^*$.
+
+Также
+ $$\lambda^*=\sup\limits_{y\in\mathbb{R}^n}\frac{f(y)}{||y||}=\sup\limits_{||y||=1, t\in\mathbb{R}_+}\frac{f(ty)}{||ty||}=\sup\limits_{||y||=1}f(y)=\sup\limits_{||y||=1,t\in[0,1]}tf(y)=\sup\limits_{||y||\leqslant 1}f(y)$$
+
+То есть, число $\lambda^*$ является решением исходной задачи (1).
+
+Вопрос: этого достаточно, или нужно найти $\lambda^*$ (т.е. решить исходную задачу)?
+\end{document}
