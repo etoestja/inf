@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[english,russian]{babel}
 \usepackage{graphicx}
+\usepackage{cancel}
 \usepackage{indentfirst}
 \usepackage{tikz} %Рисование автоматов
 \usetikzlibrary{automata,positioning}
@@ -68,4 +69,28 @@ $M(\alpha y,\lambda)=|\alpha|(f(y)-\lambda ||y||_2)$.
 То есть, число $\lambda^*$ является решением исходной задачи (1).
 
 Вопрос: этого достаточно, или нужно найти $\lambda^*$ (т.е. решить исходную задачу)?
+
+Поиск $\lambda^*$
+
+Рассмотрим $\lambda^*=\sup\limits_{y\in\mathbb{R}^n}\frac{f(y)}{||y||}$. Найдем $$\frac{\partial }{\partial y_j}\frac{f(y)}{||y||_2}=\frac{1}{||y||^2}(f_j||y||-f\frac{y_j}{||y||})\mbox{, где }f_j=\frac{\partial f}{\partial y_j}$$. Приравняем нулю, получим
+
+$$f_j||y||^2=y_jf$$
+
+Найдем
+
+$$f_j=\frac{1}{\rho}\left(\sum\limits_{i=1}^m|(a_i,y)|^\rho\right)^{\frac{1}{\rho}-1}\sum\limits_{i=1}^m\rho |(a_i,y)|^{\rho-1}\frac{\partial |(a_i,y)|}{\partial y_j}=f^{1-\rho}\sum\limits_{i=1}^m|(a_i,y)|^{\rho-1}\frac{\partial |(a_i,y)|}{\partial y_j}$$
+
+Подставим, получим
+
+$$f^{1-\rho}\sum\limits_{i=1}^m|(a_i,y)|^{\rho-1}\frac{\partial |(a_i,y)|}{\partial y_j}||y||^2=y_jf$$
+
+$$\sum\limits_{i=1}^m|(a_i,y)|^{\rho-1}\frac{\partial |(a_i,y)|}{\partial y_j}||y||^2=y_jf^\rho$$
+
+То есть, $\lambda^*=f(y)$, где $||y||=1$ и
+
+$$y_j\sum\limits_{i=1}^m|(a_i,y)|^\rho=\sum\limits_{i=1}^m|(a_i,y)|^{\rho-1}\frac{\partial |(a_i,y)|}{\partial y_j}$$
+
+Заметим, что в этой точке также выполнено $f^2=f_1^2+...+f^2_n$
+
+%Пусть $m=n$. $a_i$~--- столбцы единичной матрицы. Докажем, что $y=(\frac{1}{\sqrt{n})$
 \end{document}
