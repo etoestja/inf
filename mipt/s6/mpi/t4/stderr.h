@@ -4,7 +4,7 @@
 void StdErr(const char* s, ...);
 void StdErr_f(const char* s, ...);
 
-#define NICE_CERR
+//#define NICE_CERR
 
 #ifdef NICE_CERR
 #define StdErr StdErr_f

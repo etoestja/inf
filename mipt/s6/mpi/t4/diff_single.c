@@ -11,7 +11,7 @@ void get_differential_single()
 {
     double arr1[N + 1], arr2[N + 1];
 
-    double t = 0;
+    int t = 0;
 
     int i, j;
 
@@ -27,8 +27,17 @@ void get_differential_single()
     double* aold = arr1;
     double* anew = arr2;
 
-    while(t <= T)
+    for(t = 0; t <= P; t++)
     {
+/*        fprintf(stderr, "time %d ", t);
+        for(i = 0; i <= N; i++)
+            fprintf(stderr, "%lf ", aold[i]);
+
+        fprintf(stderr, "\n");*/
+
+        if(t == P)
+            break;
+
         for(i = 1; i <= N; i++)
         {
             anew[i] = aold[i] * (1 - c * tau / h) + c * tau / h * aold[i - 1];
@@ -39,8 +48,6 @@ void get_differential_single()
         double* td = anew;
         anew = aold;
         aold = td;
-
-        t += tau;
     }
 
     single_res = (double*) malloc(sizeof(double) * (N + 1));
@@ -49,7 +56,7 @@ void get_differential_single()
 //    for(i = 0; i <= N; i++)
 //        printf("x = %0.2lf diff %0.2lf exact %0.2lf\n", i * h, old[i], exact(i * h, T));
 
-    printf("\n");
+//    printf("\n");
 
     return;
 }

@@ -4,6 +4,7 @@
 #include "exact.h"
 #include "constants.h"
 #include "diff_single.h"
+#include "timedist.h"
 
 int main(int argc, char** argv)
 {
@@ -18,8 +19,13 @@ int main(int argc, char** argv)
 
     int p = atoi(argv[1]);
 
+    struct timeval t1, t2;
+    gettimeofday(&t1, NULL);
     solve_threaded(p);
+    gettimeofday(&t2, NULL);
     free(single_res);
+
+    fprintf(stderr, "TIME = %llf\n", time_dist(&t1, &t2));
 
     return(0);
 }

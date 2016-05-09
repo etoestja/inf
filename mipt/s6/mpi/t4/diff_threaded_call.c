@@ -5,16 +5,27 @@
 #include <pthread.h>
 #include <stdlib.h>
 #include "stderr.h"
+#include <string.h>
 
 void solve_threaded(int p)
 {
     StdErr("[solve_threaded] starting p = %d", p);
-    pthread_t* threads = (pthread_t*) malloc(sizeof(pthread_t) * p);
-    diff_threaded_params* params = (diff_threaded_params*)  malloc(sizeof(diff_threaded_params) * p);
 
-    double* res = (double*) malloc(sizeof(double) * (N + 1));
+    pthread_t* threads = (pthread_t*) malloc(sizeof(pthread_t) * p);
+    diff_threaded_params* params = (diff_threaded_params*) malloc(sizeof(diff_threaded_params) * p);
+    volatile double* res = (volatile double*) malloc(sizeof(double) * (N + 1));
+    bzero((void*) res, sizeof(double) * (N + 1));
 
     int i;
+    if(N < p)
+    {
+        StdErr_f("[solve_threaded] N = %d < %d = p", N, p);
+        free(threads);
+        free(params);
+        free((void*) res);
+        return;
+    }
+
     int current_start_point = 1;
     for(i = 0; i < p; i++)
     {
@@ -75,17 +86,18 @@ void solve_threaded(int p)
 
     StdErr("[solve_threaded] free...");
 
-    for(i = 0; i < p; i++)
+    for(i = 0; i < p - 1; i++)
     {
-        if(i < p - 1)
-        {
-            free((void*) params[i].v_right);
-            sem_destroy(params[i].s_right);
-            free((void*) params[i].s_right);
-            sem_destroy(params[i].w_right);
-            free((void*) params[i].w_right);
-        }
+        free((double*) params[i].v_right);
+        sem_destroy(params[i].s_right);
+        free((void*) params[i].s_right);
+        sem_destroy(params[i].w_right);
+        free((void*) params[i].w_right);
     }
+
+    free(threads);
+    free(params);
+    free((void*) res);
 
     StdErr("[solve_threaded] done");
 }
