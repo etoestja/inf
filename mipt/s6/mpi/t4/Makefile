@@ -1,5 +1,5 @@
 CFLAGS = -lpthread -lrt -lm
-CC     = gcc
+CC     = gcc -g -ggdb
 
 all: main
 main: diff_single.o exact.o main.o constants.o stderr.o diff_threaded.o diff_threaded_call.o timedist.o

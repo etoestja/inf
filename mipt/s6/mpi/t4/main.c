@@ -14,8 +14,14 @@ int main(int argc, char** argv)
         return(1);
     }
 
-    printf("c = %lf T = %lf h = %lf tau = %lf X = %lf P = %d N = %d\n", c, T, h, tau, X, P, N);
+    h = X / N;
+    tau = T / P;
+
+    printf("c = %lf T = %lf h = %lf tau = %lf r = %lf X = %lf P = %d N = %d\n", c, T, h, tau, tau / h, X, P, N);
+
+#ifdef NICE_CERR
     get_differential_single();
+#endif
 
     int p = atoi(argv[1]);
 

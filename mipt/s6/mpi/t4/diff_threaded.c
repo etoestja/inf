@@ -33,7 +33,7 @@ void* diff_thread(void* a)
     for(i = 0; i <= n; i++)
         aold[i] = g((i + p.i_start - 1) * h);
 
-    StdErr("[diff_thread] starting iterations...");
+//    StdErr("[diff_thread] starting iterations...");
 
     int t;
     for(t = 0; t <= P; t++)
@@ -86,7 +86,7 @@ void* diff_thread(void* a)
         SWAPD(aold, anew);
     }
 
-    StdErr("[diff_thread] copying result...");
+//    StdErr("[diff_thread] copying result...");
 
     for(i = p.i_start; i <= p.i_end; i++)
         p.res[i] = aold[i + 1 - p.i_start];

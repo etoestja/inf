@@ -81,7 +81,7 @@ void solve_threaded(int p)
 
     for(i = 0; i <= N; i++)
     {
-        StdErr("x = %0.2lf diff %0.2lf single %0.2lf exact %0.2lf", i * h, res[i], single_res[i], exact(i * h, T));
+        StdErr("x = %0.2lf diff %0.2lf single %0.2lf exact %0.2lf", i * h, res[i], single_res ? single_res[i] : 0, exact(i * h, T));
     }
 
     StdErr("[solve_threaded] free...");
