@@ -24,27 +24,27 @@ void get_differential_single()
 
     t = tau;
 
-    double* old = arr1;
-    double* new = arr2;
+    double* aold = arr1;
+    double* anew = arr2;
 
     while(t <= T)
     {
         for(i = 1; i <= N; i++)
         {
-            new[i] = old[i] * (1 - c * tau / h) + c * tau / h * old[i - 1];
+            anew[i] = aold[i] * (1 - c * tau / h) + c * tau / h * aold[i - 1];
         }
 
-        new[0] = 0;
+        anew[0] = 0;
 
-        double* td = new;
-        new = old;
-        old = td;
+        double* td = anew;
+        anew = aold;
+        aold = td;
 
         t += tau;
     }
 
-    single_res = malloc(sizeof(double) * (N + 1));
-    memcpy(single_res, old, sizeof(double) * (N + 1));
+    single_res = (double*) malloc(sizeof(double) * (N + 1));
+    memcpy(single_res, aold, sizeof(double) * (N + 1));
 
 //    for(i = 0; i <= N; i++)
 //        printf("x = %0.2lf diff %0.2lf exact %0.2lf\n", i * h, old[i], exact(i * h, T));
