@@ -93,4 +93,58 @@ $$y_j\sum\limits_{i=1}^m|(a_i,y)|^\rho=\sum\limits_{i=1}^m|(a_i,y)|^{\rho-1}\fra
 Заметим, что в этой точке также выполнено $f^2=f_1^2+...+f^2_n$
 
 %Пусть $m=n$. $a_i$~--- столбцы единичной матрицы. Докажем, что $y=(\frac{1}{\sqrt{n})$
+\section*{Случай $m=2$}
+Пусть $m=2$. Найдем $\lambda^*$.
+\begin{enumerate}
+\item Пусть $X=Lin\{a_i\}_{i=1}^m$. Пусть $y\in\mathbb{R}^n$, причем $y=y_\parallel+y_\bot$, $y_\parallel\in X$, $y_\bot\in X^\bot$. Тогда $f(y)=f(y_\parallel)$. Действительно, $f(y)$ зависит только от скалярных произведений с $a_i$, а $(y_\bot,a_i)=0$ $\blacksquare$
+
+Значит, искать точку максимума можно только среди векторов $y\in X$
+
+\item Заметим, что решение задачи не меняется при замене $a_i\to-a_i$. Действительно, $f$ зависит только от модулей скалярных произведений с $a_i$. Поэтому, без ограничения общности, угол между $a_1$ и $a_2$~--- острый: $(a_1,a_2)>0$.
+
+\item Заметим, что как скалярное произведение, так и норма $||\cdot||_2$ не зависят от выбора ортогонального базиса. Выберем базис таким образом: $e_1\upuparrows a_1$, $e_2\colon $ $a_2$ лежит в плоскости $e_1, e_2$ в первом ортанте. Остальные $n-2$ векторов базиса выбираем произвольно.
+
+Параметризуем $$y=\matrixl \cos\varphi \, \sin\varphi \matrixr^T$$ (ранее доказано, что максимум можно искать по сфере $||y||_2=1$)
+
+Представим $$\vec{a_1}=a_1 \cdot \matrixl 1\, 0\matrixr^T$$ $a_1$~--- вторая норма $\vec{a_1}$
+Представим $$\vec{a_2}=a_2 \cdot \matrixl \cos\theta\, \sin\theta\matrixr^T$$
+
+Тогда получим, что $(a_1,y)=a_1\cos\varphi$, $(a_2,y)=a_2(\cos\varphi\cos\theta+\sin\varphi\sin\theta)=a_2(\cos(\varphi-\theta))$.
+
+\item Задача свелась к задаче БМ $$f^\rho(\varphi)=a_1^\rho\cos^\rho\varphi+a_2^\rho\cos^\rho(\varphi-\theta)\to\max\limits_{\varphi\in[0,\frac{\pi}{2}]}$$
+
+\item Обозначим $$\alpha=\frac{a_1^\rho}{a_2^\rho}$$
+
+\item Задача эквивалентна
+
+$$z(\varphi)=\alpha\cos^\rho\varphi+\cos^\rho(\varphi-\theta)\to\max\limits_{\varphi\in[0,\frac{\pi}{2}]}$$
+
+\item Сделаем замену $t=\cos\theta$, получим выражение
+
+$$z(t)=\alpha t^\rho + (t\cos\theta+\sqrt{1-t^2}\sin\theta)^\rho\to\max\limits_{t\in[0,1]}$$
+
+$$z(t)'/\rho=\alpha t^{\rho-1}+(t\cos\theta+\sqrt{1-t^2}\sin\theta)^{\rho-1}(\cos\theta-\sin\theta\frac{t}{\sqrt{1-t^2}})=0$$
+
+Задача свелась к поиску нуля выражения выше, получаем 
+
+\item Рассмотрим случай $\rho=\frac{1}{3}$.
+
+$$z'(\varphi)/\rho=\alpha t^{-2/3}+(t\cos\theta+\sqrt{1-t^2}\sin\theta)^{-2/3}(\cos\theta-\frac{t}{\sqrt{1-t^2}}\sin\theta)=0$$
+
+$$\alpha t^{-2/3}=(t\cos\theta+\sqrt{1-t^2}\sin\theta)^{-2/3}(\frac{t}{\sqrt{1-t^2}}\sin\theta-\cos\theta)$$
+
+$$\alpha^3t^{-2}=(\frac{t\sin\theta}{\sqrt{1-t^2}}-\cos\theta)^3(t\cos\theta+\sqrt{1-t^2}\sin\theta)^{-2}$$
+
+$$\alpha^3(t\cos\theta+\sqrt{1-t^2}\sin\theta)^{2}=(\frac{t\sin\theta}{\sqrt{1-t^2}}-\cos\theta)^3t^{2}$$
+
+$$t^2\alpha^3(\cos\theta+\frac{\sqrt{1-t^2}}{t}\sin\theta)^{2}=(\frac{t\sin\theta}{\sqrt{1-t^2}}-\cos\theta)^3t^{2}$$
+
+Обозначим $$\gamma=\frac{t}{\sqrt{1-t^2}}$$
+
+$$\alpha^3(\cos\theta+\frac{\sin\theta}{\gamma})^{2}=(\gamma\sin\theta-\cos\theta)^3$$
+
+$$\alpha^3(\gamma\cos\theta+\sin\theta)^{2}=\gamma^2(\gamma\sin\theta-\cos\theta)^3$$
+
+Это уравнение пятой степени относительно $\gamma$.
+\end{enumerate}
 \end{document}
