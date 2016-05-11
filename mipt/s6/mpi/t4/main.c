@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "diff_threaded.h"
 #include "exact.h"
+#include "stderr.h"
 #include "constants.h"
 #include "diff_single.h"
 #include "timedist.h"
