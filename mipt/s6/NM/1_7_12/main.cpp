@@ -128,10 +128,9 @@ double getNormDiff(int N_)
     double res = 0;
     for(i = 0; i < N; i++)
     {
-        res += fabs(exact(i * h) - y[i]);
+        double t = fabs(exact(i * h) - y[i]);
+        if(t > res) res = t;
     }
-    res /= N;
-
     printf("%d\t%.9lf\n", N, res);
     return(res);
 }
