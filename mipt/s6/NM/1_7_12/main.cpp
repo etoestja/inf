@@ -6,18 +6,23 @@
 // y'' - P2(x) y = f(x)
 double P2(double x)
 {
-    return(10 + sin(2 * M_PI * x));
+    return(cos(2 * M_PI * x));
 }
 
 double f(double x)
 {
-    return(cos(2 * M_PI * x));
+    return(-4 * M_PI * M_PI * sin(2 * M_PI * x) - 0.5 * sin(4 * M_PI * x));
+}
+
+double exact(double x)
+{
+    return(sin(2 * M_PI * x));
 }
 
 // /Equation
 
 // step
-#define h 0.005
+double h;
 
 // Matrix coefficients
 #define A(n) (1 / h / h)
@@ -25,11 +30,12 @@ double f(double x)
 #define D(n) (f(n * h))
 #define B(n) (-2 / h / h - P2(n * h))
 
-#define N 200 // 1 / h
+#define NMAX 10000
+int N = 0;
 
 // alpha, beta, gamma
 // see text solution
-double a[N], b[N], c[N];
+double a[NMAX], b[NMAX], c[NMAX];
 
 // getting coefficients
 void calcABC()
@@ -51,7 +57,7 @@ void calcABC()
     c[N - 1] = -(C(N - 2) * c[N - 2] + A(N - 2)) / (C(N - 2) * a[N - 2] + B(N - 2));
 }
 
-double Eta[N], Ksi[N];
+double Eta[NMAX], Ksi[NMAX];
 
 void calcKsiEta()
 {
@@ -66,8 +72,8 @@ void calcKsiEta()
     }
 }
 
-double y[N];
-double delta[N];
+double y[NMAX];
+double delta[NMAX];
 
 // does the solution fit equations?
 void checkSolution()
@@ -88,8 +94,10 @@ void checkSolution()
     }
 }
 
-int main()
+int getSolution(int N_)
 {
+    N = N_;
+    h = 1. / N;
     calcABC();
     calcKsiEta();
 
@@ -103,12 +111,36 @@ int main()
     for(i = 0; i <= N - 2; i++)
         y[i] = Eta[i + 1] + Ksi[i + 1] * y[N - 1];
 
-    checkSolution();
+/*    checkSolution();
 
     for(i = 0; i < N; i++)
     {
         printf("x=%lf\ty=%lf\n", i * h, y[i]);
-    }
+    }*/
 
+    return(0);
+}
+
+double getNormDiff(int N_)
+{
+    getSolution(N_);
+    int i;
+    double res = 0;
+    for(i = 0; i < N; i++)
+    {
+        res += fabs(exact(i * h) - y[i]);
+    }
+    res /= N;
+
+    printf("%d\t%.9lf\n", N, res);
+    return(res);
+}
+
+int main()
+{
+    int p;
+    printf("N\tnorm_diff\n");
+    for(p = 5; p <= 800; p++)
+        getNormDiff(p);
     return(0);
 }
