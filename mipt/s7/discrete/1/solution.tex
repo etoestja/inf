@@ -1,0 +1,207 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=25mm, right=25mm, top=25mm, bottom=25mm]{geometry}
+%\geometry{paperwidth=210mm, paperheight=2000pt, left=5pt, top=5pt}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,arrows,trees}
+\usepackage{amsmath}
+\usepackage[makeroom]{cancel} % зачеркивание
+\usepackage{multicol,multirow} %Несколько колонок
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{wasysym}
+\title{Дискретная оптимизация.\\Задание 1}
+\date{задано 2016.09.07}
+\author{Сергей~Володин, 374 гр.}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+
+% алгоритмы (Рубцов)
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{algorithm2e}
+
+%+= и -=, иначе разъезжаются...
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
+% пустое слово  (rubtsov)
+\def\eps{\varepsilon}
+\newcommand{\smalll}[1]{\overline{\overline{#1}}}
+\newcommand{\smallo}{\bar{\bar{o}}}
+
+\begin{document}
+\maketitle
+
+\subsection*{Сложные, задача 6}
+Условие: есть 4 проекта, в каждый можно вложить от 0 до 5 млн. Сумма вложений ограничена.
+
+Обозначим $x_{ij}\in\{0,1\}$~--- вкладываем ли $j$ млн в $i$-й проект, $i\in\overline{1,4}$, $j\in\overline{0,5}$.
+
+Если $x_{ij}=1$, то отдаем $j$ млн в $i$-й проект, а затем получаем $q_{ij}$ денег. В условии дана прибыль, т.е. величина $q_{ij}-j$, причем в процентах от вложения.
+
+Прибыль от вложения $j$ млн в $i$-й проект в процентах от вложения:
+
+$A_{ij}=\matrixl\begin{array}{ccccccc}
+0.00 & 0.28 & 0.45 & 0.65 & 0.78 & 0.90\\
+0.00 & 0.25 & 0.41 & 0.55 & 0.65 & 0.75\\
+0.00 & 0.15 & 0.25 & 0.40 & 0.50 & 0.62\\
+0.00 & 0.20 & 0.35 & 0.42 & 0.48 & 0.53\\
+\end{array}
+\matrixr$
+
+Суммарная прибыль $Q(x)=\sum\limits_{ij}jA_{ij}x_{ij}$
+
+Ограничения: вложить в каждый проект можно только 1 раз: $\sum\limits_{j} x_{ij}\leqslant 1$, а также сумма вложения не превышает $X$ (ресурсы ограничены, условие требует их распределения).
+
+Задача оптимизации:
+$$\sum\limits_{ij}jx_{ij}A_{ij}\to\max_{\begin{cases}
+	x_{ij}\in\{0,1\}\\
+	\forall i \sum\limits_{j} x_{ij}\leqslant 1\\
+	\sum\limits_{i,j}jx_{ij}\leqslant X
+	\end{cases}}$$
+Это задача ЦЛП.
+
+Решение в AMPL \url{http://ampl.com/cgi-bin/ampl/amplcgi}:
+\begin{verbatim}
+set Projects;
+set Investments;
+param Income {i in Projects, j in Investments};
+param MaxInvestment;
+
+var x{i in Projects, j in Investments} binary;
+
+maximize Profit:
+sum{i in Projects, j in Investments} j*Income[i,j]*x[i,j];
+subject to const1 {i in Projects}:
+sum{j in Investments} x[i,j] <= 1;
+subject to const2:
+sum {i in Projects, j in Investments} x[i,j] * j <= MaxInvestment;
+
+data;  ############ DATA STARTS HERE ############
+
+
+set Projects := p1 p2 p3 p4;
+set Investments := 0 1 2 3 4 5;
+
+param Income : 0 1 2 3 4 5 :=
+p1 0 0.28 0.45 0.65 0.78 0.90
+p2 0 0.25 0.41 0.55 0.65 0.75
+p3 0 0.15 0.25 0.40 0.50 0.62
+p4 0 0.20 0.35 0.42 0.48 0.53;
+
+param MaxInvestment := 6;
+
+LP_SOLVE 4.0.1.0: optimal, objective 4.75
+42 simplex iterations
+25 branch & bound nodes: depth 13
+:     _varname   _var    :=
+1    "x['p1',0]"   0
+2    "x['p1',1]"   0
+3    "x['p1',2]"   0
+4    "x['p1',3]"   0
+5    "x['p1',4]"   0
+6    "x['p1',5]"   1
+7    "x['p2',0]"   0
+8    "x['p2',1]"   1
+9    "x['p2',2]"   0
+10   "x['p2',3]"   0
+11   "x['p2',4]"   0
+12   "x['p2',5]"   0
+13   "x['p3',0]"   0
+14   "x['p3',1]"   0
+15   "x['p3',2]"   0
+16   "x['p3',3]"   0
+17   "x['p3',4]"   0
+18   "x['p3',5]"   0
+19   "x['p4',0]"   0
+20   "x['p4',1]"   0
+21   "x['p4',2]"   0
+22   "x['p4',3]"   0
+23   "x['p4',4]"   0
+24   "x['p4',5]"   0
+;
+== 21 ==========================
+
+\end{verbatim}
+
+В примере $X=6$, оптимальное инвестирование~--- 5 млн в 1-й проект и еще 1 во второй.
+
+\subsection*{Простые, задача 13}
+Обозначим $c=(200,230,100)$~--- стоимости, $A=\matrixl\begin{array}{ccc}
+40 & 40 & 20\\
+5 & 3 & 1
+\end{array}
+\matrixr$~--- ресурсы по клею и коже на изделие.
+Обозначим $b=(3000000, 4000000)$~--- имеющиеся ресурсы.
+
+Обозначим $x=(x_1, x_2, x_3)$~--- количество обуви каждого из типов соответственно.
+
+Тогда задача оптимизации принимает вид:
+$$c^Tx\to\max_{\begin{cases}
+Ax\leqslant b\\x\in\mathbb{N}^3
+	\end{cases}}$$
+То есть, нужно максимизировать прибыль $c^Tx$, укладываясь в ограничения по ресурсам $Ax\leqslant b$.
+
+
+Или, в действительных переменных:
+$$c^Tx\to\max_{\begin{cases}
+	Ax\leqslant b\\x\geqslant 0\\x\in\mathbb{R}^3
+	\end{cases}}$$
+
+Двойственная задача:
+$$b^Ty\to\min_{\begin{cases}
+A^Ty\geqslant c\\
+y\geqslant 0\\
+y\in\mathbb{R}^2\\
+\end{cases}}$$
+Смысл: какие минимальные цены $y$ установить на ресурсы, чтобы чтобы покупателю было уже невыгодно собирать из них обувь?
+
+Решение в AMPL \url{http://ampl.com/cgi-bin/ampl/amplcgi} (прямая):
+\begin{verbatim}
+var x1;
+var x2;
+var x3;
+maximize Profit: 200 * x1 + 230 * x2 + 100 * x3;
+subject to glue: 40 * x1 + 40 * x2 + 20 * x3 <= 3000000;
+subject to leather: 5 * x1 + 3 * x2 + 1 * x3 <= 4000000;
+subject to x1_zero: x1 >= 0;
+subject to x2_zero: x2 >= 0;
+subject to x3_zero: x3 >= 0;
+MINOS 5.51: optimal solution found.
+1 iterations, objective 17250000
+: _varname   _var     :=
+1   x1           0
+2   x2       75000
+3   x3           0
+;
+\end{verbatim}
+~--- производим только женскую обувь на все ресурсы. Прибыль 17 250 000.
+
+Решение в AMPL (двойственная):
+\begin{verbatim}
+var y1;
+var y2;
+minimize Cost: 3000000 * y1 + 4000000 * y2;
+subject to type_male: 40 * y1 + 5 * y2 >= 200;
+subject to type_female: 40 * y1 + 3 * y2 >= 230;
+subject to type_child: 20 * y1 + 1 * y2 >= 100;
+subject to y1_zero: y1 >= 0;
+subject to y2_zero: y2 >= 0;
+
+MINOS 5.51: optimal solution found.
+1 iterations, objective 17250000
+: _varname   _var    :=
+1   y1       5.75
+2   y2       0
+;
+\end{verbatim}
+~--- продаем клей по 5.75, а кожу отдаем даром. В итоге получаем столько же прибыли, как от оптимального изготовления обуви (17 250 000).
+\end{document}
