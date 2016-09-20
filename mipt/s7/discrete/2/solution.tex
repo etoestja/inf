@@ -1,0 +1,136 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=25mm, right=25mm, top=25mm, bottom=25mm]{geometry}
+%\geometry{paperwidth=210mm, paperheight=2000pt, left=5pt, top=5pt}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,arrows,trees}
+\usepackage{amsmath}
+\usepackage[makeroom]{cancel} % зачеркивание
+\usepackage{multicol,multirow} %Несколько колонок
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{wasysym}
+\title{Дискретная оптимизация.\\Задание 2}
+\date{задано 2016.09.14}
+\author{Сергей~Володин, 374 гр.}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+
+% алгоритмы (Рубцов)
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{algorithm2e}
+
+%+= и -=, иначе разъезжаются...
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
+% пустое слово  (rubtsov)
+\def\eps{\varepsilon}
+\newcommand{\smalll}[1]{\overline{\overline{#1}}}
+\newcommand{\smallo}{\bar{\bar{o}}}
+
+\begin{document}
+\maketitle
+
+\subsection*{Вышки и частоты}
+Условие: есть $n$ вышек с координатами $\{(x_i, y_i)\}$. Вышки, находящиеся на расстоянии $\rho_{ij}\leqslant D$ должны иметь разные частоты. Определить минимальное число частот.
+
+Определим $\rho_{ij}=\sqrt{(x_i-x_j)^2+(y_i-y_j)^2}$.
+
+Рассмотрим граф с матрицей смежности $A_{ij}=\begin{cases}
+[\rho_{ij}\leqslant D],& i\neq j\\
+0,& i=j
+\end{cases}$
+Задача сводится к задаче о раскраске вершин графа с минимальным числом цветов. Заметим, что граф можно раскрасить в $n$ цветов.
+Рассмотрим переменные $X_{ij}=[i\mbox{-я вершина имеет }j\mbox{-й цвет}]$.
+Обозначим $d_j(X)=\sum\limits_iX_{ij}$~--- количество вершин, имеющих $j$-й цвет.
+Обозначим $c(X)=\sum\limits_{j}[d_j>0]$~--- количество цветов в раскраске.
+
+Обозначим $s(X)=\sum\limits_j{a_jd_j}$, где $a_j=(n+1)^j$
+
+Докажем, что задача минимизации
+$$(1)\,c(X)\to\min\limits_X$$
+эквивалентна задаче
+$$(2)\,s(X)\to\min\limits_X$$
+Пусть в обоих задачах нет неиспользуемых цветов с номером меньше $c$.
+
+Пусть (2) дает решение $X$, не оптимальное по количеству цветов, а оптимальное решение~--- $X^*$. Тогда $c=c(X)>c(X^*)=c^*$, но $s(X)\leqslant s(X^*)$.
+Рассмотрим $s(X)=\sum_j a_jd_j \geqslant a_c=(n+1)^c\geqslant (n+1)^{c^*}(n+1)>(n+1)^{c^*}n=a_{c^*}n\geqslant 
+s(X^*)$~--- противоречие.
+
+Ограничение: каждая вершина должна иметь только один цвет: $\forall i \sum\limits_j X_{ij}=1$
+
+Ограничение: соседние вершины имеют разные цвета: $\sum\limits_{ijk}A_{ij}X_{ik}X_{jk}=0$
+
+Задача оптимизации:
+$$
+\sum\limits_j (n+1)^j \sum_i X_{ij}\to\min\limits_{
+\begin{cases}
+\forall i \sum\limits_j X_{ij}=1\\
+\sum\limits_{ijk}A_{ij}X_{ik}X_{jk}=0
+\end{cases}}
+$$
+\begin{verbatim}
+param N;
+set Vertices;
+param A {i in Vertices, j in Vertices};
+var X{i in Vertices, j in Vertices} binary;
+minimize S:
+sum{i in Vertices, j in Vertices} (N + 1) ** (j) * X[i,j];
+subject to const1 {i in Vertices}:
+sum{j in Vertices} X[i,j] = 1;
+subject to const2:
+sum {i in Vertices, j in Vertices, k in Vertices} A[i,j] * X[i, k] * X[j, k] = 0;
+data;
+############ DATA STARTS HERE ############
+param N := 5;
+set Vertices := 1 2 3 4 5;
+param A : 1 2 3 4 5 :=
+1 0 1 1 0 1
+2 1 0 0 1 0
+3 1 0 0 0 0
+4 0 1 0 0 1
+5 1 0 0 1 0;
+
+MINOS 5.51: ignoring integrality of 25 variables
+MINOS 5.51: optimal solution found.
+14 iterations, objective 90
+Nonlin evals: constrs = 22, Jac = 21.
+:    _varname      _var        :=
+1    'X[1,1]'   0
+2    'X[1,2]'   1
+3    'X[1,3]'   0
+4    'X[1,4]'   0
+5    'X[1,5]'   0
+6    'X[2,1]'   1
+7    'X[2,2]'   0
+8    'X[2,3]'   8.47636e-17
+9    'X[2,4]'   0
+10   'X[2,5]'   0
+11   'X[3,1]'   1
+12   'X[3,2]'   0
+13   'X[3,3]'   0
+14   'X[3,4]'   0
+15   'X[3,5]'   0
+16   'X[4,1]'   0
+17   'X[4,2]'   1
+18   'X[4,3]'   1.11022e-16
+19   'X[4,4]'   0
+20   'X[4,5]'   0
+21   'X[5,1]'   1
+22   'X[5,2]'   0
+23   'X[5,3]'   0
+24   'X[5,4]'   0
+25   'X[5,5]'   0
+;
+== 7 ==========================
+\end{verbatim}
+\end{document}
