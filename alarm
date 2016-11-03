@@ -1,7 +1,7 @@
 #!/bin/bash
 
 NMAX=1
-path[0]=/home/etoestja/Music/alarm/the_clap1.mp3
+path[0]=/home/etoestja/Music/alarm/slts.mp3
 
 if [ "X$1" == "Xcheck" ]
 then
