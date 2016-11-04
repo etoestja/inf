@@ -1,0 +1,315 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      9800,        306]
+NotebookOptionsPosition[      8752,        265]
+NotebookOutlinePosition[      9092,        280]
+CellTagsIndexPosition[      9049,        277]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"f", "[", 
+   RowBox[{"x_", ",", "\[Theta]_", ",", "k_"}], "]"}], ":=", 
+  RowBox[{
+   RowBox[{"x", "^", 
+    RowBox[{"(", 
+     RowBox[{"k", "-", "1"}], ")"}]}], "*", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Exp", "[", 
+      RowBox[{
+       RowBox[{"-", "x"}], "/", "\[Theta]"}], "]"}], "/", 
+     RowBox[{"\[Theta]", "^", "k"}]}], "/", 
+    RowBox[{"Gamma", "[", "k", "]"}]}]}]}]], "Input",
+ CellChangeTimes->{{3.687252687946321*^9, 3.6872527394673967`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"F", "[", 
+   RowBox[{"x_", ",", " ", "\[Theta]_", ",", "n_"}], "]"}], ":=", 
+  RowBox[{"NIntegrate", "[", 
+   RowBox[{
+    RowBox[{"f", "[", 
+     RowBox[{"t", ",", "\[Theta]", ",", "n"}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"t", ",", "0", ",", "x"}], "}"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.68725274147612*^9, 3.6872528072143507`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"1", "-", 
+  RowBox[{"F", "[", 
+   RowBox[{"10", ",", "1", ",", "10"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.687252810132923*^9, 3.687252819379616*^9}}],
+
+Cell[BoxData["0.5420702855281478`"], "Output",
+ CellChangeTimes->{{3.6872528148343163`*^9, 3.6872528168639593`*^9}}]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Lambdaa", "[", "n_", "]"}], ":=", 
+  RowBox[{"InverseCDF", "[", 
+   RowBox[{
+    RowBox[{"GammaDistribution", "[", 
+     RowBox[{"n", ",", " ", "1"}], "]"}], ",", "0.95"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Lambdab", "[", "n_", "]"}], ":=", 
+  RowBox[{"InverseCDF", "[", 
+   RowBox[{
+    RowBox[{"GammaDistribution", "[", 
+     RowBox[{"n", ",", " ", "1"}], "]"}], ",", "0.05"}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.6872537084147*^9, 3.687253714120579*^9}, {
+  3.6872538758449783`*^9, 3.687253969362805*^9}, {3.6872540991446533`*^9, 
+  3.6872541009472637`*^9}, {3.6872543003137617`*^9, 3.68725432756777*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"L", "[", "n_", "]"}], ":=", 
+  RowBox[{
+   RowBox[{"2", "*", 
+    RowBox[{"Lambdab", "[", "n", "]"}]}], "-", 
+   RowBox[{"Lambdaa", "[", "n", "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.68725397163173*^9, 3.6872539919445333`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"DiscretePlot", "[", 
+  RowBox[{
+   RowBox[{"L", "[", "n", "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"n", ",", "19", ",", "25"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.687253992763616*^9, 3.687254002461725*^9}, {
+  3.6872541074535217`*^9, 3.687254188078979*^9}, {3.687254335702977*^9, 
+  3.687254381044498*^9}}],
+
+Cell[BoxData[
+ GraphicsBox[{
+   {RGBColor[0.368417, 0.506779, 0.709798], PointSize[0.019444444444444445`], 
+    AbsoluteThickness[1.6], {
+     {RGBColor[0.368417, 0.506779, 0.709798], PointSize[
+      0.019444444444444445`], AbsoluteThickness[1.6], Opacity[0.2], 
+      LineBox[{{{19., -1.8078659281490275`}, {19., 0}}, {{
+         20., -1.3699364427504044`}, {20., 0}}, {{21., -0.9179693437513876}, {
+         21., 0}}, {{22., -0.4529662103062755}, {22., 0}}},
+       VertexColors->None]}, 
+     {RGBColor[0.368417, 0.506779, 0.709798], PointSize[
+      0.019444444444444445`], AbsoluteThickness[1.6], Opacity[0.2], 
+      LineBox[{{{23., 0.024185060992952145`}, {23., 0}}, {{24., 
+         0.5126929777013984}, {24., 0}}, {{25., 1.0118484087310833`}, {
+         25., 0}}},
+       VertexColors->None]}}}, 
+   {RGBColor[0.368417, 0.506779, 0.709798], PointSize[0.019444444444444445`], 
+    AbsoluteThickness[1.6], {}, 
+    PointBox[{{19., -1.8078659281490275`}, {20., -1.3699364427504044`}, {
+     21., -0.9179693437513876}, {22., -0.4529662103062755}, {23., 
+     0.024185060992952145`}, {24., 0.5126929777013984}, {25., 
+     1.0118484087310833`}}], {}}},
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->True,
+  AxesOrigin->{19, 0},
+  FrameTicks->{{Automatic, Automatic}, {Automatic, Automatic}},
+  GridLinesStyle->Directive[
+    GrayLevel[0.5, 0.4]],
+  Method->{
+   "MessagesHead" -> DiscretePlot, "AxisPadding" -> Scaled[0.02], 
+    "DefaultBoundaryStyle" -> Automatic, "DefaultPlotStyle" -> {
+      Directive[
+       RGBColor[0.368417, 0.506779, 0.709798], 
+       AbsoluteThickness[1.6]], 
+      Directive[
+       RGBColor[0.880722, 0.611041, 0.142051], 
+       AbsoluteThickness[1.6]], 
+      Directive[
+       RGBColor[0.560181, 0.691569, 0.194885], 
+       AbsoluteThickness[1.6]], 
+      Directive[
+       RGBColor[0.922526, 0.385626, 0.209179], 
+       AbsoluteThickness[1.6]], 
+      Directive[
+       RGBColor[0.528488, 0.470624, 0.701351], 
+       AbsoluteThickness[1.6]], 
+      Directive[
+       RGBColor[0.772079, 0.431554, 0.102387], 
+       AbsoluteThickness[1.6]], 
+      Directive[
+       RGBColor[0.363898, 0.618501, 0.782349], 
+       AbsoluteThickness[1.6]], 
+      Directive[
+       RGBColor[1, 0.75, 0], 
+       AbsoluteThickness[1.6]], 
+      Directive[
+       RGBColor[0.647624, 0.37816, 0.614037], 
+       AbsoluteThickness[1.6]], 
+      Directive[
+       RGBColor[0.571589, 0.586483, 0.], 
+       AbsoluteThickness[1.6]], 
+      Directive[
+       RGBColor[0.915, 0.3325, 0.2125], 
+       AbsoluteThickness[1.6]], 
+      Directive[
+       RGBColor[0.40082222609352647`, 0.5220066643438841, 0.85], 
+       AbsoluteThickness[1.6]], 
+      Directive[
+       RGBColor[0.9728288904374106, 0.621644452187053, 0.07336199581899142], 
+       AbsoluteThickness[1.6]], 
+      Directive[
+       RGBColor[0.736782672705901, 0.358, 0.5030266573755369], 
+       AbsoluteThickness[1.6]], 
+      Directive[
+       RGBColor[0.28026441037696703`, 0.715, 0.4292089322474965], 
+       AbsoluteThickness[1.6]]}, "DomainPadding" -> Scaled[0.02], 
+    "RangePadding" -> Scaled[0.05]},
+  PlotRange->{{19, 25}, {-1.8078659281490275`, 1.0118484087310833`}},
+  PlotRangePadding->{{
+     Scaled[0.02], 
+     Scaled[0.02]}, {
+     Scaled[0.02], 
+     Scaled[0.02]}},
+  Ticks->{Automatic, Automatic}]], "Output",
+ CellChangeTimes->{{3.6872539940121927`*^9, 3.6872540027668457`*^9}, {
+   3.687254105008972*^9, 3.687254189117092*^9}, {3.687254331640695*^9, 
+   3.687254336931943*^9}, 3.6872543814171867`*^9}]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Lambdaa", "[", "n_", "]"}], ":=", 
+  RowBox[{"FindRoot", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"CDF", "[", 
+      RowBox[{
+       RowBox[{"GammaDistribution", "[", 
+        RowBox[{"n", ",", " ", "1"}], "]"}], ",", "x"}], "]"}], "\[Equal]", 
+     "0.95"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"x", ",", "1"}], "}"}]}], "]"}]}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{"Lambdaa", "[", "1", "]"}]}]], "Input",
+ CellChangeTimes->{{3.687254014711388*^9, 3.687254023875039*^9}, {
+  3.687254091543625*^9, 3.687254094840152*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"x", "\[Rule]", "2.9957322735539904`"}], "}"}]], "Output",
+ CellChangeTimes->{{3.687254016600111*^9, 3.687254024412785*^9}, {
+  3.6872540926815357`*^9, 3.687254096060893*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"InverseCDF", "[", 
+  RowBox[{
+   RowBox[{"NormalDistribution", "[", 
+    RowBox[{"0", ",", " ", "1"}], "]"}], ",", "0.5"}], "]"}]], "Input",
+ CellChangeTimes->{{3.6872542714959927`*^9, 3.6872542897598047`*^9}}],
+
+Cell[BoxData["0.`"], "Output",
+ CellChangeTimes->{{3.687254283853259*^9, 3.687254290053056*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"L", "[", "22", "]"}]], "Input",
+ CellChangeTimes->{{3.687254387360655*^9, 3.687254391826084*^9}}],
+
+Cell[BoxData[
+ RowBox[{"-", "0.4529662103062755`"}]], "Output",
+ CellChangeTimes->{{3.687254388189034*^9, 3.6872543920564547`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Integrate", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"Exp", "[", 
+      RowBox[{
+       RowBox[{"-", "x"}], "/", "a"}], "]"}], "/", "a"}], "*", "x"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", "0", ",", 
+     RowBox[{"+", "Infinity"}]}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.687254905133078*^9, 3.687254925010956*^9}}],
+
+Cell[BoxData[
+ RowBox[{"ConditionalExpression", "[", 
+  RowBox[{"a", ",", 
+   RowBox[{
+    RowBox[{"Re", "[", "a", "]"}], ">", "0"}]}], "]"}]], "Output",
+ CellChangeTimes->{3.6872549265625267`*^9}]
+}, Open  ]]
+},
+WindowSize->{808, 911},
+WindowMargins->{{1110, Automatic}, {Automatic, 164}},
+FrontEndVersion->"10.0 for Linux x86 (64-bit) (December 4, 2014)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 494, 15, 32, "Input"],
+Cell[1055, 37, 389, 10, 32, "Input"],
+Cell[CellGroupData[{
+Cell[1469, 51, 179, 4, 32, "Input"],
+Cell[1651, 57, 116, 1, 32, "Output"]
+}, Open  ]],
+Cell[1782, 61, 674, 16, 55, "Input"],
+Cell[2459, 79, 264, 7, 32, "Input"],
+Cell[CellGroupData[{
+Cell[2748, 90, 344, 8, 32, "Input"],
+Cell[3095, 100, 3525, 86, 226, "Output"]
+}, Open  ]],
+Cell[6635, 189, 379, 12, 32, "Input"],
+Cell[CellGroupData[{
+Cell[7039, 205, 211, 4, 55, "Input"],
+Cell[7253, 211, 214, 4, 32, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7504, 220, 234, 5, 32, "Input"],
+Cell[7741, 227, 96, 1, 32, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7874, 233, 121, 2, 32, "Input"],
+Cell[7998, 237, 131, 2, 32, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8166, 244, 370, 11, 32, "Input"],
+Cell[8539, 257, 197, 5, 65, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
