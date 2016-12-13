@@ -1,0 +1,162 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+%\geometry{paperwidth=210mm, paperheight=2000pt, left=5pt, top=5pt}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{tikz} %Рисование автоматов
+\usetikzlibrary{automata,positioning,arrows,trees}
+\usepackage{amsmath}
+\usepackage[makeroom]{cancel} % зачеркивание
+\usepackage{multicol,multirow} %Несколько колонок
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{wasysym}
+\title{Задача о назначениях в pyomo}
+\author{Сергей~Володин, 374 гр.}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+
+% алгоритмы (Рубцов)
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{algorithm2e}
+
+%+= и -=, иначе разъезжаются...
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
+\begin{document}
+\maketitle
+\section*{Постановка задачи}
+$$\begin{cases}
+\sum\limits_{ij} x_{ij}c_{ij}\to\min\\
+\forall j \sum\limits_i x_{ij}=1\\
+\forall i \sum\limits_j x_{ij}=1\\
+x_{ij}\in\overline{0,1}
+\end{cases}$$
+
+\begin{itemize}
+\item $c_{ij}$~--- стоимость выполнения $i$-м работником $j$-й работы
+\item  $x_{ij}=1\Leftrightarrow$ $i$-й работник выполняет $j$-ю работу.
+\end{itemize}
+\section*{Модель pyomo}
+\begin{verbatim}
+$ cat assignment_problem.py
+from __future__ import division
+from pyomo.environ import *
+
+model = AbstractModel()
+
+model.I = Set()
+model.J = Set()
+
+model.c = Param(model.I, model.J)
+
+model.x = Var(model.I, model.J, domain=NonNegativeReals)
+
+def obj_expression(model):
+return summation(model.c, model.x)
+
+model.OBJ = Objective(rule=obj_expression)
+
+def constI(model, i):
+# return the expression for the constraint for i
+return sum(model.x[i,j] for j in model.J) == 1
+
+def constJ(model, j):
+# return the expression for the constraint for i
+return sum(model.x[i,j] for i in model.I) == 1
+
+# the next line creates one constraint for each member of the set model.I
+model.c1 = Constraint(model.I, rule=constI)
+model.c2 = Constraint(model.J, rule=constJ)
+\end{verbatim}
+\section*{Данные}
+\begin{verbatim}
+$ cat assignment_problem.dat
+set I := 1 2 3 4;
+set J := 1 2 3 4;
+
+param c:
+1 2 3 4 :=
+1 1 2 1 2
+2 2 3 3 4
+3 1 0 0 1
+4 1 1 1 1
+;
+\end{verbatim}
+\section*{Запуск с glpk}
+\begin{verbatim}
+$ pyomo solve assignment_problem.py assignment_problem.dat --solver=glpk
+[    0.00] Setting up Pyomo environment
+[    0.00] Applying Pyomo preprocessing actions
+[    0.00] Creating model
+[    0.03] Applying solver
+[    0.06] Processing results
+Number of solutions: 1
+Solution Information
+Gap: 0.0
+Status: feasible
+Function Value: 4.0
+Solver results file: results.yml
+[    0.07] Applying Pyomo postprocessing actions
+[    0.07] Pyomo Finished
+
+$ cat results.yml
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: unknown
+Lower bound: 4.0
+Upper bound: 4.0
+Number of objectives: 1
+Number of constraints: 9
+Number of variables: 17
+Number of nonzeros: 33
+Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+Termination condition: optimal
+Statistics: 
+Branch and bound: 
+Number of bounded subproblems: 0
+Number of created subproblems: 0
+Error rc: 0
+Time: 0.0167489051819
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 1
+number of solutions displayed: 1
+- Gap: 0.0
+Status: feasible
+Message: None
+Objective:
+OBJ:
+Value: 4
+Variable:
+x[1,3]:
+Value: 1
+x[2,1]:
+Value: 1
+x[3,2]:
+Value: 1
+x[4,4]:
+Value: 1
+Constraint: No values
+\end{verbatim}
+\end{document}
