@@ -1,0 +1,14 @@
+pyomo solve assignment_problem.py assignment_problem.dat --solver=glpk
+[    0.00] Setting up Pyomo environment
+[    0.00] Applying Pyomo preprocessing actions
+[    0.00] Creating model
+[    0.10] Applying solver
+[    0.12] Processing results
+    Number of solutions: 1
+    Solution Information
+      Gap: 0.0
+      Status: feasible
+      Function Value: 4.0
+    Solver results file: results.json
+[    0.12] Applying Pyomo postprocessing actions
+[    0.12] Pyomo Finished

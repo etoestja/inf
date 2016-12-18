@@ -1,0 +1,14 @@
+pyomo solve assignment_problem.py assignment_problem.dat --solver=couenne
+[    0.00] Setting up Pyomo environment
+[    0.00] Applying Pyomo preprocessing actions
+[    0.00] Creating model
+[    0.10] Applying solver
+[    0.13] Processing results
+    Number of solutions: 1
+    Solution Information
+      Gap: None
+      Status: optimal
+      Function Value: 3.99999994267
+    Solver results file: results.json
+[    0.13] Applying Pyomo postprocessing actions
+[    0.13] Pyomo Finished

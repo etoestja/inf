@@ -1,0 +1,1 @@
+pyomo solve assignment_problem.py assignment_problem.dat --solver=minos

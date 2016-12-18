@@ -1,0 +1,54 @@
+{
+    "Problem": [
+        {
+            "Lower bound": -Infinity, 
+            "Number of constraints": 0, 
+            "Number of objectives": 1, 
+            "Number of variables": 16, 
+            "Sense": "unknown", 
+            "Upper bound": Infinity
+        }
+    ], 
+    "Solution": [
+        {
+            "number of solutions": 1, 
+            "number of solutions displayed": 1
+        }, 
+        {
+            "Constraint": "No values", 
+            "Gap": null, 
+            "Message": "bonmin\\x3a Optimal", 
+            "Objective": {
+                "OBJ": {
+                    "Value": 4.0000001197829755
+                }
+            }, 
+            "Problem": {}, 
+            "Status": "optimal", 
+            "Variable": {
+                "x[1,3]": {
+                    "Value": 1.000000029930368
+                }, 
+                "x[2,1]": {
+                    "Value": 1.0000000299529193
+                }, 
+                "x[3,2]": {
+                    "Value": 1.0000000299371015
+                }, 
+                "x[4,4]": {
+                    "Value": 1.0000000299467693
+                }
+            }
+        }
+    ], 
+    "Solver": [
+        {
+            "Error rc": 0, 
+            "Id": 3, 
+            "Message": "bonmin\\x3a Optimal", 
+            "Status": "ok", 
+            "Termination condition": "optimal", 
+            "Time": 0.3690049648284912
+        }
+    ]
+}

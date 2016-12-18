@@ -1,0 +1,14 @@
+pyomo solve assignment_problem.py assignment_problem.dat --solver=cbc
+[    0.00] Setting up Pyomo environment
+[    0.00] Applying Pyomo preprocessing actions
+[    0.00] Creating model
+[    0.10] Applying solver
+[    0.46] Processing results
+    Number of solutions: 1
+    Solution Information
+      Gap: 0.0
+      Status: optimal
+      Function Value: 4
+    Solver results file: results.json
+[    0.46] Applying Pyomo postprocessing actions
+[    0.46] Pyomo Finished

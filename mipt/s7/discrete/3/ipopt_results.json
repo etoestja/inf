@@ -1,0 +1,57 @@
+{
+    "Problem": [
+        {
+            "Lower bound": -Infinity, 
+            "Number of constraints": 8, 
+            "Number of objectives": 1, 
+            "Number of variables": 16, 
+            "Sense": "unknown", 
+            "Upper bound": Infinity
+        }
+    ], 
+    "Solution": [
+        {
+            "number of solutions": 1, 
+            "number of solutions displayed": 1
+        }, 
+        {
+            "Constraint": "No values", 
+            "Gap": null, 
+            "Message": "Ipopt 3.12.4\\x3a Optimal Solution Found", 
+            "Objective": {
+                "OBJ": {
+                    "Value": 4.000000064926868
+                }
+            }, 
+            "Problem": {}, 
+            "Status": "optimal", 
+            "Variable": {
+                "x[1,3]": {
+                    "Value": 1.0000000121297563
+                }, 
+                "x[2,1]": {
+                    "Value": 1.000000018012586
+                }, 
+                "x[3,2]": {
+                    "Value": 1.0000000141865464
+                }, 
+                "x[3,3]": {
+                    "Value": 1.6100187743708992e-10
+                }, 
+                "x[4,4]": {
+                    "Value": 1.0000000167719398
+                }
+            }
+        }
+    ], 
+    "Solver": [
+        {
+            "Error rc": 0, 
+            "Id": 0, 
+            "Message": "Ipopt 3.12.4\\x3a Optimal Solution Found", 
+            "Status": "ok", 
+            "Termination condition": "optimal", 
+            "Time": 0.35701704025268555
+        }
+    ]
+}

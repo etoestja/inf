@@ -1,0 +1,81 @@
+{
+    "Problem": [
+        {
+            "Lower bound": -Infinity, 
+            "Number of constraints": 0, 
+            "Number of objectives": 1, 
+            "Number of variables": 16, 
+            "Sense": "unknown", 
+            "Upper bound": Infinity
+        }
+    ], 
+    "Solution": [
+        {
+            "number of solutions": 1, 
+            "number of solutions displayed": 1
+        }, 
+        {
+            "Constraint": "No values", 
+            "Gap": null, 
+            "Message": "couenne\\x3a Optimal", 
+            "Objective": {
+                "OBJ": {
+                    "Value": 3.999999942673723
+                }
+            }, 
+            "Problem": {}, 
+            "Status": "optimal", 
+            "Variable": {
+                "x[1,1]": {
+                    "Value": 9.157762731214199e-09
+                }, 
+                "x[1,3]": {
+                    "Value": 0.999999993501932
+                }, 
+                "x[1,4]": {
+                    "Value": -2.6596947977353125e-09
+                }, 
+                "x[2,1]": {
+                    "Value": 1.0
+                }, 
+                "x[2,2]": {
+                    "Value": 7.958210192017798e-09
+                }, 
+                "x[2,4]": {
+                    "Value": -7.958210192017798e-09
+                }, 
+                "x[3,2]": {
+                    "Value": 0.9999999945008361
+                }, 
+                "x[3,3]": {
+                    "Value": 2.3544397697945758e-08
+                }, 
+                "x[3,4]": {
+                    "Value": -1.8045233795922773e-08
+                }, 
+                "x[4,1]": {
+                    "Value": -9.157762770328759e-09
+                }, 
+                "x[4,2]": {
+                    "Value": -2.4590462999185547e-09
+                }, 
+                "x[4,3]": {
+                    "Value": -1.704632972535231e-08
+                }, 
+                "x[4,4]": {
+                    "Value": 1.0
+                }
+            }
+        }
+    ], 
+    "Solver": [
+        {
+            "Error rc": 0, 
+            "Id": 3, 
+            "Message": "couenne\\x3a Optimal", 
+            "Status": "ok", 
+            "Termination condition": "optimal", 
+            "Time": 0.01647496223449707
+        }
+    ]
+}
