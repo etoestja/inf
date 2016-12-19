@@ -36,10 +36,10 @@
 \usecolortheme{sidebartab}
 \definecolor{beamer@blendedblue}{RGB}{55,172,32}
 %----------------------------------------------------------------------------------------------------------
-\title[\hbox to 56mm{Classifying distributions \hfill\insertframenumber\,/\,\inserttotalframenumber}]
-{Classifying probabilistic distributions}
-\author[S.E. Volodin]{\large \\S.E. Volodin}
-\institute{\large MIPT}
+\title[\hbox to 56mm{Классификация распределений \hfill\insertframenumber\,/\,\inserttotalframenumber}]
+{Классификация вероятностных распределений}
+\author[С.Е. Володин]{\large \\С.Е. Володин}
+\institute{\large МФТИ}
 
 \date{}
 %-------------------------------------------------------
@@ -50,55 +50,55 @@
 \titlepage
 \end{frame}
 %-------------------------------------------------------
-\begin{frame}{The dataset}
+\begin{frame}{Выборка}
 \begin{enumerate}
-\item Probability distributions $\{f_k(x)\colon\mathbb{R}\to\mathbb{R}\}_{k=1}^K$
-\item Picking one of them $k\in\overline{1,K}$
-\item Picking points $[a,b]\subseteq \mbox{Dom} f_k$
-\item Dividing $[a,b]$ into 101 parts: $[a,b]=\bigsqcup\limits_{s=0}^{100}\Delta_s$, $$|\Delta_0|=|\Delta_{100}|=\frac{\Delta_s}{2}$$
-\item Sampling $t_z\sim f_k$
-\item Counting numbers in $\Delta_s$: $x^i_s=\sum\limits_z[t_z\in\Delta_s]$
+\item Вероятностные распределения $\{f_k(x)\colon\mathbb{R}\to\mathbb{R}\}_{k=1}^K$
+\item Выбирается $k\in\overline{1,K}$
+\item Выбираются $[a,b]\subseteq \mathbb{R}$
+\item $[a,b]$ разбивается на 101 часть: $[a,b]=\bigsqcup\limits_{s=0}^{100}\Delta_s$, $$|\Delta_0|=|\Delta_{100}|=\frac{\Delta_s}{2}$$
+\item Генерируются $t_z\sim f_k$
+\item Вычисляется количество объектов в $\Delta_s$: $x^i_s=\sum\limits_z[t_z\in\Delta_s]$
 
 \end{enumerate}
-\centering $\Rightarrow$ Obtained object $\{x_s\}\in\mathfrak{D}$
+\centering $\Rightarrow$ Получен объект выборки $\{x_s\}\in\mathfrak{D}$
 \end{frame}
-\begin{frame}{The dataset}
-Answers: $y_i=[k=\hat{k}]$ for a fixed $\hat{k}$.
+\begin{frame}{Выборка}
+Ответы: $y_i=[k=\hat{k}]$ для фиксированного $\hat{k}$.
 $$f_{\hat{k}}=ax^{a-1}\big[x\in[0,1]\big]$$
 \begin{tabular}{cc}
 \begin{minipage}{0.5\textwidth}\begin{figure}
 \includegraphics[width=150px]{0.png} 
-\caption{1. Training set, $y_i=0$}
+\caption{1. Обучающая выборка, $y_i=0$}
 \end{figure}\end{minipage} &
 \begin{minipage}{0.5\textwidth}\begin{figure}
 \includegraphics[width=150px]{1.png}
-\caption{2. Training set, $y_i=1$}
+\caption{2. Обучающая выборка, $y_i=1$}
 \end{figure}\end{minipage}
 \end{tabular}
 \end{frame}
-\begin{frame}{The solution}
-Idea: dimension reduction
+\begin{frame}{Решение}
+Идея: снижение размерности
 \begin{enumerate}
-\item Fitting a polynom
+\item Аппроксимация многочленом
 $\sum |P_n(s)-x_s|^2\to\min$
 {\centering \includegraphics[width=200px]{fit}}
-\item Using coefficients $\mbox{coeff}(P_n)$ as features of $\{x^i_s\}\in\mathfrak{D}$
+\item Использование коэффициентов $\mbox{coeff}(P_n)$ как признаков объекта $\{x^i_s\}\in\mathfrak{D}$
 \end{enumerate}
 \end{frame}
-\begin{frame}{Choosing degree}
-5-fold cross-validation
-	\centering \includegraphics[width=250px]{AUC_n}
+\begin{frame}{Выбор степени}
+5-кратная кросс-валидация
+\centering \includegraphics[width=250px]{AUC_n}
 \\
-{\bf Answer:} $n^*=3$
+{\bf Ответ:} $n^*=3$
 \end{frame}
-\begin{frame}{Result}
+\begin{frame}{Результаты}
 \centering \includegraphics[width=250px]{auc}
 \end{frame}
-\begin{frame}{Result}
+\begin{frame}{Результаты}
 \centering \includegraphics[width=250px]{res}
 \end{frame}
-\begin{frame}{The end}
+\begin{frame}{Конец}
 \centering
-\Huge{Thank you!\\Questions?}
+\Huge{Спасибо за внимание.\\Вопросы?}
 \end{frame}
 \end{document}
