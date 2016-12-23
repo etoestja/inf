@@ -1,0 +1,40 @@
+Решатели Pyomo
+bonmin
+Расшифровка: Basic Open-source Nonlinear Mixed INteger programming
+Ссылка: https://projects.coin-or.org/Bonmin
+Алгоритм внутри: B-BB is a NLP-based branch-and-bound algorithm,
+B-OA is an outer-approximation decomposition algorithm,
+B-QG is an implementation of Quesada and Grossmann's branch-and-cut algorithm,
+B-Hyb is a hybrid outer-approximation based branch-and-cut algorithm.
+
+cbc
+Расшифровка: Coin-or branch and cut
+Ссылка: https://projects.coin-or.org/Cbc
+Алгоритм внутри: Simple Branch and Bound
+
+couenne
+Расшифровка: Convex Over and Under ENvelopes for Nonlinear Estimation
+Ссылка: https://projects.coin-or.org/Cbc
+Алгоритм внутри: separation of linearization cuts;
+branching rules;
+bound tightening methods.
+
+glpk
+Расшифровка: GNU Linear Programming Kit
+Ссылка: https://www.gnu.org/software/glpk/
+Алгоритм внутри: primal and dual simplex methods
+primal-dual interior-point method
+branch-and-cut method
+translator for GNU MathProg
+application program interface (API)
+stand-alone LP/MIP solver
+
+ipopt
+Расшифровка: Interior Point OPTimizer
+Ссылка: https://projects.coin-or.org/Ipopt
+Алгоритм внутри: Метод внутренней точки
+
+scip
+Расшифровка: Solving Constraint Integer Programs
+Ссылка: http://scip.zib.de/
+Алгоритм внутри: CP and MIP???

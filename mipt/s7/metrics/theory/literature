@@ -1,0 +1,29 @@
+Рекомендуемая литература.
+Основная литература.
+Battista D. et al. Graph drawing: algorithms for the visualization of graphs. – 1999.
+Воронин Ю.А. Начала теории сходства. Новосибирск: Наука. СО. 1991.
+Деза М., Лоран М. Геометрия разрезов и метрик. М.: МЦНМО. 2001.
+Basalaj W. Proximity Visualization of Abstract Data. 2001.
+Newman M. Networks: an introduction. – OUP Oxford, 2010.
+Vathy-Fogarassy Á., Abonyi J. Graph-Based Clustering and Data Visualization Algorithms. – London : Springer, 2013.
+Дополнительная литература. 
+Batagelj V. et al. Understanding large temporal networks and spatial networks: Exploration, pattern searching, visualization and network evolution. – John Wiley & Sons, 2014. 
+Samatova N. F. et al. (ed.). Practical Graph Mining with R. – CRC Press, 2013. 
+Fruchterman T. M. J., Reingold E. M. Graph drawing by force‐directed placement //Software: Practice and experience. – 1991. – Т. 21. – №. 11. – С. 1129-1164. 
+Tamassia R. (ed.). Handbook of graph drawing and visualization. – CRC press, 2013.
+Šubelj L., Bajec M. Unfolding communities in large complex networks: Combining defensive and offensive label propagation for core extraction //Physical Review E. – 2011. – Т. 83. – №. 3. – С. 036103.
+Raghavan U. N., Albert R., Kumara S. Near linear time algorithm to detect community structures in large-scale networks //Physical Review E. – 2007. – Т. 76. – №. 3. – С. 036106. 
+Hu Y., Shi L. Visualizing large graphs //Wiley Interdisciplinary Reviews: Computational Statistics. – 2015. – Т. 7. – №. 2. – С. 115-136. 
+Leskovec J., Faloutsos C. Sampling from large graphs //Proceedings of the 12th ACM SIGKDD international conference on Knowledge discovery and data mining. – ACM, 2006. – С. 631-636. 
+Буземан Г. Геометрия геодезических. М.: Физматгиз. 1962.
+Воронин Ю.А. Теория классификации и её приложения. Новосибирск: Наука. СО. 1985.
+Деза М., Лоран М. Геометрия разрезов и метрик. М.: МЦНМО. 2001.
+Дидэ Э. Методы анализа данных. М.: Финансы и статистика. 1985.
+Дэйвисон М. Многомерное шкалирование. М.: Финансы и статистика. 1988.
+Кочетков Д.В. О функциях близости. ВЦ АН СССР. 1978.
+Скворцов В.А. Примеры метрических пространств. М.: МЦНМО. 2002.
+Шрейдер Ю.А. Что такое расстояние? М.: Физматгиз. 1963.
+Yianilos P.N. Normalized Forms for Two Common Metrics. Princeton: NEC Re-search Institute. 2002.
+Ресурсы интернета. 
+Портал по анализу сетей http://snap.stanford.edu/
+Сообщество специалистов по анализу социальных сетей http://www.insna.org/
