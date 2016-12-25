@@ -1,4 +1,8 @@
 # Settings:
+if [ "$(hostname)" == "sergeivolodin" ]
+then
+    INF_PATH=/home/sergei/Documents/repos/git/inf
+fi
 if [ "$(hostname)" == "etoestja-laptop" ]
 then
     INF_PATH=/home/etoestja/Documents/p/git/inf
