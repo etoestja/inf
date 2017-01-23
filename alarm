@@ -1,7 +1,8 @@
 #!/bin/bash
 
 NMAX=1
-path[0]=/home/etoestja/Music/alarm/slts.mp3
+#path[0]="http://42fm.ru:8000/stealkill"
+path[0]="/home/sergei/Music/Nirvana/a.mp3"
 
 if [ "X$1" == "Xcheck" ]
 then
@@ -41,17 +42,4 @@ echo $N $file
 card=1
 logger -t Alarm "Using file #$N $file"
 PACMD="pacmd"
-export PULSE_RUNTIME_PATH=/run/user/1001/pulse
-$PACMD set-sink-port $card analog-output-speaker
-$PACMD set-sink-mute $card 0
-$PACMD set-sink-volume $card 0x20000
-
-/usr/bin/vlc -I dummy --aout pulse --ignore-config --volume 512 "$file"&
-
-sleep 5
-
-for sink in $(pacmd list-sink-inputs|grep -aEo "index: [0-9]+"|grep -aEo "[0-9]+")
-do
-    $PACMD set-sink-input-mute $sink 0
-    $PACMD set-sink-input-volume $sink 0x15000
-done
+/usr/bin/vlc -I dummy --aout pulse --ignore-config --volume 100 "$file"&

@@ -1,6 +1,3 @@
-[submodule "repo"]
-	path = 4th-term-cs-project
-	url = git@git.vdi.mipt.ru:4th-term-cs-project/main.git
 [submodule "mipt/s4/english/20140415/presentation"]
 	path = mipt/s4/english/20140415/presentation
 	url = git@github.com:it-workshop/QuadrocopterPresentation.git
