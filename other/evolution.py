@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import math
 import string
 import random
@@ -60,10 +61,15 @@ def print_best():
 def sigma(x):
     return(1 / (1 + math.exp(-x)))
 
+fitnesses = []
 fitness_exp = fitness(best)
 print_best()
 while fitness(best) < 0:
+    fitnesses.append(fitness(best))
     fitness_exp = fitness(best) * alpha + fitness_exp * (1 - alpha)
 #    thresold = alpha * sigma(fitness_exp - fitness(best)) + thresold * (1 - alpha)
     iteration()
     print_best()
+
+plt.plot(fitnesses)
+plt.savefig('evolution.png')
