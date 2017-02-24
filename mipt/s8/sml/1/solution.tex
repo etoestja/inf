@@ -1,0 +1,57 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+%\geometry{paperwidth=210mm, paperheight=2000pt, left=5pt, top=5pt}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning,arrows}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{wasysym}
+\title{Статистическое обучение\\Задание 1}
+\date{задано 2017.02.19}
+\author{Сергей~Володин, 374 гр.}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
+% пустое слово
+\def\eps{\varepsilon}
+
+% регулярные языки
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\newcommand{\niton}{\not\owns}
+
+\begin{document}
+\maketitle
+\section*{Упражнение 1}
+\begin{enumerate}
+\item Неравенство Маркова: Если $X\geqslant 0$, то $P(X\geqslant \eps)\leqslant \frac{\mathbb{E}X}{\eps}$. Нужно: $P(X\geqslant \eps)=\frac{\mathbb{E}X}{\eps}$. Найдем $P(X<\eps)=1-\frac{\mathbb{E}X}{\eps}$, $f_X(x)=\frac{\mathbb{E}X}{x^2}$. Тогда $\mathbb{E}X=\int\limits_0^\infty xf_X(x)dx=\int\limits_0^\infty \mathbb{E}X\frac{dx}{x}$. Поскольку интеграл $\int\limits_0^\infty\frac{dx}{x}$ расходится, то $\mathbb{E}X=0$. Значит, $\boxed{X=0}$. Проверим: $0=P(0\geqslant\eps)=\frac{0}{\eps}\blacksquare$
+\item Неравенство Чебышева: $P(|X-\mathbb{E}X|\geqslant a)\leqslant \frac{\sigma^2}{a^2}$. Если обозначить $\eta=|X-\mathbb{E}X|^2$, то получим неравенство Маркова. Возьмем предыдущий пример $\Rightarrow$ $\eta=0$ $\Rightarrow$ $X=c$ (константа). Проверим: $0=P(0\geqslant a)=\frac{0}{a^2}$ (для константы $\sigma=0$)
+\end{enumerate}
+\section*{Упражнение 2}
+Как максимум субгауссовских (конспект)
+\section*{Упражнение 3}
+Случайная величина $X$~--- субгауссовская с параметром $\sigma$ $\Leftrightarrow$ $\mathbb{E}e^{\lambda X}\leqslant e^{\frac{\lambda^2\sigma^2}{2}}$.
+
+Пусть $X_1,\,X_2$~--- субгауссовские с параметрами $\sigma_1$ и $\sigma_2$. $Y=X_1+X_2$. Доказать: $Y$~--- субгауссовская для некоторого $\sigma$.
+\section*{Упражнение 4}
+Плотность нормального распределения: $\psi(x)=f_{N(0,1)}(x)=\frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}$. Тогда $\frac{d}{dx}\psi(x)=\frac{1}{\sqrt{2\pi}}(-2x/2)e^{-\frac{x^2}{2}}=-x\psi(x)$.
+
+Значит, $x\psi(x)+\psi'(x)=0$
+\section*{Упражнение 5}
+Конспект
+\section*{Задача 1}
+?
+\section*{Задача 2}
+Конспект 1-е занятие
+\end{document}
