@@ -36,7 +36,7 @@
 \section*{Упражнение 1}
 \begin{enumerate}
 \item Неравенство Маркова: Если $X\geqslant 0$, то $P(X\geqslant \eps)\leqslant \frac{\mathbb{E}X}{\eps}$. Нужно: $P(X\geqslant \eps)=\frac{\mathbb{E}X}{\eps}$. Найдем $P(X<\eps)=1-\frac{\mathbb{E}X}{\eps}$, $f_X(x)=\frac{\mathbb{E}X}{x^2}$. Тогда $\mathbb{E}X=\int\limits_0^\infty xf_X(x)dx=\int\limits_0^\infty \mathbb{E}X\frac{dx}{x}$. Поскольку интеграл $\int\limits_0^\infty\frac{dx}{x}$ расходится, то $\mathbb{E}X=0$. Значит, $\boxed{X=0}$. Проверим: $0=P(0\geqslant\eps)=\frac{0}{\eps}\blacksquare$
-\item Неравенство Чебышева: $P(|X-\mathbb{E}X|\geqslant a)\leqslant \frac{\sigma^2}{a^2}$. Если обозначить $\eta=|X-\mathbb{E}X|^2$, то получим неравенство Маркова. Возьмем предыдущий пример $\Rightarrow$ $\eta=0$ $\Rightarrow$ $X=c$ (константа). Проверим: $0=P(0\geqslant a)=\frac{0}{a^2}$ (для константы $\sigma=0$)
+\item Неравенство Чебышева: $P(|X-\mathbb{E}X|\geqslant a)\leqslant \frac{\sigma^2}{a^2}$. Если обозначить $\eta=|X-\mathbb{E}X|^2$, то получим неравенство Маркова. Возьмем предыдущий пример $\Rightarrow$ $\eta=0$ $\Rightarrow$ $X=c$ (константа). Проверим: $0=P(0\geqslant a)=\frac{0}{a^2}$ (для константы $\sigma=0$) $\blacksquare$
 \end{enumerate}
 \section*{Упражнение 2.1}
 Имеем: $Y\geqslant 0$~--- случайная величина, числа $A\geqslant 2$, $B>0$. $\forall \eps\geqslant 0\hookrightarrow P(Y\geqslant \eps)\leqslant A\exp(-\frac{\eps^2}{B^2})$.
@@ -55,12 +55,30 @@
 Случайная величина $X$~--- субгауссовская с параметром $\sigma$ $\Leftrightarrow$ $\mathbb{E}e^{\lambda X}\leqslant e^{\frac{\lambda^2\sigma^2}{2}}$.
 
 Пусть $X_1,\,X_2$~--- субгауссовские с параметрами $\sigma_1$ и $\sigma_2$. $Y=X_1+X_2$. Доказать: $Y$~--- субгауссовская для некоторого $\sigma$.
-\section*{Упражнение 4}
+
+Рассмотрим $\mathbb{E}e^{\lambda Y}=\mathbb{E}e^{\lambda (X_1+X_2)}\leqslant \mathbb{E} e^{2\lambda\max X_i}=\mathbb{E}\max e^{2\lambda X_i}\leqslant \mathbb{E} \sum e^{2\lambda X_i}\leqslant 2$
+\section*{Упражнение 3.2}
+Пусть $X\sim N(0,1)$. Тогда $X$~--- субгауссовская с параметром $1$. Определим $X_1=X$, $X_2=X$~--- две субгауссовские величины. Определим $Y=X_1X_2$. Но $\mathbb{E}Y=\mathbb{E}X^2=1\neq 0$, значит, $Y$ \underline{не может быть субгауссовской}
+\section*{Упражнение 3.3}
+Обозначим $f(\lambda)=\mathbb{E}e^{\lambda X}$, $g(\lambda)=e^(\sigma^2\lambda^2/2)$. $f(\lambda)=\sum\limits_{k=0}^\infty \frac{\lambda^k}{k!}\mathbb{E}X^k=1+\lambda \mathbb{E}X+\frac{\lambda^2}{2}\mathbb{E}X^2+...$. Значит, $f'(0)=\mathbb{E}X$. Найдём $g'(\lambda)=\lambda g(\lambda)$. Найдём $f(0)=g(0)=1$. Значит, $g'(0)=0$. Обозначим $h(\lambda)=f(\lambda)-g(\lambda)$. По условию, $h(\lambda)\leqslant 0$. Поскольку $h(0)=0$, то $h'(0)=0$. Но $h'(0)=f'(0)-g'(0)=\mathbb{E}X$. Значит, $\boxed{\mathbb{E}X=0}$
+\section*{Упражнение 3.4}
+\section*{Упражнение 4.1}
 Плотность нормального распределения: $\psi(x)=f_{N(0,1)}(x)=\frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}$. Тогда $\frac{d}{dx}\psi(x)=\frac{1}{\sqrt{2\pi}}(-2x/2)e^{-\frac{x^2}{2}}=-x\psi(x)$.
 
-Значит, $x\psi(x)+\psi'(x)=0$
-\section*{Упражнение 5}
-Конспект
+Значит, $\boxed{x\psi(x)+\psi'(x)=0}$
+\section*{Упражнение 4.2}
+Обозначим $f_1(x)=\psi(x)(1/x-1/x^3)$, $f_2(x)=P(X\geqslant x)=\int\limits_x^\infty\psi(t)dt$, $f_3(x)=\psi(x)(1/x-1/x^3+3/x^5)$. Доказать: при $x>0$ $f_1\leqslant f_2\leqslant f_3$. Обозначим $g(x)=f_2(x)-f_1(x)$, $h(x)=f_3(x)-f_2(x)$ Нужно доказать, что $g,h\geqslant 0$.
+
+Рассмотрим $g'(x)=-\frac{3\psi(x)}{x^4}$, $h'(x)=-\frac{15\psi(x)}{x^6}$
+\section*{Упражнение 4.3}
+\section*{Упражнение 4.4}
+\section*{Упражнение 5.1}
+$f^*=\argmin\limits_{f\in Y^X} L(f)$. $L(f)=\mathbb{E}_{X\times Y}[f(X)\neq Y]=\mathbb{E}_X\mathbb{E}_{Y|X}[f(X)\neq Y]=\mathbb{E}_X P(f(X)\neq Y\big| X)$. Фиксируем $X$, т.е. рассмотрим одно слагаемое (или подинтегральный член):
+
+$P(f(X)\neq Y\big|X)=P(f=1\big| X,Y=-1)P(Y=-1\big|X)+P(f=-1\big| X,Y=1)P(Y=1\big|X)\boxed{=}$. Поскольку $f$ зависит только от $X$, $\boxed{=}[f(X)=1]P(Y=-1\big|X)+[f(X)=-1]P(Y=1\big|X)$. В этой сумме одна из скобок $[f(X)=\cdot]$ равна 1, а другая 0, в зависимости от значения $f$ на $X$. Значит, для минимизации $\mathbb{E}_{Y|X}[f(X)\neq Y]$ нужно взять $f(X)=\argmin\limits_j P(Y=j\big|X)$
+
+Рассмотрим $\eta(x)=\mathbb{E}[Y|X=x]=P(Y=1\big|X=x)-P(Y=-1\big| X=x)$. Значит, $\mbox{sign}\,\eta(x)=\argmin\limits_j P(Y=j\big| X=x)$, то есть, $f^*(x)=\mbox{sign}\,\eta(x)$ $\blacksquare$
+\section*{Упражнение 5.2}
 \section*{Задача 1}
 ?
 \section*{Задача 2}
