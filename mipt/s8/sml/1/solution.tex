@@ -38,8 +38,19 @@
 \item Неравенство Маркова: Если $X\geqslant 0$, то $P(X\geqslant \eps)\leqslant \frac{\mathbb{E}X}{\eps}$. Нужно: $P(X\geqslant \eps)=\frac{\mathbb{E}X}{\eps}$. Найдем $P(X<\eps)=1-\frac{\mathbb{E}X}{\eps}$, $f_X(x)=\frac{\mathbb{E}X}{x^2}$. Тогда $\mathbb{E}X=\int\limits_0^\infty xf_X(x)dx=\int\limits_0^\infty \mathbb{E}X\frac{dx}{x}$. Поскольку интеграл $\int\limits_0^\infty\frac{dx}{x}$ расходится, то $\mathbb{E}X=0$. Значит, $\boxed{X=0}$. Проверим: $0=P(0\geqslant\eps)=\frac{0}{\eps}\blacksquare$
 \item Неравенство Чебышева: $P(|X-\mathbb{E}X|\geqslant a)\leqslant \frac{\sigma^2}{a^2}$. Если обозначить $\eta=|X-\mathbb{E}X|^2$, то получим неравенство Маркова. Возьмем предыдущий пример $\Rightarrow$ $\eta=0$ $\Rightarrow$ $X=c$ (константа). Проверим: $0=P(0\geqslant a)=\frac{0}{a^2}$ (для константы $\sigma=0$)
 \end{enumerate}
-\section*{Упражнение 2}
-Как максимум субгауссовских (конспект)
+\section*{Упражнение 2.1}
+Имеем: $Y\geqslant 0$~--- случайная величина, числа $A\geqslant 2$, $B>0$. $\forall \eps\geqslant 0\hookrightarrow P(Y\geqslant \eps)\leqslant A\exp(-\frac{\eps^2}{B^2})$.
+
+\begin{enumerate}
+\item Оценим $\mathbb{E}e^{\lambda Y^2}=1+\int\limits_1^\infty P(e^{\lambda Y^2}>x)dx$. Перепишем $e^{\lambda Y^2}>x\Leftrightarrow \lambda Y^2>\ln x\Leftrightarrow Y>\sqrt{\frac{\ln x}{\lambda}}$. Значит, $\mathbb{E}e^{\lambda Y^2}\leqslant 1+A\int\limits_1^\infty x^{-1/\lambda B^2}dx=1+A\frac{1}{1/\lambda B^2-1}$ при условии $\lambda\in(0,1/B^2)$. Берём $\lambda=1/2B^2$. Тогда $\mathbb{E}e^{\lambda Y^2}\leqslant 1+A\leqslant 2A$ при $A\geqslant 2$
+\item $\mathbb{E}Y=\sqrt{\frac{1}{\lambda}\ln e^{\lambda (\mathbb{E}Y)^2}}\underbrace{\leqslant}_{\mbox{\small Йенс. } e^{\lambda x^2}}\sqrt{\frac{1}{\lambda}\ln \mathbb{E}e^{\lambda Y^2}}\underbrace{\leqslant}_{(1)}\sqrt{2B^2\ln 2A}=\sqrt{2}B\sqrt{\ln 2A}$. Заметим, что при $A\geqslant 2$, $\sqrt{\ln 2A}\leqslant \sqrt{2\ln A}$. Тогда $\mathbb{E}Y\leqslant \boxed{2B\sqrt{\ln A}}$. То есть, проведено доказательство для $C=2$.
+\end{enumerate}
+\section*{Упражнение 2.2}
+Имеем: $Y\geqslant 0$~--- случайная величина, числа $A\geqslant 2$, $B>0$. $\forall \eps\geqslant 0\hookrightarrow P(Y\geqslant \eps)\leqslant A\exp(-\frac{\eps}{B})$.
+\begin{enumerate}
+\item Оценим $\mathbb{E}e^{\lambda Y}=1+\int\limits_1^\infty P(e^{\lambda Y}>x)dx$. Рассмотрим $e^{\lambda Y}>x\Leftrightarrow Y>\frac{\ln x}{\lambda}$. $P(Y>\frac{\ln x}{\lambda})\leqslant Ae^{-\frac{\ln x}{\lambda B}}=Ax^{-1/\lambda B}$. Тогда $\mathbb{E}e^{\lambda Y}\leqslant 1+A\int\limits_1^\infty x^{-1/\lambda B}dx$ при $\lambda B<1$. Берем $\lambda=1/2B$. Тогда $\mathbb{E}e^{\lambda Y}\leqslant 1+A\leqslant 2A$
+\item $\mathbb{E}Y=\frac{1}{\lambda}\ln e^{\lambda \mathbb{E}Y}\leqslant \frac{1}{\lambda}\ln \mathbb{E} e^{\lambda Y}\leqslant \frac{1}{\lambda}2A=2B\ln 2A\leqslant \boxed{4B\ln A}$
+\end{enumerate}
 \section*{Упражнение 3}
 Случайная величина $X$~--- субгауссовская с параметром $\sigma$ $\Leftrightarrow$ $\mathbb{E}e^{\lambda X}\leqslant e^{\frac{\lambda^2\sigma^2}{2}}$.
 
