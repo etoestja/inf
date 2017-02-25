@@ -71,14 +71,35 @@
 
 Рассмотрим $g'(x)=-\frac{3\psi(x)}{x^4}$, $h'(x)=-\frac{15\psi(x)}{x^6}$
 \section*{Упражнение 4.3}
+Рассмотрим $P(X\geqslant x)\leqslant\inf\limits_{\lambda > 0}\frac{\mathbb{E}e^{\lambda X}}{e^{\lambda x}}$. Для нормальной случайной величины $\mathbb{E}e^{\lambda X}=e^{\frac{\lambda^2\sigma^2}{2}}=e^{\frac{\lambda^2}{2}}$. Значит, $\frac{\mathbb{E}e^{\lambda X}}{e^{\lambda x}}=\exp(\frac{\lambda^2}{2}-\lambda x)\to\min\limits_{\lambda > 0}$. Находим $\lambda^*=x>0$, получаем $P(X\geqslant x)\leqslant \exp(-\frac{x^2}{2})$
 \section*{Упражнение 4.4}
+\begin{enumerate}
+\item Теорема Муавра-Лапласа: $P(\frac{x-np}{\sqrt{npq}}\geqslant x)\to\int\limits_x^\infty \psi(t)dt$
+\item Неравенство Хёффдинга. Рассмотрим $\xi=\sum\limits_{i=1}^n \xi_i$, $\{\xi_i\}$~--- i.i.d., $\xi_i=\begin{cases}
+1,&p\\
+0,&1-p
+\end{cases}$. Обозначим $\zeta_i=\xi_i-p$. Тогда $\mathbb{E}\zeta_i=0$. $\zeta_i\in[-p,1+p]$. Значит, $\zeta_i$~--- субгауссовская с $\sigma^2=1/2$. Рассмотрим $P(\sum \xi_i-np\geqslant \eps=P(\sum \zeta_i\geqslant \eps)\leqslant e^{-\frac{\eps^2}{2\cdot 1/4}}=e^{-2\eps^2}$
+\item Сравнение при разных $p$ ???
+\end{enumerate}
 \section*{Упражнение 5.1}
-$f^*=\argmin\limits_{f\in Y^X} L(f)$. $L(f)=\mathbb{E}_{X\times Y}[f(X)\neq Y]=\mathbb{E}_X\mathbb{E}_{Y|X}[f(X)\neq Y]=\mathbb{E}_X P(f(X)\neq Y\big| X)$. Фиксируем $X$, т.е. рассмотрим одно слагаемое (или подинтегральный член):
+$f^*=\argmin\limits_{f\in Y^X} L(f)$. $L(f)=\mathbb{E}_{X\times Y}[f(X)\neq Y]=\mathbb{E}_X\mathbb{E}_{Y|X}[f(X)\neq Y]=\mathbb{E}_X P(f(X)\neq Y\big| X)$. Фиксируем $X$, т.е. рассмотрим одно слагаемое (или подынтегральный член):
 
 $P(f(X)\neq Y\big|X)=P(f=1\big| X,Y=-1)P(Y=-1\big|X)+P(f=-1\big| X,Y=1)P(Y=1\big|X)\boxed{=}$. Поскольку $f$ зависит только от $X$, $\boxed{=}[f(X)=1]P(Y=-1\big|X)+[f(X)=-1]P(Y=1\big|X)$. В этой сумме одна из скобок $[f(X)=\cdot]$ равна 1, а другая 0, в зависимости от значения $f$ на $X$. Значит, для минимизации $\mathbb{E}_{Y|X}[f(X)\neq Y]$ нужно взять $f(X)=\argmin\limits_j P(Y=j\big|X)$
 
 Рассмотрим $\eta(x)=\mathbb{E}[Y|X=x]=P(Y=1\big|X=x)-P(Y=-1\big| X=x)$. Значит, $\mbox{sign}\,\eta(x)=\argmin\limits_j P(Y=j\big| X=x)$, то есть, $f^*(x)=\mbox{sign}\,\eta(x)$ $\blacksquare$
 \section*{Упражнение 5.2}
+Фиксируем $x$. Обозначим $p=P(Y=+1|X=x)$. Тогда $\eta(x)=P(Y=+1|X=x)-P(Y=-1|X=x)=p-(1-p)=2p-1$. Знаем, что $|2p-1|\geqslant h$. Значит, либо $p\geqslant\frac{h+1}{2}$, либо $p\leqslant \frac{1-h}{2}$
+
+Поскольку $f^*=\mbox{sign}(2p-1)$, то $[f^*=+1]=[p>0.5]$, а $[f^*=-1]=[p<0.5]$
+
+Рассмотрим $L(f^*)=\mathbb{E}_X\left(\underbrace{[p>0.5](1-p)+[p<0.5]p}_{l(x)}\right)$.
+
+\begin{enumerate}
+\item Пусть $p>0.5$. Но тогда $p\geqslant \frac{1+h}{2}$. Значит, $l(x)\leqslant 1-p=\frac{1-h}{2}$
+\item Пусть $p<0.5$. Тогда $p\leqslant \frac{1-h}{2}$. Значит, $l(x)\leqslant p=\frac{1-h}{2}$
+\end{enumerate}
+
+Получаем, что $l(x)\leqslant \frac{1-h}{2}$. Тогда $L(f^*)=\mathbb{E}_Xl(x)\leqslant \frac{1-h}{2}$ $\blacksquare$
 \section*{Задача 1}
 ?
 \section*{Задача 2}
