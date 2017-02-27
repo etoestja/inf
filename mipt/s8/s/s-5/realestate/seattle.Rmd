@@ -30,14 +30,32 @@ qqline(x2, col="red")
 1. Вопсользуйтесь критерием Стьюдента, Манна-Уитни-Уилкоксона (`wilcox.test`), а также перестановочным критерием (`permTS` из `perm`) для проверки гипотезы о равенстве средних.
 
 ```{r}
+library(perm)
+t.test(x = data$Price[data$Year == 2001], y = data$Price[data$Year == 2002])
+wilcox.test(x = data$Price[data$Year == 2001], y = data$Price[data$Year == 2002])
+permTS(x = data$Price[data$Year == 2001], y = data$Price[data$Year == 2002])
 ```
 
 2. Постройте доверительные интервалы для средних значений в обеих выборках, а также доверительный интервал для разницы средних по обеим выборкам (обратите внимание на опции `stype, strata`  в функции `boot` одноименного пакета). 
 
 ```{r}
+library(boot)
+
+mean_ind <- function(d, ind)
+{
+  mean(d[ind])
+}
+
+boot(data$Price)
+
+boot.ci(boot(data$Price[data$Year == 2001], statistic = mean_ind, R = 100), type=c("norm", "basic"))
+boot.ci(boot(data$Price[data$Year == 2002], statistic = mean_ind, R = 100),type=c("norm", "basic"))
 ```
 
 3. Воcпользуйтесь критерием Смирнова (`ks.test`). 
+```{r}
+ks.test(x = data$Price[data$Year == 2001], y = data$Price[data$Year == 2002])
+```
 
 
 **************

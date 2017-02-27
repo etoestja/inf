@@ -20,9 +20,32 @@ qqline(w$After - w$Before, col="red")
 Нормальность отвергается, поэтому давайте воспользуемся непараметрическими критериями для оценки эффекта терапии.
 
 1. Воспользуйтесь критериями знаков (`SIGN.test` из библиотеки `BSDA`), критерием Уилкоксона (`wilcox.test`), а также перестановочным критерием (`perm.test` из библиотеки `exactRankTests`). Не забудьте, что мы работаем со связанными выборками!
+```{r}
+library(BSDA)
+SIGN.test(x = w$After - w$Before, md = 0)
+```
+```{r}
+wilcox.test(x = w$After - w$Before)
+```
+
+```{r}
+library(exactRankTests)
+perm.test(x = w$After - w$Before)
+```
+
 
 
 2. С помощью бутстрэпа из 5000 повторений постройте доверительный интервал на медиану разницы веса до и после лечения. (`boot.ci` из библиотеки `boot`)
+```{r}
+med_ind <- function(data, indices)
+{
+  median(data[indices])
+}
+
+library(boot)
+boot_out <- boot(data = w$After - w$Before, statistic = med_ind, R = 5000)
+boot.ci(boot_out)
+```
 
 
 **************
