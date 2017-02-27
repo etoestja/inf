@@ -1,0 +1,29 @@
+---
+title: "Терапия при анорексии"
+output: html_document
+---
+В исследовании оценивается эффективность поведенческой терапии для лечения анорексии. Для 50 пациентов известен вес до начала терапии и по её окончании. Была ли терапия эффективной?
+
+```{r}
+w <-  read.table("weight.txt", header=T, sep="\t")
+```
+
+```{r, fig.height=5.5, fig.width=10}
+par(mfrow=c(1,2))
+plot(w, col="red", pch=16, xlim=c(min(w), max(w)), ylim=c(min(w), max(w)), xlab="Before", ylab="After")
+grid()
+
+qqnorm(w$After - w$Before, main="After-Before")
+qqline(w$After - w$Before, col="red")
+```
+
+Нормальность отвергается, поэтому давайте воспользуемся непараметрическими критериями для оценки эффекта терапии.
+
+1. Воспользуйтесь критериями знаков (`SIGN.test` из библиотеки `BSDA`), критерием Уилкоксона (`wilcox.test`), а также перестановочным критерием (`perm.test` из библиотеки `exactRankTests`). Не забудьте, что мы работаем со связанными выборками!
+
+
+2. С помощью бутстрэпа из 5000 повторений постройте доверительный интервал на медиану разницы веса до и после лечения. (`boot.ci` из библиотеки `boot`)
+
+
+**************
+Everitt N., McMahon M. (2004). **Nutrition and the surgical patient.** In **Consensus in Clinical Nutrition**, Cambridge: Cambridge University Press.
