@@ -101,7 +101,19 @@ $P(f(X)\neq Y\big|X)=P(f=1\big| X,Y=-1)P(Y=-1\big|X)+P(f=-1\big| X,Y=1)P(Y=1\big
 
 Получаем, что $l(x)\leqslant \frac{1-h}{2}$. Тогда $L(f^*)=\mathbb{E}_Xl(x)\leqslant \frac{1-h}{2}$ $\blacksquare$
 \section*{Задача 1}
-?
+Имеем $Y=\{-1,1\}$~--- метки классов, $K$~--- класс функций, $f^*=\argmin\limits_{f\in Y^X} L(f)$. Рассмотрим элементы $x_1,x_2,x_3\in X$. Их вероятноси $P(x_i)=0$.
+
+Определим $f_i(x)=\begin{cases}
+\overline{f^*(x)},&x\neq x_i\\
+f^*(x),&x=x_i
+\end{cases}$
+
+Определим $F={f^*, \overline{f^*}, f_1, f_2, f_3}$.
+
+\begin{enumerate}
+\item Halving (большинство). Рассмотрим произвольный $x\in X$ (первый шаг алгоритма). Если $x=x_i$, то получим значения функций $(f^*, \overline{f^*}, \overline{f^*},f^*,\overline{f^*})$. Halving выдаст неверный ответ (3>2), то есть, $\overline{f^*}$. Если $x\neq x_i$, то получим значения функций $(f^*, \overline{f^*}, \overline{f^*},\overline{f^*},\overline{f^*})$. Halving снова выдаст неверный ответ.
+\item Меньшинство. В 
+\end{enumerate}
 \section*{Задача 2}
 Конспект 1-е занятие
 \end{document}
