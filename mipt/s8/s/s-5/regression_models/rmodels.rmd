@@ -53,6 +53,7 @@ $$F(x) = (1 - \varepsilon) \Phi(x) + \Phi(x/3)  $$
 
 ```{r}
 # type your code here
+wilcox.test(x = rmodels$err1, y = rmodels$err2)
 ```
 
 

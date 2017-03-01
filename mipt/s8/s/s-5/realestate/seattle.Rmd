@@ -46,15 +46,36 @@ mean_ind <- function(d, ind)
   mean(d[ind])
 }
 
-boot(data$Price)
+boot.ci(boot(data$Price[data$Year == 2001], statistic = mean_ind, R = 5000), type=c("norm", "basic"))
+boot.ci(boot(data$Price[data$Year == 2002], statistic = mean_ind, R = 5000),type=c("norm", "basic"))
+```
 
-boot.ci(boot(data$Price[data$Year == 2001], statistic = mean_ind, R = 100), type=c("norm", "basic"))
-boot.ci(boot(data$Price[data$Year == 2002], statistic = mean_ind, R = 100),type=c("norm", "basic"))
+```{r}
+mean_total <- function(d, f)
+{
+  # indexes for 2001 year
+  year1 <- 1:table(as.numeric(data_only$Year))[1]
+  
+  # indexes for 2002 year
+  year2 <- -year1
+  
+  # count1*price1 / sum(count1)
+  m1 <- sum(d[year1,]$Price * f[year1]) / sum(f[year1])
+  m2 <- sum(d[year2,]$Price * f[year2]) / sum(f[year2])
+  
+  # difference
+  m2 - m1
+}
+
+data_only = data[data$Year >= 2001 && data$Year <= 2002]
+
+boot.ci(boot(data_only, statistic = mean_total, R = 5000, stype="f", strata = data_only$Year), type = c("norm", "basic"))
+
 ```
 
 3. Воcпользуйтесь критерием Смирнова (`ks.test`). 
 ```{r}
-ks.test(x = data$Price[data$Year == 2001], y = data$Price[data$Year == 2002])
+ks.test(x = data[data$Year == 2001,]$Price, y = data[data$Year == 2002,]$Price)
 ```
 
 
