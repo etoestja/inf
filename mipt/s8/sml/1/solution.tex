@@ -5,6 +5,7 @@
 \usepackage[english,russian]{babel}
 \usepackage{indentfirst}
 \usepackage{tikz}
+\usepackage{cancel}
 \usetikzlibrary{automata,positioning,arrows}
 \usepackage{amsmath}
 \usepackage{enumerate}
@@ -51,28 +52,61 @@
 \item Оценим $\mathbb{E}e^{\lambda Y}=1+\int\limits_1^\infty P(e^{\lambda Y}>x)dx$. Рассмотрим $e^{\lambda Y}>x\Leftrightarrow Y>\frac{\ln x}{\lambda}$. $P(Y>\frac{\ln x}{\lambda})\leqslant Ae^{-\frac{\ln x}{\lambda B}}=Ax^{-1/\lambda B}$. Тогда $\mathbb{E}e^{\lambda Y}\leqslant 1+A\int\limits_1^\infty x^{-1/\lambda B}dx$ при $\lambda B<1$. Берем $\lambda=1/2B$. Тогда $\mathbb{E}e^{\lambda Y}\leqslant 1+A\leqslant 2A$
 \item $\mathbb{E}Y=\frac{1}{\lambda}\ln e^{\lambda \mathbb{E}Y}\leqslant \frac{1}{\lambda}\ln \mathbb{E} e^{\lambda Y}\leqslant \frac{1}{\lambda}2A=2B\ln 2A\leqslant \boxed{4B\ln A}$
 \end{enumerate}
-\section*{Упражнение 3}
+\section*{Упражнение 3.1}
+{\em \url{http://www.stat.cmu.edu/~arinaldo/36788/subgaussians.pdf}}
+
+{\em \url{https://en.wikipedia.org/wiki/Holder's_inequality}}
+
 Случайная величина $X$~--- субгауссовская с параметром $\sigma$ $\Leftrightarrow$ $\mathbb{E}e^{\lambda X}\leqslant e^{\frac{\lambda^2\sigma^2}{2}}$.
 
 Пусть $X_1,\,X_2$~--- субгауссовские с параметрами $\sigma_1$ и $\sigma_2$. $Y=X_1+X_2$. Доказать: $Y$~--- субгауссовская для некоторого $\sigma$.
 
-Рассмотрим $\mathbb{E}e^{\lambda Y}=\mathbb{E}e^{\lambda (X_1+X_2)}\leqslant \mathbb{E} e^{2\lambda\max X_i}=\mathbb{E}\max e^{2\lambda X_i}\leqslant \mathbb{E} \sum e^{2\lambda X_i}\leqslant 2$
+$\mathbb{E}e^{\lambda Y}=\mathbb{E}e^{\lambda X_1}e^{\lambda X_2}$.
+
+Неравенство Гёльдера для мат.ожиданий $\xi,\eta\geqslant 0$, $1/p+1/q=1$:
+
+$\mathbb{E}\xi\eta\leqslant (\mathbb{E}\xi^p)^{1/p}(\mathbb{E}\eta^q)^{1/q}$
+
+Тогда $\mathbb{E}e^{\lambda Y}\leqslant (\mathbb{E}e^{p\lambda X_1})^{1/p}(\mathbb{E}e^{q\lambda X_2})^{1/q}\leqslant (e^{(p\lambda)^2\sigma_1^2/2})^{1/p}(e^{(q\lambda)^2\sigma_2^2/2})^{1/q}=e^{\frac{\lambda^2}{2}(p\sigma_1^2+q\sigma_2^2)}\to\min\limits_{1/p+1/q=1}$
+
+Поскольку $1/p+1/q=1$, $q=\frac{p}{p-1}$. Тогда $p\sigma_1^2+q\sigma_2^2=p\sigma_1^2+\frac{p}{p-1}\sigma_2^2\to\min\limits_p$ $\Rightarrow$ $p=\frac{\sigma_1+\sigma_2}{\sigma_1}$, $q=\frac{\sigma_1+\sigma_2}{\sigma_2}$.
+
+Тогда $\mathbb{E}e^{\lambda Y}\leqslant e^{\frac{\lambda^2(\sigma_1+\sigma_2)^2}{2}}$
+
+Тогда $\boxed{\sigma=\sigma_1+\sigma_2}$
+\section*{Упражнение 3.1.1}
+Пусть $X_1=X_2\sim N(0,\sigma_0^2)$. Тогда $\mathbb{E}e^{\lambda X_i}=e^{\lambda^2\sigma_0^2/2}$. А $\mathbb{E}e^{\lambda (X_1+X_2)}=\mathbb{E}e^{2\lambda X_i}=e^{\lambda^2(2\sigma_0)^2/2}$. В этом примере $\sigma=2\sigma_0$ $\blacksquare$
 \section*{Упражнение 3.2}
 Пусть $X\sim N(0,1)$. Тогда $X$~--- субгауссовская с параметром $1$. Определим $X_1=X$, $X_2=X$~--- две субгауссовские величины. Определим $Y=X_1X_2$. Но $\mathbb{E}Y=\mathbb{E}X^2=1\neq 0$, значит, $Y$ \underline{не может быть субгауссовской}
 \section*{Упражнение 3.3}
 Обозначим $f(\lambda)=\mathbb{E}e^{\lambda X}$, $g(\lambda)=e^(\sigma^2\lambda^2/2)$. $f(\lambda)=\sum\limits_{k=0}^\infty \frac{\lambda^k}{k!}\mathbb{E}X^k=1+\lambda \mathbb{E}X+\frac{\lambda^2}{2}\mathbb{E}X^2+...$. Значит, $f'(0)=\mathbb{E}X$. Найдём $g'(\lambda)=\lambda g(\lambda)$. Найдём $f(0)=g(0)=1$. Значит, $g'(0)=0$. Обозначим $h(\lambda)=f(\lambda)-g(\lambda)$. По условию, $h(\lambda)\leqslant 0$. Поскольку $h(0)=0$, то $h'(0)=0$. Но $h'(0)=f'(0)-g'(0)=\mathbb{E}X$. Значит, $\boxed{\mathbb{E}X=0}$
 \section*{Упражнение 3.4}
-Рассмотрим $\mathbb{E}|X|^p=\frac{1}{\lambda}\ln e^{\mathbb{E}\lambda|X|^p}\leqslant\frac{1}{\lambda}\ln\mathbb{E} e^{\lambda|X|^p}$
+{\em Source: \url{http://www.stat.cmu.edu/~arinaldo/36788/subgaussians.pdf}}
 
-Рассмотрим $\mathbb{E}e^{\lambda |X|^p}=1+\int\limits_1^\infty P(e^{\lambda |X|^p}>\eps)d\eps$.
+Пусть $\xi\geqslant 0$~--- случайная величина, $f(\xi)$~--- функция: $f(0)=0$. Докажем, что $\mathbb{E}f(\xi)=\int\limits_0^\infty f'(t)P(\xi>t)dt$
 
-Рассмотрим $P(e^{\lambda |X|^p}>\eps)=P(|X|^p>\frac{\ln\eps}{\lambda})=P(|X|>(\frac{\ln\eps}{\lambda})^{1/p})$
+$\int\limits_0^\infty f'(t)P(\xi>t)dt=\int\limits_0^\infty dtf'(t)\int\limits_t^\infty dq f_\xi(q)=\int\limits_0^\infty dq f_\xi(q)\underbrace{\int\limits_0^qf'(t)dt}_{f(q)-\cancel{f(0)}}=\int\limits_0^\infty f_{\xi}(q)f(q)dq=\mathbb{E}f(\xi)$ $\blacksquare$
 
-По неравенству Чернова $P(X\geqslant \mu)\leqslant \inf\limits_{t>0}\frac{\mathbb{E} e^{tX}}{e^{t\mu}}\leqslant e^{-\mu^2/2\sigma^2}$. Поскольку $-X$ также субгауссовская, $P(|X|>\mu)\leqslant 2e^{-\mu/2\sigma^2}$.
+Тогда $\mathbb{E}|X|^p=\big|f(y)=y^p,\,\xi=|X|\big|=\int\limits_0^\infty py^{p-1}P(|X|>y)dy$
 
-Значит, $P(e^{\lambda |X|^p}>\eps)\leqslant 2\exp(-(\frac{\ln\eps}{\lambda})^{2/p})/2\sigma^2)$
+Поскольку $X$~--- субгауссовская с параметром $\sigma$, то по неравенству Чернова $P(|X|>y)\leqslant 2e^{-y^2/2\sigma^2}$. Подставим в интеграл:
 
-Значит, $\mathbb{E}e^{\lambda |X|^p}\leqslant 1+2\int\limits_1^\infty \exp(-(\frac{\ln\eps}{\lambda})^{2/p})/2\sigma^2)d\eps$
+$\mathbb{E}|X|^p\leqslant \int\limits_0^\infty py^{p-1}2e^{-y^2/2\sigma^2}dy=\big|t=\frac{y^2}{2\sigma^2},\,dy=\sqrt{\frac{\sigma^2}{2t}}dt\big|=\int\limits_0^\infty p(2t\sigma^2)^{(p-1)/2}2e^{-t}\sqrt{\sigma^2/2t}dt=p(2\sigma^2)^{p/2}\int\limits_0^\infty t^{p/2-1}e^{-t}dt=$
+
+$=p(2\sigma^2)^{p/2}\Gamma(p/2)$.
+
+Поскольку $\Gamma(n+1)=n!\sim \sqrt{2\pi n}(\frac{n}{e})^n$ (Формула Стирлинга).
+
+Тогда $\mathbb{E}|X|^p\leqslant C(\sigma)p(2\sigma^2)^{p/2}\sqrt{\pi p}(\frac{p}{2e})^{p/2}$ и $C(\sigma)\geqslant 1$
+
+Значит, $(\mathbb{E}|X|^p)^{p/2}\leqslant C^{1/p}(\sigma)p^{3/2p}(2\sigma^2)^{1/2}\sqrt{\pi}(2e)^{-1/2}p^{1/2}$
+
+Поскольку $C\geqslant 1$ и $p\geqslant 1$, $C^{1/p}\leqslant p$
+
+$p^{3/2p}\leqslant D$~--- ограниченная функция
+
+Получаем $(\mathbb{E}|X|^p)^{p/2}\leqslant \underbrace{C(\sigma)D(2\sigma^2)^{1/2}\sqrt{pi/2e}}_{K(\sigma)}p^{1/2}=K(\sigma)\sqrt{p}$ $\blacksquare$
+
 \section*{Упражнение 4.1}
 Плотность нормального распределения: $\psi(x)=f_{N(0,1)}(x)=\frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}$. Тогда $\frac{d}{dx}\psi(x)=\frac{1}{\sqrt{2\pi}}(-2x/2)e^{-\frac{x^2}{2}}=-x\psi(x)$.
 
@@ -80,17 +114,39 @@
 \section*{Упражнение 4.2}
 Обозначим $f_1(x)=\psi(x)(1/x-1/x^3)$, $f_2(x)=P(X\geqslant x)=\int\limits_x^\infty\psi(t)dt$, $f_3(x)=\psi(x)(1/x-1/x^3+3/x^5)$. Доказать: при $x>0$ $f_1\leqslant f_2\leqslant f_3$. Обозначим $g(x)=f_2(x)-f_1(x)$, $h(x)=f_3(x)-f_2(x)$ Нужно доказать, что $g,h\geqslant 0$.
 
-Рассмотрим $g'(x)=-\frac{3\psi(x)}{x^4}$, $h'(x)=-\frac{15\psi(x)}{x^6}$
+Тогда $f_1'(x)=-x\psi(x)(1/x-1/x^3)+\psi(x)(-1/x^2+3/x^4)=\psi(x)(3/x^4-1)$, $f_2'(x)=-\psi(x)$, $f_3'(x)=\psi(x)(-15/x^6-1)$.
+
+Тогда $g'(x)=-\frac{3\psi(x)}{x^4}<0$, $h'(x)=-\frac{15\psi(x)}{x^6}<0$.
+
+$g(+0)=+\infty$, $h(+0)=+\infty$.
+
+$g(+\infty)=\lim\limits_{x\to\infty}\cancelto{0}{f_2(x)}-f_1(x)=-\lim\limits_{x\to\infty}\underbrace{\psi(x)}_{\to 0}\underbrace{(1/x-1/x^3)}_{\to 0}=0$
+
+$h(+\infty)=\lim\limits_{x\to\infty}f_3(x)-\underbrace{f_2(x)}_{\to 0}=\lim\limits_{x\to\infty}\underbrace{\psi(x)}_{\to 0}\underbrace{(1/x-1/x^3+3/x^5)}_{\to 0}=0$
+
+Получаем две строго монотонно убывающие непрерывные функции $g,h$ на $(0,+\infty)$, причем обе стремятся к 0. Значит, $\forall x>0\hookrightarrow g,h>0$ $\blacksquare$
+
 \section*{Упражнение 4.3}
-Рассмотрим $P(X\geqslant x)\leqslant\inf\limits_{\lambda > 0}\frac{\mathbb{E}e^{\lambda X}}{e^{\lambda x}}$. Для нормальной случайной величины $\mathbb{E}e^{\lambda X}=e^{\frac{\lambda^2\sigma^2}{2}}=e^{\frac{\lambda^2}{2}}$. Значит, $\frac{\mathbb{E}e^{\lambda X}}{e^{\lambda x}}=\exp(\frac{\lambda^2}{2}-\lambda x)\to\min\limits_{\lambda > 0}$. Находим $\lambda^*=x>0$, получаем $P(X\geqslant x)\leqslant \exp(-\frac{x^2}{2})$
+Рассмотрим $P(X\geqslant x)\leqslant\inf\limits_{\lambda > 0}\frac{\mathbb{E}e^{\lambda X}}{e^{\lambda x}}$. Для нормальной случайной величины $\mathbb{E}e^{\lambda X}=e^{\frac{\lambda^2\sigma^2}{2}+\mu x}=e^{\frac{\lambda^2}{2}}$. Значит, $\inf\limits_{\lambda >0}\frac{\mathbb{E}e^{\lambda X}}{e^{\lambda x}}=\inf\limits_{\lambda >0}\exp(\frac{\lambda^2}{2}-\lambda x)\to\min\limits_{\lambda > 0}$. Находим $\lambda^*=x>0$, получаем $P(X\geqslant x)\leqslant \exp(-\frac{x^2}{2})=\sqrt{2\pi}\psi(x)$
+
+Имеем две оценки:
+$\begin{cases}
+P(X\geqslant x)\leqslant \psi(x)(1/x-1/x^3+3/x^5)\\
+P(X\geqslant x)\leqslant \sqrt{2\pi}\psi(x)
+\end{cases}$
+
+Поделим $\frac{\psi(x)(1/x-1/x^3+3/x^5)}{\sqrt{2\pi}\psi(x)}=\frac{1}{\sqrt{2\pi}}(1/x-1/x^3+3/x^5)\sim\frac{1}{\sqrt{2\pi}x}$. Значит, оценка в (4.2) \underline{лучше}, чем оценка в (4.3).
 \section*{Упражнение 4.4}
-\begin{enumerate}
-\item Теорема Муавра-Лапласа: $P(\frac{x-np}{\sqrt{npq}}\geqslant x)\to\int\limits_x^\infty \psi(t)dt$
-\item Неравенство Хёффдинга. Рассмотрим $\xi=\sum\limits_{i=1}^n \xi_i$, $\{\xi_i\}$~--- i.i.d., $\xi_i=\begin{cases}
+Рассмотрим $\xi=\sum\limits_{i=1}^n \xi_i$, $\{\xi_i\}$~--- i.i.d., $\xi_i=\begin{cases}
 1,&p\\
 0,&1-p
-\end{cases}$. Обозначим $\zeta_i=\xi_i-p$. Тогда $\mathbb{E}\zeta_i=0$. $\zeta_i\in[-p,1+p]$. Значит, $\zeta_i$~--- субгауссовская с $\sigma^2=1/2$. Рассмотрим $P(\sum \xi_i-np\geqslant \eps=P(\sum \zeta_i\geqslant \eps)\leqslant e^{-\frac{\eps^2}{2\cdot 1/4}}=e^{-2\eps^2}$
-\item Сравнение при разных $p$ ???
+\end{cases}$. $q=1-p$. $\zeta_i=\overline{\xi}_i=\xi_i-\mathbb{E}\xi_i=\xi_i-p$. Тогда $\mathbb{E}\zeta_i=0$, $\zeta_i\in[-p,1-p]$~--- субгауссовская с $\sigma^2_i=\frac{1}{4}$ по Лемме Хёффдинга.
+\begin{enumerate}
+\item Неравенство Хёффдинга. 
+$$P(\sum\limits_{i=1}^n\zeta_i\geqslant \eps)\leqslant e^{-\frac{\eps^2}{2n\sigma_i^2}}=e^{-\frac{2\eps^2}{n}}$$
+\item Теорема Муавра-Лапласа: $$P(\sum\xi_i\geqslant\eps)\approx \frac{1}{\sqrt{2\pi np(1-p)}}\int\limits_\eps^\infty e^{-\frac{1}{2}\left(\frac{x-np}{\sqrt{npq}}\right)^2}dx$$
+
+Найдем $P(\sum\zeta_i\geqslant \eps)=P(\sum\xi_i\geqslant \eps+np)\approx\frac{1}{\sqrt{2\pi npq}}\int\limits_{\eps+np}^\infty e^{-\frac{1}{2}\left(\frac{x-np}{\sqrt{npq}}\right)^2}dx=\big|t=x-np\big|=\frac{1}{\sqrt{2\pi npq}}\int\limits_\eps^\infty e^{-\frac{t^2}{2npq}}dt=\big|x=\frac{t}{\sqrt{npq}}\big|=\frac{1}{\sqrt{2\pi}}\int\limits_\eps^\infty e^{-\frac{x^2}{2}}dx$. Эта оценка не зависит от $p$.
 \end{enumerate}
 \section*{Упражнение 5.1}
 $f^*=\argmin\limits_{f\in Y^X} L(f)$. $L(f)=\mathbb{E}_{X\times Y}[f(X)\neq Y]=\mathbb{E}_X\mathbb{E}_{Y|X}[f(X)\neq Y]=\mathbb{E}_X P(f(X)\neq Y\big| X)$. Фиксируем $X$, т.е. рассмотрим одно слагаемое (или подынтегральный член):
@@ -125,6 +181,7 @@ f^*(x),&x=x_i
 \item Halving (большинство). Рассмотрим произвольный $x\in X$ (первый шаг алгоритма). Если $x=x_i$, то получим значения функций $(f^*, \overline{f^*}, \overline{f^*},f^*,\overline{f^*})$. Halving выдаст неверный ответ (3>2), то есть, $\overline{f^*}$. Если $x\neq x_i$, то получим значения функций $(f^*, \overline{f^*}, \overline{f^*},\overline{f^*},\overline{f^*})$. Halving снова выдаст неверный ответ. То есть, количество ошибок Halving на произвольной выборке как минимум 1
 \item Меньшинство без удалений. Алгоритм: голосуем меньшинством функций из $F$, не удаляем функции при неверном ответе. Пусть $x=x_i$. Получим значения $(f^*, \overline{f^*}, \overline{f^*},f^*,\overline{f^*})$. Меньшинство: $f^*$ (2 против 3). Получим правильный ответ. Пусть $x\neq x_i$. Получим значения $(f^*, \overline{f^*}, \overline{f^*},\overline{f^*},\overline{f^*})$. Меньшинство: $f^*$ (1 против 3). Снова правильный ответ. Поскольку удалений нет, на последующих объектах так же не будет ошибок.
 \end{enumerate}
+Построен алгоритм, который для данного $F$ делает 0 ошибок, когда Halving делает как минимум 1 $\blacksquare$
 \section*{Задача 2}
 Конспект 1-е занятие
 \end{document}
