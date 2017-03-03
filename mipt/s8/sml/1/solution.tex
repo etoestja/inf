@@ -34,6 +34,12 @@
 
 \begin{document}
 \maketitle
+\section*{Meta}
+Делал один. Список ссылок:
+\begin{enumerate}
+\item \url{http://www.stat.cmu.edu/~arinaldo/36788/subgaussians.pdf}
+\item \url{https://en.wikipedia.org/wiki/Holder's_inequality}
+\end{enumerate}
 \section*{Упражнение 1}
 \begin{enumerate}
 \item Неравенство Маркова: Если $X\geqslant 0$, то $P(X\geqslant \eps)\leqslant \frac{\mathbb{E}X}{\eps}$. Нужно: $P(X\geqslant \eps)=\frac{\mathbb{E}X}{\eps}$. Найдем $P(X<\eps)=1-\frac{\mathbb{E}X}{\eps}$, $f_X(x)=\frac{\mathbb{E}X}{x^2}$. Тогда $\mathbb{E}X=\int\limits_0^\infty xf_X(x)dx=\int\limits_0^\infty \mathbb{E}X\frac{dx}{x}$. Поскольку интеграл $\int\limits_0^\infty\frac{dx}{x}$ расходится, то $\mathbb{E}X=0$. Значит, $\boxed{X=0}$. Проверим: $0=P(0\geqslant\eps)=\frac{0}{\eps}\blacksquare$
@@ -79,7 +85,7 @@ $\mathbb{E}\xi\eta\leqslant (\mathbb{E}\xi^p)^{1/p}(\mathbb{E}\eta^q)^{1/q}$
 \section*{Упражнение 3.2}
 Пусть $X\sim N(0,1)$. Тогда $X$~--- субгауссовская с параметром $1$. Определим $X_1=X$, $X_2=X$~--- две субгауссовские величины. Определим $Y=X_1X_2$. Но $\mathbb{E}Y=\mathbb{E}X^2=1\neq 0$, значит, $Y$ \underline{не может быть субгауссовской}
 \section*{Упражнение 3.3}
-Обозначим $f(\lambda)=\mathbb{E}e^{\lambda X}$, $g(\lambda)=e^(\sigma^2\lambda^2/2)$. $f(\lambda)=\sum\limits_{k=0}^\infty \frac{\lambda^k}{k!}\mathbb{E}X^k=1+\lambda \mathbb{E}X+\frac{\lambda^2}{2}\mathbb{E}X^2+...$. Значит, $f'(0)=\mathbb{E}X$. Найдём $g'(\lambda)=\lambda g(\lambda)$. Найдём $f(0)=g(0)=1$. Значит, $g'(0)=0$. Обозначим $h(\lambda)=f(\lambda)-g(\lambda)$. По условию, $h(\lambda)\leqslant 0$. Поскольку $h(0)=0$, то $h'(0)=0$. Но $h'(0)=f'(0)-g'(0)=\mathbb{E}X$. Значит, $\boxed{\mathbb{E}X=0}$
+Обозначим $f(\lambda)=\mathbb{E}e^{\lambda X}$, $g(\lambda)=e^{\sigma^2\lambda^2/2}$. $f(\lambda)=\sum\limits_{k=0}^\infty \frac{\lambda^k}{k!}\mathbb{E}X^k=1+\lambda \mathbb{E}X+\frac{\lambda^2}{2}\mathbb{E}X^2+...$. Значит, $f'(0)=\mathbb{E}X$. Найдём $g'(\lambda)=\lambda g(\lambda)$. Найдём $f(0)=g(0)=1$. Значит, $g'(0)=0$. Обозначим $h(\lambda)=f(\lambda)-g(\lambda)$. По условию, $h(\lambda)\leqslant 0$. Поскольку $h(0)=0$, то $h'(0)=0$. Но $h'(0)=f'(0)-g'(0)=\mathbb{E}X$. Значит, $\boxed{\mathbb{E}X=0}$
 \section*{Упражнение 3.4}
 {\em Source: \url{http://www.stat.cmu.edu/~arinaldo/36788/subgaussians.pdf}}
 
@@ -127,7 +133,7 @@ $h(+\infty)=\lim\limits_{x\to\infty}f_3(x)-\underbrace{f_2(x)}_{\to 0}=\lim\limi
 Получаем две строго монотонно убывающие непрерывные функции $g,h$ на $(0,+\infty)$, причем обе стремятся к 0. Значит, $\forall x>0\hookrightarrow g,h>0$ $\blacksquare$
 
 \section*{Упражнение 4.3}
-Рассмотрим $P(X\geqslant x)\leqslant\inf\limits_{\lambda > 0}\frac{\mathbb{E}e^{\lambda X}}{e^{\lambda x}}$. Для нормальной случайной величины $\mathbb{E}e^{\lambda X}=e^{\frac{\lambda^2\sigma^2}{2}+\mu x}=e^{\frac{\lambda^2}{2}}$. Значит, $\inf\limits_{\lambda >0}\frac{\mathbb{E}e^{\lambda X}}{e^{\lambda x}}=\inf\limits_{\lambda >0}\exp(\frac{\lambda^2}{2}-\lambda x)\to\min\limits_{\lambda > 0}$. Находим $\lambda^*=x>0$, получаем $P(X\geqslant x)\leqslant \exp(-\frac{x^2}{2})=\sqrt{2\pi}\psi(x)$
+Рассмотрим $P(X\geqslant x)\leqslant\inf\limits_{\lambda > 0}\frac{\mathbb{E}e^{\lambda X}}{e^{\lambda x}}$. Для нормальной случайной величины $\mathbb{E}e^{\lambda X}=e^{\frac{\lambda^2\sigma^2}{2}+\mu x}=e^{\frac{\lambda^2}{2}}$. Значит, $\inf\limits_{\lambda >0}\frac{\mathbb{E}e^{\lambda X}}{e^{\lambda x}}=\inf\limits_{\lambda >0}\exp(\frac{\lambda^2}{2}-\lambda x)$. Находим $\lambda^*=x>0$, получаем $P(X\geqslant x)\leqslant \exp(-\frac{x^2}{2})=\sqrt{2\pi}\psi(x)$
 
 Имеем две оценки:
 $\begin{cases}
@@ -168,7 +174,9 @@ $P(f(X)\neq Y\big|X)=P(f=1\big| X,Y=-1)P(Y=-1\big|X)+P(f=-1\big| X,Y=1)P(Y=1\big
 
 Получаем, что $l(x)\leqslant \frac{1-h}{2}$. Тогда $L(f^*)=\mathbb{E}_Xl(x)\leqslant \frac{1-h}{2}$ $\blacksquare$
 \section*{Задача 1}
-Имеем $Y=\{-1,1\}$~--- метки классов, $K$~--- класс функций, $f^*=\argmin\limits_{f\in Y^X} L(f)$. Рассмотрим элементы $x_1,x_2,x_3\in X$. Их вероятноси $P(x_i)=0$.
+Имеем $Y=\{-1,1\}$~--- метки классов, $K$~--- класс функций, $f^*=\argmin\limits_{f\in Y^X} L(f)$.
+
+Рассмотрим различные элементы $x_1,x_2,x_3\in X$.
 
 Определим $f_i(x)=\begin{cases}
 \overline{f^*(x)},&x\neq x_i\\
@@ -179,9 +187,56 @@ f^*(x),&x=x_i
 
 \begin{enumerate}
 \item Halving (большинство). Рассмотрим произвольный $x\in X$ (первый шаг алгоритма). Если $x=x_i$, то получим значения функций $(f^*, \overline{f^*}, \overline{f^*},f^*,\overline{f^*})$. Halving выдаст неверный ответ (3>2), то есть, $\overline{f^*}$. Если $x\neq x_i$, то получим значения функций $(f^*, \overline{f^*}, \overline{f^*},\overline{f^*},\overline{f^*})$. Halving снова выдаст неверный ответ. То есть, количество ошибок Halving на произвольной выборке как минимум 1
-\item Меньшинство без удалений. Алгоритм: голосуем меньшинством функций из $F$, не удаляем функции при неверном ответе. Пусть $x=x_i$. Получим значения $(f^*, \overline{f^*}, \overline{f^*},f^*,\overline{f^*})$. Меньшинство: $f^*$ (2 против 3). Получим правильный ответ. Пусть $x\neq x_i$. Получим значения $(f^*, \overline{f^*}, \overline{f^*},\overline{f^*},\overline{f^*})$. Меньшинство: $f^*$ (1 против 3). Снова правильный ответ. Поскольку удалений нет, на последующих объектах так же не будет ошибок.
+\item Меньшинство без удалений. Алгоритм: голосуем меньшинством функций из $F$, не удаляем функции при неверном ответе. Пусть $x=x_i$. Получим значения $(f^*, \overline{f^*}, \overline{f^*},f^*,\overline{f^*})$. Меньшинство: $f^*$ (2 против 3). Получим правильный ответ. Пусть $x\neq x_i$. Получим значения $(f^*, \overline{f^*}, \overline{f^*},\overline{f^*},\overline{f^*})$. Меньшинство: $f^*$ (1 против 4). Снова правильный ответ. Поскольку удалений нет, на последующих объектах также не будет ошибок.
 \end{enumerate}
+
 Построен алгоритм, который для данного $F$ делает 0 ошибок, когда Halving делает как минимум 1 $\blacksquare$
 \section*{Задача 2}
-Конспект 1-е занятие
+Пусть $X$~--- объекты, $Y=\{-1,1\}$~--- метки классов. Пусть $F\subseteq Y^X$~--- класс функций. $\exists f^*\in F\colon Y=f^*(X)$.
+
+Определения обучаемости $F$:
+\begin{enumerate}
+\item[$1-\delta$:] $\exists A_n\colon (X\times Y)^n\to Y^X\,\exists n(\eps,\delta)\,\forall \eps >0\,\forall\delta\in (0,1) \,\forall N\geqslant n(\eps,\delta)\hookrightarrow P(L(A(X_N))-\inf\limits_{f\in F}L(f)\leqslant \eps)\geqslant 1-\delta$
+\item[$\frac{1}{2}$:] $\exists A_n\colon (X\times Y)^n\to Y^X\,\exists n(\eps)\,\forall \eps >0\,\forall N\geqslant n(\eps)\hookrightarrow P(L(A(X_N))-\inf\limits_{f\in F}L(f)\leqslant \eps)\geqslant \frac{1}{2}$
+\end{enumerate}
+Докажем, что $(1-\delta)\Leftrightarrow(\frac{1}{2})$
+\begin{enumerate}
+\item $(1-\delta)\Rightarrow \frac{1}{2}$: определим $A_n$ во втором определении как $A_n$ из первого, определим $n(\eps)=n(\eps,\frac{1}{2})$. Тогда $$\forall\eps>0\,\forall N\geqslant n(\eps,\frac{1}{2})\hookrightarrow P(L(A(X_N))-\inf\limits_{f\in F}L(f)\leqslant \eps)\geqslant \frac{1}{2}\,\blacksquare$$
+\item $\frac{1}{2}\Rightarrow(1-\delta)$: Пусть $\overline{1-\delta}$ и $\frac{1}{2}$:
+$$\exists A_n\colon (X\times Y)^n\to Y^X\,\exists n(\eps)\,\forall \eps >0\,\forall N\geqslant n(\eps)\hookrightarrow P(L(A(X_N))-\inf\limits_{f\in F}L(f)\leqslant \eps)\geqslant \frac{1}{2}$$
+$\forall A_n\colon X^n\to Y^X\,\forall n\,\exists \eps >0\,\exists\delta\in (0,1) \,\exists N\geqslant n: P(L(A(X_N))-\inf\limits_{f\in F}L(f)\leqslant \eps)< 1-\delta$
+
+Поскольку $\exists f^*\in F\colon f^*(X)=Y$, то $\inf\limits_{f\in F}L(f)=0$
+
+Обозначим $Q(X_N)=L(A(X_N))=\mathbb{E}_{X\times Y}[A(X_N)(x)\neq y]=P_{X\times Y}(A(X_N)(x)\neq y)=P_X(A(X_N)(x)\neq f^*(x))$
+
+Обозначим $\alpha_{AFL}(\eps, N)=P\left(L(A(X_N))\leqslant\eps\right)=P_{X_N}(\underbrace{P_X(A(X_N)(x)\neq f^*(x))}_{L(A(X_N))}\leqslant\eps)=P_{X_N}(Q(X_N)\leqslant\eps)$
+
+Тогда имеющиеся условия можно переписать:
+$$\left\{\begin{array}{llllll}
+\exists (A,n(\eps)) & \forall(\eps,N\geqslant n(\eps))        & \hookrightarrow & \alpha(\eps, N)  &\geqslant & \frac{1}{2}\\
+\forall (A,n(\eps,\delta)) & \exists (\eps,\delta,N\geqslant n(\eps,\delta)) & \colon          & \alpha(\eps, N)  &<          & 1-\delta\\
+\end{array}\right.$$
+
+Возьмем $(A,n(\eps))$ для (2) из (1). Тогда
+$\exists(\eps,N\geqslant n(\eps),\delta)\colon \frac{1}{2}\leqslant\alpha(\eps, N)<1-\delta$. Значит, $\delta<\frac{1}{2}$
+
+В качестве алгоритма $A$ выберем алгоритм из $(1)$. Фиксируем $\eps>0$, $\delta>0$.
+
+Найдем $n(\eps,\delta)$, такое что $\forall N\geqslant n(\eps,\delta)\hookrightarrow\alpha(\eps, N)\geqslant 1-\delta$.
+
+Выберем $N\geqslant \max\{n(t), n(\eps)\}$. Величину $t<\eps$ выберем позже (при выборе нового $t$ допустимые $N$ могут только увеличиться, что только увеличит $\alpha(\eps, N)$)
+
+Тогда $\alpha(\eps, N)\geqslant\frac{1}{2}$, так как $N\geqslant n(\eps)$. Также $\alpha(t,N)\geqslant \frac{1}{2}$
+
+Рассмотрим $\alpha(\eps, N)=\underbrace{P_{X_N}(Q(X_N)=0)+P_{X_N}(Q(X_N)\in(0,t])}_{\alpha(t,N)\geqslant1/2}+P_{X_N}(Q(X_N)\in(t,\eps])=p_0+p_t+q_t\geqslant 1/2$.
+
+Пусть $t\to 0$. Тогда $p_t\to 0$, $q_t\to\alpha(\eps, N)-p_0$
+Пусть $t\to\eps$. Тогда $p_t\to \alpha(\eps, N)-p_0$, $q_t\to 0$
+
+\begin{enumerate}
+\item $p_0<\delta$. Тогда $q_t\overset{t\to 0}{\longrightarrow}\alpha(\eps, N)-p_0\geqslant1/2-p_0>1/2-\delta$. Значит, можно выбрать $t$, такое что $q_t\geqslant 1/2-\delta$. После выбора $t$ получим $N\geqslant n(t)$ и $\alpha(t,N)=p_0+p_t\geqslant 1/2$. Значит, $\alpha(\eps, N)=\underbrace{p_0+p_t}_{\alpha(t,N)\geqslant 1/2}+\underbrace{q_t}_{\geqslant 1/2-\delta}\geqslant 1-\delta$
+\item $p_0\geqslant\delta$. Тогда возможен случай $\forall N\geqslant n_0$ $P(Q(X_N)=0)\geqslant 1/2$. 
+\end{enumerate}
+\end{enumerate}
 \end{document}
