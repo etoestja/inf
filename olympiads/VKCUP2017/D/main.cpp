@@ -1,9 +1,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <iostream>
+
+using std::cout;
+using std::endl;
+using std::cin;
+
+#define Ltype unsigned long long
 
 #define AMAX 10050
-int count[AMAX];
+Ltype count[AMAX];
 
 int N, K;
 
@@ -20,7 +27,7 @@ int count_bit(int x)
 
 int main()
 {
-    memset(count, 0x00, sizeof(int) * AMAX);
+    memset(count, 0x00, sizeof(Ltype) * AMAX);
     //bzero(count, AMAX * sizeof(int));
 
     scanf("%d", &N);
@@ -36,7 +43,7 @@ int main()
             a_max = a;
     }
 
-    int res = 0;
+    Ltype res = 0;
 
     if(K == 0)
     {
@@ -75,5 +82,7 @@ int main()
         res /= 2;
     }
 
-    printf("%d\n", res);
+    cout << res << endl;
+
+    return(0);
 }
