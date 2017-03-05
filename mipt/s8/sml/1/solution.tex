@@ -206,15 +206,16 @@ f^*(x),&x=x_i
 
 Определения обучаемости $F$:
 \begin{enumerate}
-\item[$1-\delta$:] $\exists A_n\colon (X\times Y)^n\to Y^X\,\exists n(\eps,\delta)\,\forall \eps >0\,\forall\delta\in (0,1) \,\forall N\geqslant n(\eps,\delta)\hookrightarrow P(L(A(X_N))-\inf\limits_{f\in F}L(f)\leqslant \eps)\geqslant 1-\delta$
-\item[$\frac{1}{2}$:] $\exists A_n\colon (X\times Y)^n\to Y^X\,\exists n(\eps)\,\forall \eps >0\,\forall N\geqslant n(\eps)\hookrightarrow P(L(A(X_N))-\inf\limits_{f\in F}L(f)\leqslant \eps)\geqslant \frac{1}{2}$
+\item[$1-\delta$:] $\exists A_n\colon (X\times Y)^n\to Y^X\,\exists n(\eps,\delta)\,\forall\mathbb{P}\,\forall \eps >0\,\forall\delta\in (0,1) \,\forall N\geqslant n(\eps,\delta)\hookrightarrow P(L(A(X_N))-\inf\limits_{f\in F}L(f)\leqslant \eps)\geqslant 1-\delta$
+\item[$\frac{1}{2}$:] $\exists A_n\colon (X\times Y)^n\to Y^X\,\exists n(\eps)\,\forall\mathbb{P}\,\forall \eps >0\,\forall N\geqslant n(\eps)\hookrightarrow P(L(A(X_N))-\inf\limits_{f\in F}L(f)\leqslant \eps)\geqslant \frac{1}{2}$
 \end{enumerate}
 Докажем, что $(1-\delta)\Leftrightarrow(\frac{1}{2})$
 \begin{enumerate}
 \item $(1-\delta)\Rightarrow \frac{1}{2}$: определим $A_n$ во втором определении как $A_n$ из первого, определим $n(\eps)=n(\eps,\frac{1}{2})$. Тогда $$\forall\eps>0\,\forall N\geqslant n(\eps,\frac{1}{2})\hookrightarrow P(L(A(X_N))-\inf\limits_{f\in F}L(f)\leqslant \eps)\geqslant \frac{1}{2}\,\blacksquare$$
-\item $\frac{1}{2}\Rightarrow(1-\delta)$: Пусть $\overline{1-\delta}$ и $\frac{1}{2}$:
-$$\exists A_n\colon (X\times Y)^n\to Y^X\,\exists n(\eps)\,\forall \eps >0\,\forall N\geqslant n(\eps)\hookrightarrow P(L(A(X_N))-\inf\limits_{f\in F}L(f)\leqslant \eps)\geqslant \frac{1}{2}$$
-$\forall A_n\colon X^n\to Y^X\,\forall n\,\exists \eps >0\,\exists\delta\in (0,1) \,\exists N\geqslant n: P(L(A(X_N))-\inf\limits_{f\in F}L(f)\leqslant \eps)< 1-\delta$
+\item (-)\\
+$\frac{1}{2}\Rightarrow(1-\delta)$: Пусть $\overline{1-\delta}$ и $\frac{1}{2}$:
+%$$\exists A_n\colon (X\times Y)^n\to Y^X\,\exists n(\eps)\,\forall \eps >0\,\forall N\geqslant n(\eps)\hookrightarrow P(L(A(X_N))-\inf\limits_{f\in F}L(f)\leqslant \eps)\geqslant \frac{1}{2}$$
+%$\forall A_n\colon X^n\to Y^X\,\forall n\,\exists \eps >0\,\exists\delta\in (0,1) \,\exists N\geqslant n: P(L(A(X_N))-\inf\limits_{f\in F}L(f)\leqslant \eps)< 1-\delta$
 
 Поскольку $\exists f^*\in F\colon f^*(X)=Y$, то $\inf\limits_{f\in F}L(f)=0$
 
@@ -224,8 +225,8 @@ $\forall A_n\colon X^n\to Y^X\,\forall n\,\exists \eps >0\,\exists\delta\in (0,1
 
 Тогда имеющиеся условия можно переписать:
 $$\left\{\begin{array}{llllll}
-\exists (A,n(\eps)) & \forall(\eps,N\geqslant n(\eps))        & \hookrightarrow & \alpha(\eps, N)  &\geqslant & \frac{1}{2}\\
-\forall (A,n(\eps,\delta)) & \exists (\eps,\delta,N\geqslant n(\eps,\delta)) & \colon          & \alpha(\eps, N)  &<          & 1-\delta\\
+\exists (A,n(\eps)) & \forall(\mathbb{P},\eps,N\geqslant n(\eps))        & \hookrightarrow & \alpha(\eps, N)  &\geqslant & \frac{1}{2}\\
+\forall (A,n(\eps,\delta)) & \exists (\mathbb{P},\eps,\delta,N\geqslant n(\eps,\delta)) & \colon          & \alpha(\eps, N)  &<          & 1-\delta\\
 \end{array}\right.$$
 
 Возьмем $(A,n(\eps))$ для (2) из (1). Тогда
@@ -235,7 +236,7 @@ $\exists(\eps,N\geqslant n(\eps),\delta)\colon \frac{1}{2}\leqslant\alpha(\eps, 
 
 Найдем $n(\eps,\delta)$, такое что $\forall N\geqslant n(\eps,\delta)\hookrightarrow\alpha(\eps, N)\geqslant 1-\delta$.
 
-Выберем $N\geqslant \max\{n(t), n(\eps)\}$. Величину $t<\eps$ выберем позже (при выборе нового $t$ допустимые $N$ могут только увеличиться, что только увеличит $\alpha(\eps, N)$)
+Выберем $N\geqslant \max\{n(t), n(\eps)\}$. Величину $t<\eps$ выберем позже (при выборе нового $t$ допустимые $N$ могут только увеличиться, что только увеличит $\alpha(\eps, N)$) {\bf тут проблема}
 
 Тогда $\alpha(\eps, N)\geqslant\frac{1}{2}$, так как $N\geqslant n(\eps)$. Также $\alpha(t,N)\geqslant \frac{1}{2}$
 
