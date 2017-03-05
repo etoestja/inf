@@ -143,16 +143,26 @@ P(X\geqslant x)\leqslant \sqrt{2\pi}\psi(x)
 
 Поделим $\frac{\psi(x)(1/x-1/x^3+3/x^5)}{\sqrt{2\pi}\psi(x)}=\frac{1}{\sqrt{2\pi}}(1/x-1/x^3+3/x^5)\sim\frac{1}{\sqrt{2\pi}x}$. Значит, оценка в (4.2) \underline{лучше}, чем оценка в (4.3).
 \section*{Упражнение 4.4}
-Рассмотрим $\xi=\sum\limits_{i=1}^n \xi_i$, $\{\xi_i\}$~--- i.i.d., $\xi_i=\begin{cases}
+Рассмотрим $\xi=\sum\limits_{i=1}^n \xi_i$, $\{\xi_i\}$~--- i.i.d., $\xi_i\sim Be(p)$: $$\xi_i=\begin{cases}
 1,&p\\
 0,&1-p
-\end{cases}$. $q=1-p$. $\zeta_i=\overline{\xi}_i=\xi_i-\mathbb{E}\xi_i=\xi_i-p$. Тогда $\mathbb{E}\zeta_i=0$, $\zeta_i\in[-p,1-p]$~--- субгауссовская с $\sigma^2_i=\frac{1}{4}$ по Лемме Хёффдинга.
+\end{cases}$$
+
+$q=1-p$. $\zeta_i=\frac{\xi_i-p}{\sqrt{npq}}$. Тогда $\mathbb{E}\zeta_i=0$. Обозначим $S=\sum\limits_{i=1}^n\zeta_i$. Тогда $\mathbb{E}S=0$ $\mathbb{D}S=1$.
+
+$\zeta_i\in[-\frac{p}{\sqrt{npq}},\frac{1-p}{\sqrt{npq}}]$~--- субгауссовская с $\sigma^2_i=\frac{1}{4npq}$ по Лемме Хёффдинга.
 \begin{enumerate}
 \item Неравенство Хёффдинга. 
-$$P(\sum\limits_{i=1}^n\zeta_i\geqslant \eps)\leqslant e^{-\frac{\eps^2}{2n\sigma_i^2}}=e^{-\frac{2\eps^2}{n}}$$
+$$P(S\geqslant\eps)\leqslant e^{-\eps^2/2n\sigma_i^2}=e^{-2\eps^2pq}$$
 \item Теорема Муавра-Лапласа: $$P(\sum\xi_i\geqslant\eps)\approx \frac{1}{\sqrt{2\pi np(1-p)}}\int\limits_\eps^\infty e^{-\frac{1}{2}\left(\frac{x-np}{\sqrt{npq}}\right)^2}dx$$
 
-Найдем $P(\sum\zeta_i\geqslant \eps)=P(\sum\xi_i\geqslant \eps+np)\approx\frac{1}{\sqrt{2\pi npq}}\int\limits_{\eps+np}^\infty e^{-\frac{1}{2}\left(\frac{x-np}{\sqrt{npq}}\right)^2}dx=\big|t=x-np\big|=\frac{1}{\sqrt{2\pi npq}}\int\limits_\eps^\infty e^{-\frac{t^2}{2npq}}dt=\big|x=\frac{t}{\sqrt{npq}}\big|=\frac{1}{\sqrt{2\pi}}\int\limits_\eps^\infty e^{-\frac{x^2}{2}}dx$. Эта оценка не зависит от $p$.
+Найдем $P(S\geqslant \eps)=P(\frac{\sum\xi_i-np}{\sqrt{npq}}\geqslant\eps)=P(\sum\xi_i\geqslant\eps\sqrt{npq}+np)=\frac{1}{\sqrt{2\pi np(1-p)}}\int\limits_{\eps\sqrt{npq}}^\infty e^{-\frac{1}{2}\left(\frac{x}{\sqrt{npq}}\right)^2}dx=\frac{1}{\sqrt{2\pi}}\int\limits_\eps^\infty e^{-x^2/2}dx$
+\end{enumerate}
+Первая оценка $F_1(\eps)=e^{-2\eps^2p(1-p)}$ зависит от $p$.
+Вторая оценка $F_2(x)=\frac{1}{\sqrt{2\pi}}\int\limits_\eps^\infty e^{-x^2/2}dx$ не зависит от $p$. Пусть $n\to\infty$.
+\begin{enumerate}
+\item $p\to 0$ или $q\to 0$. Тогда Неравенство Хёффдинга даст $F_1(\eps)=1$, то есть, оценка бесполезна. Теорема Муавра-Лапласа даст число $F_2(\eps)<1$. В этом случае теорема Муавра-Лапласа \underline{лучше}.
+\item $p=\frac{1}{2}$. Тогда $1/4=pq\to\max$. Значения $F_1(\eps)=e^{-\eps^2/2}$, $F_2(x)=\frac{1}{\sqrt{2\pi}}\int\limits_\eps^\infty e^{-x^2/2}dx$. Обозначим $h(x)=F_1(x)-F_2(x)$. Тогда $h(0)=1/2$, $h'(x)=e^{-x^2/2}(1/\sqrt{2\pi}-x)$. $h$ возрастает, а затем убывает. $h(+\infty)=0$. То есть, всегда $F_1\geqslant F_2$. Это значит, что даже при $p=1/2$ теорема Муавра-Лапласа дает \underline{лучшую оценку} 
 \end{enumerate}
 \section*{Упражнение 5.1}
 $f^*=\argmin\limits_{f\in Y^X} L(f)$. $L(f)=\mathbb{E}_{X\times Y}[f(X)\neq Y]=\mathbb{E}_X\mathbb{E}_{Y|X}[f(X)\neq Y]=\mathbb{E}_X P(f(X)\neq Y\big| X)$. Фиксируем $X$, т.е. рассмотрим одно слагаемое (или подынтегральный член):
