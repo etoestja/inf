@@ -1,17 +1,17 @@
 #!/bin/bash
-a=gen_test__
+a=gen_test
 while true
 do
     python generator.py > $a
-    cat $a | ./D1 > out__.txt
+    cat $a | ./D1 > out.txt
+    cat $a | python D.py > out1.txt
 
-    cat out__.txt | python restore.py > out1__.txt
     cat $a
 
-    diff $a out1__.txt
+    diff out.txt out1.txt
     if [ "X$?" == "X1" ]
     then
-        echo "Restoring FAILED"
+        echo "FAILED"
         exit
     else
         echo "OK"
