@@ -2,12 +2,26 @@
 for a in $(ls|grep test|grep -v ans)
 do
     cat $a | ./D1 > out.txt
-    diff out.txt ${a}.ans > diff_out
+
+    cat out.txt | python restore.py > out1.txt
+
+    echo "TEST $a"
+    if [ -e ${a}.ans ]
+    then
+        diff out.txt ${a}.ans > diff_out
+        if [ "X$?" == "X1" ]
+        then
+            echo "Test $a ERROR"
+            cat diff_out
+        else
+            echo "Test $a ANS OK"
+        fi
+    fi
+    diff $a out1.txt
     if [ "X$?" == "X1" ]
     then
-        echo "Test $a ERROR"
-        cat diff_out
+        echo "Restoring FAILED"
     else
-        echo "Test $a OK"
+        echo "OK"
     fi
 done

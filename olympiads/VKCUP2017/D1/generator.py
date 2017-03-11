@@ -9,6 +9,9 @@ def random_one(prob_down = 0.9, prob_stop = 0.1):
         res += ']'
     return(res)
 
-s = random_one(0.93, 0.05)
-print(len(s))
-print(s) 
+while True:
+    s = random_one(0.93, 0.05)
+    if len(s) >= 2 and len(s) <= 100:
+        print(len(s))
+        print(s)
+        break
