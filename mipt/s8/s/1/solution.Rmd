@@ -1,15 +1,25 @@
 ---
 title: "Task 1 Volodin Sergei"
-output: html_notebook
+output:
+  html_document: default
+  html_notebook: default
 ---
+
 The algorithm:
 
-1. aba
-2. caba
+1. Generate N samples
+2. Run Student t-test and blah-blah-blah
+
+Parameters
+
+```{r}
+n_range <- seq(5, 50, by = 5)
+mu_range <- seq(0, 2, by = 0.1)
+```
 
 This function generates datasets, runs two criteria and outputs p-value.
 
-```{r}
+```{r, eval = FALSE}
 run_one_dataset <- function(n, mu)
 {
   x1 <- rnorm(n, mean = 0, sd = 1)
@@ -28,13 +38,13 @@ out: two-dimensional array
 first index: p_values / P(H1)
 second index: number of algorithm (Student/Wilcox)
 
-```{r}
+```{r, eval = FALSE}
 library(parallel)
 cl <- makeCluster(4)
 clusterExport(cl, "run_one_dataset")
 ```
 
-```{r}
+```{r, eval = FALSE}
 run_multiple_datasets <- function(N, n, mu)
 {
   p_values = parSapply(cl, 1:N, function(x) {run_one_dataset(n, mu)})
@@ -46,9 +56,7 @@ run_multiple_datasets <- function(N, n, mu)
 }
 ```
 
-```{r}
-n_range <- seq(5, 50, by = 5)
-mu_range <- seq(0, 2, by = 0.1)
+```{r, eval = FALSE}
 N <- 10000
 
 # indices: n, mu, (pvalue/P(H1), (Student/Wilcox))
@@ -67,8 +75,16 @@ for(n in n_range)
 }
 ```
 
-```{r}
+```{r, eval = FALSE}
+save(res, file = "res.RData")
+```
+
+```{r, eval = FALSE}
 stopCluster(cl)
+```
+
+```{r}
+load("res.RData")
 ```
 
 Define plot function
@@ -104,14 +120,14 @@ for(n in n_range)
   i <- i + 1
 }
 ```
-Plot W
+Plot power
 
 ```{r}
 i = 1
 for(n in n_range)
 {
   sub = sprintf("n = %d", n)
-  plot_one(mu_range[-1], res[i,-1,2,1], res[i,-1,2,2], "mu", "W", "W(mu)", sub)
+  plot_one(mu_range[-1], res[i,-1,2,1], res[i,-1,2,2], "mu", "Power", "Power(mu)", sub)
   i <- i + 1
 }
 ```

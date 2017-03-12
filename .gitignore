@@ -1,3 +1,4 @@
+*.RData
 debtsUnique
 *.o
 *.layout
