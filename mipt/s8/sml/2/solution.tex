@@ -1,0 +1,68 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, left=5mm, right=5mm, top=5mm, bottom=5mm]{geometry}
+%\geometry{paperwidth=210mm, paperheight=2000pt, left=5pt, top=5pt}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{tikz}
+\usepackage{cancel}
+\usetikzlibrary{automata,positioning,arrows}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{wasysym}
+\title{Статистическое обучение\\Задание 2}
+\date{задано 2017.02.12}
+\author{Сергей~Володин, 374 гр.}
+\newcommand{\matrixl}{\left|\left|}
+\newcommand{\matrixr}{\right|\right|}
+
+\newcommand{\peq}{\mathrel{+}=}
+\newcommand{\meq}{\mathrel{-}=}
+\newcommand{\deq}{\mathrel{:}=}
+\newcommand{\plpl}{\mathrel{+}+}
+
+% пустое слово
+\def\eps{\varepsilon}
+
+% регулярные языки
+\def\eqdef{\overset{\mbox{\tiny def}}{=}}
+\newcommand{\niton}{\not\owns}
+
+\begin{document}
+\maketitle
+\section*{Meta}
+Делал один. Список ссылок:
+\begin{enumerate}
+\item blah
+\end{enumerate}
+\section*{Упражнение 1.1}
+Класс функций $S=\{f\colon [0,1]\to\{0,1\}\big| \#\{x|f(x)=1\}<+\infty\}$
+
+$R(S)=\frac{1}{n}\mathbb{E}_{x_i}\mathbb{E}_{\eps_i}\sup\limits_{f\in S}\big|\sum\limits_{i=1}^n\eps_if(x_i)\big|$
+
+Фиксируем $x_i$ и $\eps_i$. Необходимо максимизировать $|\sum \eps_i q_i|$, где $\eps_i\in\{-1,1\}$, $q_i\in\{0,1\}$.
+
+Тогда $\sup|\sum \eps_i q_i|=\max\{\#+1,\#-1\}=\max\{k,n-k\}$, где $k$~--- число $\eps_i=+1$
+
+Тогда $$
+\section*{Упражнение 1.2}
+
+\section*{Упражнение 2.1}
+\section*{Упражнение 2.2}
+\section*{Упражнение 3}
+\section*{Упражнение 4.1}
+\section*{Упражнение 4.2}
+\section*{Упражнение 4.3}
+\section*{Упражнение 4.4}
+\section*{Упражнение 4.5}
+\section*{Упражнение 5.1}
+\section*{Упражнение 5.2}
+\section*{Задача 1}
+\section*{Задача 2}
+\section*{Задача 3.1}
+\section*{Задача 3.2}
+\end{document}
