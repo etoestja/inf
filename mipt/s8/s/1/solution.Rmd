@@ -4,20 +4,19 @@ output:
   html_document: default
   html_notebook: default
 ---
+Сравнение критериев
 
-The algorithm:
+Критерии: t-test и wilcox.test
 
-1. Generate N samples
-2. Run Student t-test and blah-blah-blah
-
-Parameters
-
+Распределения:
+$$x_1\sim N(0, 1),\,x_2\sim x_1+N(\mu,4)$$
+$\mu$ и $n$ принимают значения, указанные ниже:
 ```{r}
 n_range <- seq(5, 50, by = 5)
 mu_range <- seq(0, 2, by = 0.1)
 ```
 
-This function generates datasets, runs two criteria and outputs p-value.
+Эта функция создает датасет, запускает критерии и выдает p-value.
 
 ```{r, eval = FALSE}
 run_one_dataset <- function(n, mu)
@@ -32,11 +31,14 @@ run_one_dataset <- function(n, mu)
 
 ```
 
-This function generates N datasets and then outputs p_values and P(H1)
+Эта функция генерирует N датасетов, а затем выдает p_value и P(H1)
 
-out: two-dimensional array
-first index: p_values / P(H1)
-second index: number of algorithm (Student/Wilcox)
+Выход: двумерный массив
+
+* первый индекс: p_values / P(H1)
+* второй индекс: номер алгоритма (Student/Wilcox)
+
+Используется библиотека parallel для параллельного sapply.
 
 ```{r, eval = FALSE}
 library(parallel)
@@ -55,6 +57,8 @@ run_multiple_datasets <- function(N, n, mu)
   res
 }
 ```
+
+Результат для различных параметров сохраняется в res
 
 ```{r, eval = FALSE}
 N <- 10000
@@ -75,6 +79,8 @@ for(n in n_range)
 }
 ```
 
+res сохраняется в файл
+
 ```{r, eval = FALSE}
 save(res, file = "res.RData")
 ```
@@ -83,11 +89,13 @@ save(res, file = "res.RData")
 stopCluster(cl)
 ```
 
+res загружается из файла
+
 ```{r}
 load("res.RData")
 ```
 
-Define plot function
+Эта функция отображает сравнение Student vs Wilcox (один график)
 
 ```{r}
 col_1 = "red"
@@ -103,13 +111,13 @@ plot_one <- function(x, y1, y2, xlab, ylab, title, sub = "")
 }
 ```
 
-Plot alpha
+Отрисовка alpha (берется mu = 0, чтобы была верна гипотеза H0)
 
 ```{r}
 plot_one(n_range, res[,1,2,1], res[,1,2,2], "n", "P(H1|H0)", "Alpha(n)", "mu = 0")
 ```
 
-Plot p-values
+Отрисовка p-value (берутся разные n, для каждого строится график по $\mu$)
 
 ```{r}
 i = 1
@@ -120,7 +128,7 @@ for(n in n_range)
   i <- i + 1
 }
 ```
-Plot power
+Строится мощность
 
 ```{r}
 i = 1
@@ -131,3 +139,13 @@ for(n in n_range)
   i <- i + 1
 }
 ```
+
+Критерий Стьюдента дает большую мощность (особенно, при $n=5$: wilcox.test дает нулевую мощность)
+
+Также критерий Стьюдента дает меньшее p-value во всех случаях истинности H1 (особенно при $n = 5$).
+
+В случае истинности H0 при малых $n$ критерий wilcox.test дает меньшее значение $\alpha$.
+
+В итоге, критерий wilcox.test дает меньшее $\alpha$, но сильно меньшую мощность (особенно, при малых $n$). Поэтому предпочтительнее использовать Student test.
+
+Отметим, что при отсутствии нормальности стоит ожидать другие результаты.
