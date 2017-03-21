@@ -1,0 +1,88 @@
+---
+title: "Влияние витамина C на рост зубов морских свинок"
+output: html_document
+---
+В эксперименте изучалось влияние витамина C на рост одонтобластов морских свинок. 
+
+<img src="http://upload.wikimedia.org/wikipedia/commons/1/1c/Enamelmineralization11-17-05.jpg" alt="Drawing" style="width: 300px;"/>
+
+Рассматривалось три дозы витамина (0.5, 1 и 2 мг) и два способа его приёма (апельсиновый сок и аскорбиновая кислота). В каждой из 6 групп по уровням двух факторов были произведены измерения для 10 морских свинок.
+
+```{r}
+ToothGrowth$dose <- factor(ToothGrowth$dose)
+summary(ToothGrowth)
+table(ToothGrowth$dose)
+table(ToothGrowth$supp, ToothGrowth$dose)
+
+```
+```{r, fig.height=5.5, fig.width=10,echo=FALSE}
+par(mfrow=c(1,2))
+plot(len ~ supp, data=ToothGrowth)
+plot(len ~ dose, data=ToothGrowth)
+```
+
+1. Применим нормальный двухфакторный дисперсионный анализ без учета и с учетом межфакторного взаимодействия. Для функции `aov` характер взаимодействия учитывается с помощью первого аргумента - формулы. Для ANOVA без учета взаимодейтсвия `len ~ supp+dose`. Для ANOVA  c учетом `len ~ supp*dose`. Проведите оба анализа и проанализируйте вывод функции `model.tables` для каждого случая. Кроме этого воспользуйтесь функцией `EtaSq` из пакета `DescTools` для анализа того, какое количество дисперсии объясняется каждым элементом модели (фактором / взаимодействия).
+
+```{r}
+library(DescTools)
+# type your code here
+r1 <- aov(len ~ supp + dose, data = ToothGrowth)
+r2 <- aov(len ~ supp * dose, data = ToothGrowth)
+model.tables(r1)
+model.tables(r2)
+EtaSq(r1)
+EtaSq(r2)
+```
+
+
+2. Межфакторное взаимодействие можно неплохо визуализировать для более-менее простых случаев c помощью команды `interaction.plot`.  Получите графики зависимостей, если по оси x откладывать `supp` и если по оси x откладывать `dose`. Проинтерпретируйте полученные зависимости. 
+
+```{r}
+# type your code here
+with(data = ToothGrowth, interaction.plot(supp, dose, len))
+with(data = ToothGrowth, interaction.plot(dose, supp, len))
+```
+
+
+3. Взаимодействие значимо, поэтому разделим выборку по способу приёма витамина (колонка `supp`). 
+```{r}
+OJ <- subset(ToothGrowth, supp=="OJ")[,-2]
+VC <- subset(ToothGrowth, supp=="VC")[,-2]
+```
+
+Проведите дисперсионный анализ внутри каждой из групп:
+
+  * Для морских свинок, принимающих аскорбиновую кислоту
+  
+  * Для морских свинок, принимающих апельсиновый сок
+  
+Вам нужно
+
+  * Построить график зависимостей `len ~ dose` 
+
+  * Построить `aov` модель `len ~ dose`. Посмотреть на вывод `summary` и `model.tables` 
+  
+  * Проведите следующие тесты: `kruskal.test`, `TukeyHSD`, `jonckheere.test`
+  
+  * Сделать выводы по для каждой из групп свинок
+
+
+```{r}
+# type your code here
+analyze <- function(data)
+{
+plot(len~dose, data = data)
+r <- aov(len ~ dose, data = data)
+print(summary(r))
+print(model.tables(r))
+print(kruskal.test(len~dose, data = data))
+print(TukeyHSD(r))
+print(jonckheere.test(data$len, data$dose))
+}
+analyze(OJ)
+```
+
+
+
+**************
+Crampton E. W. (1947) **The growth of the odontoblast of the incisor teeth as a criterion of vitamin C intake of the guinea pig.** The Journal of Nutrition 33(5): 491–504. 
