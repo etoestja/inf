@@ -24,6 +24,11 @@
 \newcommand{\meq}{\mathrel{-}=}
 \newcommand{\deq}{\mathrel{:}=}
 \newcommand{\plpl}{\mathrel{+}+}
+\newcommand{\sign}{\mbox{sign}\,}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\D}{\mathbb{D}}
 
 % пустое слово
 \def\eps{\varepsilon}
@@ -48,21 +53,62 @@ $R(S)=\frac{1}{n}\mathbb{E}_{x_i}\mathbb{E}_{\eps_i}\sup\limits_{f\in S}\big|\su
 
 Тогда $\sup|\sum \eps_i q_i|=\max\{\#+1,\#-1\}=\max\{k,n-k\}$, где $k$~--- число $\eps_i=+1$
 
-Тогда $$
+Тогда $ $
 \section*{Упражнение 1.2}
 
 \section*{Упражнение 2.1}
+$n\leqslant d,\,\mathcal{F}=\{x\to \sign(\theta^Tx)\big| \theta\in\R^d\}$
+
+Рассмотрим $R_n(\F)=\frac{1}{n}\mathbb{E}_{\eps_i}\sup\limits_{f\in\F}|\sum\limits_{i=1}^n \eps_i f(x_i)|$
+
+Заметим, что $\boxed{R_n(\F)\leqslant 1}$.
+
+Фиксируем $\{x_i\}$ и $\{\eps_i\}$. Выберем $\theta$: $\underbrace{\matrixl\begin{array}{c}
+x_1^T\\
+...\\
+x_n^T
+\end{array}\matrixr}_X\theta=\matrixl\begin{array}{c}
+\eps_1\\
+...\\
+\eps_n
+\end{array}
+\matrixr$. Это можно сделать по теореме Кронекера-Капелли: матрица $X\colon n\times d$ имеет ранг $n\leqslant d$, значит, при приписывании столбца $(\eps_1,...,\eps_n)$ ранг также будет равен $n$.
+
+Мы нашли $f\in\F\colon $ $|\sum\limits_{i=1}^n \eps_i f(x_i)|=|\sum\limits_{i=1}^n \eps_i \sign(\theta^Tx_i)|=\sum\limits_{i=1}^n \eps_i^2=n$. Значит, $\boxed{R_n(\F)\geqslant 1}$ $\blacksquare$
 \section*{Упражнение 2.2}
 \section*{Упражнение 3}
+$$
+\begin{array}{ccccc}
+G(F)&=&\frac{1}{n}\E_X&\E_{g_i\sim N(0,1)}&\sup\limits_{f\in \F}|\sum\limits_{i=1}^n g_if(x_i)|\\
+R(F)&=&\frac{1}{n}\E_X&\E_{\eps}&\sup\limits_{f\in \F}|\sum\limits_{i=1}^n \eps_if(x_i)|
+\end{array}$$
+
+Фиксируем $\{x_i\}$. Рассмотрим $\varphi(\vec{t})=\sup\limits_{f\in\F}|\sum\limits_{i=1}^n f(x_i)\eps_i t_i|$. Тогда $\varphi(\alpha\vec{t}_1+(1-\alpha)\vec{t}_2)=\sup\limits_{f\in\F}|\alpha\sum\limits_{i=1}^n f(x_i)\eps_i t_{1i}+(1-\alpha)\sum\limits_{i=1}^n f(x_i)\eps_i t_{2i}|\boxed{\leqslant}$. $|x|$~--- выпуклая, поэтому $\boxed{\leqslant}\sup f\in F\sup\limits_{f\in\F}\alpha|\sum\limits_{i=1}^n f(x_i)\eps_i t_{1i}|+(1-\alpha)|\sum\limits_{i=1}^n f(x_i)\eps_i t_{2i}|\leqslant \alpha\varphi(\vec{t}_1)+(1-\alpha)\varphi(\vec{t}_2)$.
+
+Пусть $\{g_i\}_{i=1}^n\colon g_i\sim N(0,1)$ и $\{g_i\}$~--- i.i.d.
+
+Обозначим $c=\mathbb{E}|g_i|=2\int\limits_{x=0}^\infty x e^{-x^2/2}dx >0$. Тогда $\E g_i/c=1$.
+
+Рассмотрим $\varphi(\vec{1})=\varphi(\E\vec{g}/c)=\sup\limits_{f\in F}|\sum\limits_{i=1}^n \eps_i f(x_i) \underbrace{\frac{\E g_i}{c}}_1|\leqslant \E_{g}\frac{1}{c}\sup\limits_{f\in \F}|\sum\limits_{i=1}^n \eps_if(x_i)|g_i||$.
+
+Рассмотрим $R_n(\F)=\frac{1}{n}\E_x\E_\eps\sup\limits_{f\in\F}|\sum\limits_{i=1}^n \eps_if(x_i)|=\frac{1}{n}\E_x\E_\eps \varphi(\vec{1})\leqslant \frac{1}{nc}\E_x\E_\eps\E_g \sup\limits_{f\in \F}|\sum\limits_{i=1}^n \eps_if(x_i)|g_i||\overset{d}{=}$. Поскольку $\eps |g|\overset{d}{=}g$,
+
+$\overset{d}{=}\frac{1}{nc}\E_x\E_g\sup\limits_{f\in \F}|\sum\limits_{i=1}^n f(x_i)g_i|=\frac{1}{c}G(\F)$.
+
+Значит, $R(\F)\leqslant CG(\F)$, где $C=1/c$.
 \section*{Упражнение 4.1}
+Все функции $X\to \{-1,1\}$, то есть, $\F=\{-1,1\}^X$
 \section*{Упражнение 4.2}
 \section*{Упражнение 4.3}
 \section*{Упражнение 4.4}
 \section*{Упражнение 4.5}
 \section*{Упражнение 5.1}
+Contraction: http://www.cs.nyu.edu/~mohri/mls/lecture_4.pdf
 \section*{Упражнение 5.2}
 \section*{Задача 1}
 \section*{Задача 2}
+2017.03.16
 \section*{Задача 3.1}
+
 \section*{Задача 3.2}
 \end{document}
