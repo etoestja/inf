@@ -27,6 +27,7 @@
 \newcommand{\sign}{\mbox{sign}\,}
 \newcommand{\F}{\mathcal{F}}
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\conv}{\mbox{conv}\,}
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\D}{\mathbb{D}}
 
@@ -49,13 +50,17 @@
 
 $R(S)=\frac{1}{n}\mathbb{E}_{x_i}\mathbb{E}_{\eps_i}\sup\limits_{f\in S}\big|\sum\limits_{i=1}^n\eps_if(x_i)\big|$
 
-Фиксируем $x_i$ и $\eps_i$. Необходимо максимизировать $|\sum \eps_i q_i|$, где $\eps_i\in\{-1,1\}$, $q_i\in\{0,1\}$.
+Фиксируем $x_i$ и $\eps_i$. Поскольку ${x_i}$~--- конечный набор точек, то для каждого набора из $\{0,1\}^n$ существует $f\in S$, дающая эти значения.
 
-Тогда $\sup|\sum \eps_i q_i|=\max\{\#+1,\#-1\}=\max\{k,n-k\}$, где $k$~--- число $\eps_i=+1$
+Необходимо максимизировать $|\sum \eps_i q_i|$, где $\eps_i\in\{-1,1\}$, $q_i\in\{0,1\}$. Пусть $k$~--- количество $+1$ в $\{\eps_i\}$.
 
-Тогда $ $
+Тогда $\sup|\sum \eps_i q_i|=\max\{k,n-k\}\geqslant n/2$. Пусть иначе. Тогда $k<n/2$ и $k>n/2$~--- противоречие.
+
+Тогда $R(S)=\frac{1}{n}\mathbb{E}_{x_i}\mathbb{E}_{\eps_i}\sup\limits_{f\in S}\big|\sum\limits_{i=1}^n\eps_if(x_i)\big| \geqslant \frac{1}{n}\mathbb{E}_{x_i}\mathbb{E}_{\eps_i}\frac{n}{2}=\frac{1}{2}$ $\blacksquare$
 \section*{Упражнение 1.2}
-
+Для любого $n$, для любого распределения $P(X,Y)$ имеем
+$$\forall \eps < 1/2\,P(\sup\limits_{f\in S}|\E f(x)-1/n\sum\limits_{i=1}^n f(x_i)|\geqslant\eps)=1\underset{n\to\infty}{\not\to}0$$
+Значит, оба варианта (по вероятности, п.н.) РЗБЧ не выполнены.
 \section*{Упражнение 2.1}
 $n\leqslant d,\,\mathcal{F}=\{x\to \sign(\theta^Tx)\big| \theta\in\R^d\}$
 
@@ -97,14 +102,41 @@ $\overset{d}{=}\frac{1}{nc}\E_x\E_g\sup\limits_{f\in \F}|\sum\limits_{i=1}^n f(x
 
 Значит, $R(\F)\leqslant CG(\F)$, где $C=1/c$.
 \section*{Упражнение 4.1}
-Все функции $X\to \{-1,1\}$, то есть, $\F=\{-1,1\}^X$
+Все функции $X\to \{-1,1\}$, то есть, $\F=\{-1,1\}^X$. Для любого набора из $n$ точек найдется $2^n$ функций из $\F$, принимающих все возможные значения из $\{-1,1\}^n$ (по построению)
 \section*{Упражнение 4.2}
+$\F=\{[x\in A]\big| A\in\R^d \mbox{~--- выпуклое, замкнутое}\}$.
+
+Доказать: $VC(\F)=\infty$. $VC(\F)=\sup\{d\big| S_\F (d)=2^d\}$.
+
+$S_\F (d)=\sup\limits_{\{z_i\}_{i=1}^d} n_{\mbox{\small unique}}(\{z_i\})$.
+
+То есть, необходимо найти $X_n=\{x_i\}_{i=1}^n\subseteq \R^d$, такие что для каждого подмножества $\hat{X}_n\subseteq X_n$ существует выпуклое замкнутое множество $A_n$, содержащее точки $\hat{X}_n$ и не содержащее $X_n\setminus \hat{X}_n$.
+
+Возьмем $n$ точек, расположенных на окружности $C=\{(\cos\varphi,\sin\varphi, 0,...,0)\big| \varphi\in\R\}$ на равном расстоянии друг от друга: $x_k=(\cos \frac{2\pi k}{n},\sin \frac{2\pi k}{n},0,...,0)$. Фиксируем подмножество $\hat{X}_n$.
+
+Возьмем $A_n=\conv\hat{X}_n$~--- выпуклое и замкнутов. Тогда $\hat{X}_n\subseteq A_n$. Поскольку $A_n\cap C=\hat{X}_n$, $A_n\cap (X_n\setminus \hat{X}_n)=\varnothing$ $\blacksquare$
 \section*{Упражнение 4.3}
 \section*{Упражнение 4.4}
 \section*{Упражнение 4.5}
 \section*{Упражнение 5.1}
-Contraction: http://www.cs.nyu.edu/~mohri/mls/lecture_4.pdf
+{\bf Лемма} (\url{http://www.jmlr.org/proceedings/papers/v32/mohri14-supp.pdf} Lemma 8): Пусть $\{\varphi(x_i)\}_{i=1}^n$~--- $L$-липшицевы. Тогда
+$$\frac{1}{n}\E_\eps \sup\limits_{f\in F}|\sum\limits_{i=1}^n \eps_i \varphi_i(f(x_i))|\leqslant \frac{L}{n}\E_\eps \sup\limits_{f\in F}|\sum\limits_{i=1}^n \eps_i f(x_i)|$$
+
+Определим $\varphi_i(x)=[y_i\neq f(x)]$. Тогда $|\varphi_i(x_k)-\varphi_i(x_l)|\leqslant \frac{1}{2}|f(x_k)-f(x_l)|$, так как в случае $f(x_k)\neq f(x_l)$ имеем $|f(x_k)-f(x_l)|=2$, $|\varphi_i(x_k)-\varphi(x_l)|=1$
+
+В обозначениях курса $(l\cdot f)(x_i)=[y_i\neq f(x_i)]$ (то есть, это не совсем композиция)
+
+Значит, 
+
+$$\boxed{R(l\cdot \F)\leqslant \frac{1}{2}R(\F)}$$
+
 \section*{Упражнение 5.2}
+Обозначим $l(y,\hat{y})=(y-\hat{y})^2$,  $\varphi_i(x)=l(y_i, f(x))$. Рассмотрим $|\varphi_i(x)-\varphi_i(x')|=|(y-f(x))^2-(y-f(x'))^2|=|(y-f(x)-y+f(x')|\cdot |y-f(x)+y-f(x')|=|f(x')-f(x)|\cdot |2y-f(x)-f(x')|\leqslant 2(a+b)|f(x)-f(x')|$, так как $|f(x)|\leqslant \sup\limits_{f\in \F}\|f\|_\infty\leqslant b$, $|Y|\leqslant a$.
+
+Значит, $\varphi_i$~--- $2(a+b)$-липшицева. Значит,
+$$
+\boxed{R(l\cdot \F)\leqslant 2(a+b)R(\F)}
+$$
 \section*{Задача 1}
 \section*{Задача 2}
 2017.03.16
