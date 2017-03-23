@@ -23,6 +23,7 @@
 \newcommand{\peq}{\mathrel{+}=}
 \newcommand{\meq}{\mathrel{-}=}
 \newcommand{\deq}{\mathrel{:}=}
+\newcommand{\VC}{\mbox{VC}}
 \newcommand{\plpl}{\mathrel{+}+}
 \newcommand{\sign}{\mbox{sign}\,}
 \newcommand{\F}{\mathcal{F}}
@@ -139,8 +140,23 @@ $$
 $$
 \section*{Задача 1}
 \section*{Задача 2}
-2017.03.16
+\begin{enumerate}
+\item (2)$\Rightarrow$(3). Пусть $\VC(\F)=d\leqslant\infty$. Тогда $\forall n$ $S_\F(n)\leqslant \sum\limits_{i=0}^d\left(\begin{array}{c}n\\i\end{array}\right)\leqslant (n+1)^d$.
+
+Рассмотрим $R(l\cdot F)=\frac{1}{n}\E_\eps\E_z\sup\limits_{f\in F}|\sum\limits_{i=1}^n [f(x_i)\neq y_i]\eps_i|$
+
+Фиксируем $\{z_i\}$. Определим $A=\{(l(y_1,f(x_1)),...,l(y_n,f(x_n))\big| f\in \F\}$. Поскольку $S_\F(n)\leqslant (n+1)^d$, $N=|A|\leqslant (n+1)^d$.
+
+Рассмотрим $R(A)=\frac{1}{n}\E_\eps\sup\limits_{a\in A}|(\eps, a)|\leqslant\frac{1}{n}\max\limits_{a\in A}\|a\|_2\sqrt{2\ln 2N}\leqslant \frac{1}{\sqrt{n}}\sqrt{2\ln 2N}\leqslant\sqrt{\frac{2d\ln (n+1)}{n}}\to 0,\,n\to\infty$
+
+Первое неравенство основано на следующих фактах: $\E e^{\lambda a_i\eps_i}\leqslant e^{\lambda^2 a_i^2/2}$, $\E\max |y_i|\leqslant\sigma\sqrt{2\ln 2N}$, где $\sigma=\max \|a\|_2\leqslant\sqrt{n}$
+
+Тогда $R(l\cdot F)=\E_z R(A(z))\leqslant\sqrt{\frac{2d\ln (n+1)}{n}}\to 0,\,n\to\infty$
+\end{enumerate}
 \section*{Задача 3.1}
 
 \section*{Задача 3.2}
+Пусть $\F$~--- класс всех линейных классификаторов. Имеем: $\VC(\F)=p+1<\infty$.
+
+Рассмотрим набор из $p+2$ точек в общем положении.
 \end{document}
