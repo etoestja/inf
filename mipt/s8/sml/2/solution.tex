@@ -44,7 +44,9 @@
 \section*{Meta}
 Делал один. Список ссылок:
 \begin{enumerate}
-\item blah
+\item \href{http://www.jmlr.org/proceedings/papers/v32/mohri14-supp.pdf}{Contraction Lemma}
+\item \href{https://ocw.mit.edu/courses/mathematics/18-657-mathematics-of-machine-learning-fall-2015/assignments/MIT18_657F15_PS2.pdf}{Desymmetrization inequality step-by-step tasks}
+\item \href{http://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/understanding-machine-learning-theory-algorithms.pdf}{UML}
 \end{enumerate}
 \section*{Упражнение 1.1}
 Класс функций $S=\{f\colon [0,1]\to\{0,1\}\big| \#\{x|f(x)=1\}<+\infty\}$
@@ -60,7 +62,7 @@ $R(S)=\frac{1}{n}\mathbb{E}_{x_i}\mathbb{E}_{\eps_i}\sup\limits_{f\in S}\big|\su
 Тогда $R(S)=\frac{1}{n}\mathbb{E}_{x_i}\mathbb{E}_{\eps_i}\sup\limits_{f\in S}\big|\sum\limits_{i=1}^n\eps_if(x_i)\big| \geqslant \frac{1}{n}\mathbb{E}_{x_i}\mathbb{E}_{\eps_i}\frac{n}{2}=\frac{1}{2}$ $\blacksquare$
 \section*{Упражнение 1.2}
 Для любого $n$, для любого распределения $P(X,Y)$ имеем
-$$\forall \eps < 1/2\,P(\sup\limits_{f\in S}|\E f(x)-1/n\sum\limits_{i=1}^n f(x_i)|\geqslant\eps)=1\underset{n\to\infty}{\not\to}0$$
+$$\forall \eps \,P(\sup\limits_{f\in S}|\E f(x)-1/n\sum\limits_{i=1}^n f(x_i)|\geqslant\eps)\geqslant 1/2-1/\sqrt{n}\underset{n\to\infty}{\not\to}0$$
 Значит, оба варианта (по вероятности, п.н.) РЗБЧ не выполнены.
 \section*{Упражнение 2.1}
 $n\leqslant d,\,\mathcal{F}=\{x\to \sign(\theta^Tx)\big| \theta\in\R^d\}$
@@ -82,6 +84,7 @@ x_n^T
 
 Мы нашли $f\in\F\colon $ $|\sum\limits_{i=1}^n \eps_i f(x_i)|=|\sum\limits_{i=1}^n \eps_i \sign(\theta^Tx_i)|=\sum\limits_{i=1}^n \eps_i^2=n$. Значит, $\boxed{R_n(\F)\geqslant 1}$ $\blacksquare$
 \section*{Упражнение 2.2}
+Если разрешить брать $>d$ точек в обучающую выборку, то класс обучаем, так как линейных классов известно, что $\VC(\F)<+\infty$.
 \section*{Упражнение 3}
 $$
 \begin{array}{ccccc}
@@ -89,7 +92,7 @@ G(F)&=&\frac{1}{n}\E_X&\E_{g_i\sim N(0,1)}&\sup\limits_{f\in \F}|\sum\limits_{i=
 R(F)&=&\frac{1}{n}\E_X&\E_{\eps}&\sup\limits_{f\in \F}|\sum\limits_{i=1}^n \eps_if(x_i)|
 \end{array}$$
 
-Фиксируем $\{x_i\}$. Рассмотрим $\varphi(\vec{t})=\sup\limits_{f\in\F}|\sum\limits_{i=1}^n f(x_i)\eps_i t_i|$. Тогда $\varphi(\alpha\vec{t}_1+(1-\alpha)\vec{t}_2)=\sup\limits_{f\in\F}|\alpha\sum\limits_{i=1}^n f(x_i)\eps_i t_{1i}+(1-\alpha)\sum\limits_{i=1}^n f(x_i)\eps_i t_{2i}|\boxed{\leqslant}$. $|x|$~--- выпуклая, поэтому $\boxed{\leqslant}\sup f\in F\sup\limits_{f\in\F}\alpha|\sum\limits_{i=1}^n f(x_i)\eps_i t_{1i}|+(1-\alpha)|\sum\limits_{i=1}^n f(x_i)\eps_i t_{2i}|\leqslant \alpha\varphi(\vec{t}_1)+(1-\alpha)\varphi(\vec{t}_2)$.
+Фиксируем $\{x_i\}$. Рассмотрим $\varphi(\vec{t})=\sup\limits_{f\in\F}|\sum\limits_{i=1}^n f(x_i)\eps_i t_i|$. Тогда $\varphi(\alpha\vec{t}_1+(1-\alpha)\vec{t}_2)=\sup\limits_{f\in\F}|\alpha\sum\limits_{i=1}^n f(x_i)\eps_i t_{1i}+(1-\alpha)\sum\limits_{i=1}^n f(x_i)\eps_i t_{2i}|\boxed{\leqslant}$. $|x|$~--- выпуклая, поэтому $\boxed{\leqslant}\sup\limits_{f\in\F}\alpha|\sum\limits_{i=1}^n f(x_i)\eps_i t_{1i}|+(1-\alpha)|\sum\limits_{i=1}^n f(x_i)\eps_i t_{2i}|\leqslant \alpha\varphi(\vec{t}_1)+(1-\alpha)\varphi(\vec{t}_2)$.
 
 Пусть $\{g_i\}_{i=1}^n\colon g_i\sim N(0,1)$ и $\{g_i\}$~--- i.i.d.
 
@@ -103,7 +106,19 @@ $\overset{d}{=}\frac{1}{nc}\E_x\E_g\sup\limits_{f\in \F}|\sum\limits_{i=1}^n f(x
 
 Значит, $R(\F)\leqslant CG(\F)$, где $C=1/c$.
 \section*{Упражнение 4.1}
-Все функции $X\to \{-1,1\}$, то есть, $\F=\{-1,1\}^X$. Для любого набора из $n$ точек найдется $2^n$ функций из $\F$, принимающих все возможные значения из $\{-1,1\}^n$ (по построению)
+\begin{enumerate}
+\item Все функции $X\to \{0,1\}$, то есть, $\F=\{0,1\}^X$. Для любого набора из $n$ точек найдется $2^n$ функций из $\F$, принимающих все возможные значения из $\{0,1\}^n$ (по построению). Значит, $\VC(\F)=\infty$. Верхняя оценка выполняется как равенство: $$S_\F(n)=2^n=\sum\limits_{k=0}^\infty C_n^k$$
+\item $\F = \{0\}\cup \{[x=x_0]\big|x_0\in X \}$. Рассмотрим выборку $\{x_i\}\subseteq\F$. Применение всевозможных функций из $\F$ даст матрицу
+$$\matrixl\begin{array}{ccccc}
+0 & 0 & 0 & ... & 0\\
+1 & 0 & 0 & ... & 0\\
+0 & 1 & 0 & ... & 0\\
+0 & 0 & 1 & ... & 0\\
+&&...&&\\
+0 & 0 & 0 & ... & 1\\
+\end{array}\matrixr$$
+\end{enumerate}
+То есть, $S_\F(n)=n+1$. Значит, $d=\VC(\F)=1$. Проверим: $S_\F(n)=n+1\overset{?}{=}\sum\limits_{k=0}^dC_n^k=1+n$ $\blacksquare$
 \section*{Упражнение 4.2}
 $\F=\{[x\in A]\big| A\in\R^d \mbox{~--- выпуклое, замкнутое}\}$.
 
@@ -115,7 +130,7 @@ $S_\F (d)=\sup\limits_{\{z_i\}_{i=1}^d} n_{\mbox{\small unique}}(\{z_i\})$.
 
 Возьмем $n$ точек, расположенных на окружности $C=\{(\cos\varphi,\sin\varphi, 0,...,0)\big| \varphi\in\R\}$ на равном расстоянии друг от друга: $x_k=(\cos \frac{2\pi k}{n},\sin \frac{2\pi k}{n},0,...,0)$. Фиксируем подмножество $\hat{X}_n$.
 
-Возьмем $A_n=\conv\hat{X}_n$~--- выпуклое и замкнутов. Тогда $\hat{X}_n\subseteq A_n$. Поскольку $A_n\cap C=\hat{X}_n$, $A_n\cap (X_n\setminus \hat{X}_n)=\varnothing$ $\blacksquare$
+Возьмем $A_n=\conv\hat{X}_n$~--- выпуклое и замкнутое. Тогда $\hat{X}_n\subseteq A_n$. Поскольку $A_n\cap C=\hat{X}_n$, $A_n\cap (X_n\setminus \hat{X}_n)=\varnothing$ $\blacksquare$
 \section*{Упражнение 4.3}
 \section*{Упражнение 4.4}
 \section*{Упражнение 4.5}
@@ -143,15 +158,29 @@ $$
 \begin{enumerate}
 \item (2)$\Rightarrow$(3). Пусть $\VC(\F)=d\leqslant\infty$. Тогда $\forall n$ $S_\F(n)\leqslant \sum\limits_{i=0}^d\left(\begin{array}{c}n\\i\end{array}\right)\leqslant (n+1)^d$.
 
-Рассмотрим $R(l\cdot F)=\frac{1}{n}\E_\eps\E_z\sup\limits_{f\in F}|\sum\limits_{i=1}^n [f(x_i)\neq y_i]\eps_i|$
+Рассмотрим $R(F)=\frac{1}{n}\E_\eps\E_z\sup\limits_{f\in F}|\sum\limits_{i=1}^n f(x_i)\eps_i|$
 
-Фиксируем $\{z_i\}$. Определим $A=\{(l(y_1,f(x_1)),...,l(y_n,f(x_n))\big| f\in \F\}$. Поскольку $S_\F(n)\leqslant (n+1)^d$, $N=|A|\leqslant (n+1)^d$.
+Фиксируем $\{z_i\}$. Определим $A=\{\left(f(x_1),...,f(x_n)\right) \big| f\in \F\}$. Поскольку $S_\F(n)\leqslant (n+1)^d$, $N=|A|\leqslant (n+1)^d$.
 
 Рассмотрим $R(A)=\frac{1}{n}\E_\eps\sup\limits_{a\in A}|(\eps, a)|\leqslant\frac{1}{n}\max\limits_{a\in A}\|a\|_2\sqrt{2\ln 2N}\leqslant \frac{1}{\sqrt{n}}\sqrt{2\ln 2N}\leqslant\sqrt{\frac{2d\ln (n+1)}{n}}\to 0,\,n\to\infty$
 
 Первое неравенство основано на следующих фактах: $\E e^{\lambda a_i\eps_i}\leqslant e^{\lambda^2 a_i^2/2}$, $\E\max |y_i|\leqslant\sigma\sqrt{2\ln 2N}$, где $\sigma=\max \|a\|_2\leqslant\sqrt{n}$
 
-Тогда $R(l\cdot F)=\E_z R(A(z))\leqslant\sqrt{\frac{2d\ln (n+1)}{n}}\to 0,\,n\to\infty$
+Тогда $R(F)=\E_z R(A(z))\leqslant\sqrt{\frac{2d\ln (n+1)}{n}}\to 0,\,n\to\infty$.
+
+Раccмотрим $\mathbb{E}_x\sup\limits_{f\in \F}|Pf-P_nf|=\E_x\sup\limits_{f\in\F}|\E f-\frac{1}{n}\sum\limits_{i=1}^n f(x_i)|=\E_x\sup\limits_{f\in\F}|\E'_x \frac{1}{n}\sum\limits_{i=1}^n (f(x_i)-f(x_i'))\leqslant\E'\E_x\sup\limits_{f\in\F}| \frac{1}{n}\sum\limits_{i=1}^n (f(x_i)-f(x_i')|=\E'_x\E_x\E_\eps\sup\limits_{f\in\F}| \frac{1}{n}\sum\limits_{i=1}^n (\eps_i(f(x_i)-f(x_i'))|\leqslant 2R(\F)\to 0,\,n\to\infty$. Поскольку $\xi_n=\sup\limits_{f\in \F}|Pf-P_nf|$ удовлетворяет условию ограниченных разностей, $P(|\E \xi_n-\xi_n|\geqslant t)\leqslant 2e^{-nt^2/2/c^2}$, $c=||f||_\infty=1$.
+
+Рассмотрим $P(\sup\limits_{m\geqslant n}|\xi_m-\E\xi_m|\geqslant t)\leqslant 2\sum\limits_{m=n}^\infty (\underbrace{\exp(-t^2/2c)}_{q<1})^m=\frac{2q^n}{1-q}\to 0,\,n\to\infty$. Тогда $P(\sup\limits_{m\geqslant n}\xi_m\geqslant t-\E\xi_m)\to 0$
+
+Значит, $\lim\limits_{n\to\infty}\sup\limits_P P\{\sup\limits_{m\geqslant n}\sup\limits_{f\in\F}|Pf-P_mf|\geqslant\eps\}=0$. Значит, верно (3)~--- РЗБЧ для $\F$.
+
+\item Докажем, что $(3)\Rightarrow(1)$, то есть, из РЗБЧ следует обучаемость. Рассмотрим $\xi_n=\sup\limits_{f\in\F}|Pf-P_nf|$. Имеем: $\sup\limits_PP(\sup\limits_{m\geqslant n}\xi_m\geqslant\eps)\to 0,\,n\to\infty$. Значит, что $\sup\limits_P P(\xi_m\geqslant \eps)\to 0$, $n\to\infty$. Значит, $\E\xi_n\to 0$.
+
+Рассмотрим $\sup\limits_{g\in l\cdot \F}|Pg-P_ng|\leqslant 2R(l\cdot \F)\leqslant 2R(\F)\underbrace{\leqslant}_{\mbox{N3}}\frac{2\sup\|f\|_\infty}{\sqrt{n}}+4\mathbb{E}\sup\limits_{f\in\F}|Pf-P_nf|=2/\sqrt{n}+4\E \xi_n\to 0$
+
+Пусть $\hat{f}$~--- МЭР. Рассмотрим $L(\hat{f})-L(f^*_\F)=L(\hat{f})-L_n(\hat{f})+\underbrace{L_n(\hat{f})-L_n(f^*_\F)}_{\leqslant 0}+L_n(f^*_\F)-L(f^*_\F)\leqslant 2\sup\limits_{f\in\F}|L(f)-L_n(f)|=2\sup\limits_{g\in l\cdot\F} |Pg-P_ng|\to 0$. Значит, верно (1)~--- обучаемость $\F$.
+
+\item $(1)\Rightarrow(2)$.
 \end{enumerate}
 \section*{Задача 3.1}
 
