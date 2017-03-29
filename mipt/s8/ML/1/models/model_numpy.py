@@ -31,7 +31,7 @@ class SoftmaxNetwork(object):
     def _backward_pass(self, x, y_tar):
         """ Backward pass through neural network. Forward pass is needed to fill in intermediate quantities."""
         self._forward_pass(x)
-        # speciic formulas for softmax delta
+        # specific formulas for softmax delta
         delta = self.layers[-1].a
         delta[range(len(y_tar)), y_tar] -= 1.
         batch_size = float(delta.shape[0])
@@ -117,18 +117,15 @@ class FullyConnectedLayer(object):
     def forward_pass(self, x):
         """ Forward pass through layer."""
         # TO BE IMPLEMENTED
-        #self.x = ...
-        #self.z = ...
-        #self.a = ...
+        self.x = x
+        self.z = np.dot(x, self.w) + self.b
+        self.a = self.act.act(self.z)
         return self.a
 
     def backward_pass(self, w, delta):
         """ Backward pass through layer. 'w' and 'delta' are matrices of higher layer. """
         batch_size = float(delta.shape[0])
         # TO BE IMPLEMENTED
-        #self.delta =  ...
-        #self.db = ...
-        #self.dw = ...
-
-
-
+        self.delta = np.multiply(np.dot(delta, w.T), self.act.act_der(self.z))
+        self.db = self.delta
+        self.dw = np.dot(self.delta, self.a.T)
