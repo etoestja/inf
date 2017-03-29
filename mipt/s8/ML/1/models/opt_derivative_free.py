@@ -9,6 +9,7 @@ from multiprocessing import Pool
 
 def mult_random_search(f, params_mean, params_std=1., n_workers=2, batch_size=100, n_iter=50):
     """ Multiprocessing version of Random Search algorithm."""
+    # https://en.wikipedia.org/wiki/Random_search
     best_params = params_mean
     best_accuracy = 0
     pool = Pool(processes=n_workers)
@@ -24,6 +25,7 @@ def mult_random_search(f, params_mean, params_std=1., n_workers=2, batch_size=10
 
 def mult_cem(f, params_mean, params_std=1., n_workers=2, batch_size=100, n_iter=50, elite_frac=0.2):
     """ Multiprocessing version of CEM algorithm."""
+    # https://en.wikipedia.org/wiki/Cross-entropy_method
     n_elite = int(np.round(batch_size * elite_frac))
     params_std = np.ones_like(params_mean) * params_std
     pool = Pool(processes=n_workers)

@@ -127,5 +127,5 @@ class FullyConnectedLayer(object):
         batch_size = float(delta.shape[0])
         # TO BE IMPLEMENTED
         self.delta = np.multiply(np.dot(delta, w.T), self.act.act_der(self.z))
-        self.db = self.delta
-        self.dw = np.dot(self.delta, self.a.T)
+        self.db = np.mean(self.delta, axis = 0)
+        self.dw = np.dot(self.x.T, self.delta) / batch_size
