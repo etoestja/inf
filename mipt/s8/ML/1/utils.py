@@ -30,13 +30,25 @@ class CrossEntropyLoss(object):
 
 
 class Tanh(object):
-
     def act(self, x):
-        return np.tanh(x)
+        try:
+            return np.tanh(x)
+        except:
+            return np.zeros_like(x)
 
     def act_der(self, x):
-        return (1 - np.power(x, 2))
+        try:
+            return (1 - np.power(x, 2))
+        except:
+            return np.zeros_like(x)
 
+class ReLU(object):
+
+    def act(self, x):
+        return np.maximum(x, 0)
+
+    def act_der(self, x):
+        return (1. * (x > 0))
 
 class Sigmoid(object):
 
