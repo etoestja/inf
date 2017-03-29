@@ -14,9 +14,8 @@ def mult_random_search(f, params_mean, params_std=1., n_workers=2, batch_size=10
     best_accuracy = 0
     pool = Pool(processes=n_workers)
     for _ in range(n_iter):
-        params = params_std ** 0.5 * np.random.randn(*(params_mean.shape + (n_workers,))) + np.matlib.repmat(params_mean, n_workers, 1).T;
-        # TO BE IMPLEMENTED: random search for parameters
-        params_arr = map(lambda x : x[:, 0], np.split(params, n_workers, axis = -1))
+        params = params_std ** 0.5 * np.random.randn(*(params_mean.shape + (batch_size,))) + np.matlib.repmat(best_params, batch_size, 1).T;
+        params_arr = map(lambda x : x[:, 0], np.split(params, batch_size, axis = -1))
         ys = np.array(pool.map(f, params_arr))
         if np.max(ys) > best_accuracy:
             best_params = params_arr[np.argmax(ys)]
