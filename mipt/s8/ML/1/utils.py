@@ -31,16 +31,10 @@ class CrossEntropyLoss(object):
 
 class Tanh(object):
     def act(self, x):
-        try:
-            return np.tanh(x)
-        except:
-            return np.zeros_like(x)
+        return np.tanh(x)
 
     def act_der(self, x):
-        try:
-            return (1 - np.power(x, 2))
-        except:
-            return np.zeros_like(x)
+        return(1. / np.power(np.cosh(x), 2))
 
 class ReLU(object):
 
