@@ -116,7 +116,6 @@ class FullyConnectedLayer(object):
 
     def forward_pass(self, x):
         """ Forward pass through layer."""
-        # TO BE IMPLEMENTED
         self.x = x
         self.z = np.dot(x, self.w) + self.b
         self.a = self.act.act(self.z)
@@ -125,7 +124,7 @@ class FullyConnectedLayer(object):
     def backward_pass(self, w, delta):
         """ Backward pass through layer. 'w' and 'delta' are matrices of higher layer. """
         batch_size = float(delta.shape[0])
-        # TO BE IMPLEMENTED
-        self.delta = np.multiply(np.dot(delta, w.T), self.act.act_der(self.z))
-        self.db = np.mean(self.delta, axis = 0)
+        self.delta = np.multiply(np.dot(w, delta.T).T, self.act.act_der(self.z))
+        self.db = np.sum(self.delta, axis = 0, keepdims = True) / batch_size
         self.dw = np.dot(self.x.T, self.delta) / batch_size
+        return self.delta
