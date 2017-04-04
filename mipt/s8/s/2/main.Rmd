@@ -3,14 +3,95 @@ title: "Cloudseeding"
 output: html_notebook
 ---
 
-Cloudseeding
+__Cloudseeding__
 
 Volodin Sergei, group 374
 
+Данные: измерения уровней осадков по различным регионам (W, E, N, S, NE) в различные времена года (winter, spring, summer, fall). Также известно, проводилось ли засеивание облаков в на участке в данный момент времени.
+
+Необходимо:
+1. Проверить, как проявляется засеивание в каждом из регионов по-отдельности. Предлагаемый метод: дисперсионный анализ.
+2. Проверить, есть ли связь между изначальным уровнем осадков и величиной эффекта. Предлагаемый метод: корреляционный анализ для средних значений по региону и времени года.
+
+Данная функция возвращает data.frame с одним регионом.
+
 ```{r}
-data <- read.csv("cloudseeding.txt", sep = "\t")
+clouds_region <- function(region)
+{
+  res <- clouds[c("Seed", "Time", region)]
+  colnames(res)[3] <- "Value"
+  res
+}
 ```
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+Загрузка данных
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+```{r}
+clouds <- read.csv("cloudseeding.txt", sep = "\t")
+regions <- colnames(clouds)[c(-1,-2)]
+seasons <- levels(clouds$Time)
+```
+
+Гистограммы количества осадков по региону и времени года. В различные времена года наблюдается различный уровень осадков. Поэтому эффект считаем отдельно для каждого времени года и каждого региона.
+
+```{r}
+boxplot(W ~ Seed * Time, data = clouds)
+boxplot(E ~ Seed * Time, data = clouds)
+boxplot(N ~ Seed * Time, data = clouds)
+boxplot(S ~ Seed * Time, data = clouds)
+boxplot(NE ~ Seed * Time, data = clouds)
+```
+Пункт 1. Считаем значимость зависимости количества осадков от засеивания.
+```{r}
+for(region in regions)
+{
+  print(paste("Region", region))
+  data_region <- clouds_region(region)
+  a <- aov(Value ~ Seed + Time, data = data_region)
+  print(summary(a))
+  model.tables(a, "means")
+}
+```
+
+Для всех регионов влияние засеивания не значимо.
+
+Строим таблицу со средними значениями по региону и времени года.
+
+```{r}
+clouds_mean <- aggregate(clouds[, c(-1,-2)], list(clouds$Seed, clouds$Time), mean)
+colnames(clouds_mean)[1:2] = c("Seed", "Time")
+```
+
+Строим таблицу величины эффекта по региону и времени года
+
+```{r}
+effect <- data.frame()
+for(region in regions)
+{
+  for(season in seasons)
+  {
+    value_plus  <- as.numeric(subset(clouds_mean, Seed == "+" & Time == season, region))
+    value_minus <- as.numeric(subset(clouds_mean, Seed == "-" & Time == season, region))
+    effect[paste(region, season),"Initial"] = value_minus
+    effect[paste(region, season),"Effect"]     = value_plus - value_minus
+  }
+}
+```
+
+График зависимости величины эффекта засеивания от начального уровня осадков в регионе в данный момент времени
+
+```{r}
+plot(effect)
+```
+
+
+Тест Спирмена не отвергает нулевую гипотезу
+
+```{r}
+library(coin)
+spearman_test(Effect ~ Initial, data = effect)
+```
+
+Выводы:
+1. Влияние засеивания на количество осадков не значимо по всем регионам
+2. Влияние начального уровня осадков на величину эффекта не значимо.
