@@ -17,13 +17,25 @@ __Предлагаемый метод:__ дисперсионный анализ
 2. Проверить, есть ли связь между изначальным уровнем осадков и величиной эффекта.
 __Предлагаемый метод:__ корреляционный анализ для средних значений по региону и времени года.
 
+```{r}
+library(outliers)
+```
+
+
 Данная функция возвращает data.frame с одним регионом.
 
+Второй параметр убирает выбросы
+
 ```{r}
-clouds_region <- function(region)
+clouds_region <- function(region, remove_outliers = FALSE)
 {
   res <- clouds[c("Seed", "Time", region)]
   colnames(res)[3] <- "Value"
+  if(remove_outliers)
+  {
+    out <- boxplot(Value ~ Seed:Time, data = res, plot = FALSE)$out
+    res <- res[!res$Value %in% out,]
+  }
   res
 }
 ```
@@ -36,14 +48,13 @@ regions <- colnames(clouds)[c(-1,-2)]
 seasons <- levels(clouds$Time)
 ```
 
-Гистограммы количества осадков по региону и времени года. В различные времена года наблюдается различный уровень осадков. Поэтому эффект считаем отдельно для каждого времени года и каждого региона.
+Гистограммы количества осадков по региону и времени года (выбросы убраны). В различные времена года наблюдается различный уровень осадков. Поэтому эффект считаем отдельно для каждого времени года и каждого региона.
 
 ```{r}
-boxplot(W ~ Seed * Time, data = clouds)
-boxplot(E ~ Seed * Time, data = clouds)
-boxplot(N ~ Seed * Time, data = clouds)
-boxplot(S ~ Seed * Time, data = clouds)
-boxplot(NE ~ Seed * Time, data = clouds)
+for(region in regions)
+{
+  boxplot(Value ~ Seed * Time, data = clouds_region(region, TRUE), main=paste("Region", region))
+}
 ```
 
 Пункт 1. Считаем значимость зависимости количества осадков от засеивания.
@@ -51,14 +62,16 @@ boxplot(NE ~ Seed * Time, data = clouds)
 for(region in regions)
 {
   print(paste("Region", region))
-  data_region <- clouds_region(region)
-  a <- aov(Value ~ Seed + Time, data = data_region)
+  data_region <- clouds_region(region, TRUE)
+  
+  # Add 
+  a <- aov(Value ~ Seed * Time, data = data_region)
   print(summary(a))
   model.tables(a, "means")
 }
 ```
 
-Для всех регионов влияние засеивания не значимо.
+Для всех регионов влияние засеивания не значимо, в том числе, не значимо влияние совместного фактора Seed:Time.
 
 Строим таблицу со средними значениями по региону и времени года.
 
