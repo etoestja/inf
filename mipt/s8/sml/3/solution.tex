@@ -45,7 +45,8 @@
 \section*{Meta}
 Делал один. Список ссылок:
 \begin{enumerate}
-\item item
+\item \url{http://web.eecs.umich.edu/~cscott/past_courses/eecs598w14/notes/05_vc_theory.pdf} (упражнение 3)
+\item \url{http://www-math.mit.edu/~rigollet/courses/Notes/L4.pdf} (упражнение 5)
 \end{enumerate}
 \section*{Упражнение 1}
 Имеем задачу классификации без шума.
@@ -72,16 +73,56 @@
 \item Интеграл Дадли: $R_n(A)\leqslant\frac{12}{\sqrt{n}}\int\limits_0^1\sqrt{\ln 2N(A,\alpha)}d\alpha\leqslant\frac{12}{\sqrt{n}}\int\limits_0^1\sqrt{\ln2+\frac{n\ln 4e}{1-1/e}-\frac{2n}{1-1/e}\ln\alpha}d\alpha\approx 12\sqrt{1/(1-1/e)}\int\limits_0^1\sqrt{1-\frac{2}{\ln 4e}\ln\alpha}d\alpha$
 \end{enumerate}
 \section*{Упражнение 3}
-%http://web.eecs.umich.edu/~cscott/past_courses/eecs598w14/notes/05_vc_theory.pdf
+\begin{enumerate}
+\item Имеем распределение $x\sim F(x)$.
+\item Определим семейство классификаторов $\F=\{[x\in G]\big|G=(-\infty,t),t\in\R\}$. $Y=\{0,1\}$, $X=\R$. %Определим распределение на $X\times Y$: $P_{X\times Y}(Y=1)=0$, $P_{X\times Y}(X<x,Y=0)=F(x)$
+\item Фиксируем $x_0$. Пусть $f\in F$, $f(x)=[x\in (-\infty, x_0)]$. % Тогда $L(f)=\E [Y\neq f(X)]=P(f(X)=1\big|Y=0)P(Y=0)+P(f(X)=0\big|Y=1)\cancel{P(Y=1)}=P(f(X)=1)=F(x)$. Также, $L_n(f)=\frac{1}{n}\sum\limits_{i=1}^n[f(x_i)\neq y_i]=\frac{1}{n}\sum\limits_{i=1}^n[f(x_i)=1]=\frac{1}{n}\sum\limits_{i=1}^n[x_i<x_0]=F_n(x_0)$
+Тогда $$Pf=\E f(x)=P(x< x_0)=F(x)$$ $$P_nf=\frac{1}{n}\sum\limits_{i=1}^nf(x_i)=\frac{1}{n}\sum\limits_{i=1}^n[x_i<x]=F_n(x)$$
+\item Значит, $\sup\limits_{x\in \R}|F(x)-F_n(x)|=\sup\limits_{f\in\F}|Pf-P_nf|$
+\item Найдем $\VC(\F)$. Выберем $n$ точек $\{x_i\}\subset\R$, $x_i<x_{i+1}$. Тогда матрица $f_i(x_j)$ имеет вид:
+
+$$\matrixl
+\begin{array}{cccc}
+0 & 0 & ... & 0\\
+1 & 0 & ... & 0\\
+1 & 1 & ... & 0\\
+1 & 1 & ... & 1\\
+\end{array}
+\matrixr$$
+
+В ней $n+1$ строк. Значит, $S_\F(n)=n+1$. Значит, $\VC(\F)=1<\infty$.
+\item Определим $\xi_i=\sup\limits_{f\in\F}|Pf-P_nf|$. Тогда $\E \xi_i\leqslant 2R(\F)\leqslant 2\sqrt{\frac{2\VC(\F)\ln(n+1)}{n}}\leqslant 2\sqrt{\frac{2\ln(n+1)}{n}}$ (задание 2). Также, $\xi_i$ удовлетворяет условию ограниченных разностей, поэтому $P(\xi_i-\E\xi_i\geqslant t)\leqslant e^{-nt^2/2}$.
+\item Тогда $P(\xi_i\geqslant t)\leqslant \exp(-\frac{1}{2}n(t-\E\xi_i)^2)=\exp(-nt^2/2)\exp(-n(\E\xi_i)^2/2)\exp(n\E\xi_it)$
+\end{enumerate}
 \section*{Упражнение 4}
-2017.03.21
+%2017.03.21
 \section*{Упражнение 5.1}
-самое начало
+
+\begin{enumerate}
+\item Рассмотрим $P(x)=\E_{Y|X}([f(x)\neq Y]-[f^*(x)\neq Y])$. Тогда $L(f)-L(f^*)=\E_X P(x)$. Рассмотрим $Q(x)=\E_{Y|X}(|\eta(x)|[f(x)\neq f^*(x)])$
+\item Рассмотрим $\eta(x)=\E Y=P(Y=1)-P(Y=0)$
+\item Если $f(x)=f^*(x)$, то $P(x)=Q(x)$.
+\item Если $f(x)=+1$ и $f^*(x)=-1$, то $\eta(x)<0$, $Q(x)=-\eta(x)=P(Y=-1)-P(Y=1)$ а $P(x)=\E_Y[Y=-1]-\E_Y[Y=+1]=P(Y=-1)-P(Y=+1)=Q(x)$.
+\item Аналогично, если $f(x)=-1$, $f^*(x)=+1$, то $Q(x)=P(x)$
+\item Значит, $\E_XP(x)=\E_XQ(x)$ $\blacksquare$
+\end{enumerate}
 \section*{Упражнение 5.2}
+$\alpha\in\R$. Условия:
+$$
+\begin{array}{llrl}
+(1) & \exists B\,\forall g &\hookrightarrow & \E g^2\leqslant B(Eg)^{\alpha}\\
+(2) & \exists \beta\,\forall t & \hookrightarrow & P(|\eta(X)|\leqslant t)\leqslant \beta t^{\alpha/(1-\alpha)}
+\end{array}
+$$
+\begin{enumerate}
+\item Рассмотрим $\E g^2=\E([f\neq y]-[f^*\neq y])^2=\E[f\neq f^*]$
+\item Пусть (2). Рассмотрим $\E g=\E |\eta|[f\neq f^*]\geqslant \E |\eta|[\eta >t][f\neq f^*]\geqslant t\E [\eta>t][f\neq f^*]\geqslant t(\underbrace{P(f\neq f^*)}_{=\E g^2}-P(|\eta|<t))\geqslant t(\E g^2-\beta t^{\alpha/(1-\alpha)})$. Выберем $t=c(\E g^2)^{(1-\alpha)/\alpha}$. Тогда $\E g\geqslant c(\E g^2)^{1/\alpha}-\beta c^{(1-\alpha)/\alpha}(\E g^2)^{1/\alpha}=c(1-\beta c^{(1-2\alpha)/\alpha})(\E g^2)^{1/\alpha}$. Выберем $c\colon \beta c^{(1-2\alpha)/\alpha}<1$. Обозначим $B=(c(1-\beta c^{(1-2\alpha)/\alpha}))^{-\alpha}>0$. Тогда $\E g^2\leqslant B(\E g)^\alpha$ $\Rightarrow (1)$ $\blacksquare$
+\item (1) $\Rightarrow$ (2)
+\end{enumerate}
 \section*{Упражнение 6}
-Conservative: http://www.cs.tau.ac.il/~mansour/ml-course-10/scribe4.pdf
-\section*{Задача 1}
-\section*{Задача 2}
-\section*{Задача 3}
-\section*{Задача 4*}
+%Conservative: http://www.cs.tau.ac.il/~mansour/ml-course-10/scribe4.pdf
+%\section*{Задача 1}
+%\section*{Задача 2}
+%\section*{Задача 3}
+%\section*{Задача 4*}
 \end{document}
