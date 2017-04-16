@@ -13,6 +13,7 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
 \usepackage{wasysym}
 \title{Статистическое обучение\\Задание 3}
 \date{задано 2017.03.27}
@@ -47,12 +48,31 @@
 \item item
 \end{enumerate}
 \section*{Упражнение 1}
-? почитать про svm в UML
+Имеем задачу классификации без шума.
+\begin{enumerate}
+\item Рассмотрим $\E_{X^{n}}LOO(X^{n},n)=\frac{1}{n}\sum\limits_{i=1}^n\E_{X^n\setminus \{x_i\}}\E_{x_i}[\hat{f}_{X^n\setminus \{x_i\}}(x_i)\neq f^*(x_i)]=\frac{1}{n}\sum\limits_{i=1}^n \E_{X^{n-1}}L(\hat{f})=\E_{X^{n-1}}L(\hat{f})$
+\item Пусть $\hat{f}$~--- SVM. Рассмотрим $\E_{X^n}L(\hat{f})=\E_{X^{n+1}}LOO(X^{n+1},n+1)=\frac{1}{n+1}\sum\limits_{i=1}^{n+1}[f_{X^{n+1}\setminus \{x_i\}}(x_i)\neq f^*(x_i)]$
+\item В сумме объект $x_i$ может быть либо опорным, либо не опорным. Если $x_i$~--- не опорный объект, то для него $f_{X^{n+1}\setminus \{x_i\}}(x_i)=f_{X^{n+1}}(x_i)$. Поскольку $x_i$ содержался в разделимой выборке, то классификатор выдаст для $x_i$ правильный ответ. Значит, это слагаемое нулевое.
+\item Тогда $\E_{X^n}L(\hat{f})=\frac{1}{n+1}\sum\limits_{x_i \mbox{\tiny опорный}}[f_{X^{n+1}\setminus \{x_i\}}(x_i)\neq f^*(x_i)]\leqslant\boxed{ \frac{\E M}{n+1}}$, где $M$~--- число опорных векторов в выборке из $n+1$ элемента.
+\end{enumerate}
 \section*{Упражнение 2.1}
-Конспект 2017.03.17
+\begin{enumerate}
+\item Рассмотрим $\alpha$-сеть $Z$ для $A$: $|Z|=N(A,\alpha)$, $\forall a\in A\,\exists z\in Z\colon \rho(z,a)\leqslant \alpha$, где $\rho(f,g)=\sqrt{\frac{1}{n}\sum\limits_{i=1}^n[f_i\neq g_i]}$. Обозначим $z_a=\argmin\limits_{z\in z}\rho(z, a)$. $\rho(z_a,a)\leqslant\alpha$. То есть, $\sum |a^i-z_a^i|\leqslant \alpha^2n$
+\item $R_n(A)=\frac{1}{n}\E_\eps\sup\limits_{a\in A}|(\eps,a)|$. Обозначим $a_\eps=\argmax\limits_{a\in A}|(\eps,a)|$. Тогда $R_n(A)=\frac{1}{n}\E|(\eps,a_\eps)|=\frac{1}{n}\E|(\eps,a_\eps-z_{a_\eps}+z_{a_\eps})|\leqslant\frac{1}{n}\E|(\eps,a_\eps-z_{a_\eps})|+\frac{1}{n}\E|(\eps,z_{a_\eps})|$
+\item $\frac{1}{n}\E |(\eps,z_{a_\eps})|\leqslant \frac{1}{n}\E\sup\limits_{z\in Z}|(\eps, z)|=R_n(Z)\leqslant \frac{1}{\sqrt{n}}\sup\limits_{z\in Z}\|z\|^2\sqrt{2\log 2|Z|}\leqslant\sqrt{2\log2 N(A,\alpha)/n}$
+\item Рассмотрим вектор $a_\eps-z_{a_\eps}$. В нем не более $\alpha^2n$ единиц. Значит, $\frac{1}{n}\E |(\eps,a_\eps-z_{a_\eps})|\leqslant\frac{1}{n}\sup\limits_{\eps}|(\eps, a_\eps-z_{a_\eps})|\leqslant \alpha^2\leqslant \alpha$ ($\alpha\in[0,1]$).
+\item В итоге: $R_n(A)\leqslant \sqrt{\frac{2\log 2N(A,\alpha)}{n}}+\alpha$ для всех $\alpha$. Значит, $R_n(A)\leqslant\inf\limits_{\alpha\in[0,1]}(\alpha+\sqrt{\frac{2\log2N(A,\alpha)}{n}})$ $\blacksquare$
+\end{enumerate}
 \section*{Упражнение 2.2}
+\begin{enumerate}
+\item Оценка для $N$ в случае $VC(F)=d<+\infty$: $N(\alpha, F(x))\leqslant \left(\frac{4e}{\alpha^2}\right) ^{\frac{d}{1-1/e}}$
+\item В нашем случае $d\leqslant n$.
+\item Значит, $N(A,\alpha)\leqslant\left(\frac{4e}{\alpha^2}\right)^{\frac{n}{1-1/e}}$
+\item Тогда оценка примет вид: $R_n(A)\leqslant \inf\limits_{\alpha\in[0,1]}(\alpha+\sqrt{\frac{2}{n}}\sqrt{\ln2+\frac{n}{1-1/e}\ln(4e)-\frac{2n}{1-1/e}\ln\alpha})=\inf\limits_{\alpha\in[0,1]}(\alpha+\sqrt{a+b\ln\alpha})\leqslant \frac{1}{2}+\sqrt{\frac{2\ln 2}{n}+\frac{2}{1-1/e}(1+2\ln 2)}$, $a=2/n\ln2+2\ln(4e)/(1-1/e)$, $b=-4/(1-1/e)$
+\item Интеграл Дадли: $R_n(A)\leqslant\frac{12}{\sqrt{n}}\int\limits_0^1\sqrt{\ln 2N(A,\alpha)}d\alpha\leqslant\frac{12}{\sqrt{n}}\int\limits_0^1\sqrt{\ln2+\frac{n\ln 4e}{1-1/e}-\frac{2n}{1-1/e}\ln\alpha}d\alpha\approx 12\sqrt{1/(1-1/e)}\int\limits_0^1\sqrt{1-\frac{2}{\ln 4e}\ln\alpha}d\alpha$
+\end{enumerate}
 \section*{Упражнение 3}
-http://web.eecs.umich.edu/~cscott/past_courses/eecs598w14/notes/05_vc_theory.pdf
+%http://web.eecs.umich.edu/~cscott/past_courses/eecs598w14/notes/05_vc_theory.pdf
 \section*{Упражнение 4}
 2017.03.21
 \section*{Упражнение 5.1}
