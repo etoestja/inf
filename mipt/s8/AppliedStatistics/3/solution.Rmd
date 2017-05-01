@@ -5,12 +5,13 @@ output:
   html_notebook: default
 ---
 
-Володин Сергей, группа 374
+**Володин Сергей**, группа 374
 
-Зависимая переменная: "L10"
+**Цель:** построить линейную регрессию вещественного отклика L10 от признаков
 
-```{r, echo = FALSE}
-visualize_model <- function(m, data_ = data)
+#### 1. Функция, строящая графики остатков от признаков для модели m
+```{r}
+visualize_model <- function(m, data_)
 {
   par(mfrow=c(4,2))
   
@@ -18,8 +19,8 @@ visualize_model <- function(m, data_ = data)
   qqline(residuals(m), col="red")
   grid()
   
-  plot(1:dim(data_)[1], rstandard(m), xlab="i", ylab="Standardized residuals", pch=19)
-  addtrend(1:dim(data_)[1], rstandard(m))
+  plot(1:nrow(data_), rstandard(m), xlab="i", ylab="Standardized residuals", pch=19)
+  addtrend(1:nrow(data_), rstandard(m))
   grid()
   
   plot(fitted(m), rstandard(m), xlab="Fitted values", ylab="Standardized residuals", pch=19)
@@ -37,60 +38,93 @@ visualize_model <- function(m, data_ = data)
 addtrend <- function(x, y){
   y <- y[order(x)]
   x <- sort(x)  
-  lines(x, predict(loess(y ~ x)), col = "red")
+  lines(x, predict(loess(y ~ x), x), col = "red")
 }
 ```
 
-Имеющиеся признаки:
-"Производитель" -- категориальный
-"Нагрузка" -- вещественный
-"Число.шаров" -- вещественный
-"Диаметр" -- вещественный
-"Тип.подшипника" -- категориальный
-
-```{r}
+#### 2. Загрузка данных
+```{r message=FALSE}
 library(gdata)
 library(lmtest)
 library(MASS)
-data <- read.xls("bearing.xlsx")
-colnames(data)
-data$Производитель <- as.factor(data$Производитель)
-data$Тип.подшипника <- as.factor(data$Тип.подшипника)
-data_orig = data
+data_orig <- read.xls("bearing.xlsx")
 ```
 
+#### 3. Столбцы матрицы объект-признак:
 ```{r}
-par(mfrow=c(2,2), mar=c(4, 2, 2, 1))
-for(i in c(3, 4, 5))
+colnames(data_orig)
+```
+
+#### 4. Число уровней для каждого столбца
+```{r}
+cat(sprintf("Rows:\t\t%d\n", nrow(data_orig)))
+L = length(levels(as.factor(data_orig[,1])))
+cat(sprintf("%s:\t\t%d values\n", colnames(data_orig[1]), L))
+for(i in 2:length(colnames(data_orig)))
 {
-  d <- density(data[,i])
-  plot(d, col="blue", xlab = colnames(data)[i], main="")
+  L = length(levels(as.factor(data_orig[,i])))
+  cat(sprintf("%s:\t%d values\n", colnames(data_orig[i]), L))
 }
 ```
 
-Категориальные признаки
+Отклик L10 -- вещественный.
+
+Имеющиеся признаки:
+
+* "Производитель" -- категориальный
+* "Нагрузка" -- вещественный
+* "Число.шаров" -- категориальный
+* "Диаметр" -- категориальный
+* "Тип.подшипника" -- категориальный
+
 ```{r}
-par(mfrow=c(1, 2), mar=c(4, 2, 2, 1))
-for(i in c(2, 6))
+data = data_orig
+data$L10 = data_orig$L10
+data$Производитель <- as.factor(data_orig$Производитель)
+data$Нагрузка = data_orig$Нагрузка
+data$Число.шаров <- as.factor(data_orig$Число.шаров)
+data$Диаметр <- as.factor(data_orig$Диаметр)
+data$Тип.подшипника <- as.factor(data_orig$Тип.подшипника)
+summary(data)
+```
+
+#### 5. Распределение признаков
+```{r fig.height=10, fig.width=10}
+par(mfrow=c(3, 2), mar=c(4, 2, 2, 1))
+for(i in 1:6)
 {
-  hist(as.numeric(data[,i]), xlab = colnames(data)[i])
+  hist(as.numeric(data_orig[,i]), xlab = colnames(data)[i], main = "")
 }
 ```
 
-Оценка наличия выбросов
-```{r}
-par(mfrow=c(4,1), mar=c(4, 2, 2, 1))
-for(i in c(1, 3, 4, 5))
+```{r fig.height=10, fig.width=10}
+panel.hist <- function(x, ...)
 {
-  boxplot(data[,i], xlab = colnames(data)[i], horizontal = TRUE)
+    usr <- par("usr"); on.exit(par(usr))
+    par(usr = c(usr[1:2], 0, 1.5) )
+    h <- hist(x, plot = FALSE)
+    breaks <- h$breaks; nB <- length(breaks)
+    y <- h$counts; y <- y/max(y)
+    rect(breaks[-nB], 0, breaks[-1], y, col = "cyan", ...)
+}
+
+pairs(~., data=data, diag.panel = panel.hist)
+```
+
+#### 6. Оценка наличия выбросов
+```{r fig.height=10, fig.width=10}
+par(mfrow=c(6,1), mar=c(4, 2, 2, 1))
+for(i in 1:6)
+{
+  boxplot(data_orig[,i], xlab = colnames(data)[i], horizontal = TRUE)
 }
 ```
 
-Выбросов много. Убёрем их.
+Уберём выбросы по Нагрузке и отклику L10
 ```{r}
 par(mfrow=c(3,1), mar=c(4, 2, 2, 1))
 out_mask = rep(FALSE, nrow(data))
-for(i in c(1, 3, 4, 5))
+for(i in c(1, 3))
 {
   mask = data[,i] %in% boxplot(data[,i], plot = FALSE)$out
 #  print(sum(mask))
@@ -98,16 +132,17 @@ for(i in c(1, 3, 4, 5))
 }
 #print(sum(out_mask))
 data = data[!out_mask,]
+rownames(data) <- 1:nrow(data)
 ```
 
 
-Рассмотрим отклик: переменную L10
+#### 7. Рассмотрим отклик: переменную L10
 ```{r}
 boxplot(data$L10, horizontal = TRUE, xlab = colnames(data)[1])
 ```
 
 Разница:
-$\frac{\max L_{10}}{\min L_{10}}=$ `r round(max(data_orig[out_mask,]$L10)/min(data_orig[out_mask,]$L10))` $>10$
+$\frac{\max L_{10}}{\min L_{10}}=$ `r round(max(data_orig[!out_mask,]$L10)/min(data_orig[!out_mask,]$L10))` $>10$
 
 Метод Бокса-Кокса
 ```{r}
@@ -123,14 +158,15 @@ data$L10 <- NULL
 ```
 
 
-Проведём анализ остатков. Сначала построим модель, использующую все признаки:
+#### 8. Проведём анализ остатков
+Сначала построим модель, использующую все признаки:
 ```{r}
 m1 <- lm(data$newL10 ~., data=data)
 ```
 
 ```{r echo=FALSE}
 shapiro.test(residuals(m1))$p.value
-wilcox.test(residuals(m1))$p.value
+t.test(residuals(m1))$p.value
 bptest(m1)$p.value
 ```
 
@@ -142,31 +178,32 @@ bptest(m1)$p.value
 
 Остатки:
 
-* Нормальные, поэтому используем критерий Уилкоксона, использующий только ранги.
+* Нормальные, поэтому используем критерий Стьюдента
 * Несмещенные
 * Гомоскедастичные
 
-Отбор признаков
+### 9. Отбор признаков
 ```{r}
 summary(m1)
 ```
 
-```{r fig.height=10, fig.width=10}
-visualize_model(m1)
+```{r fig.height=10, fig.width=10, warning=FALSE}
+visualize_model(m1, data)
 ```
 
-Имеется квадратичная зависимость по нагрузке и кубическая по диаметру.
 
 Анализ необходимости добавления взаимодействий и квадратов признаков
 ```{r}
-m2 <- lm(newL10 ~ . + I(Нагрузка^2) + I(Диаметр^2) + I(Диаметр^3), data=data)
+m2 <- lm(newL10 ~ . + I(Нагрузка^2), data=data)
 summary(m2)
 ```
+
+Квадрат нагрузки значим.
 
 Нет изменений в характере остатков.
 ```{r}
 shapiro.test(residuals(m2))$p.value
-wilcox.test(residuals(m2))$p.value
+t.test(residuals(m2))$p.value
 bptest(m2)$p.value
 ```
 
@@ -178,20 +215,31 @@ add1(m2, ~ .^2, test="F")
 Нет значимых взаимодействий, удаляем незначимые признаки.
 
 ```{r}
-m3 <- lm(newL10 ~ Диаметр + Производитель + Нагрузка + I(Нагрузка^2) + I(Диаметр^2) + I(Диаметр^3), data=data)
+m3 <- lm(newL10 ~ Нагрузка + Диаметр + I(Нагрузка^2), data=data)
 ```
 
 
+```{r fig.height=10, fig.width=10, warning=FALSE}
+visualize_model(m3, data = data)
+```
 
-```{r fig.height=10, fig.width=10}
-visualize_model(m3)
+Квадрат нагрузки более не значим, удалим его
+```{r}
+summary(m3)
+```
+```{r}
+m3 <- lm(newL10 ~ Нагрузка + Диаметр, data=data)
+```
+
+```{r}
+summary(m3)
 ```
 
 
-Расчёт расстояний Кука
+#### 10. Расчёт расстояний Кука
 ```{r}
 par(mfrow=c(1,2))
-plot(fitted(m3), cooks.distance(m2), xlab="Fitted LogL10", ylab="Cook's distance")
+plot(fitted(m3), cooks.distance(m3), xlab="Fitted LogL10", ylab="Cook's distance")
 lines(c(0,100), c(0.015, 0.015), col="red")
 plot(data$newL10, cooks.distance(m3), xlab="LogL10", ylab="Cook's distance")
 lines(c(0,100), c(0.015, 0.015), col="red")
@@ -199,23 +247,27 @@ lines(c(0,100), c(0.015, 0.015), col="red")
 
 Удалим наблюдения с расстоянием Кука больше 0.015
 ```{r, echo=FALSE}
-data2 <-data[cooks.distance(m3)<=0.015,]
-m4 <- lm(newL10 ~ Диаметр + Производитель + Нагрузка + I(Нагрузка^2) + I(Диаметр^2) + I(Диаметр^3), data=data2)
+cd = cooks.distance(m3)<=0.015
+data2 <- data[cd & !is.na(cd),]
+rownames(data2) <- 1:nrow(data2)
+m4 <- lm(newL10 ~ Нагрузка + Диаметр, data=data2)
 ```
 
 Сравним коэффициенты новой модели и модели 4:
 ```{r, echo=FALSE}
-res <- cbind(coefficients(m3), coefficients(m4))
-colnames(res) <- c("All data", "Filtered data")
-res
+cat("All data:\n")
+print(coefficients(m3))
+cat("\n")
+cat("Filtered data:\n")
+print(coefficients(m4))
 ```
 
-Анализ модели 4
-```{r fig.height=10, fig.width=10}
+#### 11. Анализ модели 4
+```{r fig.height=10, fig.width=10, warning=FALSE}
 visualize_model(m4, data = data2)
 ```
 
-## Результат
+#### Результат
 Итоговая модель построена по `r dim(data2)[1]` из `r dim(data_orig)[1]` исходных объектов и объясняет `r round(100*summary(m4)$r.squared)`% вариации корня от L10:
 
 Коэффициенты финальной модели:
