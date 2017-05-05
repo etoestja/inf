@@ -30,7 +30,10 @@ visualize_model <- function(m, data_)
   for(i in c(1,2,3,4,5))
   {
     plot(as.numeric(data_[,i]), rstandard(m), xlab=colnames(data_)[i], ylab="Standardized residuals", pch=19)
-    addtrend(as.numeric(data_[,i]), rstandard(m))
+    if(length(levels(as.factor(data_[,i])))>3)
+    {
+      addtrend(as.numeric(data_[,i]), rstandard(m))
+    }
     grid()
   }
 }
@@ -42,9 +45,11 @@ addtrend <- function(x, y){
 }
 ```
 
+
 #### 2. Загрузка данных
 ```{r message=FALSE}
 library(gdata)
+library(lattice)
 library(lmtest)
 library(MASS)
 data_orig <- read.xls("bearing.xlsx")
@@ -73,8 +78,8 @@ for(i in 2:length(colnames(data_orig)))
 
 * "Производитель" -- категориальный
 * "Нагрузка" -- вещественный
-* "Число.шаров" -- категориальный
-* "Диаметр" -- категориальный
+* "Число.шаров" -- вещественный
+* "Диаметр" -- вещественный
 * "Тип.подшипника" -- категориальный
 
 ```{r}
@@ -82,8 +87,8 @@ data = data_orig
 data$L10 = data_orig$L10
 data$Производитель <- as.factor(data_orig$Производитель)
 data$Нагрузка = data_orig$Нагрузка
-data$Число.шаров <- as.factor(data_orig$Число.шаров)
-data$Диаметр <- as.factor(data_orig$Диаметр)
+data$Число.шаров <- data_orig$Число.шаров
+data$Диаметр <- data_orig$Диаметр
 data$Тип.подшипника <- as.factor(data_orig$Тип.подшипника)
 summary(data)
 ```
@@ -120,19 +125,27 @@ for(i in 1:6)
 }
 ```
 
-Уберём выбросы по Нагрузке и отклику L10
+Уберём слишком большие значения по диаметру и нагрузке:
 ```{r}
-par(mfrow=c(3,1), mar=c(4, 2, 2, 1))
-out_mask = rep(FALSE, nrow(data))
-for(i in c(1, 3))
-{
-  mask = data[,i] %in% boxplot(data[,i], plot = FALSE)$out
-#  print(sum(mask))
-  out_mask = out_mask | mask
-}
-#print(sum(out_mask))
-data = data[!out_mask,]
-rownames(data) <- 1:nrow(data)
+data = data[!(data$Диаметр<0.25 | data$Диаметр>0.75),]
+hist(data$Диаметр)
+```
+```{r}
+data = data[!(data$Нагрузка>5000),]
+hist(data$Нагрузка)
+```
+```{r}
+data = data[!(data$L10>40),]
+hist(data$L10, breaks=50)
+```
+
+
+```{r fig.height=10, fig.width=10}
+pairs(~., data=data, diag.panel = panel.hist)
+```
+```{r}
+library(car)
+scatterplotMatrix(~L10+Диаметр+Нагрузка|Тип.подшипника, data=data)
 ```
 
 
@@ -142,7 +155,7 @@ boxplot(data$L10, horizontal = TRUE, xlab = colnames(data)[1])
 ```
 
 Разница:
-$\frac{\max L_{10}}{\min L_{10}}=$ `r round(max(data_orig[!out_mask,]$L10)/min(data_orig[!out_mask,]$L10))` $>10$
+$\frac{\max L_{10}}{\min L_{10}}=$ `r round(max(data$L10)/min(data$L10))` $>10$
 
 Метод Бокса-Кокса
 ```{r}
@@ -167,7 +180,7 @@ m1 <- lm(data$newL10 ~., data=data)
 ```{r echo=FALSE}
 shapiro.test(residuals(m1))$p.value
 t.test(residuals(m1))$p.value
-bptest(m1)$p.value
+as.numeric(bptest(m1)$p.value)
 ```
 
 Критерий     |                  |p  
@@ -186,91 +199,138 @@ bptest(m1)$p.value
 ```{r}
 summary(m1)
 ```
-
+Тип подшипника, число шаров не значимы
 ```{r fig.height=10, fig.width=10, warning=FALSE}
 visualize_model(m1, data)
 ```
 
-
 Анализ необходимости добавления взаимодействий и квадратов признаков
-```{r}
-m2 <- lm(newL10 ~ . + I(Нагрузка^2), data=data)
-summary(m2)
-```
-
-Квадрат нагрузки значим.
-
-Нет изменений в характере остатков.
-```{r}
-shapiro.test(residuals(m2))$p.value
-t.test(residuals(m2))$p.value
-bptest(m2)$p.value
-```
-
 Посмотрим на попарные взаимодействия:
 ```{r}
-add1(m2, ~ .^2, test="F")
+add1(m1, ~ .^2, test="F")
 ```
 
-Нет значимых взаимодействий, удаляем незначимые признаки.
+Добавляем: Производитель:Нагрузка, Производитель:Диаметр, Нагрузка:Диаметр, Нагрузка:Тип.подшипника, Диаметр:Тип.подшипника
+Удаляем: число шаров
 
 ```{r}
-m3 <- lm(newL10 ~ Нагрузка + Диаметр + I(Нагрузка^2), data=data)
+m2 <- lm(newL10 ~ Нагрузка + Диаметр + Производитель:Нагрузка + Производитель:Диаметр + Нагрузка:Диаметр + Нагрузка:Тип.подшипника + Диаметр:Тип.подшипника, data=data)
 ```
 
 
 ```{r fig.height=10, fig.width=10, warning=FALSE}
+visualize_model(m2, data = data)
+```
+
+```{r}
+summary(m2)
+```
+```{r}
+jtest(m1,m2)
+```
+m2 лучше m1.
+
+Удалим Производитель:Диаметр
+
+```{r}
+m3 <- lm(newL10 ~ Нагрузка + Диаметр + Производитель:Нагрузка  + Нагрузка:Диаметр + Нагрузка:Тип.подшипника + Диаметр:Тип.подшипника, data=data)
+```
+
+```{r}
+jtest(m2,m3)
+```
+Модель стала лучше
+```{r}
+summary(m3)
+```
+```{r fig.height=10, fig.width=10, warning=FALSE}
 visualize_model(m3, data = data)
 ```
+Нет изменений в характере остатков:
+```{r}
+shapiro.test(residuals(m3))$p.value
+t.test(residuals(m3))$p.value
+as.numeric(bptest(m3)$p.value)
+```
+Удаление зависимости от типа подшипника:
 
-Квадрат нагрузки более не значим, удалим его
 ```{r}
-summary(m3)
-```
-```{r}
-m3 <- lm(newL10 ~ Нагрузка + Диаметр, data=data)
+m4 <- lm(newL10 ~ Нагрузка + Диаметр + Производитель:Нагрузка + Нагрузка:Диаметр, data=data)
 ```
 
-```{r}
-summary(m3)
+```{r fig.height=10, fig.width=10, warning=FALSE}
+visualize_model(m4, data = data)
 ```
+```{r}
+summary(m4)
+```
+Теперь все признаки значимы.
 
 
 #### 10. Расчёт расстояний Кука
 ```{r}
 par(mfrow=c(1,2))
-plot(fitted(m3), cooks.distance(m3), xlab="Fitted LogL10", ylab="Cook's distance")
+plot(fitted(m4), cooks.distance(m4), xlab="Fitted SqrtL10", ylab="Cook's distance")
 lines(c(0,100), c(0.015, 0.015), col="red")
-plot(data$newL10, cooks.distance(m3), xlab="LogL10", ylab="Cook's distance")
+plot(data$newL10, cooks.distance(m4), xlab="SqrtL10", ylab="Cook's distance")
 lines(c(0,100), c(0.015, 0.015), col="red")
 ```
 
 Удалим наблюдения с расстоянием Кука больше 0.015
 ```{r, echo=FALSE}
-cd = cooks.distance(m3)<=0.015
+cd = cooks.distance(m4)<=0.015
 data2 <- data[cd & !is.na(cd),]
 rownames(data2) <- 1:nrow(data2)
-m4 <- lm(newL10 ~ Нагрузка + Диаметр, data=data2)
+m5 <- lm(newL10 ~ Нагрузка + Диаметр + Производитель:Нагрузка  + Нагрузка:Диаметр, data=data2)
 ```
 
 Сравним коэффициенты новой модели и модели 4:
 ```{r, echo=FALSE}
-cat("All data:\n")
-print(coefficients(m3))
-cat("\n")
-cat("Filtered data:\n")
-print(coefficients(m4))
+res <- cbind(coefficients(m4), coefficients(m5))
+colnames(res) <- c("All data", "Filtered data")
+res
+```
+Коэффициенты изменились несильно.
+
+#### 11. Анализ модели 5
+Остатки нормальны, несмещены, гетероскедастичны
+```{r}
+shapiro.test(residuals(m5))$p.value
+t.test(residuals(m5))$p.value
+as.numeric(bptest(m5)$p.value)
 ```
 
-#### 11. Анализ модели 4
 ```{r fig.height=10, fig.width=10, warning=FALSE}
-visualize_model(m4, data = data2)
+visualize_model(m5, data = data2)
 ```
 
 #### Результат
-Итоговая модель построена по `r dim(data2)[1]` из `r dim(data_orig)[1]` исходных объектов и объясняет `r round(100*summary(m4)$r.squared)`% вариации корня от L10:
+Итоговая модель построена по `r dim(data2)[1]` из `r dim(data_orig)[1]` исходных объектов и объясняет `r round(100*summary(m5)$r.squared)`% вариации корня от L10:
 
 Коэффициенты финальной модели:
 ```{r, echo=FALSE}
-coefficients(m4)
+coefficients(m5)
 ```
+
+```{r}
+summary(m5)
+```
+Есть зависимость от: Производитель, Нагрузка, Диаметр
+
+```{r}
+confint(m5)
+```
+
+Распределение предсказания корня из L10 относительно истинной величины:
+```{r}
+par(mfrow=c(1,1))
+plot(data2$newL10, fitted(m5), xlab="Sqrt L10", ylab="Predicted sqrt L10", pch=19)
+lines(c(0,10), c(0,10), col="red")
+grid()
+```
+Таким образом,
+
+ * Каждая единица нагрузки уменьшает отклик на `r -coef(m5)["Нагрузка"]` (производитель 1)
+ * Каждая единица нагрузки уменьшает отклик на `r -(coef(m5)["Нагрузка"]+coef(m5)["Нагрузка:Производитель2"])` (производитель 2)
+ * Каждая единица нагрузки уменьшает отклик на `r -(coef(m5)["Нагрузка"]+coef(m5)["Нагрузка:Производитель3"])` (производитель 3)
+ * Каждая единица диаметра увеличивает отклик на `r coef(m5)["Диаметр"]`
