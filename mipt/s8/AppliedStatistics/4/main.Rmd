@@ -73,7 +73,7 @@ testSeries  <- window(tSeries, start=c(1968,07))
 
 ## ARIMA
 ### Ручной выбор модели
-```{r echo = FALSE}
+```{r echo = FALSE, warning = FALSE}
 kpss.test(tSeries)$p.value
 ```
 
@@ -110,11 +110,11 @@ pacf(diff(diff(tSeries, 12), 1), lag.max=3*12, main="")
 
 auto.arima без жадности (stepwise=FALSE):
 ```{r echo=F}
-fit <- auto.arima(tSeries, d=1, D=1, max.p=12, max.q=12, max.P = 3, max.Q = 3, max.order = 10, stepwise=F,parallel=T)
+fit <- auto.arima(tSeries, d=1, D=1, max.p=12, max.q=12, max.P = 3, max.Q = 3, max.order = 10, stepwise=F, parallel=T)
 fit
 ```
 
-Оптимальная по AICc модель — ARIMA(1,1,0)(1,1,3)$_{12}$. AICc=
+Оптимальная по AICc модель — ARIMA(0,1,1)(2,1,2)$_{12}$. AICc=1012.44
 
 Остатки:
 ```{r, echo=FALSE, fig.height=4.5, fig.width=10}
@@ -161,7 +161,7 @@ kpss.test(res)$p.value
 
 Обучаем модель на обучающей выборке, сравниваем прогноз с тестовой:
 ```{r, echo=FALSE, fig.height=5.5, fig.width=10}
-fitShort <- Arima(trainSeries, order=c(0,1,0), seasonal=c(0,1,1))
+fitShort <- Arima(trainSeries, order=c(0,1,1), seasonal=c(2,1,2))
 fc       <- forecast(fitShort, h=H)
 accuracy(fc, testSeries)
 plot(forecast(fitShort, h=H), ylab=xname, xlab="Time")
@@ -175,7 +175,7 @@ fit.auto <- auto.arima(tSeries)
 fit.auto
 ```
 
-Лучшая по AICc: ARIMA(0,1,0)(0,1,1)$_{12}$. AICc=
+Лучшая по AICc: ARIMA(0,1,0)(0,1,1)$_{12}$. AICc=1013.36
 
 Остатки:
 ```{r, echo=FALSE, fig.height=4.5, fig.width=10}
@@ -242,11 +242,12 @@ grid()
 lines(c(min(res, res.auto), max(res, res.auto))*2, c(min(res, res.auto), max(res, res.auto))*2, col="red")
 
 dm.test(res, res.auto)
+dm.test(res, res.auto, alternative = 'less')
 ```
 
-Критерий Диболда-Мариано не обнаруживает значимого различия между качеством прогнозов.
+Критерий Диболда-Мариано показывает, что модель, настроенная вручную, лучше, чем модель, подобранная автоматически (тест с альтернативой less)
 
-В целом подобранная вручную модель сложнее, а её остатки не лучше; с другой стороны, её AICc — ниже, а ошибка на тесте меньше, так что остановимся на модели, подобранной вручную.
+По критерию AICc модели примерно равнозначны. Останавливаемся на модели, построенной вручную (fit)
 
 ## Модель экспоненциального сглаживания
 ```{r, echo=FALSE}
@@ -266,7 +267,7 @@ for (i in 1:length(p)){
 plot(p, xlab="Lag", ylab="p-values", ylim=c(0,1), main="Ljung-Box test")
 abline(h = 0.05, lty = 2, col = "blue")
 ```
-Остатки не коррелированы.
+Остатки коррелированы.
 
 Q-Q plot и гистограмма:
 ```{r, echo=FALSE, fig.height=5.5, fig.width=10}
@@ -320,10 +321,10 @@ dm.test(res, res.ets, alternative = "less")
 
 
 
-Согласно критерию Диболда-Мариано, прогнозы метода ETS значимо менее точные, поэтому в качестве финального выберем прогноз найденной вручную аримы.
+Согласно критерию Диболда-Мариано, прогнозы равнозначны. Выбираем модель ARIMA как имеющую лучшие остатки и лучший прогноз на тестовой выборке.
 
 ## Финальный прогноз
-Поскольку остатки нормальны, можно использовать теоретические, а не бутстреп-предсказательные интервалы.
+Используем модель ARIMA, настроенную вручную.
 ```{r, echo=FALSE, fig.height=5.5, fig.width=10}
 fl <- forecast(fit, h=H, bootstrap=F)
 print(fl)
