@@ -6,7 +6,7 @@ output: html_notebook
 ### Прикладная статистика. Задание 4. Временные ряды.
 __Володин Сергей__, группа 374
 
-Входные данные: portland-oregon-average-monthly-.csv.
+Входные данные: portland-oregon-average-monthly-.csv
 
 В файле содержится временной ряд.
 
@@ -14,6 +14,318 @@ __Володин Сергей__, группа 374
  * __Измерений:__ 114
  * __Отклик:__ Среднее количество поездок на автобусе за каждый месяц в Портленде (в сотнях)
 
-```{r}
+Загрузка данных и визуализация ряда
+```{r warning = FALSE}
+library(forecast)
+library(tseries)
+library(lmtest)
+library(Hmisc)
 
+# горизонт прогнозирования
+H = 12 # 1/10 длины всего ряда или 1 год
+
+data <- read.csv("portland-oregon-average-monthly-.csv", sep=";", stringsAsFactors=F)
+names(data)[1] <- "Date"
+names(data)[2] <- "Value"
+xname <- "Average bus trips"
+
+data$Value <- as.numeric(data$Value)
+data$Date <- as.Date(as.yearmon(data$Date, format="%Y-%m"))
+tSeries <- ts(data = data$Value, start = as.numeric(c(format(data$Date[1], "%Y"), format(data$Date[1], "%m"))), freq = 12)
+
+plot(tSeries, type="l", ylab=xname, col="red")
+grid()
+```
+Выбросов нет.
+
+Время выражено в месяцах, поэтому попробуем поделить на количество дней в месяце
+```{r}
+plot(tSeries / monthDays(as.Date(time(tSeries))), type="l", ylab=xname, col="red")
+grid()
+```
+
+Новый ряд более гетероскедастичный. Поэтому вернёмся к исходному ряду.
+
+Seasonal and Trend decomposition using Loess:
+```{r, echo=FALSE, fig.height=8, fig.width=10}
+plot(stl(tSeries, s.window="periodic"))
+```
+
+Преобразование Бокса-Кокса:
+```{r, echo=FALSE, fig.width=10, fig.height=8}
+par(mfrow=c(2,1))
+plot(tSeries, ylab="Original series", xlab="", col="red")
+grid()
+
+LambdaOpt <- BoxCox.lambda(tSeries)
+plot(BoxCox(tSeries, LambdaOpt), ylab="Transformed series", xlab="", col="red")
+title(main=toString(paste("LambdaOpt =",round(LambdaOpt, 3))))
+grid()
+```
+
+Разница не принципиальна.
+
+Train/test split
+```{r}
+trainSeries <- window(tSeries, end=c(1968,06))
+testSeries  <- window(tSeries, start=c(1968,07))
+```
+
+## ARIMA
+### Ручной выбор модели
+```{r echo = FALSE}
+kpss.test(tSeries)$p.value
+```
+
+
+Исходный ряд нестационарен (p<`r kpss.test(tSeries)$p.value`, критерий KPSS)
+
+Сезонное дифференцирование:
+```{r, echo=FALSE, fig.height=5.5, fig.width=10}
+plot(diff(tSeries, 12), type="l", col="red")
+grid()
+```
+```{r echo = FALSE}
+kpss.test(diff(tSeries, 12))$p.value
+```
+Ряд всё еще нестационарен p<`r kpss.test(diff(tSeries, 12))$p.value`. Продифференцируем по времени.
+```{r, echo=FALSE, fig.height=5.5, fig.width=10}
+plot(diff(diff(tSeries, 12), 1), type="l", col="red")
+grid()
+```
+```{r echo = FALSE}
+kpss.test(diff(diff(tSeries, 12), 1))$p.value
+```
+Вторая производная уже стационарна.
+
+Посмотрим на ACF и PACF полученного ряда:
+
+```{r, echo=FALSE, fig.height=5.5, fig.width=10}
+par(mfrow=c(1,2))
+acf(diff(diff(tSeries, 12), 1), lag.max=3*12, main="")
+pacf(diff(diff(tSeries, 12), 1), lag.max=3*12, main="")
+```
+Значимые на ACF : 1, 11, 12
+Значимые на PACF:    11, 12, 24
+
+auto.arima без жадности (stepwise=FALSE):
+```{r echo=F}
+fit <- auto.arima(tSeries, d=1, D=1, max.p=12, max.q=12, max.P = 3, max.Q = 3, max.order = 10, stepwise=F,parallel=T)
+fit
+```
+
+Оптимальная по AICc модель — ARIMA(1,1,0)(1,1,3)$_{12}$. AICc=
+
+Остатки:
+```{r, echo=FALSE, fig.height=4.5, fig.width=10}
+res <- residuals(fit)
+plot(res)
+```
+
+Убираем начало ряда остатков:
+```{r, echo=FALSE, fig.height=8, fig.width=10}
+res <- res[-c(1:13)]
+tsdisplay(res)
+```
+
+Достигаемые уровни значимости критерия Льюнга-Бокса для остатков:
+```{r, echo=FALSE}
+p <- rep(0, 1, frequency(tSeries)*3)
+for (i in 1:length(p)){
+  p[i] <- Box.test(res, lag=i, type = "Ljung-Box")$p.value
+}
+plot(p, xlab="Lag", ylab="p-values", ylim=c(0,1), main="Ljung-Box test")
+abline(h = 0.05, lty = 2, col = "blue")
+```
+
+Q-Q plot и гистограмма:
+```{r, echo=FALSE, fig.height=5.5, fig.width=10}
+par(mfrow=c(1,2))
+qqnorm(res)
+qqline(res, col="red")
+hist(res)
+```
+
+```{r echo = FALSE, warning = FALSE}
+shapiro.test(res)$p.value
+wilcox.test(res)$p.value
+kpss.test(res)$p.value
+```
+
+
+Гипотеза           | Критерий      | Результат проверки | Достигаемый уровень значимости
+------------------ | ------------- | ------------------ | ------------------------------
+Нормальность       | Шапиро-Уилка  | не отвергается     | `r shapiro.test(res)$p.value`
+Несмещённость      | Уилкоксона    | не отвергается     | `r wilcox.test(res)$p.value`
+Стационарность     | KPSS          | не отвергается     | `r kpss.test(res)$p.value`
+
+Обучаем модель на обучающей выборке, сравниваем прогноз с тестовой:
+```{r, echo=FALSE, fig.height=5.5, fig.width=10}
+fitShort <- Arima(trainSeries, order=c(0,1,0), seasonal=c(0,1,1))
+fc       <- forecast(fitShort, h=H)
+accuracy(fc, testSeries)
+plot(forecast(fitShort, h=H), ylab=xname, xlab="Time")
+lines(tSeries, col="red")
+```
+
+### Автоматический подбор модели
+auto.arima:
+```{r, echo=FALSE}
+fit.auto <- auto.arima(tSeries)
+fit.auto
+```
+
+Лучшая по AICc: ARIMA(0,1,0)(0,1,1)$_{12}$. AICc=
+
+Остатки:
+```{r, echo=FALSE, fig.height=4.5, fig.width=10}
+res.auto <- residuals(fit.auto)
+plot(res.auto)
+```
+
+Убираем первые 13 точек:
+```{r, echo=FALSE, fig.height=8, fig.width=10}
+res.auto <- res.auto[-c(1:13)]
+tsdisplay(res.auto)
+```
+
+Тест на независимость:
+```{r, echo=FALSE}
+p <- rep(0, 1, frequency(tSeries)*3)
+for (i in 1:length(p)){
+  p[i] <- Box.test(res.auto, lag=i, type = "Ljung-Box")$p.value
+}
+plot(p, xlab="Lag", ylab="p-values", ylim=c(0,1), main="Ljung-Box test")
+abline(h = 0.05, lty = 2, col = "blue")
+```
+
+Q-Q plot и гистограмма:
+```{r, echo=FALSE, fig.height=5.5, fig.width=10}
+par(mfrow=c(1,2))
+qqnorm(res.auto)
+qqline(res.auto, col="red")
+hist(res.auto)
+```
+
+```{r echo = FALSE}
+shapiro.test(res.auto)$p.value
+wilcox.test(res.auto)$p.value
+kpss.test(res.auto)$p.value
+```
+
+
+Гипотеза           | Критерий      | Результат проверки | Достигаемый уровень значимости
+------------------ | ------------- | ------------------ | ------------------------------
+Нормальность       | Шапиро-Уилка  | не отвергается     | `r shapiro.test(res.auto)$p.value`
+Несмещённость      | Уилкоксона    | не отвергается     | `r wilcox.test(res.auto)$p.value`
+Стационарность     | KPSS          | не отвергается     | `r kpss.test(res.auto)$p.value`
+
+Настроив выбранную модель на обучающей выборке, посчитаем её качество на тестовой:
+```{r, echo=FALSE}
+fitShort <- Arima(trainSeries, order=c(0,1,0), seasonal=c(0,1,1))
+fc       <- forecast(fitShort, h=H)
+accuracy(fc, testSeries)
+```
+```{r, echo=FALSE, fig.height=5.5, fig.width=10}
+plot(forecast(fitShort, h=H), ylab=xname, xlab="Time")
+lines(tSeries, col="red")
+```
+
+Сравним две модели: ARIMA, настроенная вручную и ARIMA, полученная из auto.arima:
+```{r, echo=FALSE, fig.height=8, fig.width=8}
+res      <- residuals(fit, type = "response")[-c(1:12)]
+res.auto <- residuals(fit.auto, type = "response")[-c(1:12)]
+
+plot(res, res.auto, xlim=c(min(res, res.auto), max(res, res.auto)), ylim=c(min(res, res.auto), max(res, res.auto)), 
+     xlab = "Residuals of manually found model", ylab="Residuals of auto.arima model")
+grid()
+lines(c(min(res, res.auto), max(res, res.auto))*2, c(min(res, res.auto), max(res, res.auto))*2, col="red")
+
+dm.test(res, res.auto)
+```
+
+Критерий Диболда-Мариано не обнаруживает значимого различия между качеством прогнозов.
+
+В целом подобранная вручную модель сложнее, а её остатки не лучше; с другой стороны, её AICc — ниже, а ошибка на тесте меньше, так что остановимся на модели, подобранной вручную.
+
+## Модель экспоненциального сглаживания
+```{r, echo=FALSE}
+fit.ets <- ets(tSeries)
+print(fit.ets)
+```
+Остатки:
+```{r, echo=FALSE, fig.height=8, fig.width=10}
+tsdisplay(residuals(fit.ets))
+```
+Достигаемые уровни значимости (независимость):
+```{r, echo=FALSE}
+p <- rep(0, 1, frequency(tSeries)*3)
+for (i in 1:length(p)){
+  p[i] <- Box.test(residuals(fit.ets), lag=i, type = "Ljung-Box")$p.value
+}
+plot(p, xlab="Lag", ylab="p-values", ylim=c(0,1), main="Ljung-Box test")
+abline(h = 0.05, lty = 2, col = "blue")
+```
+Остатки не коррелированы.
+
+Q-Q plot и гистограмма:
+```{r, echo=FALSE, fig.height=5.5, fig.width=10}
+par(mfrow=c(1,2))
+qqnorm(residuals(fit.ets))
+qqline(residuals(fit.ets), col="red")
+hist(residuals(fit.ets))
+```
+```{r echo=FALSE, warning=FALSE}
+shapiro.test(residuals(fit.ets))$p.value
+wilcox.test(residuals(fit.ets))$p.value
+kpss.test(residuals(fit.ets))$p.value
+```
+
+
+Гипотеза           | Критерий      | Результат проверки | Достигаемый уровень значимости
+------------------ | ------------- | ------------------ | ------------------------------
+Нормальность       | Шапиро-Уилка  | не отвергается     | `r shapiro.test(residuals(fit.ets))$p.value`
+Несмещённость      | Уилкоксона    | не отвергается     | `r wilcox.test(residuals(fit.ets))$p.value`
+Стационарность     | KPSS          | не отвергается     | `r kpss.test(residuals(fit.ets))$p.value`
+
+Настроив выбранную модель на обучающей выборке, посчитаем её качество на тестовой:
+```{r, echo=FALSE}
+fitShort <- ets(trainSeries, model="AAA", damped=F)
+fc       <- forecast(fitShort, h=H)
+accuracy(fc, testSeries)
+```
+```{r, echo=FALSE, fig.height=5.5, fig.width=10, warning = FALSE}
+plot(forecast(fitShort, h=H), ylab=xname, xlab="Year")
+lines(tSeries, col="red")
+```
+
+## Итоговое сравнение
+Сравним остатки модели ARIMA и модели ETS:
+```{r fig.width=8, fig.height=8, echo=FALSE}
+res.ets <- residuals(fit.ets, type = "response")[-c(1:12)]
+
+plot(res, res.ets, 
+     xlab="Residuals, best ARIMA",
+     ylab="Residuals, best ETS",
+     xlim=c(min(c(res, res.ets), na.rm=T), max(c(res, res.ets), na.rm=T)),
+     ylim=c(min(c(res, res.ets), na.rm=T), max(c(res, res.ets), na.rm=T)))
+ lines(c(min(c(res, res.ets), na.rm=T), max(c(res, res.ets), na.rm=T)), c(min(c(res, res.ets), na.rm=T), max(c(res, res.ets), na.rm=T)), col="red")
+
+dm.test(res, res.ets)
+dm.test(res, res.ets, alternative = "less")
+```
+
+
+
+
+
+
+Согласно критерию Диболда-Мариано, прогнозы метода ETS значимо менее точные, поэтому в качестве финального выберем прогноз найденной вручную аримы.
+
+## Финальный прогноз
+Поскольку остатки нормальны, можно использовать теоретические, а не бутстреп-предсказательные интервалы.
+```{r, echo=FALSE, fig.height=5.5, fig.width=10}
+fl <- forecast(fit, h=H, bootstrap=F)
+print(fl)
+plot(fl, ylab=xname, xlab="Year", col="red")
 ```
