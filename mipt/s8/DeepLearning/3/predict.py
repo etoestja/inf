@@ -1,10 +1,12 @@
 import os
 from models.settings import *
 from models.model import initialize_model
+import numpy as np
+import pandas as pd
 
 # initialize model
 model = initialize_model()
-model.load_weights("model_params/weights-improvement-14-0.55.hdf5")
+model.load_weights("model_params/weights-improvement-15-0.55.hdf5")
 
 def get_data_from_file(file):
     data = pd.read_csv(file, index_col=0)

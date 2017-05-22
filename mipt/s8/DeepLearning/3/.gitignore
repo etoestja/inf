@@ -3,5 +3,6 @@ results.csv
 model_params
 run.ipynb
 data
+data_st
 model.json
 
