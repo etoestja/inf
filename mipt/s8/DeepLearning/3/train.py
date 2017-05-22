@@ -22,7 +22,7 @@ NB_VAL_SMPL = sum([len(files) for r, d, files in os.walk(VALIDATION_DATA_DIR)])
 
 # configure checkpoints
 filepath=WEIGHTS_DIR + "weights-improvement-{epoch:02d}-{val_acc:.2f}.hdf5"
-checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
+checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=False, mode='max')
 callbacks_list = [checkpoint]
 
 # train the model
