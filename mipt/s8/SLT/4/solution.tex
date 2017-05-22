@@ -29,6 +29,7 @@
 \newcommand{\sign}{\mbox{sign}\,}
 \newcommand{\F}{\mathcal{F}}
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathcal{N}}
 \newcommand{\conv}{\mbox{conv}\,}
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\D}{\mathbb{D}}
@@ -47,8 +48,41 @@
 \begin{enumerate}
 \item filled later
 \end{enumerate}
-\section*{Упражнение 1}
+\section*{Упражнение 1.1}
+Рассмотрим
+$$f\colon \R^d\to \R,\,f(\theta)=\|y-\theta\|_2^2+4\tau^2\|\theta\|_0$$
 
+То есть, $f(\theta)=\sum\limits_{i=1}^d\left((y_i-\theta_i)^2+4\tau^2[\theta_i\neq0]\right)$
+
+Рассмотрим одно слагаемое: $f_i=(y_i-\theta_i)^2+4\tau^2[\theta_i\neq 0]$. Есть два варианта\begin{enumerate}
+	\item $\theta_i=0$. Тогда $f^*_i=y_i^2$
+	\item $\theta_i\neq 0$ (при $y_i\neq 0$). Тогда $f_i=(y_i-\theta_i)^2+4\tau^2\to\min\limits_{\theta_i>0}$. Тогда $\theta_i=y_i$, и $f^*_i=4\tau^2$
+\end{enumerate}
+Поэтому, если $|y_i|<2\tau$, берём $\theta_i=0$. Иначе берем $\theta_i=y_i$. То есть,
+$$
+\theta_i^*=y_i[y_i>2\tau]
+$$
+\section*{Упражнение 1.2}
+Рассмотрим $f(\theta)=\|y-\theta\|_2^2+4\tau\|\theta\|_1$. Пусть $\theta^*\in\argmin f(\theta)=\sum\limits_{i=1}^d\left((y_i-\theta_i)^2+4\tau |\theta_i|\right)$.
+Рассмотрим одно слагаемое: $f_i(\theta_i)=(y_i-\theta_i)^2+4\tau|\theta_i|$
+\begin{enumerate}
+	\item Если $\theta_i^*=0$, то $f_i^*=y_i^2$.
+	\item Иначе
+$$\frac{d f_i}{d \theta_i}=2(-(y_i-\theta_i)+2\tau \sign\theta_i)=0$$
+\item $\theta_i>0$. Тогда $-y_i+\theta_i+2\tau=0$ и $\theta_i=y_i-2\tau>0$. Здесь $f_i^*=4\tau(y_i-\tau)$
+\item $\theta_i<0$. Тогда $-y_i+\theta_i-2\tau=0$ и $\theta_i=y_i+2\tau<0$. Здесь $f_i^*=4\tau (-y_i-\tau)$
+\end{enumerate}
+
+При $y_i<-2\tau$ получается $y_i^2-4\tau(-y_i-\tau)=(2\tau+y_i)^2>0$. Поэтому $\theta_i=y_i+2\tau$
+
+При $y_i>2\tau$ получается $y_i^2-4\tau(y_i-\tau)=(y_i-2\tau) ^2\geqslant 0$. Поэтому $\theta_i=y_i-2\tau$
+
+Иначе $\theta_i=0$
+
+Это можно записать как:
+$$
+\theta_i^*=y_i\left(1-\frac{2\tau}{y_i}\right)_+
+$$
 \section*{Упражнение 2}
 Имеем матрицу $X\colon n\times d$, параметр $\theta\in\R^d$, отклик $Y\in\mathbb{R}^n$. Функция потерь:
 
@@ -81,7 +115,44 @@ $\|\Delta\|_2\leqslant \beta \|Q\|_2\|\theta^*\|_2$. Рассмотрим $\|Q\|
 
 Значит, $\|\Delta\|_2\leqslant \|\theta^*\|_2$
 \section*{Упражнение 3}
+{\em Идея оценки $\E e^{x_i^2}$ взята в \cite{massart}}
+
+Рассмотрим $Z\sim\chi^2_k$ $\Leftrightarrow$ $Z\overset{d}{=}\sum\limits_{i=1}^k x_i^2$, где $\{x_i\}_{i=1}^k$~--- iid из $N(0,1)$.
+
+Определим
+
+$$Z_0=Z-k=\sum\limits_{i=1}^k(x_i^2-1)$$
+
+\begin{enumerate}
+	\item Рассмотрим одну из величин $x=x_i\sim N(0,1)$. Определим
+$$
+\psi(u)=\ln\E\exp(u(x^2-1))
+$$
+
+Найдём $\E \exp(ux^2)=\int\limits_{-\infty}^{+\infty}\frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}e^{ux^2}dx=\int\limits_{-\infty}^{+\infty}\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}(1-2u)x^2}dx=\sqrt{1-2u}$.
+
+Тогда $\psi(u)=-u-\frac{1}{2}\ln(1-2u)$.
+
+\item Определим $\varphi(u)=\frac{u^2}{1-2u}$. Докажем, что $\psi(u)\leqslant \varphi(u)$ при $u\in[0,\frac{1}{2}]$. Действительно, $\varphi(0)=\psi(0)=0$, и $\psi'(u)-\varphi'(u)=\frac{2u^2}{(1-2u)^2}\geqslant 0$ при $u\in[0,\frac{1}{2}]$.
+\item Рассмотрим $\ln \E e^{uZ_0}=\ln\E \exp(u\sum\limits_{i=1}^k(x_i^2-1))=\ln\E\prod\limits_{i=1}^ke^{u(x_i^2-1)}\overset{\mbox{\tiny iid}}{=}\ln\prod\limits_{i=1}^k\E e^{u(x_i^2-1)}=\sum\limits_{i=1}^k\ln\E\exp(u(x_i^2-1))=k\psi(u)\overset{(2)}{\leqslant}n\varphi(u)=\frac{nu^2}{1-2u}$
+\item Рассмотрим $P(Z\leqslant (1-\delta)\E Z)=P(\underbrace{Z-\E Z}_{Z_0}\leqslant \underbrace{-\delta\E Z}_t)\leqslant\inf\limits_{u>0}\frac{\E \exp(uZ_0)}{\exp(ut)}\leqslant\inf \frac{\exp(k\psi(u))}{\exp{ut}}$
+\end{enumerate}
 \section*{Упражнение 4}
+Имеем $S_1(0)=\{x\in\R^n\big|\|x\|_2=1\}$, $\N_\eps\subseteq \R^n\colon\,\forall x\in S_1(0)\,\exists y\in\N_\eps\colon \|x-y\|\leqslant \eps$.
+\begin{enumerate}
+\item Рассмотрим $\|A\|_{op}=\sup\limits_{x\in S_1(0)}\|Ax\|$. Предположим, что в $\N_\eps$ есть точка вне сферы. Тогда можно перенести ее внутрь (на то же расстояние по нормали к сфере), и она будет покрывать больше точек. То есть, в минимальном покрытии можно взять все точки внутри сферы. Значит, $\|y\|\leqslant 1$. Поэтому $\sup\limits_{y\in\N_\eps}\|Ay\|\leqslant \sup\limits_{y\in \N_\eps}\|A\|_{op}\|y\|\leqslant \|A\|_{op}$ $\blacksquare$
+
+Теперь, пусть норма $\|A\|_{op}$ достигается на $x^*$. То есть, $\|x^*\|=1$ ($x^*\in S_1(0)$) и $\|Ax^*\|=\|A\|$. Рассмотрим элемент $y\in\N_{\eps}$ такой что $\|y-x\|<\eps$. Рассмотрим $$\|Ay\|=\|A(y-x+x)\|=\|A(y-x)+Ax\|\geqslant \|A(y-x)+Ax\|\geqslant\|Ax\|-\underbrace{\|A(y-x)\|}_{\leqslant \|A\|\eps}\geqslant \|A\|(1-\eps)$$
+
+То есть, нашли $y\in \N_\eps$ такой что $\|Ay\|\geqslant (1-\eps)\|A\|$. Значит, $\sup\limits_{y\in \N_\eps}\|Ay\|\geqslant (1-\eps)\|A\|$ $\blacksquare$
+\end{enumerate}
 \section*{Задача 1}
 \section*{Задача 2}
+\begin{thebibliography}{9}
+\bibitem{massart}
+Adaptive estimation of a quadratic functional by model selection
+B. Laurent, P. Massart (2000)
+\href{http://projecteuclid.org/download/pdf_1/euclid.aos/1015957395}{pdf}
+\end{thebibliography}
+
 \end{document}
