@@ -11,7 +11,7 @@ TEST_DATA_DIR = 'data/test/'
 WEIGHTS_DIR = 'model_params/'
 
 # number of epochs
-NB_EPOCHS = 100
+NB_EPOCHS = 150
 
 # batch size
 BATCH_SIZE = 10

@@ -12,7 +12,7 @@ np.random.seed(seed)
 
 # initialize model
 model = initialize_model()
-#model.load_weights("model_params/weights-improvement-46-0.65.hdf5")
+model.load_weights("model_params/weights-improvement-13-0.61.hdf5")
 
 # number of training examples
 NB_TRAIN_SMPL = sum([len(files) for r, d, files in os.walk(TRAIN_DATA_DIR)])
@@ -22,7 +22,7 @@ NB_VAL_SMPL = sum([len(files) for r, d, files in os.walk(VALIDATION_DATA_DIR)])
 
 # configure checkpoints
 filepath=WEIGHTS_DIR + "weights-improvement-{epoch:02d}-{val_acc:.2f}.hdf5"
-checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=False, mode='max')
+checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
 callbacks_list = [checkpoint]
 
 # train the model

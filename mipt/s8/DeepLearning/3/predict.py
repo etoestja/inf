@@ -6,7 +6,7 @@ import pandas as pd
 
 # initialize model
 model = initialize_model()
-model.load_weights("model_params/weights-improvement-15-0.55.hdf5")
+model.load_weights("model_params/weights-improvement-07-0.62.hdf5")
 
 def get_data_from_file(file):
     data = pd.read_csv(file, index_col=0)
