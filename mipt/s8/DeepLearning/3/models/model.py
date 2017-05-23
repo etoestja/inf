@@ -1,6 +1,7 @@
 from keras.optimizers import SGD, Adam, RMSprop
 from keras.models import Sequential
 from keras.layers import Activation, Dense
+from keras.layers.normalization import BatchNormalization
 from keras.layers.core import Dropout
 from keras.layers.recurrent import LSTM
 from settings import *
@@ -8,9 +9,12 @@ from settings import *
 def initialize_model():
 
     model = Sequential()
-    model.add(LSTM(30, input_shape=(NB_TIMESTEPS, NB_FEATURES), return_sequences = True))
+    model.add(BatchNormalization(input_shape=(NB_TIMESTEPS, NB_FEATURES),))
+    model.add(LSTM(30,  return_sequences = True))
+    model.add(BatchNormalization())
     model.add(Dropout(0.8))
     model.add(LSTM(20))
+    model.add(BatchNormalization())
     model.add(Dropout(0.5))
     model.add(Dense(NB_CLASSES))
     model.add(Activation('softmax'))
