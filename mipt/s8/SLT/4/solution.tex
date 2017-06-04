@@ -46,7 +46,10 @@
 \section*{Meta}
 Делал один. Список ссылок:
 \begin{enumerate}
-\item filled later
+\item
+Adaptive estimation of a quadratic functional by model selection
+B. Laurent, P. Massart (2000)
+\href{http://projecteuclid.org/download/pdf_1/euclid.aos/1015957395}{pdf}
 \end{enumerate}
 \section*{Упражнение 1.1}
 Рассмотрим
@@ -135,24 +138,20 @@ $$
 
 \item Определим $\varphi(u)=\frac{u^2}{1-2u}$. Докажем, что $\psi(u)\leqslant \varphi(u)$ при $u\in[0,\frac{1}{2}]$. Действительно, $\varphi(0)=\psi(0)=0$, и $\psi'(u)-\varphi'(u)=\frac{2u^2}{(1-2u)^2}\geqslant 0$ при $u\in[0,\frac{1}{2}]$.
 \item Рассмотрим $\ln \E e^{uZ_0}=\ln\E \exp(u\sum\limits_{i=1}^k(x_i^2-1))=\ln\E\prod\limits_{i=1}^ke^{u(x_i^2-1)}\overset{\mbox{\tiny iid}}{=}\ln\prod\limits_{i=1}^k\E e^{u(x_i^2-1)}=\sum\limits_{i=1}^k\ln\E\exp(u(x_i^2-1))=k\psi(u)\overset{(2)}{\leqslant}n\varphi(u)=\frac{nu^2}{1-2u}$
-\item Рассмотрим $P(Z\leqslant (1-\delta)\E Z)=P(\underbrace{Z-\E Z}_{Z_0}\leqslant \underbrace{-\delta\E Z}_t)\leqslant\inf\limits_{u>0}\frac{\E \exp(uZ_0)}{\exp(ut)}\leqslant\inf \frac{\exp(k\psi(u))}{\exp{ut}}$
+\item Рассмотрим $P(Z\leqslant (1-\delta)\E Z)=P(\underbrace{Z-\E Z}_{Z_0}=\leqslant -\delta\E Z)=P(-Z_0\geqslant \underbrace{\delta \E Z}_t)\leqslant\inf\limits_{u>0}\frac{\E \exp(-uZ_0)}{\exp(ut)}\leqslant\inf \frac{\exp(k\psi(-u))}{\exp{ut}}$ (-)
+\item Рассмотрим $P(Z\geqslant (1+\delta)\E Z)=P(\underbrace{Z-\E Z}_{Z_0}\leqslant \underbrace{\delta \E Z}_{t})\leqslant \inf\limits_{u>0}\frac{\E e^{uZ_0}}{e^{ut}}=\frac{e^{k\psi(u)}}{e^{ut}}=e^{-\frac{\delta k}{2}}(1+\frac{t}{k})^{\frac{k}{2}}$ (-)
 \end{enumerate}
 \section*{Упражнение 4}
 Имеем $S_1(0)=\{x\in\R^n\big|\|x\|_2=1\}$, $\N_\eps\subseteq \R^n\colon\,\forall x\in S_1(0)\,\exists y\in\N_\eps\colon \|x-y\|\leqslant \eps$.
 \begin{enumerate}
-\item Рассмотрим $\|A\|_{op}=\sup\limits_{x\in S_1(0)}\|Ax\|$. Предположим, что в $\N_\eps$ есть точка вне сферы. Тогда можно перенести ее внутрь (на то же расстояние по нормали к сфере), и она будет покрывать больше точек. То есть, в минимальном покрытии можно взять все точки внутри сферы. Значит, $\|y\|\leqslant 1$. Поэтому $\sup\limits_{y\in\N_\eps}\|Ay\|\leqslant \sup\limits_{y\in \N_\eps}\|A\|_{op}\|y\|\leqslant \|A\|_{op}$ $\blacksquare$
+\item Рассмотрим $\|A\|_{op}=\sup\limits_{x\in S_1(0)}\|Ax\|$. Предположим, что в $\N_\eps$ есть точка вне сферы. Тогда можно перенести ее внутрь (чтобы маленький шар $S_\eps(x_i)$ пересекался со сферой по экватору шара), и она будет покрывать больше точек. То есть, в минимальном покрытии можно взять все точки внутри сферы. Значит, $\|y\|\leqslant 1$. Поэтому $\sup\limits_{y\in\N_\eps}\|Ay\|\leqslant \sup\limits_{y\in \N_\eps}\|A\|_{op}\|y\|\leqslant \|A\|_{op}$ $\blacksquare$
 
 Теперь, пусть норма $\|A\|_{op}$ достигается на $x^*$. То есть, $\|x^*\|=1$ ($x^*\in S_1(0)$) и $\|Ax^*\|=\|A\|$. Рассмотрим элемент $y\in\N_{\eps}$ такой что $\|y-x\|<\eps$. Рассмотрим $$\|Ay\|=\|A(y-x+x)\|=\|A(y-x)+Ax\|\geqslant \|A(y-x)+Ax\|\geqslant\|Ax\|-\underbrace{\|A(y-x)\|}_{\leqslant \|A\|\eps}\geqslant \|A\|(1-\eps)$$
 
 То есть, нашли $y\in \N_\eps$ такой что $\|Ay\|\geqslant (1-\eps)\|A\|$. Значит, $\sup\limits_{y\in \N_\eps}\|Ay\|\geqslant (1-\eps)\|A\|$ $\blacksquare$
 \end{enumerate}
 \section*{Задача 1}
+(-)
 \section*{Задача 2}
-\begin{thebibliography}{9}
-\bibitem{massart}
-Adaptive estimation of a quadratic functional by model selection
-B. Laurent, P. Massart (2000)
-\href{http://projecteuclid.org/download/pdf_1/euclid.aos/1015957395}{pdf}
-\end{thebibliography}
-
+(-)
 \end{document}
