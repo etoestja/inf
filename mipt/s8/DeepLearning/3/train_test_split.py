@@ -2,7 +2,7 @@ import os
 from random import sample
 from tqdm import tqdm
 
-to_validation = 0.2
+to_validation = 0.1
 classes = os.listdir('data/train')
 
 print "Moving all objects to train"

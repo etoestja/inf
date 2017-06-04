@@ -12,7 +12,7 @@ np.random.seed(seed)
 
 # initialize model
 model = initialize_model()
-model.load_weights("model_params/weights-improvement-13-0.61.hdf5")
+#model.load_weights("model_params/weights-improvement-13-0.61.hdf5")
 
 # number of training examples
 NB_TRAIN_SMPL = sum([len(files) for r, d, files in os.walk(TRAIN_DATA_DIR)])
