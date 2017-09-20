@@ -1,0 +1,11 @@
+def abs(x: Double): Double = if(x >= 0) x else -x
+
+def sqrt(x: Double) =
+{
+    def improve(guess: Double): Double = (guess + x / guess) / 2
+    def isGoodEnough(guess: Double) = abs(x - guess * guess) < 0.00000000001
+    def sqrtIter(guess: Double): Double = if(isGoodEnough(guess)) guess else sqrtIter(improve(guess))
+    sqrtIter(1)
+}
+
+print(sqrt(2))
